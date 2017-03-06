@@ -2,8 +2,20 @@
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
+// font awesome Fonts
+@fa-font-path: "node_modules/font-awesome/fonts";
+
 // Variables
-@import "variables";
+//@import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Bootstrap 4
+@import "node_modules/bootstrap/scss/bootstrap"; 
+
+// Font-awesome icons
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+// mi custom sass File
+@import "resources/assets/sass/custom.scss"
