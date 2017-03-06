@@ -11207,7 +11207,7 @@ var app = new Vue({
 /* 11 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: Error\n    at C:\\xampp\\htdocs\\novasys\\node_modules\\webpack\\lib\\NormalModule.js:141:35\n    at C:\\xampp\\htdocs\\novasys\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at C:\\xampp\\htdocs\\novasys\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (C:\\xampp\\htdocs\\novasys\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (C:\\xampp\\htdocs\\novasys\\node_modules\\sass-loader\\lib\\loader.js:51:13)\n    at Object.<anonymous> (C:\\xampp\\htdocs\\novasys\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:2237:31)\n    at apply (C:\\xampp\\htdocs\\novasys\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:20:25)\n    at Object.<anonymous> (C:\\xampp\\htdocs\\novasys\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:56:12)\n    at Object.callback (C:\\xampp\\htdocs\\novasys\\node_modules\\sass-loader\\node_modules\\async\\dist\\async.js:843:16)\n    at options.error (C:\\xampp\\htdocs\\novasys\\node_modules\\node-sass\\lib\\index.js:294:32)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 12 */
