@@ -15,9 +15,7 @@
     
     <body>
         
-        @include('layouts.nav')
 		@yield('content')
-
 
     	<!--  javascript -->
         <script src="js/app.js"></script>

@@ -6,7 +6,7 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir<span class="sr-only">(current)</span></a>
         </li>
       </ul>

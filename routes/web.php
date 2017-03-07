@@ -13,7 +13,9 @@
 
 Route::get('/', 'MainController@index');
 
-Route::get('/welcome', function(){
-
+// se mantiene para test, debe ser eliminada
+Route::get('welcome', function(){
+	
 	return view('welcome');
+
 });
