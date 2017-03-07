@@ -19,3 +19,9 @@ Route::get('welcome', function(){
 	return view('welcome');
 
 });
+
+Route::get('gerencia', function(){
+	
+	return view('gerencia.index');
+
+});
