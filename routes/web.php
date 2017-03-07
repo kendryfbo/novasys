@@ -12,3 +12,8 @@
 */
 
 Route::get('/', 'MainController@index');
+
+Route::get('/welcome', function(){
+
+	return view('welcome');
+});
