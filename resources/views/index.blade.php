@@ -5,9 +5,10 @@
 @include('layouts.nav')
 
 @section('content')
-	<hr>
+
 	<div class="jumbotron col-8 offset-2">
 		<div class="text-center">
+			<br>
 			<h1>Novasys <span class="badge badge-default">2.0</span></h1>
 		</div>
 		<hr>
@@ -78,4 +79,4 @@
 		</div>	<!-- row -->
 	</div>	<!-- Jumbotron -->
 
-@endsection		
+@endsection
