@@ -1,0 +1,19 @@
+Lista de comandos Importantes
+
+
+* Para limpiar y recargar los archivos de laravel
+	
+	>	composer dump-autoload -o
+
+* Envio de mails atravez de transacciones
+
+	>	sparkpost
+
+* Configuracion de email para novafoods
+
+	>	MAIL_DRIVER=smtp
+		MAIL_HOST=mail.novafoods.cl
+		MAIL_PORT=26
+		MAIL_USERNAME=soporte@novafoods.cl
+		MAIL_PASSWORD=andres4000
+		MAIL_ENCRYPTION=null
