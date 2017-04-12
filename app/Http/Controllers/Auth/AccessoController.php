@@ -7,5 +7,12 @@ use App\Http\Controllers\Controller;
 
 class AccessoController extends Controller
 {
-    //
+	public function __construct()
+	{
+		$this->middleware('guest:acceso');
+	}
+
+    public function login() {
+		return view('welcome');
+	}
 }
