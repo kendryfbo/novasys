@@ -22,14 +22,14 @@
 			<li class="nav-item">
 				<a class="nav-link" href="#">Comercial<span class="sr-only">(current)</span></a>
 			</li>
-			
+
 		</ul>
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
 				<a class="nav-link" href="{{ url('') }}"><i class="fa fa-home" aria-hidden="true"></i> Home<span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir<span class="sr-only">(current)</span></a>
+				<a class="nav-link" href="{{ url('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir<span class="sr-only">(current)</span></a>
 			</li>
 		</ul>
 	</div>

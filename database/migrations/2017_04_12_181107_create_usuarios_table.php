@@ -20,6 +20,7 @@ class CreateUsuariosTable extends Migration
             $table->string('area');
             $table->unsignedInteger('role_id');
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -2,9 +2,9 @@
 
 @section('title', 'Main')
 
-@include('layouts.nav')
-
 @section('content')
+
+	@include('layouts.nav')
 
 	<div class="jumbotron col-8 offset-2">
 		<div class="text-center">

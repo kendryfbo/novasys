@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'MainController@index');
+Route::get('/', 'MainController@index')->name('index');
 
 // se mantiene para test, debe ser eliminada
 Route::get('welcome', function(){
@@ -22,8 +22,15 @@ Route::get('welcome', function(){
 
 Route::get('gerencia', function(){
 
-	return view('gerencia.index');
+	if (Gate::allows('gerencia')){
+		return view('gerencia.index');
+	} else {
+		return redirect()->back();
+	}
 
 });
 
 Route::get('login','Auth\AccessoController@login')->name('login');
+Route::get('form-login','Auth\AccessoController@formLogin')->name('form-login');
+
+Route::get('logout', 'MainController@logout')->name('logout');
