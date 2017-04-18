@@ -21,14 +21,13 @@ Route::get('welcome', function(){
 });
 
 Route::get('gerencia', function(){
-
-	if (Gate::allows('gerencia')){
+	if (Gate::allows('gerencia',Route::currentRouteName())){
 		return view('gerencia.index');
 	} else {
 		return redirect()->back();
 	}
 
-});
+})->name('gerencia');
 
 Route::get('login','Auth\AccessoController@login')->name('login');
 Route::get('form-login','Auth\AccessoController@formLogin')->name('form-login');

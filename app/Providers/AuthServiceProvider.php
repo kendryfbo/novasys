@@ -26,8 +26,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('gerencia',function($user){
-            return $user->role_id == 1;
+        Gate::define('gerencia',function($user,$acceso = NULL){
+            //$permiso = $user->role->permisos
+            //                ->where('descripcion',$acceso)
+            //                ->pluck('acceso')->first();
+            //dd(session('accesos')[$acceso]);
+            return (session('accesos')[$acceso]);
+            //return $permiso;
         });
     }
 }
