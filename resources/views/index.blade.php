@@ -1,8 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.mainmaster')
 
 @section('title', 'Main')
 
-@include('layouts.nav')
+@include('layouts.mainnav')
 
 @section('content')
 
@@ -15,7 +15,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card text-center">
-				<a href="{{ url('/gerencia') }}" class="card-link">
+				<a href="{{ url('/desarrollo') }}" class="card-link">
 					<img src="images/desarrollo.jpg" alt="Desarrollo" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
 	    				<h5 class="card-title">Desarrollo</h5>
