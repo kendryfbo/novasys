@@ -20,10 +20,4 @@ Route::get('welcome', function(){
 
 });
 
-Route::get('desarrollo', function(){
-
-	return view('desarrollo.index');
-
-});
-
 Route::get('desarrollo', 'DesarrolloController@main');
