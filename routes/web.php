@@ -15,13 +15,9 @@ Route::get('/', 'MainController@index');
 
 // se mantiene para test, debe ser eliminada
 Route::get('welcome', function(){
-	
+
 	return view('welcome');
 
 });
 
-Route::get('gerencia', function(){
-	
-	return view('gerencia.index');
-
-});
+Route::get('desarrollo', 'DesarrolloController@main');
