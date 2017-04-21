@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marcas;
 use Illuminate\Http\Request;
 
-class MarcasController extends Controller
+class MarcaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class MarcasController extends Controller
      */
     public function index()
     {
-        //
+        return view('desarrollo.marcas.index');
     }
 
     /**

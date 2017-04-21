@@ -20,4 +20,25 @@ Route::get('welcome', function(){
 
 });
 
-Route::get('desarrollo', 'DesarrolloController@main');
+// GRUPO de Rutas de Modulo de desarrollo
+Route::group(['prefix' => 'desarrollo'], function(){
+
+	Route::get('/', 'DesarrolloController@main');
+	// GRUPO de Rutas de Desarrollo/Familias
+	Route::group(['prefix' => 'familias'], function(){
+
+		Route::get('/','FamiliaController@index')->name('familias');
+		Route::get('crear', 'FamiliaController@create')->name('crearFamilia');
+		Route::post('store', 'FamiliaController@store')->name('guardarFamilia');
+
+	});
+	// GRUPO de Rutas de Desarrollo/Marcas
+	Route::group(['prefix' => 'marcas'], function(){
+
+		Route::get('/','MarcaController@index')->name('marcas');
+		Route::get('crear', 'MarcaController@create')->name('crearMarca');
+		Route::post('store', 'MarcaController@store')->name('guardarMarca');
+
+	});
+
+});

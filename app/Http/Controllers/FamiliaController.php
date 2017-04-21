@@ -14,7 +14,8 @@ class FamiliaController extends Controller
      */
     public function index()
     {
-        //
+        $familias = Familia::all();
+        return view('desarrollo.familias.index')->with(['familias' => $familias]);
     }
 
     /**
@@ -24,7 +25,7 @@ class FamiliaController extends Controller
      */
     public function create()
     {
-        //
+        return view('desarrollo.familias.create');
     }
 
     /**
@@ -35,7 +36,20 @@ class FamiliaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'codigo' => 'required|unique:familias,codigo|max:10',
+            'descripcion' => 'required',
+            'tipo' => 'required'
+        ]);
+
+
+        Familia::create([
+            'codigo' => $request->codigo,
+            'descripcion' => $request->descripcion,
+            'tipo' => $request->tipo
+        ]);
+
+        return ('true');
     }
 
     /**

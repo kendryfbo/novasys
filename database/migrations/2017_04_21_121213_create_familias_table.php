@@ -17,6 +17,7 @@ class CreateFamiliasTable extends Migration
             $table->increments('id');
             $table->string('codigo','10');
             $table->string('descripcion','100');
+            $tavle->string('tipo','100');
             $table->tinyInteger('activo')->default('1');
             $table->timestamps();
         });
