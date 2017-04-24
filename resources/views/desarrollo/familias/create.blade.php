@@ -53,7 +53,7 @@
 	            <select class="form-control js-select2-basic" name="tipo" id="tipo-select">
 						<option value="">Tipos de Familias...</option>
 					@foreach ($tiposFamilia as $familia)
-						<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
+						<option value="{{$familia->descripcion}}">{{$familia->descripcion}}</option>
 					@endforeach
 	            </select>
 	          </div>
