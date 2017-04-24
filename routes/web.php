@@ -13,25 +13,19 @@
 
 Route::get('/', 'MainController@index');
 
-// se mantiene para test, debe ser eliminada
-Route::get('welcome', function(){
-
-	return view('welcome');
-
-});
-
 // GRUPO de Rutas de Modulo de desarrollo
 Route::group(['prefix' => 'desarrollo'], function(){
 
+	// Pantalla Principal Modulo Desarrollo
 	Route::get('/', 'DesarrolloController@main');
 
 	// GRUPO de Rutas de Desarrollo/Familias
 	Route::group(['prefix' => 'familias'], function(){
 
-		Route::get('/','FamiliaController@index')->name('familias');
-		Route::get('crear', 'FamiliaController@create')->name('crearFamilia');
-		Route::post('/', 'FamiliaController@store')->name('guardarFamilia');
-		Route::get('/{familia}/edit', 'FamiliaController@edit')->name('editarFamilia');
+		Route::get('/',					'FamiliaController@index')->name('familias');
+		Route::get('create', 			'FamiliaController@create')->name('crearFamilia');
+		Route::post('/', 				'FamiliaController@store')->name('guardarFamilia');
+		Route::get('/{familia}/edit', 	'FamiliaController@edit')->name('editarFamilia');
 		Route::post('update/{familia}', 'FamiliaController@update')->name('actualizarFamilia');
 		Route::post('delete/{familia}', 'FamiliaController@destroy')->name('eliminarFamilia');
 
