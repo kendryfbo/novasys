@@ -73,7 +73,10 @@ class FamiliaController extends Controller
      */
     public function edit(Familia $familia)
     {
-        dd($familia);
+        $tipoFamilias = Familia::getTipoFamilia();
+        return view('desarrollo.familias.edit')
+                ->with(['familia' => $familia,
+                        'tiposFamilia' => $tipoFamilias]);
     }
 
     /**
@@ -85,7 +88,18 @@ class FamiliaController extends Controller
      */
     public function update(Request $request, Familia $familia)
     {
-        //
+        $this->validate($request, [
+            'codigo' => 'unique:familias,codigo|max:10',
+            'descripcion' => 'required',
+            'tipo' => 'required'
+        ]);
+
+        $familia->descripcion = $request->descripcion;
+        $familia->tipo = $request->tipo;
+
+        $familia->save();
+        $msg = "Familia codigo: " . $familia->codigo . " ha sido Actualizada";
+        return redirect('desarrollo/familias')->with(['status' => $msg]);
     }
 
     /**
@@ -96,9 +110,10 @@ class FamiliaController extends Controller
      */
     public function destroy(Familia $familia)
     {
-        dd($familia->id);
         Familia::destroy($familia->id);
 
-        return redirect()->back();
+        $msg = "Familia codigo: " . $familia->codigo . " Ha sido eliminada";
+
+        return redirect('desarrollo/familias')->with(['status' => $msg]);
     }
 }
