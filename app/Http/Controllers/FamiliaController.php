@@ -25,7 +25,9 @@ class FamiliaController extends Controller
      */
     public function create()
     {
-        return view('desarrollo.familias.create');
+        $tipoFamilias = Familia::getTipoFamilia();
+
+        return view('desarrollo.familias.create')->with(['tiposFamilia' => $tipoFamilias]);
     }
 
     /**
