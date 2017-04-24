@@ -51,7 +51,7 @@ class FamiliaController extends Controller
             'tipo' => $request->tipo
         ]);
 
-        return ('true');
+        return redirect(route('familias'));
     }
 
     /**
@@ -73,7 +73,7 @@ class FamiliaController extends Controller
      */
     public function edit(Familia $familia)
     {
-        //
+        dd($familia);
     }
 
     /**
@@ -96,6 +96,9 @@ class FamiliaController extends Controller
      */
     public function destroy(Familia $familia)
     {
-        //
+        dd($familia->id);
+        Familia::destroy($familia->id);
+
+        return redirect()->back();
     }
 }

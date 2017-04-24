@@ -47,11 +47,17 @@
 			@endif
 
 	        <div class="form-group">
-	          <label for="inputTipo" class="col-sm-2 control-label" >Tipo:</label>
 
-	          <div class="col-sm-8">
-	            <input type="text" class="form-control" id="inputTipo" name="tipo" placeholder="Materia prima, Producto terminado">
+	          <label for="inputTipo" class="col-sm-2 control-label" >Tipo:</label>
+			  <div class="col-sm-8">
+	            <select class="form-control js-select2-basic" name="tipo" id="tipo-select">
+						<option value="">Tipos de Familias...</option>
+					@foreach ($tiposFamilia as $familia)
+						<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
+					@endforeach
+	            </select>
 	          </div>
+
 	        </div>
 			@if ($errors->has('tipo'))
 				<div class="has-error col-sm-offset-2">
@@ -68,5 +74,8 @@
 	      <!-- /.box-footer -->
     </form>
   </div>
+@endsection
 
+@section('scripts')
+	<script src="{{asset('js/includes/select2.js')}}"></script>
 @endsection

@@ -24,12 +24,16 @@ Route::get('welcome', function(){
 Route::group(['prefix' => 'desarrollo'], function(){
 
 	Route::get('/', 'DesarrolloController@main');
+
 	// GRUPO de Rutas de Desarrollo/Familias
 	Route::group(['prefix' => 'familias'], function(){
 
 		Route::get('/','FamiliaController@index')->name('familias');
 		Route::get('crear', 'FamiliaController@create')->name('crearFamilia');
-		Route::post('store', 'FamiliaController@store')->name('guardarFamilia');
+		Route::post('/', 'FamiliaController@store')->name('guardarFamilia');
+		Route::get('/{familia}/edit', 'FamiliaController@edit')->name('editarFamilia');
+		Route::post('update/{familia}', 'FamiliaController@update')->name('actualizarFamilia');
+		Route::post('delete/{familia}', 'FamiliaController@destroy')->name('eliminarFamilia');
 
 	});
 	// GRUPO de Rutas de Desarrollo/Marcas
