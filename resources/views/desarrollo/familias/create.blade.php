@@ -18,7 +18,7 @@
 	        <div class="form-group">
 	          <label for="inputCodigo" class="col-sm-2 control-label">Codigo:</label>
 	          <div class="col-sm-2">
-	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo">
+	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo" autofocus>
 	          </div>
 	        </div>
 
@@ -69,7 +69,7 @@
 	     </div>
 	      <!-- /.box-body -->
 	      <div class="box-footer col-sm-10">
-	        <button type="submit" class="btn btn-primary pull-right">Crear</button>
+	        <button type="submit" class="btn pull-right">Crear</button>
 	      </div>
 	      <!-- /.box-footer -->
     </form>
