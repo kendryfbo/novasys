@@ -6,7 +6,7 @@
   <title>Novasys 2.0</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
+  <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">
@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{{asset('dist/css/skins/skin-blue.css')}}">
   <!-- Select2 CSS 4.0.3 -->
   <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('datatables/css/datatable.min.css')}}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -30,6 +32,10 @@
   <script src="{{asset('plugins/jQuery/jquery-3.2.1.min.js')}}"></script>
   <!-- Select2 4.0.3 -->
   <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
+  <!-- DataTables -->
+  <script src="{{asset('datatables/js/datatable.min.js')}}"></script>
+  <!-- DataTables bootstrap-->
+  <script src="{{asset('datatables/js/bootstrap-datatable.min.js')}}"></script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
