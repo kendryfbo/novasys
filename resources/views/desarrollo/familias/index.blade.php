@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<div class="panel panel-default">
+	<div class="panel panel-default" style="border-color: #333;">
 		<div class="panel-heading">
 			@if (session('status'))
 				<div class="alert alert-info alert-dismissible" role="alert">
@@ -18,7 +18,7 @@
 		</div>
 		<br>
 		<div class="container">
-			<table id="data-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<table id="data-table" class="table table-hover table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th class="text-center">#</th>

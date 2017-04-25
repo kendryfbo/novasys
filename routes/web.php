@@ -12,7 +12,9 @@
 */
 
 Route::get('/', 'MainController@index');
-
+Route::get('welcome', function (){
+	return view('vue');
+});
 // GRUPO de Rutas de Modulo de desarrollo
 Route::group(['prefix' => 'desarrollo'], function(){
 
