@@ -17,9 +17,13 @@ class CreateFamiliasTable extends Migration
             $table->increments('id');
             $table->string('codigo','10');
             $table->string('descripcion','100');
-            $tavle->string('tipo','100');
+            $table->integer('tipo_id')->unsigned();
             $table->tinyInteger('activo')->default('1');
             $table->timestamps();
+        });
+
+        Schema::table('familias', function (Blueprint $table) {
+            $table->foreign('tipo_id')->references('id')->on('tipo_familias');
         });
     }
 

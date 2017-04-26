@@ -16,6 +16,7 @@ class CreateTipoFamiliasTable extends Migration
         Schema::create('tipo_familias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion');
+            $table->tinyInteger('activo');
             $table->timestamps();
         });
     }
