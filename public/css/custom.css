@@ -1,0 +1,29 @@
+.box.box-gray {
+  border: 1px solid #333;
+  background: #f0f0f0;
+}
+
+.box.box-gray > .box-footer {
+	background: #f0f0f0;
+}
+
+/* Estilo de Tabla Novasys*/
+.table-bordered.table-custom {
+  border: 1px solid #333;
+}
+.table-bordered.table-custom > thead > tr > td,
+.table-bordered.table-custom > thead > tr > th {
+	border: 1px solid #333
+}
+.table-bordered.table-custom > tbody > tr > th,
+.table-bordered.table-custom > tfoot > tr > th,
+.table-bordered.table-custom > tbody > tr > td,
+.table-bordered.table-custom > tfoot > tr > td {
+  border: 0.1px solid #dcdcdc;
+}
+table > tbody {
+  background-color: white;
+}
+table > thead {
+  background-color: #c8c8c8;
+}

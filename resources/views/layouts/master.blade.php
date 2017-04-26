@@ -8,6 +8,8 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+  <!-- BootstrapToggle -->
+  <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-toggle.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
@@ -20,6 +22,8 @@
   <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('datatables/css/datatable.min.css')}}">
+  <!-- Custom CSS -->
+  <<link rel="stylesheet" href="{{asset('css/custom.css')}}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -87,6 +91,8 @@
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/app.min.js')}}"></script>
+<!-- BootstrapToggle -->
+<script src="{{asset('bootstrap/js/bootstrap-toggle.min.js')}}"></script>
 {{-- Verificar funcionamientos de estos plugins y si se puede incluir en la plantilla --}}
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

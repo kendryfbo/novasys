@@ -2,23 +2,24 @@
 
 @section('content')
 
-	<div class="panel panel-default" style="border-color: #333;">
+	<div class="box box-gray">
 		<div class="panel-heading">
 			@if (session('status'))
-				<div class="alert alert-info alert-dismissible" role="alert">
+				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					  <span aria-hidden="true">&times;</span>
 				  </button>
+				  <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
 				  <strong>Info!</strong> {{session('status')}}
 				</div>
 			@endif
 			<form action="{{route('crearFamilia')}}" method="get">
-				<button class="col-sm-offset-11 btn" type="submit" name="button" >Crear</button>
+				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
 			</form>
 		</div>
 		<br>
 		<div class="container">
-			<table id="data-table" class="table table-hover table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
@@ -36,8 +37,8 @@
 						<th class="text-center">{{$loop->iteration}}</th>
 						<td>{{$familia->codigo}}</td>
 						<td>{{$familia->descripcion}}</td>
-						<td>{{$familia->tipo}}</td>
-						<td>{{$familia->activo}}</td>
+						<td>{{$familia->tipo->descripcion}}</td>
+						<td>{{$familia->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
 							<form action="{{route('editarFamilia',['familia' => $familia->id])}}" method="get">
 								<button class="btn btn-sm" type="submit" name="button">

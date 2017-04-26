@@ -3,22 +3,22 @@
 
 @section('content')
 
-<div class="container box">
+<div class="container box box-gray">
 
 	<div class="box-header with-border">
       <h3 class="box-title">Crear Familia</h3>
     </div>
     <!-- /.box-header -->
+	<!-- box-body -->
+    <div class="box-body">
+		<!-- form start -->
+		<form id="crear-familia" class="form-horizontal" method="post" action="{{route('guardarFamilia')}}">
+				{{ csrf_field() }}
 
-    <!-- form start -->
-    <form class="form-horizontal" method="post" action="{{route('guardarFamilia')}}">
-		{{ csrf_field() }}
-
-	    <div class="box-body">
 	        <div class="form-group">
 	          <label for="inputCodigo" class="col-sm-2 control-label">Codigo:</label>
 	          <div class="col-sm-2">
-	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo" autofocus>
+	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo" value="{{Input::old('codigo')}}" autofocus>
 	          </div>
 	        </div>
 
@@ -34,7 +34,7 @@
 	          <label for="inputDescripcion" class="col-sm-2 control-label" >Descripcion:</label>
 
 	          <div class="col-sm-8">
-	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Nombre de la familia">
+	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Nombre de la familia" value="{{Input::old('descripcion')}}">
 	          </div>
 	        </div>
 
@@ -52,8 +52,8 @@
 			  <div class="col-sm-8">
 	            <select class="form-control js-select2-basic" name="tipo" id="tipo-select">
 						<option value="">Tipos de Familias...</option>
-					@foreach ($tiposFamilia as $familia)
-						<option value="{{$familia->descripcion}}">{{$familia->descripcion}}</option>
+					@foreach ($tiposFamilia as $tipo)
+						<option value="{{$tipo->id}}" {{Input::old('tipo') == $tipo->id ? "selected" : ""}}>{{$tipo->descripcion}}</option>
 					@endforeach
 	            </select>
 	          </div>
@@ -66,13 +66,19 @@
 					@endforeach
 				</div>
 			@endif
-	     </div>
-	      <!-- /.box-body -->
-	      <div class="box-footer col-sm-10">
-	        <button type="submit" class="btn pull-right">Crear</button>
-	      </div>
-	      <!-- /.box-footer -->
-    </form>
+			<div class="form-group">
+	          <label for="inputTipo" class="col-sm-2 control-label" >activo:</label>
+			  <div class="col-sm-2">
+	            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" {{ Input::old('activo') ? "checked" : "" }}>
+	          </div>
+	        </div>
+		</form>
+     </div>
+	 <!-- /.box-body -->
+	 <div class="box-footer col-sm-10">
+	 	<button type="submit" form="crear-familia" class="btn pull-right">Crear</button>
+	 </div>
+	  <!-- /.box-footer -->
   </div>
 @endsection
 

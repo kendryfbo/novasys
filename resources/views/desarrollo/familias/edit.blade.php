@@ -2,18 +2,17 @@
 
 @section('content')
 
-	<div class="container box">
+	<div class="container box box-gray">
 
 		<div class="box-header with-border">
-	      <h3 class="box-title">Crear Familia</h3>
+	      <h3 class="box-title">Editar Familia</h3>
 	    </div>
 	    <!-- /.box-header -->
 
-	    <!-- form start -->
-	    <form class="form-horizontal" method="post" action="{{route('actualizarFamilia', ['familia' => $familia->id])}}">
-			{{ csrf_field() }}
-
-		    <div class="box-body">
+	    <div class="box-body">
+			<!-- form start -->
+			<form id="actualizar-form" class="form-horizontal" method="post" action="{{route('actualizarFamilia', ['familia' => $familia->id])}}">
+				{{ csrf_field() }}
 		        <div class="form-group">
 		          <label for="inputCodigo" class="col-sm-2 control-label">Codigo:</label>
 		          <div class="col-sm-2">
@@ -52,7 +51,7 @@
 		            <select class="form-control js-select2-basic" name="tipo" id="tipo-select">
 							<option value="">Tipos de Familias...</option>
 						@foreach ($tiposFamilia as $tipo)
-							<option value="{{$tipo->descripcion}}" {{$familia->tipo == $tipo->descripcion ? "selected" : ""}}>{{$tipo->descripcion}}</option>
+							<option value="{{$tipo->id}}" {{$familia->tipo->id == $tipo->id ? "selected" : ""}}>{{$tipo->descripcion}}</option>
 						@endforeach
 		            </select>
 		          </div>
@@ -65,13 +64,21 @@
 						@endforeach
 					</div>
 				@endif
-		     </div>
-		      <!-- /.box-body -->
-		      <div class="box-footer col-sm-10">
-		        <button type="submit" class="btn pull-right">Modificar</button>
-		      </div>
-		      <!-- /.box-footer -->
-	    </form>
+				<div class="form-group">
+
+		          <label for="inputTipo" class="col-sm-2 control-label" >activo:</label>
+				  <div class="col-sm-2">
+		            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" {{ $familia->activo ? "checked" : "notChecked" }}>
+		          </div>
+
+		        </div>
+			</form>
+	     </div>
+	      <!-- /.box-body -->
+	      <div class="box-footer col-sm-10">
+	        <button type="submit" form="actualizar-form" class="btn pull-right">Modificar</button>
+	      </div>
+	      <!-- /.box-footer -->
 	</div>
 @endsection
 
