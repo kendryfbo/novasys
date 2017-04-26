@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Familia extends Model
 {
 
-	protected $fillable = ['codigo','descripcion','tipo'];
+	protected $fillable = ['codigo','descripcion','tipo_id','activo'];
 
 
 	static function getTipoFamilia() {

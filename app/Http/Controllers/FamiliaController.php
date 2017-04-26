@@ -44,11 +44,13 @@ class FamiliaController extends Controller
             'tipo' => 'required'
         ]);
 
+        $activo = !empty($request->activo);
 
         Familia::create([
             'codigo' => $request->codigo,
             'descripcion' => $request->descripcion,
-            'tipo' => $request->tipo
+            'tipo_id' => $request->tipo,
+            'activo' => $activo,
         ]);
 
         return redirect(route('familias'));
@@ -93,10 +95,10 @@ class FamiliaController extends Controller
             'descripcion' => 'required',
             'tipo' => 'required'
         ]);
-
+        $activo = !empty($request->activo);
         $familia->descripcion = $request->descripcion;
-        $familia->tipo = $request->tipo;
-
+        $familia->tipo_id = $request->tipo;
+        $familia->activo = $activo;
         $familia->save();
         $msg = "Familia codigo: " . $familia->codigo . " ha sido Actualizada";
         return redirect('desarrollo/familias')->with(['status' => $msg]);
