@@ -4,7 +4,8 @@
 	<span class="sr-only">Toggle navigation</span>
   </a>
   <!-- Navbar Right Menu -->
-  <div class="navbar-custom-menu">
+ {{-- Comentado hasta ser implementado --}} 
+  {{-- <div class="navbar-custom-menu">
 	<ul class="nav navbar-nav">
 	  <!-- Messages: style can be found in dropdown.less-->
 	  <li class="dropdown messages-menu">
@@ -105,5 +106,5 @@
 		<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
 	  </li>
 	</ul>
-  </div>
+  </div> --}}
 </nav>
