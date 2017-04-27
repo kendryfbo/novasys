@@ -69,7 +69,7 @@
 			<div class="form-group">
 	          <label for="inputTipo" class="col-sm-2 control-label" >activo:</label>
 			  <div class="col-sm-2">
-	            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" {{ Input::old('activo') ? "checked" : "" }}>
+	            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ Input::old('activo') ? "checked" : "" }}>
 	          </div>
 	        </div>
 		</form>

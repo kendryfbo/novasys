@@ -68,7 +68,7 @@
 
 		          <label for="inputTipo" class="col-sm-2 control-label" >activo:</label>
 				  <div class="col-sm-2">
-		            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" {{ $familia->activo ? "checked" : "notChecked" }}>
+		            <input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ $familia->activo ? "checked" : "notChecked" }}>
 		          </div>
 
 		        </div>

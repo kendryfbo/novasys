@@ -3,6 +3,9 @@
 @section('content')
 
 	<div class="box box-gray">
+		<div class="container">
+			<h2>Familias</h2>
+		</div>
 		<div class="panel-heading">
 			@if (session('status'))
 				<div class="alert alert-success alert-dismissible" role="alert">
@@ -13,6 +16,7 @@
 				  <strong>Info!</strong> {{session('status')}}
 				</div>
 			@endif
+
 			<form action="{{route('crearFamilia')}}" method="get">
 				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
 			</form>
@@ -21,7 +25,7 @@
 		<div class="container">
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr >
 						<th class="text-center">#</th>
 						<th>codigo</th>
 						<th>Descripcion</th>
@@ -91,6 +95,7 @@
 					}
 				}
 			} );
+			$('div.dataTables_filter input').focus();
 		} );
 	</script>
 @endsection
