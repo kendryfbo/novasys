@@ -35,9 +35,12 @@ Route::group(['prefix' => 'desarrollo'], function(){
 	// GRUPO de Rutas de Desarrollo/Marcas
 	Route::group(['prefix' => 'marcas'], function(){
 
-		Route::get('/','MarcaController@index')->name('marcas');
-		Route::get('crear', 'MarcaController@create')->name('crearMarca');
-		Route::post('store', 'MarcaController@store')->name('guardarMarca');
+		Route::get('/',			'MarcaController@index')->name('marcas');
+		Route::get('crear', 	'MarcaController@create')->name('crearMarca');
+		Route::post('/', 		'MarcaController@store')->name('guardarMarca');
+		Route::get('/{marca}/edit', 	'MarcaController@edit')->name('editarMarca');
+		Route::post('update/{marca}', 	'MarcaController@update')->name('actualizarMarca');
+		Route::post('delete/{marca}', 	'MarcaController@destroy')->name('eliminarMarca');
 
 	});
 

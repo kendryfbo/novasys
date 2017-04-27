@@ -18,6 +18,7 @@ class CreateMarcasTable extends Migration
             $table->string('codigo','10');
             $table->string('descripcion','100');
             $table->integer('familia_id')->unsigned();
+            $table->tinyInteger('ila');
             $table->tinyInteger('nacional');
             $table->tinyInteger('activo')->default('1');;
             $table->timestamps();

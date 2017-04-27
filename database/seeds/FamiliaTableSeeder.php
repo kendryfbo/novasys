@@ -20,7 +20,7 @@ class FamiliaTableSeeder extends Seeder
             ['codigo' => 'ENV','descripcion' => 'Envase Primario','tipo_id' => 1,'activo' => 1],
             ['codigo' => 'ENS','descripcion' => 'Envase Secundario','tipo_id' => 1,'activo' => 1],
             ['codigo' => 'CIN','descripcion' => 'Cintas','tipo_id' => 1,'activo' => 1],
-            ['codigo' => 'BAS','descripcion' => 'BASES','tipo_id' => 4,'activo' => 1],
+            ['codigo' => 'BAS','descripcion' => 'Bases','tipo_id' => 4,'activo' => 1],
             ['codigo' => 'BEB','descripcion' => 'Bebidas','tipo_id' => 4,'activo' => 1],
             ['codigo' => 'REF','descripcion' => 'Refrescos','tipo_id' => 4,'activo' => 1],
             ['codigo' => 'TEF','descripcion' => 'Te Frio','tipo_id' => 4,'activo' => 1],

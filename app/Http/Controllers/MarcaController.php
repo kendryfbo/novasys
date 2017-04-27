@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Marcas;
+use App\Models\Marca;
+use App\Models\Familia;
+
 use Illuminate\Http\Request;
 
 class MarcaController extends Controller
@@ -14,7 +16,9 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        return view('desarrollo.marcas.index');
+        $marcas = Marca::all();
+
+        return view('desarrollo.marcas.index')->with(['marcas' => $marcas]);
     }
 
     /**
@@ -24,7 +28,9 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        //
+        $familias = Familia::getFamiliasActivas();
+
+        return view('desarrollo/marcas/create')->with(['familias' => $familias]);
     }
 
     /**
@@ -35,7 +41,26 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'codigo' => 'required|min:3|max:10',
+            'descripcion' => 'required',
+            'familia' => 'required'
+        ]);
+
+        $activo = !empty($reques->activo);
+        $ila = !empty($request->ila);
+        $nacional = !empty($request->nacional);
+
+        Marca::create([
+            'codigo' => $request->codigo,
+            'descripcion' => $request->descripcion,
+            'familia_id' => $request->familia,
+            'activo' => $activo,
+            'ila' => $ila,
+            'nacional' => $nacional
+        ]);
+
+        return redirect(route('marcas'));
     }
 
     /**
@@ -44,7 +69,7 @@ class MarcaController extends Controller
      * @param  \App\Models\Marcas  $marcas
      * @return \Illuminate\Http\Response
      */
-    public function show(Marcas $marcas)
+    public function show(Marca $marca)
     {
         //
     }
@@ -55,9 +80,14 @@ class MarcaController extends Controller
      * @param  \App\Models\Marcas  $marcas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Marcas $marcas)
+    public function edit(Marca $marca)
     {
-        //
+        $familias = Familia::getFamiliasActivas();
+        return view('desarrollo.marcas.edit')
+        ->with([
+            'marca' => $marca,
+            'familias' => $familias
+        ]);
     }
 
     /**
@@ -67,9 +97,21 @@ class MarcaController extends Controller
      * @param  \App\Models\Marcas  $marcas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Marcas $marcas)
+    public function update(Request $request, Marca $marca)
     {
-        //
+        $this->validate($request,[
+            'descripcion' => 'required',
+            'familia' => 'required'
+        ]);
+
+        $marca->descripcion = $request->descripcion;
+        $marca->familia_id = $request->familia;
+        $marca->activo = !empty($request->activo);
+        $marca->ila = !empty($request->ila);
+        $marca->nacional = !empty($request->nacional);
+        $marca->save();
+
+        return redirect(route('marcas'));
     }
 
     /**
@@ -78,7 +120,7 @@ class MarcaController extends Controller
      * @param  \App\Models\Marcas  $marcas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Marcas $marcas)
+    public function destroy(Marca $marca)
     {
         //
     }
