@@ -2,11 +2,11 @@
 
 @section('content')
 
-	<div class="box box-gray">
-		<div class="container">
-			<h2>Familias</h2>
-		</div>
-		<div class="panel-heading">
+	<div class="panel panel-default">
+
+		<div class="panel-heading text-center">
+			<h4>Familias</h4>
+
 			@if (session('status'))
 				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -17,15 +17,16 @@
 				</div>
 			@endif
 
-			<form action="{{route('crearFamilia')}}" method="get">
-				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
-			</form>
 		</div>
 		<br>
 		<div class="container">
+			<form action="{{route('crearFamilia')}}" method="get">
+				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
+			</form>
+			<br>
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
-					<tr >
+					<tr>
 						<th class="text-center">#</th>
 						<th>codigo</th>
 						<th>Descripcion</th>

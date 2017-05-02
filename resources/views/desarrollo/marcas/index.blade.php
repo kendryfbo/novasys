@@ -1,11 +1,12 @@
 @extends('layouts.master')
 
 @section('content')
-	<div class="box box-gray">
-		<div class="container">
-			<h2>Marcas</h2>
-		</div>
-		<div class="panel-heading">
+
+	<div class="panel panel-default">
+
+		<div class="panel-heading text-center">
+			<h4>Marcas</h4>
+
 			@if (session('status'))
 				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -15,12 +16,14 @@
 				  <strong>Info!</strong> {{session('status')}}
 				</div>
 			@endif
-			<form action="{{route('crearMarca')}}" method="get">
-				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
-			</form>
+
 		</div>
 		<br>
 		<div class="container">
+			<form action="{{route('crearMarca')}}" method="get">
+				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
+			</form>
+			<br>
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
 					<tr>
