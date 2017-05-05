@@ -11,7 +11,7 @@
 
 	    <div class="box-body">
 			<!-- form start -->
-			<form id="actualizar-form" class="form-horizontal" method="post" action="{{route('actualizarFamilia', ['familia' => $familia->id])}}">
+			<form id="edit" class="form-horizontal" method="post" action="{{route('actualizarFamilia', ['familia' => $familia->id])}}">
 				{{ csrf_field() }}
 		        <div class="form-group">
 		          <label for="inputCodigo" class="col-sm-2 control-label">Codigo:</label>
@@ -76,7 +76,7 @@
 	     </div>
 	      <!-- /.box-body -->
 	      <div class="box-footer col-sm-10">
-	        <button type="submit" form="actualizar-form" class="btn pull-right">Modificar</button>
+	        <button type="submit" form="edit" class="btn pull-right">Modificar</button>
 	      </div>
 	      <!-- /.box-footer -->
 	</div>

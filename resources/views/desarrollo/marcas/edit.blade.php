@@ -11,7 +11,7 @@
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
-		<form id="form" class="form-horizontal" method="post" action="{{route('actualizarMarca',['marca' => $marca->id])}}">
+		<form id="edit" class="form-horizontal" method="post" action="{{route('actualizarMarca',['marca' => $marca->id])}}">
 				{{ csrf_field() }}
 
 	        <div class="form-group">
@@ -89,7 +89,7 @@
      </div>
 	 <!-- /.box-body -->
 	 <div class="box-footer col-sm-10">
-	 	<button type="submit" form="form" class="btn pull-right">Modificar</button>
+	 	<button type="submit" form="edit" class="btn pull-right">Modificar</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

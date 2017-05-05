@@ -12,7 +12,7 @@
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
-		<form id="crear-familia" class="form-horizontal" method="post" action="{{route('guardarFamilia')}}">
+		<form id="create" class="form-horizontal" method="post" action="{{route('guardarFamilia')}}">
 				{{ csrf_field() }}
 
 	        <div class="form-group">
@@ -76,7 +76,7 @@
      </div>
 	 <!-- /.box-body -->
 	 <div class="box-footer col-sm-10">
-	 	<button type="submit" form="crear-familia" class="btn pull-right">Crear</button>
+	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

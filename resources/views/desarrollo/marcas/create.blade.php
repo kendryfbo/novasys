@@ -11,7 +11,7 @@
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
-		<form id="form" class="form-horizontal" method="post" action="{{route('guardarMarca')}}">
+		<form id="create" class="form-horizontal" method="post" action="{{route('guardarMarca')}}">
 				{{ csrf_field() }}
 
 	        <div class="form-group">
@@ -89,7 +89,7 @@
      </div>
 	 <!-- /.box-body -->
 	 <div class="box-footer col-sm-10">
-	 	<button type="submit" form="form" class="btn pull-right">Crear</button>
+	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>
