@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoFamiliaTableSeeder::class);
         $this->call(FamiliaTableSeeder::class);
         $this->call(MarcasTableSeeder::class);
+        $this->call(UnidadesTableSeeder::class);
     }
 }
