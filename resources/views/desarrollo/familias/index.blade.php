@@ -69,5 +69,6 @@
 @endsection
 
 @section('scripts')
+	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('js/desarrollo/familia.js')}}"></script>
 @endsection

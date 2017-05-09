@@ -4,7 +4,7 @@
 @section('content')
 
 <div id="vue-app" class="container box box-gray">
-	<h1>@{{descripcion}}</h1>
+
 	<div class="box-header with-border">
       <h3 class="box-title">Crear Formato</h3>
     </div>
@@ -17,9 +17,9 @@
 
 			<div class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-sm-2">Descripcion:</label>
+					<label class="control-label col-sm-2" >Descripcion:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "" }}">
+						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "" }}" readonly>
 					</div>
 					@if ($errors->has('descripcion'))
 						<div class="has-error col-sm-offset-2">
@@ -35,11 +35,11 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso">
+					<input type="number" class="form-control" name="peso" v-model="peso" @change="updateDescripcion">
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
-					<select class="form-control js-select2-basic" name="unidad" id="tipo-select">
+					<select class="form-control" name="unidad" v-model="unidad" @change="updateDescripcion" id="tipo-select">
 							<option value="">Unidades...</option>
 						@foreach ($unidades as $unidad)
 							<option value="{{$unidad->unidad}}" {{Input::old('unidad') == $unidad->id ? "selected" : ""}}>{{$unidad->unidad}}</option>
@@ -48,11 +48,11 @@
 				</div>
 				<div class="form-group">
 					<label>Sobres:</label>
-					<input type="number" class="form-control" name="sobre" step="1" min="1">
+					<input type="number" class="form-control" name="sobre" v-model="sobre" @change="updateDescripcion" step="1" min="1">
 				</div>
 				<div class="form-group">
 					<label>display:</label>
-					<input type="number" class="form-control" name="display" step="1" min="1">
+					<input type="number" class="form-control" name="display" v-model="display" @change="updateDescripcion" step="1" min="1">
 				</div>
 			</div>
 			<br>

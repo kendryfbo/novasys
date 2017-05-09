@@ -73,6 +73,6 @@
 @endsection
 
 @section('scripts')
-	{{--Crear Archivo sabores.js--}}
-	<script src="{{asset('js/desarrollo/familia.js')}}"></script>
+	<script src="{{asset('js/customDataTable.js')}}"></script>
+	<script src="{{asset('js/desarrollo/formato.js')}}"></script>
 @endsection
