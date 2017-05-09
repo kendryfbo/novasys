@@ -35,24 +35,24 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso" v-model="peso" @change="updateDescripcion">
+					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" v-focus>
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
 					<select class="form-control" name="unidad" v-model="unidad" @change="updateDescripcion" id="tipo-select">
 							<option value="">Unidades...</option>
 						@foreach ($unidades as $unidad)
-							<option value="{{$unidad->unidad}}" {{Input::old('unidad') == $unidad->id ? "selected" : ""}}>{{$unidad->unidad}}</option>
+							<option value="{{$unidad->unidad}}" {{Input::old('unidad') === $unidad->unidad ? "selected" : ""}}>{{$unidad->unidad}}</option>
 						@endforeach
 		            </select>
 				</div>
 				<div class="form-group">
 					<label>Sobres:</label>
-					<input type="number" class="form-control" name="sobre" v-model="sobre" @change="updateDescripcion" step="1" min="1">
+					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('sobre')}}">
 				</div>
 				<div class="form-group">
 					<label>display:</label>
-					<input type="number" class="form-control" name="display" v-model="display" @change="updateDescripcion" step="1" min="1">
+					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('display')}}">
 				</div>
 			</div>
 			<br>

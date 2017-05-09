@@ -1,15 +1,18 @@
 var app = new Vue({
   el: '#vue-app',
   data: {
-	  peso: '',
-	  unidad: '',
-	  sobre: '',
-	  display: '',
-	  descripcion: '',
+	  peso: $('input[name=peso]').val(),
+	  unidad: $('input[name=unidad]').val(),
+	  sobre: $('input[name=sobre]').val(),
+	  display: $('input[name=display]').val(),
+	  descripcion: $('input[name=descripcion]').val(),
   },
   methods: {
 	  updateDescripcion: function() {
-		  if (!(this.unidad.lenght == 0)) {
+
+          this.descripcion = '';
+
+		  if (this.unidad) {
 			  this.descripcion = this.unidad
 		  }
 		  if (this.peso) {
@@ -24,4 +27,3 @@ var app = new Vue({
 	  }
   }
 });
-app.descripcion = app.peso;

@@ -27,7 +27,7 @@ class FormatoController extends Controller
      */
     public function create()
     {
-        $unidades = Unidad::all(); // Crear metodo getUnidadesActivas() y utilizarlo en esta llamada.
+        $unidades = Unidad::all();
         return view('desarrollo.formatos.create')->with(['unidades' => $unidades]);
     }
 
@@ -43,7 +43,8 @@ class FormatoController extends Controller
             'descripcion' => 'required',
             'unidad' => 'required',
             'peso' => 'required',
-            'sobre' => 'required'
+            'sobre' => 'required',
+            'display' => 'required'
         ]);
 
         $activo = !empty($request->activo);
@@ -81,7 +82,8 @@ class FormatoController extends Controller
      */
     public function edit(Formato $formato)
     {
-        return view('desarrollo.formatos.edit');
+        $unidades = Unidad::all();
+        return view('desarrollo.formatos.edit')->with(['formato' => $formato,'unidades' => $unidades]);
     }
 
     /**
@@ -93,8 +95,25 @@ class FormatoController extends Controller
      */
     public function update(Request $request, Formato $formato)
     {
+        $this->validate($request,[
+            'descripcion' => 'required',
+            'peso' => 'required',
+            'unidad' => 'required',
+            'sobre' => 'required',
+            'display' => 'required'
+        ]);
 
+        $activo = !empty($request->activo);
 
+        $formato->descripcion = $request->descripcion;
+        $formato->peso = $request->peso;
+        $formato->unidad_med = $request->unidad;
+        $formato->sobre = $request->sobre;
+        $formato->display = $request->display;
+        $formato->activo = $activo;
+
+        $formato->save();
+        
         $msg = "Formato: " . $request->descripcion . " ha sido Actualizado.";
         return redirect(route('formatos'))->with(['status' => $msg]);
     }
