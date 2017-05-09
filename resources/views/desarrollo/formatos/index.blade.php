@@ -20,9 +20,10 @@
 		</div>
 		<br>
 		<div class="container">
-			<form action="{{route('crearFormato')}}" method="get">
-				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
-			</form>
+			<div class="container">
+				<a class="col-sm-offset-11 btn btn-primary" href="{{route('crearFormato')}}">Crear</a>
+			</div>
+
 			<br>
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -74,5 +75,4 @@
 
 @section('scripts')
 	<script src="{{asset('js/customDataTable.js')}}"></script>
-	<script src="{{asset('js/desarrollo/formato.js')}}"></script>
 @endsection

@@ -20,9 +20,9 @@
 		</div>
 		<br>
 		<div class="container">
-			<form action="{{route('crearMarca')}}" method="get">
-				<button class="col-sm-offset-11  btn" type="submit" name="button" >Crear</button>
-			</form>
+			<div class="container">
+				<a class="col-sm-offset-11 btn btn-primary" href="{{route('crearMarca')}}">Crear</a>
+			</div>
 			<br>
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
