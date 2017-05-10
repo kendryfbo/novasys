@@ -99,6 +99,9 @@
      user experience. Slimscroll is required when using the
      fixed layout. -->
 
+<script src="{{asset('axios/axios.min.js')}}">
+
+</script>
 @yield('scripts')
 
 </body>
