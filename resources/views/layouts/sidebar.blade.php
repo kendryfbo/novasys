@@ -6,7 +6,7 @@
 	<li class="header">Menu</li>
 	<!-- Optionally, you can add icons to the links -->
 	<li class="active"><a href="/desarrollo"><i class="fa fa-link"></i> <span>Desarrollo</span></a></li>
-    <li><a href="#"><i class="fa fa-link"></i> <span>Productos</span></a></li>
+    <li><a href="/desarrollo/productos"><i class="fa fa-link"></i> <span>Productos</span></a></li>
     <li><a href="/desarrollo/marcas"><i class="fa fa-link"></i> <span>Marcas</span></a></li>
     <li><a href="/desarrollo/familias"><i class="fa fa-link"></i> <span>Familias</span></a></li>
     <li><a href="/desarrollo/sabores"><i class="fa fa-link"></i> <span>Sabores</span></a></li>

@@ -20,7 +20,6 @@ Route::group(['prefix' => 'desarrollo'], function(){
 
 	// Pantalla Principal Modulo Desarrollo
 	Route::get('/', 'DesarrolloController@main');
-
 	// GRUPO de Rutas de Desarrollo/Familias
 	Route::group(['prefix' => 'familias'], function(){
 
@@ -43,7 +42,7 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{marca}', 	'MarcaController@destroy')->name('eliminarMarca');
 
 	});
-
+	// GRUPO de Rutas de Desarrollo/Sabores
 	Route::group(['prefix' => 'sabores'], function(){
 
 		Route::get('/',					'SaborController@index')->name('sabores');
@@ -54,7 +53,7 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{sabor}', 	'SaborController@destroy')->name('eliminarSabor');
 
 	});
-
+	// GRUPO de Rutas de Desarrollo/Formatos
 	Route::group(['prefix' => 'formatos'], function(){
 
 		Route::get('/',					'FormatoController@index')->name('formatos');
@@ -65,5 +64,15 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{formato}', 'FormatoController@destroy')->name('eliminarFormato');
 
 	});
+	// GRUPO de Rutas de Desarrollo/Productos
+	Route::group(['prefix' => 'productos'], function(){
 
+		Route::get('/',					'ProductoController@index')->name('Productos');
+		Route::get('crear', 			'ProductoController@create')->name('crearProducto');
+		Route::post('/', 				'ProductoController@store')->name('guardarProducto');
+		Route::get('/{producto}/edit', 	'ProductoController@edit')->name('editarProducto');
+		Route::post('update/{producto}', 'ProductoController@update')->name('actualizarProducto');
+		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
+
+	});
 });
