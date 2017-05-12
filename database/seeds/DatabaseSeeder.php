@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FamiliaTableSeeder::class);
         $this->call(MarcasTableSeeder::class);
         $this->call(UnidadesTableSeeder::class);
+        $this->call(SaboresTableSeeder::class);
     }
 }
