@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="{{asset('dist/css/skins/skin-blue.css')}}">
   <!-- Select2 CSS 4.0.3 -->
   <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
+    <!-- bootstrap-select 1.12.2 CSS -->
+  <link rel="stylesheet" href="{{asset('bootstrap-select/css/bootstrap-select.css')}}">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('datatables/css/datatable.min.css')}}">
   <!-- Custom CSS -->
@@ -89,19 +91,17 @@
 
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<!-- Bootstrap-select 1.12.2 JS -->
+<script src="{{asset('bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+<!-- Bootstrap-select 1.12.2 Español JS-->
+<script src="{{asset('bootstrap-select/js/i18n/defaults-es_ES.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/app.min.js')}}"></script>
 <!-- BootstrapToggle -->
 <script src="{{asset('bootstrap/js/bootstrap-toggle.min.js')}}"></script>
-{{-- Verificar funcionamientos de estos plugins y si se puede incluir en la plantilla --}}
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+<!-- Axios -->
+<script src="{{asset('axios/axios.min.js')}}"></script>
 
-<script src="{{asset('axios/axios.min.js')}}">
-
-</script>
 @yield('scripts')
 
 </body>
