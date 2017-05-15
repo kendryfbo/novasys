@@ -28,7 +28,7 @@ class MarcaController extends Controller
      */
     public function create()
     {
-        $familias = Familia::getFamiliasActivas();
+        $familias = Familia::getAllActive();
 
         return view('desarrollo/marcas/create')->with(['familias' => $familias]);
     }
@@ -47,8 +47,8 @@ class MarcaController extends Controller
             'familia' => 'required'
         ]);
 
-        $activo = !empty($reques->activo);
-        $ila = !empty($request->ila);
+        $activo = !empty($request->activo);
+        $iaba = !empty($request->iaba);
         $nacional = !empty($request->nacional);
 
         Marca::create([
@@ -56,11 +56,13 @@ class MarcaController extends Controller
             'descripcion' => $request->descripcion,
             'familia_id' => $request->familia,
             'activo' => $activo,
-            'ila' => $ila,
+            'iaba' => $iaba,
             'nacional' => $nacional
         ]);
 
-        return redirect(route('marcas'));
+        $msg = "Marca: " . $request->descripcion . " ha sido Creada.";
+
+        return redirect(route('marcas'))->with(['status' => $msg]);
     }
 
     /**
@@ -82,7 +84,8 @@ class MarcaController extends Controller
      */
     public function edit(Marca $marca)
     {
-        $familias = Familia::getFamiliasActivas();
+        $familias = Familia::getAllActive();
+
         return view('desarrollo.marcas.edit')
         ->with([
             'marca' => $marca,
@@ -107,7 +110,7 @@ class MarcaController extends Controller
         $marca->descripcion = $request->descripcion;
         $marca->familia_id = $request->familia;
         $marca->activo = !empty($request->activo);
-        $marca->ila = !empty($request->ila);
+        $marca->iaba = !empty($request->iaba);
         $marca->nacional = !empty($request->nacional);
         $marca->save();
 
@@ -122,6 +125,15 @@ class MarcaController extends Controller
      */
     public function destroy(Marca $marca)
     {
-        //
+        Marca::destroy($marca->id);
+
+        $msg = "Marca: " . $marca->descripcion . " ha sido Eliminada.";
+
+        return redirect(route('marcas'))->with(['status' => $msg]);
+    }
+
+    public function getMarcas() {
+
+        return Marca::getAllActive();
     }
 }

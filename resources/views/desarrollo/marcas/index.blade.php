@@ -2,28 +2,23 @@
 
 @section('content')
 
-	<div class="panel panel-default">
+	<div class="box box-solid box-default">
 
-		<div class="panel-heading text-center">
+		<div class="box-header text-center">
 			<h4>Marcas</h4>
-
-			@if (session('status'))
-				<div class="alert alert-success alert-dismissible" role="alert">
-				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-				  </button>
-				  <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-				  <strong>Info!</strong> {{session('status')}}
-				</div>
-			@endif
-
 		</div>
-		<br>
-		<div class="container">
-			<div class="container">
-				<a class="col-sm-offset-11 btn btn-primary" href="{{route('crearMarca')}}">Crear</a>
-			</div>
-			<br>
+
+		<div class="box-body">
+			@if (session('status'))
+				@component('components.panel')
+					@slot('title')
+						{{session('status')}}
+					@endslot
+				@endcomponent
+			@endif
+			<a class="pull-right btn btn-primary" href="{{route('crearMarca')}}">Crear</a>
+		</div>
+		<div class="box-body">
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -31,7 +26,7 @@
 						<th>codigo</th>
 						<th>Descripcion</th>
 						<th>Familia</th>
-						<th>Impuesto ILA</th>
+						<th>Impuesto IABA</th>
 						<th>Venta Nac.</th>
 						<th>Activo</th>
 						<th class="text-center">Editar</th>
@@ -45,7 +40,7 @@
 						<td>{{$marca->codigo}}</td>
 						<td>{{$marca->descripcion}}</td>
 						<td>{{$marca->familia->descripcion}}</td>
-						<td>{{$marca->ila ? "Si" : "No"}}</td>
+						<td>{{$marca->iaba ? "Si" : "No"}}</td>
 						<td>{{$marca->nacional ? "Si" : "No"}}</td>
 						<td>{{$marca->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
@@ -64,15 +59,13 @@
 							</form>
 						</td>
 					</tr>
-
 				@endforeach
+
 			</table>
 		</div>
 	</div>
-
 @endsection
 
 @section('scripts')
 	<script src="{{asset('js/customDataTable.js')}}"></script>
-	<script src="{{asset('js/desarrollo/marca.js')}}"></script>
 @endsection

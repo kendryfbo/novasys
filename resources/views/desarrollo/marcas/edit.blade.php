@@ -67,9 +67,9 @@
 			@endif
 
 			<div class="form-group">
-			  <label for="inputTipo" class="col-sm-2 control-label" >Lleva ILA:</label>
+			  <label for="inputTipo" class="col-sm-2 control-label" >Lleva IABA:</label>
 			  <div class="col-sm-8">
-				<input type="checkbox" class="control-label" name="ila" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ $marca->ila ? "checked" : "" }}>
+				<input type="checkbox" class="control-label" name="iaba" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ $marca->iaba ? "checked" : "" }}>
 			  </div>
 			</div>
 			<div class="form-group">

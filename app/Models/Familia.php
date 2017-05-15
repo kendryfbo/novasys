@@ -9,9 +9,9 @@ class Familia extends Model
 
 	protected $fillable = ['codigo','descripcion','tipo_id','activo'];
 
-	static function getTipoFamilia() {
+	static function getAllActive() {
 
-		return TipoFamilia::all()->where('activo',1);
+		return Familia::all()->where('activo',1);
 	}
 
 	public function tipo() {
