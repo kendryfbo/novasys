@@ -13,9 +13,14 @@ class Sabor extends Model
 
 		return Sabor::all()->where('activo',1);
 	}
-	
+
 	public function producto() {
 
 		return $this->hasMany('App\Models\Producto');
+	}
+
+	public function premezcla() {
+
+		return $this->hasMany('App\Models\Premezcla');
 	}
 }

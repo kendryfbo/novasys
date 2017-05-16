@@ -29,4 +29,9 @@ class Marca extends Model
 
 		return $this->hasMany('App\Models\Producto');
 	}
+
+	public function premezcla() {
+
+		return $this->hasMany('App\Models\Premezcla');
+	}
 }

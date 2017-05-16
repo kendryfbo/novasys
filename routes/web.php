@@ -75,6 +75,17 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
 
 	});
+	// GRUPO de Rutas de Desarrollo/Premezcla
+	Route::group(['prefix' => 'premezclas'], function(){
+
+		Route::get('/',					'PremezclaController@index')->name('premezclas');
+		Route::get('crear', 			'PremezclaController@create')->name('crearPremezcla');
+		Route::post('/', 				'PremezclaController@store')->name('guardarPremezcla');
+		Route::get('/{premezcla}/edit', 	'PremezclaController@edit')->name('editarPremezcla');
+		Route::post('update/{premezcla}', 'PremezclaController@update')->name('actualizarPremezcla');
+		Route::post('delete/{premezcla}', 'PremezclaController@destroy')->name('eliminarPremezcla');
+
+	});
 });
 
 Route::group(['prefix' => 'api'], function(){

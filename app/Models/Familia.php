@@ -24,4 +24,9 @@ class Familia extends Model
 		return $this->hasMany('App\Models\Marca');
 	}
 
+	public function premezcla() {
+
+		return $this->hasMany('App\Models\Premezcla');
+	}
+
 }
