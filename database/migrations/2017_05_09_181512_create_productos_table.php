@@ -25,6 +25,12 @@ class CreateProductosTable extends Migration
             $table->tinyInteger('activo');
             $table->timestamps();
         });
+
+        // Schema::table('productos', function (Blueprint $table) {
+        //     $table->foreign('marca_id')->references('id')->on('marcas');
+        //     $table->foreign('formato_id')->references('id')->on('formatos');
+        //     $table->foreign('sabor_id')->references('id')->on('sabores');
+        // });
     }
 
     /**
