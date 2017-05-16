@@ -117,4 +117,9 @@ class SaborController extends Controller
 
         return redirect(route('sabores'))->with(['status' => $msg]);
     }
+
+    public function getSabores() {
+
+        return Sabor::getAllActive();
+    }
 }

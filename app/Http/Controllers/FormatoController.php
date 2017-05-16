@@ -16,8 +16,7 @@ class FormatoController extends Controller
     public function index()
     {
         $formatos = Formato::all();
-        $unidades = Unidad::all(); // Crear metodo getUnidadesActivas() y utilizarlo en esta llamada.
-        return view('desarrollo.formatos.index')->with(['formatos' => $formatos,'unidades' => $unidades]);
+        return view('desarrollo.formatos.index')->with(['formatos' => $formatos]);
     }
 
     /**
@@ -27,7 +26,8 @@ class FormatoController extends Controller
      */
     public function create()
     {
-        $unidades = Unidad::all();
+        $unidades = Unidad::getAllActive();
+
         return view('desarrollo.formatos.create')->with(['unidades' => $unidades]);
     }
 
@@ -82,7 +82,7 @@ class FormatoController extends Controller
      */
     public function edit(Formato $formato)
     {
-        $unidades = Unidad::all();
+        $unidades = Unidad::getAllActive();
         return view('desarrollo.formatos.edit')->with(['formato' => $formato,'unidades' => $unidades]);
     }
 
@@ -113,7 +113,7 @@ class FormatoController extends Controller
         $formato->activo = $activo;
 
         $formato->save();
-        
+
         $msg = "Formato: " . $request->descripcion . " ha sido Actualizado.";
         return redirect(route('formatos'))->with(['status' => $msg]);
     }
@@ -129,5 +129,10 @@ class FormatoController extends Controller
         Formato::destroy($formato->id);
         $msg = "Formato: " . $formato->descripcion . " ha sido Eliminado.";
         return redirect(route('formatos'))->with(['status' => $msg]);
+    }
+
+    public function getFormatos() {
+
+        return Formato::all();
     }
 }

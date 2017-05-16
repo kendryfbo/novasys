@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Familia;
+use App\Models\TipoFamilia;
 use Illuminate\Http\Request;
 
 class FamiliaController extends Controller
@@ -25,7 +26,7 @@ class FamiliaController extends Controller
      */
     public function create()
     {
-        $tipoFamilias = Familia::getTipoFamilia();
+        $tipoFamilias = TipoFamilia::getAllActive();
 
         return view('desarrollo.familias.create')->with(['tiposFamilia' => $tipoFamilias]);
     }
@@ -75,7 +76,7 @@ class FamiliaController extends Controller
      */
     public function edit(Familia $familia)
     {
-        $tipoFamilias = Familia::getTipoFamilia();
+        $tipoFamilias = TipoFamilia::getAllactive();
         return view('desarrollo.familias.edit')
                 ->with(['familia' => $familia,
                         'tiposFamilia' => $tipoFamilias]);
@@ -91,7 +92,7 @@ class FamiliaController extends Controller
     public function update(Request $request, Familia $familia)
     {
         $this->validate($request, [
-            'codigo' => 'unique:familias,codigo|max:10',
+            'codigo' => 'required',
             'descripcion' => 'required',
             'tipo' => 'required'
         ]);
