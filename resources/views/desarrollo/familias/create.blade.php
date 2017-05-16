@@ -50,7 +50,7 @@
 
 	          <label for="inputTipo" class="col-sm-2 control-label" >Tipo:</label>
 			  <div class="col-sm-8">
-	            <select class="form-control js-select2-basic" name="tipo" id="tipo-select">
+	            <select class="form-control selectpicker" data-live-search="true" name="tipo" id="tipo-select">
 						<option value="">Tipos de Familias...</option>
 					@foreach ($tiposFamilia as $tipo)
 						<option value="{{$tipo->id}}" {{Input::old('tipo') == $tipo->id ? "selected" : ""}}>{{$tipo->descripcion}}</option>

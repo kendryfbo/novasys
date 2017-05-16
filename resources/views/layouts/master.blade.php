@@ -18,9 +18,7 @@
   <link rel="stylesheet" href="{{asset('dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins Modificada Novasys-->
   <link rel="stylesheet" href="{{asset('dist/css/skins/skin-blue.css')}}">
-  <!-- Select2 CSS 4.0.3 -->
-  <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
-    <!-- bootstrap-select 1.12.2 CSS -->
+  <!-- bootstrap-select 1.12.2 CSS -->
   <link rel="stylesheet" href="{{asset('bootstrap-select/css/bootstrap-select.css')}}">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('datatables/css/datatable.min.css')}}">
@@ -33,11 +31,9 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-{{-- Se requiere importar jQuery y Select2 en HEAD para su funcionamiento --}}
+{{-- Se requiere importar jQuery en HEAD para su funcionamiento --}}
   <!-- jQuery 3.2.1 -->
   <script src="{{asset('plugins/jQuery/jquery-3.2.1.min.js')}}"></script>
-  <!-- Select2 4.0.3 -->
-  <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
   <!-- DataTables -->
   <script src="{{asset('datatables/js/datatable.min.js')}}"></script>
   <!-- DataTables bootstrap-->
@@ -81,13 +77,12 @@
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
-  @include('layouts.controlsidebar')
+  {{-- @include('layouts.controlsidebar') --}}
 
 </div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
-
 
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
