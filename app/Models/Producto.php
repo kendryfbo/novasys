@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
+	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id','peso_bruto','volumen','activo'];
+
 	public function marca() {
 
 		return $this->belongsTo('App\Models\Marca');

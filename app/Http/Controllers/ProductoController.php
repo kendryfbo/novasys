@@ -48,7 +48,32 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request,[
+            'codigo' => 'required|unique:productos',
+            'descripcion' => 'required',
+            'marca' => 'required',
+            'formato' => 'required',
+            'sabor' => 'required',
+            'peso_bruto' => 'required',
+            'volumen' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+        Producto::create([
+            'codigo' => $request->codigo,
+            'descripcion' => $request->descripcion,
+            'marca_id' => $request->marca,
+            'formato_id' => $request->formato,
+            'sabor_id' => $request->sabor,
+            'peso_bruto' => $request->peso_bruto,
+            'volumen' => $request->volumen,
+            'activo' => $activo
+        ]);
+
+        $msg = "Producto: " . $request->descripcion . " ha sido Creado.";
+
+        return redirect(route('productos'))->with(['status' => $msg]);
     }
 
     /**
@@ -70,7 +95,14 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        //
+        $marcas = Marca::getAllActive();
+        $formatos = Formato::getAllActive();
+        $sabores = Sabor::getAllActive();
+        return view('desarrollo.productos.edit')
+                ->with(['producto' => $producto,
+                        'marcas' => $marcas,
+                        'formatos' => $formatos,
+                        'sabores' => $sabores]);
     }
 
     /**
@@ -82,7 +114,32 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $this->validate($request,[
+            'codigo' => 'required',
+            'descripcion' => 'required',
+            'marca' => 'required',
+            'formato' => 'required',
+            'sabor' => 'required',
+            'peso_bruto' => 'required',
+            'volumen' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $producto->codigo = $request->codigo;
+        $producto->descripcion = $request->descripcion;
+        $producto->marca_id = $request->marca;
+        $producto->formato_id = $request->formato;
+        $producto->sabor_id = $request->sabor;
+        $producto->peso_bruto = $request->peso_bruto;
+        $producto->volumen = $request->volumen;
+        $producto->activo = $activo;
+
+        $producto->save();
+
+        $msg = "Producto: " . $producto->descripcion . " ha sido Modificado.";
+
+        return redirect(route('productos'))->with(['status' => $msg]);
     }
 
     /**
@@ -93,6 +150,14 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        Producto::destroy($producto->id);
+
+        $msg = "Producto: " . $producto->descripcion . " ha sido Eliminado.";
+
+        return redirect(route('productos'))->with(['status' => $msg]);
+    }
+
+    public function getProductos() {
+        return Producto::all()->orderBy('descripcion');
     }
 }

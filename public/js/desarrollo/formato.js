@@ -2,7 +2,7 @@ var app = new Vue({
   el: '#vue-app',
   data: {
 	  peso: $('input[name=peso]').val(),
-	  unidad: $('input[name=unidad]').val(),
+	  unidad: $('select[name=unidad]').val(),
 	  sobre: $('input[name=sobre]').val(),
 	  display: $('input[name=display]').val(),
 	  descripcion: $('input[name=descripcion]').val(),
@@ -25,5 +25,12 @@ var app = new Vue({
 			  this.descripcion = this.display +'x'+ this.descripcion
 		  }
 	  }
+  },
+
+  mounted() {
+      this.updateDescripcion();
+  },
+  updated() {
+      $('.selectpicker').selectpicker('refresh');
   }
 });

@@ -67,7 +67,7 @@ Route::group(['prefix' => 'desarrollo'], function(){
 	// GRUPO de Rutas de Desarrollo/Productos
 	Route::group(['prefix' => 'productos'], function(){
 
-		Route::get('/',					'ProductoController@index')->name('Productos');
+		Route::get('/',					'ProductoController@index')->name('productos');
 		Route::get('crear', 			'ProductoController@create')->name('crearProducto');
 		Route::post('/', 				'ProductoController@store')->name('guardarProducto');
 		Route::get('/{producto}/edit', 	'ProductoController@edit')->name('editarProducto');
@@ -75,4 +75,11 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
 
 	});
+});
+
+Route::group(['prefix' => 'api'], function(){
+
+	Route::get('/marcas',	'MarcaController@getMarcas')->name('listaMarcas');
+	Route::get('/formatos',	'FormatoController@getFormatos')->name('listaFormatos');
+	Route::get('/sabores',	'SaborController@getSabores')->name('listaSabores');
 });

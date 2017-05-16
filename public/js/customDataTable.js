@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	/* Data Table library */
 	$('#data-table').DataTable( {
+		"scrollX": true,
 		language: {
 			sProcessing:     "Procesando...",
 			sLengthMenu:     "Mostrar _MENU_ registros",
@@ -24,7 +25,7 @@ $(document).ready(function() {
 				sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
 				sSortDescending: ": Activar para ordenar la columna de manera descendente"
 			}
-		}
+		},
 	} );
 	$('div.dataTables_filter input').focus();
 } );
