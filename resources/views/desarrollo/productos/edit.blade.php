@@ -6,7 +6,7 @@
 <div id="vue-app" class="container box box-gray">
 
 	<div class="box-header with-border">
-      <h3 class="box-title">Crear Producto</h3>
+      <h3 class="box-title">Modificar Producto</h3>
     </div>
     <!-- /.box-header -->
 	<!-- box-body -->

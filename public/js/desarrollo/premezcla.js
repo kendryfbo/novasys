@@ -24,7 +24,6 @@ var app = new Vue({
                       this.codigo = this.codigo + this.marcas[i].codigo;
                       this.descripcion = this.descripcion + " " + this.marcas[i].descripcion;
                       break;
-
                   }
               }
           }
