@@ -18,7 +18,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" >Descripcion:</label>
 					<div class="col-sm-4">
-						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." readonly>
+						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." required readonly>
 					</div>
 					@if ($errors->has('descripcion'))
 						<div class="has-error col-sm-offset-2">
@@ -34,11 +34,11 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ $formato->peso}}" autofocus>
+					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ $formato->peso}}" required autofocus>
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
-					<select class="form-control" name="unidad" v-model="unidad" @change="updateDescripcion" id="tipo-select">
+					<select class="selectpicker" data-live-search="true" name="unidad" v-model="unidad" @change="updateDescripcion" id="tipo-select" required>
 							<option value="">Unidades...</option>
 						@foreach ($unidades as $unidad)
 							<option value="{{$unidad->unidad}}" >{{$unidad->unidad}}</option>
@@ -47,11 +47,11 @@
 				</div>
 				<div class="form-group">
 					<label>Sobres:</label>
-					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ $formato->sobre }}">
+					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ $formato->sobre }}" required>
 				</div>
 				<div class="form-group">
 					<label>display:</label>
-					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ $formato->display }}">
+					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ $formato->display }}" required>
 				</div>
 			</div>
 			<br>
@@ -76,6 +76,9 @@
 @endsection
 
 @section('scripts')
+	<script>
+		$('select[name=unidad]').val('{!!$formato->unidad_med!!}');
+	</script>
 	<script src="{{asset('js/includes/select2.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/formato.js')}}"></script>

@@ -19,7 +19,7 @@
 	          <label for="inputDescripcion" class="col-sm-2 control-label" >Descripcion:</label>
 
 	          <div class="col-sm-8">
-	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Sabor..." value="{{Input::old('descripcion')}}" autofocus>
+	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Sabor..." value="{{Input::old('descripcion')}}" required autofocus>
 	          </div>
 	        </div>
 
@@ -35,7 +35,7 @@
 	          <label for="inputDescripcion" class="col-sm-2 control-label" >Descripcion en Ingles:</label>
 
 	          <div class="col-sm-8">
-	            <input type="text" class="form-control" id="inputDescripcion" name="descrip_ing" placeholder="Sabor en Ingles..." value="{{Input::old('descrip_ing')}}">
+	            <input type="text" class="form-control" id="inputDescripcion" name="descrip_ing" placeholder="Sabor en Ingles..." value="{{Input::old('descrip_ing')}}" required>
 	          </div>
 	        </div>
 

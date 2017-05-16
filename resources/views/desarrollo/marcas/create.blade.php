@@ -17,7 +17,7 @@
 	        <div class="form-group">
 	          <label for="inputCodigo" class="col-sm-2 control-label">Codigo:</label>
 	          <div class="col-sm-2">
-	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo" value="{{Input::old('codigo')}}" autofocus>
+	            <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Codigo" value="{{Input::old('codigo')}}" required autofocus>
 	          </div>
 	        </div>
 
@@ -33,7 +33,7 @@
 	          <label for="inputDescripcion" class="col-sm-2 control-label" >Descripcion:</label>
 
 	          <div class="col-sm-8">
-	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Nombre de la familia" value="{{Input::old('descripcion')}}">
+	            <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Nombre de la familia" value="{{Input::old('descripcion')}}" required>
 	          </div>
 	        </div>
 
@@ -49,7 +49,7 @@
 
 	          <label for="inputTipo" class="col-sm-2 control-label" >Familia:</label>
 			  <div class="col-sm-8">
-	            <select class="form-control selectpicker" data-live-search="true" name="familia" id="tipo-select">
+	            <select class="form-control selectpicker" data-live-search="true" name="familia" id="tipo-select" required>
 						<option value="">Familias...</option>
 					@foreach ($familias as $familia)
 						<option value="{{$familia->id}}" {{Input::old('familia') == $familia->id ? "selected" : ""}}>{{$familia->descripcion}}</option>

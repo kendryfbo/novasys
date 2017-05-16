@@ -19,7 +19,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" >Descripcion:</label>
 					<div class="col-sm-4">
-						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "" }}" readonly>
+						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "" }}" required readonly>
 					</div>
 					@if ($errors->has('descripcion'))
 						<div class="has-error col-sm-offset-2">
@@ -35,11 +35,11 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" v-focus>
+					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" v-focus required>
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
-					<select class="selectpicker" name="unidad" data-live-search="true" v-model="unidad" @change="updateDescripcion" id="tipo-select">
+					<select class="selectpicker" name="unidad" data-live-search="true" v-model="unidad" @change="updateDescripcion" id="tipo-select" required>
 							<option value="">Unidades...</option>
 						@foreach ($unidades as $unidad)
 							<option value="{{$unidad->unidad}}" {{Input::old('unidad') === $unidad->unidad ? "selected" : ""}}>{{$unidad->unidad}}</option>
@@ -48,11 +48,11 @@
 				</div>
 				<div class="form-group">
 					<label>Sobres:</label>
-					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('sobre')}}">
+					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('sobre')}}" required>
 				</div>
 				<div class="form-group">
 					<label>display:</label>
-					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('display')}}">
+					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('display')}}" required>
 				</div>
 			</div>
 			<br>
