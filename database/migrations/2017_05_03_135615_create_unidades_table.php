@@ -17,6 +17,7 @@ class CreateUnidadesTable extends Migration
             $table->increments('id');
             $table->string('descripcion');
             $table->string('unidad',4);
+            $table->tinyInteger('activo');
             $table->timestamps();
         });
     }
