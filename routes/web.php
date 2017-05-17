@@ -86,6 +86,17 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('delete/{premezcla}', 'PremezclaController@destroy')->name('eliminarPremezcla');
 
 	});
+	// GRUPO de Rutas de Desarrollo/Insumo
+	Route::group(['prefix' => 'insumos'], function(){
+
+		Route::get('/',					'InsumoController@index')->name('insumos');
+		Route::get('crear', 			'InsumoController@create')->name('crearInsumo');
+		Route::post('/', 				'InsumoController@store')->name('guardarInsumo');
+		Route::get('/{insumo}/edit', 	'InsumoController@edit')->name('editarInsumo');
+		Route::post('update/{insumo}', 'InsumoController@update')->name('actualizarInsumo');
+		Route::post('delete/{insumo}', 'InsumoController@destroy')->name('eliminarInsumo');
+
+	});
 });
 
 Route::group(['prefix' => 'api'], function(){

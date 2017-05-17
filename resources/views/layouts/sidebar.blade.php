@@ -12,6 +12,7 @@
     <li><a href="/desarrollo/sabores"><i class="fa fa-link"></i> <span>Sabores</span></a></li>
     <li><a href="/desarrollo/formatos"><i class="fa fa-link"></i> <span>Formatos</span></a></li>
     <li><a href="/desarrollo/premezclas"><i class="fa fa-link"></i> <span>Premezclas</span></a></li>
+    <li><a href="/desarrollo/insumos"><i class="fa fa-link"></i> <span>Insumos</span></a></li>
 
     <li class="treeview">
       <a href=""><i class="fa fa-link"></i> <span>SubMenus</span>
