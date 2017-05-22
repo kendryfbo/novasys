@@ -9,6 +9,19 @@ class Producto extends Model
 
 	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id','peso_bruto','volumen','activo'];
 
+	static function getAllActive() {
+
+		return Producto::all()->where('activo',1);
+	}
+
+	public function hasFormula() {
+
+		if ($this->formula()->first()) {
+			return true;
+		}
+		return false;
+
+	}
 	public function marca() {
 
 		return $this->belongsTo('App\Models\Marca');
@@ -22,5 +35,10 @@ class Producto extends Model
 	public function sabor() {
 
 		return $this->belongsTo('App\Models\Sabor');
+	}
+
+	public function formula() {
+
+		return $this->hasOne('App\Models\Formula');
 	}
 }
