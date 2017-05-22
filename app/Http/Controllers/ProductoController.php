@@ -160,4 +160,12 @@ class ProductoController extends Controller
     public function getProductos() {
         return Producto::all()->orderBy('descripcion');
     }
+
+    public function getFormatoProducto(Request $request) {
+        if ($request->id) {
+            $producto = Producto::find($request->id);
+            return $producto->formato()->find(1);
+        }
+        return ('error');
+    }
 }

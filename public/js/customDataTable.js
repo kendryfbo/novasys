@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	/* Data Table library */
-	$('#data-table').DataTable( {
+	var table = $('#data-table').DataTable( {
 		"scrollX": true,
 		language: {
 			sProcessing:     "Procesando...",
