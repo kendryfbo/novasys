@@ -17,7 +17,7 @@ class CreateFormulasTable extends Migration
             $table->increments('id');
             $table->integer('producto_id')->unique();
             $table->string('generada_por');
-            $table->tiniInteger('generada')->default(0);
+            $table->tinyInteger('generada')->default(0);
             $table->tinyInteger('autorizado')->default(0);
             $table->string('autorizada_por')->nullable();
             $table->date('fecha_aut')->nullable(); //fecha de autorizacion
