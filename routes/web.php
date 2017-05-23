@@ -105,7 +105,7 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::post('/', 				'FormulaController@store')->name('guardarFormula');
 		Route::get('/{formula}/edit', 	'FormulaController@edit')->name('editarFormula');
 		Route::post('update/{formula}', 'FormulaController@update')->name('actualizarFormula');
-		Route::post('generate', 		'FormulaController@generate')->name('generarFormula');
+		Route::post('generate',         'FormulaController@generate')->name('generarFormula');
 		Route::post('delete/{formula}', 'FormulaController@destroy')->name('eliminarFormula');
 		// GRUPO de Rutas de Desarrollo/Formulas
 		Route::group(['prefix' => 'detalle'], function(){

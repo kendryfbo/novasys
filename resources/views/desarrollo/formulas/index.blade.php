@@ -24,8 +24,9 @@
 					<tr>
 						<th class="text-center">#</th>
 						<th>Producto</th>
-						<th>Creada por</th>
-						<th>fecha creacion</th>
+						<th>Generada</th>
+						<th>Generada por</th>
+						<th>fecha Generacion</th>
 						<th>Autorizada</th>
 						<th>Autorizada por</th>
 						<th>Fecha Autorizacion</th>
@@ -38,9 +39,10 @@
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
 						<td>{{$formula->producto->descripcion}}</td>
-						<td>{{$formula->creada_por}}</td>
-						<td>{{$formula->created_at}}</td>
-						<td>{{$formula->autorizado ? "Si" : "No"}}</td>
+						<td class="text-center">{{$formula->generada ? "Si" : "No"}}</td>
+						<td>{{$formula->generada_por}}</td>
+						<td>{{$formula->fecha_gen}}</td>
+						<td class="text-center">{{$formula->autorizado ? "Si" : "No"}}</td>
 						<td>{{$formula->autorizado_por}}</td>
 						<td>{{$formula->fecha_aut}}</td>
 						<td class="text-center">

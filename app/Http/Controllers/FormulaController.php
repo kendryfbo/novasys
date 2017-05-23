@@ -102,12 +102,12 @@ class FormulaController extends Controller
 
     public function generate(Request $request)
     {
-
         $this->validate($request,[
             'formula' => 'required'
         ]);
+
         $formula = Formula::find($request->formula);
-        $formula->autorizado = true;
+        $formula->generada = true;
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Generada.';
@@ -127,19 +127,18 @@ class FormulaController extends Controller
 
         $producto = Producto::find($request->producto);
 
-        if (!$producto->hasFormula()) {
+        if (!$producto->hasFormula())
+        {
             Formula::create([
                 'producto_id' => $producto->id,
-                'creada_por' => $usuario,
+                'generada_por' => $usuario,
                 'cant_batch' => 1
             ]);
-            return 'Formula Creada';
-        }
+        };
 
         $datos = [
             'formato' => $producto->formato,
-            'formula_id' => $producto->formula->id,
-            'formulaDetalle' => $producto->formula->detalle
+            'formula_id' => $producto->formula->id
         ];
 
         return $datos;

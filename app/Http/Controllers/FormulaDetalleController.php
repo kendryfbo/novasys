@@ -37,7 +37,7 @@ class FormulaDetalleController extends Controller
     {
         $this->validate($request,[
             'formula' => 'required',
-            'codigo' => 'required',
+            'id' => 'required',
             'descripcion' => 'required',
             'nivel' => 'required',
             'cantxuni' => 'required',
@@ -48,8 +48,8 @@ class FormulaDetalleController extends Controller
 
         FormulaDetalle::Create([
             'formula_id' => $request->formula ,
-            'insumo_cod' => $request->codigo ,
-            'insumo_descrip' => $request->descripcion ,
+            'insumo_id' => $request->id ,
+            'descripcion' => $request->descripcion ,
             'nivel_id' => $request->nivel ,
             'cantxuni' => $request->cantxuni ,
             'cantxcaja' => $request->cantxcaja ,
@@ -102,13 +102,16 @@ class FormulaDetalleController extends Controller
      */
     public function destroy(FormulaDetalle $formulaDetalle)
     {
-        //
+        dd($formulaDetalle);
     }
 
     public function getFormulaDetalle(Request $request) {
 
-        if($request->formula){
-            return FormulaDetalle::all()->where('formula_id',$request->formula);
+        $formula = $request->formula;
+
+        if($formula){
+            return FormulaDetalle::with('nivel:id,descripcion')->where('formula_id',$formula)->get();
+            // $formulaDetalle = FormulaDetalle::all()->where('formula_id',$formula);
         }
     }
 }

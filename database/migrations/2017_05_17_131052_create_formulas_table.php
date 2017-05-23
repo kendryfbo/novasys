@@ -16,8 +16,9 @@ class CreateFormulasTable extends Migration
         Schema::create('formulas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('producto_id')->unique();
-            $table->string('generada_por');
             $table->tinyInteger('generada')->default(0);
+            $table->string('generada_por');
+            $table->date('fecha_gen')->nullable(); // fecha de generacion
             $table->tinyInteger('autorizado')->default(0);
             $table->string('autorizada_por')->nullable();
             $table->date('fecha_aut')->nullable(); //fecha de autorizacion

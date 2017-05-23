@@ -76,7 +76,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-							<button  class="btn btn-sm btn-primary" type="button" name="button" v-on:click="storeInsumo">Agregar</button>
+							<button  class="btn btn-sm btn-primary" type="button" name="button" v-on:click="storeItem">Agregar</button>
 							<i v-if="loadingItem" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
 
 					</div>
@@ -103,7 +103,7 @@
 					<thead>
 						<tr>
 							<th class="text-center">#</th>
-							<th>codigo</th>
+							<th>id</th>
 							<th>decripcion</th>
 							<th>Cant.Envase</th>
 							<th>Cant.Caja</th>
@@ -115,15 +115,15 @@
 					<tbody>
 						<td colspan="8" class="text-center" v-if="items <= 0" >Tabla sin Datos...</td>
 						<tr v-for="(item,key) in items">
-							<th class="text-center">@{{ key + 1 }}</th>
-							<td>@{{ item.insumo_cod }}</td>
-							<td>@{{ item.insumo_descrip }}</td>
+							<th class="text-center" v-text="key+1"></th>
+							<td>@{{ item.insumo_id }}</td>
+							<td>@{{ item.descripcion }}</td>
 							<td>@{{ item.cantxuni }}</td>
 							<td>@{{ item.cantxcaja }}</td>
 							<td>@{{ item.cantxbatch }}</td>
-							<td>@{{ item.nivel }}</td>
+							<td>@{{ item.nivel.descripcion }}</td>
 							<td class="text-center">
-								<button class="btn btn-sm" type="button" name="button">
+								<button class="btn btn-sm" type="button" name="button" @click="deleteItem(item.id)">
 									<i class="fa fa-trash-o" aria-hidden="true"></i>
 								</button>
 							</td>

@@ -13,8 +13,8 @@ class Nivel extends Model
         return Nivel::all()->where('activo',1);
     }
 
-	public function formula() {
+	public function formulaDetalle() {
 
-		return $this->hasMany('App\Models\formula');
+		return $this->hasMany('App\Models\FormulaDetalle');
 	}
 }
