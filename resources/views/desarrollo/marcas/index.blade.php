@@ -5,7 +5,9 @@
 	<div class="box box-solid box-default">
 
 		<div class="box-header text-center">
+
 			<h4>Marcas</h4>
+
 		</div>
 
 		<div class="box-body">
@@ -18,6 +20,7 @@
 			@endif
 			<a class="pull-right btn btn-primary" href="{{route('crearMarca')}}">Crear</a>
 		</div>
+
 		<div class="box-body">
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -60,10 +63,11 @@
 						</td>
 					</tr>
 				@endforeach
-
+				<tbody>
 			</table>
 		</div>
 	</div>
+
 @endsection
 
 @section('scripts')

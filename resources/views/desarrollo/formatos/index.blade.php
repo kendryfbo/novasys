@@ -20,7 +20,7 @@
 			@endif
 			<a class="pull-right btn btn-primary" href="{{route('crearFormato')}}">Crear</a>
 		</div>
-		<br>
+
 		<div class="box-body">
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed" cellspacing="0" width="100%">
 				<thead>
@@ -62,8 +62,8 @@
 							</form>
 						</td>
 					</tr>
-				</tbody>
 				@endforeach
+				</tbody>
 			</table>
 		</div>
 	</div>

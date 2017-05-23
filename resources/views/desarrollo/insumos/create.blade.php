@@ -102,5 +102,5 @@
 
 @section('scripts')
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/desarrollo/premezcla.js')}}"></script>
+	{{-- <script src="{{asset('js/desarrollo/insumo.js')}}"></script> --}}
 @endsection
