@@ -13,8 +13,8 @@ var app = new Vue({
 		familia: '',
 		insumos: [],
 		insumo: '',
-		codigoInsumo: '',
-		descripInsumo: '',
+		insumoId: '',
+		insumoDescrip: '',
 		cantxuni: '',
 		cantxcaja: '',
 		cantxbatch: '',
@@ -26,15 +26,19 @@ var app = new Vue({
 	methods: {
 
 		getFormula: function() {
-			$("body").css("cursor", "progress");
-			axios.post('/api/formula', {
-				producto: this.producto
-			})
-			.then(response => this.loadFormula(response.data))
-			.catch(function (error) {
-				console.log(error); // Mejorar Recepcion de errores
-				alert(error); // Mejorar Recepcion de errores
-			});
+
+			if (this.producto) {
+				$("body").css("cursor", "progress");
+				axios.post('/api/formula', {
+					producto: this.producto
+				})
+				.then(response => this.loadFormula(response.data))
+				.catch(function (error) {
+					console.log(error); // Mejorar Recepcion de errores
+					alert(error); // Mejorar Recepcion de errores
+					$("body").css("cursor", "default");
+				});
+			}
 		},
 
 		loadFormula: function(data) {
@@ -45,7 +49,6 @@ var app = new Vue({
 			this.peso = data.formato.peso;
 			this.sobre = data.formato.sobre;
 			this.display = data.formato.display;
-			this.items = data.formulaDetalle;
 
 			this.getDetalleFormula();
 			this.clearInputs();
@@ -60,9 +63,9 @@ var app = new Vue({
 
 		getDetalleFormula: function() {
 
-			axios.post('/api/formula/detalle', {
-				formula: this.formulaId
-			})
+			var url = '/api/formulaDetalle/formula/'+ this.formulaId;
+
+			axios.get(url)
 			.then(response => this.loadDetalleFormula(response.data))
 			.catch(function (error) {
 				console.log(error); // Mejorar Recepcion de errores
@@ -92,16 +95,18 @@ var app = new Vue({
 			this.loadingInsumo =false;
 		},
 
-		storeInsumo: function() {
+		storeItem: function() {
+
+			var url = '/api/formulaDetalle/';
 
 			if (!this.datosValidos()) {
 				return alert("Datos no Validos..."); // mejorar respuesta a validacion de inputs
 			}
 			this.loadingItem = true;
-			axios.post('/desarrollo/formulas/detalle', {
+			axios.post(url, {
 				formula: this.formulaId,
-				codigo: this.codigoInsumo,
-				descripcion: this.descripInsumo,
+				id: this.insumoId,
+				descripcion: this.insumoDescrip,
 				nivel: this.nivel,
 				cantxuni: this.cantxuni,
 				cantxcaja: this.cantxcaja,
@@ -110,11 +115,23 @@ var app = new Vue({
 			})
 			.then(response => this.getDetalleFormula())
 			.catch(function (error) {
+				this.loadingItem = false;
+				console.log(error); // Mejorar Recepcion de errores
+				alert(error); // Mejorar Recepcion de errores
+
+			});
+		},
+
+		deleteItem: function(id) {
+
+			var url = '/api/formulaDetalle/' + id;
+			axios.delete(url)
+			.then(response => this.getDetalleFormula())
+			.catch(function (error) {
 				console.log(error); // Mejorar Recepcion de errores
 				alert(error); // Mejorar Recepcion de errores
 			});
 		},
-
 		datosValidos: function() {
 
 			var validos = true;
@@ -134,8 +151,8 @@ var app = new Vue({
 
 				if (this.insumo == this.insumos[i].id) {
 
-					this.codigoInsumo = this.insumos[i].codigo;
-					this.descripInsumo = this.insumos[i].descripcion;
+					this.insumoId = this.insumos[i].id;
+					this.insumoDescrip = this.insumos[i].descripcion;
 				}
 			}
 		},
