@@ -35,7 +35,7 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" v-focus required>
+					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" step="any" required>
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
@@ -77,7 +77,6 @@
 @endsection
 
 @section('scripts')
-	<script src="{{asset('js/includes/select2.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/formato.js')}}"></script>
 @endsection

@@ -80,13 +80,13 @@
 				<div class="form-group">
 					<label style=" padding-right: 25px">Peso Bruto:</label>
 					<div class="input-group" style=" padding-right: 25px">
-						<input class="form-control" type="number" min="0" v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
+						<input class="form-control" type="number" min="0" step="any" v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
 						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="">Volumen:</label>
-					<input class="form-control" type="number" min="0" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ Input::old('volumen') ? Input::old('volumen') : "" }}" reqired>
+					<input class="form-control" type="number" min="0" step="any" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ Input::old('volumen') ? Input::old('volumen') : "" }}" reqired>
 				</div>
 			</div>
 			<br>
@@ -111,7 +111,6 @@
 @endsection
 
 @section('scripts')
-	<script src="{{asset('js/includes/select2.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/producto.js')}}"></script>
 @endsection

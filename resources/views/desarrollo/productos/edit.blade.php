@@ -80,13 +80,13 @@
 				<div class="form-group">
 					<label style=" padding-right: 25px">Peso Bruto:</label>
 					<div class="input-group" style=" padding-right: 25px">
-						<input class="form-control" type="number" min="0" v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ $producto->peso_bruto }}" required>
+						<input class="form-control" type="number" min="0" step="any" v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ $producto->peso_bruto }}" required>
 						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="">Volumen:</label>
-					<input class="form-control" type="number" min="0" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ $producto->volumen }}" required>
+					<input class="form-control" type="number" min="0" step="any" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ $producto->volumen }}" required>
 				</div>
 			</div>
 			<br>

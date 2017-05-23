@@ -34,7 +34,7 @@
 
 				<div class="form-group">
 					<label>Peso:</label>
-					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ $formato->peso}}" required autofocus>
+					<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ $formato->peso}}" step="any" required autofocus>
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
