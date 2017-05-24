@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Familia;
 use App\Models\Nivel;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class FormulaController extends Controller
 {
@@ -52,7 +53,7 @@ class FormulaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+
     }
 
     /**
@@ -108,12 +109,46 @@ class FormulaController extends Controller
 
         $formula = Formula::find($request->formula);
         $formula->generada = true;
+        $formula->generada_por = 'USER-DEMO';
+        $formula->fecha_gen = Carbon::now();
+
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Generada.';
 
         return redirect(route('formulas'))->with(['status' => $msg]);
 
+    }
+
+    public function autorization()
+    {
+        $formulas = Formula::all()->where('generada',1);
+
+        return view('desarrollo.formulas.autorization')->with(['formulas' => $formulas]);
+    }
+
+    public function autorizar(Formula $formula)
+    {
+        $formula->autorizado = true;
+        $formula->autorizada_por = 'USER_DEMO';
+        $formula->fecha_aut = Carbon::today();
+        $formula->save();
+
+        $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Autorizada.';
+
+        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
+    }
+
+    public function desautorizar(Formula $formula) {
+
+        $formula->autorizado = false;
+        $formula->autorizada_por = NULL;
+        $formula->fecha_aut = NULL;
+        $formula->save();
+
+        $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Desautorizada.';
+
+        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
     }
 
     public function getFormula(Request $request)

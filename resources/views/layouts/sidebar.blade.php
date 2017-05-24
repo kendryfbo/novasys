@@ -14,6 +14,7 @@
     <li><a href="/desarrollo/premezclas"><i class="fa fa-link"></i> <span>Premezclas</span></a></li>
     <li><a href="/desarrollo/insumos"><i class="fa fa-link"></i> <span>Insumos</span></a></li>
     <li><a href="/desarrollo/formulas"><i class="fa fa-link"></i> <span>Formulas</span></a></li>
+    <li><a href="/desarrollo/formulas/autorization"><i class="fa fa-link"></i> <span>Autorizar Formulas</span></a></li>
 
     <li class="treeview">
       <a href=""><i class="fa fa-link"></i> <span>SubMenus</span>

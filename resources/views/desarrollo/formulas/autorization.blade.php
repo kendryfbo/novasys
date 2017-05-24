@@ -5,7 +5,7 @@
 	<div class="box box-solid box-default">
 
 		<div class="box-header text-center">
-			<h4>Formulas</h1>
+			<h4>Autorizacion de Formulas</h1>
 		</div>
 
 		<div class="box-body">
@@ -16,7 +16,6 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearFormula')}}">Crear</a>
 		</div>
 		<div class="box-body">
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
@@ -30,8 +29,8 @@
 						<th>Autorizada</th>
 						<th>Autorizada por</th>
 						<th>Fecha Autorización</th>
-						<th class="text-center">Editar</th>
-						<th class="text-center">Eliminar</th>
+						<th class="text-center">Autorizar</th>
+						<th class="text-center">Desautorizar</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,20 +42,21 @@
 						<td class="text-center">{{$formula->generada_por}}</td>
 						<td class="text-center">{{$formula->fecha_gen}}</td>
 						<td class="text-center">{{$formula->autorizado ? "Si" : "No"}}</td>
-						<td class="text-center">{{$formula->autorizado_por}}</td>
+						<td class="text-center">{{$formula->autorizada_por}}</td>
 						<td class="text-center">{{$formula->fecha_aut}}</td>
 						<td class="text-center">
-							<form action="{{route('editarFormula',['formula' => $formula->id])}}" method="get">
-								<button class="btn btn-sm" type="submit" name="button">
-									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+							<form action="{{route('autorizarFormula',['formula' => $formula->id])}}" method="post">
+								{{ csrf_field() }}
+								<button class="btn btn-sm btn-primary" type="submit" name="button">
+									<i class="fa fa-check-circle-o" aria-hidden="true"></i>
 								</button>
 							</form>
 						</td>
 						<td class="text-center">
-							<form action="{{route('eliminarFormula',['formula' => $formula->id])}}" method="post">
-								{{csrf_field()}}
-								<button class="btn btn-sm" type="submit" name="button">
-									<i class="fa fa-trash-o" aria-hidden="true"></i>
+							<form action="{{route('desautorizarFormula',['formula' => $formula->id])}}" method="post">
+								{{ csrf_field() }}
+								<button class="btn btn-sm btn-danger" type="submit" name="button">
+									<i class="fa fa-ban" aria-hidden="true"></i>
 								</button>
 							</form>
 						</td>

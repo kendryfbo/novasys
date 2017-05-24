@@ -106,6 +106,9 @@ Route::group(['prefix' => 'desarrollo'], function(){
 		Route::get('/{formula}/edit', 	'FormulaController@edit')->name('editarFormula');
 		Route::post('update/{formula}', 'FormulaController@update')->name('actualizarFormula');
 		Route::post('generate',         'FormulaController@generate')->name('generarFormula');
+		Route::get('autorization',         'FormulaController@autorization')->name('autorizationFormula');
+		Route::post('autorizar/{formula}',	 'FormulaController@autorizar')->name('autorizarFormula');
+		Route::post('desautorizar/{formula}','FormulaController@desautorizar')->name('desautorizarFormula');
 		Route::post('delete/{formula}', 'FormulaController@destroy')->name('eliminarFormula');
 		// GRUPO de Rutas de Desarrollo/Formulas
 		Route::group(['prefix' => 'detalle'], function(){
@@ -128,6 +131,5 @@ Route::group(['prefix' => 'api'], function(){
 	Route::get('/sabores',	'SaborController@getSabores')->name('listaSabores');
 	Route::post('/insumos', 'InsumoController@getInsumos')->name('listaInsumos');
 	Route::post('/formula', 'FormulaController@getFormula')->name('getFormula');
-	Route::post('/formula/detalle', 'FormulaDetalleController@getFormulaDetalle')->name('getFormulaDetalle');
 	Route::post('/producto/formato', 'ProductoController@getFormatoProducto')->name('formatoProducto');
 });
