@@ -76,7 +76,7 @@
 					<label class="control-label col-sm-2">Unidad:</label>
 					<div class="col-sm-6">
 						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" id="tipo-select" required>
-								<option value="">Seleccionar Marca...</option>
+								<option value="">Seleccionar Unidad...</option>
 								@foreach ($unidades as $unidad)
 									<option value="{{$unidad->unidad}}">{{$unidad->descripcion}}</option>
 								@endforeach
