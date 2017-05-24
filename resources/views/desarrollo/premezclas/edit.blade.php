@@ -99,7 +99,7 @@
      </div>
 	 <!-- /.box-body -->
 	 <div class="box-footer col-sm-8">
-	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
+	 	<button type="submit" form="create" class="btn pull-right">Modificar</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

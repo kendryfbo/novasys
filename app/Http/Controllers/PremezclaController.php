@@ -119,7 +119,27 @@ class PremezclaController extends Controller
      */
     public function update(Request $request, Premezcla $premezcla)
     {
-        //
+        $this->validate($request, [
+            'codigo' => 'required',
+            'descripcion' => 'required',
+            'familia' => 'required',
+            'marca' => 'required',
+            'sabor' => 'required',
+            'unidad' => 'required'
+        ]);
+        $activo = !empty($request->activo);
+        $premezcla->codigo = $request->codigo;
+        $premezcla->descripcion = $request->descripcion;
+        $premezcla->familia_id = $request->familia;
+        $premezcla->marca_id = $request->marca;
+        $premezcla->sabor_id = $request->sabor;
+        $premezcla->unidad_med = $request->unidad;
+        $premezcla->activo = $activo;
+        $premezcla->save();
+
+        $msg = "Premezcla: " . $premezcla->descripcion . " ha sido Actualizada.";
+
+        return redirect(route('premezclas'))->with(['status' => $msg]);
     }
 
     /**
@@ -137,5 +157,5 @@ class PremezclaController extends Controller
         return redirect(route('premezclas'))->with(['status' => $msg]);
 
     }
-    
+
 }
