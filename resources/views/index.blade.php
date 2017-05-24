@@ -6,7 +6,7 @@
 
 @section('content')
 
-	<div class="jumbotron col-8 offset-2">
+	<div class="container col-8 offset-2">
 		<div class="text-center">
 			<br>
 			<h1>Novasys <span class="badge badge-default">2.0</span></h1>
@@ -14,7 +14,7 @@
 		<hr>
 		<div class="row">
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="{{ url('/desarrollo') }}" class="card-link">
 					<img src="images/desarrollo.jpg" alt="Desarrollo" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="#" class="card-link">
 					<img src="images/comercial.png" alt="Comercial" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="#" class="card-link">
 					<img src="images/finanzas.png" alt="Finanzas" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
@@ -47,7 +47,7 @@
 		<br>
 		<div class="row">
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="#" class="card-link">
 					<img src="images/operaciones.png" alt="Operaciones" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
@@ -57,7 +57,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="#" class="card-link">
 					<img src="images/calidad.png" alt="Calidad" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="card text-center">
+				<div class="card text-center" style="border-color: #333;">
 				<a href="#" class="card-link">
 					<img src="images/informes.png" alt="Informes" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">

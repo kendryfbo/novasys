@@ -2,10 +2,12 @@
 
 
 @section('content')
-	<div class="container-fluid jumbotron">
-		<section class="container text-center">
-			<h3>Patalla principal, Modulo Gerencia</h3>
+	<div class="box box-solid box-default">
+		<div class="box-header text-center">
+			<h3>Pantalla Principal Modulo de Gerencia</h3>
+		</div>
+		<div class="box-body text-center">
 			<p>Cualquier informacion interesenta acerca del modulo de gerencia, como cantidad de productos o ventas o cualquier otra informacion</p>
-		</section>
+		</div>
 	</div>
 @endsection

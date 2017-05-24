@@ -4,7 +4,8 @@
 	<span class="sr-only">Toggle navigation</span>
   </a>
   <!-- Navbar Right Menu -->
-  <div class="navbar-custom-menu">
+ {{-- Comentado hasta ser implementado --}}
+  {{-- <div class="navbar-custom-menu">
 	<ul class="nav navbar-nav">
 	  <!-- Messages: style can be found in dropdown.less-->
 	  <li class="dropdown messages-menu">
@@ -22,7 +23,6 @@
 				<a href="#">
 				  <div class="pull-left">
 					<!-- User Image -->
-					<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 				  </div>
 				  <!-- Message title and timestamp -->
 				  <h4>
@@ -106,5 +106,5 @@
 		<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
 	  </li>
 	</ul>
-  </div>
+  </div> --}}
 </nav>
