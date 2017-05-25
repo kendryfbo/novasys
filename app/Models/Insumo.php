@@ -13,10 +13,15 @@ class Insumo extends Model
 
 		return Insumo::all()->where('activo',1);
 	}
-	
+
 	public function familia() {
 
 		return $this->belongsTo('App\Models\Familia');
+	}
+
+	public function formulaDetalle() {
+
+		return $this->hasMany('App\Models\FormulaDetalle');
 	}
 
 }

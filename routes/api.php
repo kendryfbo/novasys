@@ -21,4 +21,5 @@ Route::resource('formulaDetalle','Api\FormulaDetalleController', ['only' =>[
     'index','store','show','update','destroy'
 ]]);
 
-Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@formula');
+Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormula');
+Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert');

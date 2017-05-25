@@ -19,4 +19,9 @@ class FormulaDetalle extends Model
 		return $this->belongsTo('App\Models\Nivel');
 	}
 
+	public function insumo() {
+
+		return $this->belongsTo('App\Models\Insumo');
+	}
+
 }

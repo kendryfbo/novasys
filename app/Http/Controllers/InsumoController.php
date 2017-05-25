@@ -141,10 +141,17 @@ class InsumoController extends Controller
 
     public function getInsumos(Request $request) {
 
-        if ($request->familia) {
-            return Insumo::getAllActive()->where('familia_id', $request->familia);
+        $familia = $request->familia;
+
+        if ($familia) {
+
+            $insumos = Insumo::where('familia_id',$familia)->where('activo',1)->get();
+
+        } else {
+
+            $isumos = Insumo::getAllActive();
         }
 
-        return Insumo::getAllActive()->get();
+        return response()->json($insumos);
     }
 }

@@ -50,8 +50,7 @@ var app = new Vue({
 			this.sobre = data.formato.sobre;
 			this.display = data.formato.display;
 
-			this.getDetalleFormula();
-			this.clearInputs();
+			this.refresh();
 		},
 
 		clearInputs: function() {
@@ -74,6 +73,7 @@ var app = new Vue({
 		},
 
 		loadDetalleFormula: function(data) {
+
 			this.loadingItem = false;
 			this.items = data;
 		},
@@ -91,13 +91,14 @@ var app = new Vue({
 		},
 
 		loadInsumos: function(data) {
+
 			this.insumos = data;
 			this.loadingInsumo =false;
 		},
 
 		storeItem: function() {
 
-			var url = '/api/formulaDetalle/';
+			var url = '/api/formulaDetalle/insertar';
 
 			if (!this.datosValidos()) {
 				return alert("Datos no Validos..."); // mejorar respuesta a validacion de inputs
@@ -113,7 +114,7 @@ var app = new Vue({
 				cantxbatch: this.cantxbatch,
 				batch: this.batch
 			})
-			.then(response => this.getDetalleFormula())
+			.then(response => this.refresh())
 			.catch(function (error) {
 				this.loadingItem = false;
 				console.log(error); // Mejorar Recepcion de errores
@@ -122,11 +123,40 @@ var app = new Vue({
 			});
 		},
 
+		refresh: function() {
+
+			this.clearInputs();
+			this.getDetalleFormula();
+		},
+
+		getItem: function(id) {
+
+			$url = '/api/formulaDetalle/' + id;
+
+			axios.get($url)
+			.then(response => this.loadItem(response.data[0]))
+			.catch(function(error){
+				console.log(error); // Mejorar Recepcion de errores
+				alert(error); // Mejorar Recepcion de errores
+			});
+		},
+
+		loadItem: function(data) {
+
+			this.nivel = data.nivel_id;
+			this.familia = data.insumo.familia_id;
+			this.insumo = data.insumo_id;
+			this.cantxuni = data.cantxuni;
+			this.cantxcaja = data.cantxcaja;
+			this.cantxbatch = data.cantxbatch;
+			this.batch = data.batch;
+		},
+
 		deleteItem: function(id) {
 
 			var url = '/api/formulaDetalle/' + id;
 			axios.delete(url)
-			.then(response => this.getDetalleFormula())
+			.then(response => this.refresh())
 			.catch(function (error) {
 				console.log(error); // Mejorar Recepcion de errores
 				alert(error); // Mejorar Recepcion de errores
@@ -145,14 +175,16 @@ var app = new Vue({
 			return validos;
 		},
 
-		updateInsumo: function() {
+		loadInsumo: function() {
 
-			for (var i=0; i<this.insumos.length; i++) {
+			var insumos = this.insumos;
 
-				if (this.insumo == this.insumos[i].id) {
+			for (var i=0; i<insumos.length; i++) {
 
-					this.insumoId = this.insumos[i].id;
-					this.insumoDescrip = this.insumos[i].descripcion;
+				if (this.insumo == insumos[i].id) {
+
+					this.insumoId = insumos[i].id;
+					this.insumoDescrip = insumos[i].descripcion;
 				}
 			}
 		},
@@ -175,6 +207,12 @@ var app = new Vue({
 
 
 		}
+	},
+
+	watch: {
+
+		familia: 'getInsumos',
+		insumo: 'loadInsumo'
 	},
 
 	updated() {
