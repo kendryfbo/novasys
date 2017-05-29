@@ -45,7 +45,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Familia:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" @change="updateDescripcion" id="tipo-select" required>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" @change="updateDescripcion" required>
 								<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
 			            </select>
 					</div>
@@ -53,7 +53,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Marca:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" id="tipo-select" required>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" required>
 								<option value="">Seleccionar Marca...</option>
 								@foreach ($marcas as $marca)
 									<option value="{{$marca->id}}">{{$marca->descripcion}}</option>
@@ -64,7 +64,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Sabor:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" name="sabor" v-model="sabor" @change="updateDescripcion" id="tipo-select" required>
+						<select class="form-control selectpicker" data-live-search="true" name="sabor" v-model="sabor" @change="updateDescripcion" required>
 								<option value="">Seleccionar Sabor...</option>
 							@foreach ($sabores as $sabor)
 								<option value="{{$sabor->id}}">{{$sabor->descripcion}}</option>
@@ -75,7 +75,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Unidad:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" id="tipo-select" required>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" required>
 								<option value="">Seleccionar Unidad...</option>
 								@foreach ($unidades as $unidad)
 									<option value="{{$unidad->unidad}}">{{$unidad->descripcion}}</option>
@@ -107,6 +107,7 @@
 
 @section('scripts')
 	<script>
+		var codFamilia = "{!! $familia->codigo !!}";
 		$('select[name=marca]').val({!!$premezcla->marca->id!!});
 		$('select[name=sabor]').val({!!$premezcla->sabor->id!!});
 		$('select[name=unidad]').val("{!!$premezcla->unidad_med!!}");

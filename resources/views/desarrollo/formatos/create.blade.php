@@ -39,7 +39,7 @@
 				</div>
 				<div class="form-group">
 					<label>Unidad:</label>
-					<select class="selectpicker" name="unidad" data-live-search="true" v-model="unidad" @change="updateDescripcion" id="tipo-select" required>
+					<select class="selectpicker" name="unidad" data-live-search="true" v-model="unidad" @change="updateDescripcion" required>
 							<option value="">Unidades...</option>
 						@foreach ($unidades as $unidad)
 							<option value="{{$unidad->unidad}}" {{Input::old('unidad') === $unidad->unidad ? "selected" : ""}}>{{$unidad->unidad}}</option>

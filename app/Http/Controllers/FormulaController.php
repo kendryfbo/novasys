@@ -110,7 +110,7 @@ class FormulaController extends Controller
         $formula = Formula::find($request->formula);
         $formula->generada = true;
         $formula->generada_por = 'USER-DEMO';
-        $formula->fecha_gen = Carbon::now();
+        $formula->fecha_gen = Carbon::today();
 
         $formula->save();
 
@@ -166,7 +166,6 @@ class FormulaController extends Controller
         {
             Formula::create([
                 'producto_id' => $producto->id,
-                'generada_por' => $usuario,
                 'cant_batch' => 1
             ]);
         };
