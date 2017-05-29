@@ -21,6 +21,7 @@ var app = new Vue({
 		items: [],
 		loadingItem: false,
 		loadingInsumo: false,
+		productoImport: '',
 	},
 
 	methods: {
@@ -76,6 +77,24 @@ var app = new Vue({
 
 			this.loadingItem = false;
 			this.items = data;
+		},
+
+		importarFormula: function() {
+
+			if (!this.producto && !this.productoImport) {
+				return false;
+			}
+
+			$url = '/api/formulaDetalle/importar';
+			axios.post($url, {
+				producto: this.producto,
+				productoImport: this.productoImport
+			})
+			.then(response => this.getFormula())
+			.catch(function (error) {
+				console.log(error); // Mejorar Recepcion de errores
+				alert(error); // Mejorar Recepcion de errores
+			});
 		},
 
 		getInsumos: function() {

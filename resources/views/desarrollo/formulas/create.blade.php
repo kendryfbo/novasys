@@ -4,6 +4,36 @@
 
 <div id="vue-app" class="container box box-gray">
 
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Seleccione Formula de producto a Importar</h4>
+	      </div>
+	      <div class="modal-body">
+			<label class="control-label col-sm-1">Producto:</label>
+  			<div class="col-sm-6">
+  				<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="productoImport" v-model="productoImport" required>
+  						<option value="">Seleccionar Producto...</option>
+  						@foreach ($productos as $producto)
+  							<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
+  						@endforeach
+  				</select>
+  			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			 <button v-bind:class="{ disabled: !productoImport}" type="button" class="btn btn-primary" data-dismiss="modal" @click="importarFormula">Importar</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- /modal -->
 	<div class="box-header with-border">
 	  <h3 class="box-title">Crear Formula</h3>
 	</div>
@@ -20,6 +50,9 @@
 								<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
 							@endforeach
 					</select>
+				</div>
+				<div class="col-sm-2">
+					<button v-if="producto" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Importar Formula</button>
 				</div>
 			</div>
 		</div>

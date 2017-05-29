@@ -235,4 +235,31 @@ class FormulaDetalleController extends Controller
         }
 
     }
+
+    public function import(Request $request) {
+
+        try {
+
+            $this->validate($request, [
+                'producto' => 'required',
+                'productoImport' => 'required'
+            ]);
+            
+            FormulaDetalle::import($request->producto,$request->productoImport);
+
+            return response()->json('Importado',200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("ERROR-DB FormulaDetalleController@Import: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("ERROR-DB interno, contacte al Administrador",500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("ERROR FormulaDetalleController@Import: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("ERROR interno, contacte al Administrador",500);
+        }
+    }
 }

@@ -23,3 +23,4 @@ Route::resource('formulaDetalle','Api\FormulaDetalleController', ['only' =>[
 
 Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormula');
 Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert');
+Route::post('formulaDetalle/importar', 'Api\FormulaDetalleController@import');
