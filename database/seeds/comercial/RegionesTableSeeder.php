@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Comercial\Region;
 
 class RegionesTableSeeder extends Seeder
 {
@@ -27,6 +28,11 @@ class RegionesTableSeeder extends Seeder
             ['descripcion' => 'Aisén del Gral. Carlos Ibañez del Campo'],
             ['descripcion' => 'Magallanes y de la Antártica Chilena'],
             ['descripcion' => 'Metropolitana de Santiago']
-        ]
+        ];
+
+        foreach ($regiones as $region) {
+
+            Region::create($region);
+        }
     }
 }
