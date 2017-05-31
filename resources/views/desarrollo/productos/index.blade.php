@@ -5,7 +5,7 @@
 	<div class="box box-solid box-default">
 
 		<div class="box-header text-center">
-			<h4>Productos</h1>
+			<h4>Productos</h4>
 		</div>
 
 		<div class="box-body">
