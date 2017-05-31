@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClienteNacionalsTable extends Migration
+class CreateClienteNacionalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -29,6 +29,7 @@ class CreateClienteNacionalsTable extends Migration
             $table->integer('region_id')->unsigned();
             $table->integer('provincia_id')->unsigned();
             $table->integer('comuna_id')->unsigned();
+            $table->integer('vendedor_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
         });
