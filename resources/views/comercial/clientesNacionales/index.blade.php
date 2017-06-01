@@ -56,25 +56,25 @@
 							<td>{{$cliente->vendedor->nombre}}</td>
 							<td>{{$cliente->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
-								<button class="btn btn-sm" form="show" type="submit">
-									<i class="fa fa-eye" aria-hidden="true"></i>
-								</button>
-								<button class="btn btn-sm" form="edit" type="submit">
-									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-								</button>
-								<button class="btn btn-sm" form="delete" type="submit">
-									<i class="fa fa-trash-o" aria-hidden="true"></i>
-								</button>
-							</td>
-
-								<form id="show" action="{{ url('comercial/clientesNacionales/' . $cliente->id) }}" method="get">
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id) }}" method="get">
+									<button class="btn btn-sm" type="submit">
+										<i class="fa fa-eye" aria-hidden="true"></i>
+									</button>
 								</form>
-								<form id="edit" action="{{ url('comercial/clientesNacionales/' . $cliente->id . '/edit') }}" method="get">
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id . '/edit') }}" method="get">
+									<button class="btn btn-sm" type="submit">
+										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+									</button>
 								</form>
-								<form id="delete" action="{{ url('comercial/clientesNacionales/'.$cliente->id) }}" method="post">
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/'.$cliente->id) }}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
+									<button class="btn btn-sm" type="submit">
+										<i class="fa fa-trash-o" aria-hidden="true"></i>
+									</button>
 								</form>
+							</td>
+
 						</tr>
 					@endforeach
 				</tbody>

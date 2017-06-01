@@ -5,17 +5,14 @@ namespace App\Http\Controllers\Comercial;
 use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\Region;
+use App\Models\Comercial\Provincia;
+use App\Models\Comercial\Comuna;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ClienteNacionalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $clientes = ClienteNacional::with(['region:id,descripcion', 'vendedor:id,nombre'])->get();
@@ -23,11 +20,6 @@ class ClienteNacionalController extends Controller
         return view('comercial.clientesNacionales.index')->with(['clientes' => $clientes]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $vendedores = Vendedor::getAllActive();
@@ -39,89 +31,119 @@ class ClienteNacionalController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'rut' => 'required',
+            'rut' => 'required|regex:"^([0-9]+-[0-9K])$"',
             'descripcion' => 'required',
             'direccion' => 'required',
-        //    'fono' => 'required',
+            'fono' => 'required',
             'giro' => 'required',
-        //    'fax' => 'required',
+            'fax' => 'required',
             'rut_num' => 'required',
-        //    'contacto' => 'required',
-        //    'cargo' => 'required',
-        //    'email' => 'required',
-            'region_id' => 'required',
-            'provincia_id' => 'required',
-            'comuna_id' => 'required'
+            'contacto' => 'required',
+            'cargo' => 'required',
+            'email' => 'required',
+            'region' => 'required',
+            'provincia' => 'required',
+            'comuna' => 'required',
+            'vendedor' => 'required'
+        ]);
+        $activo = !empty($request->activo);
+
+        ClienteNacional::create([
+            'rut' => $request->rut,
+            'descripcion' => $request->descripcion,
+            'direccion' => $request->direccion,
+            'fono' => $request->fono,
+            'giro' => $request->giro,
+            'fax' => $request->fax,
+            'rut_num' => $request->rut_num,
+            'contacto' => $request->contacto,
+            'cargo' => $request->cargo,
+            'email' => $request->email,
+            'region_id' => $request->region,
+            'provincia_id' => $request->provincia,
+            'comuna_id' => $request->comuna,
+            'vendedor_id' => $request->vendedor,
+            'activo' => $activo
+        ]);
+
+        $msg = 'Cliente: ' . $request->descripcion . ' Ha sido Creado.';
+
+        return redirect(route('clientesNacionales.index'))->with(['status' => $msg]);
+
+    }
+
+    public function show(ClienteNacional $cliente)
+    {
+        return $cliente;
+    }
+
+    public function edit(ClienteNacional $cliente)
+    {
+        $regiones = Region::all();
+        $provincias = Provincia::all()->where('region_id',$cliente->region_id);
+        $comunas = Comuna::all()->where('provincia_id',$cliente->provincia_id);
+        $vendedores = Vendedor::all();
+
+        return view('comercial.clientesNacionales.edit')->with([
+            'cliente' => $cliente,
+            'regiones' => $regiones,
+            'provincias' => $provincias,
+            'comunas' => $comunas,
+            'vendedores' => $vendedores
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ClienteNacional  $clienteNacional
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ClienteNacional $clienteNacional)
-    {
-        return "SHOW";
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ClienteNacional  $clienteNacional
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ClienteNacional $clienteNacional)
-    {
-        return "EDIT";
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ClienteNacional  $clienteNacional
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ClienteNacional $clienteNacional)
+    public function update(Request $request, ClienteNacional $cliente)
     {
         $this->validate($request, [
             'rut' => 'required',
             'descripcion' => 'required',
             'direccion' => 'required',
-        //    'fono' => 'required',
+            'fono' => 'required',
             'giro' => 'required',
-        //    'fax' => 'required',
+            'fax' => 'required',
             'rut_num' => 'required',
-        //    'contacto' => 'required',
-        //    'cargo' => 'required',
-        //    'email' => 'required',
+            'contacto' => 'required',
+            'cargo' => 'required',
+            'email' => 'required',
             'region_id' => 'required',
             'provincia_id' => 'required',
             'comuna_id' => 'required'
         ]);
+        $activo = !empty($request->activo);
 
-        return "UPDATE";
+        $cliente->rut = $request->rut;
+        $cliente->descripcion = $request->descripcion;
+        $cliente->direccion = $request->direccion;
+        $cliente->fono = $request->fono;
+        $cliente->giro = $request->giro;
+        $cliente->fax = $request->fax;
+        $cliente->rut_num = $request->rut_num;
+        $cliente->contacto = $request->contacto;
+        $cliente->cargo = $request->cargo;
+        $cliente->email = $request->email;
+        $cliente->region_id = $request->region;
+        $cliente->provincia_id = $request->provincia;
+        $cliente->comuna_id = $request->comuna;
+        $cliente->activo = $activo;
+
+        $cliente->save();
+
+        $msg = 'Cliente: ' . $cliente->descripcion . ' Ha sido Modificado.';
+
+        return redirect(route('clientesNacionales.index'))->with(['status' => $msg]);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ClienteNacional  $clienteNacional
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ClienteNacional $clienteNacional)
+    public function destroy(ClienteNacional $cliente)
     {
-        return "DELETE";
+        $cliente->delete();
+
+        $msg = 'Cliente: ' . $cliente->descripcion . ' Ha sido Eliminado.';
+
+        return redirect(route('clientesNacionales.index'))->with(['status' => $msg]);
     }
 }

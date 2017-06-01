@@ -11,7 +11,7 @@
         </span>
       </a>
       <ul class="treeview-menu">
-          <li><a href="#"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
+          <li><a href="{{url('comercial/clientesNacionales')}}"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
           <li><a href="{{url('comercial/vendedores')}}"><i class="fa fa-link"></i> <span>Vendedores</span></a></li>
           <li><a href="#"><i class="fa fa-link"></i> <span>Lista de Precios</span></a></li>
           <li><a href="#"><i class="fa fa-link"></i> <span>Aduanas</span></a></li>

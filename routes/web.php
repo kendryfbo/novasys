@@ -139,7 +139,7 @@ Route::group(['prefix' => 'comercial'], function(){
 	// Resource CLientes Nacionales
 	Route::resource('clientesNacionales','Comercial\ClienteNacionalController',[
 		'parameters' => [
-			'clientesNacional' => 'cliente']
+			'clientesNacionales' => 'cliente']
 	]);
 
 

@@ -17,8 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('formulaDetalle','Api\FormulaDetalleController', ['only' =>[
-    'index','store','show','update','destroy'
-]]);
+Route::resource('formulaDetalle','Api\FormulaDetalleController', [
+    'only' =>['index','store','show','update','destroy']
+]);
+
+Route::resource('provincias', 'Api\ProvinciaController', [
+    'only' => ['index']
+]);
+
+Route::resource('comunas', 'Api\ComunaController', [
+    'only' => ['index']
+]);
 
 Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@formula');
