@@ -172,6 +172,8 @@ var provincias = [];
 var provincia = '';
 var comunas = [];
 var comuna = '';
+var cliente = '';
+var sucursales = '';
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>

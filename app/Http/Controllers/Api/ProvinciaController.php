@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Comercial\Provincia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Log;
 class ProvinciaController extends Controller
 {
     /**
@@ -20,7 +20,7 @@ class ProvinciaController extends Controller
         try {
 
             if ($region) {
-                
+
                 $provincias = Provincia::all()->where('region_id',$region);
 
             } else {

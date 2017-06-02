@@ -7,7 +7,7 @@ use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\Region;
 use App\Models\Comercial\Provincia;
 use App\Models\Comercial\Comuna;
-
+use App\Models\Comercial\Sucursal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -86,21 +86,19 @@ class ClienteNacionalController extends Controller
         $provincias = Provincia::all()->where('region_id',$cliente->region_id);
         $comunas = Comuna::all()->where('provincia_id',$cliente->provincia_id);
         $vendedores = Vendedor::all();
-
         return view('comercial.clientesNacionales.edit')->with([
             'cliente' => $cliente,
             'regiones' => $regiones,
             'provincias' => $provincias,
             'comunas' => $comunas,
-            'vendedores' => $vendedores
+            'vendedores' => $vendedores,
+            // 'sucursales' => $sucursales
         ]);
     }
 
     public function update(Request $request, ClienteNacional $cliente)
     {
         $this->validate($request, [
-            'rut' => 'required',
-            'descripcion' => 'required',
             'direccion' => 'required',
             'fono' => 'required',
             'giro' => 'required',
@@ -115,8 +113,6 @@ class ClienteNacionalController extends Controller
         ]);
         $activo = !empty($request->activo);
 
-        $cliente->rut = $request->rut;
-        $cliente->descripcion = $request->descripcion;
         $cliente->direccion = $request->direccion;
         $cliente->fono = $request->fono;
         $cliente->giro = $request->giro;

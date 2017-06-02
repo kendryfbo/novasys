@@ -35,4 +35,9 @@ class ClienteNacional extends Model
 
 		return $this->belongsTo('App\Models\Comercial\Vendedor');
 	}
+
+	public function sucursal() {
+
+		return $this->hasMany('App\Models\Comercial\Sucursal','cliente_id');
+	}
 }
