@@ -15,7 +15,7 @@ Route::get('/', 'MainController@index');
 Route::get('welcome', function (){
 	return view('vue');
 });
-// GRUPO de Rutas de Modulo de desarrollo
+// GRUPO de Rutas de Modulo Desarrollo
 Route::group(['prefix' => 'desarrollo'], function(){
 
 	// Pantalla Principal Modulo Desarrollo
@@ -122,6 +122,29 @@ Route::group(['prefix' => 'desarrollo'], function(){
 
 		});
 	});
+});
+
+// GRUPO de Rutas de Modulo Comercial
+Route::group(['prefix' => 'comercial'], function(){
+
+	// Pantalla Principal Modulo Comercial
+	Route::get('/', 'Comercial\ComercialController@main');
+
+	// Resource Vendedores
+	Route::resource('vendedores','Comercial\VendedorController',[
+		'except' => ['show'],
+		'parameters' => [
+			'vendedores' => 'vendedor'],
+	]);
+	// Resource CLientes Nacionales
+	Route::resource('clientesNacionales','Comercial\ClienteNacionalController',[
+		'parameters' => [
+			'clientesNacionales' => 'cliente']
+	]);
+
+
+
+
 });
 
 Route::group(['prefix' => 'api'], function(){
