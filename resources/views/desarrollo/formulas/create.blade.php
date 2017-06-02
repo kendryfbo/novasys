@@ -4,6 +4,36 @@
 
 <div id="vue-app" class="container box box-gray">
 
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Seleccione Formula de producto a Importar</h4>
+	      </div>
+	      <div class="modal-body">
+			<label class="control-label col-sm-1">Producto:</label>
+  			<div class="col-sm-6">
+  				<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="productoImport" v-model="productoImport" required>
+  						<option value="">Seleccionar Producto...</option>
+  						@foreach ($productos as $producto)
+  							<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
+  						@endforeach
+  				</select>
+  			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			 <button v-bind:class="{ disabled: !productoImport}" type="button" class="btn btn-primary" data-dismiss="modal" @click="importarFormula">Importar</button>
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+	<!-- /modal -->
 	<div class="box-header with-border">
 	  <h3 class="box-title">Crear Formula</h3>
 	</div>
@@ -20,6 +50,9 @@
 								<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
 							@endforeach
 					</select>
+				</div>
+				<div class="col-sm-2">
+					<button v-if="producto" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Importar Formula</button>
 				</div>
 			</div>
 		</div>
@@ -54,7 +87,7 @@
 					</div>
 					<div class="form-group">
 						<label>Familia:</label>
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="getInsumos">
+						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="familia" v-model.number="familia">
 								<option value="">Seleccionar Familia...</option>
 								@foreach ($familias as $familia)
 									<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
@@ -63,7 +96,7 @@
 					</div>
 					<div class="form-group">
 						<label>Insumo:</label>
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="insumo" v-model="insumo" @change="updateInsumo">
+						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="insumo" v-model="insumo">
 							<option value="">Seleccionar Insumo...<i v-if="loadingInsumo" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i></option>
 							<option v-for="insumo in insumos" :value="insumo.id">@{{ insumo.descripcion }}</option>
 						</select>
@@ -71,7 +104,7 @@
 					<div class="form-group">
 						<label>Cant x Unidad:</label>
 						<div class="input-group" style=" padding-right: 25px">
-							<input class="form-control" type="number" min="0" step="any" class="form-control" name="cantxuni" v-model.number="cantxuni" @keyup="calcular" placeholder="cantidad x Unidad...">
+							<input class="form-control" type="number" min="0" step="any" class="form-control" name="cantxuni" v-model="cantxuni" @keyup="calcular" placeholder="cantidad x Unidad...">
 							<span class="input-group-addon">Un / Kg</span>
 						</div>
 					</div>
@@ -87,12 +120,14 @@
 						<label>Cant x Caja:</label>
 						<div class="input-group" style=" padding-right: 25px">
 							<input class="form-control" type="number" min="0" class="form-control" name="cantxcaja" v-model="cantxcaja" placeholder="0" readonly>
+							<span class="input-group-addon">Un / Kg</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Cant x Batch:</label>
 						<div class="input-group" style=" padding-right: 25px">
 							<input class="form-control" type="number" min="0" class="form-control" name="cantxbatch" v-model="cantxbatch" placeholder="0" readonly>
+							<span class="input-group-addon">Un / Kg</span>
 						</div>
 					</div>
 				</div>
@@ -114,7 +149,7 @@
 					</thead>
 					<tbody>
 						<td colspan="8" class="text-center" v-if="items <= 0" >Tabla sin Datos...</td>
-						<tr v-for="(item,key) in items">
+						<tr v-for="(item,key) in items" @click="getItem(item.id)">
 							<th class="text-center" v-text="key+1"></th>
 							<td>@{{ item.insumo_id }}</td>
 							<td>@{{ item.descripcion }}</td>
