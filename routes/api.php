@@ -40,6 +40,13 @@ Route::resource('sucursales', 'Api\SucursalController', [
     'parameters' => [
         'sucursales' => 'sucursal']
 ]);
-
+// Rutas Api de Lista de Precios Detalle
+Route::post('listaPreciosDetalle/insertar', 'Api\ListaPrecioDetalleController@insert');
+Route::get('listaPreciosDetalle/{lista}'  , 'Api\ListaPrecioDetalleController@index');
+Route::resource('listaPreciosDetalle', 'Api\ListaPrecioDetalleController', [
+    'only' => ['index','store','update','destroy','insert'],
+    'parameters' => [
+        'listaPreciosDetalle' => 'detalle']
+]);
 
 Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@formula');

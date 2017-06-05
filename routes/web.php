@@ -136,10 +136,15 @@ Route::group(['prefix' => 'comercial'], function(){
 		'parameters' => [
 			'vendedores' => 'vendedor'],
 	]);
-	// Resource CLientes Nacionales
+	// Resource Clientes Nacionales
 	Route::resource('clientesNacionales','Comercial\ClienteNacionalController',[
 		'parameters' => [
 			'clientesNacionales' => 'cliente']
+	]);
+	// Resource Lista de Precios
+	Route::resource('listaPrecios','Comercial\ListaPrecioController',[
+		'parameters' => [
+			'listaPrecios' => 'listaPrecio']
 	]);
 
 
