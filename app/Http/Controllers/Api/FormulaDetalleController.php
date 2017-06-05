@@ -90,7 +90,25 @@ class FormulaDetalleController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+
+            $detalle = FormulaDetalle::with('insumo:id,familia_id')->where('id',$id)->get();
+
+            return response()->json($detalle,200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("ERROR-DB FormulaDetalleController@show: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("ERROR FormulaDetalleController@show: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("Error Exception",500);
+        }
+
     }
     /**
      * Update the specified resource in storage.
@@ -99,8 +117,46 @@ class FormulaDetalleController extends Controller
      * @param  \App\Models\FormulaDetalle  $formulaDetalle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, FormulaDetalle $detalle)
     {
+        try {
+
+            $this->validate($request, [
+                'formula' => 'required',
+                'id' => 'required',
+                'descripcion' => 'required',
+                'nivel' => 'required',
+                'cantxuni' => 'required',
+                'cantxcaja' => 'required',
+                'cantxbatch' => 'required',
+                'batch' => 'required'
+            ]);
+
+            $detalle->formula_id = $request->formula;
+            $detalle->insumo_id = $request->id;
+            $detalle->descripcion = $request->descripcion;
+            $detalle->nivel_id = $request->nivel;
+            $detalle->cantxuni = $request->cantxuni;
+            $detalle->cantxcaja = $request->cantxcaja;
+            $detalle->cantxbatch = $request->cantxbatch;
+            $detalle->batch = $request->batch;
+
+            $detalle->save();
+
+            return response()->json("Actualizado",200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("ERROR-DB FormulaDetalleController@update: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("ERROR FormulaDetalleController@update: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("Error Exception",500);
+        }
     }
 
     /**
@@ -131,7 +187,33 @@ class FormulaDetalleController extends Controller
         }
     }
 
-    public function formula($id = NULL) {
+    public function insert(Request $request)
+    {
+        $this->validate($request, [
+            'formula' => 'required',
+            'id' => 'required',
+            'descripcion' => 'required',
+            'nivel' => 'required',
+            'cantxuni' => 'required',
+            'cantxcaja' => 'required',
+            'cantxbatch' => 'required',
+            'batch' => 'required'
+        ]);
+
+        $detalle = Formuladetalle::where('formula_id',$request->formula)->where('insumo_id',$request->id)->first();
+
+        if ($detalle)
+        {
+            self::update($request,$detalle);
+
+        } else {
+
+            self::store($request);
+        }
+
+    }
+
+    public function getFormula($id = NULL) {
 
         try {
 
@@ -152,5 +234,32 @@ class FormulaDetalleController extends Controller
             return response("ERROR interno, contacte al Administrador",500);
         }
 
+    }
+
+    public function import(Request $request) {
+
+        try {
+
+            $this->validate($request, [
+                'producto' => 'required',
+                'productoImport' => 'required'
+            ]);
+            
+            FormulaDetalle::import($request->producto,$request->productoImport);
+
+            return response()->json('Importado',200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("ERROR-DB FormulaDetalleController@Import: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("ERROR-DB interno, contacte al Administrador",500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("ERROR FormulaDetalleController@Import: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response("ERROR interno, contacte al Administrador",500);
+        }
     }
 }

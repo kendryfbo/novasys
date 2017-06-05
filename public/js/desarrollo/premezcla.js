@@ -3,7 +3,7 @@ var app = new Vue({
   data: {
 	  codigo: $('input[name=codigo]').val(),
 	  descripcion: $('input[name=descripcion]').val(),
-	  familia: $('input[name=codigo]').val(),
+	  familia: codFamilia,
 	  marca: $('select[name=marca]').val(),
 	  sabor: $('select[name=sabor]').val(),
       unidad: $('select[name=unidad]').val(),

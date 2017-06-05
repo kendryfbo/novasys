@@ -45,10 +45,10 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Familia:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="updateDescripcion" id="tipo-select" required>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="updateDescripcion" required>
 							<option value="">Seleccionar Familia...</option>
 							@foreach ($familias as $familia)
-								<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
+								<option value="{{$familia->id}}" {{ $insumo->familia_id == $familia->id ? "selected" : "" }}>{{$familia->descripcion}}</option>
 							@endforeach
 			            </select>
 					</div>
@@ -56,10 +56,10 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Unidad:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" id="tipo-select" required>
-								<option value="">Seleccionar Marca...</option>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" required>
+								<option value="">Seleccionar Unidad...</option>
 								@foreach ($unidades as $unidad)
-									<option value="{{$unidad->unidad}}">{{$unidad->descripcion}}</option>
+									<option value="{{$unidad->unidad}}" {{ $insumo->unidad_med == $unidad->unidad ? "selected" : "" }}>{{$unidad->descripcion}}</option>
 								@endforeach
 			            </select>
 					</div>
