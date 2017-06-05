@@ -107,9 +107,9 @@ class ClienteNacionalController extends Controller
             'contacto' => 'required',
             'cargo' => 'required',
             'email' => 'required',
-            'region_id' => 'required',
-            'provincia_id' => 'required',
-            'comuna_id' => 'required'
+            'region' => 'required',
+            'provincia' => 'required',
+            'comuna' => 'required'
         ]);
         $activo = !empty($request->activo);
 
