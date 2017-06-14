@@ -17,7 +17,8 @@ class ListaPrecioDetalleController extends Controller
     {
         if ($lista) {
 
-            $lista = ListaPrecioDetalle::where('lista_id',$lista)->get();
+            $lista = ListaPrecioDetalle::with('producto.marca')->where('lista_id',$lista)->get();
+            
             return response()->json($lista,200);
         }
 

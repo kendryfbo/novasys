@@ -21,9 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call(NivelesTableSeeder::class);
 
         // Semillas de Modulo Comercial
+        $this->call(CentroVentaTableSeeder::class);
         $this->call(RegionesTableSeeder::class);
         $this->call(ProvinciasTableSeeder::class);
         $this->call(ComunasTableSeeder::class);
+        $this->call(FormaPagoNacTableSeeder::class);
         $this->call(CanalTableSeeder::class);
 
     }
