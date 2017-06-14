@@ -41,4 +41,10 @@ class Producto extends Model
 
 		return $this->hasOne('App\Models\Formula');
 	}
+
+	public function listaPrecioDetalle() {
+
+		return $this->hasMany('App\Models\Comercial\ListaPrecioDetalle');
+	}
+
 }
