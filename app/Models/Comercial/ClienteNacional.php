@@ -19,12 +19,18 @@ class ClienteNacional extends Model
 		'contacto',
 		'cargo',
 		'email',
+		'lp_id',
+		'canal_id',
 		'region_id',
 		'provincia_id',
 		'comuna_id',
 		'vendedor_id',
 		'activo'];
 
+	static function getAllActive() {
+
+		return self::all()->where('activo',1);
+	}
 
 	public function region() {
 

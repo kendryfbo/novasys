@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Comercial;
 
 use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\ListaPrecio;
+use App\Models\Comercial\Canal;
 use App\Models\Comercial\Region;
 use App\Models\Comercial\Provincia;
 use App\Models\Comercial\Comuna;
@@ -24,10 +26,14 @@ class ClienteNacionalController extends Controller
     {
         $vendedores = Vendedor::getAllActive();
         $regiones = Region::all();
+        $listasPrecios = ListaPrecio::getAllActive();
+        $canales = Canal::getAllActive();
 
         return view('comercial.clientesNacionales.create')->with([
             'vendedores' => $vendedores,
-            'regiones' => $regiones
+            'regiones' => $regiones,
+            'listasPrecios' => $listasPrecios,
+            'canales' =>$canales
         ]);
     }
 
@@ -44,6 +50,8 @@ class ClienteNacionalController extends Controller
             'contacto' => 'required',
             'cargo' => 'required',
             'email' => 'required',
+            'lista' => 'required',
+            'canal' => 'required',
             'region' => 'required',
             'provincia' => 'required',
             'comuna' => 'required',
@@ -62,6 +70,8 @@ class ClienteNacionalController extends Controller
             'contacto' => $request->contacto,
             'cargo' => $request->cargo,
             'email' => $request->email,
+            'lp_id' => $request->lista,
+            'canal_id' => $request->canal,
             'region_id' => $request->region,
             'provincia_id' => $request->provincia,
             'comuna_id' => $request->comuna,
@@ -85,13 +95,18 @@ class ClienteNacionalController extends Controller
         $regiones = Region::all();
         $provincias = Provincia::all()->where('region_id',$cliente->region_id);
         $comunas = Comuna::all()->where('provincia_id',$cliente->provincia_id);
-        $vendedores = Vendedor::all();
+        $vendedores = Vendedor::getAllActive();
+        $listasPrecios = ListaPrecio::getAllActive();
+        $canales = Canal::getAllActive();
+
         return view('comercial.clientesNacionales.edit')->with([
             'cliente' => $cliente,
             'regiones' => $regiones,
             'provincias' => $provincias,
             'comunas' => $comunas,
             'vendedores' => $vendedores,
+            'listasPrecios' => $listasPrecios,
+            'canales' => $canales,
             // 'sucursales' => $sucursales
         ]);
     }
@@ -107,6 +122,8 @@ class ClienteNacionalController extends Controller
             'contacto' => 'required',
             'cargo' => 'required',
             'email' => 'required',
+            'lista' => 'required',
+            'canal' => 'required',
             'region' => 'required',
             'provincia' => 'required',
             'comuna' => 'required'
@@ -121,6 +138,8 @@ class ClienteNacionalController extends Controller
         $cliente->contacto = $request->contacto;
         $cliente->cargo = $request->cargo;
         $cliente->email = $request->email;
+        $cliente->lp_id = $request->lista;
+        $cliente->canal_id = $request->canal;
         $cliente->region_id = $request->region;
         $cliente->provincia_id = $request->provincia;
         $cliente->comuna_id = $request->comuna;

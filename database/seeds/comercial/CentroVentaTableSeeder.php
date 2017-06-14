@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Comercial\CentroVenta;
 
-class Comercial/CentroVentaTableSeeder extends Seeder
+class CentroVentaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -42,6 +42,30 @@
 					</div>
 
 					<div class="form-group">
+
+						<label class="control-label col-sm-2" >Lista de Precio:</label>
+						<div class="col-sm-3">
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="lista" required>
+								<option value="">Seleccionar Lista de precios...</option>
+								@foreach ($listasPrecios as $lista)
+									<option value="{{$lista->id}}">{{$lista->descripcion}}</option>
+								@endforeach
+							</select>
+						</div>
+
+						<label class="control-label col-sm-1" >Canal:</label>
+						<div class="col-sm-2">
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="canal" required>
+								<option value="">Seleccionar Canal...</option>
+								@foreach ($canales as $canal)
+									<option value="{{$canal->id}}">{{$canal->descripcion}}</option>
+								@endforeach
+							</select>
+						</div>
+
+					</div>
+
+					<div class="form-group">
 						<label class="control-label col-sm-2" >Region:</label>
 						<div class="col-sm-4">
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="region" v-model="region" @change="getProvincias" required>

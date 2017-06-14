@@ -26,6 +26,8 @@ class CreateClienteNacionalTable extends Migration
             $table->string('contacto');
             $table->string('cargo');
             $table->string('email');
+            $table->integer('lp_id')->unsigned(); // Lista de Precio id
+            $table->integer('canal_id')->unsigned();
             $table->integer('region_id')->unsigned();
             $table->integer('provincia_id')->unsigned();
             $table->integer('comuna_id')->unsigned();
