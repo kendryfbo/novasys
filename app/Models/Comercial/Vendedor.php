@@ -18,4 +18,9 @@ class Vendedor extends Model
 
 		return $this->hasMany('App\Models\Comercial\ClienteNacional');
 	}
+
+	public function vendedor() {
+
+		return $this->hasMany('App\Models\Comercial\NotaVenta');
+	}
 }

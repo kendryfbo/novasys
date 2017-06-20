@@ -6,32 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class NotaVenta extends Model
 {
-	protected $fillable = ['numero',
-							'cv_id',
-							'cliente_id',
-							'cond_pago',
-							'version',
-							'vendedor_id',
-							'despacho',
-							'aut_comer',
-							'aut_contab',
-							'sub_total',
-							'descuento',
-							'neto',
-							'iva',
-							'iaba',
-							'total',
-							'peso_neto',
-							'peso_bruto',
-							'volumen',
-							'user_id',
-							'fecha_emision',
-							'fecha_venc'];
+	protected $fillable = ['numero','cv_id','cliente_id','cond_pago','version','vendedor_id','despacho',
+							'aut_comer','aut_contab','sub_total','descuento','neto','iva','iaba','total',
+							'peso_neto','peso_bruto','volumen','user_id','fecha_emision','fecha_venc'];
 
 	protected $events = [
 		'created' => \App\Events\NewNotaVentaEvent::class,
 	];
 
+	
+	// static Methods
+	static function unauthorized() {
+
+		return self::with('cliente:id,rut,descripcion','formaPago:id,descripcion')->where('aut_comer', 0)->orWhereNull('aut_comer')->get();
+	}
+
+
+	// public Methods
+	public function authorize() {
+
+		$this->aut_comer = 1;
+		$this->save();
+	}
+
+
+	//relations Methods
 	public function detalle() {
 
 		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');
@@ -45,6 +44,16 @@ class NotaVenta extends Model
 	public function centroVenta() {
 
 		return $this->belongsTo('App\Models\Comercial\CentroVenta','cv_id');
+	}
+
+	public function formaPago() {
+
+		return $this->belongsTo('App\Models\Comercial\FormaPagoNac','cond_pago');
+	}
+
+	public function vendedor() {
+
+		return $this->belongsTo('App\Models\Comercial\Vendedor');
 	}
 
 	/* Ejemplo para Sobre escribir metodo create
