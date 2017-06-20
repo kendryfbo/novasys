@@ -58,7 +58,7 @@
   <aside class="main-sidebar">
 
     <!-- sidebar -->
-    @include('layouts.sidebar2')
+    @include('layouts.sidebarcomer')
 
   </aside>
 

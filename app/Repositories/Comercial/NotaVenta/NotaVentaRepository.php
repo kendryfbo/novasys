@@ -124,7 +124,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$notaVenta->total = $total;
 
 			$notaVenta->save();
-			
+
 		}, 5);
 	}
 }
