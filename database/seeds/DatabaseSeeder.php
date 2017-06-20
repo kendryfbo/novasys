@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ComunasTableSeeder::class);
         $this->call(FormaPagoNacTableSeeder::class);
         $this->call(CanalTableSeeder::class);
+        $this->call(VendedoresTableSeeder::class);
 
     }
 }
