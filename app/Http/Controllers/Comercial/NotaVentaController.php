@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Repositories\Comercial\NotaVenta\NotaVentaRepositoryInterface;
+
 class NotaVentaController extends Controller
 {
     protected $notaVenta;
@@ -92,9 +93,19 @@ class NotaVentaController extends Controller
      * @param  \App\Models\NotaVenta  $notaVenta
      * @return \Illuminate\Http\Response
      */
-    public function show(NotaVenta $notaVenta)
+    public function show($numero)
     {
-        //
+        $notaVenta = NotaVenta::where('numero',$numero)->first();
+
+        if ($notaVenta) {
+
+            $notaVenta->load('centroVenta:id,descripcion','cliente:id,descripcion','formaPago:id,descripcion','vendedor:id,nombre','detalle');
+
+            return view('comercial.notasVentas.show')->with(['notaVenta' => $notaVenta]);
+        } else {
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -128,10 +139,25 @@ class NotaVentaController extends Controller
      */
     public function destroy(NotaVenta $notaVenta)
     {
-        //
-    }
-    public function test(NotaVenta $notaVenta)
-    {
+        $notaVenta->delete();
 
+        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Eliminada.";
+
+        return redirect('comercial\notasVentas')->with(['status' => $msg]);
+    }
+    public function authorization()
+    {
+        $notasVentas = NotaVenta::unauthorized();
+
+        return view('comercial.notasVentas.authorization')->with(['notasVentas' => $notasVentas]);
+    }
+
+    public function authorizeNotaVenta(NotaVenta $notaVenta)
+    {
+        $notaVenta->authorize();
+
+        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
+
+        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
     }
 }

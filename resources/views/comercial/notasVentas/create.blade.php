@@ -7,7 +7,6 @@
 		<!-- box-header -->
 		<div class="box-header text-center">
 			<h4>Emision de Nota de Venta</h4>
-			{{Input::old('items')}}
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->

@@ -147,6 +147,10 @@ Route::group(['prefix' => 'comercial'], function(){
 		'parameters' => [
 			'listaPrecios' => 'listaPrecio']
 	]);
+
+	Route::get('notasVentas/autorizacion', 'Comercial\NotaVentaController@authorization');
+	Route::post('notasVentas/autorizar/{notaVenta}', 'Comercial\NotaVentaController@authorizeNotaVenta');
+	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta');
 	// Resource Nota de Venta
 	Route::resource('notasVentas','Comercial\NotaVentaController',[
 		'parameters' => [
