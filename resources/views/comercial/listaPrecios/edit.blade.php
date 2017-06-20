@@ -129,7 +129,7 @@
 <<script>
 	var lista ={!!$listaPrecio->id!!};
 	var productos = {!!$productos!!};
-	var items = {!!$listaPrecio->listaPrecioDetalle!!}
+	var items = {!!$listaPrecio->detalle!!}
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>

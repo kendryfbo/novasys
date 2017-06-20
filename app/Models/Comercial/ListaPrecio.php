@@ -13,8 +13,13 @@ class ListaPrecio extends Model
 		return self::all()->where('activo',1);
 	}
 
-	public function listaPrecioDetalle() {
+	public function detalle() {
 
 		return $this->hasMany('App\Models\Comercial\ListaPrecioDetalle','lista_id');
+	}
+
+	public function clienteNacional() {
+
+		return $this->hasMany('App\Models\Comercial\ClienteNacional','lp_id');
 	}
 }
