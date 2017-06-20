@@ -9,5 +9,8 @@
 		<div class="box-body text-center">
 			<p>Cualquier informacion interesenta acerca del modulo de comercial</p>
 		</div>
+		<div class="box-footer">
+			<a href="{{route('email')}}" class="btn btn-info btn-lg">Enviar Email</a>
+		</div>
 	</div>
 @endsection
