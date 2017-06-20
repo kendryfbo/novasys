@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/email', 'Comercial\ComercialController@email')->name('email');
 Route::get('/', 'MainController@index');
 Route::get('welcome', function (){
 	return view('vue');
@@ -129,7 +129,8 @@ Route::group(['prefix' => 'comercial'], function(){
 
 	// Pantalla Principal Modulo Comercial
 	Route::get('/', 'Comercial\ComercialController@main');
-
+	Route::get('/excel', 'Comercial\ComercialController@excel');
+	Route::get('/pdf', 'Comercial\ComercialController@pdf');
 	// Resource Vendedores
 	Route::resource('vendedores','Comercial\VendedorController',[
 		'except' => ['show'],
@@ -145,6 +146,11 @@ Route::group(['prefix' => 'comercial'], function(){
 	Route::resource('listaPrecios','Comercial\ListaPrecioController',[
 		'parameters' => [
 			'listaPrecios' => 'listaPrecio']
+	]);
+	// Resource Nota de Venta
+	Route::resource('notasVentas','Comercial\NotaVentaController',[
+		'parameters' => [
+			'notasVentas' => 'notaVenta']
 	]);
 
 
