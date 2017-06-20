@@ -40,7 +40,12 @@ Route::resource('sucursales', 'Api\SucursalController', [
     'parameters' => [
         'sucursales' => 'sucursal']
 ]);
-// Rutas Api de Lista de Precios Detalle
+
+// Rutas Api de Clientes Nacionales
+Route::get('clientesNacionales/{cliente}', 'Api\ClienteNacionalController@show');
+
+// Rutas Api de Lista de Precios
+Route::get('listaPrecios/{lista}', 'Api\ListaPrecioController@show');
 Route::post('listaPreciosDetalle/insertar', 'Api\ListaPrecioDetalleController@insert');
 Route::get('listaPreciosDetalle/{lista}'  , 'Api\ListaPrecioDetalleController@index');
 Route::resource('listaPreciosDetalle', 'Api\ListaPrecioDetalleController', [
