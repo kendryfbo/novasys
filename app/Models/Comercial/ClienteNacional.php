@@ -46,4 +46,19 @@ class ClienteNacional extends Model
 
 		return $this->hasMany('App\Models\Comercial\Sucursal','cliente_id');
 	}
+
+	public function canal() {
+
+		return $this->belongsTo('App\Models\Comercial\Canal');
+	}
+
+	public function listaPrecio() {
+
+		return $this->belongsTo('App\Models\Comercial\ListaPrecio','lp_id');
+	}
+
+	public function notaVenta() {
+
+		return $this->hasMany('App\Models\Comercial\NotaVenta');
+	}
 }

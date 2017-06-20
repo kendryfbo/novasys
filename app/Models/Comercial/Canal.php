@@ -13,4 +13,9 @@ class Canal extends Model
 
 		return self::all()->where('activo',1);
 	}
+
+	public function clienteNacional() {
+
+		return $this->hasMany('App\Models\Comercial\ClienteNacional');
+	}
 }
