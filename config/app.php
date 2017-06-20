@@ -179,8 +179,10 @@ return [
         // PDF Service Providers
         Barryvdh\DomPDF\ServiceProvider::class,
         // Excel Service Provider
-        Maatwebsite\Excel\ExcelServiceProvider::class
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        // BackEnd Service PRovider
+        App\Providers\BackEndServiceProvider::class
     ],
 
     /*
