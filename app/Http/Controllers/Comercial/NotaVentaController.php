@@ -145,6 +145,7 @@ class NotaVentaController extends Controller
 
         return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }
+    
     public function authorization()
     {
         $notasVentas = NotaVenta::unauthorized();

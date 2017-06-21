@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 use App\Models\Comercial\NotaVenta;
 
-class NewNotaVentaEvent
+class AuthorizedNotaVentaEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
