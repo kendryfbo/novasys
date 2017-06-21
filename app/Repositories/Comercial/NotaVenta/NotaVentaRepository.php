@@ -2,13 +2,19 @@
 
 namespace App\Repositories\Comercial\NotaVenta;
 
+use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\NotaVentaDetalle;
 use DB;
 class NotaVentaRepository implements NotaVentaRepositoryInterface {
 
-	const IVA = 19;
-	const IABA = 10;
+	protected $iva,$iaba;
+
+	public function __construct() {
+
+		$this->iva = Impuesto::where([['id','1'],['nombre','iva']])->pluck('valor')->first();
+		$this->iaba = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
+	}
 
 	public function register($request) {
 
@@ -34,8 +40,8 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$version = $request->version ? $request->version : 1;
 			$vendedor = $request->vendedor;
 			$despacho = $request->despacho;
-			$aut_comer = 0;
-			$aut_contab = 0;
+			// $aut_comer = 0;
+			// $aut_contab = 0;
 			$pesoNeto = $request->peso_neto;
 			$pesoBruto = $request->peso_bruto;
 			$volumen = $request->volumen;
@@ -51,8 +57,8 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				'version' => $version,
 				'vendedor_id' => $vendedor,
 				'despacho' => $despacho,
-				'aut_comer' => $aut_comer,
-				'aut_contab' => $aut_contab,
+				// 'aut_comer' => $aut_comer,
+				// 'aut_contab' => $aut_contab,
 				'sub_total' => $totalSubTotal,
 				'descuento' => $totalDescuento,
 				'neto' => $totalNeto,
@@ -88,12 +94,12 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				$subTotal = $cantidad * $precio;
 				$descuento = ($subTotal * $porcDesc) / 100;
 				$neto = $subTotal - $descuento;
-				$iva = ($neto * self::IVA) / 100;
+				$iva = ($neto * $this->iva) / 100;
 				$iaba = 0;
 
 				if($item->iaba) {
 
-					$iaba = ($neto * self::IABA) / 100;
+					$iaba = ($neto * $this->iaba) / 100;
 				}
 
 				NotaVentaDetalle::create([

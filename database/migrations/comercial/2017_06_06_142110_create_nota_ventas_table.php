@@ -22,8 +22,8 @@ class CreateNotaVentasTable extends Migration
             $table->string('cond_pago');
             $table->integer('version');
             $table->integer('vendedor_id')->unsigned();
-            $table->tinyInteger('aut_comer');
-            $table->tinyInteger('aut_contab');
+            $table->tinyInteger('aut_comer')->nullable();
+            $table->tinyInteger('aut_contab')->nullable();
             $table->decimal('sub_total',10,2);
             $table->decimal('descuento',10,2);
             $table->decimal('neto',10,2);
