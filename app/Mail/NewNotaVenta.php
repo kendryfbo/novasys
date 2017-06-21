@@ -31,6 +31,16 @@ class NewNotaVenta extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.newNotaVenta');
+        $numero = $this->notaVenta->numero;
+        $version = $this->notaVenta->version;
+        $path = public_path().'/Nota_Venta_'.$numero.'.pdf';
+
+        return $this
+        ->markdown('emails.newNotaVenta')
+        ->subject('Nota de Venta '.$numero.' version Nº '.$version)
+        ->attach($path, [
+                       'as' => 'Nota_Venta_'.$numero.'.pdf',
+                       'mime' => 'application/pdf',
+                   ]);
     }
 }

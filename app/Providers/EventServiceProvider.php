@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\NewNotaVentaEvent' => [
-            'App\Listeners\SendNotaVentaEmail',
+        'App\Events\AuthorizedNotaVentaEvent' => [
+            'App\Listeners\GenerateNotaVenta',
         ],
     ];
 

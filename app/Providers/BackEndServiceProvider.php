@@ -13,7 +13,7 @@ class BackEndServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \App\Models\Comercial\NotaVenta::Observe(\App\Observers\NotaVentaObserver::class);
     }
 
     /**

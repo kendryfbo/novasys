@@ -10,15 +10,19 @@ class NotaVenta extends Model
 							'aut_comer','aut_contab','sub_total','descuento','neto','iva','iaba','total',
 							'peso_neto','peso_bruto','volumen','user_id','fecha_emision','fecha_venc'];
 
-	protected $events = [
-		'created' => \App\Events\NewNotaVentaEvent::class,
+	// protected $events = [
+	// 	'created' => \App\Events\NewNotaVentaEvent::class,
+	// ];
+
+	protected $observables = [
+		'authorized'
 	];
 
-	
+
 	// static Methods
 	static function unauthorized() {
 
-		return self::with('cliente:id,rut,descripcion','formaPago:id,descripcion')->where('aut_comer', 0)->orWhereNull('aut_comer')->get();
+		return self::with('cliente:id,rut,descripcion','formaPago:id,descripcion')->whereNull('aut_comer')->get();
 	}
 
 
@@ -27,8 +31,18 @@ class NotaVenta extends Model
 
 		$this->aut_comer = 1;
 		$this->save();
+		$this->fireModelEvent('authorized',false);
 	}
 
+	public function unauthorize() {
+
+		$this->aut_comer = 1;
+		$this->save();
+	}
+	public function setTitleAttribute($value) {
+
+		dd($value);
+	}
 
 	//relations Methods
 	public function detalle() {
