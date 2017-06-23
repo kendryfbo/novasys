@@ -72,10 +72,10 @@
         .datos {
             position: relative;
             border: 1px solid black;
-            margin: 0px;
+            margin-bottom: : 10px;
             margin-top: 10px;
             padding: 0px;
-            height: 630px;
+            height: 620px;
         }
         .datos > .tabla {
             width: 100%;
@@ -86,15 +86,21 @@
 
 
         .final {
+            font-size: 12px;
             position: relative;
             border: 1px solid black;
             margin: 0px;
             padding: 0px;
+            height: 110px;
         }
-
-        .final > .total-right {
-            width:250px;
-            right: 10px;
+        .final > .footer {
+            margin: 5px;
+        }
+        .final > .total {
+            position: absolute;
+            top: 5px;
+            width:200px;
+            right: 0px;
         }
 
 	</style>
@@ -124,37 +130,70 @@
             <table class="tabla">
                 <thead>
                     <tr>
+                        <th class="text-center">#</th>
                         <th class="text-center">CODIGO</th>
                         <th>PRODUCTO</th>
                         <th class="text-center">CANTIDAD</th>
-                        <th class="text-center">PRECIO</th>
-                        <th class="text-center">TOTAL</th>
+                        <th class="text-right">PRECIO</th>
+                        <th class="text-right">TOTAL</th>
                         <th class="text-center">DESC.</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($notaVenta->detalle as $detalle)
                         <tr>
+                            <th class="text-center">{{$loop->iteration}}</th>
                             <td class="text-center">{{$detalle->producto_id}}</td>
                             <td>{{$detalle->descripcion}}</td>
                             <td class="text-center">{{$detalle->cantidad}}</td>
-                            <td class="text-center">{{$detalle->precio}}</td>
-                            <td class="text-center">{{$detalle->sub_total}}</td>
+                            <td class="text-right">{{$detalle->precio}}</td>
+                            <td class="text-right">{{$detalle->sub_total}}</td>
                             <td class="text-center">{{$detalle->descuento}}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
         <div class="final">
-            <div class="total-right">
-                <p>SUBTOTAL : <strong>{{$notaVenta->sub_total}}</strong></p>
-                <p>DESC. : <strong>{{$notaVenta->descuento}}</strong></p>
-                <p>NETO : <strong>{{$notaVenta->neto}}</strong></p>
-                <p>I.V.A : <strong>{{$notaVenta->iva}}</strong></p>
-                <p>I.A.B.A : <strong>{{$notaVenta->iaba}}</strong></p>
-                <p>TOTAL : <strong>{{$notaVenta->total}}</strong></p>
+            <div class="footer">
+                <table>
+                    <tr>
+                        <th class="text-right">CONDICION DE PAGO : </th>
+                        <td class="text-left"><strong>{{$notaVenta->formaPago->descripcion}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">TOTALES CAJAS : </th>
+                        <td class="text-left"><strong>{{count($notaVenta->detalle)}}</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="total">
+                <table>
+                    <tr>
+                        <th class="text-right">SUB-TOTAL : </th>
+                        <td class="text-right"><strong>{{$notaVenta->sub_total}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">DESC. : </th>
+                        <td class="text-right"><strong>{{$notaVenta->descuento}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">NETO : </th>
+                        <td class="text-right"><strong>{{$notaVenta->neto}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">I.V.A : </th>
+                        <td class="text-right"><strong>{{$notaVenta->iva}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">I.A.B.A : </th>
+                        <td class="text-right"><strong>{{$notaVenta->iaba}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">TOTAL : </th>
+                        <td class="text-right"><strong>{{$notaVenta->total}}</strong></td>
+                    </tr>
+                </table>
             </div>
 
         </div>

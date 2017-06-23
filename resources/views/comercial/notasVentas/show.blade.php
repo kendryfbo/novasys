@@ -142,7 +142,7 @@
 							<td>{{$item->cantidad}}</td>
 							<td>{{$item->precio}}</td>
 							<td>{{$item->descuento}}</td>
-							<td>{{$item->total}}</td>
+							<td>{{$item->sub_total}}</td>
 						</tr>
 					@endforeach
 				</tbody>
@@ -193,7 +193,7 @@
 				<div class="form-group">
 					<label class="control-label">Total Peso Neto:</label>
 					<div class="input-group">
-						<input class="form-control" type="number" name="peso_neto" v-model.number="totalPesoNeto" disabled>
+						<input class="form-control" type="number" name="peso_neto" value="{{$notaVenta->peso_neto}}" disabled>
 						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
@@ -201,7 +201,7 @@
 				<div class="form-group">
 					<label class="control-label">Total Peso Bruto:</label>
 					<div class="input-group">
-						<input class="form-control" type="number" name="peso_bruto" v-model.number="totalPesoBruto" disabled>
+						<input class="form-control" type="number" name="peso_bruto" value="{{$notaVenta->peso_bruto}}" disabled>
 						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
@@ -209,7 +209,7 @@
 				<div class="form-group">
 					<label class="control-label">Volumen:</label>
 					<div class="input-group">
-						<input class="form-control" type="number" name="volumen" v-model.number="totalVolumen" disabled>
+						<input class="form-control" type="number" name="volumen" value="{{$notaVenta->volumen}}" disabled>
 						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
