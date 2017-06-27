@@ -163,7 +163,7 @@
                     </tr>
                     <tr>
                         <th class="text-right">TOTALES CAJAS : </th>
-                        <td class="text-left"><strong>{{count($notaVenta->detalle)}}</strong></td>
+                        <td class="text-left"><strong>{{$notaVenta->detalle->sum('cantidad')}}</strong></td>
                     </tr>
                 </table>
             </div>
