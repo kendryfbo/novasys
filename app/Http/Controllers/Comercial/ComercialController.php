@@ -27,15 +27,19 @@ class ComercialController extends Controller
 
     public function excel() {
 
-        Excel::create('Test', function($excel) {
+        Excel::create('Factura', function($excel) {
 
-            $excel->sheet('FirstSheet');
+            $excel->sheet('FirstSheet', function($sheet){
+
+                $sheet->loadView('documents.excel.facturaNacional');
+            });
+            
         })->export('xls');
 
     }
 
     public function pdf() {
-        $notaVenta = NotaVenta::with('detalle','cliente.region:id,descripcion','centroVenta')->find(6);
+        $notaVenta = NotaVenta::with('detalle','cliente.region:id,descripcion','centroVenta','formaPago:id,descripcion')->find(9);
         // dd($notaVenta);
         $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
         return $pdf->stream();

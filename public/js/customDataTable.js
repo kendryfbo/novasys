@@ -1,7 +1,8 @@
+var table;
 $(document).ready(function() {
 	/* Data Table library */
-	var table = $('#data-table').DataTable( {
-		"scrollX": true,
+	table = $('#data-table').DataTable( {
+		// "scrollX": true,
 		language: {
 			sProcessing:     "Procesando...",
 			sLengthMenu:     "Mostrar _MENU_ registros",
@@ -27,5 +28,6 @@ $(document).ready(function() {
 			}
 		},
 	} );
+	table.columns.adjust().draw();
 	$('div.dataTables_filter input').focus();
 } );
