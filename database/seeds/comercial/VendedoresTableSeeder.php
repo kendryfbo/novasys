@@ -13,12 +13,11 @@ class VendedoresTableSeeder extends Seeder
     public function run()
     {
         $vendedores = [
-            ['rut' => '1', 'nombre' => 'Victor Jara', 'activo' =>1],
-            ['rut' => '2', 'nombre' => 'Rodrigo Vargas', 'activo' =>1],
-            ['rut' => '3', 'nombre' => 'Patricio Rojas', 'activo' =>1],
-            ['rut' => '4', 'nombre' => 'Luis Martinez', 'activo' =>1],
-            ['rut' => '5', 'nombre' => 'Victor Jara', 'activo' =>1]
-        ]
+            ['rut' => '1', 'nombre' => 'Victor Jara', 'iniciales' => 'VJ', 'activo' =>1],
+            ['rut' => '2', 'nombre' => 'Rodrigo Vargas', 'iniciales' => 'RV', 'activo' =>1],
+            ['rut' => '3', 'nombre' => 'Patricio Rojas', 'iniciales' => 'PR', 'activo' =>1],
+            ['rut' => '4', 'nombre' => 'Luis Martinez','iniciales' => 'LM',  'activo' =>1],
+        ];
 
         foreach ($vendedores as $vendedor) {
 
