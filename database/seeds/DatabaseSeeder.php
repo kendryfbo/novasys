@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
 
         // Semillas de Modulo configuracion
         $this->call(AccesosTableSeeder::class);
+        $this->call(UsuarioTableSeeder::class);
 
     }
 }
