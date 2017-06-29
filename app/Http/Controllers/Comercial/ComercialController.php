@@ -33,7 +33,7 @@ class ComercialController extends Controller
 
                 $sheet->loadView('documents.excel.facturaNacional');
             });
-            
+
         })->export('xls');
 
     }
@@ -47,9 +47,14 @@ class ComercialController extends Controller
 
     public function email() {
 
-        NotaVenta::create([
-            'numero' => 1
-        ]);
+        $notaVenta = NotaVenta::find(10);
+        $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
+        // return $pdf->stream('invoice.pdf');
+        $pdf->save('asdasdasdasdasd.pdf');
+        return view('documents.pdf.ordenDespacho')->with(['notaVenta' => $notaVenta]);
+        Mail::to('soporte@novafoods.cl')
+        ->send(new NewNotaVenta($notaVenta));
+        dd($notaVenta);
 
         return redirect()->back();
     }

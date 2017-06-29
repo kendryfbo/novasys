@@ -9,6 +9,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     // Test Excel y PDF
 	Route::get('/excel',    'Comercial\ComercialController@excel');
 	Route::get('/pdf',      'Comercial\ComercialController@pdf');
+	Route::get('/email',      'Comercial\ComercialController@email');
 
 	// Resource Vendedores
 	Route::resource('vendedores','Comercial\VendedorController',[
