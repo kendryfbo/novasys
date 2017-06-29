@@ -33,7 +33,7 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="{{url('comercial/notasVentas')}}"><i class="fa fa-link"></i> <span>Nota de Venta</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Facturacion</span></a></li>
+                <li><a href="{{url('comercial/facturasNacionales')}}"><i class="fa fa-link"></i> <span>Facturacion</span></a></li>
             </ul>
           </li>
           <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-link"></i> <span>Autorizar Nota Venta</span></a></li>

@@ -16,4 +16,9 @@ class CentroVenta extends Model
 
 		return $this->hasMany('App\Models\Comercial\NotaVenta','cv_id');
 	}
+
+	public function facturasNac() {
+
+		return $this->hasMany('App\Models\Comercial\FacturaNacional','cv_id');
+	}
 }

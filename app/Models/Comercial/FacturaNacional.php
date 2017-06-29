@@ -22,4 +22,19 @@ class FacturaNacional extends Model
 
         return $this->belongsTo('App\Models\Comercial\FacturaNacionalDetalle');
     }
+
+    public function centroVenta() {
+
+        return $this->belongsTo('App\Models\Comercial\CentroVenta','cv_id');
+    }
+
+    public function clienteNac() {
+
+        return $this->belongsTo('App\Models\Comercial\ClienteNacional','cliente_id');
+    }
+
+    public function vendedor() {
+
+        return $this->belongsTo('App\Models\Comercial\Vendedor');
+    }
 }

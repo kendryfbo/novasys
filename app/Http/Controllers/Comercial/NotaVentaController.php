@@ -30,7 +30,7 @@ class NotaVentaController extends Controller
     public function index()
     {
         $notasVentas = NotaVenta::all();
-        NotaVenta::destroy(3);
+
         return view('comercial.notasVentas.index')->with(['notasVentas' => $notasVentas]);
     }
 
@@ -145,7 +145,7 @@ class NotaVentaController extends Controller
 
         return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }
-    
+
     public function authorization()
     {
         $notasVentas = NotaVenta::unauthorized();

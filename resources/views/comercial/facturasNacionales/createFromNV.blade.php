@@ -12,7 +12,7 @@
 		<!-- box-body -->
 		<div class="box-body">
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarFacturaNacional')}}">
+			<form  id="create" method="post" action="{{route('guardarFacNacNV')}}">
 
 				{{ csrf_field() }}
 
@@ -107,7 +107,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2">Observaciones:</label>
 						<div class="col-sm-8">
-                            <input type="text" class="form-control" name="observaciones" placeholder="Observaciones...">
+                            <input type="text" class="form-control" name="observacion" placeholder="Observaciones...">
 						</div>
 					</div>
 
@@ -121,6 +121,8 @@
                     </option>
                 @endforeach
 				</select>
+
+				<input type="hidden" name="notaVenta" value="{{$notaVenta->id}}">
 
 				<input type="hidden" name="subtotal" value="{{$notaVenta->sub_total}}">
 				<input type="hidden" name="descuento" value="{{$notaVenta->descuento}}">

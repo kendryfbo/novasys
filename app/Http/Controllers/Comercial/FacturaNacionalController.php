@@ -81,6 +81,29 @@ class FacturaNacionalController extends Controller
         return redirect('comercial\facturasNacionales')->with(['status' => $msg]);
     }
 
+    public function storeFromNV(Request $request)
+    {
+        $this->validate($request, [
+            'centroVenta' => 'required',
+            'numero' => 'required',
+            'fechaEmision' => 'required',
+            'fechaVenc' => 'required',
+            'cliente' => 'required',
+            'formaPago' => 'required',
+            'despacho' => 'required',
+            'vendedor' => 'required',
+            'items' => 'required',
+            // 'items.*.id' => 'required',
+            // 'items.*.descripcion' => 'required|string'
+        ]);
+
+        $this->facturaNacional->registerFromNV($request);
+
+        $msg = "Factura: " . $request->numero . " ha sido Creado.";
+
+        return redirect('comercial\facturasNacionales')->with(['status' => $msg]);
+    }
+
     /**
      * Display the specified resource.
      *

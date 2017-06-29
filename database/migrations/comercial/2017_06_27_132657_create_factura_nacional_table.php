@@ -36,7 +36,7 @@ class CreateFacturaNacionalTable extends Migration
             $table->decimal('peso_neto',10,2);
             $table->decimal('peso_bruto',10,2);
             $table->decimal('volumen',10,2);
-            $table->decimal('pagado',10,2)->default(0);
+            $table->decimal('pagado',10,2)->default(0.00);
             $table->tinyInteger('cancelada')->default(0);
             $table->integer('user_id')->unsigned();
             $table->date('fecha_emision');

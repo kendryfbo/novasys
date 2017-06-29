@@ -1,3 +1,4 @@
+
 @extends('layouts.master2')
 
 
@@ -69,7 +70,7 @@
 		<!-- box-body -->
 		<div class="box-body">
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarFacturaNacional')}}">
+			<form  id="create" method="post" action="{{route('guardarFacNac')}}">
 
 				{{ csrf_field() }}
 
@@ -174,6 +175,13 @@
 									<option {{ Input::old('vendedor') == $vendedor->id ? 'selected' : '' }} value="{{$vendedor->id}}">{{$vendedor->nombre}}</option>
 								@endforeach
 							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-2">Observaciones:</label>
+						<div class="col-sm-8">
+                            <input type="text" class="form-control" name="observacion" placeholder="Observaciones...">
 						</div>
 					</div>
 

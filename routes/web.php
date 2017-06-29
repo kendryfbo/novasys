@@ -16,6 +16,7 @@ Route::get('/ingresar', 'Config\AuthenticationController@signIn')->name('signin'
 Route::post('/login', 'Config\AuthenticationController@login')->name('login');
 Route::get('/logout', 'Config\AuthenticationController@logout')->name('logout');
 Route::get('array', 'MainController@accesos');
+
 Route::middleware('auth')->group( function() {
 
 	Route::get('/', 'MainController@index');
