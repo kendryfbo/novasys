@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Comercial\NotaVenta;
+use Storage;
 
 class NewNotaVenta extends Mailable
 {
@@ -33,14 +34,17 @@ class NewNotaVenta extends Mailable
     {
         $numero = $this->notaVenta->numero;
         $version = $this->notaVenta->version;
-        $path = public_path().'/Nota_Venta_'.$numero.'.pdf';
 
-        return $this
-        ->markdown('emails.newNotaVenta')
-        ->subject('Nota de Venta '.$numero.' version Nº '.$version)
-        ->attach($path, [
-                       'as' => 'Nota_Venta_'.$numero.'.pdf',
-                       'mime' => 'application/pdf',
-                   ]);
+        $fileName = 'nota_venta_'.$numero.'v'.$version;
+        $path = '/public/notas_ventas/'.$fileName;
+
+        $pdf = Storage::get($path);
+
+        return $this->markdown('emails.newNotaVenta')
+                    ->subject('Nota de Venta '.$numero.' version Nº '.$version)
+                    ->attachData($pdf, $fileName.'.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+                    // ->attach($path, ['as' => $fileName,'mime' => 'application/pdf',]);
     }
 }

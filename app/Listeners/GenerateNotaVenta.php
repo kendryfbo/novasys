@@ -30,13 +30,18 @@ class GenerateNotaVenta implements ShouldQueue
     public function handle(AuthorizedNotaVentaEvent $event)
     {
         $notaVenta = $event->notaVenta;
-
-        // Creacion de Archivo PDF
         $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
+
+        $numero = $notaVenta->numero;
+        $version = $notaVenta->version;
+
+        $fileName = 'nota_venta_'.$numero.'v'.$version;
+        $path = storage_path().'/app/public/notas_ventas/'.$fileName;
+        
+        // Creacion de Archivo PDF
         $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
-        // $pdf->save('Nota_Venta_'.$notaVenta->numero.'.pdf');
-        $path = 'public/notas_ventas/nota_venta_'.$notaVenta->numero.'v'.$notaVenta->version.'.pdf';
-        Storage::disk('local')->put($path,$pdf);
+        $pdf->save($path);
+
         // Generacion de Mail
         Mail::to('soporte@novafoods.cl')
         ->send(new NewNotaVenta($notaVenta));
