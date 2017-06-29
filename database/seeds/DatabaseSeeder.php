@@ -30,5 +30,8 @@ class DatabaseSeeder extends Seeder
         $this->call(VendedoresTableSeeder::class);
         $this->call(ImpuestoTableSeeder::class);
 
+        // Semillas de Modulo configuracion
+        $this->call(AccesosTableSeeder::class);
+
     }
 }

@@ -55,6 +55,13 @@ class RouteServiceProvider extends ServiceProvider
          ], function ($router) {
 
              require base_path('routes/web.php');
+         });
+
+         Route::group([
+             'middleware' => ['web','auth'],
+             'namespace' => $this->namespace,
+         ], function ($router) {
+
              require base_path('routes/desarrollo.php');
              require base_path('routes/comercial.php');
          });
