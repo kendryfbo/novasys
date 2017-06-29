@@ -146,9 +146,9 @@
                             <td class="text-center">{{$detalle->producto_id}}</td>
                             <td>{{$detalle->descripcion}}</td>
                             <td class="text-center">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{$detalle->precio}}</td>
-                            <td class="text-right">{{$detalle->sub_total}}</td>
-                            <td class="text-center">{{$detalle->descuento}}</td>
+                            <td class="text-right">{{-- $detalle->precio --}}</td>
+                            <td class="text-right">{{-- $detalle->sub_total --}}</td>
+                            <td class="text-center">{{-- $detalle->descuento --}}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -168,7 +168,7 @@
                 </table>
             </div>
             <div class="total">
-                <table>
+                {{-- <table>
                     <tr>
                         <th class="text-right">SUB-TOTAL : </th>
                         <td class="text-right"><strong>{{$notaVenta->sub_total}}</strong></td>
@@ -193,55 +193,10 @@
                         <th class="text-right">TOTAL : </th>
                         <td class="text-right"><strong>{{$notaVenta->total}}</strong></td>
                     </tr>
-                </table>
+                </table> --}}
             </div>
 
         </div>
-		{{-- <div class="row cliente">
-			<div class="col-xs-5">
-				<h2>DATOS CLIENTE 1</h2>
-			</div>
-			<div class="col-xs-5">
-				<h2>DATOS CLIENTE 2</h2>
-			</div>
-		</div> --}}
-		{{-- <div class="row tabla">
-			<div class="col-xs-12">
-				<table class="table table-bordered table-custom" cellspacing="0" width="100%">
-
-					<thead>
-						<tr>
-							<th>CODIGO</th>
-							<th>DESCRIPCION</th>
-							<th>CANTIDAD</th>
-							<th>PRECIO</th>
-							<th>TOTAL</th>
-							<th>DESC.</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr>
-							<td>#########</td>
-							<td>#########</td>
-							<td>#########</td>
-							<td>#########</td>
-							<td>#########</td>
-							<td>#########</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row footer">
-			<div class="col-xs-5">
-				<h2>DATOS FOOTER 1</h2>
-			</div>
-			<div class="col-xs-5">
-				<h2>DATOS FOOTER 2</h2>
-			</div>
-		</div> --}}
-
 	</div>
 
 </body>
