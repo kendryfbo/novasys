@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AuthorizedNotaVentaEvent' => [
             'App\Listeners\GenerateNotaVenta',
         ],
+        'App\Events\CreateFacturaNacionalEvent' => [
+            'App\Listeners\GenerateFacturaExcel',
+        ],
+
     ];
 
     /**
