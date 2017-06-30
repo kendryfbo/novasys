@@ -21,7 +21,6 @@
                 <li><a href="{{url('comercial/clientesNacionales')}}"><i class="fa fa-link"></i> <span>Clientes</span></a></li>
                 <li><a href="{{url('comercial/vendedores')}}"><i class="fa fa-link"></i> <span>Vendedores</span></a></li>
                 <li><a href="{{url('comercial/listaPrecios')}}"><i class="fa fa-link"></i> <span>Lista de Precios</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Aduanas</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Condiciones de Pago</span></a></li>
             </ul>
           </li>
@@ -54,6 +53,7 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-link"></i> <span>Clientes Inter.</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Adianas</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Condiciones de Pago</span></a></li>
             </ul>
           </li>
@@ -65,7 +65,11 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-link"></i> <span>Proforma</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Order Despacho</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Guia Despacho</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Factura Export.</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Nota de Credito</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Factura S.I.I</span></a></li>
             </ul>
           </li>
       </ul>
