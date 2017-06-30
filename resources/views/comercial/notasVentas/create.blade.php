@@ -11,6 +11,20 @@
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
+
+			@if ($errors->any())
+
+				@foreach ($errors->all() as $error)
+					
+					@component('components.errors.validation')
+						@slot('errors')
+							{{$error}}
+						@endslot
+					@endcomponent
+
+				@endforeach
+				
+			@endif
 			<!-- form -->
 			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
 

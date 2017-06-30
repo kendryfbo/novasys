@@ -68,7 +68,7 @@ class NotaVentaController extends Controller
 
         $this->validate($request, [
             'centroVenta' => 'required',
-            'numero' => 'required',
+            'numero' => 'required|numeric',
             'fechaEmision' => 'required',
             'fechaVenc' => 'required',
             'cliente' => 'required',
