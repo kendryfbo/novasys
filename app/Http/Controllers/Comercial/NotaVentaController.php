@@ -161,4 +161,13 @@ class NotaVentaController extends Controller
 
         return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
     }
+
+    public function unauthorizedNotaVenta(NotaVenta $notaVenta)
+    {
+        $notaVenta->unauthorize();
+
+        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Desautorizada.";
+
+        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
+    }
 }

@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: 'OpenSans-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'OpenSans-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 h1,
