@@ -18,7 +18,7 @@ class ListaPrecioDetalleController extends Controller
         if ($lista) {
 
             $lista = ListaPrecioDetalle::with('producto.marca')->where('lista_id',$lista)->get();
-            
+
             return response()->json($lista,200);
         }
 
@@ -170,7 +170,7 @@ class ListaPrecioDetalleController extends Controller
 
     public function insert(Request $request)
     {
-        $detalle = ListaPrecioDetalle::where('id',$request->id)->first();
+        $detalle = ListaPrecioDetalle::where('producto_id',$request->producto)->first();
 
         if($detalle) {
 
