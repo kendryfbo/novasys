@@ -43,14 +43,11 @@ class NotaVentaController extends Controller
     {
         $centrosVentas = CentroVenta::getAllActive();
         $clientes = ClienteNacional::getAllActive();
-        $formasPagos = FormaPagoNac::getAllActive();
         $vendedores = Vendedor::getAllActive();
-        //$listasPrecios = ListaPrecio::where(); /* Implementado lista de precio por cliente
 
         return view('comercial.notasVentas.create')->with([
             'centrosVentas' => $centrosVentas,
             'clientes' => $clientes,
-            'formasPagos' => $formasPagos,
             'vendedores' => $vendedores,
             //'listasPrecios' => $listasPrecios /* Implementado lista de precio por cliente
         ]);
@@ -68,7 +65,6 @@ class NotaVentaController extends Controller
 
         $this->validate($request, [
             'centroVenta' => 'required',
-            'numero' => 'required|numeric',
             'fechaEmision' => 'required',
             'fechaVenc' => 'required',
             'cliente' => 'required',
@@ -80,9 +76,9 @@ class NotaVentaController extends Controller
             // 'items.*.descripcion' => 'required|string'
         ]);
 
-        $this->notaVenta->register($request);
+        $numero = $this->notaVenta->register($request);
 
-        $msg = "NotaVenta: " . $request->numero . " ha sido Creado.";
+        $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
 
         return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }
@@ -115,7 +111,7 @@ class NotaVentaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(NotaVenta $notaVenta)
-    {   
+    {
         $notaVenta->load('detalle','cliente.sucursal','cliente.listaPrecio.detalle','cliente.canal');
         $centrosVentas = CentroVenta::getAllActive();
         $clientes = ClienteNacional::getAllActive();
@@ -155,7 +151,7 @@ class NotaVentaController extends Controller
     {
         $notaVenta->delete();
 
-        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Eliminada.";
+        $msg = "Nota de Venta numero: " . $notaVenta->numero . " ha sido Eliminada.";
 
         return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }

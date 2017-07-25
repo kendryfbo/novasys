@@ -19,6 +19,7 @@ class ClienteNacional extends Model
 		'contacto',
 		'cargo',
 		'email',
+		'fp_id',
 		'lp_id',
 		'canal_id',
 		'region_id',
@@ -50,6 +51,11 @@ class ClienteNacional extends Model
 	public function canal() {
 
 		return $this->belongsTo('App\Models\Comercial\Canal');
+	}
+
+	public function formaPago() {
+
+		return $this->belongsTo('App\Models\Comercial\FormaPagoNac','fp_id');
 	}
 
 	public function listaPrecio() {

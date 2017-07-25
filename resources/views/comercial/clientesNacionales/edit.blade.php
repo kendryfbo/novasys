@@ -74,6 +74,18 @@
 							</div>
 
 							<div class="form-group">
+								<label class="control-label col-sm-2" >Forma Pago:</label>
+								<div class="col-sm-4">
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
+										<option value="">Seleccionar Forma Pago...</option>
+										@foreach ($formasPago as $formaPago)
+											<option {{ $cliente->fp_id == $formaPago->id ? 'selected':'' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
 								<label class="control-label col-sm-2" >Region:</label>
 								<div class="col-sm-4">
 									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="region" v-model="region" @change="getProvincias" required>

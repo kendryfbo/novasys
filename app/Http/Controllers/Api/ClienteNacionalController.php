@@ -49,7 +49,7 @@ class ClienteNacionalController extends Controller
     {
         try {
 
-            $cliente->load('sucursal', 'listaPrecio.detalle.producto.marca','listaPrecio.detalle.producto.formato', 'canal');
+            $cliente->load('sucursal', 'formaPago:id,descripcion', 'listaPrecio.detalle.producto.marca','listaPrecio.detalle.producto.formato', 'canal');
 
             return response()->json($cliente);
 

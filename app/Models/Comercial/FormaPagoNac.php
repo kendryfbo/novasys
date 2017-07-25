@@ -16,8 +16,8 @@ class FormaPagoNac extends Model
 		return self::all()->where('activo',1);
 	}
 
-	public function notaVenta() {
+	public function cliente() {
 
-		return $this->hasMany('App\Models\Comercial\NotaVenta','cond_pago');
+		return $this->hasMany('App\Models\Comercial\ClienteNacional','fp_id');
 	}
 }

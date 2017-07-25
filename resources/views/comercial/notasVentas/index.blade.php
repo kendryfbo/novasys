@@ -45,7 +45,7 @@
 							<td>{{$notaVenta->cliente->descripcion}}</td>
 							<td>{{$notaVenta->neto}}</td>
 							<td>{{$notaVenta->total}}</td>
-							<td>{{$notaVenta->formaPago->descripcion}}</td>
+							<td>{{$notaVenta->cond_pago}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
 									<button class="btn btn-sm" type="submit">

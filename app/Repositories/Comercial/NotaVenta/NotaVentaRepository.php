@@ -8,7 +8,7 @@ use App\Models\Comercial\NotaVentaDetalle;
 use DB;
 class NotaVentaRepository implements NotaVentaRepositoryInterface {
 
-	protected $iva,$iaba;
+	protected $iva,$iaba,$numero;
 
 	public function __construct() {
 
@@ -32,8 +32,16 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			// $iva = $request->iva;
 			// $iaba = $request->iaba;
 			// $total = $request->total;
+			$numero = NotaVenta::orderBy('numero','desc')->pluck('numero')->first();
+			if (is_null($numero)) {
 
-			$numero = $request->numero;
+				$numero = 1;
+
+			} else {
+
+				$numero++;
+			};
+
 			$centroVenta = $request->centroVenta;
 			$cliente = $request->cliente;
 			$condPago = $request->formaPago;
@@ -131,6 +139,12 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 
 			$notaVenta->save();
 
+			$this->numero = $notaVenta->numero;
+
 		}, 5);
+
+		return $this->numero;
 	}
+
+
 }

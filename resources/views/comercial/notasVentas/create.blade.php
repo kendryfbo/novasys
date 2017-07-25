@@ -15,7 +15,7 @@
 			@if ($errors->any())
 
 				@foreach ($errors->all() as $error)
-					
+
 					@component('components.errors.validation')
 						@slot('errors')
 							{{$error}}
@@ -23,7 +23,7 @@
 					@endcomponent
 
 				@endforeach
-				
+
 			@endif
 			<!-- form -->
 			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" >Numero:</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{ Input::old('numero') ? Input::old('numero') : '' }}" required>
+							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="Nueva" readonly>
 						</div>
 					</div>
 
@@ -95,10 +95,8 @@
 						<label>Cond. Pago:</label>
 						<div class="input-group" style="margin-left: 50px">
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
-								<option value="">Cond. Pago...</option>
-								@foreach ($formasPagos as $formaPago)
-									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected' : '' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
-								@endforeach
+								<option v-if="formaPagoDescrip" selected v-bind:value="formaPagoDescrip">@{{formaPagoDescrip}}</option>
+
 							</select>
 						</div>
 					</div>
@@ -114,7 +112,7 @@
 						<div class="col-sm-4">
 							<select class="selectpicker" data-width="600px" data-live-search="true" data-style="btn-default" name="despacho" v-model="despacho" required>
 								<option value="">Direccion de despacho...</option>
-								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.descripcion">@{{sucursal.descripcion}}</option>
+								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.direccion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
 							</select>
 						</div>
 					</div>
@@ -174,26 +172,26 @@
 
 				<div class="form-group">
 
-					<label class="col-sm-1 control-label">Producto:</label>
-					<div class="col-sm-3">
+					<label class="col-md-1 control-label">Producto:</label>
+					<div class="col-md-3">
 						<select class="selectpicker form-control" data-width="280" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
 							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
 						</select>
 					</div>
 
-					<label class="col-sm-1 control-label">Cantidad:</label>
-					<div class="col-sm-1">
+					<label class="col-md-1 control-label">Cantidad:</label>
+					<div class="col-md-1">
 						<input class="form-control" type="number" min="0" name="cantidad" v-model="cantidad">
 					</div>
 
-					<label class="col-sm-1 control-label">%Dscto:</label>
-					<div class="col-sm-2">
+					<label class="col-md-1 control-label">%Dscto:</label>
+					<div class="col-md-2">
 						<input class="form-control" type="number" name="descuento" v-model="descuento" disabled>
 					</div>
 
-					<label class="col-sm-1 control-label">Precio:</label>
-					<div class="col-sm-2">
+					<label class="col-md-1 control-label">Precio:</label>
+					<div class="col-md-2">
 						<input class="form-control" type="number" name="precio" v-model="precio" disabled>
 					</div>
 

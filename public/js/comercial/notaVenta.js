@@ -7,6 +7,9 @@ var app = new Vue ({
 		cliente : '',
 		sucursales: [],
 		despacho: '',
+		formaPago: '',
+		formaPagoID: '',
+		formaPagoDescrip: '',
 		listaId: '',
 		listaDescrip: '',
 		listaDetalle: [],
@@ -57,6 +60,8 @@ var app = new Vue ({
 		loadCliente: function(data) {
 
 			this.sucursales = data.sucursal;
+			this.formaPagoID = data.forma_pago.id;
+			this.formaPagoDescrip = data.forma_pago.descripcion;
 			this.listaId = data.lista_precio.id;
 			this.listaDescrip = data.lista_precio.descripcion;
 			this.listaDetalle = data.lista_precio.detalle;

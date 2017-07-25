@@ -14,7 +14,7 @@
 			@if ($errors->any())
 
 				@foreach ($errors->all() as $error)
-					
+
 					@component('components.errors.validation')
 						@slot('errors')
 							{{$error}}
@@ -22,7 +22,7 @@
 					@endcomponent
 
 				@endforeach
-				
+
 			@endif
 			<!-- form -->
 			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
@@ -31,7 +31,7 @@
 
 				<!-- form-horizontal -->
 				<div class="form-horizontal">
-					
+
 					<div class="form-group">
 						<label class="control-label col-sm-2" >Centro de Venta:</label>
 						<div class="col-sm-4">
@@ -315,7 +315,6 @@
 		<!-- /box-footer -->
 	</div>
 	<!-- /box -->
-	{{ dd($notaVenta->detalle) }}
 @endsection
 
 @section('scripts')
@@ -327,11 +326,11 @@
 	var listaId = {!! $notaVenta->cliente->listaPrecio->id !!};
 	var listaDescrip = "{!! $notaVenta->cliente->listaPrecio->descripcion !!}";
 	var listaDetalle = {!! $notaVenta->cliente->listaPrecio->detalle !!};
-	var descuento = {!!$notaVenta->cliente->canal->descuento!!}.toFixed(2);
+	var descuento = {!!$notaVenta->cliente->canal->descuento!!};
 	var subtotal = {!! $notaVenta->sub_total !!};
 	var descuento = {!! $notaVenta->descuento !!};
 	var neto = {!! $notaVenta->neto !!};
-	var iva = {!! $notaVenta->iva !!}; 
+	var iva = {!! $notaVenta->iva !!};
 	var iaba = {!! $notaVenta->iaba !!};
 	var total = {!! $notaVenta->total !!};
 	var peso_neto = {!! $notaVenta->peso_neto !!};
