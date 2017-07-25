@@ -17,7 +17,7 @@ class CreateFormulasTable extends Migration
             $table->increments('id');
             $table->integer('producto_id')->unique();
             $table->tinyInteger('generada')->default(0);
-            $table->string('generada_por');
+            $table->string('generada_por')->nullable();
             $table->date('fecha_gen')->nullable(); // fecha de generacion
             $table->tinyInteger('autorizado')->default(0);
             $table->string('autorizada_por')->nullable();
