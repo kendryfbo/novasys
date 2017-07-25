@@ -18,6 +18,7 @@ class CreateNotaVentasTable extends Migration
             $table->integer('numero')->unique();
             $table->integer('cv_id')->unsigned();
             $table->integer('cliente_id')->unsigned();
+            $table->integer('orden_compra')->nullable();
             $table->string('despacho');
             $table->string('cond_pago');
             $table->integer('version');

@@ -47,6 +47,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$condPago = $request->formaPago;
 			$version = $request->version ? $request->version : 1;
 			$vendedor = $request->vendedor;
+			$ordenCompra = $request->orden_compra;
 			$despacho = $request->despacho;
 			// $aut_comer = 0;
 			// $aut_contab = 0;
@@ -64,6 +65,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				'cond_pago' => $condPago,
 				'version' => $version,
 				'vendedor_id' => $vendedor,
+				'orden_compra' => $ordenCompra,
 				'despacho' => $despacho,
 				// 'aut_comer' => $aut_comer,
 				// 'aut_contab' => $aut_contab,

@@ -73,6 +73,13 @@
 						</div>
 					</div>
 
+					<div class="form-group">
+						<label class="input-group col-lg-4" >O. Compra:</label>
+						<div class="input-group col-lg-5">
+							<input type="number" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ Input::old('orden_compra') ? Input::old('orden_compra') : '' }}">
+						</div>
+					</div>
+
 				</div>
 				<!-- /form-inline -->
 				<br>

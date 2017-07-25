@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class NotaVenta extends Model
 {
-	protected $fillable = ['numero','cv_id','cliente_id','cond_pago','version','vendedor_id','despacho',
+	protected $fillable = ['numero','cv_id','cliente_id','cond_pago','version','vendedor_id','orden_compra','despacho',
 							'aut_comer','aut_contab','sub_total','descuento','neto','iva','iaba','total',
 							'peso_neto','peso_bruto','volumen','user_id','fecha_emision','fecha_venc'];
 
@@ -22,7 +22,7 @@ class NotaVenta extends Model
 	// static Methods
 	static function unauthorized() {
 
-		return self::with('cliente:id,rut,descripcion','formaPago:id,descripcion')->whereNull('aut_comer')->get();
+		return self::whereNull('aut_comer')->get();
 	}
 
 
