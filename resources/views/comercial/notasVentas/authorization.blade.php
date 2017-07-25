@@ -40,7 +40,7 @@
 							<td>{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
 							<td>{{$notaVenta->total}}</td>
-							<td>{{$notaVenta->formaPago->descripcion}}</td>
+							<td>{{$notaVenta->cliente->formaPago->descripcion}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
 									{{csrf_field()}}

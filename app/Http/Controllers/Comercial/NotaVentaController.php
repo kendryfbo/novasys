@@ -159,7 +159,8 @@ class NotaVentaController extends Controller
     public function authorization()
     {
         $notasVentas = NotaVenta::unauthorized();
-
+        $notasVentas->load('cliente.formaPago');
+        
         return view('comercial.notasVentas.authorization')->with(['notasVentas' => $notasVentas]);
     }
 
