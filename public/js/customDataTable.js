@@ -2,7 +2,7 @@ var table;
 $(document).ready(function() {
 	/* Data Table library */
 	table = $('#data-table').DataTable( {
-		// "scrollX": true,
+		"scrollX": true,
 		language: {
 			sProcessing:     "Procesando...",
 			sLengthMenu:     "Mostrar _MENU_ registros",
