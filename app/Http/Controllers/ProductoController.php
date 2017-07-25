@@ -55,6 +55,7 @@ class ProductoController extends Controller
             'marca' => 'required',
             'formato' => 'required',
             'sabor' => 'required',
+            'vida_util' => 'required',
             'peso_bruto' => 'required',
             'volumen' => 'required'
         ]);
@@ -66,6 +67,7 @@ class ProductoController extends Controller
             'marca_id' => $request->marca,
             'formato_id' => $request->formato,
             'sabor_id' => $request->sabor,
+            'vida_util' => $request->vida_util,
             'peso_bruto' => $request->peso_bruto,
             'volumen' => $request->volumen,
             'activo' => $activo
@@ -120,6 +122,7 @@ class ProductoController extends Controller
             'marca' => 'required',
             'formato' => 'required',
             'sabor' => 'required',
+            'vida_util' => 'required',
             'peso_bruto' => 'required',
             'volumen' => 'required'
         ]);
@@ -131,6 +134,7 @@ class ProductoController extends Controller
         $producto->marca_id = $request->marca;
         $producto->formato_id = $request->formato;
         $producto->sabor_id = $request->sabor;
+        $producto->vida_util = $request->vida_util;
         $producto->peso_bruto = $request->peso_bruto;
         $producto->volumen = $request->volumen;
         $producto->activo = $activo;

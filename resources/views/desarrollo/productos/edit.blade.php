@@ -75,6 +75,12 @@
 			            </select>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">Vida Util:</label>
+					<div class="col-sm-2">
+						<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ $producto->vida_util }}" required>
+					</div>
+				</div>
 			</div>
 			<div class="form-inline col-sm-offset-1">
 				<div class="form-group">
