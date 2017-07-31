@@ -100,7 +100,6 @@ var app = new Vue ({
 			var validacion = this.validarItem();
 			var item = {};
 			if(!validacion) {
-				alert('Error al agregar Item');
 				return;
 			}
 
@@ -235,19 +234,50 @@ var app = new Vue ({
 		validarItem: function() {
 
 			var validar = false;
+			var msg = '';
 
-			if ((this.producto) && (this.cantidad) && (this.precio) ) {
+			if (!this.producto) {
 
+				msg = "Debe Seleccionar el producto.";
+
+			} else if (!this.cantidad) {
+
+				msg = "Debe colocar la Cantidad.";
+
+			} else if (!this.precio) {
+
+				msg = "Producto seleccionado No posee precio asociado.";
+
+			} else if (this.items.length >= 40) {
+
+				msg = "Maximo Numero de Items Por nota de Venta: 40";
+
+			} else if (this.duplicatedItem() && !this.active) {
+
+				msg = "Producto ya se encuentra agregado.";
+
+			}else {
 				validar = true;
 			}
 
-			if (this.items.length >= 40) {
-
-				alert('Maximo Numero de Items Por nota de Venta: 40');
-				validar = false;
+			if (msg) {
+				alert(msg);
 			}
 
 			return validar;
+		},
+
+		duplicatedItem: function(codigo) {
+
+			for (var i = 0; i < this.items.length; i++) {
+
+				if (codigo = this.items[i].codigo) {
+
+					return true;
+				}
+			}
+
+			return false;
 		},
 
 		handleError: function(error) {
