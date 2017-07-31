@@ -56,39 +56,37 @@
 				<!-- /form-horizontal -->
 				<hr>
 				<h5>Datos</h5>
-				<!-- form-inline -->
-				<div class="form-inline col-sm-offset-1">
+				<!-- form-horizontal -->
+				<div class="form-horizontal">
 
 					<div class="form-group">
-						<label>Fecha Emision:</label>
-						<div class="input-group col-xs-2">
+
+						<label class="control-label col-lg-2">Fecha Emision:</label>
+						<div class="col-lg-2">
 							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
 						</div>
-					</div>
 
-					<div class="form-group">
-						<label>Fechan Vencimiento:</label>
-						<div class="input-group col-xs-2">
+						<label class="control-label col-lg-2">Fechan Vencimiento:</label>
+						<div class="col-lg-2">
 							<input type="date" class="form-control " name="fechaVenc" value="{{ Input::old('fechaVenc') ? Input::old('fechaVenc') : '' }}" required>
 						</div>
-					</div>
 
-					<div class="form-group">
-						<label class="input-group col-lg-4" >O. Compra:</label>
-						<div class="input-group col-lg-5">
+						<label class="control-label col-lg-2" >O. Compra:</label>
+						<div class="col-lg-2">
 							<input type="number" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ Input::old('orden_compra') ? Input::old('orden_compra') : '' }}">
 						</div>
+
 					</div>
 
 				</div>
-				<!-- /form-inline -->
+				<!-- /form-horizontal -->
 				<br>
-				<!-- form-inline -->
-				<div class="form-inline col-sm-offset-1">
+				<!-- form-horizontal -->
+				<div class="form-horizontal">
 
 					<div class="form-group">
-						<label>Cliente:</label>
-						<div class="input-group" style="margin-left: 50px">
+						<label class="control-label col-lg-2">Cliente:</label>
+						<div class="col-lg-4">
 							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
 								@foreach ($clientes as $cliente)
@@ -96,20 +94,17 @@
 								@endforeach
 							</select>
 						</div>
-					</div>
 
-					<div class="form-group" style="margin-left: 50px">
-						<label>Cond. Pago:</label>
-						<div class="input-group" style="margin-left: 50px">
+						<label class="control-label col-lg-2">Cond. Pago:</label>
+						<div class="col-lg-2">
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
 								<option v-if="formaPagoDescrip" selected v-bind:value="formaPagoDescrip">@{{formaPagoDescrip}}</option>
 
 							</select>
 						</div>
 					</div>
-
 				</div>
-				<!-- /form-inline -->
+				<!-- /form-horizontal -->
 				<br>
 				<!-- form-horizontal -->
 				<div class="form-horizontal">
@@ -169,7 +164,7 @@
 			<div class="form-horizontal">
 
 				<div class="form-group">
-					<label class="col-sm-1  text-left control-label">Lista Precios:</label>
+					<label class="col-sm-2  text-left control-label">Lista Precios:</label>
 					<div class="col-sm-4">
 						<select class="selectpicker form-control" data-width="auto" data-live-search="true" data-style="btn-default" name="lista">
 							<option v-if="listaDescrip" selected v-bind:value="listaId">@{{listaDescrip}}</option>
@@ -179,33 +174,33 @@
 
 				<div class="form-group">
 
-					<label class="col-md-1 control-label">Producto:</label>
-					<div class="col-md-3">
-						<select class="selectpicker form-control" data-width="280" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="loadProducto">
+					<label class="control-label col-lg-1">Producto:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
 							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
 						</select>
 					</div>
 
-					<label class="col-md-1 control-label">Cantidad:</label>
-					<div class="col-md-1">
+					<label class="control-label col-lg-1">Cant:</label>
+					<div class="col-lg-2">
 						<input class="form-control" type="number" min="0" name="cantidad" v-model="cantidad">
 					</div>
 
-					<label class="col-md-1 control-label">%Dscto:</label>
-					<div class="col-md-2">
+					<label class="control-label col-lg-1">%Dscto:</label>
+					<div class="col-lg-2">
 						<input class="form-control" type="number" name="descuento" v-model="descuento" disabled>
 					</div>
 
-					<label class="col-md-1 control-label">Precio:</label>
-					<div class="col-md-2">
+					<label class="control-label col-lg-1">Precio:</label>
+					<div class="col-lg-2">
 						<input class="form-control" type="number" name="precio" v-model="precio" disabled>
 					</div>
 
 				</div>
 
 				<div class="form-group">
-					<div class="col-sm-offset-10 col-sm-2">
+					<div class="col-lg-offset-10 col-sm-2">
 						<button class="btn" type="button" @click="removeItem">Borrar</button>
 						<button class="btn" type="button" @click="insertItem">Agregar</button>
 					</div>
@@ -221,7 +216,7 @@
 		</div>
 		<!-- /box-body -->
 		<!-- box-body -->
-		<div class="box-body" style="overflow-y: scroll;max-height:200px;border:1px solid black;">
+		<div class="box-body" style="overflow-y: scroll;max-height:500px;border:1px solid black;">
 			<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 				<thead>
 					<tr>

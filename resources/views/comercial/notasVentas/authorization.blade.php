@@ -36,7 +36,7 @@
 					@foreach ($notasVentas as $notaVenta)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank">{{$notaVenta->numero}}</a></td>
+							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero.'/autorizar')}}" target="_blank">{{$notaVenta->numero}}</a></td>
 							<td>{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
 							<td>{{$notaVenta->total}}</td>
@@ -44,13 +44,13 @@
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
 									{{csrf_field()}}
-									<button class="btn btn-sm" type="submit">
+									<button class="btn btn-sm" @click="confirmAutorizar">
 										<i class="fa fa-check-circle" aria-hidden="true"></i>
 									</button>
 								</form>
 								<form style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
 									{{csrf_field()}}
-									<button class="btn btn-sm" type="submit">
+									<button class="btn btn-sm" @click="confirmDesautorizar">
 										<i class="fa fa-ban" aria-hidden="true"></i>
 									</button>
 								</form>
@@ -67,4 +67,6 @@
 
 @section('scripts')
 	<script src="{{asset('js/customDataTable.js')}}"></script>
+	<script src="{{asset('vue/vue.js')}}"></script>
+	<script src="{{asset('js/comercial/nvAutorizacion.js')}}"></script>
 @endsection

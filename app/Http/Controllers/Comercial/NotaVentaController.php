@@ -104,6 +104,21 @@ class NotaVentaController extends Controller
         }
     }
 
+    public function showForAut($numero)
+    {
+        $notaVenta = NotaVenta::where('numero',$numero)->first();
+
+        if ($notaVenta) {
+
+            $notaVenta->load('centroVenta:id,descripcion','cliente:id,descripcion','formaPago:id,descripcion','vendedor:id,nombre','detalle');
+
+            return view('comercial.notasVentas.authorize')->with(['notaVenta' => $notaVenta]);
+        } else {
+
+            return redirect()->back();
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -112,7 +127,7 @@ class NotaVentaController extends Controller
      */
     public function edit(NotaVenta $notaVenta)
     {
-        $notaVenta->load('detalle','cliente.sucursal','cliente.listaPrecio.detalle','cliente.canal');
+        $notaVenta->load('detalle','cliente.sucursal','cliente.listaPrecio.detalle','cliente.canal','cliente.formaPago');
         $centrosVentas = CentroVenta::getAllActive();
         $clientes = ClienteNacional::getAllActive();
         $formasPagos = FormaPagoNac::getAllActive();
@@ -138,7 +153,22 @@ class NotaVentaController extends Controller
      */
     public function update(Request $request, NotaVenta $notaVenta)
     {
-        //
+      $this->validate($request, [
+          'centroVenta' => 'required',
+          'fechaEmision' => 'required',
+          'fechaVenc' => 'required',
+          'cliente' => 'required',
+          'formaPago' => 'required',
+          'despacho' => 'required',
+          'vendedor' => 'required',
+          'items' => 'required',
+      ]);
+
+      $numero = $this->notaVenta->registerEdit($request,$notaVenta);
+
+      $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
+
+      return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }
 
     /**
@@ -160,7 +190,7 @@ class NotaVentaController extends Controller
     {
         $notasVentas = NotaVenta::unauthorized();
         $notasVentas->load('cliente.formaPago');
-        
+
         return view('comercial.notasVentas.authorization')->with(['notasVentas' => $notasVentas]);
     }
 

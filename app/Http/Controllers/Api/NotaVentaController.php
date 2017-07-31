@@ -19,7 +19,7 @@ class NotaVentaController extends Controller
         try {
 
             $notasVentas = NotaVenta::with(
-                'centroVenta:id,descripcion', 'cliente:id,descripcion',
+                'centroVenta:id,descripcion', 'cliente:id,rut,descripcion',
                 'vendedor:id,nombre', 'formaPago:id,descripcion')
                 ->whereNull('factura')
                 ->where('aut_comer', 1)

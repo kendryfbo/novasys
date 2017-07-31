@@ -81,11 +81,8 @@
 					<div class="form-group">
 						<label>Cliente:</label>
 						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required>
-								<option value="">Seleccionar Cliente...</option>
-								@foreach ($clientes as $cliente)
-									<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
-								@endforeach
+							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required disabled>
+									<option value="{{$notaVenta->cliente->id}}">{{$notaVenta->cliente->descripcion}}</option>
 							</select>
 						</div>
 					</div>
@@ -93,11 +90,8 @@
 					<div class="form-group" style="margin-left: 50px">
 						<label>Cond. Pago:</label>
 						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
-								<option value="">Cond. Pago...</option>
-								@foreach ($formasPagos as $formaPago)
-									<option {{ $notaVenta->cond_pago == $formaPago->id ? 'selected' : '' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
-								@endforeach
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required disabled>
+									<option value="{{$notaVenta->cond_pago}}">{{$notaVenta->cond_pago}}</option>
 							</select>
 						</div>
 					</div>
@@ -165,7 +159,7 @@
 				<div class="form-group">
 					<label class="col-sm-1  text-left control-label">Lista Precios:</label>
 					<div class="col-sm-4">
-						<select class="selectpicker form-control" data-width="auto" data-live-search="true" data-style="btn-default" name="lista">
+						<select class="selectpicker form-control" data-width="auto" data-live-search="true" data-style="btn-default" name="lista" disabled>
 							<option v-if="listaDescrip" selected v-bind:value="listaId">@{{listaDescrip}}</option>
 						</select>
 					</div>
@@ -235,9 +229,9 @@
 						<td>@{{item.codigo}}</td>
 						<td>@{{item.descripcion}}</td>
 						<td>@{{item.cantidad}}</td>
-						<td>@{{item.precio.toLocaleString()}}</td>
+						<td>@{{item.precio}}</td>
 						<td>@{{item.descuento}}</td>
-						<td>@{{item.total.toLocaleString()}}</td>
+						<td>@{{item.total}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -310,7 +304,7 @@
 
 			</div>
 
-   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
+   	 		<button type="submit" form="create" class="btn pull-right">Modificar</button>
    	 	</div>
 		<!-- /box-footer -->
 	</div>
