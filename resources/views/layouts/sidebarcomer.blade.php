@@ -53,7 +53,7 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="#"><i class="fa fa-link"></i> <span>Clientes Inter.</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Adianas</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Aduanas</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Condiciones de Pago</span></a></li>
             </ul>
           </li>
