@@ -148,5 +148,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 		return $this->numero;
 	}
 
-
+	public function registerEdit($request,$notaVenta) {
+		
+	}
 }
