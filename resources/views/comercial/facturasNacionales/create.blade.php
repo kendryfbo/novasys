@@ -42,7 +42,7 @@
     							<td>@{{notaVenta.cliente.descripcion}}</td>
     							<td>@{{notaVenta.neto}}</td>
     							<td>@{{notaVenta.total}}</td>
-    							<td>@{{notaVenta.forma_pago.descripcion}}</td>
+    							<td>@{{notaVenta.cond_pago}}</td>
     						</tr>
     				</tbody>
     			</table>

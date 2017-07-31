@@ -52,6 +52,25 @@ class FacturaNacionalController extends Controller
                     ]);
     }
 
+    public function createFromNotaVenta(Request $request) {
+
+        $id = $request->notaVenta;
+
+        $notaVenta = NotaVenta::with(
+            'centroVenta:id,descripcion',
+            'cliente:id,descripcion',
+            'vendedor:id,nombre',
+            'detalle')->find($id);
+
+        if ($notaVenta) {
+
+            return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
+        } else {
+
+            return redirect()->back();
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -149,22 +168,4 @@ class FacturaNacionalController extends Controller
         //
     }
 
-    public function createFromNotaVenta(Request $request) {
-
-        $id = $request->notaVenta;
-
-        $notaVenta = NotaVenta::with(
-            'centroVenta:id,descripcion',
-            'cliente:id,descripcion',
-            'vendedor:id,nombre',
-            'detalle')->find($id);
-
-        if ($notaVenta) {
-
-            return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
-        } else {
-
-            return redirect()->back();
-        }
-    }
 }

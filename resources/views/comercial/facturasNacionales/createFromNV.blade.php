@@ -75,7 +75,7 @@
 						<label>Cond. Pago:</label>
 						<div class="input-group" style="margin-left: 50px">
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" readonly required>
-							    <option selected value="{{$notaVenta->formaPago->id}}">{{$notaVenta->formaPago->descripcion}}</option>
+							    <option selected value="{{$notaVenta->cond_pago}}">{{$notaVenta->cond_pago}}</option>
 							</select>
 						</div>
 					</div>
