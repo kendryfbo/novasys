@@ -48,8 +48,7 @@ class NotaVentaController extends Controller
         return view('comercial.notasVentas.create')->with([
             'centrosVentas' => $centrosVentas,
             'clientes' => $clientes,
-            'vendedores' => $vendedores,
-            //'listasPrecios' => $listasPrecios /* Implementado lista de precio por cliente
+            'vendedores' => $vendedores
         ]);
     }
 
@@ -61,26 +60,22 @@ class NotaVentaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+      $this->validate($request, [
+          'centroVenta' => 'required',
+          'fechaEmision' => 'required',
+          'fechaVenc' => 'required',
+          'cliente' => 'required',
+          'formaPago' => 'required',
+          'despacho' => 'required',
+          'vendedor' => 'required',
+          'items' => 'required'
+      ]);
 
-        $this->validate($request, [
-            'centroVenta' => 'required',
-            'fechaEmision' => 'required',
-            'fechaVenc' => 'required',
-            'cliente' => 'required',
-            'formaPago' => 'required',
-            'despacho' => 'required',
-            'vendedor' => 'required',
-            'items' => 'required',
-            // 'items.*.id' => 'required',
-            // 'items.*.descripcion' => 'required|string'
-        ]);
+      $numero = $this->notaVenta->register($request);
 
-        $numero = $this->notaVenta->register($request);
+      $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
 
-        $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
-
-        return redirect('comercial\notasVentas')->with(['status' => $msg]);
+      return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }
 
     /**
@@ -127,20 +122,18 @@ class NotaVentaController extends Controller
      */
     public function edit(NotaVenta $notaVenta)
     {
-        $notaVenta->load('detalle','cliente.sucursal','cliente.listaPrecio.detalle','cliente.canal','cliente.formaPago');
-        $centrosVentas = CentroVenta::getAllActive();
-        $clientes = ClienteNacional::getAllActive();
-        $formasPagos = FormaPagoNac::getAllActive();
+        $notaVenta->load('detalle','cliente.sucursal',
+                         'cliente.listaPrecio.detalle.producto.marca',
+                         'cliente.listaPrecio.detalle.producto.formato',
+                         'cliente.canal','cliente.formaPago');
+
         $vendedores = Vendedor::getAllActive();
-        //$listasPrecios = ListaPrecio::where(); /* Implementado lista de precio por cliente
+        $centrosVentas = CentroVenta::getAllActive();
 
         return view('comercial.notasVentas.edit')->with([
             'notaVenta' => $notaVenta,
             'centrosVentas' => $centrosVentas,
-            'clientes' => $clientes,
-            'formasPagos' => $formasPagos,
-            'vendedores' => $vendedores,
-            //'listasPrecios' => $listasPrecios /* Implementado lista de precio por cliente
+            'vendedores' => $vendedores
         ]);
     }
 
@@ -153,16 +146,17 @@ class NotaVentaController extends Controller
      */
     public function update(Request $request, NotaVenta $notaVenta)
     {
-      $this->validate($request, [
-          'centroVenta' => 'required',
-          'fechaEmision' => 'required',
-          'fechaVenc' => 'required',
-          'cliente' => 'required',
-          'formaPago' => 'required',
-          'despacho' => 'required',
-          'vendedor' => 'required',
-          'items' => 'required',
-      ]);
+      // dd($request);
+      // $this->validate($request, [
+      //     'centroVenta' => 'required',
+      //     'fechaEmision' => 'required',
+      //     'fechaVenc' => 'required',
+      //     'cliente' => 'required',
+      //     'formaPago' => 'required',
+      //     'despacho' => 'required',
+      //     'vendedor' => 'required',
+      //     'items' => 'required',
+      // ]);
 
       $numero = $this->notaVenta->registerEdit($request,$notaVenta);
 

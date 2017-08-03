@@ -25,10 +25,10 @@
 
 			@endif
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
+			<form  id="create" method="post" action="{{route('notasVentas.update',$notaVenta->id)}}">
 
 				{{ csrf_field() }}
-
+				<input type="hidden" name="_method" value="put">
 				<!-- form-horizontal -->
 				<div class="form-horizontal">
 

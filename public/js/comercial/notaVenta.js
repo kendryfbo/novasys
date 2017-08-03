@@ -80,7 +80,6 @@ var app = new Vue ({
 					this.codigo = this.listaDetalle[i].producto.codigo;
 					this.descripcion = this.listaDetalle[i].descripcion;
 					this.precio = Math.round(this.listaDetalle[i].precio);
-					this.precio = Math.round(12.5);
 					this.peso_neto = (formato.sobre * formato.display * formato.peso) / 1000;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
 					this.volumen = this.listaDetalle[i].producto.volumen;
@@ -252,7 +251,7 @@ var app = new Vue ({
 
 				msg = "Maximo Numero de Items Por nota de Venta: 40";
 
-			} else if (this.duplicatedItem() && !this.active) {
+			} else if (this.duplicatedItem(this.codigo) && !this.active) {
 
 				msg = "Producto ya se encuentra agregado.";
 
@@ -271,7 +270,7 @@ var app = new Vue ({
 
 			for (var i = 0; i < this.items.length; i++) {
 
-				if (codigo = this.items[i].codigo) {
+				if (codigo == this.items[i].codigo) {
 
 					return true;
 				}
