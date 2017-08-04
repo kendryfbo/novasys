@@ -55,9 +55,9 @@
 				</div>
 
 				<div class="form-group">
-					<label>Fechan Vencimiento:</label>
+					<label>Fecha Despacho:</label>
 					<div class="input-group col-xs-2">
-						<input type="date" class="form-control " name="fechaVenc" value="{{$notaVenta->fecha_venc}}" disabled>
+						<input type="date" class="form-control " name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" disabled>
 					</div>
 				</div>
 

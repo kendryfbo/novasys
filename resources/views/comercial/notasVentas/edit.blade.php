@@ -49,6 +49,10 @@
 						<div class="col-sm-2">
 							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{ $notaVenta->numero }}" required readonly>
 						</div>
+						<label class="control-label col-lg-1" >Version:</label>
+						<div class="col-lg-1">
+							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{ $notaVenta->version }}" required readonly>
+						</div>
 					</div>
 
 				</div>
@@ -66,9 +70,9 @@
 					</div>
 
 					<div class="form-group">
-						<label>Fechan Vencimiento:</label>
+						<label>Fecha Despacho:</label>
 						<div class="input-group col-xs-2">
-							<input type="date" class="form-control " name="fechaVenc" value="{{ $notaVenta->fecha_venc }}" required>
+							<input type="date" class="form-control " name="fechaDespacho" value="{{ $notaVenta->fecha_despacho }}" required>
 						</div>
 					</div>
 
@@ -81,7 +85,7 @@
 					<div class="form-group">
 						<label>Cliente:</label>
 						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required disabled>
+							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required readonly>
 									<option value="{{$notaVenta->cliente->id}}">{{$notaVenta->cliente->descripcion}}</option>
 							</select>
 						</div>
@@ -90,7 +94,7 @@
 					<div class="form-group" style="margin-left: 50px">
 						<label>Cond. Pago:</label>
 						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required disabled>
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required readonly>
 									<option value="{{$notaVenta->cond_pago}}">{{$notaVenta->cond_pago}}</option>
 							</select>
 						</div>

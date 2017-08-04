@@ -63,7 +63,7 @@ class NotaVentaController extends Controller
       $this->validate($request, [
           'centroVenta' => 'required',
           'fechaEmision' => 'required',
-          'fechaVenc' => 'required',
+          'fechaDespacho' => 'required',
           'cliente' => 'required',
           'formaPago' => 'required',
           'despacho' => 'required',
@@ -146,21 +146,20 @@ class NotaVentaController extends Controller
      */
     public function update(Request $request, NotaVenta $notaVenta)
     {
-      // dd($request);
-      // $this->validate($request, [
-      //     'centroVenta' => 'required',
-      //     'fechaEmision' => 'required',
-      //     'fechaVenc' => 'required',
-      //     'cliente' => 'required',
-      //     'formaPago' => 'required',
-      //     'despacho' => 'required',
-      //     'vendedor' => 'required',
-      //     'items' => 'required',
-      // ]);
+      $this->validate($request, [
+         'centroVenta' => 'required',
+         'fechaEmision' => 'required',
+         'fechaDespacho' => 'required',
+         'cliente' => 'required',
+         'formaPago' => 'required',
+         'despacho' => 'required',
+         'vendedor' => 'required',
+         'items' => 'required',
+       ]);
 
       $numero = $this->notaVenta->registerEdit($request,$notaVenta);
 
-      $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
+      $msg = "Nota de Venta numero: " . $numero . " ha sido Editada.";
 
       return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }

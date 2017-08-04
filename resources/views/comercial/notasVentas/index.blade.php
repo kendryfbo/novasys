@@ -27,11 +27,11 @@
 						<th class="text-center">#</th>
 						<th class="text-center">Numero</th>
 						<th class="text-center">Fecha</th>
-						<th>R.U.T</th>
-						<th>Cliente</th>
-						<th>neto</th>
-						<th>Monto</th>
-						<th>Condicion Pago</th>
+						<th class="text-center">R.U.T</th>
+						<th class="text-center">Cliente</th>
+						<th class="text-center">Despacho</th>
+						<th class="text-center">Monto</th>
+						<th class="text-center">Condicion Pago</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -40,12 +40,12 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank">{{$notaVenta->numero}}</a></td>
-							<td>{{$notaVenta->fecha_emision}}</td>
-							<td>{{$notaVenta->cliente->rut}}</td>
+							<td class="text-center">{{$notaVenta->fecha_emision}}</td>
+							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
-							<td>{{$notaVenta->neto}}</td>
-							<td>{{$notaVenta->total}}</td>
-							<td>{{$notaVenta->cond_pago}}</td>
+							<td class="text-center">{{$notaVenta->fecha_despacho}}</td>
+							<td class="text-right">{{$notaVenta->total}}</td>
+							<td class="text-center">{{$notaVenta->cond_pago}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
 									<button class="btn btn-sm" type="submit">

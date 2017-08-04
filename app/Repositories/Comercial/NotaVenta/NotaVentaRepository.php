@@ -49,7 +49,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$despacho = $request->despacho;
 			$user = $request->user()->id;
 			$fechaEmision = $request->fechaEmision;
-			$fechaVenc = $request->fechaVenc;
+			$fechaDespacho = $request->fechaDespacho;
 
 			$notaVenta = NotaVenta::create([
 				'numero' => $numero,
@@ -71,7 +71,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				'volumen' => $totalVolumen,
 				'user_id' => $user,
 				'fecha_emision' => $fechaEmision,
-				'fecha_venc' => $fechaVenc
+				'fecha_despacho' => $fechaDespacho
 			]);
 
 			$nv = $notaVenta->id;
@@ -241,7 +241,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$notaVenta->despacho = $request->despacho;
 			$notaVenta->user_id = $request->user()->id;
 			$notaVenta->fecha_emision = $request->fechaEmision;
-			$notaVenta->fecha_venc = $request->fechaVenc;
+			$notaVenta->fecha_despacho = $request->fechaDespacho;
 			$notaVenta->descuento = $totalDescuento;
 			$notaVenta->neto = $totalNeto;
 			$notaVenta->iva = $totalIva;

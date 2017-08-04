@@ -66,9 +66,9 @@
 							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
 						</div>
 
-						<label class="control-label col-lg-2">Fechan Vencimiento:</label>
+						<label class="control-label col-lg-2">Fecha despacho:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control " name="fechaVenc" value="{{ Input::old('fechaVenc') ? Input::old('fechaVenc') : '' }}" required>
+							<input type="date" class="form-control " name="fechaDespacho" value="{{ Input::old('fechaDespacho') ? Input::old('fechaDespacho') : '' }}" required>
 						</div>
 
 						<label class="control-label col-lg-2" >O. Compra:</label>
@@ -250,29 +250,76 @@
 			<div class="form-horizontal">
 
 				<div class="form-group">
-					<label class="col-sm-1 control-label">Sub-Total:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="subTotal" v-model.number="subTotal" disabled>
+
+					<label class="control-label col-lg-1">Peso Neto:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control text-right" type="number" name="peso_neto" v-model.number="totalPesoNeto" disabled>
+							<span class="input-group-addon">Kg</span>
+						</div>
 					</div>
+
+					<label class="control-label col-lg-1">Peso Bruto:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control text-right" type="number" name="peso_bruto" v-model.number="totalPesoBruto" disabled>
+							<span class="input-group-addon">Kg</span>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1">Volumen:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control text-right" type="number" name="volumen" v-model.number="totalVolumen" disabled>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1">Cajas:</label>
+					<div class="col-lg-1">
+						<input class="form-control text-right" type="number" name="cajas" v-model.number="cajas" disabled>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-1 ">Sub-Total:</label>
+					<div class="col-sm-2">
+						<input class="form-control text-right" type="number" name="subTotal" v-model.number="subTotal" disabled>
+					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-sm-1 control-label">Descuento:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" name="totaldescuento" v-model.number="totaldescuento" disabled>
+						<input class="form-control text-right" type="number" name="totaldescuento" v-model.number="totaldescuento" disabled>
 					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-sm-1 control-label">Neto:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" name="totalNeto" v-model.number="neto" disabled>
+						<input class="form-control text-right" type="number" name="totalNeto" v-model.number="neto" disabled>
 					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-sm-1 control-label">IABA:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" name="iaba" v-model.number="totalIaba" disabled>
+						<input class="form-control text-right" type="number" name="iaba" v-model.number="totalIaba" disabled>
 					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-sm-1 control-label">I.V.A:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" name="iva" v-model.number="iva" disabled>
+						<input class="form-control text-right" type="number" name="iva" v-model.number="iva" disabled>
 					</div>
+				</div>
+
+				<div class="form-group">
 					<label class="col-sm-1 control-label">Total:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" name="total" v-model="total" disabled>
+						<input class="form-control text-right" type="number" name="total" v-model="total" disabled>
 					</div>
 				</div>
 
@@ -283,36 +330,10 @@
 
 		<!-- box-footer -->
 		<div class="box-footer">
-			<div class="form-inline">
 
-				<div class="form-group">
-					<label class="control-label">Total Peso Neto:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="peso_neto" v-model.number="totalPesoNeto" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
-				</div>
+		 		<button type="submit" form="create" class="btn pull-right">Crear</button>
 
-				<div class="form-group">
-					<label class="control-label">Total Peso Bruto:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="peso_bruto" v-model.number="totalPesoBruto" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label">Volumen:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="volumen" v-model.number="totalVolumen" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
-				</div>
-
-			</div>
-
-   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
-   	 	</div>
+ 	 	</div>
 		<!-- /box-footer -->
 	</div>
 	<!-- /box -->

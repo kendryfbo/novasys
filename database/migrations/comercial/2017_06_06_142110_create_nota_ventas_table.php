@@ -36,7 +36,7 @@ class CreateNotaVentasTable extends Migration
             $table->decimal('volumen',10,2);
             $table->integer('user_id')->unsigned();
             $table->date('fecha_emision');
-            $table->date('fecha_venc');
+            $table->date('fecha_despacho');
             $table->integer('factura')->nullable();
             $table->timestamps();
         });

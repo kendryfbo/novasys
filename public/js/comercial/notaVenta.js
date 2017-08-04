@@ -32,6 +32,7 @@ var app = new Vue ({
 		peso_neto: '',
 		peso_bruto: '',
 		volumen: '',
+		cajas: 0,
 		totalPesoNeto: '',
 		totalPesoBruto: '',
 		totalVolumen: '',
@@ -181,9 +182,11 @@ var app = new Vue ({
 			var totalPesoNeto = 0;
 			var totalPesoBruto = 0;
 			var totalVolumen = 0;
+			var totalCajas = 0;
 			var pesoNeto = 0;
 			var pesoBruto = 0;
 			var volumen = 0;
+			var cajas = 0;
 
 			for (var i=0; this.items.length > i; i++) {
 
@@ -192,7 +195,7 @@ var app = new Vue ({
 				pesoNeto = this.items[i].peso_neto;
 				pesoBruto = this.items[i].peso_bruto;
 				volumen = this.items[i].volumen;
-
+				cajas = this.items[i].cantidad * 1;
 				neto = itemSubTotal - descuento;
 				iva = (neto * 19) / 100;
 
@@ -210,6 +213,7 @@ var app = new Vue ({
 				totalPesoNeto += pesoNeto;
 				totalPesoBruto += pesoBruto;
 				totalVolumen += volumen;
+				totalCajas += cajas;
 			}
 
 			this.subTotal = Math.round(subTotal);
@@ -221,6 +225,7 @@ var app = new Vue ({
 			this.totalPesoBruto = totalPesoBruto.toFixed(2);
 			this.totalPesoNeto = totalPesoNeto.toFixed(2);
 			this.totalVolumen = totalVolumen.toFixed(2);
+			this.cajas = totalCajas;
 
 		},
 
