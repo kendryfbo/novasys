@@ -29,6 +29,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CanalTableSeeder::class);
         $this->call(VendedoresTableSeeder::class);
         $this->call(ImpuestoTableSeeder::class);
+        $this->call(ClausulaVentasTableSeeder::class);
+        $this->call(PaisTableSeeder::class);
+        $this->call(MedioTransporteTableSeeder::class);
+        $this->call(PuertoEmbarqueTableSeeder::class);
 
         // Semillas de Modulo configuracion
         $this->call(AccesosTableSeeder::class);
