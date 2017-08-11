@@ -4,9 +4,10 @@ namespace App\Models\Comercial;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Aduana extends Model
+class Pais extends Model
 {
-  protected $fillable = ['rut', 'descripcion', 'direccion', 'ciudad', 'comuna', 'tipo', 'activo'];
+
+  protected $table = 'pais';
 
   static function getAllActive() {
 

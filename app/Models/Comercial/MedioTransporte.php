@@ -4,12 +4,14 @@ namespace App\Models\Comercial;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Aduana extends Model
+class MedioTransporte extends Model
 {
-  protected $fillable = ['rut', 'descripcion', 'direccion', 'ciudad', 'comuna', 'tipo', 'activo'];
+
+  protected $table = 'medio_transportes';
 
   static function getAllActive() {
 
     return self::all()->where('activo',1);
   }
+  
 }
