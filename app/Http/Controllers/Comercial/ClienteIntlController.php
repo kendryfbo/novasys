@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Comercial;
 use App\Models\Comercial\ClienteIntl;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\Pais;
+use App\Models\Comercial\FormaPagoIntl;
 
 class ClienteIntlController extends Controller
 {
@@ -15,7 +17,9 @@ class ClienteIntlController extends Controller
      */
     public function index()
     {
-        //
+      $clientes = ClienteIntl::all();
+
+      return view('comercial.clientesIntl.index')->with(['clientes' => $clientes]);
     }
 
     /**
@@ -25,7 +29,10 @@ class ClienteIntlController extends Controller
      */
     public function create()
     {
-        //
+      $paises = Pais::getAllActive();
+      $formasPago = FormaPagoIntl::getAllActive();
+
+      return view('comercial.clientesIntl.create')->with(['paises' => $paises, 'formasPago' => $formasPago]);
     }
 
     /**
@@ -36,7 +43,44 @@ class ClienteIntlController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validate($request, [
+        'descripcion' => 'required',
+        'direccion' => 'required',
+        'pais' => 'required',
+        'zona' => 'required',
+        'idioma' => 'required',
+        'fono' => 'required',
+        'giro' => 'required',
+        'fax' => 'required',
+        'contacto' => 'required',
+        'cargo' => 'required',
+        'email' => 'required',
+        'formaPago' => 'required',
+        'credito' => 'required'
+      ]);
+
+      $activo = !empty($request->activo);
+
+      ClienteIntl::create([
+        'descripcion' => $request->descripcion,
+        'direccion' => $request->direccion,
+        'pais' => $request->pais,
+        'zona' => $request->zona,
+        'idioma' => $request->idioma,
+        'fono' => $request->fono,
+        'giro' => $request->giro,
+        'fax' => $request->fax,
+        'contacto' => $request->contacto,
+        'cargo' => $request->cargo,
+        'email' => $request->email,
+        'fp_id' => $request->formaPago,
+        'credito' => $request->credito,
+        'activo' => $activo
+      ]);
+
+      $msg = 'Cliente '. $request->descripcion .' Ha sido Creado.';
+
+      return redirect(route('clienteIntl'))->with(['status' => $msg]);
     }
 
     /**
@@ -47,7 +91,7 @@ class ClienteIntlController extends Controller
      */
     public function show(ClienteIntl $clienteIntl)
     {
-        //
+      dd($clienteIntl->getAttributes());
     }
 
     /**
@@ -58,7 +102,10 @@ class ClienteIntlController extends Controller
      */
     public function edit(ClienteIntl $clienteIntl)
     {
-        //
+      $paises = Pais::getAllActive();
+      $formasPago = FormaPagoIntl::getAllActive();
+
+      return view('comercial.clientesIntl.edit')->with(['paises' => $paises, 'formasPago' => $formasPago, 'cliente' => $clienteIntl]);
     }
 
     /**
@@ -81,6 +128,6 @@ class ClienteIntlController extends Controller
      */
     public function destroy(ClienteIntl $clienteIntl)
     {
-        //
+        dd('Temporalmente deshabilitado');
     }
 }
