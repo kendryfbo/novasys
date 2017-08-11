@@ -22,7 +22,7 @@
 						</select>
 					</div>
 
-					<div class="col-sm-2 pull-right">
+					<div class="col-lg-1 col-lg-offset-4">
 
 						<form action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
 							{{csrf_field()}}
@@ -31,6 +31,10 @@
 								<i class="fa fa-ban" aria-hidden="true"></i>
 							</button>
 						</form>
+
+					</div>
+
+					<div class="col-lg-1">
 						<form action="{{url('comercial/notasVentas/autrizar/'.$notaVenta->id)}}" method="post">
 							{{csrf_field()}}
 							<button class="btn btn-sm btn-success">
@@ -38,8 +42,8 @@
 								<i class="fa fa-check-circle" aria-hidden="true"></i>
 							</button>
 						</form>
-
 					</div>
+
 				</div>
 
 				<div class="form-group">
