@@ -35,3 +35,8 @@ Route::resource('listaPreciosDetalle', 'Api\ListaPrecioDetalleController', [
 // Rutas api Notas de Ventas
 route::get('notasVentas', 'Api\NotaVentaController@index');
 route::get('notasVentas/{notaVenta}', 'Api\NotaVentaController@show');
+
+
+// Rutas Api Sucursales Internacionales
+route::get('sucursalesIntl/{cliente}', 'Api\SucursalIntlController@show')->name('apiVerSucursalClienteIntl');
+route::post('sucursalesIntl/{cliente}', 'Api\SucursalIntlController@store')->name('apiGuardarSucursalClienteIntl');

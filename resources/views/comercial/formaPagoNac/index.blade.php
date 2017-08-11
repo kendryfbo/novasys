@@ -34,7 +34,7 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center">{{$formaPago->descripcion}}</td>
-							<td class="text-center">{{$formaPago->activo}}</td>
+							<td class="text-center">{{$formaPago->activo ? 'Si':'No'}}</td>
 						</tr>
 					@endforeach
 				</tbody>
