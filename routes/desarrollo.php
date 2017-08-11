@@ -5,6 +5,8 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 
 	// Pantalla Principal Modulo Desarrollo
     Route::get('/', 'DesarrolloController@main');
+    Route::get('/pdf', 'DesarrolloController@pdf');
+    Route::get('/htmlPdf', 'DesarrolloController@htmlPdf');
 	// GRUPO de Rutas de Desarrollo/Familias
 	Route::group(['prefix' => 'familias'], function(){
 
@@ -65,6 +67,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 
 		Route::get('/',					'PremezclaController@index')->name('premezclas');
 		Route::get('crear', 			'PremezclaController@create')->name('crearPremezcla');
+		Route::get('crearDos', 			'PremezclaController@createDos')->name('crearPremezclaDos');
 		Route::post('/', 				'PremezclaController@store')->name('guardarPremezcla');
 		Route::get('/{premezcla}/edit', 	'PremezclaController@edit')->name('editarPremezcla');
 		Route::post('update/{premezcla}', 'PremezclaController@update')->name('actualizarPremezcla');

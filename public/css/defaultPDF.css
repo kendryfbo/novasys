@@ -1,0 +1,72 @@
+
+/*
+
+Dimensiones:
+
+height: 940px
+width: 724px
+*/
+
+body {
+  margin: 0px;
+  padding: 0px;
+  font-size: 12px;
+}
+
+h1,h2,h3,h4,h5,h6,p {
+  font-family: Times-Roman;
+  padding: 0px;
+  margin: 0px;
+}
+.header {
+
+  height: 150px;
+  width: 724px;
+  background-color: red;
+}
+
+.body {
+  height: 600px;
+  background-color: blue;
+}
+
+.resum {
+  height: 100px;
+  background-color: purple;
+}
+.footer {
+  height: 90px;
+  background-color: yellow;
+}
+
+.header .left {
+  position: absolute;
+  width: 70%;
+  height: inherit;
+  background-color: gray;
+}
+
+.numero {
+  position: absolute;
+  width: 200px;
+  height: 30px;
+  background-color: cyan;
+  right: 20px;
+  top: 80px;
+}
+
+.version {
+  position: absolute;
+  width: 200px;
+  height: 30px;
+  background-color: cyan;
+  right: 20px;
+  top: 100px;
+}
+
+.infoUno {
+  position: absolute;
+  width: 400px;
+  height: inherit;
+  background-color: cyan;
+}

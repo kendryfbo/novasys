@@ -7,6 +7,7 @@ use App\Models\Familia;
 use App\Models\Marca;
 use App\Models\Sabor;
 use App\Models\Unidad;
+use App\Models\Producto;
 
 use Illuminate\Http\Request;
 
@@ -42,6 +43,16 @@ class PremezclaController extends Controller
                         'sabores' => $sabores,
                         'unidades' => $unidades
                     ]);
+    }
+
+    public function createDos()
+    {
+        $marcas = Marca::with('familia')->get();
+        //dd($marcas[0]->familia);
+        $productos = Producto::with('marca.familia:id,descripcion','sabor:id,descripcion')->get();
+
+        return view('desarrollo.premezclas.createDos')
+                ->with(['productos' => $productos]);
     }
 
     /**
