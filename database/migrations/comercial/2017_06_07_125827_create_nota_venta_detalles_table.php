@@ -16,9 +16,9 @@ class CreateNotaVentaDetallesTable extends Migration
         Schema::create('nota_venta_detalles', function (Blueprint $table) {
 
             $table->increments('id');
-            $table->integer('nv_id')->unsigned();
+            $table->integer('nv_id')->unsigned(); //FK
             $table->integer('item')->unsigned();
-            $table->integer('producto_id');
+            $table->integer('producto_id')->unsigned(); //FK
             $table->string('descripcion');
             $table->integer('cantidad');
             $table->decimal('precio',10,2);

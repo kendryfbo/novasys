@@ -14,6 +14,7 @@ class CreateClienteIntlTable extends Migration
     public function up()
     {
         Schema::create('cliente_intl', function (Blueprint $table) {
+
             $table->increments('id');
             $table->string('descripcion');
             $table->string('direccion');
@@ -26,11 +27,15 @@ class CreateClienteIntlTable extends Migration
             $table->string('contacto');
             $table->string('cargo');
             $table->string('email');
+            $table->integer('fp_id')->unsigned();
             $table->decimal('credito',10,2);
-            $table->integer('lp_id')->unsigned(); // Lista de Precio id
-            $table->integer('canal_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
+        });
+
+        Schema::table('cliente_intl', function (Blueprint $table) {
+
+            $table->foreign('fp_id')->references('id')->on('forma_pago_intl');
         });
     }
 

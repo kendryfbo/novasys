@@ -36,6 +36,12 @@ class CreateClienteNacionalTable extends Migration
             $table->tinyInteger('activo');
             $table->timestamps();
         });
+
+        Schema::table('cliente_nacional', function (Blueprint $table) {
+
+            $table->foreign('fp_id')->references('id')->on('forma_pago_nac');
+            $table->foreign('lp_id')->references('id')->on('lista_precios');
+        });
     }
 
     /**

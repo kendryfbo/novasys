@@ -15,8 +15,17 @@ class CreateAduanasTable extends Migration
     {
         Schema::create('aduanas', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('rut');
+            $table->string('descripcion');
+            $table->string('direccion');
+            $table->string('ciudad');
+            $table->string('comuna');
+            $table->string('fono');
+            $table->string('tipo');
+            $table->tinyInteger('activo');
             $table->timestamps();
         });
+
     }
 
     /**
