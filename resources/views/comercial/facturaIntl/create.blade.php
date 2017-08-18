@@ -30,6 +30,12 @@
 
 			@endif
 			<!-- form -->
+			<form id="importProforma" action="{{route('importProformaFactIntl')}}" method="post">
+				{{ csrf_field() }}
+			</form>
+			<!-- /form -->
+
+			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="{{route('notasVentas.store')}}">
 
 				{{ csrf_field() }}
@@ -39,8 +45,26 @@
 
           <label class="control-label col-lg-1">Factura N°:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" type="numero"  min="0" readonly>
+            <input class="form-control input-sm" type="numero"  min="0" autofocus required>
           </div>
+
+
+					<label class="control-label col-lg-1 col-lg-offset-4">Proforma:</label>
+					<div class="col-lg-1">
+						<input form="importProforma" class="form-control input-sm" type="number" name="proforma">
+					</div>
+					<button form="importProforma" class="col-lg-1 btn btn-default btn-sm" type="submit" name="button">Importar</button>
+					<div class="col-lg-2">
+						@if (session('status'))
+							<p class="control-label text-red text-left">{{session('status')}}</p>
+						@endif
+					</div>
+
+        </div>
+        <!-- /form-group -->
+
+				<!-- form-group -->
+        <div class="form-group">
 
           <label class="control-label col-lg-1">Emision:</label>
           <div class="col-lg-2">
@@ -50,10 +74,6 @@
           <label class="control-label col-lg-1">Vencimiento:</label>
           <div class="col-lg-2">
             <input class="form-control input-sm" type="date" name="vecimiento">
-          </div>
-
-          <div class="col-lg-2 pull-right">
-            <button class="btn btn-default btn-sm" type="button" name="button">Importar Proforma</button>
           </div>
 
         </div>
@@ -296,7 +316,7 @@
 
       </div>
 
-      <button class="btn btn-default pull-right" type="button" name="button">Crear</button>
+      <button class="btn btn-default pull-right" type="button" name="button" disabled>Crear</button>
     </div>
     <!-- /box-footer -->
 
