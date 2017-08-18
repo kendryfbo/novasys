@@ -18,7 +18,8 @@ class CreateProformaDetallesTable extends Migration
             $table->increments('id');
             $table->integer('proforma_id')->unsigned(); //FK
             $table->integer('item')->unsigned();
-            $table->integer('prod_id')->unsigned(); //FK
+            $table->integer('producto_id')->unsigned(); //FK
+            $table->string('codigo');
             $table->string('descripcion');
             $table->integer('cantidad');
             $table->double('precio',10,2);
@@ -32,7 +33,7 @@ class CreateProformaDetallesTable extends Migration
 
         Schema::table('proforma_detalles', function (Blueprint $table) {
             $table->foreign('proforma_id')->references('id')->on('proformas')->onDelete('cascade');
-            $table->foreign('prod_id')->references('id')->on('productos');
+            $table->foreign('producto_id')->references('id')->on('productos');
         });
 
     }

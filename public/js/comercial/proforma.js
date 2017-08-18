@@ -11,7 +11,7 @@ var app = new Vue({
     prodId: '',
     item: [],
     itemSelected: false,
-    items: [],
+    items: items,
     cantidad: '',
     descuento: 0,
     precio: '',
@@ -66,32 +66,32 @@ var app = new Vue({
 
     addItem: function() {
 
-      if (this.validateInput()) {
+      if (!this.validateInput()) {
+        return;
+      }
+      
+      if (this.itemSelected) {
 
-        if (this.itemSelected) {
+        for (var i = 0; i < this.items.length; i++) {
 
-
-        } else {
-
-          this.item.cantidad = this.cantidad;
-          this.item.descuento = this.descuento;
-          this.item.precio = this.precio;
-
-          if (this.descuento > 0) {
-            descuento = ((this.precio * this.descuento) / 100);
-          } else {
-            descuento = 0;
+          if (this.item.id == this.items[i].id) {
+            this.items.splice(i,1);
           }
-          this.item.total = (this.precio - descuento) * this.cantidad;
-          this.item.total = Math.round(this.item.total * 100) / 100;
-          this.items.push(this.item);
-
         }
 
-        this.calculateTotal();
-        this.clearItemInputs();
-        $('#prodSelect').focus();
       }
+
+      this.item.cantidad = this.cantidad;
+      this.item.descuento = this.descuento;
+      this.item.precio = this.precio;
+
+      this.item.total = (this.precio - this.descuento) * this.cantidad;
+      this.item.total = Math.round(this.item.total * 100) / 100;
+      this.items.push(this.item);
+
+      this.calculateTotal();
+      this.clearItemInputs();
+      $('#prodSelect').focus();
 
     },
 
@@ -106,8 +106,8 @@ var app = new Vue({
             codigo: this.items[i].codigo,
             descripcion: this.items[i].descripcion,
             formato: this.items[i].formato,
-            pesoBruto: this.items[i].peso_bruto,
-            pesoNeto: this.items[i].peso_neto,
+            pesoBruto: this.items[i].pesoBruto,
+            pesoNeto: this.items[i].pesoNeto,
             volumen: this.items[i].volumen,
             cantidad: this.items[i].cantidad,
             descuento: this.items[i].descuento,
@@ -129,7 +129,7 @@ var app = new Vue({
 
     removeItem: function() {
 
-      if (this.selected == false) {
+      if (this.itemSelected == false) {
         alert('Debe seleccionar producto que desea eliminar');
         return;
       }
@@ -141,7 +141,6 @@ var app = new Vue({
 
           this.calculateTotal();
           this.clearItemInputs();
-          this.itemSelected = false;
           $('#prodSelect').focus();
         }
       }
@@ -167,6 +166,11 @@ var app = new Vue({
         return false;
       }
 
+      if (this.descuento < 0) {
+
+        alert('Debe ingresar Porcentaje de Descuento');
+        return false;
+      }
       if (!this.precio) {
 
         alert('Debe ingresar Precio');
@@ -190,8 +194,10 @@ var app = new Vue({
     clearItemInputs: function() {
 
       this.cantidad = '';
-      this.descuento = '';
+      this.descuento = 0;
       this.precio = '';
+      this.prodId = '';
+      this.itemSelected = false;
     },
 
     freightChange: function() {

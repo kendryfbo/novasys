@@ -27,10 +27,11 @@
 						<th class="text-center">#</th>
 						<th class="text-center">Numero</th>
 						<th class="text-center">Fecha</th>
+						<th class="text-center">Centro Venta</th>
 						<th class="text-center">Cliente</th>
-						<th class="text-center">Despacho</th>
-						<th class="text-center">Monto</th>
+						<th class="text-center">Clausula</th>
 						<th class="text-center">Condicion Pago</th>
+						<th class="text-center">Total</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -40,10 +41,11 @@
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{url('comercial/proformas/'.$proforma->numero)}}" target="_blank">{{$proforma->numero}}</a></td>
 							<td class="text-center">{{$proforma->fecha_emision}}</td>
-							<td>{{$proforma->cliente->descripcion}}</td>
-							<td class="text-center">{{$proforma->fecha_despacho}}</td>
-							<td class="text-right">{{$proforma->total}}</td>
-							<td class="text-center">{{$proforma->cond_pago}}</td>
+							<td class="text-center">{{$proforma->centro_venta}}</td>
+							<td>{{$proforma->cliente}}</td>
+							<td class="text-center">{{$proforma->clau_venta}}</td>
+							<td class="text-center">{{$proforma->forma_pago}}</td>
+							<td class="text-right">{{'$ ' . number_format($proforma->total,2)}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->id.'/edit')}}" method="get">
 									<button class="btn btn-sm" type="submit">
