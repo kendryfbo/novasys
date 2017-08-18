@@ -19,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreateFacturaNacionalEvent' => [
             'App\Listeners\GenerateFacturaExcel',
         ],
+        'App\Events\CreateProformaEvent' => [
+            'App\Listeners\generateProformaMail',
+        ],
+        'App\Events\CreateFacturaIntlEvent' => [
+            'App\Listeners\GenerateFacturaIntlExcel',
+        ],
 
     ];
 
