@@ -21,7 +21,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-      $proformas = Proforma::orderBy('numero')->take(20);
+      $proformas = Proforma::orderBy('numero')->take(20)->get();
 
       return view('comercial.proforma.index')->with(['proformas' => $proformas]);
     }
@@ -59,7 +59,26 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $this->validate($request, [
+        'centroVenta' => 'required',
+        'numero' => 'required',
+        'version' => 'required',
+        'emision' => 'required',
+        'clausula' => 'required',
+        'semana' => 'required',
+        'cliente' => 'required',
+        "transporte" => 'required',
+        'puertoE' => 'required',
+        'formaPago' => 'required',
+        'direccion' => 'required',
+        'puertoD' => 'required'
+      ]);
+
+      $numero = Proforma::register($request);
+
+      $msg = "Proforma N°". $numero . " ha sido Creada.";
+
+      return redirect(route('proforma'))->with(['status' => $msg]);
     }
 
     /**
@@ -68,9 +87,18 @@ class ProformaController extends Controller
      * @param  \App\Models\Comercial\Proforma  $proforma
      * @return \Illuminate\Http\Response
      */
-    public function show(Proforma $proforma)
+    public function show($numero)
     {
-        //
+      $proforma = Proforma::with('detalles')->where('numero',$numero)->first();
+
+      return view('comercial.proforma.show')->with(['proforma' => $proforma]);
+    }
+
+    public function showForAut($numero)
+    {
+      $proforma = Proforma::with('detalles')->where('numero',$numero)->first();
+
+      return view('comercial.proforma.authorize')->with(['proforma' => $proforma]);
     }
 
     /**
