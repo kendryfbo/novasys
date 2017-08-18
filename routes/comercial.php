@@ -71,13 +71,16 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::delete('aduanas/{aduana}',   'Comercial\AduanaController@destroy')->name('eliminarAduana');
 
   // Routes Proforma
-  Route::get('proformas',                   'Comercial\ProformaController@index')->name('proforma');
-  Route::get('proformas/crear',             'Comercial\ProformaController@create')->name('crearProforma');
-  Route::post('proformas',                  'Comercial\ProformaController@store')->name('guardarProforma');
-  Route::get('proformas/{proforma}/editar', 'Comercial\ProformaController@edit')->name('editarProforma');
-  Route::put('proformas/{proforma}',        'Comercial\ProformaController@update')->name('actualizarProforma');
-  Route::get('proformas/{proforma}',        'Comercial\ProformaController@show')->name('verProforma');
-  Route::delete('proformas/{proforma}',     'Comercial\ProformaController@delete')->name('eliminarProforma');
+  Route::get('proformas',                           'Comercial\ProformaController@index')->name('proforma');
+  Route::get('proformas/crear',                     'Comercial\ProformaController@create')->name('crearProforma');
+  Route::post('proformas',                          'Comercial\ProformaController@store')->name('guardarProforma');
+  Route::get('proformas/{proforma}/editar',         'Comercial\ProformaController@edit')->name('editarProforma');
+  Route::put('proformas/{proforma}',                'Comercial\ProformaController@update')->name('actualizarProforma');
+  Route::get('proformas/{proforma}',                'Comercial\ProformaController@show')->name('verProforma');
+  Route::delete('proformas/{proforma}',             'Comercial\ProformaController@delete')->name('eliminarProforma');
+  Route::get('proformas/{proforma}/autorizacion',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');
+  Route::post('proformas/{proforma}/autorizar',     'Comercial\ProformaController@authorize')->name('autorizarProforma');
+  Route::post('proformas/{proforma}/desautorizar',  'Comercial\ProformaController@unAuthorize')->name('desautorizarProforma');
 
   // Routes Guia de Despacho Internacionales
   /* Temporal */
@@ -88,26 +91,12 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   });
 
   // Routes Facturas Internacionales
-  /* Temporal */
-  Route::get('FacturaIntl/crear', function() {
-
-    $centrosVenta = [];
-    $clientes = [];
-    $clausulas = [];
-    $transportes = [];
-    $productos = [];
-    $aduanas = [];
-
-    return view('comercial.facturaIntl.create')->with([
-      'centrosVenta' => $centrosVenta,
-      'clientes' => $clientes,
-      'clausulas' => $clausulas,
-      'transportes' => $transportes,
-      'aduanas' => $aduanas,
-      'productos' => $productos
-    ]);
-    
-  });
+  Route::post('FacturaIntl/importarProforma', 'Comercial\FacturaIntlController@importProforma')->name('importProformaFactIntl');
+  Route::get('FacturaIntl/crear',             'Comercial\FacturaIntlController@create')->name('crearFacturaIntl');
+  Route::get('FacturaIntl/{facturaIntl}',    'Comercial\FacturaIntlController@show')->name('verFacturaIntl');
+  Route::get('FacturaIntl/{facturaIntl}/descargar',    'Comercial\FacturaIntlController@download')->name('descargarFacturaIntl');
+  Route::post('FacturaIntl',                  'Comercial\FacturaIntlController@store')->name('guardarFacturaIntl');
+  Route::post('FacturaIntl/{proforma}',       'Comercial\FacturaIntlController@storeFromProforma')->name('guardarFacturaIntlProforma');
 
   // Routes Facturas SII Internacionales
   /* Temporal */
@@ -131,9 +120,6 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   });
 
   // Routes PackingList Internacionales
-  /* Temporal */
-  Route::get('packingList/crear', function() {
-
-    return view('comercial.packingList.create');
-  });
+  Route::get('packingList/crear','Comercial\PackingListController@create')->name('crearPackingList');
+  Route::post('packingList/{guia}/pdf','Comercial\PackingListController@generatePDF')->name('generarPackingList');
 });
