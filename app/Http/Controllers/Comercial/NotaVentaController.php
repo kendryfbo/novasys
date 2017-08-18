@@ -73,7 +73,7 @@ class NotaVentaController extends Controller
 
       $numero = $this->notaVenta->register($request);
 
-      $msg = "Nota de Venta numero: " . $numero . " ha sido Creado.";
+      $msg = "Nota de Venta N° " . $numero . " ha sido Creado.";
 
       return redirect('comercial\notasVentas')->with(['status' => $msg]);
     }

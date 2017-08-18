@@ -35,21 +35,21 @@
         <div class="form-group">
           <label class="control-label col-lg-1" >RUT:</label>
           <div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ Input::old('rut') ? Input::old('rut') : '' }}" required>
+            <input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ Input::old('rut')}}" required>
           </div>
         </div>
 
 				<div class="form-group">
 					<label class="control-label col-lg-1" >Descripcion:</label>
 					<div class="col-lg-5">
-						<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Cliente..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : '' }}" required>
+						<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Aduana..." value="{{ Input::old('descripcion')}}" required>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="control-label col-lg-1" >Direccion:</label>
 					<div class="col-lg-6">
-						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{ Input::old('direccion') ? Input::old('direccion') : '' }}" required>
+						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{ Input::old('direccion')}}" required>
 					</div>
 				</div>
 
@@ -57,12 +57,17 @@
 
 					<label class="control-label col-lg-1" >Ciudad:</label>
 					<div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ Input::old('ciudad') ? Input::old('ciudad') : '' }}" required>
+            <input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ Input::old('ciudad')}}" required>
 					</div>
 
 					<label class="control-label col-lg-1" >Comuna:</label>
 					<div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ Input::old('comuna') ? Input::old('comuna') : '' }}" required>
+            <input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ Input::old('comuna')}}" required>
+					</div>
+
+					<label class="control-label col-lg-1" >Fono:</label>
+					<div class="col-lg-2">
+            <input type="text" class="form-control input-sm" name="fono" placeholder="Telefono..." value="{{Input::old('fono')}}" required>
 					</div>
 
 				</div>
