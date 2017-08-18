@@ -28,7 +28,7 @@
 		<div class="box-body">
 
 			<!-- form-horizontal -->
-			<form  id="create" class="form-horizontal" method="post" action="{{route('guardarClienteIntl')}}">
+			<form  id="create" class="form-horizontal" method="post" action="{{route('generarPackingList',['guia'])}}">
 
 				{{ csrf_field() }}
 

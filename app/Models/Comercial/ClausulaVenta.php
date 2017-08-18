@@ -12,4 +12,5 @@ class ClausulaVenta extends Model
 
     return self::all()->where('activo',1);
   }
+  
 }

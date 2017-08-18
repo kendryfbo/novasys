@@ -48,6 +48,7 @@ class AduanaController extends Controller
         'ciudad' => 'required',
         'comuna' => 'required',
         'tipo' => 'required',
+        'fono' => 'required',
       ]);
 
       $activo = !empty($request->activo);
@@ -58,6 +59,7 @@ class AduanaController extends Controller
         'direccion' => $request->direccion,
         'ciudad' => $request->ciudad,
         'comuna' => $request->comuna,
+        'fono' => $request->fono,
         'tipo' => $request->tipo,
         'activo' => $activo
       ]);
