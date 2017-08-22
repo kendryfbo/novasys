@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFacIntlDetallesTable extends Migration
+class CreateFactIntlDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -30,7 +30,7 @@ class CreateFacIntlDetallesTable extends Migration
           $table->timestamps();
       });
 
-      Schema::table('fac_intlt_detalles', function (Blueprint $table) {
+      Schema::table('fact_intl_detalles', function (Blueprint $table) {
           $table->foreign('factura_id')->references('id')->on('factura_intl')->onDelete('cascade');
           $table->foreign('producto_id')->references('id')->on('productos');
       });
