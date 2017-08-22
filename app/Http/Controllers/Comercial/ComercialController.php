@@ -39,10 +39,13 @@ class ComercialController extends Controller
     }
 
     public function pdf() {
-        $notaVenta = NotaVenta::with('detalle','cliente.region:id,descripcion','centroVenta','formaPago:id,descripcion')->find(9);
-        // dd($notaVenta);
-        $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
-        return $pdf->stream();
+
+      $pdf = PDF::loadView('documents.pdf.model');
+      return $pdf->stream();
+      $notaVenta = NotaVenta::with('detalle','cliente.region:id,descripcion','centroVenta','formaPago:id,descripcion')->find(9);
+      // dd($notaVenta);
+      $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
+      return $pdf->stream();
     }
 
     public function email() {

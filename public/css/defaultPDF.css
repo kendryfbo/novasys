@@ -1,72 +1,40 @@
 
-/*
-
-Dimensiones:
-
-height: 940px
-width: 724px
-*/
+@page {
+  size: a4 portrait;
+}
 
 body {
-  margin: 0px;
-  padding: 0px;
-  font-size: 12px;
-}
-
-h1,h2,h3,h4,h5,h6,p {
-  font-family: Times-Roman;
-  padding: 0px;
-  margin: 0px;
+  border: 2px solid black;
+  font-family: DejaVu Sans;
+  font-family: helvetica;
+  font-size: 11px;
 }
 .header {
-
+  border: 1px dotted red;
   height: 150px;
-  width: 724px;
-  background-color: red;
 }
 
+.header > .left {
+  border: 1px dotted yellow;
+  position: absolute;
+  width: 500px;
+  height: inherit;
+}
+
+.header > .right {
+  border: 1px dotted blue;
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 100px;
+}
 .body {
-  height: 600px;
-  background-color: blue;
-}
-
-.resum {
-  height: 100px;
-  background-color: purple;
+  border: 1px dotted red;
 }
 .footer {
-  height: 90px;
-  background-color: yellow;
-}
-
-.header .left {
+  border: 1px dotted red;
+  bottom: 10px;
+  width: 100%;
+  height: 100px;
   position: absolute;
-  width: 70%;
-  height: inherit;
-  background-color: gray;
-}
-
-.numero {
-  position: absolute;
-  width: 200px;
-  height: 30px;
-  background-color: cyan;
-  right: 20px;
-  top: 80px;
-}
-
-.version {
-  position: absolute;
-  width: 200px;
-  height: 30px;
-  background-color: cyan;
-  right: 20px;
-  top: 100px;
-}
-
-.infoUno {
-  position: absolute;
-  width: 400px;
-  height: inherit;
-  background-color: cyan;
 }
