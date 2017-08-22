@@ -12,4 +12,9 @@ class Aduana extends Model
 
     return self::all()->where('activo',1);
   }
+
+  public function guiaDespacho() {
+
+    return $this->hasMany(GuiaDespacho::class);
+  }
 }

@@ -83,12 +83,11 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::post('proformas/{proforma}/desautorizar',  'Comercial\ProformaController@unAuthorize')->name('desautorizarProforma');
 
   // Routes Guia de Despacho Internacionales
-  /* Temporal */
-  route::get('guiaDespacho/crear', function() {
-
-    $aduanas = [];
-    return view('comercial.guiaDespacho.create')->with(['aduanas' => $aduanas]);
-  });
+  route::get('guiaDespacho',                    'GuiaDespachoController@index')->name('guiaDespacho');
+  route::get('guiaDespacho/crear/{proforma?}',  'GuiaDespachoController@create')->name('crearGuiaDespacho');
+  route::post('guiaDespacho',                   'GuiaDespachoController@store')->name('guardarGuiaDespacho');
+  route::get('guiaDespacho/{guia}',             'GuiaDespachoController@show')->name('verGuiaDespacho');
+  route::get('guiaDespacho/{guia}/pdf',         'GuiaDespachoController@pdf')->name('pdfGuiaDespacho');
 
   // Routes Facturas Internacionales
   Route::post('FacturaIntl/importarProforma', 'Comercial\FacturaIntlController@importProforma')->name('importProformaFactIntl');
@@ -120,6 +119,6 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   });
 
   // Routes PackingList Internacionales
-  Route::get('packingList/crear','Comercial\PackingListController@create')->name('crearPackingList');
-  Route::post('packingList/{guia}/pdf','Comercial\PackingListController@generatePDF')->name('generarPackingList');
+  Route::get('packingList/crear/{guia?}','Comercial\PackingListController@create')->name('crearPackingList');
+  Route::post('packingList/pdf','Comercial\PackingListController@pdf')->name('pdfPackingList');
 });

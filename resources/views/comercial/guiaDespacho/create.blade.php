@@ -27,8 +27,10 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<form id="importar" action="{{route('crearGuiaDespacho')}}" method="get">
+			</form>
 			<!-- form-horizontal -->
-			<form  id="create" class="form-horizontal" method="post" action="{{route('guardarClienteIntl')}}">
+			<form  id="create" class="form-horizontal" method="post" action="{{route('guardarGuiaDespacho')}}">
 
 				{{ csrf_field() }}
 
@@ -36,13 +38,22 @@
 
             <label class="control-label col-lg-1" >Proforma:</label>
 						<div class="col-lg-2">
-							<input type="number" class="form-control input-sm" name="proforma" placeholder="Numero Proforma..." value="{{ Input::old('proforma') ? Input::old('proforma') : '' }}" required>
+							<input form="importar" type="number" class="form-control input-sm" name="proforma" placeholder="Numero Proforma..." value="{{$proforma ? $proforma->numero:''}}" required>
+							<input type="hidden" class="form-control input-sm" name="proforma" placeholder="Numero Proforma..." value="{{$proforma ? $proforma->id:''}}" required>
 						</div>
 
-            <label class="control-label col-lg-1" >Guia N°:</label>
-            <div class="col-lg-2">
-              <input type="number" class="form-control input-sm" name="guia" placeholder="Numero Guia..." value="{{ Input::old('guia') ? Input::old('guia') : '' }}" required>
-            </div>
+						<div class="col-lg-1">
+							<button class="btn btn-sm" form="importar" type="submit">Importar</button>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+
+						<label class="control-label col-lg-1" >Guia N°:</label>
+						<div class="col-lg-2">
+							<input type="number" class="form-control input-sm" name="numero" placeholder="Numero Guia..." value="{{ Input::old('guia') ? Input::old('guia') : '' }}" required>
+						</div>
 
 					</div>
 
@@ -50,10 +61,10 @@
 
             <label class="control-label col-lg-1" >Aduana:</label>
             <div class="col-lg-2">
-              <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
+              <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="aduana" required>
                 <option value="">Seleccionar Adauna...</option>
                 @foreach ($aduanas as $aduana)
-                  <option value="{{$aduana->id}}">{{$pais->descripcion}}</option>
+                  <option value="{{$aduana->id}}">{{$aduana->descripcion}}</option>
                 @endforeach
               </select>
             </div>
@@ -74,12 +85,12 @@
 
             <label class="control-label col-lg-1" >BK:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="bk" placeholder="Booking..." value="{{ Input::old('bk') ? Input::old('bk') : '' }}" required>
+							<input type="text" class="form-control input-sm" name="booking" placeholder="Booking..." value="{{ Input::old('bk') ? Input::old('bk') : '' }}" required>
 						</div>
 
             <label class="control-label col-lg-1" >CONT:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="cont" placeholder="Contenedor..." value="{{ Input::old('cont') ? Input::old('cont') : '' }}" required>
+							<input type="text" class="form-control input-sm" name="contenedor" placeholder="Contenedor..." value="{{ Input::old('cont') ? Input::old('cont') : '' }}" required>
 						</div>
 
             <label class="control-label col-lg-1" >SELLO:</label>
@@ -122,16 +133,24 @@
 							<input type="text" class="form-control input-sm" name="dus" placeholder="dus..." value="{{ Input::old('dus') ? Input::old('dus') : '' }}" required>
 						</div>
 
-            <label class="control-label col-lg-1">KN:</label>
+            <label class="control-label col-lg-1">K.Neto:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="neto" placeholder="Peso Netos..." value="{{ Input::old('neto') ? Input::old('contacto') : '' }}" required>
+							<input type="number" class="form-control input-sm" name="neto" placeholder="Peso Netos..." value="{{ Input::old('neto') ? Input::old('contacto') : '' }}" required>
 						</div>
 
-						<label class="control-label col-lg-1">KB:</label>
+						<label class="control-label col-lg-1">K.Bruto:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="bruto" placeholder="Peso Bruto..." value="{{ Input::old('bruto') ? Input::old('bruto') : '' }}" required>
+							<input type="number" class="form-control input-sm" name="bruto" placeholder="Peso Bruto..." value="{{ Input::old('bruto') ? Input::old('bruto') : '' }}" required>
 						</div>
 
+					</div>
+
+					<div class="form-group">
+
+						<label class="control-label col-lg-1">Nota:</label>
+						<div class="col-lg-11">
+							<input type="text" class="form-control input-sm" name="nota" placeholder="Nota ...">
+						</div>
 					</div>
 
 			</form>
@@ -154,17 +173,22 @@
 
         <tbody>
 
-					<td colspan="7" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
+				 @if (!$proforma)
+					 <td colspan="7" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
+				 @else
+					@foreach ($proforma->detalles as $detalle)
+						<tr>
+							<td class="text-center">{{$loop->iteration}}</th>
+							<td class="text-center">{{$detalle->id}}</th>
+							<td>{{$detalle->descripcion}}</th>
+							<td class="text-right">{{$detalle->cantidad}}</th>
+							<td class="text-right">{{$detalle->precio}}</th>
+							<td class="text-right">{{$detalle->descuento}}</th>
+							<td class="text-right">{{$detalle->sub_total}}</th>
+						</tr>
+					@endforeach
+				 @endif
 
-          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.id)">
-            <td class="text-center">@{{key+1}}</th>
-            <td class="text-center">@{{item.codigo}}</th>
-            <td>@{{item.descripcion}}</th>
-            <td class="text-right">@{{item.cantidad.toLocaleString()}}</th>
-            <td class="text-right">@{{item.precio.toLocaleString()}}</th>
-            <td class="text-right">@{{item.descuento.toLocaleString()}}</th>
-						<td class="text-right">@{{item.total.toLocaleString()}}</th>
-          </tr>
 
         </tbody>
 

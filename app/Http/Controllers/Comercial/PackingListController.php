@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers\Comercial;
 
+use PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\GuiaDespacho;
 
 class PackingListController extends Controller
 {
-  
-  public function create() {
 
-    return view('comercial.packingList.create');
+  public function create(Request $request) {
+
+    $guia = GuiaDespacho::with('detalles.producto.formato')->where('numero',$request->guia)->first();
+
+    return view('comercial.packingList.create')->with(['guia' => $guia]);
   }
 
-  public function generatePDF(Request $request) {
+  public function pdf(Request $request) {
 
-    return dd('pdf');
+    $this->validate($request, [
+      'guia' => 'required',
+      'factura' => 'required'
+    ]);
+
+    $guia = GuiaDespacho::with('detalles.producto.formato')->find($request->guia)->first();
+    $factura = $request->factura;
+
+    $pdf = PDF::loadView('documents.pdf.packingList',compact('guia','factura'))->setPaper('a4','landscape');
+
+    
+    return $pdf->stream();
   }
 }
