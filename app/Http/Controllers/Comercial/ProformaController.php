@@ -109,7 +109,7 @@ class ProformaController extends Controller
      */
     public function edit(Proforma $proforma)
     {
-        //
+        dd('En construcción');
     }
 
     /**

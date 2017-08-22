@@ -21,6 +21,11 @@ class Proforma extends Model
     return $this->hasMany(ProformaDetalle::class);
   }
 
+  public function guiaDespacho() {
+
+    return $this->hasOne(GuiaDespacho::class);
+  }
+
   static function register($request) {
 
     DB::transaction(function () use ($request) {

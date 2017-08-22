@@ -49,7 +49,7 @@
 
           <label class="control-label col-lg-1">Emision:</label>
           <div class="col-lg-2">
-            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}">
+            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" disabled>
           </div>
 
           <label class="control-label col-lg-1">Clausula:</label>

@@ -47,4 +47,9 @@ class Producto extends Model
 		return $this->hasMany('App\Models\Comercial\ListaPrecioDetalle');
 	}
 
+	public function guiaDespachoDetalles() {
+
+		return $this->hasMany(GuiaDespachoDetalle::class);
+	}
+
 }
