@@ -30,7 +30,7 @@
 						<th>Sabor</th>
 						<th>Peso Bruto</th>
 						<th>Volumen</th>
-						<th>Activo</th>
+						<th class="text-center">Activo</th>
 						<th class="text-center">Editar</th>
 						<th class="text-center">Eliminar</th>
 					</tr>
@@ -44,9 +44,9 @@
 						<td>{{$producto->marca->descripcion}}</td>
 						<td>{{$producto->formato->descripcion}}</td>
 						<td>{{$producto->sabor->descripcion}}</td>
-						<td>{{$producto->peso_bruto}}</td>
-						<td>{{$producto->volumen}}</td>
-						<td>{{$producto->activo ? "Si" : "No"}}</td>
+						<td class="text-right">{{number_format($producto->peso_bruto,2,",",".")}}</td>
+						<td class="text-right">{{number_format($producto->volumen,2,",",".")}}</td>
+						<td class="text-center">{{$producto->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
 							<form action="{{route('editarProducto',['producto' => $producto->id])}}" method="get">
 								<button class="btn btn-sm" type="submit" name="button">

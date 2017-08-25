@@ -25,10 +25,10 @@
 					<tr>
 						<th class="text-center">#</th>
 						<th class="text-center">Numero</th>
-						<th>R.U.T</th>
-						<th>Cliente</th>
-						<th>Monto</th>
-						<th>Condicion Pago</th>
+						<th class="text-center">R.U.T</th>
+						<th class="text-center">Cliente</th>
+						<th class="text-center">Monto</th>
+						<th class="text-center">Condicion Pago</th>
 						<th class="text-center">Autorizacion</th>
 					</tr>
 				</thead>
@@ -36,25 +36,25 @@
 					@foreach ($notasVentas as $notaVenta)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero.'/autorizar')}}" target="_blank">{{$notaVenta->numero}}</a></td>
-							<td>{{$notaVenta->cliente->rut}}</td>
+							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero.'/autorizar')}}" target="_blank"><strong>{{$notaVenta->numero}}</strong></a></td>
+							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
-							<td>{{$notaVenta->total}}</td>
-							<td>{{$notaVenta->cliente->formaPago->descripcion}}</td>
+							<td class="text-right">{{number_format($notaVenta->total,2,",",".")}}</td>
+							<td class="text-center">{{$notaVenta->cliente->formaPago->descripcion}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
-									{{csrf_field()}}
-									<button class="btn btn-sm" @click="confirmAutorizar">
-										<i class="fa fa-check-circle" aria-hidden="true"></i>
-									</button>
-								</form>
-								<form style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
-									{{csrf_field()}}
-									<button class="btn btn-sm" @click="confirmDesautorizar">
+									<button form="authorize" class="btn btn-success btn-sm" @click="confirmAutorizar"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+									<button form="unauthorized" class="btn btn-danger btn-sm" @click="confirmDesautorizar">
 										<i class="fa fa-ban" aria-hidden="true"></i>
 									</button>
-								</form>
 							</td>
+							<!-- Forms -->
+							<form id="authorize" style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
+								{{csrf_field()}}
+							</form>
+							<form id="unauthorized" style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
+								{{csrf_field()}}
+							</form>
+							<!-- /Forms -->
 						</tr>
 					@endforeach
 				</tbody>
@@ -63,6 +63,7 @@
 		</div>
 
 	</div>
+
 @endsection
 
 @section('scripts')

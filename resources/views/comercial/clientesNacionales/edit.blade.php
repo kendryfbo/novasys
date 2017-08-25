@@ -30,22 +30,22 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >R.U.T:</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="rut" v-model="rut" @keyup="updateRutNum($event)" placeholder="Rut del Cliente..." value="{{ $cliente->rut }}" pattern="^([0-9]+-[0-9K])$" required readonly>
-									<input type="hidden" class="form-control" name="rut_num" v-model="rut_num" value="{{ $cliente->rut_num }}" required>
+									<input type="text" class="form-control input-sm" name="rut" v-model="rut" @keyup="updateRutNum($event)" placeholder="Rut del Cliente..." value="{{ $cliente->rut }}" pattern="^([0-9]+-[0-9K])$" required readonly>
+									<input type="hidden" class="form-control input-sm" name="rut_num" v-model="rut_num" value="{{ $cliente->rut_num }}" required>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Descripcion:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" name="descripcion" placeholder="Nombre del Cliente..." value="{{ $cliente->descripcion }}" required readonly>
+									<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Cliente..." value="{{ $cliente->descripcion }}" required readonly>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Giro:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" name="giro" placeholder="Giro..." value="{{ $cliente->giro }}" required>
+									<input type="text" class="form-control input-sm" name="giro" placeholder="Giro..." value="{{ $cliente->giro }}" required>
 								</div>
 							</div>
 
@@ -53,7 +53,7 @@
 
 								<label class="control-label col-sm-2" >Lista de Precios:</label>
 								<div class="col-sm-3">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="lista" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="lista" required>
 										<option value="">Seleccionar Lista de precios...</option>
 										@foreach ($listasPrecios as $lista)
 											<option {{$cliente->lp_id == $lista->id ? 'selected':''}} value="{{$lista->id}}">{{$lista->descripcion}}</option>
@@ -63,7 +63,7 @@
 
 								<label class="control-label col-sm-1" >Canal:</label>
 								<div class="col-sm-2">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="canal" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="canal" required>
 										<option value="">Seleccionar Canal...</option>
 										@foreach ($canales as $canal)
 											<option {{$cliente->canal_id == $canal->id ? 'selected':''}} value="{{$canal->id}}">{{$canal->descripcion}}</option>
@@ -76,7 +76,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Forma Pago:</label>
 								<div class="col-sm-4">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 										<option value="">Seleccionar Forma Pago...</option>
 										@foreach ($formasPago as $formaPago)
 											<option {{ $cliente->fp_id == $formaPago->id ? 'selected':'' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
@@ -88,7 +88,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Region:</label>
 								<div class="col-sm-4">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="region" v-model="region" @change="getProvincias" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="region" v-model="region" @change="getProvincias" required>
 										<option value="">Seleccionar Region...</option>
 										@foreach ($regiones as $region)
 											<option value="{{$region->id}}">{{$region->descripcion}}</option>
@@ -100,7 +100,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Provincia:</label>
 								<div class="col-sm-4">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="provincia" v-model="provincia" @change="getComunas" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="provincia" v-model="provincia" @change="getComunas" required>
 										<option value="">Seleccionar provincia...</option>
 											<option v-for="provincia in provincias" v-bind:value="provincia.id" >@{{provincia.descripcion}}</option>
 									</select>
@@ -110,7 +110,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Comuna:</label>
 								<div class="col-sm-4">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="comuna" v-model="comuna" required>
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="comuna" v-model="comuna" required>
 										<option value="">Seleccionar Comuna...</option>
 										<option v-for="comuna in comunas" :value="comuna.id" >@{{comuna.descripcion}}</option>
 									</select>
@@ -120,14 +120,14 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Direccion:</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control" name="direccion" placeholder="Direccion de Cliente..." value="{{ $cliente->direccion }}" required>
+									<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion de Cliente..." value="{{ $cliente->direccion }}" required>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Vendedor:</label>
 								<div class="col-sm-4">
-									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="vendedor">
+									<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="vendedor">
 										<option value="0">Seleccionar Vendedor...</option>
 										@foreach ($vendedores as $vendedor)
 											<option value="{{$vendedor->id}}" {{$vendedor->id == $cliente->vendedor_id ? 'selected' : '' }}>{{$vendedor->nombre}}</option>
@@ -144,14 +144,14 @@
 							<div class="form-group" style=" margin-left: 40px">
 								<label>fono:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="text" class="form-control" name="fono" placeholder="Numero de Tlf..." value="{{ $cliente->fono }}" required>
+									<input type="text" class="form-control input-sm" name="fono" placeholder="Numero de Tlf..." value="{{ $cliente->fono }}" required>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label style=" padding-left: 12px">fax:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="text" class="form-control " name="fax" placeholder="numero de Fax..." value="{{ $cliente->fax }}" required>
+									<input type="text" class="form-control input-sm " name="fax" placeholder="numero de Fax..." value="{{ $cliente->fax }}" required>
 								</div>
 							</div>
 
@@ -164,21 +164,21 @@
 							<div class="form-group" style=" margin-left: 12px">
 								<label>Contacto:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="text" class="form-control" style="width:230px" name="contacto" placeholder="Persona de Contacto..." value="{{ $cliente->contacto }}" required>
+									<input type="text" class="form-control input-sm" style="width:230px" name="contacto" placeholder="Persona de Contacto..." value="{{ $cliente->contacto }}" required>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label style=" padding-left: 12px">Cargo:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="text" class="form-control" style="width:230px" name="cargo" placeholder="Cargo de Persona de Contacto..." value="{{ $cliente->cargo }}" required>
+									<input type="text" class="form-control input-sm" style="width:230px" name="cargo" placeholder="Cargo de Persona de Contacto..." value="{{ $cliente->cargo }}" required>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label style=" padding-left: 12px">email:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="email" class="form-control" style="width:230px" name="email" placeholder="Email de Persona de Contacto..." value="{{ $cliente->email }}" required>
+									<input type="email" class="form-control input-sm" style="width:230px" name="email" placeholder="Email de Persona de Contacto..." value="{{ $cliente->email }}" required>
 								</div>
 							</div>
 
@@ -203,7 +203,7 @@
 				<!-- /box-body -->
 				<!-- box-footer -->
 				<div class="box-footer">
-		   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
+		   	 		<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
 		   	 	</div>
 				<!-- /box-footer -->
 			</div>
@@ -219,14 +219,14 @@
 						<div class="form-group">
 							<label class="control-label col-sm-2" >Descripcion:</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" name="descripcion_suc" v-model="descripcion_suc" placeholder="Descripcion de la Sucursal..." required>
+								<input type="text" class="form-control input-sm" name="descripcion_suc" v-model="descripcion_suc" placeholder="Descripcion de la Sucursal..." required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="control-label col-sm-2" >Direccion:</label>
 							<div class="col-sm-6">
-								<input type="text" class="form-control" name="direccion_suc" v-model="direccion_suc" placeholder="Direccion de la Sucursal..." required>
+								<input type="text" class="form-control input-sm" name="direccion_suc" v-model="direccion_suc" placeholder="Direccion de la Sucursal..." required>
 							</div>
 						</div>
 

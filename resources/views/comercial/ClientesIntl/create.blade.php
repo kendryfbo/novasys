@@ -144,7 +144,7 @@
 		<!-- /box-body -->
 		<!-- box-footer -->
 		<div class="box-footer">
-   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
+   	 		<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
    	 	</div>
 		<!-- /box-footer -->
 	</div>

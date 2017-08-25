@@ -39,7 +39,7 @@
 					@foreach ($notasVentas as $notaVenta)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank">{{$notaVenta->numero}}</a></td>
+							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank"><strong>{{$notaVenta->numero}}</strong></a></td>
 							<td class="text-center">{{$notaVenta->fecha_emision}}</td>
 							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>

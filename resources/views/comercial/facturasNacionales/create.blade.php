@@ -49,6 +49,7 @@
     			<!-- /table -->
               </div>
               <div class="modal-footer">
+
 				<form action="{{route('crearFacturaNacionalNV')}}" method="post">
                 <button type="button" class="btn btn-default" data-dismiss="modal" @click="deselectNV">Cancelar</button>
 					{{csrf_field()}}
@@ -73,121 +74,122 @@
 			<form  id="create" method="post" action="{{route('guardarFacNac')}}">
 
 				{{ csrf_field() }}
-
 				<!-- form-horizontal -->
 				<div class="form-horizontal">
+
 					<h5>Documento</h5>
-					<div class="form-group">
+
+					<div class="form-group form-group-sm">
+
 						<label class="control-label col-sm-2" >Centro de Venta:</label>
 						<div class="col-sm-4">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="centroVenta" required>
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="centroVenta" required>
 								<option value="">Seleccionar Centro de Venta...</option>
 								@foreach ($centrosVentas as $centroVenta)
 									<option {{ Input::old('centroVenta') == $centroVenta->id ? 'selected' : '' }} value="{{$centroVenta->id}}">{{$centroVenta->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
-                        <div class="col-sm-offset-3 col-sm-1">
-                            <button class="btn btn-default" type="button" name="loadNotaVenta" @click="getNotasVentas"  data-toggle="modal" data-target="#myModal">Importar Nota Venta</button>
-                        </div>
+
+						<label class="col-sm-offset-1 control-label col-sm-1" >Nota Venta:</label>
+						<div class="col-lg-2">
+							<input class="form-control" type="number" name="proforma" value="" placeholder="Numero Proforma...">
+						</div>
+						<div class="col-lg-1">
+              <button class="btn btn-default btn-sm" type="button" name="loadNotaVenta" @click="getNotasVentas"  data-toggle="modal" data-target="#myModal">Importar</button>
+            </div>
+
 					</div>
 
-					<div class="form-group">
-						<label class="control-label col-sm-2" >Numero:</label>
-						<div class="col-sm-2">
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2" >Numero:</label>
+						<div class="col-lg-2">
 							<input type="text" class="form-control" name="numero" placeholder="Numero de Factura..." value="{{ Input::old('numero') ? Input::old('numero') : '' }}" required>
 						</div>
 					</div>
 
-				</div>
-				<!-- /form-horizontal -->
-				<hr>
-				<h5>Datos</h5>
-				<!-- form-inline -->
-				<div class="form-inline col-sm-offset-1">
+					<h5>Datos</h5>
 
-					<div class="form-group">
-						<label>Fecha Emision:</label>
-						<div class="input-group col-xs-2">
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Fecha Emision:</label>
+						<div class="col-lg-2">
 							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
 						</div>
-					</div>
 
-					<div class="form-group">
-						<label>Fechan Vencimiento:</label>
-						<div class="input-group col-xs-2">
+						<label class="control-label col-lg-2">Fechan Vencimiento:</label>
+						<div class="col-lg-2">
 							<input type="date" class="form-control " name="fechaVenc" value="{{ Input::old('fechaVenc') ? Input::old('fechaVenc') : '' }}" required>
 						</div>
+
 					</div>
 
-				</div>
-				<!-- /form-inline -->
-				<br>
-				<!-- form-inline -->
-				<div class="form-inline col-sm-offset-1">
+					<div class="form-group form-group-sm">
 
-					<div class="form-group">
-						<label>Cliente:</label>
-						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default" name="cliente" v-model="cliente" @change="getData" required>
+						<label class="control-label col-lg-2">Cliente:</label>
+						<div class="col-lg-5">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
 								@foreach ($clientes as $cliente)
 									<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
+
 					</div>
 
-					<div class="form-group" style="margin-left: 50px">
-						<label>Cond. Pago:</label>
-						<div class="input-group" style="margin-left: 50px">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="formaPago" required>
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Cond. Pago:</label>
+						<div class="col-lg-3">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option value="">Cond. Pago...</option>
 								@foreach ($formasPagos as $formaPago)
 									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected' : '' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
+
 					</div>
 
-				</div>
-				<!-- /form-inline -->
-				<br>
-				<!-- form-horizontal -->
-				<div class="form-horizontal">
+					<div class="form-group form-group-sm">
 
-					<div class="form-group">
-						<label class="control-label col-sm-2">Despacho:</label>
-						<div class="col-sm-4">
-							<select class="selectpicker" data-width="600px" data-live-search="true" data-style="btn-default" name="despacho" v-model="despacho" required>
+						<label class="control-label col-lg-2">Despacho:</label>
+						<div class="col-lg-5">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="despacho" v-model="despacho" required>
 								<option value="">Direccion de despacho...</option>
-								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.descripcion">@{{sucursal.descripcion}}</option>
+								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.descripcion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
 							</select>
 						</div>
+
 					</div>
 
-					<div class="form-group">
-						<label class="control-label col-sm-2">Vendedor:</label>
-						<div class="col-sm-4">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="vendedor" required>
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Vendedor:</label>
+						<div class="col-lg-3">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="vendedor" required>
 								<option value="">Seleccionar Vendedor...</option>
 								@foreach ($vendedores as $vendedor)
 									<option {{ Input::old('vendedor') == $vendedor->id ? 'selected' : '' }} value="{{$vendedor->id}}">{{$vendedor->nombre}}</option>
 								@endforeach
 							</select>
 						</div>
+
 					</div>
 
-					<div class="form-group">
-						<label class="control-label col-sm-2">Observaciones:</label>
-						<div class="col-sm-8">
-                            <input type="text" class="form-control" name="observacion" placeholder="Observaciones...">
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Observaciones:</label>
+						<div class="col-lg-8">
+							<input type="text" class="form-control" name="observacion" placeholder="Observaciones...">
 						</div>
+
 					</div>
 
 				</div>
 				<!-- /form-horizontal -->
-
 				<select style="display: none;"  name="items[]" multiple>
 					<option v-for="item in items" selected>
 						@{{item}}
@@ -202,61 +204,59 @@
 				<input type="hidden" name="peso_neto" v-bind:value="totalPesoNeto">
 				<input type="hidden" name="peso_bruto" v-bind:value="totalPesoBruto">
 				<input type="hidden" name="volumen" v-bind:value="totalVolumen">
+
 			</form>
 			<!-- /form -->
 		</div>
 		<!-- /box-body -->
-		<hr>
-		<div class="container">
-			<h5>Detalles</h5>
-		</div>
-
 		<!-- box-body -->
 		<div class="box-body">
 
+			<h5>Detalles</h5>
 			<!-- form-horizontal -->
 			<div class="form-horizontal">
 
-				<div class="form-group">
+				<div class="form-group form-group-sm">
+
 					<label class="col-sm-1  text-left control-label">Lista Precios:</label>
 					<div class="col-sm-4">
-						<select class="selectpicker form-control" data-width="auto" data-live-search="true" data-style="btn-default" name="lista">
+						<select class="selectpicker form-control" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="lista">
 							<option v-if="listaDescrip" selected v-bind:value="listaId">@{{listaDescrip}}</option>
 						</select>
 					</div>
+
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-sm">
 
-					<label class="col-sm-1 control-label">Producto:</label>
-					<div class="col-sm-3">
-						<select class="selectpicker form-control" data-width="280" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="loadProducto">
+					<label class="control-label col-lg-1">Producto:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker form-control" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
 							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
 						</select>
 					</div>
 
-					<label class="col-sm-1 control-label">Cantidad:</label>
-					<div class="col-sm-1">
+					<label class="control-label col-lg-1">Cantidad:</label>
+					<div class="col-lg-1">
 						<input class="form-control" type="number" min="0" name="cantidad" v-model="cantidad">
 					</div>
 
-					<label class="col-sm-1 control-label">%Dscto:</label>
-					<div class="col-sm-2">
+					<label class="control-label col-lg-1">%Dscto:</label>
+					<div class="col-lg-1">
 						<input class="form-control" type="number" name="descuento" v-model="descuento" disabled>
 					</div>
 
-					<label class="col-sm-1 control-label">Precio:</label>
-					<div class="col-sm-2">
+					<label class="control-label col-lg-1">Precio:</label>
+					<div class="col-lg-1">
 						<input class="form-control" type="number" name="precio" v-model="precio" disabled>
 					</div>
 
-				</div>
+					<div class="col-lg-2">
 
-				<div class="form-group">
-					<div class="col-sm-offset-10 col-sm-2">
-						<button class="btn" type="button" @click="removeItem">Borrar</button>
-						<button class="btn" type="button" @click="insertItem">Agregar</button>
+						<button class="btn btn-default btn-sm" type="button" @click="insertItem">Agregar</button>
+						<button class="btn btn-default btn-sm" type="button" @click="removeItem">Borrar</button>
+
 					</div>
 				</div>
 
@@ -298,69 +298,69 @@
 			</table>
 		</div>
 		<!-- /box-body -->
-		<!-- box-body -->
-		<div class="box-body">
-			<!-- form-horizontal -->
-			<div class="form-horizontal">
-
-				<div class="form-group">
-					<label class="col-sm-1 control-label">Sub-Total:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="subTotal" v-model.number="subTotal" disabled>
-					</div>
-					<label class="col-sm-1 control-label">Descuento:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="totaldescuento" v-model.number="totaldescuento" disabled>
-					</div>
-					<label class="col-sm-1 control-label">Neto:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="totalNeto" v-model.number="neto" disabled>
-					</div>
-					<label class="col-sm-1 control-label">IABA:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="iaba" v-model.number="totalIaba" disabled>
-					</div>
-					<label class="col-sm-1 control-label">I.V.A:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="iva" v-model.number="iva" disabled>
-					</div>
-					<label class="col-sm-1 control-label">Total:</label>
-					<div class="col-sm-2">
-						<input class="form-control" type="number" name="total" v-model="total" disabled>
-					</div>
-				</div>
-
-			</div>
-			<!-- /form-horizontal -->
-		</div>
-		<!-- /box-body -->
-
 		<!-- box-footer -->
 		<div class="box-footer">
-			<div class="form-inline">
 
-				<div class="form-group">
-					<label class="control-label">Total Peso Neto:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="peso_neto" v-model.number="totalPesoNeto" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
+			<div class="row">
+
+				<div class=" col-sm-3">
+
+					<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+
+							<tr>
+								<th class="bg-gray text-right">Peso Neto:</th>
+								<td class="text-right">@{{totalPesoNeto}}</td>
+							</tr>
+							<tr>
+								<th class="bg-gray text-right">Peso Bruto:</th>
+								<td class="text-right">@{{totalPesoBruto}}</td>
+							</tr>
+							<tr>
+								<th class="bg-gray text-right">Volumen:</th>
+								<td class="text-right">@{{totalVolumen}}</td>
+							</tr>
+							<tr>
+								<th class="bg-gray text-right">Cant. Cajas:</th>
+								<td class="text-right">@{{cajas}}</td>
+							</tr>
+
+
+					</table>
 				</div>
+				<div class=" col-sm-3 col-md-offset-6">
+					<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-				<div class="form-group">
-					<label class="control-label">Total Peso Bruto:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="peso_bruto" v-model.number="totalPesoBruto" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
-				</div>
+							<tr>
+								<th class="bg-gray text-right">Sub-Total:</th>
+								<td class="text-right">@{{subTotal.toLocaleString()}}</td>
+							</tr>
 
-				<div class="form-group">
-					<label class="control-label">Volumen:</label>
-					<div class="input-group">
-						<input class="form-control" type="number" name="volumen" v-model.number="totalVolumen" disabled>
-						<span class="input-group-addon">Kg</span>
-					</div>
+							<tr>
+								<th class="bg-gray text-right">Descuento:</th>
+								<td class="text-right">@{{totaldescuento.toLocaleString()}}</td>
+							</tr>
+
+							<tr>
+								<th class="bg-gray text-right">Neto:</th>
+								<td class="text-right">@{{neto.toLocaleString()}}</td>
+							</tr>
+
+							<tr>
+								<th class="bg-gray text-right">IABA:</th>
+								<td class="text-right">@{{totalIaba.toLocaleString()}}</td>
+							</tr>
+
+							<tr>
+								<th class="bg-gray text-right">I.V.A:</th>
+								<td class="text-right">@{{iva.toLocaleString()}}</td>
+							</tr>
+
+							<tr>
+								<th class="bg-gray text-right">TOTAL:</th>
+								<th class="bg-gray text-right">@{{total.toLocaleString(2)}}</th>
+							</tr>
+
+					</table>
 				</div>
 
 			</div>

@@ -28,7 +28,7 @@
 
 						<div class="form-group">
 					    	<label for="exampleInputEmail1">Usuario</label>
-					    	<input type="text" class="form-control" name="user" placeholder="Nombre de Usuario..." required>
+					    	<input type="text" class="form-control" name="user" placeholder="Nombre de Usuario..." autofocus required>
 						</div>
 						<div class="form-group">
 							<label for="exampleInputPassword1">Contraseña</label>

@@ -78,7 +78,10 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Vida Util:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ Input::old('vida_util') ? Input::old('vida_util') : "" }}" required>
+						<div class="input-group">
+							<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ Input::old('vida_util') ? Input::old('vida_util') : "" }}" required>
+							<span class="input-group-addon">mes</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -90,18 +93,21 @@
 					<label class="control-label col-lg-2">Peso Bruto:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control" type="number" min="0" step="any" v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
-							<span class="input-group-addon">Kg</span>
+							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
+							<span class="input-group-addon">kg</span>
 						</div>
 					</div>
 
 					<label class="control-label col-lg-2">Volumen:</label>
 					<div class="col-lg-2">
-						<input class="form-control" type="number" min="0" step="any" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ Input::old('volumen') ? Input::old('volumen') : "" }}" reqired>
+						<div class="input-group">
+							<input class="form-control" type="number" min="0" step="any" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ Input::old('volumen') ? Input::old('volumen') : "" }}" required>
+							<span class="input-group-addon">m<sup>3</sup></span>
+						</div>
 					</div>
 
 				</div>
-				
+
 			</div>
 
 			<br>
