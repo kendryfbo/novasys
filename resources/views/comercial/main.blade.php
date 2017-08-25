@@ -7,10 +7,12 @@
 			<h3>Pantalla Principal Modulo de Comercial</h3>
 		</div>
 		<div class="box-body text-center">
-			<p>Cualquier informacion interesenta acerca del modulo de comercial</p>
+			<p>Creacion de Clientes Nacionales e Internacionales y Generacion de Notas de Venta y Proformas entre otros...</p>
 		</div>
+<!--
 		<div class="box-footer">
 			<a href="{{route('email')}}" class="btn btn-info btn-lg">Enviar Email</a>
 		</div>
+-->
 	</div>
 @endsection

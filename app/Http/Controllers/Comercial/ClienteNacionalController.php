@@ -92,7 +92,7 @@ class ClienteNacionalController extends Controller
 
     public function show(ClienteNacional $cliente)
     {
-        return $cliente;
+        dd('En Construcción');
     }
 
     public function edit(ClienteNacional $cliente)

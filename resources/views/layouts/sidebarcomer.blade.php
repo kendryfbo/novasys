@@ -35,7 +35,7 @@
                 <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturacion</span></a></li>
             </ul>
           </li>
-          <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Autorizar Nota Venta</span></a></li>
+          <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
       </ul>
     </li>
     <li class="treeview menu-open">
