@@ -192,9 +192,9 @@ var app = new Vue ({
 
 				itemSubTotal = this.items[i].precio * this.items[i].cantidad;
 				descuento = ((this.items[i].precio * this.items[i].descuento) / 100) * this.items[i].cantidad;
-				pesoNeto = this.items[i].peso_neto;
-				pesoBruto = this.items[i].peso_bruto;
-				volumen = this.items[i].volumen;
+				pesoNeto = this.items[i].peso_neto * this.items[i].cantidad;
+				pesoBruto = this.items[i].peso_bruto * this.items[i].cantidad;
+				volumen = this.items[i].volumen * this.items[i].cantidad;
 				cajas = this.items[i].cantidad * 1;
 				neto = itemSubTotal - descuento;
 				iva = (neto * 19) / 100;
