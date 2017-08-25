@@ -228,7 +228,7 @@
     <!-- box-footer -->
     <div class="box-footer">
 
-      <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
+      <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 
         <thead>
 
@@ -291,13 +291,13 @@
           <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
               <tr>
-                <th class="bg-gray text-right">FREIGHT:</th>
+                <th class="bg-gray text-right">FREIGHT</th>
                 <td class="input-td">
                 	<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" @change="freightChange">
                 </td>
               </tr>
               <tr>
-                <th class="bg-gray text-right">INSURANCE:</th>
+                <th class="bg-gray text-right">INSURANCE</th>
 								<td class="input-td">
                 	<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" @change="insuranceChange">
                 </td>
@@ -306,12 +306,12 @@
 								<th colspan="2" class=""></th>
 							</tr>
 							<tr>
-								<th class="bg-gray text-right">TOTAL F.O.B.:</th>
+								<th class="bg-gray text-right">TOTAL F.O.B.</th>
 								<th class="text-right">@{{fob}}</th>
 							</tr>
 
               <tr>
-                <th class="bg-gray text-right">TOTAL:</th>
+                <th class="bg-gray text-right">TOTAL</th>
                 <th class="bg-gray text-right">@{{total}}</th>
               </tr>
 
