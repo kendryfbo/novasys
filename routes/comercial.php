@@ -28,10 +28,10 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 
 
     // Resource Nota de Venta
-	Route::get('notasVentas/autorizacion',              'Comercial\NotaVentaController@authorization');
-	Route::get('notasVentas/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut');
-	Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta');
-	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta');
+	Route::get('notasVentas/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
+	Route::get('notasVentas/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
+	Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
+	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta')->name('desautNotaVenta');
 	Route::resource('notasVentas','Comercial\NotaVentaController',[
 		'parameters' => ['notasVentas' => 'notaVenta']]);
 
