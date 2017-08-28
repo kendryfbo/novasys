@@ -8,60 +8,6 @@
 		@if ($errors->any())
 			{{dd($errors)}}
 		@endif
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="admin">
-          <div class="modal-admin">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" @click="deselectNV" >&times;</button>
-                <h4 class="modal-title">Seleccione Nota de Venta</h4>
-              </div>
-              <div class="modal-body" style="overflow:auto;">
-                <!-- table -->
-    			<table  class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="99%">
-    				<thead>
-    					<tr>
-    						<th class="text-center">Numero</th>
-    						<th class="text-center">Centro</th>
-    						<th class="text-center">Fecha</th>
-    						<th>R.U.T</th>
-    						<th>Cliente</th>
-    						<th>neto</th>
-    						<th>Monto</th>
-    						<th>Condicion Pago</th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    						<tr v-for="notaVenta in notasVentas" v-bind:class="[notaVenta.id === notaVentaID ? 'active' : '']" @click="selectNV(notaVenta.id)">
-    							<td class="text-center">@{{notaVenta.numero}}</td>
-    							<td>@{{notaVenta.centro_venta.descripcion}}</td>
-    							<td>@{{notaVenta.fecha_emision}}</td>
-    							<td>@{{notaVenta.cliente.rut}}</td>
-    							<td>@{{notaVenta.cliente.descripcion}}</td>
-    							<td>@{{notaVenta.neto}}</td>
-    							<td>@{{notaVenta.total}}</td>
-    							<td>@{{notaVenta.cond_pago}}</td>
-    						</tr>
-    				</tbody>
-    			</table>
-    			<!-- /table -->
-              </div>
-              <div class="modal-footer">
-
-				<form action="{{route('crearFacturaNacionalNV')}}" method="post">
-                <button type="button" class="btn btn-default" data-dismiss="modal" @click="deselectNV">Cancelar</button>
-					{{csrf_field()}}
-					 <input type="hidden" name="notaVenta" v-bind:value="notaVentaID">
-					 <button v-bind:disabled="notaVentaID == ''" type="submit" class="btn btn-primary">Importar</button>
-				 </form>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- /modal -->
 
 		<!-- box-header -->
 		<div class="box-header text-center">
@@ -70,6 +16,10 @@
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
+
+			<form id="import" action="{{route('crearFactNacFromNV')}}" method="post">
+				{{ csrf_field() }}
+			</form>
 			<!-- form -->
 			<form  id="create" method="post" action="{{route('guardarFacNac')}}">
 
@@ -92,11 +42,11 @@
 						</div>
 
 						<label class="col-sm-offset-1 control-label col-sm-1" >Nota Venta:</label>
-						<div class="col-lg-2">
-							<input class="form-control" type="number" name="proforma" value="" placeholder="Numero Proforma...">
+						<div class="col-lg-1">
+							<input form="import" class="form-control" type="number" name="numNV" value="" placeholder="Nota Venta...">
 						</div>
 						<div class="col-lg-1">
-              <button class="btn btn-default btn-sm" type="button" name="loadNotaVenta" @click="getNotasVentas"  data-toggle="modal" data-target="#myModal">Importar</button>
+              <button form="import" class="btn btn-default btn-sm" type="submit" >Importar</button>
             </div>
 
 					</div>

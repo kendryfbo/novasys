@@ -52,15 +52,15 @@ class FacturaNacionalController extends Controller
                     ]);
     }
 
-    public function createFromNotaVenta(Request $request) {
+    public function createFromNV(Request $request) {
 
-        $id = $request->notaVenta;
+        $numNV = $request->numNV;
 
         $notaVenta = NotaVenta::with(
             'centroVenta:id,descripcion',
             'cliente:id,descripcion',
             'vendedor:id,nombre',
-            'detalle')->find($id);
+            'detalle')->where('numero',$numNV)->first();
 
         if ($notaVenta) {
 

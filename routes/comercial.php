@@ -39,10 +39,10 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::prefix('facturasNacionales')->group(function(){
 
       Route::get('/',           'Comercial\FacturaNacionalController@index');
+      Route::get('/crear',      'Comercial\FacturaNacionalController@create')->name('crearFacturaNacional');
+      Route::post('/crear',     'Comercial\FacturaNacionalController@createFromNV')->name('crearFactNacFromNV');
       Route::post('/guardar',   'Comercial\FacturaNacionalController@store')->name('guardarFacNac');
       Route::post('/guardarNV', 'Comercial\FacturaNacionalController@storeFromNV')->name('guardarFacNacNV');
-      Route::get('/crear',      'Comercial\FacturaNacionalController@create')->name('crearFacturaNacional');
-      Route::post('/crear',     'Comercial\FacturaNacionalController@createFromNotaVenta')->name('crearFacturaNacionalNV');
   });
 
   // Resource Forma de Pago Nacional
