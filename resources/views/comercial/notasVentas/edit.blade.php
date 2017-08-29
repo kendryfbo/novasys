@@ -235,7 +235,7 @@
 						<td>@{{item.cantidad}}</td>
 						<td>@{{item.precio}}</td>
 						<td>@{{item.descuento}}</td>
-						<td>@{{item.total}}</td>
+						<td>@{{item.sub_total}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -320,7 +320,7 @@
 	var cliente = {!! $notaVenta->cliente_id !!};
 	var sucursales = {!! $notaVenta->cliente->sucursal !!};
 	var despacho = "{!! $notaVenta->despacho !!}";
-	var items = {!!$notaVenta->detalle!!};
+	var items = {!!$notaVenta->detalle->toJson()!!};
 	var listaId = {!! $notaVenta->cliente->listaPrecio->id !!};
 	var listaDescrip = "{!! $notaVenta->cliente->listaPrecio->descripcion !!}";
 	var listaDetalle = {!! $notaVenta->cliente->listaPrecio->detalle !!};
