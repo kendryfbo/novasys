@@ -42,6 +42,7 @@ class FamiliaTableSeeder extends Seeder
         ];
 
         foreach ($familias as $familia) {
+
             Familia::create($familia);
         }
     }
