@@ -19,6 +19,7 @@ class CreateNotaVentaDetallesTable extends Migration
             $table->integer('nv_id')->unsigned(); //FK
             $table->integer('item')->unsigned();
             $table->integer('producto_id')->unsigned(); //FK
+            $table->string('codigo');
             $table->string('descripcion');
             $table->integer('cantidad');
             $table->decimal('precio',10,2);
