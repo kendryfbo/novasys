@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\ClienteIntl;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 use App\Models\Comercial\Pais;
+use App\Models\Comercial\Zona;
+use App\Models\Comercial\Idioma;
+use App\Models\Comercial\ClienteIntl;
 use App\Models\Comercial\FormaPagoIntl;
 
 class ClienteIntlController extends Controller
@@ -29,10 +32,18 @@ class ClienteIntlController extends Controller
      */
     public function create()
     {
+      $zonas = Zona::getAllActive();
       $paises = Pais::getAllActive();
+      $idiomas = Idioma::getAllActive();
       $formasPago = FormaPagoIntl::getAllActive();
 
-      return view('comercial.clientesIntl.create')->with(['paises' => $paises, 'formasPago' => $formasPago]);
+      return view('comercial.clientesIntl.create')
+              ->with([
+                'zonas' => $zonas,
+                'paises' => $paises,
+                'idiomas' => $idiomas,
+                'formasPago' => $formasPago
+              ]);
     }
 
     /**

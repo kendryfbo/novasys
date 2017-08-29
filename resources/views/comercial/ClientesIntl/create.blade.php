@@ -48,12 +48,36 @@
 
 					<div class="form-group">
 
+						<label class="control-label col-lg-1" >Zona:</label>
+						<div class="col-lg-3">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="zona" required>
+								<option value="">Seleccionar Zona Geografica...</option>
+								@foreach ($zonas as $zona)
+									<option value="{{$zona->descripcion}}">{{$pais->descripcion}}</option>
+								@endforeach
+							</select>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+
 						<label class="control-label col-lg-1" >Pais:</label>
-						<div class="col-lg-1">
-							<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
+						<div class="col-lg-2">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
 								<option value="">Seleccionar pais...</option>
 								@foreach ($paises as $pais)
 									<option value="{{$pais->nombre}}">{{$pais->nombre}}</option>
+								@endforeach
+							</select>
+						</div>
+
+						<label class="control-label col-lg-1" >Idioma:</label>
+						<div class="col-lg-1">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
+								<option value="">idioma...</option>
+								@foreach ($idiomas as $idioma)
+									<option value="{{$idioma->descripcion}}">{{$idioma->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -64,7 +88,7 @@
 
 						<label class="control-label col-lg-1" >F. Pago:</label>
 						<div class="col-lg-2">
-							<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" required>
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" required>
 								<option value="">Seleccionar Forma Pago...</option>
 								@foreach ($formasPago as $formaPago)
 									<option value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
@@ -74,7 +98,10 @@
 
 						<label class="control-label col-lg-1" >Credito:</label>
 						<div class="col-lg-2">
-							<input type="number" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{ Input::old('credito') ? Input::old('credito') : '' }}" required>
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input type="number" min="0" step="1" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{ Input::old('credito') ? Input::old('credito') : '' }}" required>
+							</div>
 						</div>
 
 					</div>
@@ -86,15 +113,7 @@
 							<input type="text" class="form-control input-sm" name="giro" placeholder="Giro..." value="{{ Input::old('giro') ? Input::old('giro') : '' }}" required>
 						</div>
 
-						<label class="control-label col-lg-1" >Zona:</label>
-						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="zona" placeholder="Continente, zona geografica..." value="{{ Input::old('zona') ? Input::old('zona') : '' }}" required>
-						</div>
 
-						<label class="control-label col-lg-1" >Idioma:</label>
-						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="idioma" placeholder="idioma..." value="{{ Input::old('idioma') ? Input::old('idioma') : '' }}" required>
-						</div>
 
 					</div>
 
