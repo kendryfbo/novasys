@@ -56,7 +56,7 @@ class Proforma extends Model
       $cvDescrip = CentroVenta::find($cvId)->pluck('descripcion')->first();
 
 			$clienteId = $request->cliente;
-			$clienteDescrip = ClienteIntl::find($clienteId)->pluck('descripcion')->first();
+			$clienteDescrip = ClienteIntl::where('id','=',$clienteId)->select('descripcion')->first()->descripcion;
 
       $fechaEmision = $request->emision;
       $semana = $request->semana;
