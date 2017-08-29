@@ -21,6 +21,7 @@ class CreateProductosTable extends Migration
             $table->integer('formato_id')->unsigned();
             $table->integer('sabor_id')->unsigned();
             $table->integer('vida_util');
+            $table->double('peso_neto');
             $table->double('peso_bruto');
             $table->double('volumen');
             $table->tinyInteger('activo');
