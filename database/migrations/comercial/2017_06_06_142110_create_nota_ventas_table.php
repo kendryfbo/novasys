@@ -23,8 +23,6 @@ class CreateNotaVentasTable extends Migration
             $table->string('cond_pago');
             $table->integer('version');
             $table->integer('vendedor_id')->unsigned();
-            $table->tinyInteger('aut_comer')->nullable();
-            $table->tinyInteger('aut_contab')->nullable();
             $table->decimal('sub_total',10,2);
             $table->decimal('descuento',10,2);
             $table->decimal('neto',10,2);
@@ -37,6 +35,9 @@ class CreateNotaVentasTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->date('fecha_emision');
             $table->date('fecha_despacho');
+            $table->tinyInteger('aut_comer')->nullable();
+            $table->tinyInteger('aut_contab')->nullable();
+            $table->TinyInteger('status')->default(1);
             $table->integer('factura')->nullable();
             $table->timestamps();
         });
