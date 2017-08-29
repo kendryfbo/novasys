@@ -23,7 +23,7 @@
 
 					<div class="btn-group col-lg-offset-3">
 						<button form="authorize" type="submit" class="btn btn-success btn-sm"><i class="fa fa-check-circle" aria-hidden="true"></i> Autorizar</button>
-						<button form="unauthorize" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-ban" aria-hidden="true"></i> Desautorizar</button>
+						<button form="unauthorize" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-ban" aria-hidden="true"></i> No autorizar</button>
 					</div>
 
 				</div>
@@ -33,6 +33,11 @@
 					<label class="control-label col-lg-2">Numero:</label>
 					<div class="col-lg-1">
 						<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{$notaVenta->numero}}" readonly>
+					</div>
+
+					<label class="control-label col-lg-1">Version:</label>
+					<div class="col-lg-1">
+						<input type="text" class="form-control" name="version" placeholder="Numero Version..." value="{{$notaVenta->version}}" readonly>
 					</div>
 
 				</div>
@@ -106,12 +111,12 @@
 
 						<tr>
 							<th class="text-center">#</th>
-							<th>codigo</th>
-							<th>descripcion</th>
-							<th>Cantidad</th>
-							<th>Precio</th>
-							<th>Dscto</th>
-							<th>total</th>
+							<th class="text-center">codigo</th>
+							<th class="text-center">descripcion</th>
+							<th class="text-center">Cantidad</th>
+							<th class="text-center">Precio</th>
+							<th class="text-center">Dscto</th>
+							<th class="text-center">total</th>
 						</tr>
 
 					</thead>
@@ -120,12 +125,12 @@
 						@foreach ($notaVenta->detalle as $item)
 							<tr>
 								<th class="text-center">{{$loop->iteration}}</th>
-								<td>{{$item->codigo}}</td>
+								<td class="text-center">{{$item->codigo}}</td>
 								<td>{{$item->descripcion}}</td>
-								<td>{{$item->cantidad}}</td>
-								<td>{{$item->precio}}</td>
-								<td>{{$item->descuento}}</td>
-								<td>{{$item->sub_total}}</td>
+								<td class="text-right">{{$item->cantidad}}</td>
+								<td class="text-right">{{number_format($item->precio,0,",",".")}}</td>
+								<td class="text-right">{{number_format($item->descuento,0,",",".")}}</td>
+								<td class="text-right">{{number_format($item->sub_total,0,",",".")}}</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -209,10 +214,10 @@
 	</div>
 	<!-- /box -->
 	<!-- forms -->
-	<form id="authorize" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
+	<form id="authorize" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
 		{{csrf_field()}}
 	</form>
-	<form id="unauthorize" action="{{url('comercial/notasVentas/autrizar/'.$notaVenta->id)}}" method="post">
+	<form id="unauthorize" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
 		{{csrf_field()}}
 	</form>
 	<!-- /forms -->

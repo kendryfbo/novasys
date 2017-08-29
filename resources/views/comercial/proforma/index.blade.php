@@ -45,7 +45,7 @@
 							<td>{{$proforma->cliente}}</td>
 							<td class="text-center">{{$proforma->clau_venta}}</td>
 							<td class="text-center">{{$proforma->forma_pago}}</td>
-							<td class="text-right">{{'$ ' . number_format($proforma->total,2)}}</td>
+							<td class="text-right">{{'$ ' . number_format($proforma->total,2,",",".")}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->id.'/editar')}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">

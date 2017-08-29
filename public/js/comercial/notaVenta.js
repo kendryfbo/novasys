@@ -116,7 +116,7 @@ var app = new Vue ({
 					peso_neto: this.peso_neto,
 					peso_bruto: this.peso_bruto,
 					volumen: this.volumen,
-					total: (this.precio * this.cantidad).toFixed(2)
+					total: Math.round(this.precio * this.cantidad)
 				};
 
 				this.items.push(item);
@@ -197,11 +197,11 @@ var app = new Vue ({
 				volumen = this.items[i].volumen * this.items[i].cantidad;
 				cajas = this.items[i].cantidad * 1;
 				neto = itemSubTotal - descuento;
-				iva = (neto * 19) / 100;
+				iva = (neto * 19) / 100; // reemplazar por valor de tabla;
 
 				if (this.items[i].iaba) {
 
-					iaba = (neto * 10) / 100;
+					iaba = (neto * 10) / 100; // reemplazar por valor de tabla;
 				}
 
 				subTotal += itemSubTotal;

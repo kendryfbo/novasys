@@ -44,7 +44,7 @@
 							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
 							<td class="text-center">{{$notaVenta->fecha_despacho}}</td>
-							<td class="text-right">{{$notaVenta->total}}</td>
+							<td class="text-right">{{number_format($notaVenta->total,0,",",".")}}</td>
 							<td class="text-center">{{$notaVenta->cond_pago}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">

@@ -39,19 +39,19 @@
 							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero.'/autorizar')}}" target="_blank"><strong>{{$notaVenta->numero}}</strong></a></td>
 							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
-							<td class="text-right">{{number_format($notaVenta->total,2,",",".")}}</td>
+							<td class="text-right">{{number_format($notaVenta->total,0,",",".")}}</td>
 							<td class="text-center">{{$notaVenta->cliente->formaPago->descripcion}}</td>
 							<td class="text-center">
-									<button form="authorize" class="btn btn-success btn-sm" @click="confirmAutorizar"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
-									<button form="unauthorized" class="btn btn-danger btn-sm" @click="confirmDesautorizar">
+									<button form="authorize" class="btn btn-success btn-sm" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+									<button form="unauthorized" class="btn btn-danger btn-sm" type="submit">
 										<i class="fa fa-ban" aria-hidden="true"></i>
 									</button>
 							</td>
 							<!-- Forms -->
-							<form id="authorize" style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
+							<form id="authorize" style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post" v-on:submit="confirmAutorizar">
 								{{csrf_field()}}
 							</form>
-							<form id="unauthorized" style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
+							<form id="unauthorized" style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post" v-on:submit="confirmDesautorizar">
 								{{csrf_field()}}
 							</form>
 							<!-- /Forms -->

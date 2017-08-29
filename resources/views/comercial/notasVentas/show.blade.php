@@ -27,7 +27,7 @@
 						@elseif ($notaVenta->aut_comer)
 							<h4><span class="label label-success">Autorizada</span></h4>
 						@else
-							<h4><span class="label label-danger">Desautorizada</span></h4>
+							<h4><span class="label label-danger">No autorizada</span></h4>
 						@endif
 					</div>
 
@@ -38,6 +38,11 @@
 					<label class="control-label col-lg-2">Numero:</label>
 					<div class="col-lg-1">
 						<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{$notaVenta->numero}}" readonly>
+					</div>
+
+					<label class="control-label col-lg-1">Version:</label>
+					<div class="col-lg-1">
+						<input type="text" class="form-control" name="version" placeholder="Numero Version..." value="{{$notaVenta->version}}" readonly>
 					</div>
 
 				</div>
@@ -111,12 +116,12 @@
 
 						<tr>
 							<th class="text-center">#</th>
-							<th>codigo</th>
-							<th>descripcion</th>
-							<th>Cantidad</th>
-							<th>Precio</th>
-							<th>Dscto</th>
-							<th>total</th>
+							<th class="text-center">codigo</th>
+							<th class="text-center">descripcion</th>
+							<th class="text-center">Cantidad</th>
+							<th class="text-center">Precio</th>
+							<th class="text-center">Dscto</th>
+							<th class="text-center">total</th>
 						</tr>
 
 					</thead>
@@ -125,12 +130,12 @@
 						@foreach ($notaVenta->detalle as $item)
 							<tr>
 								<th class="text-center">{{$loop->iteration}}</th>
-								<td>{{$item->codigo}}</td>
+								<td class="text-center">{{$item->codigo}}</td>
 								<td>{{$item->descripcion}}</td>
-								<td>{{$item->cantidad}}</td>
-								<td>{{$item->precio}}</td>
-								<td>{{$item->descuento}}</td>
-								<td>{{$item->sub_total}}</td>
+								<td class="text-right">{{$item->cantidad}}</td>
+								<td class="text-right">{{number_format($item->precio,0,",",".")}}</td>
+								<td class="text-right">{{$item->descuento}}</td>
+								<td class="text-right">{{number_format($item->sub_total,0,",",".")}}</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -167,7 +172,7 @@
 
 							<tr>
 								<th class="bg-gray text-right">Cant. Cajas:</th>
-								<td class="text-right">{{$notaVenta->cantidad}}</td>
+								<td class="text-right">{{$notaVenta->detalle->sum('cantidad')}}</td>
 							</tr>
 
 					</table>

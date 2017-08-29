@@ -50,6 +50,11 @@
 						<div class="col-sm-2">
 							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="Nueva" readonly>
 						</div>
+
+						<label class="control-label col-sm-1" >Version:</label>
+						<div class="col-sm-1">
+							<input type="text" class="form-control" name="version" value="1" readonly>
+						</div>
 					</div>
 
 					<h5>Datos</h5>
@@ -169,17 +174,17 @@
 
 					<label class="control-label col-lg-1">Cant:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" min="0" name="cantidad" v-model="cantidad">
+						<input class="form-control" type="number" min="0" step="1" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="cantidad" v-model.number="cantidad">
 					</div>
 
 					<label class="control-label col-lg-1">%Dscto:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" name="descuento" v-model="descuento" disabled>
+						<input class="form-control" type="number" name="descuento" v-model.number="descuento" disabled>
 					</div>
 
 					<label class="control-label col-lg-1">Precio:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" name="precio" v-model="precio" disabled>
+						<input class="form-control" type="number" name="precio" v-model.number="precio" disabled>
 					</div>
 
 					<div class="col-lg-2">
@@ -201,24 +206,24 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th>codigo</th>
-						<th>descripcion</th>
-						<th>Cantidad</th>
-						<th>Precio</th>
-						<th>Dscto</th>
-						<th>total</th>
+						<th class="text-center">codigo</th>
+						<th class="text-center">descripcion</th>
+						<th class="text-center">Cantidad</th>
+						<th class="text-center">Precio</th>
+						<th class="text-center">Dscto</th>
+						<th class="text-center">total</th>
 					</tr>
 				</thead>
 				<tbody>
 					<td colspan="7" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
 					<tr v-for="(item,key) in items" v-bind:class="[key === select ? 'active' : '']"  @click="loadItem(key)">
 						<th class="text-center">@{{key+1}}</th>
-						<td>@{{item.codigo}}</td>
+						<td class="text-center">@{{item.codigo}}</td>
 						<td>@{{item.descripcion}}</td>
-						<td>@{{item.cantidad}}</td>
-						<td>@{{item.precio.toLocaleString()}}</td>
-						<td>@{{item.descuento}}</td>
-						<td>@{{item.total.toLocaleString()}}</td>
+						<td class="text-right">@{{item.cantidad}}</td>
+						<td class="text-right">@{{item.precio}}</td>
+						<td class="text-right">@{{item.descuento}}</td>
+						<td class="text-right">@{{item.total}}</td>
 					</tr>
 				</tbody>
 			</table>
