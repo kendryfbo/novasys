@@ -39,6 +39,10 @@ class CreateProformasTable extends Migration
             $table->double('cif',10,2);
             $table->double('descuento',10,2);
             $table->double('total',10,2);
+            $table->tinyInteger('aut_comer')->nullable();
+            $table->tinyInteger('aut_contab')->nullable();
+            $table->TinyInteger('status')->default(1);
+            $table->integer('factura')->nullable();
             $table->integer('user_id')->unsigned(); // FK usuarios
             $table->timestamps();
         });
