@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotaVentaDetalle extends Model
 {
-	protected $fillable = ['nv_id', 'item', 'producto_id', 'descripcion', 'cantidad', 'precio', 'descuento', 'sub_total'];
+	protected $fillable = ['nv_id', 'item', 'producto_id', 'codigo', 'descripcion', 'cantidad', 'precio', 'descuento', 'sub_total'];
 
 	public function notaVenta() {
 

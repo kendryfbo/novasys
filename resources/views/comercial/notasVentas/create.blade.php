@@ -12,19 +12,25 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<!-- errores -->
 			@if ($errors->any())
 
-				@foreach ($errors->all() as $error)
+				<ol>
 
-					@component('components.errors.validation')
-						@slot('errors')
-							{{$error}}
-						@endslot
-					@endcomponent
+					@foreach ($errors->all() as $error)
 
-				@endforeach
+						@component('components.errors.validation')
+							@slot('errors')
+								{{$error}}
+							@endslot
+						@endcomponent
+
+					@endforeach
+
+				</ol>
 
 			@endif
+
 			<!-- form -->
 			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
 
