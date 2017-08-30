@@ -35,7 +35,6 @@
 						<th>R.U.T</th>
 						<th>descripcion</th>
 						<th>direccion</th>
-						<th>tipo</th>
 						<th>Activo</th>
 						<th class="text-center">Opciones</th>
 					</tr>
@@ -47,7 +46,6 @@
 							<td>{{$aduana->rut}}</td>
 							<td>{{$aduana->descripcion}}</td>
 							<td>{{$aduana->direccion}}</td>
-							<td>{{$aduana->tipo}}</td>
 							<td>{{$aduana->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{ url('comercial/aduanas/' . $aduana->id) }}" method="get">

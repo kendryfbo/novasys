@@ -47,7 +47,6 @@ class AduanaController extends Controller
         'direccion' => 'required',
         'ciudad' => 'required',
         'comuna' => 'required',
-        'tipo' => 'required',
         'fono' => 'required',
       ]);
 
@@ -60,7 +59,6 @@ class AduanaController extends Controller
         'ciudad' => $request->ciudad,
         'comuna' => $request->comuna,
         'fono' => $request->fono,
-        'tipo' => $request->tipo,
         'activo' => $activo
       ]);
 
@@ -89,7 +87,9 @@ class AduanaController extends Controller
      */
     public function edit(Aduana $aduana)
     {
-      dd('En Construccion');
+        $tipos = MedioTransporte::getAllActive();
+
+        return view('comercial.aduana.edit')->with(['aduana' => $aduana, 'tipos' => $tipos]);
     }
 
     /**
@@ -101,7 +101,30 @@ class AduanaController extends Controller
      */
     public function update(Request $request, Aduana $aduana)
     {
-        //
+        $this->validate($request,[
+          'rut' => 'required',
+          'descripcion' => 'required',
+          'direccion' => 'required',
+          'ciudad' => 'required',
+          'comuna' => 'required',
+          'fono' => 'required',
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $aduana->rut = $request->rut;
+        $aduana->descripcion = $request->descripcion;
+        $aduana->direccion = $request->direccion;
+        $aduana->ciudad = $request->ciudad;
+        $aduana->comuna = $request->comuna;
+        $aduana->fono = $request->fono;
+        $aduana->activo = $activo;
+
+        $aduana->save();
+
+        $msg = 'Aduana '. $request->descripcion .' Modificada.';
+
+        return redirect(route('aduana'))->with(['status' => $msg]);
     }
 
     /**

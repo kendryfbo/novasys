@@ -21,7 +21,6 @@ class CreateAduanasTable extends Migration
             $table->string('ciudad');
             $table->string('comuna');
             $table->string('fono');
-            $table->string('tipo');
             $table->tinyInteger('activo');
             $table->timestamps();
         });

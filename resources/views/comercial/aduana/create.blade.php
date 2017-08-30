@@ -74,20 +74,6 @@
 
 				<div class="form-group">
 
-					<label class="control-label col-lg-1" >Tipo:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="tipo" required>
-							<option value="">Seleccionar Tipo de Aduana...</option>
-							@foreach ($tipos as $tipo)
-								<option value="{{$tipo->descripcion}}">{{$tipo->descripcion}}</option>
-							@endforeach
-						</select>
-					</div>
-
-				</div>
-
-				<div class="form-group">
-
 					<label class="control-label col-lg-1">Activo:</label>
 					<div class="col-lg-2">
 						<input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ Input::old('activo') ? "checked" : "" }}>
