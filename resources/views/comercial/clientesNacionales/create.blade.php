@@ -19,10 +19,26 @@
 				<!-- form-horizontal -->
 				<div class="form-horizontal">
 
+					@if ($errors->any())
+
+						<ol>
+							@foreach ($errors->all() as $error)
+								@component('components.errors.validation')
+									@slot('errors')
+										{{$error}}
+									@endslot
+								@endcomponent
+							@endforeach
+
+						</ol>
+					@endif
+					<div class="form-goup">
+
+					</div>
 					<div class="form-group">
 						<label class="control-label col-lg-2" >R.U.T:</label>
 						<div class="col-lg-4">
-							<input type="text" class="form-control input-sm input-sm" name="rut" v-model="rut" @keyup="updateRutNum($event)" placeholder="Rut del Cliente..." value="{{ Input::old('rut') ? Input::old('rut') : '' }}" pattern="^([0-9]+-[0-9K])$" required>
+							<input type="text" class="form-control input-sm input-sm" name="rut" v-model="rut" @change="updateRutNum" placeholder="Rut del Cliente..." value="{{ Input::old('rut') ? Input::old('rut') : '' }}" pattern="^([0-9]+-[0-9K])$" required>
 							<input type="hidden" class="form-control input-sm" name="rut_num" v-model="rut_num" value="{{ Input::old('rut_num') ? Input::old('rut_num') : '' }}" required>
 						</div>
 					</div>
@@ -48,7 +64,7 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="lista" required>
 								<option value="">Seleccionar Lista de precios...</option>
 								@foreach ($listasPrecios as $lista)
-									<option value="{{$lista->id}}">{{$lista->descripcion}}</option>
+									<option {{ Input::old('lista') == $lista->id ? 'selected':'' }} value="{{$lista->id}}">{{$lista->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -58,7 +74,7 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="canal" required>
 								<option value="">Seleccionar Canal...</option>
 								@foreach ($canales as $canal)
-									<option value="{{$canal->id}}">{{$canal->descripcion}}</option>
+									<option {{ Input::old('canal') == $canal->id ? 'selected':'' }} value="{{$canal->id}}">{{$canal->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -71,7 +87,7 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option value="">Seleccionar Forma Pago...</option>
 								@foreach ($formasPago as $formaPago)
-									<option value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
+									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected':'' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -122,7 +138,7 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="vendedor">
 								<option value="">Seleccionar Vendedor...</option>
 								@foreach ($vendedores as $vendedor)
-									<option value="{{$vendedor->id}}">{{$vendedor->nombre}}</option>
+									<option {{ Input::old('vendedor') == $vendedor->id ? 'selected':'' }} value="{{$vendedor->id}}">{{$vendedor->nombre}}</option>
 								@endforeach
 							</select>
 						</div>

@@ -52,7 +52,7 @@ var app = new Vue({
 			alert(error);
 		},
 
-		updateRutNum: function(event) {
+		updateRutNum: function() {
 
 			this.rut_num = '';
 

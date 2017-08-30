@@ -1,6 +1,5 @@
 @extends('layouts.master2')
 
-
 @section('content')
 
 	<!-- box -->
@@ -30,6 +29,7 @@
 			<!-- table -->
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 				<thead>
+
 					<tr>
 						<th class="text-center">#</th>
 						<th class="text-center">R.U.T</th>
@@ -42,9 +42,13 @@
 						<th class="text-center">Activo</th>
 						<th class="text-center">Opciones</th>
 					</tr>
+
 				</thead>
+
 				<tbody>
+
 					@foreach ($clientes as $cliente)
+
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center">{{$cliente->rut}}</td>
@@ -56,32 +60,35 @@
 							<td class="text-center">{{$cliente->vendedor->nombre}}</td>
 							<td class="text-center">{{$cliente->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
-									<button form="show" class="btn btn-sm" type="submit"><i class="fa fa-eye" aria-hidden="true"></i></button>
-									<button form="edit" class="btn btn-sm" type="submit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-									<button form="delete" class="btn btn-sm" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id) }}" method="get">
+									<button class="btn btn-sm" type="submit"><i class="fa fa-eye" aria-hidden="true"></i></button>
+								</form>
+
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id . '/edit') }}" method="get">
+									<button class="btn btn-sm" type="submit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+								</form>
+
+								<form style="display: inline" action="{{ url('comercial/clientesNacionales/'.$cliente->id) }}" method="post">
+									{{csrf_field()}}
+									{{ method_field('DELETE') }}
+									<button class="btn btn-sm" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+								</form>
+								
 							</td>
 
 						</tr>
+
 					@endforeach
+
 				</tbody>
 			</table>
 			<!-- /table -->
 		</div>
 		<!-- /box-body -->
-
 	</div>
 	<!-- /box -->
 
-	<!-- Forms -->
-	<form id="show" style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id) }}" method="get">
-	</form>
-	<form id="edit" style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id . '/edit') }}" method="get">
-	</form>
-	<form id="delete" style="display: inline" action="{{ url('comercial/clientesNacionales/'.$cliente->id) }}" method="post">
-		{{csrf_field()}}
-		{{ method_field('DELETE') }}
-	</form>
-	<!-- /Forms -->
 @endsection
 
 @section('scripts')
