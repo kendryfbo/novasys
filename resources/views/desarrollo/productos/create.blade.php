@@ -56,7 +56,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Formato:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" name="formato" v-model="formato" @change="updateDescripcion" required>
+						<select class="form-control selectpicker" data-live-search="true" name="formato" v-model="formato" @change="formatChange" required>
 								<option value="">Seleccionar Formato...</option>
 							@foreach ($formatos as $formato)
 								<option value="{{$formato->id}}">{{$formato->descripcion}}</option>
@@ -98,11 +98,19 @@
 						</div>
 					</div>
 
-					<label class="control-label col-lg-2">Volumen:</label>
+					<label class="control-label col-lg-1">Volumen:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
 							<input class="form-control" type="number" min="0" step="any" v-model='volumen' class="form-control" name="volumen" placeholder="Volumen..." value="{{ Input::old('volumen') ? Input::old('volumen') : "" }}" required>
 							<span class="input-group-addon">m<sup>3</sup></span>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1">Peso Neto:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' class="form-control" name="peso_neto" v-model="peso_neto" placeholder="Peso Neto..." value="{{ Input::old('peso_neto') ? Input::old('peso_neto') : "" }}" required>
+							<span class="input-group-addon">kg</span>
 						</div>
 					</div>
 
@@ -133,6 +141,9 @@
 @endsection
 
 @section('scripts')
+	<script>
+		var formatos = {!!$formatos!!};
+	</script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/producto.js')}}"></script>
 @endsection

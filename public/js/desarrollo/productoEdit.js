@@ -1,14 +1,14 @@
 var app = new Vue({
   el: '#vue-app',
   data: {
-	  codigo: '',
-	  descripcion: '',
-	  marca: '',
-	  formato: '',
-	  sabor: '',
-      peso_bruto: '',
-      peso_neto: '',
-      volumen: '',
+	  codigo: codigo,
+	  descripcion: descripcion,
+	  marca: marca,
+	  formato: formato,
+	  sabor: sabor,
+      peso_bruto: peso_bruto,
+      peso_neto: peso_neto,
+      volumen: volumen,
       marcas: [],
       formatos: formatos,
       sabores: [],
@@ -40,7 +40,6 @@ var app = new Vue({
           this.descripcion = '';
 
           if (this.marca) {
-
               for (var i = 0; i < this.marcas.length; i++) {
 
                   if (this.marca == this.marcas[i].id) {
@@ -53,7 +52,6 @@ var app = new Vue({
               }
           }
           if (this.formato) {
-
               for (var i = 0; i < this.formatos.length; i++) {
 
                   if (this.formato == this.formatos[i].id) {

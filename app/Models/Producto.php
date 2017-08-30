@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
-	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id', 'vida_util', 'peso_bruto','volumen','activo'];
+	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id', 'vida_util', 'peso_bruto', 'peso_neto', 'volumen','activo'];
 
 	static function getAllActive() {
 
