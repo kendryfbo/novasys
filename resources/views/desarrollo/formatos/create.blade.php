@@ -60,16 +60,10 @@
 
 				<label class="control-label col-lg-1">Peso:</label>
 				<div class="col-lg-2">
-				  <input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" step="any" required>
-				</div>
-
-			</div>
-
-			<div class="form-group">
-
-				<label class="control-label col-lg-2">Peso Neto:</label>
-				<div class="col-lg-2">
-					<input type="number" class="form-control" name="peso_neto" value="{{ Input::old('peso_neto')}}" step="any" required readonly>
+					<div class="input-group">
+						<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" step="any" required>
+						<span class="input-group-addon">g</span>
+					</div>
 				</div>
 
 			</div>

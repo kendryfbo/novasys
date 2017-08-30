@@ -67,6 +67,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::get('aduanas/crear',         'Comercial\AduanaController@create')->name('crearAduana');
   Route::post('aduanas',              'Comercial\AduanaController@store')->name('guardarAduana');
   Route::get('aduanas/{aduana}/edit', 'Comercial\AduanaController@edit')->name('editarAduana');
+  Route::put('aduanas/{aduana}',      'Comercial\AduanaController@update')->name('actualizarAduana');
   Route::get('aduanas/{aduana}',      'Comercial\AduanaController@show')->name('verAduana');
   Route::delete('aduanas/{aduana}',   'Comercial\AduanaController@destroy')->name('eliminarAduana');
 
