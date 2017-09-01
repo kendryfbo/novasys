@@ -8,6 +8,13 @@
 		<div class="box-header text-center">
 			<h4>Crear Cliente Internacional</h4>
 
+
+
+		</div>
+		<!-- /box-header -->
+		<!-- box-body -->
+		<div class="box-body">
+
 			@if ($errors->any())
 
 				@foreach ($errors->all() as $error)
@@ -21,11 +28,6 @@
 				@endforeach
 
 			@endif
-
-		</div>
-		<!-- /box-header -->
-		<!-- box-body -->
-		<div class="box-body">
 
 			<!-- form-horizontal -->
 			<form  id="create" class="form-horizontal" method="post" action="{{route('guardarClienteIntl')}}">
@@ -53,7 +55,7 @@
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="zona" required>
 								<option value="">Seleccionar Zona Geografica...</option>
 								@foreach ($zonas as $zona)
-									<option value="{{$zona->descripcion}}">{{$pais->descripcion}}</option>
+									<option {{ Input::old('direccion') == $zona->descripcion ? 'selected':''}} value="{{$zona->descripcion}}">{{$zona->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -67,17 +69,17 @@
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
 								<option value="">Seleccionar pais...</option>
 								@foreach ($paises as $pais)
-									<option value="{{$pais->nombre}}">{{$pais->nombre}}</option>
+									<option {{ Input::old('pais') == $pais->nombre ? 'selected':''}} value="{{$pais->nombre}}">{{$pais->nombre}}</option>
 								@endforeach
 							</select>
 						</div>
 
 						<label class="control-label col-lg-1" >Idioma:</label>
 						<div class="col-lg-1">
-							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="idioma" required>
 								<option value="">idioma...</option>
 								@foreach ($idiomas as $idioma)
-									<option value="{{$idioma->descripcion}}">{{$idioma->descripcion}}</option>
+									<option {{ Input::old('idioma') == $idioma->descripcion ? 'selected':''}} value="{{$idioma->descripcion}}">{{$idioma->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -91,7 +93,7 @@
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" required>
 								<option value="">Seleccionar Forma Pago...</option>
 								@foreach ($formasPago as $formaPago)
-									<option value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
+									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected' : '' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>

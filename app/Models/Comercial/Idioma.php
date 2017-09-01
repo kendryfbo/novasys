@@ -10,7 +10,7 @@ class Idioma extends Model
 
   static function getAllActive() {
 
-    return self::where('activo', 1);
+    return self::all()->where('activo', 1);
   }
-  
+
 }
