@@ -47,12 +47,12 @@
 							<td class="text-center">{{$proforma->forma_pago}}</td>
 							<td class="text-right">{{'$ ' . number_format($proforma->total,2,",",".")}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->id.'/editar')}}" method="get">
+								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero.'/editar')}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
 									</button>
 								</form>
-								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->id)}}" method="post">
+								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero)}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm btn-default" type="submit">

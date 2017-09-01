@@ -12,17 +12,16 @@
 		<!-- box-body -->
 		<div class="box-body">
 
-			<!-- form -->
+			<!-- form unauthorize-->
 			<form id="unauthorize" action="" method="post">
 				{{csrf_field()}}
 			</form>
-			<!-- /form -->
-
-			<!-- form -->
+			<!-- /form unauthorize-->
+			<!-- form authorize-->
 			<form id="authorize" action="" method="post">
 				{{csrf_field()}}
 			</form>
-			<!-- /form -->
+			<!-- /form authorize-->
 
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="">
@@ -34,30 +33,27 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">C. Venta:</label>
-          <div class="col-lg-2">
-            <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" disabled>
-								<option selected>{{$proforma->centro_venta}}</option>
-            </select>
-          </div>
+			<label class="control-label col-lg-1">C. Venta:</label>
+			<div class="col-lg-2">
+				<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" disabled>
+					<option selected>{{$proforma->centro_venta}}</option>
+				</select>
+			</div>
 
-          <label class="control-label col-lg-1">Numero:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
-          </div>
+			<label class="control-label col-lg-1">Numero:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
+			</div>
 
-          <label class="control-label col-lg-1">Version:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
-          </div>
+			<label class="control-label col-lg-1">Version:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
+			</div>
 
-					<div class="col-lg-1 col-lg-offset-3">
-						<button form="unauthorize" class="btn btn-sm btn-danger">No Autorizar<i class="fa fa-ban" aria-hidden="true"></i></button>
-					</div>
-
-					<div class="col-lg-1">
-							<button form="authorize" class="btn btn-sm btn-success">Autorizar<i class="fa fa-check-circle" aria-hidden="true"></i></button>
-					</div>
+			<div class="btn-group col-lg-offset-3">
+				<button form="authorize" type="submit" class="btn btn-success btn-sm"><i class="fa fa-check-circle" aria-hidden="true"></i> Autorizar</button>
+				<button form="unauthorize" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-ban" aria-hidden="true"></i> No autorizar</button>
+			</div>
 
         </div>
         <!-- /form-group -->
@@ -185,7 +181,7 @@
             @foreach ($proforma->detalles as $detalle)
               <tr>
                 <td class="text-center">{{$loop->iteration}}</td>
-                <td class="text-center">{{$detalle->prod_id}}</td>
+                <td class="text-center">{{$detalle->codigo}}</td>
                 <td>{{$detalle->descripcion}}</td>
                 <td class="text-right">{{$detalle->cantidad}}</td>
                 <td class="text-right">{{number_format($detalle->precio,2)}}</td>

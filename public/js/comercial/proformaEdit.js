@@ -5,7 +5,7 @@ var app = new Vue({
   data: {
 
     clientes: clientes,
-    clienteId: '',
+    clienteId: clienteId,
     formaPagoDescrip: '',
     productos: productos,
     prodId: '',
@@ -20,8 +20,8 @@ var app = new Vue({
     totalVolumen: 0,
     totalCajas: 0,
     fob: 0,
-    freight: 0,
-    insurance: 0,
+    freight: freight,
+    insurance: insurance,
     total: 0,
 
   },
@@ -214,6 +214,7 @@ var app = new Vue({
 
     calculateTotal: function() {
 
+        console.log('calculateTotal');
       var totalPesoNeto = 0;
       var totalPesoBruto = 0;
       var totalVolumen = 0;
@@ -244,12 +245,13 @@ var app = new Vue({
       this.total = this.fob + this.freight + this.insurance;
 
   },
+
     numberFormat: function(x) {
 
-        return x.toLocaleString(undefined, {minimumFractionDigits: 2})
+      return x.toLocaleString(undefined, {minimumFractionDigits: 2})
     }
 
-  },
+},
 
   computed: {
 
@@ -259,8 +261,13 @@ var app = new Vue({
 
   },
 
+  created() {
+      this.loadFormaPago();
+      this.calculateTotal();
+  },
+
   updated() {
 
-    $('.selectpicker').selectpicker('refresh');
+      $('.selectpicker').selectpicker('refresh');
   }
 });

@@ -52,6 +52,40 @@ class ProformaController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource from Import.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImport(Request $request)
+    {
+        $numero = $request->proforma;
+        $proforma = Proforma::with('detalles')->where('numero',$numero)->first();
+
+        if (!$proforma) {
+
+            return redirect()->back();
+        }
+
+        $centrosVenta = CentroVenta::getAllActive();
+        $clientes = ClienteIntl::getAllActive();
+        $clientes->load('formaPago');
+        $clausulas = ClausulaVenta::getAllActive();
+        $transportes = MedioTransporte::getAllActive();
+        $productos = Producto::getAllActive();
+        $aduanas = Aduana::getAllActive();
+
+        return view('comercial.proforma.createImport')->with([
+            'proforma' => $proforma,
+            'centrosVenta' => $centrosVenta,
+            'clientes' => $clientes,
+            'clausulas' => $clausulas,
+            'transportes' => $transportes,
+            'aduanas' => $aduanas,
+            'productos' => $productos
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -59,6 +93,7 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
       $this->validate($request, [
         'centroVenta' => 'required',
         'numero' => 'required',
@@ -107,9 +142,32 @@ class ProformaController extends Controller
      * @param  \App\Models\Comercial\Proforma  $proforma
      * @return \Illuminate\Http\Response
      */
-    public function edit(Proforma $proforma)
+    public function edit($proforma)
     {
-        dd('En construcción');
+        $proforma = Proforma::with('detalles')->where('numero',$proforma)->first();
+
+        if (!$proforma) {
+
+            return redirect()->back();
+        }
+
+        $centrosVenta = CentroVenta::getAllActive();
+        $clientes = ClienteIntl::getAllActive();
+        $clientes->load('formaPago');
+        $clausulas = ClausulaVenta::getAllActive();
+        $transportes = MedioTransporte::getAllActive();
+        $productos = Producto::getAllActive();
+        $aduanas = Aduana::getAllActive();
+
+        return view('comercial.proforma.edit')->with([
+            'proforma' => $proforma,
+            'centrosVenta' => $centrosVenta,
+            'clientes' => $clientes,
+            'clausulas' => $clausulas,
+            'transportes' => $transportes,
+            'aduanas' => $aduanas,
+            'productos' => $productos
+        ]);
     }
 
     /**
@@ -119,9 +177,28 @@ class ProformaController extends Controller
      * @param  \App\Models\Comercial\Proforma  $proforma
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Proforma $proforma)
+    public function update(Request $request, $proforma)
     {
-        //
+        $this->validate($request, [
+          'centroVenta' => 'required',
+          'numero' => 'required',
+          'version' => 'required',
+          'emision' => 'required',
+          'clausula' => 'required',
+          'semana' => 'required',
+          'cliente' => 'required',
+          "transporte" => 'required',
+          'puertoE' => 'required',
+          'formaPago' => 'required',
+          'direccion' => 'required',
+          'puertoD' => 'required'
+        ]);
+
+        $numero = Proforma::edit($request,$proforma);
+
+        $msg = "Proforma N°". $numero . " ha sido Modificada.";
+
+        return redirect(route('proforma'))->with(['status' => $msg]);
     }
 
     /**

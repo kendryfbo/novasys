@@ -24,9 +24,7 @@
 
           <label class="control-label col-lg-1">C. Venta:</label>
           <div class="col-lg-2">
-            <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" disabled>
-								<option selected>{{$proforma->centro_venta}}</option>
-            </select>
+				<input class="form-control input-sm" type="text" name="centroVenta" value="{{$proforma->centro_venta}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Numero:</label>
@@ -49,14 +47,12 @@
 
           <label class="control-label col-lg-1">Emision:</label>
           <div class="col-lg-2">
-            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" disabled>
+            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Clausula:</label>
           <div class="col-lg-2">
-            <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" disabled>
-							<option>{{$proforma->clau_venta}}</option>
-            </select>
+			  <input class="form-control input-sm" name="clausula" type="text" value="{{$proforma->clau_venta}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Semana:</label>
@@ -72,9 +68,7 @@
 
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" disabled>
-							<option>{{$proforma->cliente}}</option>
-            </select>
+			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente}}" readonly>
           </div>
 
 					<label class="control-label col-lg-2">Condicion Pago:</label>
@@ -88,19 +82,15 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Puerto E. :</label>
-          <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" disabled>
-              <option>{{$proforma->puerto_emb}}</option>
-            </select>
-          </div>
+			<label class="control-label col-lg-1">Puerto E. :</label>
+			<div class="col-lg-4">
+			  <input class="form-control input-sm" type="text" name="puertoE" value="{{$proforma->puerto_emb}}" readonly>
+			</div>
 
-					<label class="control-label col-lg-2">Medio Transporte:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="transporte" disabled>
-							<option>{{$proforma->transporte}}</option>
-						</select>
-					</div>
+			<label class="control-label col-lg-2">Medio Transporte:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="transporte" value="{{$proforma->transporte}}" readonly>
+			</div>
 
         </div>
         <!-- /form-group -->
@@ -165,7 +155,7 @@
             @foreach ($proforma->detalles as $detalle)
               <tr>
                 <td class="text-center">{{$loop->iteration}}</td>
-                <td class="text-center">{{$detalle->prod_id}}</td>
+                <td class="text-center">{{$detalle->codigo}}</td>
                 <td>{{$detalle->descripcion}}</td>
                 <td class="text-right">{{$detalle->cantidad}}</td>
                 <td class="text-right">{{number_format($detalle->precio,2)}}</td>

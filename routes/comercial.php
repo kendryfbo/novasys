@@ -74,6 +74,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   // Routes Proforma
   Route::get('proformas',                           'Comercial\ProformaController@index')->name('proforma');
   Route::get('proformas/crear',                     'Comercial\ProformaController@create')->name('crearProforma');
+  Route::post('proformas/crear',                    'Comercial\ProformaController@createImport')->name('crearDeProforma');
   Route::post('proformas',                          'Comercial\ProformaController@store')->name('guardarProforma');
   Route::get('proformas/{proforma}/editar',         'Comercial\ProformaController@edit')->name('editarProforma');
   Route::put('proformas/{proforma}',                'Comercial\ProformaController@update')->name('actualizarProforma');

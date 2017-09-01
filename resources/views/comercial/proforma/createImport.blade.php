@@ -50,7 +50,7 @@
               <option value=""></option>
 							@foreach ($centrosVenta as $centro)
 
-								<option {{Input::old('centroVenta') ? 'selected':''}} value="{{$centro->id}}">{{$centro->descripcion}}</option>
+								<option {{ $proforma->cv_id == $centro->id ? 'selected':'' }} value="{{ $centro->id }}">{{ $centro->descripcion }}</option>
 
 							@endforeach
             </select>
@@ -69,10 +69,10 @@
 
 			<label class="control-label col-lg-1 col-lg-offset-2">Proforma:</label>
 			<div class="col-lg-1">
-			  <input form="import" placeholder="Numero..." class="form-control input-sm" name="proforma" type="number" min="0" required>
+			  <input form="import" placeholder="numero..." class="form-control input-sm" name="proforma" type="number" min="0" value="{{ $proforma->numero }}" required>
 			</div>
 			<div class="col-lg-1">
-				<button form="import" class="btn btn-sm btn-default" type="submit">Importar</button>
+				<button form="import" class="btn btn-sm btn-default" type="button" name="button">Importar</button>
 			</div>
 
         </div>
@@ -85,7 +85,7 @@
 
           <label class="control-label col-lg-1">Emision:</label>
           <div class="col-lg-2">
-            <input class="form-control input-sm" name="emision" type="date" value="{{Input::old('emision')}}" required>
+            <input class="form-control input-sm" name="emision" type="date" value="{{ Input::old('emision') }}" required>
           </div>
 
           <label class="control-label col-lg-1">Clausula:</label>
@@ -94,7 +94,7 @@
               <option value=""></option>
 							@foreach ($clausulas as $clausula)
 
-								<option {{Input::old('clausula') ? 'selected':''}} value="{{$clausula->nombre}}">{{$clausula->nombre}}</option>
+								<option {{ $proforma->clau_venta == $clausula->nombre ? 'selected':'' }} value="{{ $clausula->nombre }}">{{ $clausula->nombre }}</option>
 
 							@endforeach
             </select>
@@ -102,7 +102,7 @@
 
           <label class="control-label col-lg-1">Semana:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{Input::old('semana')}}">
+            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}">
           </div>
 
         </div>
@@ -114,8 +114,8 @@
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
             <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadFormaPago" required>
-							<option value=""></option>
-							<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
+				<option value=""></option>
+				<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
             </select>
           </div>
 
@@ -137,7 +137,7 @@
               <option value=""></option>
 							@foreach ($aduanas as $aduana)
 
-								<option {{Input::old('puertoE') ? 'selected':''}} value="{{$aduana->descripcion}}">{{$aduana->descripcion}}</option>
+								<option {{$proforma->puerto_emb == $aduana->descripcion ? 'selected':''}} value="{{$aduana->descripcion}}">{{$aduana->descripcion}}</option>
 
 							@endforeach
             </select>
@@ -149,7 +149,7 @@
 							<option value=""></option>
 							@foreach ($transportes as $transporte)
 
-								<option {{Input::old('transporte') ? 'selected':''}} value="{{$transporte->descripcion}}">{{$transporte->descripcion}}</option>
+								<option {{$proforma->transporte == $transporte->descripcion ? 'selected':''}} value="{{$transporte->descripcion}}">{{$transporte->descripcion}}</option>
 
 							@endforeach
 						</select>
@@ -163,12 +163,12 @@
 
           <label class="control-label col-lg-1">Direccion:</label>
           <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{Input::old('direccion')}}" required>
+            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" required>
           </div>
 
           <label class="control-label col-lg-1">Puerto D. :</label>
           <div class="col-lg-4">
-            <input class="form-control input-sm" type="text" name="puertoD" value="{{Input::old('puertoD')}}">
+            <input class="form-control input-sm" type="text" name="puertoD" value="{{$proforma->puerto_dest}}">
           </div>
 
         </div>
@@ -179,7 +179,7 @@
 
           <label class="control-label col-lg-1">Nota:</label>
           <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="nota" value="{{Input::old('nota')}}">
+            <input class="form-control input-sm" type="text" name="nota" value="{{$proforma->nota}}">
           </div>
 
         </div>
@@ -283,15 +283,15 @@
 
               <tr>
                 <th class="bg-gray text-right">Peso Neto:</th>
-                <td class="text-right">@{{totalPesoNeto.toLocaleString()}}</td>
+                <td class="text-right">@{{totalPesoNeto}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Peso Bruto:</th>
-                <td class="text-right">@{{totalPesoBruto.toLocaleString()}}</td>
+                <td class="text-right">@{{totalPesoBruto}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Volumen:</th>
-                <td class="text-right">@{{totalVolumen.toLocaleString()}}</td>
+                <td class="text-right">@{{totalVolumen}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Cant. Cajas:</th>
@@ -347,9 +347,12 @@
 <script>
 		var productos = {!!$productos!!};
 		var clientes = {!!$clientes!!};
-		var items = [];
-	</script>
+		var clienteId = {!!$proforma->cliente_id!!};
+		var items = {!!$proforma->detalles->toJson()!!};
+		var freight = {!!$proforma->freight!!};
+		var insurance = {!!$proforma->insurance!!};
+</script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/comercial/proforma.js')}}"></script>
+<script src="{{asset('js/comercial/proformaImport.js')}}"></script>
 @endsection
