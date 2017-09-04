@@ -62,7 +62,7 @@
             <label class="control-label col-lg-1" >Aduana:</label>
             <div class="col-lg-2">
               <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="aduana" required>
-                <option value="">Seleccionar Adauna...</option>
+                <option value="">Seleccionar Aduana...</option>
                 @foreach ($aduanas as $aduana)
                   <option value="{{$aduana->id}}">{{$aduana->descripcion}}</option>
                 @endforeach
