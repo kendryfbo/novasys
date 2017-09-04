@@ -32,6 +32,8 @@
 						<th class="text-center">Despacho</th>
 						<th class="text-center">Monto</th>
 						<th class="text-center">Condicion Pago</th>
+						<th class="text-center">Aut.Comer</th>
+						<th class="text-center">Aut.Contab</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -46,6 +48,24 @@
 							<td class="text-center">{{$notaVenta->fecha_despacho}}</td>
 							<td class="text-right">{{number_format($notaVenta->total,0,",",".")}}</td>
 							<td class="text-center">{{$notaVenta->cond_pago}}</td>
+							<td class="text-center ">
+								@if (is_null($notaVenta->aut_comer))
+                                    Pendiente
+								@elseif ($notaVenta->aut_comer == 0)
+                                    No
+								@else
+                                    Si
+								@endif
+							</td>
+							<td class="text-center">
+								@if (is_null($notaVenta->aut_contab))
+									Pendiente
+								@elseif ($notaVenta->aut_contab == 0)
+									No
+								@else
+									Si
+								@endif
+							</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
 									<button class="btn btn-sm" type="submit">
