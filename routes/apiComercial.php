@@ -38,5 +38,7 @@ route::get('notasVentas/{notaVenta}', 'Api\NotaVentaController@show');
 
 
 // Rutas Api Sucursales Internacionales
-route::get('sucursalesIntl/{cliente}', 'Api\SucursalIntlController@show')->name('apiVerSucursalClienteIntl');
-route::post('sucursalesIntl/{cliente}', 'Api\SucursalIntlController@store')->name('apiGuardarSucursalClienteIntl');
+route::get('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@show')->name('apiVerSucursalClienteIntl');
+route::post('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@store')->name('apiGuardarSucursalClienteIntl');
+route::put('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@update')->name('apiActualizarSucursalClienteIntl');
+route::delete('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@destroy')->name('apiEliminarSucursalClienteIntl');

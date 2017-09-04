@@ -115,7 +115,7 @@ class ClienteIntlController extends Controller
     {
       $paises = Pais::getAllActive();
       $formasPago = FormaPagoIntl::getAllActive();
-
+      $clienteIntl->load('sucursales');
       return view('comercial.clientesIntl.edit')->with(['paises' => $paises, 'formasPago' => $formasPago, 'cliente' => $clienteIntl]);
     }
 

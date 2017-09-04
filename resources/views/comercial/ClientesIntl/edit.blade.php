@@ -211,9 +211,11 @@
 
 @section('scripts')
 <script>
+	var cliente_id = {!! $cliente->id !!}
+	var sucursales = {!! $cliente->sucursales->toJson() !!}
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/comercial/clienteIntl.js')}}"></script>
+<script src="{{asset('js/comercial/clienteIntlEdit.js')}}"></script>
 
 @endsection

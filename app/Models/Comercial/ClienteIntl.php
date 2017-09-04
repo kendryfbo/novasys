@@ -19,4 +19,9 @@ class ClienteIntl extends Model
 
 		return $this->belongsTo('App\Models\Comercial\FormaPagoIntl','fp_id');
 	}
+
+	public function sucursales() {
+
+		return $this->hasMany(SucursalIntl::class,'cliente_id');
+	}
 }
