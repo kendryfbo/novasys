@@ -28,59 +28,74 @@
 		<div class="box-body">
 
 			<!-- form-horizontal -->
-			<form  id="edit" class="form-horizontal" method="post" action="{{route('actualizarAduana', ['aduana' => $aduana->id])}}">
+			<form  id="edit" class="form-horizontal" method="post" action="{{route('actualizarPuertoEmbarque', ['puertoEmbarque' => $puerto->id])}}">
 
 				{{ csrf_field() }}
                 {{ method_field('PUT') }}
 
                 <div class="form-group">
-                  <label class="control-label col-lg-1" >RUT:</label>
+
+                  <label class="control-label col-lg-1" >Nombre:</label>
                   <div class="col-lg-2">
-                    <input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ $aduana->rut }}" required>
+                    <input type="text" class="form-control input-sm" name="nombre" placeholder="Nombre de Puerto..." value="{{ $puerto->nombre }}" required>
                   </div>
+
                 </div>
 
 				<div class="form-group">
-					<label class="control-label col-lg-1" >Descripcion:</label>
+
+					<label class="control-label col-lg-1" >Tipo:</label>
 					<div class="col-lg-5">
-						<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Aduana..." value="{{ $aduana->descripcion }}" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="tipo" required>
+							<option value="">Seleccionar tipo de puerto</option>
+							@foreach ($mediosTransporte as $tipo)
+								<option {{ $puerto->tipo == $tipo->descripcion ? 'selected':'' }} value="{{ $tipo->descripcion }}">{{ $tipo->descripcion }}</option>
+							@endforeach
+						</select>
 					</div>
+
 				</div>
 
 				<div class="form-group">
 					<label class="control-label col-lg-1" >Direccion:</label>
-					<div class="col-lg-6">
-						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{ $aduana->direccion }}" required>
+					<div class="col-lg-5">
+						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion del Puerto..." value="{{ $puerto->direccion }}" required>
 					</div>
 				</div>
 
 				<div class="form-group">
 
-					<label class="control-label col-lg-1" >Ciudad:</label>
-					<div class="col-lg-2">
-                        <input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ $aduana->ciudad }}" required>
-					</div>
-
 					<label class="control-label col-lg-1" >Comuna:</label>
 					<div class="col-lg-2">
-                        <input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ $aduana->comuna }}" required>
+						<input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ $puerto->comuna }}" required>
 					</div>
 
-					<label class="control-label col-lg-1" >Fono:</label>
+					<label class="control-label col-lg-1" >Ciudad:</label>
 					<div class="col-lg-2">
-                        <input type="text" class="form-control input-sm" name="fono" placeholder="Telefono..." value="{{$aduana->fono }}" required>
+            			<input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ $puerto->ciudad }}" required>
 					</div>
 
 				</div>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Fono:</label>
+					<div class="col-lg-2">
+						<input type="text" class="form-control input-sm" name="fono" placeholder="Telefono..." value="{{ $puerto->fono }}" required>
+					</div>
+
+				</div>
+
 
 				<div class="form-group">
 
 					<label class="control-label col-lg-1">Activo:</label>
 					<div class="col-lg-2">
-						<input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ $aduana->activo ? "checked" : "" }}>
+						<input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ $puerto->activo ? "checked" : "" }}>
 					</div>
 
 				</div>
+
 
 			</form>
 			<!-- /form-horizontal -->

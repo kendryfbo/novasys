@@ -8,7 +8,7 @@
 
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Aduanas</h4>
+			<h4>Puertos de Embarque</h4>
 		</div>
 		<!-- /box-header -->
 
@@ -21,7 +21,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearAduana')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearPuertoEmbarque')}}">Crear</a>
 		</div>
 		<!-- /box-body -->
 
@@ -32,33 +32,33 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>R.U.T</th>
-						<th>descripcion</th>
+						<th>Nombre</th>
 						<th>direccion</th>
-						<th>Activo</th>
+						<th class="text-center">Tipo</th>
+						<th class="text-center">Activo</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($aduanas as $aduana)
+					@foreach ($puertosEmbarque as $puerto)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td>{{$aduana->rut}}</td>
-							<td>{{$aduana->descripcion}}</td>
-							<td>{{$aduana->direccion}}</td>
-							<td>{{$aduana->activo ? "Si" : "No"}}</td>
+							<td>{{$puerto->nombre}}</td>
+							<td>{{$puerto->direccion}}</td>
+							<td class="text-center">{{$puerto->tipo}}</td>
+							<td class="text-center">{{$puerto->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{ url('comercial/aduanas/' . $aduana->id) }}" method="get">
+								<form style="display: inline" action="{{ url('comercial/puertosEmbarque/' . $puerto->id) }}" method="get">
 									<button class="btn btn-sm" type="submit">
 										<i class="fa fa-eye" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="{{ url('comercial/aduanas/' . $aduana->id . '/edit') }}" method="get">
+								<form style="display: inline" action="{{ url('comercial/puertosEmbarque/' . $puerto->id . '/edit') }}" method="get">
 									<button class="btn btn-sm" type="submit">
 										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="{{ url('comercial/aduanas/'.$aduana->id) }}" method="post">
+								<form style="display: inline" action="{{ url('comercial/puertosEmbarque/'.$puerto->id) }}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm" type="submit">

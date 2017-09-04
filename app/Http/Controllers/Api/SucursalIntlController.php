@@ -28,28 +28,84 @@ class SucursalIntlController extends Controller
 
     try {
 
-      $this->validate($request, [
-        'cliente' => 'required',
-        'descripcion' => 'required',
-        'pais' => 'required',
-        'direccion' => 'required'
-      ]);
+        $this->validate($request, [
+            'cliente' => 'required',
+            'descripcion' => 'required',
+            'direccion' => 'required'
+        ]);
 
-      $activo = !empty($request->activo);
+        $activo = !empty($request->activo);
 
-      SucursalIntl::create([
-        'cliente_id' => $request->cliente,
-        'descripcion' => $request->descripcion,
-        'direccion' => $request->direccion,
-        'pais' => $request->pais,
-        'activo' => $activo
-      ]);
-      
-      return (dd('YES'));
+        SucursalIntl::create([
+            'cliente_id' => $request->cliente,
+            'descripcion' => $request->descripcion,
+            'direccion' => $request->direccion,
+            'activo' => $activo
+        ]);
+
+        return response('success',201);
 
     } catch (Exception $e) {
 
+        return response($e,400);
+    }
+  }
 
+  public function update(Request $request, ClienteIntl $cliente) {
+
+    try {
+
+        $this->validate($request, [
+            'id' => 'required',
+            'cliente' => 'required',
+            'descripcion' => 'required',
+            'direccion' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $sucursal = SucursalIntl::find($request->id)->first();
+
+        $sucursal->descripcion = $request->descripcion;
+        $sucursal->direccion = $request->direccion;
+        $sucursal->activo = $activo;
+
+        $sucursal->save();
+
+        return response('success',201);
+
+    } catch (Exception $e) {
+
+        return response($e,400);
+    }
+  }
+
+  public function destroy(Request $request, ClienteIntl $cliente) {
+
+    try {
+
+        $this->validate($request, [
+            'id' => 'required',
+            'cliente' => 'required',
+            'descripcion' => 'required',
+            'direccion' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $sucursal = SucursalIntl::find($request->id)->first();
+
+        $sucursal->descripcion = $request->descripcion;
+        $sucursal->direccion = $request->direccion;
+        $sucursal->activo = $activo;
+
+        $sucursal->save();
+
+        return response('success',201);
+
+    } catch (Exception $e) {
+
+        return response($e,400);
     }
   }
 }

@@ -72,9 +72,13 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::delete('aduanas/{aduana}',   'Comercial\AduanaController@destroy')->name('eliminarAduana');
 
   // Puerto Embarque
-  Route::get('puertosEmbarque',  'Comercial\PuertoEmbarqueController@index')->name('embarque');
+  Route::get('puertosEmbarque',                        'Comercial\PuertoEmbarqueController@index')->name('puertoEmbarque');
+  Route::get('puertosEmbarque/crear',                  'Comercial\PuertoEmbarqueController@create')->name('crearPuertoEmbarque');
+  Route::post('puertosEmbarque',                       'Comercial\PuertoEmbarqueController@store')->name('guardarPuertoEmbarque');
+  Route::get('puertosEmbarque/{puertoEmbarque}/edit',  'Comercial\PuertoEmbarqueController@edit')->name('editarPuertoEmbarque');
+  Route::put('puertosEmbarque/{puertoEmbarque}',       'Comercial\PuertoEmbarqueController@update')->name('actualizarPuertoEmbarque');
+  Route::delete('puertosEmbarque/{puertoEmbarque}',    'Comercial\PuertoEmbarqueController@destroy')->name('EliminarPuertoEmbarque');
 
-  
   // Routes Proforma
   Route::get('proformas',                           'Comercial\ProformaController@index')->name('proforma');
   Route::get('proformas/crear',                     'Comercial\ProformaController@create')->name('crearProforma');

@@ -18,6 +18,9 @@ class CreatePuertoEmbarqueTable extends Migration
             $table->string('nombre');
             $table->string('direccion');
             $table->string('tipo');
+            $table->string('comuna');
+            $table->string('ciudad');
+            $table->string('fono');
             $table->tinyInteger('activo');
             $table->timestamps();
         });

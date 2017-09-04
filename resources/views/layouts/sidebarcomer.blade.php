@@ -12,7 +12,7 @@
       </a>
       <ul class="treeview-menu">
           <li class="treeview menu-open">
-            <a href=""><i class="fa fa-wrench"></i> <span>Mantencion</span>
+            <a href=""><i class="fa fa-wrench"></i> <span>Mantenedor</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -46,7 +46,7 @@
       </a>
       <ul class="treeview-menu">
           <li class="treeview menu-open">
-            <a href=""><i class="fa fa-wrench"></i> <span>Mantencion</span>
+            <a href=""><i class="fa fa-wrench"></i> <span>Mantenedor</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -54,6 +54,7 @@
             <ul class="treeview-menu">
                 <li><a href="{{url('comercial/clientesIntl')}}"><i class=""></i> <span>Clientes Inter.</span></a></li>
                 <li><a href="{{url('comercial/aduanas')}}"><i class=""></i> <span>Aduanas</span></a></li>
+                <li><a href="{{url('comercial/puertosEmbarque')}}"><i class=""></i> <span>Puerto Emb.</span></a></li>
                 <li><a href="{{url('comercial/FormasPagosIntl')}}"><i class=""></i> <span>Condiciones de Pago</span></a></li>
             </ul>
           </li>

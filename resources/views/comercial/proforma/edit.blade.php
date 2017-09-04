@@ -123,9 +123,9 @@
           <div class="col-lg-4">
             <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" required>
               <option value=""></option>
-							@foreach ($aduanas as $aduana)
+							@foreach ($puertoEmbarque as $puerto)
 
-								<option {{$proforma->puerto_emb == $aduana->descripcion ? 'selected':''}} value="{{$aduana->descripcion}}">{{$aduana->descripcion}}</option>
+								<option {{$proforma->puerto_emb == $puerto->nombre ? 'selected':''}} value="{{$puerto->nombre}}">{{$puerto->nombre}}</option>
 
 							@endforeach
             </select>

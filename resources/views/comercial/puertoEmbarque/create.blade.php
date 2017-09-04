@@ -32,45 +32,57 @@
 
 				{{ csrf_field() }}
 
-        <div class="form-group">
-          <label class="control-label col-lg-1" >RUT:</label>
-          <div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ Input::old('rut')}}" required>
-          </div>
-        </div>
+		        <div class="form-group">
+		          <label class="control-label col-lg-1" >Nombre:</label>
+		          <div class="col-lg-3">
+		            <input type="text" class="form-control input-sm" name="nombre" placeholder="Nombre del puerto..." value="{{ Input::old('nombre')}}" required>
+		          </div>
+		        </div>
 
 				<div class="form-group">
-					<label class="control-label col-lg-1" >Descripcion:</label>
+
+					<label class="control-label col-lg-1" >Tipo:</label>
 					<div class="col-lg-5">
-						<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Aduana..." value="{{ Input::old('descripcion')}}" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="tipo" required>
+							<option value="">Seleccionar tipo de puerto</option>
+							@foreach ($mediosTransporte as $tipo)
+								<option {{ Input::old('tipo') == $tipo->descripcion ? 'selected':'' }} value="{{ $tipo->descripcion }}">{{ $tipo->descripcion }}</option>
+							@endforeach
+						</select>
 					</div>
+
 				</div>
 
 				<div class="form-group">
 					<label class="control-label col-lg-1" >Direccion:</label>
-					<div class="col-lg-6">
-						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{ Input::old('direccion')}}" required>
+					<div class="col-lg-5">
+						<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion del Puerto..." value="{{ Input::old('direccion')}}" required>
 					</div>
 				</div>
 
 				<div class="form-group">
 
-					<label class="control-label col-lg-1" >Ciudad:</label>
-					<div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ Input::old('ciudad')}}" required>
-					</div>
-
 					<label class="control-label col-lg-1" >Comuna:</label>
 					<div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ Input::old('comuna')}}" required>
+						<input type="text" class="form-control input-sm" name="comuna" placeholder="comuna..." value="{{ Input::old('comuna')}}" required>
 					</div>
 
-					<label class="control-label col-lg-1" >Fono:</label>
+					<label class="control-label col-lg-1" >Ciudad:</label>
 					<div class="col-lg-2">
-            <input type="text" class="form-control input-sm" name="fono" placeholder="Telefono..." value="{{Input::old('fono')}}" required>
+            			<input type="text" class="form-control input-sm" name="ciudad" placeholder="ciudad..." value="{{ Input::old('ciudad')}}" required>
 					</div>
 
 				</div>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Fono:</label>
+					<div class="col-lg-2">
+						<input type="text" class="form-control input-sm" name="fono" placeholder="Telefono..." value="{{Input::old('fono')}}" required>
+					</div>
+					
+				</div>
+
 
 				<div class="form-group">
 

@@ -135,9 +135,9 @@
           <div class="col-lg-4">
             <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" required>
               <option value=""></option>
-							@foreach ($aduanas as $aduana)
+							@foreach ($puertoEmbarque as $puerto)
 
-								<option {{Input::old('puertoE') ? 'selected':''}} value="{{$aduana->descripcion}}">{{$aduana->descripcion}}</option>
+								<option {{Input::old('puertoE') == $puerto->nombre ? 'selected':''}} value="{{$puerto->nombre}}">{{$puerto->nombre}}</option>
 
 							@endforeach
             </select>
@@ -149,7 +149,7 @@
 							<option value=""></option>
 							@foreach ($transportes as $transporte)
 
-								<option {{Input::old('transporte') ? 'selected':''}} value="{{$transporte->descripcion}}">{{$transporte->descripcion}}</option>
+								<option {{Input::old('transporte') == $transporte->descripcion ? 'selected':''}} value="{{$transporte->descripcion}}">{{$transporte->descripcion}}</option>
 
 							@endforeach
 						</select>

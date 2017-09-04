@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\Proforma;
+use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\ClienteIntl;
 use App\Models\Comercial\ClausulaVenta;
+use App\Models\Comercial\PuertoEmbarque;
 use App\Models\Comercial\MedioTransporte;
-use App\Models\Comercial\Aduana;
-use App\Models\Producto;
 
 class ProformaController extends Controller
 {
@@ -33,20 +33,21 @@ class ProformaController extends Controller
      */
     public function create()
     {
-      $centrosVenta = CentroVenta::getAllActive();
-      $clientes = ClienteIntl::getAllActive();
-      $clientes->load('formaPago');
-      $clausulas = ClausulaVenta::getAllActive();
-      $transportes = MedioTransporte::getAllActive();
       $productos = Producto::getAllActive();
-      $aduanas = Aduana::getAllActive();
+      $clientes = ClienteIntl::getAllActive();
+      $clausulas = ClausulaVenta::getAllActive();
+      $centrosVenta = CentroVenta::getAllActive();
+      $transportes = MedioTransporte::getAllActive();
+      $puertoEmbarque = PuertoEmbarque::getAllActive();
+
+      $clientes->load('formaPago');
 
       return view('comercial.proforma.create')->with([
         'centrosVenta' => $centrosVenta,
         'clientes' => $clientes,
         'clausulas' => $clausulas,
         'transportes' => $transportes,
-        'aduanas' => $aduanas,
+        'puertoEmbarque' => $puertoEmbarque,
         'productos' => $productos
       ]);
     }
@@ -72,7 +73,7 @@ class ProformaController extends Controller
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
-        $aduanas = Aduana::getAllActive();
+        $puertoEmbarque = PuertoEmbarque::getAllActive();
 
         return view('comercial.proforma.createImport')->with([
             'proforma' => $proforma,
@@ -80,7 +81,7 @@ class ProformaController extends Controller
             'clientes' => $clientes,
             'clausulas' => $clausulas,
             'transportes' => $transportes,
-            'aduanas' => $aduanas,
+            'puertoEmbarque' => $puertoEmbarque,
             'productos' => $productos
         ]);
     }
@@ -157,7 +158,7 @@ class ProformaController extends Controller
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
-        $aduanas = Aduana::getAllActive();
+        $puertoEmbarque = PuertoEmbarque::getAllActive();
 
         return view('comercial.proforma.edit')->with([
             'proforma' => $proforma,
@@ -165,7 +166,7 @@ class ProformaController extends Controller
             'clientes' => $clientes,
             'clausulas' => $clausulas,
             'transportes' => $transportes,
-            'aduanas' => $aduanas,
+            'puertoEmbarque' => $puertoEmbarque,
             'productos' => $productos
         ]);
     }
