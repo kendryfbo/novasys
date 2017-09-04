@@ -83,7 +83,7 @@
 
 						<label class="control-label col-lg-2">Cond. Pago:</label>
 						<div class="col-lg-3">
-							<input type="text" class="form-control " name="cond_pago" value="{{$notaVenta->cond_pago}}" readonly required>
+							<input type="text" class="form-control " name="formaPago" value="{{$notaVenta->cond_pago}}" readonly required>
 						</div>
 
 					</div>
