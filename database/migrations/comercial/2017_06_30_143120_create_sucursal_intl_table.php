@@ -17,7 +17,7 @@ class CreateSucursalIntlTable extends Migration
             $table->increments('id');
             $table->integer('cliente_id')->unsigned();
             $table->string('descripcion');
-            $table->string('pais');
+            $table->string('pais')->nullable();
             $table->string('direccion');
             $table->tinyInteger('activo')->default(1);
             $table->timestamps();
