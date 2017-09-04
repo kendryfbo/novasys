@@ -71,6 +71,10 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::get('aduanas/{aduana}',      'Comercial\AduanaController@show')->name('verAduana');
   Route::delete('aduanas/{aduana}',   'Comercial\AduanaController@destroy')->name('eliminarAduana');
 
+  // Puerto Embarque
+  Route::get('puertosEmbarque',  'Comercial\PuertoEmbarqueController@index')->name('embarque');
+
+  
   // Routes Proforma
   Route::get('proformas',                           'Comercial\ProformaController@index')->name('proforma');
   Route::get('proformas/crear',                     'Comercial\ProformaController@create')->name('crearProforma');
