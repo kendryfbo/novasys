@@ -60,7 +60,10 @@ class FacturaNacionalController extends Controller
             'centroVenta:id,descripcion',
             'cliente:id,descripcion',
             'vendedor:id,nombre',
-            'detalle')->where('numero',$numNV)->first();
+            'detalle')->where('numero',$numNV)
+                        ->where('aut_comer',1)
+                        ->where('aut_contab',1)
+                        ->first();
 
         if ($notaVenta) {
 
@@ -79,6 +82,7 @@ class FacturaNacionalController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'centroVenta' => 'required',
             'numero' => 'required',
@@ -88,7 +92,7 @@ class FacturaNacionalController extends Controller
             'formaPago' => 'required',
             'despacho' => 'required',
             'vendedor' => 'required',
-            'items' => 'required',
+            //'items' => 'required',
             // 'items.*.id' => 'required',
             // 'items.*.descripcion' => 'required|string'
         ]);
