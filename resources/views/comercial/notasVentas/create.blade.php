@@ -79,7 +79,7 @@
 
 						<label class="control-label col-lg-1" >O. Compra:</label>
 						<div class="col-lg-2">
-							<input type="number" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ Input::old('orden_compra') ? Input::old('orden_compra') : '' }}">
+							<input type="text" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ Input::old('orden_compra') ? Input::old('orden_compra') : '' }}">
 						</div>
 
 					</div>
@@ -180,17 +180,18 @@
 
 					<label class="control-label col-lg-1">Cant:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" min="0" step="1" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="cantidad" v-model.number="cantidad">
+						<input class="form-control text-right" type="number" min="0" step="1" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="cantidad" v-model.number="cantidad">
 					</div>
 
 					<label class="control-label col-lg-1">%Dscto:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" name="descuento" v-model.number="descuento" disabled>
+						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento" disabled>
 					</div>
 
 					<label class="control-label col-lg-1">Precio:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="number" name="precio" v-model.number="precio" disabled>
+						<input class="form-control" type="hidden" name="precio" v-model.number="precio" disabled>
+						<input class="form-control text-right" type="text" name="strPrecio" :value="precio.toLocaleString()" disabled>
 					</div>
 
 					<div class="col-lg-2">
@@ -227,9 +228,9 @@
 						<td class="text-center">@{{item.codigo}}</td>
 						<td>@{{item.descripcion}}</td>
 						<td class="text-right">@{{item.cantidad}}</td>
-						<td class="text-right">@{{item.precio}}</td>
+						<td class="text-right">@{{numberFormat(item.precio)}}</td>
 						<td class="text-right">@{{item.descuento}}</td>
-						<td class="text-right">@{{item.total}}</td>
+						<td class="text-right">@{{numberFormat(item.total)}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -294,7 +295,7 @@
 
 							<tr>
 								<th class="bg-gray text-right">TOTAL:</th>
-								<th class="bg-gray text-right">@{{total.toLocaleString(2)}}</th>
+								<th class="bg-gray text-right">@{{total.toLocaleString()}}</th>
 							</tr>
 
 					</table>

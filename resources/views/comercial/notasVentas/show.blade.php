@@ -62,8 +62,8 @@
 					</div>
 
 					<label class="control-label col-lg-1" >O. Compra:</label>
-					<div class="col-lg-1">
-						<input type="number" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ $notaVenta->orden_compra }}" readonly>
+					<div class="col-lg-2">
+						<input type="text" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ $notaVenta->orden_compra }}" readonly>
 					</div>
 
 				</div>
