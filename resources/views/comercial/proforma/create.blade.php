@@ -199,7 +199,7 @@
 
           <label class="control-label col-lg-1">Cant:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" type="number" min="0" v-model.number="cantidad">
+            <input class="form-control input-sm" type="number" min="0" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model.number="cantidad">
           </div>
 
           <label class="control-label col-lg-1">% desc:</label>
