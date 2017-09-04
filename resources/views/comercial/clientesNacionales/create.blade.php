@@ -153,7 +153,7 @@
 
 						<label class="control-label col-lg-1">fax:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm " name="fax" placeholder="numero de Fax..." value="{{ Input::old('fax') ? Input::old('fax') : '' }}" required>
+							<input type="text" class="form-control input-sm " name="fax" placeholder="numero de Fax..." value="{{ Input::old('fax') ? Input::old('fax') : '' }}" >
 						</div>
 
 					</div>

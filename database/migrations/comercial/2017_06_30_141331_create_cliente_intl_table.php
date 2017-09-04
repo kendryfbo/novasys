@@ -23,7 +23,7 @@ class CreateClienteIntlTable extends Migration
             $table->string('idioma');
             $table->string('fono');
             $table->string('giro');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->string('contacto');
             $table->string('cargo');
             $table->string('email');

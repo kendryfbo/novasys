@@ -151,7 +151,7 @@
 							<div class="form-group">
 								<label style=" padding-left: 12px">fax:</label>
 								<div class="input-group" style=" padding-left: 25px">
-									<input type="text" class="form-control input-sm " name="fax" placeholder="numero de Fax..." value="{{ $cliente->fax }}" required>
+									<input type="text" class="form-control input-sm " name="fax" placeholder="numero de Fax..." value="{{ $cliente->fax }}" >
 								</div>
 							</div>
 

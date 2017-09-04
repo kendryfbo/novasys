@@ -21,7 +21,7 @@ class CreateClienteNacionalTable extends Migration
             $table->string('direccion');
             $table->string('fono');
             $table->string('giro');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->integer('rut_num');
             $table->string('contacto');
             $table->string('cargo');

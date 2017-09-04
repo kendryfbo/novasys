@@ -9,6 +9,7 @@ use App\Models\Comercial\Pais;
 use App\Models\Comercial\Zona;
 use App\Models\Comercial\Idioma;
 use App\Models\Comercial\ClienteIntl;
+use App\Models\Comercial\SucursalIntl;
 use App\Models\Comercial\FormaPagoIntl;
 
 class ClienteIntlController extends Controller
@@ -62,7 +63,6 @@ class ClienteIntlController extends Controller
         'idioma' => 'required',
         'fono' => 'required',
         'giro' => 'required',
-        'fax' => 'required',
         'contacto' => 'required',
         'cargo' => 'required',
         'email' => 'required',
@@ -72,7 +72,7 @@ class ClienteIntlController extends Controller
 
       $activo = !empty($request->activo);
 
-      ClienteIntl::create([
+      $cliente = ClienteIntl::create([
         'descripcion' => $request->descripcion,
         'direccion' => $request->direccion,
         'pais' => $request->pais,
@@ -87,6 +87,12 @@ class ClienteIntlController extends Controller
         'fp_id' => $request->formaPago,
         'credito' => $request->credito,
         'activo' => $activo
+      ]);
+
+      SucursalIntl::create([
+          'cliente_id' => $cliente->id,
+          'descripcion' => 'Casa Matriz',
+          'direccion' => $cliente->direccion
       ]);
 
       $msg = 'Cliente '. $request->descripcion .' Ha sido Creado.';

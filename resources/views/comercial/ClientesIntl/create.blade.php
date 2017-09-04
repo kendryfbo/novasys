@@ -101,7 +101,7 @@
 						<label class="control-label col-lg-1" >Credito:</label>
 						<div class="col-lg-2">
 							<div class="input-group">
-								<span class="input-group-addon">$</span>
+								<span class="input-group-addon">US$</span>
 								<input type="number" min="0" step="1" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{ Input::old('credito') ? Input::old('credito') : '' }}" required>
 							</div>
 						</div>
@@ -147,7 +147,7 @@
 
 						<label class="control-label col-lg-1">fax:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="fax" placeholder="numero de Fax..." value="{{ Input::old('fax') ? Input::old('fax') : '' }}" required>
+							<input type="text" class="form-control input-sm" name="fax" placeholder="numero de Fax..." value="{{ Input::old('fax') ? Input::old('fax') : '' }}" >
 						</div>
 
 					</div>

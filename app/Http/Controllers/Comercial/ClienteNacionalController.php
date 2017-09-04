@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\ClienteNacional;
-use App\Models\Comercial\Vendedor;
-use App\Models\Comercial\FormaPagoNac;
-use App\Models\Comercial\ListaPrecio;
+use Illuminate\Http\Request;
 use App\Models\Comercial\Canal;
 use App\Models\Comercial\Region;
-use App\Models\Comercial\Provincia;
 use App\Models\Comercial\Comuna;
+use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\Sucursal;
-use Illuminate\Http\Request;
+use App\Models\Comercial\Provincia;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\ListaPrecio;
+use App\Models\Comercial\FormaPagoNac;
+use App\Models\Comercial\ClienteNacional;
 
 class ClienteNacionalController extends Controller
 {
@@ -48,7 +48,6 @@ class ClienteNacionalController extends Controller
             'direccion' => 'required',
             'fono' => 'required',
             'giro' => 'required',
-            'fax' => 'required',
             'rut_num' => 'required',
             'contacto' => 'required',
             'cargo' => 'required',
@@ -63,7 +62,7 @@ class ClienteNacionalController extends Controller
         ]);
         $activo = !empty($request->activo);
 
-        ClienteNacional::create([
+        $cliente = ClienteNacional::create([
             'rut' => $request->rut,
             'descripcion' => $request->descripcion,
             'direccion' => $request->direccion,
@@ -84,7 +83,13 @@ class ClienteNacionalController extends Controller
             'activo' => $activo
         ]);
 
-        $msg = 'Cliente: ' . $request->descripcion . ' Ha sido Creado.';
+        Sucursal::create([
+            'cliente_id' => $cliente->id,
+            'descripcion' => 'Casa Matriz',
+            'direccion' => $cliente->direccion
+        ]);
+
+        $msg = 'Cliente: ' . $cliente->descripcion . ' Ha sido Creado.';
 
         return redirect(route('clientesNacionales.index'))->with(['status' => $msg]);
 
@@ -124,7 +129,6 @@ class ClienteNacionalController extends Controller
             'direccion' => 'required',
             'fono' => 'required',
             'giro' => 'required',
-            'fax' => 'required',
             'rut_num' => 'required',
             'contacto' => 'required',
             'cargo' => 'required',

@@ -66,7 +66,10 @@
 
 							<label class="control-label col-lg-1" >Credito:</label>
 							<div class="col-lg-2">
-								<input type="number" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{$cliente->credito}}" required>
+								<div class="input-group">
+									<span class="input-group-addon">US$</span>
+									<input type="number" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{$cliente->credito}}" required>
+								</div>
 							</div>
 
 						</div>
@@ -118,7 +121,7 @@
 
 							<label class="control-label col-lg-1">fax:</label>
 							<div class="col-lg-2">
-								<input type="text" class="form-control input-sm" name="fax" placeholder="numero de Fax..." value="{{$cliente->fax}}" required>
+								<input type="text" class="form-control input-sm" name="fax" placeholder="numero de Fax..." value="{{$cliente->fax}}" >
 							</div>
 
 						</div>
