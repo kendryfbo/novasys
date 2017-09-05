@@ -4,9 +4,6 @@ var app = new Vue ({
 
 	data: {
 
-		cliente : cliente,
-		sucursales: sucursales,
-		despacho: despacho,
 		listaId: listaId,
 		listaDescrip: listaDescrip,
 		listaDetalle: listaDetalle,
@@ -15,11 +12,11 @@ var app = new Vue ({
 		producto: '',
 		codigo: '',
 		descripcion: '',
-		precio: '',
+		precio: 0,
 		descuento: descuento,
-		cantidad: '',
+		cantidad: 0,
 		items: items,
-		subTotal: '',
+		subTotal: subTotal,
 		totaldescuento: '',
 		neto: '',
 		iaba: '',
@@ -32,38 +29,10 @@ var app = new Vue ({
 		totalPesoNeto: '',
 		totalPesoBruto: '',
 		totalVolumen: '',
+		totalCajas: ''
 	},
 
 	methods: {
-
-		getData: function() {
-
-			if (this.cliente === '') {
-				return;
-			};
-
-			this.getCliente();
-		},
-
-		getCliente: function() {
-
-			var url = '/api/clientesNacionales/' + this.cliente;
-
-			axios.get(url)
-			.then(response => this.loadCliente(response.data))
-			.catch(error => this.handleError(error))
-		},
-
-		loadCliente: function(data) {
-
-			this.sucursales = data.sucursal;
-			this.listaId = data.lista_precio.id;
-			this.listaDescrip = data.lista_precio.descripcion;
-			this.listaDetalle = data.lista_precio.detalle;
-			this.canal = data.canal;
-			this.descuento = data.canal.descuento;
-
-		},
 
 		loadProducto: function() {
 
@@ -71,11 +40,10 @@ var app = new Vue ({
 
 				if (this.producto == this.listaDetalle[i].id) {
 
-					var formato = this.listaDetalle[i].producto.formato;
 					this.codigo = this.listaDetalle[i].producto.codigo;
 					this.descripcion = this.listaDetalle[i].descripcion;
 					this.precio = this.listaDetalle[i].precio;
-					this.peso_neto = (formato.sobre * formato.display * formato.peso) / 1000;
+					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
 					this.volumen = this.listaDetalle[i].producto.volumen;
 
@@ -100,7 +68,7 @@ var app = new Vue ({
 			if (this.select === '') {
 
 				item = {
-					id: this.producto,
+					producto_id: this.producto,
 					codigo: this.codigo,
 					descripcion: this.descripcion,
 					cantidad: this.cantidad,
@@ -110,14 +78,14 @@ var app = new Vue ({
 					peso_neto: this.peso_neto,
 					peso_bruto: this.peso_bruto,
 					volumen: this.volumen,
-					total: (this.precio * this.cantidad).toFixed(2)
+					sub_total: (this.precio * this.cantidad)
 				};
 
 				this.items.push(item);
 
 			} else {
 
-				this.items[this.select].id = this.producto;
+				this.items[this.select].producto_id = this.producto;
 				this.items[this.select].codigo = this.codigo;
 				this.items[this.select].descripcion = this.descripcion;
 				this.items[this.select].cantidad = this.cantidad;
@@ -127,7 +95,7 @@ var app = new Vue ({
 				this.items[this.select].peso_neto = this.peso_neto;
 				this.items[this.select].peso_bruto = this.peso_bruto;
 				this.items[this.select].volumen = this.volumen;
-				this.items[this.select].total = (this.precio * this.cantidad).toFixed(2);
+				this.items[this.select].sub_total = (this.precio * this.cantidad);
 
 				this.unselect();
 			}
@@ -155,7 +123,7 @@ var app = new Vue ({
 			if (!(this.select === '')) {
 
 				this.items.splice(this.select,1);
-				this.unselect();
+				this.clearInputs();
 				this.calcular();
 			}
 
@@ -179,14 +147,14 @@ var app = new Vue ({
 			var pesoNeto = 0;
 			var pesoBruto = 0;
 			var volumen = 0;
-
+			var cajas = 0;
 			for (var i=0; this.items.length > i; i++) {
 
 				itemSubTotal = this.items[i].precio * this.items[i].cantidad;
 				descuento = ((this.items[i].precio * this.items[i].descuento) / 100) * this.items[i].cantidad;
-				pesoNeto = this.items[i].peso_neto;
-				pesoBruto = this.items[i].peso_bruto;
-				volumen = this.items[i].volumen;
+				pesoNeto = this.items[i].peso_neto * this.items[i].cantidad;
+				pesoBruto = this.items[i].peso_bruto * this.items[i].cantidad;
+				volumen = this.items[i].volumen * this.items[i].cantidad;
 
 				neto = itemSubTotal - descuento;
 				iva = (neto * 19) / 100;
@@ -205,17 +173,19 @@ var app = new Vue ({
 				totalPesoNeto += pesoNeto;
 				totalPesoBruto += pesoBruto;
 				totalVolumen += volumen;
+				cajas += this.items[i].cantidad;
 			}
 
-			this.subTotal = subTotal.toFixed(2);
-			this.totaldescuento = totaldescuento.toFixed(2);
-			this.neto = totalNeto.toFixed(2);
-			this.totalIaba = totalIaba.toFixed(2);
-			this.iva = totalIva.toFixed(2);
-			this.total = total.toFixed(2);
-			this.totalPesoBruto = totalPesoBruto.toFixed(2);
-			this.totalPesoNeto = totalPesoNeto.toFixed(2);
-			this.totalVolumen = totalVolumen.toFixed(2);
+			this.subTotal = Math.round(subTotal);
+			this.totaldescuento = Math.round(totaldescuento);
+			this.neto = Math.round(totalNeto);
+			this.totalIaba = Math.round(totalIaba);
+			this.iva = Math.round(totalIva);
+			this.total = Math.round(total);
+			this.totalPesoBruto = totalPesoBruto;
+			this.totalPesoNeto = totalPesoNeto;
+			this.totalVolumen = totalVolumen;
+			this.totalCajas = cajas;
 
 		},
 
@@ -246,7 +216,7 @@ var app = new Vue ({
 
 				msg = "Maximo Numero de Items Por nota de Venta: 40";
 
-			} else if (this.duplicatedItem() && !this.active) {
+			} else if (this.duplicatedItem(this.producto)) {
 
 				msg = "Producto ya se encuentra agregado.";
 
@@ -261,11 +231,19 @@ var app = new Vue ({
 			return validar;
 		},
 
-		duplicatedItem: function(codigo) {
+		clearInputs: function() {
+
+			this.unselect();
+			this.producto = '';
+			this.cantidad = '';
+			this.precio = '';
+		},
+
+		duplicatedItem: function(id) {
 
 			for (var i = 0; i < this.items.length; i++) {
 
-				if (codigo = this.items[i].codigo) {
+				if (id == this.items[i].id) {
 
 					return true;
 				}
@@ -279,7 +257,46 @@ var app = new Vue ({
 			alert(error);
 		},
 
+		numberFormat: function(x) {
+			x = Math.round(x);
+			return x.toLocaleString(undefined, {minimumFractionDigits: 0})
+		},
+		// Convertir a numero los items importados de lista de detalles
+		formatItems: function() {
+
+			for (var i = 0; i < this.items.length; i++) {
+
+				this.items[i].precio = Number(this.items[i].precio);
+				this.items[i].cantidad = Number(this.items[i].cantidad);
+				this.items[i].descuento = Number(this.items[i].descuento);
+
+				for (var j = 0; j < this.listaDetalle.length; j++) {
+
+					if (this.items[i].id == this.listaDetalle[j].producto.id) {
+
+						this.items[i].peso_neto = this.listaDetalle[j].producto.peso_neto;
+						this.items[i].peso_bruto = this.listaDetalle[j].producto.peso_bruto;
+						this.items[i].volumen = this.listaDetalle[j].producto.volumen;
+					}
+				}
+			}
+		},
+
+		formatListaDetalles: function() {
+
+			for (var i = 0; i < this.listaDetalle.length; i++) {
+
+				this.listaDetalle[i].precio = Number(this.listaDetalle[i].precio);
+			}
+		}
+
 	},
+
+	created() {
+		this.formatItems();
+		this.formatListaDetalles();
+		this.calcular();
+    },
 
 	updated() {
         $('.selectpicker').selectpicker('refresh');

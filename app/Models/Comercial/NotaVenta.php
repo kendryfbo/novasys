@@ -37,6 +37,7 @@ class NotaVenta extends Model
 	public function unauthorize() {
 
 		$this->aut_comer = 0;
+		$this->status = 0;
 		$this->save();
 	}
 	public function setTitleAttribute($value) {
