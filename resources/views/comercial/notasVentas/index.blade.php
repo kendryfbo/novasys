@@ -34,6 +34,7 @@
 						<th class="text-center">Condicion Pago</th>
 						<th class="text-center">Aut.Comer</th>
 						<th class="text-center">Aut.Contab</th>
+						<th class="text-center">Status</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -65,6 +66,9 @@
 								@else
 									Si
 								@endif
+							</td>
+							<td class="text-center">
+								{{$notaVenta->status ? 'Aprobada':'Anulada'}}
 							</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
