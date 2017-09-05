@@ -7,6 +7,7 @@ var app = new Vue({
     clientes: clientes,
     clienteId: '',
     formaPagoDescrip: '',
+    sucursales: [],
     productos: productos,
     prodId: '',
     item: [],
@@ -27,6 +28,23 @@ var app = new Vue({
   },
 
   methods: {
+
+    loadDatos: function() {
+
+        this.loadSucursales();
+        this.loadFormaPago();
+    },
+
+    loadSucursales: function() {
+
+        for (var i=0; i < this.clientes.length; i++) {
+
+            if (this.clienteId == this.clientes[i].id) {
+
+                this.sucursales = this.clientes[i].sucursales;
+            }
+        }
+    },
 
     loadFormaPago: function() {
 

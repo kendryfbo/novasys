@@ -40,7 +40,7 @@ class ProformaController extends Controller
       $transportes = MedioTransporte::getAllActive();
       $puertoEmbarque = PuertoEmbarque::getAllActive();
 
-      $clientes->load('formaPago');
+      $clientes->load('formaPago','sucursales');
 
       return view('comercial.proforma.create')->with([
         'centrosVenta' => $centrosVenta,

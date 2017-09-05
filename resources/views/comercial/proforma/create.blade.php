@@ -113,7 +113,7 @@
 
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadFormaPago" required>
+            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadDatos" required>
 							<option value=""></option>
 							<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
             </select>
@@ -163,8 +163,10 @@
 
           <label class="control-label col-lg-1">Direccion:</label>
           <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{Input::old('direccion')}}" required>
-          </div>
+			<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="direccion" required>
+				<option v-if="sucursales" v-for="sucursal in sucursales" v-bind:value="sucursal.direccion">@{{sucursal.descripcion + " - " + sucursal.direccion }}</option>
+			</select>
+		  </div>
 
           <label class="control-label col-lg-1">Puerto D. :</label>
           <div class="col-lg-4">
