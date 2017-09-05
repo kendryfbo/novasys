@@ -19,8 +19,15 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 	]);
 
 	// Resource Clientes Nacionales
-	Route::resource('clientesNacionales','Comercial\ClienteNacionalController',[
-		'parameters' => ['clientesNacionales' => 'cliente']]);
+    Route::prefix('clientesNacionales')->group(function(){
+
+        Route::get('/',                        'Comercial\ClienteNacionalController@index')->name('clientesNacionales');
+        Route::get('/crear',                   'Comercial\ClienteNacionalController@create')->name('crearClientesNacionales');
+        Route::post('/crear',                  'Comercial\ClienteNacionalController@store')->name('guardarClientesNacionales');
+        Route::get('{cliente}/editar', 'Comercial\ClienteNacionalController@edit')->name('editarClientesNacionales');
+        Route::put('{cliente}/editar', 'Comercial\ClienteNacionalController@update')->name('actualizarClientesNacionales');
+        Route::delete('/{cliente}',    'Comercial\ClienteNacionalController@delete')->name('eliminarClientesNacionales');
+    });
 
 	// Resource Lista de Precios
 	Route::resource('listaPrecios','Comercial\ListaPrecioController',[
@@ -56,12 +63,16 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::post('FormasPagosIntl', 'Comercial\FormaPagoIntlController@store')->name('guardarFormaPagoIntl');
 
   // Routes Clientes Internacionales
-  Route::get('clientesIntl',                    'Comercial\ClienteIntlController@index')->name('clienteIntl');
-  Route::get('clientesIntl/crear',              'Comercial\ClienteIntlController@create')->name('crearClienteIntl');
-  Route::post('clientesIntl',                   'Comercial\ClienteIntlController@store')->name('guardarClienteIntl');
-  Route::get('clientesIntl/{clienteIntl}/edit', 'Comercial\ClienteIntlController@edit')->name('editarClienteIntl');
-  Route::get('clientesIntl/{clienteIntl}', 'Comercial\ClienteIntlController@show')->name('verClienteIntl');
-  Route::delete('clientesIntl/{clienteIntl}', 'Comercial\ClienteIntlController@destroy')->name('eliminarClienteIntl');
+  Route::prefix('clientesIntl')->group( function() {
+
+      Route::get('/',                   'Comercial\ClienteIntlController@index')->name('clienteIntl');
+      Route::get('/{clienteIntl}',      'Comercial\ClienteIntlController@show')->name('verClienteIntl');
+      Route::get('/crear',              'Comercial\ClienteIntlController@create')->name('crearClienteIntl');
+      Route::post('/',                  'Comercial\ClienteIntlController@store')->name('guardarClienteIntl');
+      Route::get('/{clienteIntl}/edit', 'Comercial\ClienteIntlController@edit')->name('editarClienteIntl');
+      Route::put('/{clienteIntl}/edit', 'Comercial\ClienteIntlController@update')->name('actualizarClienteIntl');
+      Route::delete('/{clienteIntl}',   'Comercial\ClienteIntlController@destroy')->name('eliminarClienteIntl');
+  });
 
   // Routes Aduanas
   Route::get('aduanas',               'Comercial\AduanaController@index')->name('aduana');

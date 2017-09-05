@@ -20,8 +20,8 @@
 				<!-- box-body -->
 				<div class="box-body">
 					<!-- form -->
-					<form  id="create" method="post" action="{{route('clientesNacionales.update', ['cliente' => $cliente->id])}}">
-						{{ method_field('PATCH') }}
+					<form  id="create" method="post" action="{{route('actualizarClientesNacionales', ['cliente' => $cliente->id])}}">
+						{{ method_field('PUT') }}
 						{{ csrf_field() }}
 
 						<!-- form-horizontal -->

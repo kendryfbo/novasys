@@ -160,7 +160,7 @@ class ClienteNacionalController extends Controller
 
         $msg = 'Cliente: ' . $cliente->descripcion . ' Ha sido Modificado.';
 
-        return redirect(route('clientesNacionales.index'))->with(['status' => $msg]);
+        return redirect(route('clientesNacionales'))->with(['status' => $msg]);
 
     }
 

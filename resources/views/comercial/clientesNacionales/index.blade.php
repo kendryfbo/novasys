@@ -20,7 +20,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('clientesNacionales.create')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearClientesNacionales')}}">Crear</a>
 		</div>
 		<!-- /box-body -->
 
@@ -61,20 +61,16 @@
 							<td class="text-center">{{$cliente->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
 
-								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id) }}" method="get">
-									<button class="btn btn-sm" type="submit"><i class="fa fa-eye" aria-hidden="true"></i></button>
-								</form>
-
-								<form style="display: inline" action="{{ url('comercial/clientesNacionales/' . $cliente->id . '/edit') }}" method="get">
+								<form style="display: inline" action="{{ route('editarClientesNacionales', ['cliente' => $cliente->id]) }}" method="get">
 									<button class="btn btn-sm" type="submit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
 								</form>
 
-								<form style="display: inline" action="{{ url('comercial/clientesNacionales/'.$cliente->id) }}" method="post">
+								<form style="display: inline" action="{{ route('eliminarClientesNacionales', ['cliente' => $cliente->id]) }}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 								</form>
-								
+
 							</td>
 
 						</tr>

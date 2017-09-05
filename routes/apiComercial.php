@@ -41,4 +41,4 @@ route::get('notasVentas/{notaVenta}', 'Api\NotaVentaController@show');
 route::get('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@show')->name('apiVerSucursalClienteIntl');
 route::post('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@store')->name('apiGuardarSucursalClienteIntl');
 route::put('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@update')->name('apiActualizarSucursalClienteIntl');
-route::delete('sucursalesClienteIntl/{cliente}', 'Api\SucursalIntlController@destroy')->name('apiEliminarSucursalClienteIntl');
+route::delete('sucursalesClienteIntl/{id}', 'Api\SucursalIntlController@destroy')->name('apiEliminarSucursalClienteIntl');

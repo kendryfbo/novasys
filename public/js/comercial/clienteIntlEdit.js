@@ -15,7 +15,16 @@ var app = new Vue({
 
         getSucursales: function() {
 
+            $url = '/api/sucursalesClienteIntl/'+this.cliente_id;
 
+			axios.get($url)
+			.then(response => this.loadSucursales(response.data))
+			.catch(error => this.handleError(error))
+        },
+
+        loadSucursales: function(data) {
+
+            this.sucursales = data;
         },
 
         loadSucursal: function(id) {
@@ -45,8 +54,6 @@ var app = new Vue({
                 } else {
                     this.storeSucursal();
                 }
-
-                this.clearInputs();
             }
 
         },
@@ -78,9 +85,13 @@ var app = new Vue({
 			.catch(error => this.handleError(error))
         },
 
-        deleteSucursal: function() {
+        deleteSucursal: function(id) {
 
-            this.clearInputs();
+            $url = '/api/sucursalesClienteIntl/' + id;
+
+			axios.delete($url)
+			.then(response => this.refresh())
+			.catch(error => this.handleError(error))
         },
 
         validateInputs: function() {

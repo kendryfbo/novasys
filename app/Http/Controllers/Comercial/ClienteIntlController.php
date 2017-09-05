@@ -134,7 +134,43 @@ class ClienteIntlController extends Controller
      */
     public function update(Request $request, ClienteIntl $clienteIntl)
     {
-        //
+        $this->validate($request, [
+          'descripcion' => 'required',
+          'direccion' => 'required',
+          'pais' => 'required',
+          'zona' => 'required',
+          'idioma' => 'required',
+          'fono' => 'required',
+          'giro' => 'required',
+          'contacto' => 'required',
+          'cargo' => 'required',
+          'email' => 'required',
+          'formaPago' => 'required',
+          'credito' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $clienteIntl->descripcion = $request->descripcion;
+        $clienteIntl->direccion = $request->direccion;
+        $clienteIntl->pais = $request->pais;
+        $clienteIntl->zona = $request->zona;
+        $clienteIntl->idioma = $request->idioma;
+        $clienteIntl->fono = $request->fono;
+        $clienteIntl->giro = $request->giro;
+        $clienteIntl->fax = $request->fax;
+        $clienteIntl->contacto = $request->contacto;
+        $clienteIntl->cargo = $request->cargo;
+        $clienteIntl->email = $request->email;
+        $clienteIntl->fp_id = $request->formaPago;
+        $clienteIntl->credito = $request->credito;
+        $clienteIntl->activo = $activo;
+
+        $clienteIntl->save();
+
+        $msg = 'Cliente '. $clienteIntl->descripcion .' Ha sido Modificada.';
+
+        return redirect(route('clienteIntl'))->with(['status' => $msg]);
     }
 
     /**

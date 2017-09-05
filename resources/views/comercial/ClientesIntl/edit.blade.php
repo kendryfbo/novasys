@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Modificar Cliente Nacional</h4>
+			<h4>Modificar Cliente Internacional</h4>
 		</div>
 		<!-- /box-header -->
 		<ul class="nav nav-tabs">
@@ -20,9 +20,9 @@
 				<!-- box-body -->
 				<div class="box-body">
 					<!-- form-horizontal -->
-					<form  id="create" class="form-horizontal" method="post" action="{{route('clientesNacionales.update', ['cliente' => $cliente->id])}}">
-						{{ method_field('PATCH') }}
+					<form  id="edit" class="form-horizontal" method="post" action="{{route('actualizarClienteIntl', ['cliente' => $cliente->id])}}">
 						{{ csrf_field() }}
+						{{ method_field('PUT') }}
 
 						<div class="form-group">
 							<label class="control-label col-lg-1" >Descripcion:</label>
@@ -139,7 +139,7 @@
 				<!-- /box-body -->
 				<!-- box-footer -->
 				<div class="box-footer">
-		   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
+		   	 		<button type="submit" form="edit" class="btn pull-right">Modificar</button>
 		   	 	</div>
 				<!-- /box-footer -->
 			</div>
@@ -181,7 +181,6 @@
 						<thead>
 							<tr>
 								<th class="text-center">#</th>
-								<th>id</th>
 								<th>decripcion</th>
 								<th>direccion</th>
 								<th class="text-center">Eliminar</th>
@@ -191,7 +190,6 @@
 							<td colspan="5" class="text-center" v-if="sucursales <= 0">Tabla Sin Datos...</td>
 							<tr v-for="(sucursal,key) in sucursales" @click="loadSucursal(sucursal.id)">
 								<th class="text-center" v-text="(key+1)"></th>
-								<td>@{{ sucursal.id }}</td>
 								<td>@{{ sucursal.descripcion }}</td>
 								<td>@{{ sucursal.direccion }}</td>
 								<td class="text-center">

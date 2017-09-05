@@ -80,32 +80,21 @@ class SucursalIntlController extends Controller
     }
   }
 
-  public function destroy(Request $request, ClienteIntl $cliente) {
+  public function destroy($id) {
 
-    try {
+    if ($id) {
 
-        $this->validate($request, [
-            'id' => 'required',
-            'cliente' => 'required',
-            'descripcion' => 'required',
-            'direccion' => 'required'
-        ]);
+        try {
 
-        $activo = !empty($request->activo);
+            SucursalIntl::destroy($id);
 
-        $sucursal = SucursalIntl::find($request->id)->first();
+            return response('success',201);
 
-        $sucursal->descripcion = $request->descripcion;
-        $sucursal->direccion = $request->direccion;
-        $sucursal->activo = $activo;
+        } catch (Exception $e) {
 
-        $sucursal->save();
+            return response($e,400);
+        }
 
-        return response('success',201);
-
-    } catch (Exception $e) {
-
-        return response($e,400);
     }
   }
 }
