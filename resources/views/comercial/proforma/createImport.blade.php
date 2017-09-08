@@ -305,13 +305,13 @@
           <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
               <tr>
-                <th class="bg-gray text-right">FREIGHT</th>
+                <th class="bg-gray text-right">FREIGHT US$</th>
                 <td class="input-td">
                 	<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" @change="freightChange">
                 </td>
               </tr>
               <tr>
-                <th class="bg-gray text-right">INSURANCE</th>
+                <th class="bg-gray text-right">INSURANCE US$</th>
 								<td class="input-td">
                 	<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" @change="insuranceChange">
                 </td>
@@ -320,12 +320,12 @@
 								<th colspan="2" class=""></th>
 							</tr>
 							<tr>
-								<th class="bg-gray text-right">TOTAL F.O.B.</th>
+								<th class="bg-gray text-right">TOTAL F.O.B. US$</th>
 								<th class="text-right">@{{numberFormat(fob)}}</th>
 							</tr>
 
               <tr>
-                <th class="bg-gray text-right">TOTAL</th>
+                <th class="bg-gray text-right">TOTAL US$</th>
                 <th class="bg-gray text-right">@{{numberFormat(total)}}</th>
               </tr>
 
