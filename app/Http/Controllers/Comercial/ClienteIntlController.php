@@ -67,7 +67,7 @@ class ClienteIntlController extends Controller
         'cargo' => 'required',
         'email' => 'required',
         'formaPago' => 'required',
-        'credito' => 'required'
+        'credito' => 'required|numeric'
       ]);
 
       $activo = !empty($request->activo);
@@ -108,7 +108,9 @@ class ClienteIntlController extends Controller
      */
     public function show(ClienteIntl $clienteIntl)
     {
-      dd($clienteIntl->getAttributes());
+        $clienteIntl->load('formaPago');
+
+        return view('comercial.clientesIntl.show')->with(['cliente' => $clienteIntl]);
     }
 
     /**
