@@ -18,7 +18,9 @@ class FacturaIntlController extends Controller
      */
     public function index()
     {
-        //
+        $facturas = FacturaIntl::orderBy('numero')->take(20)->get();
+
+        return view('comercial.facturaIntl.index')->with(['facturas' => $facturas]);
     }
 
     /**
@@ -58,12 +60,12 @@ class FacturaIntlController extends Controller
 
     public function storeFromProforma(Request $request, $proforma)
     {
-
       $factura = FacturaIntl::regFromProforma($request,$proforma);
       //event(new CreateFacturaIntlEvent($factura));
 
-      return redirect()->route('verFacturaIntl',['facturaIntl' => $factura]);
-
+      $msg = 'Factura N°' . $factura->numero . ' ha sido creada.';
+      
+      return redirect()->route('FacturaIntl');
     }
 
     /**
@@ -72,11 +74,11 @@ class FacturaIntlController extends Controller
      * @param  \App\Models\Comercial\FacturaIntl  $facturaIntl
      * @return \Illuminate\Http\Response
      */
-    public function show(FacturaIntl $facturaIntl)
+    public function show($numero)
     {
-      $facturaIntl->load('detalles');
+        $factura = FacturaIntl::with('detalles')->where('numero', $numero)->first();
 
-      return view('comercial.facturaIntl.show')->with(['factura' => $facturaIntl]);
+        return view('comercial.facturaIntl.show')->with(['factura' => $factura]);
     }
 
     /**
@@ -108,11 +110,18 @@ class FacturaIntlController extends Controller
      * @param  \App\Models\Comercial\FacturaIntl  $facturaIntl
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FacturaIntl $facturaIntl)
+    public function destroy($numero)
     {
-        //
+        $factura = FacturaIntl::where('numero', $numero)->first();
+
+        $factura->delete();
+
+        $msg = 'Factura N°' . $factura->numero . ' ha sido eliminada.';
+
+        return redirect()->route('FacturaIntl')->with(['status' => $msg]);
     }
 
+    /* Facturar apartir de importacion de proforma */
     public function importProforma(Request $request) {
 
       $proforma = Proforma::with('detalles')->where('numero',$request->proforma)->first();

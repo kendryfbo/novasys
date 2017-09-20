@@ -17,7 +17,7 @@ class CreateGuiaDespachosTable extends Migration
             $table->increments('id');
             $table->integer('numero')->unique();
             $table->integer('proforma_id')->unsigned()->unique();
-            $table->integer('aduana_id')->unsigned()->unique();
+            $table->integer('aduana_id')->unsigned();
             $table->string('mn');
             $table->string('booking');
             $table->string('contenedor');
@@ -27,9 +27,9 @@ class CreateGuiaDespachosTable extends Migration
             $table->string('movil');
             $table->string('prof');
             $table->string('dus');
-            $table->double('peso_neto',10,2);
-            $table->double('peso_bruto',10,2);
-            $table->double('volumen',10,2);
+            $table->double('peso_neto',10,2)->nullable();
+            $table->double('peso_bruto',10,2)->nullable();
+            $table->double('volumen',10,2)->nullable();
             $table->date('fecha_emision');
             $table->string('nota')->nullable();
             $table->integer('user_id')->unsigned();

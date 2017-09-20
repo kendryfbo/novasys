@@ -21,7 +21,7 @@
 				{{ csrf_field() }}
 			</form>
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarFacNac')}}">
+			<form  id="create" method="post" action="{{route('guardarFactNacFromNV')}}">
 
 				{{ csrf_field() }}
 				<!-- form-horizontal -->
@@ -32,13 +32,15 @@
 					<div class="form-group form-group-sm">
 
 						<label class="control-label col-sm-2" >Centro de Venta:</label>
-						<div class="col-sm-3">
-							<input class="form-control" type="text" name="centroVenta" value="{{$notaVenta->centroVenta->descripcion}}" readonly required>
+						<div class="col-sm-4">
+							<input class="form-control" type="hidden" name="centroVenta" value="{{$notaVenta->centroVenta->id}}" readonly required>
+							<input class="form-control" type="text" value="{{$notaVenta->centroVenta->descripcion}}" readonly required>
 						</div>
 
 						<label class="col-sm-offset-1 control-label col-sm-1" >Nota Venta:</label>
 						<div class="col-lg-1">
 							<input form="import" class="form-control" type="number" name="numNV" value="{{$notaVenta->numero}}" placeholder="Nota Venta...">
+							<input class="form-control" type="hidden" name="notaVenta" value="{{$notaVenta->id}}" placeholder="Nota Venta...">
 						</div>
 						<div class="col-lg-1">
               <button form="import" class="btn btn-default btn-sm" type="submit" >Importar</button>
@@ -74,7 +76,8 @@
 
 						<label class="control-label col-lg-2">Cliente:</label>
 						<div class="col-lg-5">
-							<input type="text" class="form-control " name="cliente" value="{{$notaVenta->cliente->descripcion}}" readonly required>
+							<input type="hidden" class="form-control " name="cliente" value="{{$notaVenta->cliente->id}}" readonly required>
+							<input type="text" class="form-control " value="{{$notaVenta->cliente->descripcion}}" readonly required>
 						</div>
 
 					</div>
@@ -101,7 +104,8 @@
 
 						<label class="control-label col-lg-2">Vendedor:</label>
 						<div class="col-lg-3">
-							<input type="text" class="form-control " name="vendedor" value="{{$notaVenta->vendedor->nombre}}" readonly required>
+							<input type="text" class="form-control " name="vendedor" value="{{$notaVenta->vendedor->id}}" readonly required>
+							<input type="hidden" class="form-control " value="{{$notaVenta->vendedor->nombre}}" readonly required>
 						</div>
 
 					</div>

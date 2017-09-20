@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFacturaIntlSSITable extends Migration
+class CreateFacturaIntlSIITable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFacturaIntlSSITable extends Migration
      */
     public function up()
     {
-        Schema::create('factura_intl_ssi', function (Blueprint $table) {
+        Schema::create('factura_intl_sii', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('numero')->unique();
           $table->integer('proforma')->unsigned()->unique();
@@ -40,7 +40,7 @@ class CreateFacturaIntlSSITable extends Migration
           $table->timestamps();
       });
 
-      Schema::table('factura_intl_ssi', function (Blueprint $table) {
+      Schema::table('factura_intl_sii', function (Blueprint $table) {
           $table->foreign('cv_id')->references('id')->on('centro_ventas');
           $table->foreign('cliente_id')->references('id')->on('cliente_intl');
           $table->foreign('user_id')->references('id')->on('usuarios');

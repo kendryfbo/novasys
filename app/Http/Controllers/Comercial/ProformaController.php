@@ -212,4 +212,31 @@ class ProformaController extends Controller
     {
         //
     }
+
+    /* Lista de Proformas Por Autorizar */
+    public function authorization() {
+
+        $proformas = Proforma::getAllUnathorized();
+
+        return view('comercial.proforma.authorization')->with(['proformas' => $proformas]);
+    }
+
+    public function auth(Proforma $proforma) {
+
+        $proforma->authorize();
+
+        $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
+
+        return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
+    }
+
+    public function unauth(Proforma $proforma) {
+
+        $proforma->unauthorize();
+
+        $msg = 'Proforma N°' . $proforma->numero . ' ha sido No Autorizada.';
+
+        return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
+    }
+
 }

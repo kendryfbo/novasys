@@ -23,12 +23,12 @@ class CreateNotaVentasTable extends Migration
             $table->string('cond_pago');
             $table->integer('version');
             $table->integer('vendedor_id')->unsigned();
-            $table->decimal('sub_total',10,2);
-            $table->decimal('descuento',10,2);
-            $table->decimal('neto',10,2);
-            $table->decimal('iva',10,2);
-            $table->decimal('iaba',10,2);
-            $table->decimal('total',10,2);
+            $table->integer('sub_total',10,2);
+            $table->integer('descuento',10,2);
+            $table->integer('neto',10,2);
+            $table->integer('iva',10,2);
+            $table->integer('iaba',10,2);
+            $table->integer('total',10,2);
             $table->decimal('peso_neto',10,2);
             $table->decimal('peso_bruto',10,2);
             $table->decimal('volumen',10,2);

@@ -33,9 +33,12 @@
             <ul class="treeview-menu">
                 <li><a href="{{url('comercial/notasVentas')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
                 <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturacion</span></a></li>
+                <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Credito</span></a></li>
+                <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
             </ul>
           </li>
           <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
+          <li><a href="{{url('comercial/notasCreditoNac/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Credito</span></a></li>
       </ul>
     </li>
     <li class="treeview menu-open">
@@ -66,13 +69,15 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="{{url('comercial/proformas')}}"><i class=""></i> <span>Proforma</span></a></li>
-                <li><a href="{{url('comercial/guiaDespacho/crear')}}"><i class=""></i> <span>Guia Despacho</span></a></li>
+                <li><a href="{{url('comercial/guiaDespacho')}}"><i class=""></i> <span>Guia Despacho</span></a></li>
+                <li><a href="{{url('comercial/notasCreditoIntl')}}"><i class=""></i> <span>Nota Credito</span></a></li>
+                <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
                 <li><a href="{{url('comercial/packingList/crear')}}"><i class=""></i> <span>Packing List.</span></a></li>
-                <li><a href="{{url('comercial/FacturaIntl/crear')}}"><i class=""></i> <span>Factura Export.</span></a></li>
-                <li><a href="#"><i class=""></i> <span>Nota de Credito</span></a></li>
-                <li><a href="{{url('comercial/facturaIntlSII/crear')}}"><i class=""></i> <span>Factura S.I.I</span></a></li>
+                <li><a href="{{url('comercial/FacturaIntl')}}"><i class=""></i> <span>Factura Export.</span></a></li>
+                <li><a href="{{url('comercial/facturaIntlSII')}}"><i class=""></i> <span>Factura S.I.I</span></a></li>
             </ul>
           </li>
+          <li><a href="{{url('comercial/proformas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Proforma</span></a></li>
       </ul>
     </li>
   </ul>

@@ -122,6 +122,11 @@ class NotaVentaController extends Controller
      */
     public function edit(NotaVenta $notaVenta)
     {
+        if ($notaVenta->aut_contab) {
+
+            return redirect()->back();
+        }
+        
         $notaVenta->load('detalle','cliente.sucursal',
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',

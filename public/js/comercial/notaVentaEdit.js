@@ -26,9 +26,9 @@ var app = new Vue ({
 		peso_neto: '',
 		peso_bruto: '',
 		volumen: '',
-		totalPesoNeto: '',
-		totalPesoBruto: '',
-		totalVolumen: '',
+		totalPesoNeto: peso_neto,
+		totalPesoBruto: peso_bruto,
+		totalVolumen: volumen,
 		totalCajas: ''
 	},
 
@@ -105,9 +105,10 @@ var app = new Vue ({
 
 		loadItem: function(key) {
 
+
 			this.active = true;
 			this.select = key;
-			this.producto = this.items[key].id;
+			this.producto = this.items[key].producto_id;
 			this.codigo = this.items[key].codigo;
 			this.descripcion = this.items[key].descripcion;
 			this.cantidad = this.items[key].cantidad;
@@ -299,6 +300,7 @@ var app = new Vue ({
     },
 
 	updated() {
+
         $('.selectpicker').selectpicker('refresh');
     }
 });

@@ -115,12 +115,12 @@
 
             <label class="control-label col-lg-1">K.Neto:</label>
 						<div class="col-lg-2">
-							<input type="number" class="form-control input-sm" name="neto" placeholder="Peso Netos..." value="{{$guia->peso_neto}}" readonly required>
+							<input type="text" class="form-control input-sm" name="neto" placeholder="Peso Netos..." value="{{number_format($guia->peso_neto,2,',','.')}}" readonly required>
 						</div>
 
 						<label class="control-label col-lg-1">K.Bruto:</label>
 						<div class="col-lg-2">
-							<input type="number" class="form-control input-sm" name="bruto" placeholder="Peso Bruto..." value="{{$guia->peso_bruto}}" readonly required>
+							<input type="text" class="form-control input-sm" name="bruto" placeholder="Peso Bruto..." value="{{number_format($guia->peso_bruto,2,',','.')}}" readonly required>
 						</div>
 
 					</div>
@@ -135,40 +135,36 @@
 
 			</form>
 			<!-- /form-horizontal -->
-      <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
+			<table class="table table-condensed table-bordered table-custom display nowrap" cellspacing="0" width="100%">
 
-        <thead>
+				<thead>
 
-          <tr>
-            <th class="text-center">#</th>
-            <th class="text-center">CODIGO</th>
-            <th class="text-center">DESCRIPCION</th>
-            <th class="text-center">CANT</th>
-          </tr>
+				  <tr>
+				    <th class="text-center">#</th>
+				    <th class="text-center">CODIGO</th>
+				    <th class="text-center">DESCRIPCION</th>
+				    <th class="text-center">CANT</th>
+				  </tr>
 
-        </thead>
+				</thead>
 
-        <tbody>
+				<tbody>
 
-					@foreach ($guia->detalles as $detalle)
-						<tr>
-							<td class="text-center">{{$loop->iteration}}</td>
-							<td class="text-center">{{$detalle->id}}</td>
-							<td>{{$detalle->descripcion}}</td>
-							<td class="text-center">{{$detalle->cantidad}}</td>
-						</tr>
-					@endforeach
+							@foreach ($guia->detalles as $detalle)
+								<tr>
+									<td class="text-center">{{$loop->iteration}}</td>
+									<td class="text-center">{{$detalle->id}}</td>
+									<td>{{$detalle->descripcion}}</td>
+									<td class="text-center">{{$detalle->cantidad}}</td>
+								</tr>
+							@endforeach
 
-        </tbody>
+				</tbody>
 
-      </table>
+			</table>
+			<hr>
 		</div>
 		<!-- /box-body -->
-		<!-- box-footer -->
-		<div class="box-footer">
-   	 		<button type="submit" form="create" class="btn pull-right">Crear</button>
-   	 	</div>
-		<!-- /box-footer -->
 	</div>
 	<!-- /box -->
 @endsection

@@ -30,6 +30,7 @@ class NotaVenta extends Model
 	public function authorize() {
 
 		$this->aut_comer = 1;
+		$this->aut_contab = 1; // mientras se implementa FINANZAS
 		$this->save();
 		$this->fireModelEvent('authorized',false);
 	}

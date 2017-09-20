@@ -228,9 +228,9 @@
 						<td class="text-center">@{{item.codigo}}</td>
 						<td>@{{item.descripcion}}</td>
 						<td class="text-right">@{{item.cantidad}}</td>
-						<td class="text-right">@{{numberFormat(item.precio)}}</td>
+						<td class="text-right">@{{item.precio.toLocaleString()}}</td>
 						<td class="text-right">@{{item.descuento}}</td>
-						<td class="text-right">@{{numberFormat(item.total)}}</td>
+						<td class="text-right">@{{item.total.toLocaleString()}}</td>
 					</tr>
 				</tbody>
 			</table>

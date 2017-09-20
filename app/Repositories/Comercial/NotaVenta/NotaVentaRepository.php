@@ -187,7 +187,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 
 				$item = json_decode($item);
 
-				$id = $item->id;
+				$id = $item->producto_id;
 				$codigo = $item->codigo;
 				$descripcion = $item->descripcion;
 				$cantidad = $item->cantidad;

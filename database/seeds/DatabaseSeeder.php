@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ClientesNacionalesTableSeeder::class);
         $this->call(ComunasTableSeeder::class);
         $this->call(FormaPagoNacTableSeeder::class);
+        $this->call(FormaPagoIntlTableSeeder::class);
         $this->call(IdiomasTableSeeder::class);
         $this->call(ImpuestoTableSeeder::class);
         $this->call(MedioTransporteTableSeeder::class);

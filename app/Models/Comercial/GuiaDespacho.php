@@ -29,51 +29,52 @@ class GuiaDespacho extends Model
     return $this->belongsTo(Aduana::class);
   }
 
-  static function register($request) {
+    static function register($request) {
 
-     $guia = DB::transaction(function () use ($request){
+        $guia = DB::transaction(function () use ($request){
 
-      $proforma = Proforma::with('detalles')->find($request->proforma)->first();
+            $proforma = Proforma::with('detalles')->where('numero',$request->proforma)->first();
 
-      $guia = GuiaDespacho::create([
-        'numero' => $request->numero,
-        'proforma_id' => $proforma->id,
-        'aduana_id' => $request->aduana,
-        'fecha_emision' => $request->fecha,
-        'mn' => $request->mn,
-        'booking' => $request->booking,
-        'contenedor' => $request->contenedor,
-        'sello' => $request->sello,
-        'chofer' => $request->chofer,
-        'patente' => $request->patente,
-        'movil' => $request->movil,
-        'prof' => $request->prof,
-        'dus' => $request->dus,
-        'peso_neto' => $request->neto,
-        'peso_bruto' => $request->bruto,
-        'nota' => $request->nota,
-        'user_id' => $request->user()->id
-      ]);
+            $guia = GuiaDespacho::create([
+                'numero' => $request->numero,
+                'proforma_id' => $proforma->id,
+                'aduana_id' => $request->aduana,
+                'fecha_emision' => $request->fecha,
+                'mn' => $request->mn,
+                'booking' => $request->booking,
+                'contenedor' => $request->contenedor,
+                'sello' => $request->sello,
+                'chofer' => $request->chofer,
+                'patente' => $request->patente,
+                'movil' => $request->movil,
+                'prof' => $request->prof,
+                'dus' => $request->dus,
+                'peso_neto' => $request->neto,
+                'peso_bruto' => $request->bruto,
+                'volumen' => $request->bruto,
+                'nota' => $request->nota,
+                'user_id' => $request->user()->id
+            ]);
 
-      $i = 0;
+            $i = 0;
 
-      foreach ($proforma->detalles as $detalle) {
+            foreach ($proforma->detalles as $detalle) {
 
-        $i ++;
+                $i ++;
 
-        GuiaDespachoDetalle::create([
-          'guia_id' => $guia->id,
-          'item' => $i,
-          'producto_id' => $detalle->producto_id,
-          'descripcion' => $detalle->descripcion,
-          'cantidad' => $detalle->cantidad
-        ]);
-      }
+                GuiaDespachoDetalle::create([
+                  'guia_id' => $guia->id,
+                  'item' => $i,
+                  'producto_id' => $detalle->producto_id,
+                  'descripcion' => $detalle->descripcion,
+                  'cantidad' => $detalle->cantidad
+                ]);
+            }
 
-      return $guia;
+            return $guia;
 
-    },5);
+        },5);
 
-    return $guia;
-  }
+        return $guia;
+    }
 }

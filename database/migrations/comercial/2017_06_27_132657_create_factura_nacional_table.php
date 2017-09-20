@@ -16,6 +16,7 @@ class CreateFacturaNacionalTable extends Migration
         Schema::create('factura_nacional', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero')->unique();
+            $table->integer('numero_nv')->unique()->nullable();
             $table->integer('cv_id')->unsigned();
             $table->string('cv_rut');
             $table->string('centro_venta');

@@ -13,8 +13,10 @@ var app = new Vue ({
         event.preventDefault();
       }
 
+      event.target.submit();
+
     },
-    
+
     confirmAutorizar: function(event) {
 
       var confirmation = confirm('Confirmar Autorización de Nota de Venta?');
@@ -23,6 +25,8 @@ var app = new Vue ({
 
         event.preventDefault();
       }
+
+      event.target.submit();
 
     }
   }

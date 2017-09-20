@@ -21,7 +21,7 @@
 				{{ csrf_field() }}
 			</form>
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarFacNac')}}">
+			<form  id="create" method="post" action="{{route('guardarFactNac')}}">
 
 				{{ csrf_field() }}
 				<!-- form-horizontal -->
@@ -33,7 +33,7 @@
 
 						<label class="control-label col-sm-2" >Centro de Venta:</label>
 						<div class="col-sm-4">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="centroVenta" required>
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="centroVenta" required>
 								<option value="">Seleccionar Centro de Venta...</option>
 								@foreach ($centrosVentas as $centroVenta)
 									<option {{ Input::old('centroVenta') == $centroVenta->id ? 'selected' : '' }} value="{{$centroVenta->id}}">{{$centroVenta->descripcion}}</option>
@@ -65,7 +65,7 @@
 
 						<label class="control-label col-lg-2">Fecha Emision:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
+							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" @change="updateVenc" required>
 						</div>
 
 						<label class="control-label col-lg-2">Fechan Vencimiento:</label>

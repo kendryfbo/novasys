@@ -22,6 +22,9 @@ class Producto extends Model
 		return false;
 
 	}
+
+	/* Relaciones con Producto */
+
 	public function marca() {
 
 		return $this->belongsTo('App\Models\Marca');
@@ -50,6 +53,11 @@ class Producto extends Model
 	public function guiaDespachoDetalles() {
 
 		return $this->hasMany(GuiaDespachoDetalle::class);
+	}
+
+	public function facturaNacDetalles() {
+
+		return $this->hasMany('App\Models\Comercial\FacturaNacionalDetalle','producto_id');
 	}
 
 }

@@ -66,7 +66,7 @@
 						<div class="col-lg-2">
 							<div class="input-group">
 								<span class="input-group-addon">US$</span>
-								<input type="text" class="form-control input-sm" value="{{ $cliente->credito }}" readonly>
+								<input type="text" class="form-control input-sm" value="{{ number_format($cliente->credito,2,',','.') }}" readonly>
 							</div>
 						</div>
 

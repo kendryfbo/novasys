@@ -28,8 +28,9 @@ class FacturaNacionalController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaNacional::all();
-        return view('comercial.facturasNacionales.index');
+        $facturas = FacturaNacional::orderBy('numero')->take(20)->get();
+
+        return view('comercial.facturasNacionales.index')->with(['facturas' => $facturas]);
     }
 
     /**
@@ -63,6 +64,7 @@ class FacturaNacionalController extends Controller
             'detalle')->where('numero',$numNV)
                         ->where('aut_comer',1)
                         ->where('aut_contab',1)
+                        ->whereNull('factura')
                         ->first();
 
         if ($notaVenta) {
@@ -82,7 +84,7 @@ class FacturaNacionalController extends Controller
      */
     public function store(Request $request)
     {
-
+        //dd($request->all());
         $this->validate($request, [
             'centroVenta' => 'required',
             'numero' => 'required',
@@ -114,10 +116,7 @@ class FacturaNacionalController extends Controller
             'cliente' => 'required',
             'formaPago' => 'required',
             'despacho' => 'required',
-            'vendedor' => 'required',
-            'items' => 'required',
-            // 'items.*.id' => 'required',
-            // 'items.*.descripcion' => 'required|string'
+            'vendedor' => 'required'
         ]);
 
         $this->facturaNacional->registerFromNV($request);
@@ -133,9 +132,11 @@ class FacturaNacionalController extends Controller
      * @param  \App\Models\Comercial\FacturaNacional  $facturaNacional
      * @return \Illuminate\Http\Response
      */
-    public function show(FacturaNacional $facturaNacional)
+    public function show($factura)
     {
-        //
+        $factura = FacturaNacional::with('detalles')->where('numero', $factura)->first();
+
+        return view('comercial.facturasNacionales.show')->with(['factura' => $factura]);
     }
 
     /**
@@ -167,9 +168,13 @@ class FacturaNacionalController extends Controller
      * @param  \App\Models\Comercial\FacturaNacional  $facturaNacional
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FacturaNacional $facturaNacional)
+    public function destroy(FacturaNacional $factura)
     {
-        //
+        $this->facturaNacional->delete($factura);
+
+        $msg = "Factura: " . $factura->numero . " ha sido Eliminada.";
+
+        return redirect()->route('factNac')->with(['status' => $msg]);
     }
 
 }

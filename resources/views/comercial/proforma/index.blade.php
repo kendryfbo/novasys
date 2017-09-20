@@ -32,6 +32,8 @@
 						<th class="text-center">Clausula</th>
 						<th class="text-center">Condicion Pago</th>
 						<th class="text-center">Total</th>
+						<th class="text-center">Aut.Comer</th>
+						<th class="text-center">Aut.Finanzas</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -46,7 +48,26 @@
 							<td class="text-center">{{$proforma->clau_venta}}</td>
 							<td class="text-center">{{$proforma->forma_pago}}</td>
 							<td class="text-right">{{'US$ ' . number_format($proforma->total,2,",",".")}}</td>
+							<td class="text-center ">
+								@if (is_null($proforma->aut_comer))
+                                    Pendiente
+								@elseif ($proforma->aut_comer == 0)
+                                    No
+								@else
+                                    Si
+								@endif
+							</td>
 							<td class="text-center">
+								@if (is_null($proforma->aut_contab))
+									Pendiente
+								@elseif ($proforma->aut_contab == 0)
+									No
+								@else
+									Si
+								@endif
+							</td>
+							<td class="text-center">
+							@if (!$proforma->aut_contab)
 								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero.'/editar')}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
@@ -59,6 +80,7 @@
 										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Eliminar
 									</button>
 								</form>
+							@endif
 							</td>
 						</tr>
 					@endforeach

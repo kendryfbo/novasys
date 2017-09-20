@@ -311,4 +311,26 @@ class Proforma extends Model
 
       	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
     }
+
+    static function getAllUnathorized() {
+
+        return self::whereNull('aut_comer')->get();
+    }
+
+    public function authorize() {
+
+        $this->aut_comer = 1;
+        $this->aut_contab = 1; // Temporal hasta implementacion de Modulo de Finanzas
+
+        $this->save();
+
+    }
+
+    public function unauthorize() {
+
+        $this->aut_comer = 0;
+        $this->aut_contab = 0; // Temporal hasta implementacion de Modulo de Finanzas
+
+        $this->save();
+    }
 }

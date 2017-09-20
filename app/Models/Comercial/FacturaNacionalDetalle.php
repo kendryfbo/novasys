@@ -10,8 +10,14 @@ class FacturaNacionalDetalle extends Model
 
     protected $table = 'fact_nac_detalles';
 
+    /* Relations */
     public function facturaNacinal() {
 
-        return $this->belongsTo('App\Models\Comercial\FacturaNacional');
+        return $this->belongsTo('App\Models\Comercial\FacturaNacional','fact_id');
+    }
+
+    public function producto() {
+
+        return $this->belongsTo('App\Models\Producto','producto_id');
     }
 }

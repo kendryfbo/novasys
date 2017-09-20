@@ -3,8 +3,11 @@
 namespace App\Repositories\Comercial\FacturaNacional;
 
 use DB;
+use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\NotaVenta;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Comercial\FacturaNacionalDetalle;
 
@@ -46,8 +49,6 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$vendedor = $request->vendedor;
 			$despacho = $request->despacho;
 			$observacion = $request->observacion;
-			// $aut_comer = 0;
-			// $aut_contab = 0;
 			$pesoNeto = $request->peso_neto;
 			$pesoBruto = $request->peso_bruto;
 			$volumen = $request->volumen;
@@ -153,53 +154,54 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 		DB::transaction(function() use ($request) {
 
-			$notaVentaID = $request->notaVenta;
-			$subTotal = $request->subtotal;
-			$descuento = $request->descuento;
-			$neto = $request->neto;
-			$iva = $request->iva;
-			$iaba = $request->iaba;
-			$total = $request->total;
+			$notaVenta = NotaVenta::with('detalle')->find($request->notaVenta);
+			$centroVenta = CentroVenta::find($request->centroVenta);
+			$cliente = ClienteNacional::find($request->cliente);
+			$vendedor = Vendedor::find($request->vendedor);
+
 			$numero = $request->numero;
-			$centroVentaId = $request->centroVenta;
-			$centroVentaRut = '';
-			$centroVenta = '';
-			$clienteId = $request->cliente;
-			$clienteRut = '';
-			$cliente = '';
-			$cliente = '';
+			$notaVentaID = $notaVenta->id;
+			$numeroNV = $notaVenta->numero;
+			$subTotal = $notaVenta->sub_total;
+			$descuento = $notaVenta->descuento;
+			$neto = $notaVenta->neto;
+			$iva = $notaVenta->iva;
+			$iaba = $notaVenta->iaba;
+			$total = $notaVenta->total;
+			$pesoNeto = $notaVenta->peso_neto;
+			$pesoBruto = $notaVenta->peso_bruto;
+			$volumen = $notaVenta->volumen;
+			$centroVentaId = $centroVenta->id;
+			$centroVentaRut = $centroVenta->rut;
+			$centroVenta = $centroVenta->descripcion;
+			$clienteId = $cliente->id;
+			$clienteRut = $cliente->rut;
+			$cliente = $cliente->descripcion;
 			$despacho = $request->despacho;
 			$condPago = $request->formaPago;
 			$observacion = $request->observacion;
-			$vendedorId = $request->vendedor;
-			$vendedor = $request->vendedor;
-			$sub_total = $request->sub_total;
-			$descuento = $request->descuento;
-			$neto = $request->neto;
-			$iva = $request->iva;
-			$iaba = $request->iaba;
-			$total = $request->total;
-			$pesoNeto = $request->peso_neto;
-			$pesoBruto = $request->peso_bruto;
-			$volumen = $request->volumen;
+			$vendedorId = $vendedor->id;
+			$vendedor = $vendedor->nombre;
 			$user = $request->user()->id;
-			$pagado = 0;
 			$fechaEmision = $request->fechaEmision;
 			$fechaVenc = $request->fechaVenc;
 
+			$pagado = 0;
+
 			$facturaNacional = FacturaNacional::create([
 				'numero' => $numero,
+				'numero_nv' => $numeroNV,
 				'cv_id' => $centroVentaId,
-				'cv_rut' => $centroVentaRut, // FALTA RUT CENTRO VENTA
-				'centro_venta' => $centroVenta, // FALTA NOMBRE CENTRO VENTA
+				'cv_rut' => $centroVentaRut,
+				'centro_venta' => $centroVenta,
 				'cliente_id' => $clienteId,
-				'cliente_rut' => $clienteRut, // FALTA RUT CLIENTE
-				'cliente' => $cliente, // FALTA NOMBRE CLIENTE
+				'cliente_rut' => $clienteRut,
+				'cliente' => $cliente,
 				'despacho' => $despacho,
 				'cond_pago' => $condPago,
 				'observacion' => $observacion,
 				'vendedor_id' => $vendedorId,
-				'vendedor' => '$vendedor', // FALTA NOMBRE VENDEDOR
+				'vendedor' => $vendedor,
 				'sub_total' => $subTotal,
 				'descuento' => $descuento,
 				'neto' => $neto,
@@ -216,7 +218,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			]);
 
 			$factura = $facturaNacional->id;
-			$items =  $request->items;
+			$items =  $notaVenta->detalle;
 			$i = 0;
 
 			foreach ($items as $item)
@@ -248,11 +250,27 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 			}
 
-			$notaVenta = NotaVenta::find($notaVentaID);
-
 			$notaVenta->factura = $facturaNacional->numero;
 			$notaVenta->save();
 
 		}, 5);
+	}
+
+	public function delete($factura) {
+
+		DB::transaction(function() use($factura) {
+
+			if($factura->numero_nv) {
+
+				$notaVenta = NotaVenta::where('numero', $factura->numero_nv)->first();
+
+				$notaVenta->factura = null;
+				$notaVenta->save();
+			}
+
+			$factura->delete();
+
+
+		},5);
 	}
 }

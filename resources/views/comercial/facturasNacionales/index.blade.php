@@ -16,43 +16,40 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearFacturaNacional')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearFactNac')}}">Crear</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
 			<!-- table -->
-			{{-- <table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
+			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
 						<th class="text-center">Numero</th>
 						<th class="text-center">Fecha</th>
+						<th class="text-center">Nota Venta</th>
 						<th>R.U.T</th>
 						<th>Cliente</th>
 						<th>neto</th>
 						<th>Monto</th>
 						<th>Condicion Pago</th>
-						<th class="text-center">Opciones</th>
+						<th class="text-center">Eliminar</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($notasVentas as $notaVenta)
+					@foreach ($facturas as $factura)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank">{{$notaVenta->numero}}</a></td>
-							<td>{{$notaVenta->fecha_emision}}</td>
-							<td>{{$notaVenta->cliente->rut}}</td>
-							<td>{{$notaVenta->cliente->descripcion}}</td>
-							<td>{{$notaVenta->neto}}</td>
-							<td>{{$notaVenta->total}}</td>
-							<td>{{$notaVenta->formaPago->descripcion}}</td>
+							<td class="text-center"><a href="{{route('verFactNac',['factura' => $factura->numero])}}" target="_blank">{{$factura->numero}}</a></td>
+							<td>{{$factura->fecha_emision}}</td>
+							<th class="text-center">{{$factura->numero_nv}}</th>
+							<td>{{$factura->cliente_rut}}</td>
+							<td>{{$factura->cliente}}</td>
+							<td class="text-right">$ {{number_format($factura->neto,0,',','.')}}</td>
+							<td class="text-right">$ {{number_format($factura->total,0,',','.')}}</td>
+							<td class="text-center">{{$factura->cond_pago}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
-									<button class="btn btn-sm" type="submit">
-										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-									</button>
-								</form>
-								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id)}}" method="post">
+								<form style="display: inline" action="{{route('eliminarFactNac',['factura' => $factura->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm" type="submit">
@@ -63,7 +60,7 @@
 						</tr>
 					@endforeach
 				</tbody>
-			</table> --}}
+			</table>
 			<!-- /table -->
 		</div>
 

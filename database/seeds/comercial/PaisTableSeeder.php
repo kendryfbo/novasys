@@ -95,6 +95,7 @@ class PaisTableSeeder extends Seeder
         [ 'nombre' => 'Hungría' , 'capital' => 'Budapest', 'continente' => 'Europa' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'India' , 'capital' => 'Nueva Delhi', 'continente' => 'Asia' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Indonesia' , 'capital' => 'Yakarta', 'continente' => 'Asia' , 'moneda' => '', 'activo' => 1 ],
+        [ 'nombre' => 'Inglaterra' , 'capital' => 'Londres', 'continente' => 'Europa' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Irak' , 'capital' => 'Bagdad', 'continente' => 'Asia' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Irán' , 'capital' => 'Teherán', 'continente' => 'Asia' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Irlanda' , 'capital' => 'Dublín', 'continente' => 'Europa' , 'moneda' => '', 'activo' => 1 ],

@@ -21,12 +21,12 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 	// Resource Clientes Nacionales
     Route::prefix('clientesNacionales')->group(function(){
 
-        Route::get('/',                        'Comercial\ClienteNacionalController@index')->name('clientesNacionales');
-        Route::get('/crear',                   'Comercial\ClienteNacionalController@create')->name('crearClientesNacionales');
-        Route::post('/crear',                  'Comercial\ClienteNacionalController@store')->name('guardarClientesNacionales');
+        Route::get('/',                'Comercial\ClienteNacionalController@index')->name('clientesNacionales');
+        Route::get('/crear',           'Comercial\ClienteNacionalController@create')->name('crearClientesNacionales');
+        Route::post('/crear',          'Comercial\ClienteNacionalController@store')->name('guardarClientesNacionales');
         Route::get('{cliente}/editar', 'Comercial\ClienteNacionalController@edit')->name('editarClientesNacionales');
         Route::put('{cliente}/editar', 'Comercial\ClienteNacionalController@update')->name('actualizarClientesNacionales');
-        Route::delete('/{cliente}',    'Comercial\ClienteNacionalController@delete')->name('eliminarClientesNacionales');
+        Route::delete('/{cliente}',    'Comercial\ClienteNacionalController@destroy')->name('eliminarClientesNacionales');
     });
 
 	// Resource Lista de Precios
@@ -46,11 +46,13 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   // Resource Factura Nacionale
   Route::prefix('facturasNacionales')->group(function(){
 
-      Route::get('/',           'Comercial\FacturaNacionalController@index');
-      Route::get('/crear',      'Comercial\FacturaNacionalController@create')->name('crearFacturaNacional');
+      Route::get('/',           'Comercial\FacturaNacionalController@index')->name('factNac');
+      Route::get('/crear',      'Comercial\FacturaNacionalController@create')->name('crearFactNac');
       Route::post('/crear',     'Comercial\FacturaNacionalController@createFromNV')->name('crearFactNacFromNV');
-      Route::post('/guardar',   'Comercial\FacturaNacionalController@store')->name('guardarFacNac');
-      Route::post('/guardarNV', 'Comercial\FacturaNacionalController@storeFromNV')->name('guardarFacNacNV');
+      Route::get('/{factura}',     'Comercial\FacturaNacionalController@show')->name('verFactNac');
+      Route::post('/guardar',   'Comercial\FacturaNacionalController@store')->name('guardarFactNac');
+      Route::post('/guardarNV', 'Comercial\FacturaNacionalController@storeFromNV')->name('guardarFactNacFromNV');
+      Route::delete('/{factura}', 'Comercial\FacturaNacionalController@destroy')->name('eliminarFactNac');
   });
 
   // Resource Forma de Pago Nacional
@@ -63,11 +65,11 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::post('FormasPagosIntl', 'Comercial\FormaPagoIntlController@store')->name('guardarFormaPagoIntl');
 
   // Routes Clientes Internacionales
-  Route::prefix('clientesIntl')->group( function() {
+  Route::prefix('clientesIntl')->group(function() {
 
       Route::get('/',                   'Comercial\ClienteIntlController@index')->name('clienteIntl');
-      Route::get('/{clienteIntl}',      'Comercial\ClienteIntlController@show')->name('verClienteIntl');
       Route::get('/crear',              'Comercial\ClienteIntlController@create')->name('crearClienteIntl');
+      Route::get('/{clienteIntl}',      'Comercial\ClienteIntlController@show')->name('verClienteIntl');
       Route::post('/',                  'Comercial\ClienteIntlController@store')->name('guardarClienteIntl');
       Route::get('/{clienteIntl}/edit', 'Comercial\ClienteIntlController@edit')->name('editarClienteIntl');
       Route::put('/{clienteIntl}/edit', 'Comercial\ClienteIntlController@update')->name('actualizarClienteIntl');
@@ -98,47 +100,87 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::post('proformas',                          'Comercial\ProformaController@store')->name('guardarProforma');
   Route::get('proformas/{proforma}/editar',         'Comercial\ProformaController@edit')->name('editarProforma');
   Route::put('proformas/{proforma}',                'Comercial\ProformaController@update')->name('actualizarProforma');
+  Route::get('proformas/autorizacion/',              'Comercial\ProformaController@authorization')->name('autorizacionProforma');
   Route::get('proformas/{proforma}',                'Comercial\ProformaController@show')->name('verProforma');
   Route::delete('proformas/{proforma}',             'Comercial\ProformaController@delete')->name('eliminarProforma');
-  Route::get('proformas/{proforma}/autorizacion',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');
-  Route::post('proformas/{proforma}/autorizar',     'Comercial\ProformaController@authorize')->name('autorizarProforma');
-  Route::post('proformas/{proforma}/desautorizar',  'Comercial\ProformaController@unAuthorize')->name('desautorizarProforma');
+  Route::get('proformas/autorizacion/{proforma}',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');
+  Route::post('proformas/autorizar/{proforma}',     'Comercial\ProformaController@auth')->name('autorizarProforma');
+  Route::post('proformas/desautorizar/{proforma}',  'Comercial\ProformaController@unauth')->name('desautorizarProforma');
 
   // Routes Guia de Despacho Internacionales
   route::get('guiaDespacho',                    'GuiaDespachoController@index')->name('guiaDespacho');
   route::get('guiaDespacho/crear/{proforma?}',  'GuiaDespachoController@create')->name('crearGuiaDespacho');
   route::post('guiaDespacho',                   'GuiaDespachoController@store')->name('guardarGuiaDespacho');
   route::get('guiaDespacho/{guia}',             'GuiaDespachoController@show')->name('verGuiaDespacho');
+  route::delete('guiaDespacho/{guia}',          'GuiaDespachoController@destroy')->name('eliminarGuiaDespacho');
   route::get('guiaDespacho/{guia}/pdf',         'GuiaDespachoController@pdf')->name('pdfGuiaDespacho');
 
   // Routes Facturas Internacionales
-  Route::post('FacturaIntl/importarProforma', 'Comercial\FacturaIntlController@importProforma')->name('importProformaFactIntl');
-  Route::get('FacturaIntl/crear',             'Comercial\FacturaIntlController@create')->name('crearFacturaIntl');
-  Route::get('FacturaIntl/{facturaIntl}',    'Comercial\FacturaIntlController@show')->name('verFacturaIntl');
-  Route::get('FacturaIntl/{facturaIntl}/descargar',    'Comercial\FacturaIntlController@download')->name('descargarFacturaIntl');
-  Route::post('FacturaIntl',                  'Comercial\FacturaIntlController@store')->name('guardarFacturaIntl');
-  Route::post('FacturaIntl/{proforma}',       'Comercial\FacturaIntlController@storeFromProforma')->name('guardarFacturaIntlProforma');
+  Route::get('FacturaIntl',                         'Comercial\FacturaIntlController@index')->name('FacturaIntl');
+  Route::post('FacturaIntl/importarProforma',       'Comercial\FacturaIntlController@importProforma')->name('importProformaFactIntl');
+  Route::get('FacturaIntl/crear',                   'Comercial\FacturaIntlController@create')->name('crearFacturaIntl');
+  Route::get('FacturaIntl/{numero}',                'Comercial\FacturaIntlController@show')->name('verFacturaIntl');
+  Route::get('FacturaIntl/{facturaIntl}/descargar', 'Comercial\FacturaIntlController@download')->name('descargarFacturaIntl');
+  Route::post('FacturaIntl',                        'Comercial\FacturaIntlController@store')->name('guardarFacturaIntl');
+  Route::post('FacturaIntl/{proforma}',            'Comercial\FacturaIntlController@storeFromProforma')->name('guardarFacturaIntlProforma');
+  Route::delete('FacturaIntl/{numero}',           'Comercial\FacturaIntlController@destroy')->name('eliminarFActuraIntl');
 
-  // Routes Facturas SII Internacionales
-  /* Temporal */
-  Route::get('facturaIntlSII/crear', function() {
+    // Notas de Credito Nacionales
+    Route::prefix('notasCreditoNac')->group(function() {
 
-    $centrosVenta = [];
-    $clientes = [];
-    $clausulas = [];
-    $transportes = [];
-    $productos = [];
-    $aduanas = [];
-    return view('comercial.facturaIntlSII.create')->with([
-      'centrosVenta' => $centrosVenta,
-      'clientes' => $clientes,
-      'clausulas' => $clausulas,
-      'transportes' => $transportes,
-      'aduanas' => $aduanas,
-      'productos' => $productos
-    ]);
+        Route::get('/',                            'Comercial\NotaCreditoNacController@index')->name('notaCreditoNac');
+        Route::post('/',                           'Comercial\NotaCreditoNacController@store')->name('guardarNotaCreditoNac');
+        Route::post('/cliente',                    'Comercial\NotaCreditoNacController@storeToCliente')->name('guardarNotaCreditoNacCliente');
+        Route::get('/crearParaCliente',            'Comercial\NotaCreditoNacController@createToCliente')->name('crearNotaCreditoNacCliente');
+        Route::get('/crear/{factura?}',            'Comercial\NotaCreditoNacController@create')->name('crearNotaCreditoNac');
+        Route::get('/autorizacion',                'Comercial\NotaCreditoNacController@authorization')->name('autorizacionNotaCreditoNac');
+        Route::get('/{notaCredito}',               'Comercial\NotaCreditoNacController@show')->name('verNotaCreditoNac');
+        Route::put('/{notaCredito}',               'Comercial\NotaCreditoNacController@update')->name('actualizarNotaCreditoNac');
+        Route::delete('/{notaCredito}',            'Comercial\NotaCreditoNacController@destroy')->name('eliminarNotaCreditoNac');
+        Route::get('/{notaCredito}/editar',        'Comercial\NotaCreditoNacController@edit')->name('editarNotaCreditoNac');
+        Route::get('/autorizacion/{notaCredito}',  'Comercial\NotaCreditoNacController@showForAuth')->name('autorizarNotaCreditoNac');
+        Route::post('/autorizar/{notaCredito}',    'Comercial\NotaCreditoNacController@auth')->name('autorizarNotaCreditoNac');
+        Route::post('/desautorizar/{notaCredito}', 'Comercial\NotaCreditoNacController@unauth')->name('desautorizarNotaCreditoNac');
 
-  });
+    });
+
+    // Notas de Debito Nacionales
+    Route::prefix('notasDebitoNac')->group(function() {
+
+        Route::get('/',                            'Comercial\NotaDebitoNacController@index')->name('notaDebitoNac');
+        Route::post('/',                           'Comercial\NotaDebitoNacController@store')->name('guardarNotaDebitoNac');
+        Route::get('/crear/{notaCredito?}',            'Comercial\NotaDebitoNacController@create')->name('crearNotaDebitoNac');
+        //Route::get('/autorizacion',                'Comercial\NotaDebitoNacController@authorization')->name('autorizacionNotaDebitoNac');
+        //Route::get('/{notaDebito}',               'Comercial\NotaDebitoNacController@show')->name('verNotaDebitoNac');
+        //Route::put('/{notaDebito}',               'Comercial\NotaDebitoNacController@update')->name('actualizarNotaDebitoNac');
+        Route::delete('/{notaDebito}',             'Comercial\NotaDebitoNacController@destroy')->name('eliminarNotaDebitoNac');
+        //Route::get('/{notaDebito}/editar',        'Comercial\NotaDebitoNacController@edit')->name('editarNotaDebitoNac');
+        //Route::get('/autorizacion/{notaDebito}',  'Comercial\NotaDebitoNacController@showForAuth')->name('autorizarNotaDebitoNac');
+        //Route::post('/autorizar/{notaDebito}',    'Comercial\NotaDebitoNacController@auth')->name('autorizarNotaDebitoNac');
+        //Route::post('/desautorizar/{notaDebito}', 'Comercial\NotaDebitoNacController@unauth')->name('desautorizarNotaDebitoNac');
+
+    });
+
+    // Notas de Credito Internacioneles
+    Route::prefix('notasCreditoIntl')->group(function() {
+
+        Route::get('/',                     'Comercial\NotaCreditoIntlController@index')->name('notaCreditoIntl');
+        Route::post('/',                    'Comercial\NotaCreditoIntlController@store')->name('guardarNotaCreditoIntl');
+        Route::get('/crear/{factura?}',     'Comercial\NotaCreditoIntlController@create')->name('crearNotaCreditoIntl');
+        Route::get('/{notaCredito}',        'Comercial\NotaCreditoIntlController@show')->name('verNotaCreditoIntl');
+        Route::put('/{notaCredito}',        'Comercial\NotaCreditoIntlController@update')->name('actualizarNotaCreditoIntl');
+        Route::delete('/{notaCredito}',     'Comercial\NotaCreditoIntlController@destroy')->name('eliminarNotaCreditoIntl');
+        Route::get('/{notaCredito}/editar', 'Comercial\NotaCreditoIntlController@edit')->name('editarNotaCreditoIntl');
+
+    });
+
+    // Routes Facturas SII Internacionales
+    /* Temporal */
+    Route::prefix('facturaIntlSII')->group(function () {
+
+        Route::get('/',         'Comercial\facturaIntlSIIController@index')->name('facturaIntlSII');
+        Route::get('/{numero}', 'Comercial\facturaIntlSIIController@show')->name('verFacturaIntlSII');
+    });
 
   // Routes PackingList Internacionales
   Route::get('packingList/crear/{guia?}','Comercial\PackingListController@create')->name('crearPackingList');

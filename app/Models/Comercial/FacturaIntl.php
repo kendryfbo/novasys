@@ -21,6 +21,7 @@ class FacturaIntl extends Model
 
 		return $this->hasMany(FactIntlDetalle::class,'factura_id');
 	}
+
 	/* registrar Factura apartir de Proforma */
 	static function regFromProforma($request,$proforma) {
 
@@ -32,8 +33,8 @@ class FacturaIntl extends Model
 			$vencimiento = $request->vencimiento;
 			$nota = $request->nota;
 			$user = $request->user()->id;
-			$proforma = Proforma::with('detalles')->find($proforma)->first();
-
+			$proforma = Proforma::with('detalles')->find($proforma);
+			
 			$factura = FacturaIntl::create([
 				'numero' => $numero,
 				'proforma' => $proforma->numero,
@@ -65,11 +66,12 @@ class FacturaIntl extends Model
 					'factura_id' => $factura->id,
 					'item' => $detalle->item,
 					'producto_id' => $detalle->producto_id,
+					'codigo' => $detalle->codigo,
 					'descripcion' => $detalle->descripcion,
 					'cantidad' => $detalle->cantidad,
 					'precio' => $detalle->precio,
 					'descuento' => $detalle->descuento,
-			    'sub_total' => $detalle->sub_total,
+			    	'sub_total' => $detalle->sub_total,
 					'peso_neto' => $detalle->peso_neto,
 					'peso_bruto' => $detalle->peso_bruto,
 					'volumen' => $detalle->volumen

@@ -35,29 +35,38 @@
 				{{ csrf_field() }}
 
         <!-- form-group -->
-        <div class="form-group">
+        <div class="form-group form-group-sm">
 
           <label class="control-label col-lg-1">Factura N°:</label>
           <div class="col-lg-1">
             <input class="form-control input-sm" type="numero"  min="0" readonly>
           </div>
 
-          <label class="control-label col-lg-1">Emision:</label>
-          <div class="col-lg-2">
-            <input class="form-control input-sm" type="date" name="emision">
+          <label class="control-label col-lg-1">Proforma:</label>
+          <div class="col-lg-1">
+            <input class="form-control input-sm" type="text" name="proforma">
           </div>
 
-          <label class="control-label col-lg-1">Vencimiento:</label>
-          <div class="col-lg-2">
-            <input class="form-control input-sm" type="date" name="vecimiento">
-          </div>
-
-          <div class="col-lg-2 pull-right">
-            <button class="btn btn-default btn-sm" type="button" name="button">Importar Proforma</button>
+          <div class="col-lg-1">
+            <button class="btn btn-default btn-sm" type="button" name="button">Importar</button>
           </div>
 
         </div>
         <!-- /form-group -->
+
+		<div class="form-group form-group-sm">
+
+			<label class="control-label col-lg-1">Emision:</label>
+            <div class="col-lg-2">
+              <input class="form-control input-sm" type="date" name="emision">
+            </div>
+
+            <label class="control-label col-lg-1">Vencimiento:</label>
+            <div class="col-lg-2">
+              <input class="form-control input-sm" type="date" name="vecimiento">
+            </div>
+			
+		</div>
 
         <!-- form-group -->
         <div class="form-group">

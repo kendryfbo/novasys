@@ -162,8 +162,6 @@ var app = new Vue({
           $('#prodSelect').focus();
         }
       }
-
-
     },
 
     validateInput: function() {

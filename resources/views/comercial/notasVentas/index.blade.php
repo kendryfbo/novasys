@@ -33,7 +33,7 @@
 						<th class="text-center">Monto</th>
 						<th class="text-center">Condicion Pago</th>
 						<th class="text-center">Aut.Comer</th>
-						<th class="text-center">Aut.Contab</th>
+						<th class="text-center">Aut.Finanzas</th>
 						<th class="text-center">Status</th>
 						<th class="text-center">Opciones</th>
 					</tr>
@@ -42,7 +42,7 @@
 					@foreach ($notasVentas as $notaVenta)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank"><strong>{{$notaVenta->numero}}</strong></a></td>
+							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank"><strong>{{$notaVenta->numero}} <sup>v.{{$notaVenta->version}}</sup></strong></a></td>
 							<td class="text-center">{{$notaVenta->fecha_emision}}</td>
 							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
@@ -71,18 +71,23 @@
 								{{$notaVenta->status ? 'Aprobada':'Anulada'}}
 							</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
-									<button class="btn btn-sm" type="submit">
-										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-									</button>
-								</form>
-								<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id)}}" method="post">
-									{{csrf_field()}}
-									{{ method_field('DELETE') }}
-									<button class="btn btn-sm" type="submit">
-										<i class="fa fa-trash-o" aria-hidden="true"></i>
-									</button>
-								</form>
+								@if (!$notaVenta->aut_contab)
+
+									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
+										<button class="btn btn-sm" type="submit">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</button>
+									</form>
+									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id)}}" method="post">
+										{{csrf_field()}}
+										{{ method_field('DELETE') }}
+										<button class="btn btn-sm" type="submit">
+											<i class="fa fa-trash-o" aria-hidden="true"></i>
+										</button>
+									</form>
+
+								@endif
+
 							</td>
 						</tr>
 					@endforeach

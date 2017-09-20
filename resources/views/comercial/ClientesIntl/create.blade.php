@@ -102,7 +102,8 @@
 						<div class="col-lg-2">
 							<div class="input-group">
 								<span class="input-group-addon">US$</span>
-								<input type="number" min="0" step="1" class="form-control input-sm" name="credito" placeholder="Credito..." value="{{ Input::old('credito') ? Input::old('credito') : '' }}" required>
+								<input type="text" class="form-control input-sm" v-model="creditoWithFormat" placeholder="Credito..." value="" @blur="formatCredito" @focus="unFormatCredito" required>
+								<input type="hidden" min="0" step="1" class="form-control input-sm" name="credito" v-model="credito" placeholder="Credito..." value="{{ Input::old('credito') ? Input::old('credito') : '' }}" required>
 							</div>
 						</div>
 
@@ -173,5 +174,10 @@
 @endsection
 
 @section('scripts')
+<script>
+</script>
+
 <script src="{{asset('js/customDataTable.js')}}"></script>
+<script src="{{asset('vue/vue.js')}}"></script>
+<script src="{{asset('js/comercial/createClienteIntl.js')}}"></script>
 @endsection

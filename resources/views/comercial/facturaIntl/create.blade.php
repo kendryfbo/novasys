@@ -187,9 +187,8 @@
 
           <label class="control-label col-lg-1">Producto:</label>
           <div class="col-lg-2">
-            <select id="prodSelect" class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" v-model="prodId" @change="loadProducto" :disabled="itemSelected" required>
-							<option value=""></option>
-							<option v-if="productos" v-for="producto in productos" v-bind:value="producto.id">@{{producto.descripcion}}</option>
+            <select id="prodSelect" class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" required>
+				<option value="">Tabla sin datos...</option>
             </select>
           </div>
 
@@ -243,17 +242,9 @@
 
         <tbody>
 
-					<td colspan="7" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
-
-          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.id)">
-            <td class="text-center">@{{key+1}}</th>
-            <td class="text-center">@{{item.codigo}}</th>
-            <td>@{{item.descripcion}}</th>
-            <td class="text-right">@{{item.cantidad.toLocaleString()}}</th>
-            <td class="text-right">@{{item.precio.toLocaleString()}}</th>
-            <td class="text-right">@{{item.descuento.toLocaleString()}}</th>
-						<td class="text-right">@{{item.total.toLocaleString()}}</th>
-          </tr>
+			<tr>
+				<td colspan="7" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
+			</tr>
 
         </tbody>
 
@@ -265,19 +256,19 @@
 
               <tr>
                 <th class="bg-gray text-right">Peso Neto:</th>
-                <td class="text-right">@{{totalPesoNeto}}</th>
+                <td class="text-right">0.00</th>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Peso Bruto:</th>
-                <td class="text-right">@{{totalPesoBruto}}</th>
+                <td class="text-right">0.00</th>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Volumen:</th>
-                <td class="text-right">@{{totalVolumen}}</th>
+                <td class="text-right">0.00</th>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Cant. Cajas:</th>
-                <td class="text-right">@{{totalCajas}}</th>
+                <td class="text-right">0.00</th>
               </tr>
 
 
@@ -303,12 +294,12 @@
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">TOTAL F.O.B.:</th>
-								<th class="text-right">@{{fob}}</th>
+								<th class="text-right">0.00</th>
 							</tr>
 
               <tr>
                 <th class="bg-gray text-right">TOTAL:</th>
-                <th class="bg-gray text-right">@{{total}}</th>
+                <th class="bg-gray text-right">0.00</th>
               </tr>
 
           </table>

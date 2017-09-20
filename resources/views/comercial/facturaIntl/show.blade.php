@@ -30,7 +30,7 @@
 
 					<label class="control-label col-lg-1 col-lg-offset-6">Proforma:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" type="number" name="proforma" value="{{$factura->numero}}" readonly>
+						<input class="form-control input-sm" type="number" name="proforma" value="{{$factura->proforma}}" readonly>
 					</div>
 
 					<div class="col-lg-1">

@@ -39,9 +39,9 @@
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{url('comercial/guiaDespacho/'.$guia->numero)}}" target="_blank">{{$guia->numero}}</a></td>
 							<td class="text-center">{{$guia->fecha_emision}}</td>
-							<td class="text-center">{{--$guia->proforma->numero--}}</td>
-							<td>{{--$guia->aduana->decripcion--}}</td>
-							<td class="text-center">{{--$guia->proforma->cliente--}}</td>
+							<td class="text-center">{{ $guia->proforma->numero }}</td>
+							<td class="text-center">{{ $guia->aduana->descripcion }}</td>
+							<td class="text-center">{{ $guia->proforma->cliente }}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{url('comercial/guiaDespacho/'.$guia->id)}}" method="post">
 									{{csrf_field()}}
