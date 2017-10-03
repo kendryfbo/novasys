@@ -182,9 +182,9 @@ var app = new Vue({
         return false;
       }
 
-      if (this.descuento < 0) {
+      if ( (this.descuento < 0) || (this.descuento === "") ) {
 
-        alert('Debe ingresar Porcentaje de Descuento');
+        alert('Debe ingresar Porcentaje de Descuento o 0 en caso de no poseer');
         return false;
       }
       if (!this.precio) {

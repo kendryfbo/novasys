@@ -39,7 +39,7 @@
 					@foreach ($facturas as $factura)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/FacturaIntl/'.$factura->numero)}}" target="_blank">{{$factura->numero}}</a></td>
+							<td class="text-center"><a href="{{url('comercial/FacturaIntl/'.$factura->numero)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
 							<td class="text-center">{{$factura->fecha_emision}}</td>
 							<td class="text-center">{{$factura->centro_venta}}</td>
 							<td>{{$factura->cliente}}</td>

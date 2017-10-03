@@ -41,7 +41,7 @@
 					@foreach ($proformas as $proforma)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/proformas/'.$proforma->numero)}}" target="_blank">{{$proforma->numero}}</a></td>
+							<td class="text-center"><a href="{{url('comercial/proformas/'.$proforma->numero)}}" target="_blank"><strong>{{$proforma->numero}}</strong></a></td>
 							<td class="text-center">{{$proforma->fecha_emision}}</td>
 							<td class="text-center">{{$proforma->centro_venta}}</td>
 							<td>{{$proforma->cliente}}</td>
