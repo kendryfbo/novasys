@@ -38,8 +38,7 @@
 				<tbody>
 					@foreach ($notasDebito as $nota)
 						<tr>
-							<!--<th class="text-center"><a href="{{route('verNotaCreditoNac', ['notaCredito' => $nota->numero])}}" target="_blank">{{$nota->numero}}</a></th>-->
-							<th class="text-center">{{$nota->numero}}</th>
+							<th class="text-center"><a href="{{route('verNotaDebitoNac', ['numero' => $nota->numero])}}" target="_blank">{{$nota->numero}}</a></th>
 							<td class="text-center">{{$nota->num_nc}}</td>
                             <td class="text-center">{{$nota->fecha}}</td>
 							<td class="text-right">${{number_format($nota->total,0,',','.')}}</td>

@@ -66,4 +66,9 @@ class NotaCreditoIntl extends Model
 
         },5);
     }
+
+    public function detalles() {
+
+        return $this->hasMany('App\Models\Comercial\NotaCreditoIntlDetalle','nc_id');
+    }
 }

@@ -128,8 +128,9 @@ class NotaCreditoNacController extends Controller
     public function show($notaCredito)
     {
         $notaCredito = NotaCreditoNac::with('detalles')->where('numero',$notaCredito)->first();
+        $factura = FacturaNacional::where('numero',$notaCredito->num_fact)->first();
 
-        return view('comercial.notaCreditoNac.show')->with(['notaCredito' => $notaCredito]);
+        return view('comercial.notaCreditoNac.show')->with(['notaCredito' => $notaCredito, 'factura' => $factura]);
     }
 
     /**

@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Emision de Nota de Debito</h4>
+			<h4>Nota de Credito</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -29,23 +29,22 @@
 				@endforeach
 
 			@endif
-
     		<!-- form -->
-    		<form class="form-horizontal"  id="create" method="post" action="">
+    		<form class="form-horizontal"  id="create" method="post" action="{{route('guardarNotaCreditoNac')}}">
 
                 <h5>Documento</h5>
 
                 <!-- form-group -->
                 <div class="form-group form-group-sm">
 
-                    <label class="control-label col-lg-2">Nota Debito N°:</label>
+                    <label class="control-label col-lg-2">Nota Credito N°:</label>
                     <div class="col-lg-1">
                         <input class="form-control input-sm" type="text" name="numero" value="{{$notaCredito->numero}}" readonly>
                     </div>
 
-                    <label class="control-label col-lg-1">Nota Credito:</label>
+                    <label class="control-label col-lg-1">Factura:</label>
                     <div class="col-lg-1">
-                        <input laceholder="Numero..." class="form-control input-sm" name="factura" type="number" min="0" value="{{$notaCredito->numero}}" readonly>
+                        <input laceholder="Numero..." class="form-control input-sm" name="factura" type="number" min="0" value="{{$notaCredito->num_fact}}" readonly>
                     </div>
 
                 </div>
@@ -63,29 +62,13 @@
 
                 </div>
                 <!-- /form-group -->
-
-		        <!-- form-group -->
-		        <div class="form-group">
-
-					<label class="control-label col-lg-1">Cliente:</label>
-					<div class="col-lg-4">
-						<input class="form-control input-sm" type="text" name="cliente" value="{{$factura->cliente}}" readonly>
-					</div>
-
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" value="{{$factura->cond_pago}}" readonly>
-					</div>
-
-		        </div>
-		        <!-- /form-group -->
 				<hr>
 				<!-- form-group -->
 		        <div class="form-group">
 
 					<label class="control-label col-lg-1">Nota:</label>
 					<div class="col-lg-8">
-						<input class="form-control input-sm" type="text" name="nota" value="Anula Nota Credito {{$notaCredito->numero}}" readonly>
+						<input class="form-control input-sm" type="text" name="nota" value="{{$notaCredito->nota}}" readonly>
 					</div>
 
 		        </div>
@@ -128,9 +111,9 @@
 					<td class="text-center">{{$detalle->codigo}}</td>
 					<td>{{$detalle->descripcion}}</td>
 					<td class="text-right">{{$detalle->cantidad}}</td>
-					<td class="text-right">{{$detalle->precio}}</td>
-					<td class="text-center">{{$detalle->descuento}}</td>
-					<td class="text-right">{{$detalle->sub_total}}</td>
+					<td class="text-right">{{number_format($detalle->precio,0,',','.')}}</td>
+					<td class="text-right">{{$detalle->descuento}}</td>
+					<td class="text-right">{{number_format($detalle->sub_total,0,',','.')}}</td>
 				</tr>
 			@endforeach
 
@@ -157,14 +140,12 @@
   						</td>
   					</tr>
 
-					<!--
   					<tr>
   						<th class="bg-gray text-right">IABA:</th>
-  						<td class="input-td">
-							<moneda-input-readonly v-model="iaba"></moneda-input-readonly>
+  						<td class="input-td text-right">
+							{{number_format($notaCredito->iaba,0,',','.')}}
   						</td>
   					</tr>
-					-->
 
   					<tr>
   						<th class="bg-gray text-right">I.V.A:</th>
@@ -193,17 +174,5 @@
 @endsection
 
 @section('scripts')
-<script>
-	var productos = {!! $factura ? $factura->detalles->toJson() : "[]" !!};
-	var sub_total = 0; //{!! $factura ? $factura->sub_total : "[]" !!};
-	var descuentoTotal = 0; //{!! $factura ? $factura->descuento : "[]" !!};
-	var neto = 0; //{!! $factura ? $factura->neto : "[]" !!};
-	var iaba = 0; //{!! $factura ? $factura->iaba : "[]" !!};
-	var iva = 0; //{!! $factura ? $factura->iva : "[]" !!};
-	var total = 0; //{!! $factura ? $factura->total : "[]" !!};
-</script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
-<script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('vue/components/formatos-inputs.js')}}"></script>
-<script src="{{asset('js/comercial/createNotaCredito.js')}}"></script>
 @endsection

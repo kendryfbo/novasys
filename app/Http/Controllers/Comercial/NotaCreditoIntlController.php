@@ -61,9 +61,12 @@ class NotaCreditoIntlController extends Controller
      * @param  \App\Models\Comercial\NotaCreditoIntl  $notaCreditoIntl
      * @return \Illuminate\Http\Response
      */
-    public function show(NotaCreditoIntl $notaCreditoIntl)
+    public function show($numero)
     {
-        dd('show');
+        $notaCredito = NotaCreditoIntl::with('detalles')->where('numero',$numero)->first();
+
+        return view('comercial.notaCreditoIntl.show')
+            ->with(['notaCredito' => $notaCredito]);
     }
 
     /**

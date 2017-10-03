@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\NotaDebitoNac;
 use App\Models\Comercial\NotaCreditoNac;
+use App\Models\Comercial\FacturaNacional;
 
 class NotaDebitoNacController extends Controller
 {
@@ -79,9 +80,14 @@ class NotaDebitoNacController extends Controller
      * @param  \App\Models\Comercial\NotaDebitoNac  $notaDebitoNac
      * @return \Illuminate\Http\Response
      */
-    public function show(NotaDebitoNac $notaDebitoNac)
+    public function show($numero)
     {
-        //
+        $notaDebitoNac = NotaDebitoNac::where('numero',$numero)->first();
+
+        $notaCredito = NotaCreditoNac::with('detalles')->where('numero',$notaDebitoNac->num_nc)->first();
+        $factura = FacturaNacional::where('numero',$notaCredito->num_fact)->first();
+
+        return view('comercial.notaDebitoNac.show')->with(['notaCredito' => $notaCredito, 'factura' => $factura]);
     }
 
     /**
