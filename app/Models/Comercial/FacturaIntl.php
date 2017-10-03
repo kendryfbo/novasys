@@ -22,6 +22,11 @@ class FacturaIntl extends Model
 		return $this->hasMany(FactIntlDetalle::class,'factura_id');
 	}
 
+	public function clienteIntl() {
+
+		return $this->belongsTo(clienteIntl::class,'cliente_id');
+	}
+
 	/* registrar Factura apartir de Proforma */
 	static function regFromProforma($request,$proforma) {
 
@@ -34,7 +39,7 @@ class FacturaIntl extends Model
 			$nota = $request->nota;
 			$user = $request->user()->id;
 			$proforma = Proforma::with('detalles')->find($proforma);
-			
+
 			$factura = FacturaIntl::create([
 				'numero' => $numero,
 				'proforma' => $proforma->numero,

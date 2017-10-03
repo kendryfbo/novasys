@@ -34,13 +34,11 @@ class ProformaController extends Controller
     public function create()
     {
       $productos = Producto::getAllActive();
-      $clientes = ClienteIntl::getAllActive();
+      $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
       $clausulas = ClausulaVenta::getAllActive();
       $centrosVenta = CentroVenta::getAllActive();
       $transportes = MedioTransporte::getAllActive();
       $puertoEmbarque = PuertoEmbarque::getAllActive();
-
-      $clientes->load('formaPago','sucursales');
 
       return view('comercial.proforma.create')->with([
         'centrosVenta' => $centrosVenta,

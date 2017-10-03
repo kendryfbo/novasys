@@ -64,12 +64,12 @@
 						<div class="col-lg-2">
 							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
 						</div>
-
+					{{--
 						<label class="control-label col-lg-2">Fecha Vencimiento:</label>
 						<div class="col-lg-2">
 							<input type="date" class="form-control " name="fechaVenc" value="{{ Input::old('fechaVenc') ? Input::old('fechaVenc') : '' }}" required>
 						</div>
-
+					--}}
 					</div>
 
 					<div class="form-group form-group-sm">
@@ -86,7 +86,8 @@
 
 						<label class="control-label col-lg-2">Cond. Pago:</label>
 						<div class="col-lg-3">
-							<input type="text" class="form-control " name="formaPago" value="{{$notaVenta->cond_pago}}" readonly required>
+							<input type="text" class="form-control " name="formaPago" value="{{$notaVenta->cliente->formaPago->descripcion}}" readonly required>
+							<input type="hidden" class="form-control " name="diasFormaPago" value="{{$notaVenta->cliente->formaPago->dias}}" readonly required>
 						</div>
 
 					</div>

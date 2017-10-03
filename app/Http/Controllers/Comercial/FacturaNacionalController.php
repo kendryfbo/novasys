@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\FacturaNacional;
-use App\Models\Comercial\ClienteNacional;
-use App\Models\Comercial\FormaPagoNac;
-use App\Models\Comercial\CentroVenta;
-use App\Models\Comercial\NotaVenta;
-use App\Models\Comercial\Vendedor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\NotaVenta;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Comercial\FormaPagoNac;
+use App\Models\Comercial\FacturaNacional;
+use App\Models\Comercial\ClienteNacional;
 
 use App\Repositories\Comercial\FacturaNacional\FacturaNacionalRepositoryInterface;
 
@@ -59,7 +61,7 @@ class FacturaNacionalController extends Controller
 
         $notaVenta = NotaVenta::with(
             'centroVenta:id,descripcion',
-            'cliente:id,descripcion',
+            'cliente.formaPago',
             'vendedor:id,nombre',
             'detalle')->where('numero',$numNV)
                         ->where('aut_comer',1)
@@ -86,12 +88,14 @@ class FacturaNacionalController extends Controller
     {
         //dd($request->all());
         $this->validate($request, [
+            //dd($request->all());
             'centroVenta' => 'required',
             'numero' => 'required',
             'fechaEmision' => 'required',
-            'fechaVenc' => 'required',
+            //'fechaVenc' => 'required',
             'cliente' => 'required',
             'formaPago' => 'required',
+            'diasFormaPago' => 'required',
             'despacho' => 'required',
             'vendedor' => 'required',
             //'items' => 'required',
@@ -112,12 +116,18 @@ class FacturaNacionalController extends Controller
             'centroVenta' => 'required',
             'numero' => 'required',
             'fechaEmision' => 'required',
-            'fechaVenc' => 'required',
+            //'fechaVenc' => 'required',
             'cliente' => 'required',
             'formaPago' => 'required',
+            'diasFormaPago' => 'required',
             'despacho' => 'required',
             'vendedor' => 'required'
         ]);
+
+        $date = new Carbon($request->fechaEmision);
+        $date->addDays($request->diasFormaPago);
+        $date = $date->format('Y-m-d');
+        $request->fechaVenc = $date;
 
         $this->facturaNacional->registerFromNV($request);
 

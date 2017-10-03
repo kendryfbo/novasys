@@ -40,12 +40,12 @@
           <div class="col-lg-2">
             <input class="form-control input-sm" type="date" name="emision"  required>
           </div>
-
+		{{--
           <label class="control-label col-lg-1">Vencimiento:</label>
           <div class="col-lg-2">
             <input class="form-control input-sm" type="date" name="vencimiento" required>
           </div>
-
+	  	--}}
         </div>
         <!-- /form-group -->
 
@@ -85,6 +85,7 @@
 						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" required disabled>
 							<option value="{{$proforma->forma_pago}}">{{$proforma->forma_pago}}</option>
 						</select>
+						<input type="hidden" name="diasFormaPago" value="{{$proforma->clienteIntl->formaPago->dias}}"  required>
 					</div>
 
         </div>
@@ -242,7 +243,7 @@
 
 	    </div>
 
-    	<button form="create" class="btn btn-default pull-right" type="submit" name="button">Crear</button>
+    	<button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
     </div>
     <!-- /box-footer -->
 

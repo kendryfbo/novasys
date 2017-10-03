@@ -16,6 +16,7 @@ class CreateFormaPagoNacTable extends Migration
         Schema::create('forma_pago_nac', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion');
+            $table->string('dias');
             $table->tinyInteger('activo');
             $table->timestamps();
         });

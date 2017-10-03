@@ -27,6 +27,13 @@
 					</div>
 
 					<div class="form-group">
+						<label class="control-label col-sm-2" >Dias:</label>
+						<div class="col-sm-4">
+							<input type="number" class="form-control" name="dias" placeholder="dias de condicion..." value="{{ Input::old('dias') ? Input::old('dias') : '' }}" required>
+						</div>
+					</div>
+
+					<div class="form-group">
 						<label class="control-label col-sm-2">Activo:</label>
 						<div class="col-sm-4">
 							<input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ Input::old('activo') ? "checked" : "" }}>

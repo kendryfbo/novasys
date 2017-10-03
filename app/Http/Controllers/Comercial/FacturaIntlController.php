@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Comercial;
 
 use Excel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
@@ -60,12 +61,29 @@ class FacturaIntlController extends Controller
 
     public function storeFromProforma(Request $request, $proforma)
     {
-      $factura = FacturaIntl::regFromProforma($request,$proforma);
-      //event(new CreateFacturaIntlEvent($factura));
 
-      $msg = 'Factura N°' . $factura->numero . ' ha sido creada.';
-      
-      return redirect()->route('FacturaIntl');
+        /*
+        $this->validate($request,[
+            "numero" => "required",
+            "proforma" => "required",
+            "emision" => "required",
+            "diasFormaPago" => "required",
+            "direccion" => "required",
+            "nota" => "required"
+        ]);
+        */
+
+        $date = new Carbon($request->emision);
+        $date->addDays($request->diasFormaPago);
+        $date = $date->format('Y-m-d');
+        $request->vencimiento = $date;
+
+        $factura = FacturaIntl::regFromProforma($request,$proforma);
+        //event(new CreateFacturaIntlEvent($factura));
+
+        $msg = 'Factura N°' . $factura->numero . ' ha sido creada.';
+
+        return redirect()->route('FacturaIntl');
     }
 
     /**
@@ -124,7 +142,7 @@ class FacturaIntlController extends Controller
     /* Facturar apartir de importacion de proforma */
     public function importProforma(Request $request) {
 
-      $proforma = Proforma::with('detalles')->where('numero',$request->proforma)->first();
+      $proforma = Proforma::with('detalles','clienteIntl.formaPago')->where('numero',$request->proforma)->first();
 
       if (!$proforma) {
 

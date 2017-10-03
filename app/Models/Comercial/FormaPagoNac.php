@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FormaPagoNac extends Model
 {
 
-	protected $fillable = ['descripcion','activo'];
+	protected $fillable = ['descripcion', 'dias', 'activo'];
 
 	protected $table = 'forma_pago_nac';
 

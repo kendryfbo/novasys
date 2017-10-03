@@ -24,4 +24,9 @@ class ClienteIntl extends Model
 
 		return $this->hasMany(SucursalIntl::class,'cliente_id');
 	}
+
+	public function proformas() {
+
+		return $this->hasMany(Proforma::class,'cliente_id');
+	}
 }

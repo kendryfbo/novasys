@@ -47,6 +47,7 @@ class FormaPagoNacController extends Controller
 
       FormaPagoNac::create([
         'descripcion' => $request->descripcion,
+        'dias' => $request->dias,
         'activo' => $activo,
       ]);
 

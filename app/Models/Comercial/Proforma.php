@@ -21,6 +21,11 @@ class Proforma extends Model
         return $this->hasMany(ProformaDetalle::class);
     }
 
+    public function clienteIntl() {
+
+        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
+    }
+
     public function guiaDespacho() {
 
         return $this->hasOne(GuiaDespacho::class);
@@ -53,8 +58,7 @@ class Proforma extends Model
 
 
             $cvId = $request->centroVenta;
-            $cvDescrip = CentroVenta::find($cvId)->pluck('descripcion')->first();
-
+            $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
     		$clienteId = $request->cliente;
     		$clienteDescrip = ClienteIntl::where('id','=',$clienteId)->select('descripcion')->first()->descripcion;
 
@@ -191,7 +195,7 @@ class Proforma extends Model
 
 
             $cvId = $request->centroVenta;
-            $cvDescrip = CentroVenta::find($cvId)->pluck('descripcion')->first();
+            $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
 
       		$clienteId = $request->cliente;
       		$clienteDescrip = ClienteIntl::where('id','=',$clienteId)->select('descripcion')->first()->descripcion;
