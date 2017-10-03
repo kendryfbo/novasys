@@ -18,6 +18,7 @@ class CreateFacturaNacionalDetallesTable extends Migration
             $table->integer('fact_id')->unsigned();
             $table->integer('item')->unsigned();
             $table->integer('producto_id');
+            $table->string('codigo');
             $table->string('descripcion');
             $table->integer('cantidad');
             $table->decimal('precio',10,2);

@@ -231,6 +231,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				$item = json_decode($item);
 
 				$id = $item->id;
+				$codigo = $item->codigo;
 				$descripcion = $item->descripcion;
 				$cantidad = $item->cantidad;
 				$precio = $item->precio;
@@ -241,6 +242,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 					'fact_id' => $factura,
 					'item' => $i,
 					'producto_id' => $id,
+					'codigo' => $codigo,
 					'descripcion' => $descripcion,
 					'cantidad' => $cantidad,
 					'precio' => $precio,
