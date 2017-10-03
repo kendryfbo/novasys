@@ -37,6 +37,18 @@
                 <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
             </ul>
           </li>
+
+          <li class="treeview">
+            <a href=""><i class="fa fa-code-fork"></i> <span>Informes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="{{url('comercial/informesNac/facturaNac')}}"><i class=""></i> <span>Informe X Fact</span></a></li>
+                <li><a href="{{url('comercial/informesNac/facturaNacProd')}}"><i class=""></i> <span>Informe X Prod</span></a></li>
+            </ul>
+          </li>
           <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
           <li><a href="{{url('comercial/notasCreditoNac/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Credito</span></a></li>
       </ul>
@@ -77,8 +89,19 @@
                 <li><a href="{{url('comercial/facturaIntlSII')}}"><i class=""></i> <span>Factura S.I.I</span></a></li>
             </ul>
           </li>
-          <li><a href="{{url('comercial/proformas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Proforma</span></a></li>
+          <li class="treeview">
+            <a href=""><i class="fa fa-code-fork"></i> <span>Informes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                {{--<li><a href="{{url('comercial/informesIntl/proformas')}}"><i class=""></i> <span>Proforma</span></a></li>--}}
+                <li><a href="{{url('comercial/informesIntl/facturaIntl')}}"><i class=""></i> <span>Informe X Factura</span></a></li>
+                <li><a href="{{url('comercial/informesIntl/facturaIntlProd')}}"><i class=""></i> <span>Informe X Producto</span></a></li>
+          </li>
       </ul>
+      <li><a href="{{url('comercial/proformas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Proforma</span></a></li>
     </li>
   </ul>
   <!-- /.sidebar-menu -->
