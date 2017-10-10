@@ -195,30 +195,30 @@
           </table>
         </div>
         <div class=" col-sm-3 col-md-offset-6">
-          <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+			<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-              <tr>
-                <th class="bg-gray text-right">FREIGHT US$</th>
-                <td class="text-right">{{number_format($proforma->freight,2)}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">INSURANCE US$</th>
-                <td class="text-right">{{number_format($proforma->insurance,2)}}</td>
-              </tr>
-							<tr>
-								<th colspan="2" class=""></th>
-							</tr>
-							<tr>
-								<th class="bg-gray text-right">TOTAL F.O.B. US$</th>
-								<th class="text-right">{{number_format($proforma->fob,2)}}</th>
-							</tr>
+				<tr>
+					<th class="bg-gray text-right">TOTAL F.O.B. US$</th>
+					<th class="text-right">{{number_format($proforma->fob,2)}}</th>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">FREIGHT US$</th>
+					<td class="text-right">{{number_format($proforma->freight,2)}}</td>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">INSURANCE US$</th>
+					<td class="text-right">{{number_format($proforma->insurance,2)}}</td>
+				</tr>
+				<tr>
+					<th colspan="2" class=""></th>
+				</tr>
 
-              <tr>
-                <th class="bg-gray text-right">TOTAL US$</th>
-                <th class="bg-gray text-right">{{number_format($proforma->total,2)}}</th>
-              </tr>
+				<tr>
+				<th class="bg-gray text-right">TOTAL US$</th>
+				<th class="bg-gray text-right">{{number_format($proforma->total,2)}}</th>
+				</tr>
 
-          </table>
+			</table>
         </div>
 
       </div>

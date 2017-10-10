@@ -211,6 +211,10 @@
 	        <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
 						<tr>
+							<th class="bg-gray text-right">TOTAL F.O.B.:</th>
+							<th class="text-right">{{number_format($factura->fob,2)}}</th>
+						</tr>
+						<tr>
 							<th class="bg-gray text-right">FREIGHT:</th>
 							<td class="text-right">{{number_format($factura->freight,2)}}</td>
 						</tr>
@@ -221,11 +225,6 @@
 						<tr>
 							<th colspan="2" class=""></th>
 						</tr>
-						<tr>
-							<th class="bg-gray text-right">TOTAL F.O.B.:</th>
-							<th class="text-right">{{number_format($factura->fob,2)}}</th>
-						</tr>
-
 						<tr>
 							<th class="bg-gray text-right">TOTAL:</th>
 							<th class="bg-gray text-right">{{number_format($factura->total,2)}}</th>
