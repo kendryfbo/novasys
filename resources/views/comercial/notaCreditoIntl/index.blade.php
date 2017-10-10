@@ -37,7 +37,7 @@
 							<th class="text-center"><a href="{{route('verNotaCreditoIntl', ['notaCredito' => $nota->numero])}}" target="_blank"><strong>{{$nota->numero}}</strong></a></th>
 							<td class="text-center">{{$nota->num_fact}}</td>
                             <td class="text-center">{{$nota->fecha}}</td>
-							<td class="text-right">${{number_format($nota->total,0,',','.')}}</td>
+							<td class="text-right">{{'US$ ' . number_format($nota->total,0,',','.')}}</td>
 							<td class="text-center">
 								<form style="display: inline" action="{{route('eliminarNotaCreditoNac', ['notaCredito' => $nota->id])}}" method="post">
 									{{csrf_field()}}

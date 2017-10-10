@@ -132,7 +132,7 @@
 							<td class="text-left">{{$detalle->descripcion}}</td>
 							<td class="text-right">{{$detalle->cantidad}}</td>
 							<td class="text-right">{{$detalle->precio}}</td>
-							<td class="text-right">{{'US$ ' . number_format($detalle->total,2,",",".")}}</td>
+							<td class="text-right">{{'$ ' . number_format($detalle->total,2,",",".")}}</td>
 
 						</tr>
 					@endforeach

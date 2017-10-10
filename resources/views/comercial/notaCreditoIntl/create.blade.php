@@ -202,6 +202,11 @@
 
                 <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
+
+                    <tr>
+                        <th class="bg-gray text-right">F.O.B US$</th>
+                        <th class="text-right">@{{numberFormat(total)}}</th>
+                    </tr>
                     <tr>
                         <th class="bg-gray text-right">TOTAL US$</th>
                         <th class="text-right">@{{numberFormat(total)}}</th>

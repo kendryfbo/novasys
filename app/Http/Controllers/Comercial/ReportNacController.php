@@ -84,7 +84,7 @@ class ReportNacController extends Controller
 
             if ($desde) {
 
-                $desde = ['fecha_emision', '>=', $deste];
+                $desde = ['fecha_emision', '>=', $desde];
 
                 array_push($queryDates,$desde);
             };
@@ -210,7 +210,7 @@ class ReportNacController extends Controller
 
             if ($desde) {
 
-                $desde = ['fecha_emision', '>=', $deste];
+                $desde = ['fecha_emision', '>=', $desde];
 
                 array_push($queryDates,$desde);
             };

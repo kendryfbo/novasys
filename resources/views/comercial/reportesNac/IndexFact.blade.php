@@ -95,7 +95,7 @@
 						<th class="text-center">numero</th>
 						<th class="text-center">Cliente</th>
 						<th class="text-center">Fecha</th>
-						<th class="text-center">Sub Total</th>
+						<th class="text-center">Neto</th>
 						<th class="text-center">Total</th>
 					</tr>
 				</thead>
@@ -104,11 +104,11 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-left">{{$factura->centro_venta}}</td>
-							<td class="text-center"><a href="{{url('comercial/FacturaNac/'.$factura->numero)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
+							<td class="text-center"><a href="{{url('comercial/facturasNacionales/'.$factura->numero)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
 							<td class="text-left">{{$factura->cliente}}</td>
 							<td class="text-center">{{$factura->fecha_emision}}</td>
-							<td class="text-right">{{'US$ ' . number_format($factura->sub_total,2,",",".")}}</td>
-							<td class="text-right">{{'US$ ' . number_format($factura->total,2,",",".")}}</td>
+							<td class="text-right">{{'$ ' . number_format($factura->neto,2,",",".")}}</td>
+							<td class="text-right">{{'$ ' . number_format($factura->total,2,",",".")}}</td>
 						</tr>
 					@endforeach
 				</tbody>

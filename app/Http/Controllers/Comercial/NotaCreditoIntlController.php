@@ -64,9 +64,10 @@ class NotaCreditoIntlController extends Controller
     public function show($numero)
     {
         $notaCredito = NotaCreditoIntl::with('detalles')->where('numero',$numero)->first();
+        $factura = FacturaIntl::where('numero',$notaCredito->num_fact)->first();
 
         return view('comercial.notaCreditoIntl.show')
-            ->with(['notaCredito' => $notaCredito]);
+            ->with(['notaCredito' => $notaCredito, 'factura' => $factura]);
     }
 
     /**

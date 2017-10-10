@@ -62,6 +62,23 @@
 
                 </div>
                 <!-- /form-group -->
+
+				<!-- form-group -->
+				<div class="form-group">
+
+					 <label class="control-label col-lg-1">Cliente:</label>
+					 <div class="col-lg-4">
+						 <input class="form-control input-sm" type="text" name="cliente" value="{{$factura ? $factura->cliente : ''}}" readonly>
+					 </div>
+
+					 <label class="control-label col-lg-2">Condicion Pago:</label>
+					 <div class="col-lg-2">
+						 <input class="form-control input-sm" type="text" name="formaPago" value="{{$factura ? $factura->forma_pago :''}}" readonly>
+					 </div>
+
+				</div>
+				<!-- /form-group -->
+
 				<hr>
 				<!-- form-group -->
 		        <div class="form-group">
@@ -127,37 +144,16 @@
   			<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
   					<tr>
-  						<th class="bg-gray text-right">Sub-Total:</th>
+  						<th class="bg-gray text-right">Total F.O.B:</th>
   						<td class="input-td text-right">
-							{{number_format($notaCredito->neto,0,',','.')}}
-						</td>
-  					</tr>
-
-  					<tr>
-  						<th class="bg-gray text-right">Neto:</th>
-  						<td class="input-td text-right">
-							{{number_format($notaCredito->neto,0,',','.')}}
-  						</td>
-  					</tr>
-
-  					<tr>
-  						<th class="bg-gray text-right">IABA:</th>
-  						<td class="input-td text-right">
-							{{number_format($notaCredito->iaba,0,',','.')}}
-  						</td>
-  					</tr>
-
-  					<tr>
-  						<th class="bg-gray text-right">I.V.A:</th>
-  						<td class="input-td text-right">
-							{{number_format($notaCredito->iva,0,',','.')}}
+							 {{'US$ ' . number_format($notaCredito->neto,0,',','.')}}
   						</td>
   					</tr>
 
   					<tr>
   						<th class="bg-gray text-right">TOTAL:</th>
   						<th class="bg-gray input-td text-right">
-							{{number_format($notaCredito->total,0,',','.')}}
+							 {{'US$ ' . number_format($notaCredito->total,0,',','.')}}
   						</th>
   					</tr>
 
