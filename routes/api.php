@@ -22,26 +22,6 @@ Route::resource('formulaDetalle','Api\FormulaDetalleController', [
     'only' =>['index','store','show','update','destroy']
 ]);
 
-// Rutas Api de Provincias
-Route::resource('provincias', 'Api\ProvinciaController', [
-    'only' => ['index']
-]);
-
-// Rutas Api de Comunas
-Route::resource('comunas', 'Api\ComunaController', [
-    'only' => ['index']
-]);
-
-// Rutas Api de Sucursales
-Route::post('sucursales/insertar', 'Api\SucursalController@insert');
-Route::get('sucursales/{cliente}', 'Api\SucursalController@index');
-Route::resource('sucursales', 'Api\SucursalController', [
-    'only' => ['index','store','update','destroy','insert'],
-    'parameters' => [
-        'sucursales' => 'sucursal']
-]);
-
-
 Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormula');
 Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert');
 Route::post('formulaDetalle/importar', 'Api\FormulaDetalleController@import');

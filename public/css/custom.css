@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: 'OpenSans-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'OpenSans-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 h1,
@@ -55,4 +55,20 @@ table > tbody {
 }
 table > thead {
   background-color: #c8c8c8;
+}
+
+bg-gray {
+  background-color: gray;
+}
+
+.input-td {
+  padding: 0px !important;
+}
+/* Eliminar flechas de Inputs tipo Numero en tablas*/
+td > input[type=number]::-webkit-inner-spin-button,
+td > input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }

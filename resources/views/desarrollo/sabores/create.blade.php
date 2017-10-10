@@ -3,10 +3,10 @@
 
 @section('content')
 
-<div class="container box box-gray">
+<div class="box box-solid box-default">
 
-	<div class="box-header with-border">
-      <h3 class="box-title">Crear Sabor</h3>
+	<div class="box-header text-center">
+      <h4>Crear Sabor</h4>
     </div>
     <!-- /.box-header -->
 	<!-- box-body -->
@@ -57,8 +57,8 @@
 		</form>
      </div>
 	 <!-- /.box-body -->
-	 <div class="box-footer col-sm-10">
-	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
+	 <div class="box-footer">
+	 	<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

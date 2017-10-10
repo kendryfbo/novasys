@@ -1,0 +1,40 @@
+
+@page {
+  size: a4 portrait;
+}
+
+body {
+  border: 2px solid black;
+  font-family: DejaVu Sans;
+  font-family: helvetica;
+  font-size: 11px;
+}
+.header {
+  border: 1px dotted red;
+  height: 150px;
+}
+
+.header > .left {
+  border: 1px dotted yellow;
+  position: absolute;
+  width: 500px;
+  height: inherit;
+}
+
+.header > .right {
+  border: 1px dotted blue;
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 100px;
+}
+.body {
+  border: 1px dotted red;
+}
+.footer {
+  border: 1px dotted red;
+  bottom: 10px;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+}

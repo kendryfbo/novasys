@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
-	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id','peso_bruto','volumen','activo'];
+	protected $fillable = ['codigo','descripcion','marca_id','formato_id','sabor_id', 'vida_util', 'peso_bruto', 'peso_neto', 'volumen','activo'];
 
 	static function getAllActive() {
 
@@ -22,6 +22,9 @@ class Producto extends Model
 		return false;
 
 	}
+
+	/* Relaciones con Producto */
+
 	public function marca() {
 
 		return $this->belongsTo('App\Models\Marca');
@@ -41,4 +44,20 @@ class Producto extends Model
 
 		return $this->hasOne('App\Models\Formula');
 	}
+
+	public function listaPrecioDetalle() {
+
+		return $this->hasMany('App\Models\Comercial\ListaPrecioDetalle');
+	}
+
+	public function guiaDespachoDetalles() {
+
+		return $this->hasMany(GuiaDespachoDetalle::class);
+	}
+
+	public function facturaNacDetalles() {
+
+		return $this->hasMany('App\Models\Comercial\FacturaNacionalDetalle','producto_id');
+	}
+
 }

@@ -1,6 +1,7 @@
+var table;
 $(document).ready(function() {
 	/* Data Table library */
-	var table = $('#data-table').DataTable( {
+	table = $('#data-table').DataTable( {
 		"scrollX": true,
 		language: {
 			sProcessing:     "Procesando...",
@@ -27,5 +28,6 @@ $(document).ready(function() {
 			}
 		},
 	} );
+	table.columns.adjust().draw();
 	$('div.dataTables_filter input').focus();
 } );

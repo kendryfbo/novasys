@@ -1,24 +1,46 @@
 var app = new Vue({
   el: '#vue-app',
   data: {
-	  codigo: $('input[name=codigo]').val(),
-	  descripcion: $('input[name=descripcion]').val(),
-	  marca: $('select[name=marca]').val(),
-	  formato: $('select[name=formato]').val(),
-	  sabor: $('select[name=sabor]').val(),
-      peso_bruto: $('input[name=peso_bruto]').val(),
-      volumen: $('input[name=volumen]').val(),
+	  codigo: '',
+	  descripcion: '',
+	  marca: '',
+	  formato: '',
+	  sabor: '',
+      peso_bruto: '',
+      peso_neto: '',
+      volumen: '',
       marcas: [],
-      formatos: [],
+      formatos: formatos,
       sabores: [],
   },
   methods: {
+
+      formatChange: function() {
+
+        this.updatePesoNeto();
+        this.updateDescripcion();
+      },
+
+      updatePesoNeto: function() {
+
+        for (var i = 0; i < this.formatos.length; i++) {
+
+            if (this.formato == this.formatos[i].id) {
+
+                this.peso_neto = (this.formatos[i].display * this.formatos[i].sobre * this.formatos[i].peso) / 1000;
+                break;
+            }
+
+        }
+      },
+
 	  updateDescripcion: function() {
 
           this.codigo = '';
           this.descripcion = '';
 
           if (this.marca) {
+
               for (var i = 0; i < this.marcas.length; i++) {
 
                   if (this.marca == this.marcas[i].id) {
@@ -31,6 +53,7 @@ var app = new Vue({
               }
           }
           if (this.formato) {
+
               for (var i = 0; i < this.formatos.length; i++) {
 
                   if (this.formato == this.formatos[i].id) {

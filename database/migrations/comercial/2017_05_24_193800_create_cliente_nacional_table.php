@@ -21,17 +21,26 @@ class CreateClienteNacionalTable extends Migration
             $table->string('direccion');
             $table->string('fono');
             $table->string('giro');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->integer('rut_num');
             $table->string('contacto');
             $table->string('cargo');
             $table->string('email');
+            $table->integer('fp_id')->unsigned(); // Forma de Pago id
+            $table->integer('lp_id')->unsigned(); // Lista de Precio id
+            $table->integer('canal_id')->unsigned();
             $table->integer('region_id')->unsigned();
             $table->integer('provincia_id')->unsigned();
             $table->integer('comuna_id')->unsigned();
             $table->integer('vendedor_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
+        });
+
+        Schema::table('cliente_nacional', function (Blueprint $table) {
+
+            $table->foreign('fp_id')->references('id')->on('forma_pago_nac');
+            $table->foreign('lp_id')->references('id')->on('lista_precios');
         });
     }
 

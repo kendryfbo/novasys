@@ -3,12 +3,12 @@
 
 @section('content')
 
-<div class="container box box-gray">
+<div class="box box-solid box-default">
 
-	<div class="box-header with-border">
-      <h3 class="box-title">Crear Familia</h3>
-    </div>
-    <!-- /.box-header -->
+	<div class="box-header text-center">
+    <h4>Crear Familia</h4>
+  </div>
+  <!-- /.box-header -->
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
@@ -75,8 +75,8 @@
 		</form>
      </div>
 	 <!-- /.box-body -->
-	 <div class="box-footer col-sm-10">
-	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
+	 <div class="box-footer">
+	 	<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

@@ -176,7 +176,13 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // PDF Service Providers
+        Barryvdh\DomPDF\ServiceProvider::class,
+        // Excel Service Provider
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        // BackEnd Service PRovider
+        App\Providers\BackEndServiceProvider::class
     ],
 
     /*
@@ -226,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Input' => Illuminate\Support\Facades\Input::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];

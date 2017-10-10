@@ -40,7 +40,7 @@
   <script src="{{asset('datatables/js/bootstrap-datatable.min.js')}}"></script>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -58,7 +58,7 @@
   <aside class="main-sidebar">
 
     <!-- sidebar -->
-    @include('layouts.sidebar2')
+    @include('layouts.sidebarcomer')
 
   </aside>
 
