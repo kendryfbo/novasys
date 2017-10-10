@@ -174,6 +174,23 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 
     });
 
+    // Notas de Debito Intl
+    Route::prefix('notasDebitoIntl')->group(function() {
+
+        Route::get('/',                            'Comercial\NotaDebitoIntlController@index')->name('notaDebitoIntl');
+        Route::post('/',                           'Comercial\NotaDebitoIntlController@store')->name('guardarNotaDebitoIntl');
+        Route::get('/crear/{notaCredito?}',        'Comercial\NotaDebitoIntlController@create')->name('crearNotaDebitoIntl');
+        //Route::get('/autorizacion',                'Comercial\NotaDebitoIntlController@authorization')->name('autorizacionNotaDebitoIntl');
+        Route::get('/{numero}',                    'Comercial\NotaDebitoIntlController@show')->name('verNotaDebitoIntl');
+        //Route::put('/{notaDebito}',               'Comercial\NotaDebitoIntlController@update')->name('actualizarNotaDebitoIntl');
+        Route::delete('/{notaDebito}',             'Comercial\NotaDebitoIntlController@destroy')->name('eliminarNotaDebitoIntl');
+        //Route::get('/{notaDebito}/editar',        'Comercial\NotaDebitoIntlController@edit')->name('editarNotaDebitoIntl');
+        //Route::get('/autorizacion/{notaDebito}',  'Comercial\NotaDebitoIntlController@showForAuth')->name('autorizarNotaDebitoIntl');
+        //Route::post('/autorizar/{notaDebito}',    'Comercial\NotaDebitoIntlController@auth')->name('autorizarNotaDebitoIntl');
+        //Route::post('/desautorizar/{notaDebito}', 'Comercial\NotaDebitoIntlController@unauth')->name('desautorizarNotaDebitoIntl');
+
+    });
+
     // Routes Facturas SII Internacionales
     /* Temporal */
     Route::prefix('facturaIntlSII')->group(function () {

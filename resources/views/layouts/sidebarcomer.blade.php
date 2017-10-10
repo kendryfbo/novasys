@@ -83,7 +83,7 @@
                 <li><a href="{{url('comercial/proformas')}}"><i class=""></i> <span>Proforma</span></a></li>
                 <li><a href="{{url('comercial/guiaDespacho')}}"><i class=""></i> <span>Guia Despacho</span></a></li>
                 <li><a href="{{url('comercial/notasCreditoIntl')}}"><i class=""></i> <span>Nota Credito</span></a></li>
-                <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
+                <li><a href="{{url('comercial/notasDebitoIntl')}}"><i class=""></i> <span>Nota Debito</span></a></li>
                 <li><a href="{{url('comercial/packingList/crear')}}"><i class=""></i> <span>Packing List.</span></a></li>
                 <li><a href="{{url('comercial/FacturaIntl')}}"><i class=""></i> <span>Factura Export.</span></a></li>
                 <li><a href="{{url('comercial/facturaIntlSII')}}"><i class=""></i> <span>Factura S.I.I</span></a></li>
