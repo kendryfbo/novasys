@@ -45,7 +45,7 @@
 						<td>{{$producto->formato->descripcion}}</td>
 						<td>{{$producto->sabor->descripcion}}</td>
 						<td class="text-right">{{number_format($producto->peso_bruto,2,",",".")}}</td>
-						<td class="text-right">{{number_format($producto->volumen,2,",",".")}}</td>
+						<td class="text-right">{{number_format($producto->volumen,4,",",".")}}</td>
 						<td class="text-center">{{$producto->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
 							<form action="{{route('editarProducto',['producto' => $producto->id])}}" method="get">

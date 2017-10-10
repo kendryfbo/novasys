@@ -80,7 +80,7 @@
 					<div class="col-sm-2">
 						<div class="input-group">
 							<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ Input::old('vida_util') ? Input::old('vida_util') : "" }}" required>
-							<span class="input-group-addon">mes</span>
+							<span class="input-group-addon">Meses</span>
 						</div>
 					</div>
 				</div>

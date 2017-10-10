@@ -81,7 +81,10 @@
 
 					<label class="control-label col-sm-2">Vida Util:</label>
 					<div class="col-sm-2">
-						<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ $producto->vida_util }}" required>
+						<div class="input-group">
+							<input class="form-control" type="number" min="1" step="any" class="form-control" name="vida_util" placeholder="Vida util ..." value="{{ $producto->vida_util }}" required>
+							<span class="input-group-addon">Meses</span>
+						</div>
 					</div>
 
 				</div>
