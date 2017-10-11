@@ -20,6 +20,8 @@ class CreateSaboresTable extends Migration
             $table->tinyInteger('activo');
             $table->timestamps();
         });
+
+        DB::update("ALTER TABLE sabores AUTO_INCREMENT = 101;");
     }
 
     /**

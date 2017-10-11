@@ -143,11 +143,13 @@
 		var descripcion = "{!!$producto->descripcion!!}";
 		var marca = {!!$producto->marca_id!!};
 		var formato = {!!$producto->formato_id!!};
-		var formatos = {!!$formatos!!};
 		var sabor = {!!$producto->sabor_id!!};
 		var peso_bruto = {!!$producto->peso_bruto!!};
 		var peso_neto = {!!$producto->peso_neto!!};
 		var volumen = {!!$producto->volumen!!};
+		var marcas = {!!$marcas!!};
+		var formatos = {!!$formatos!!};
+		var sabores = {!!$sabores!!};
 	</script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/productoEdit.js')}}"></script>

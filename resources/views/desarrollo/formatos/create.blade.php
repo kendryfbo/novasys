@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-
 @section('content')
 
 <div id="vue-app" class="box box-solid box-default">
@@ -16,10 +15,10 @@
 
 			{{ csrf_field() }}
 
-			<div class="form-group">
-				<label class="control-label col-sm-2" >Descripcion:</label>
-				<div class="col-sm-4">
-					<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "" }}" required readonly>
+			<div class="form-group form-group-sm">
+				<label class="control-label col-sm-1" >Descripcion :</label>
+				<div class="col-sm-5">
+					<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Formato..." value="{{  Input::old('descripcion') }}" required>
 				</div>
 
 				@if ($errors->has('descripcion'))
@@ -32,45 +31,34 @@
 
 			</div>
 
-			<div class="form-group">
+			<div class="form-group form-group-sm">
 
-				<label class="control-label col-lg-2">Unidad:</label>
-				<div class="col-lg-2">
-					<select class="selectpicker" name="unidad" data-live-search="true" v-model="unidad" @change="updateDescripcion" required>
-						<option value="">Unidades...</option>
-						@foreach ($unidades as $unidad)
-							<option value="{{$unidad->unidad}}" {{Input::old('unidad') === $unidad->unidad ? "selected" : ""}}>{{$unidad->unidad}}</option>
-						@endforeach
-					</select>
-				</div>
-
-			</div>
-
-			<div class="form-group">
-
-				<label class="control-label col-lg-2">display:</label>
-				<div class="col-lg-2">
-					<input type="number" class="form-control" name="display" v-model="display" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('display')}}" required>
-				</div>
-
-				<label class="control-label col-lg-1">Sobres:</label>
-				<div class="col-lg-2">
-					<input type="number" class="form-control" name="sobre" v-model="sobre" @keyup="updateDescripcion" step="1" min="1" value="{{ Input::old('sobre')}}" required>
-				</div>
-
-				<label class="control-label col-lg-1">Peso:</label>
+				<label class="control-label col-lg-1">Peso Uni. :</label>
 				<div class="col-lg-2">
 					<div class="input-group">
-						<input type="number" class="form-control" name="peso" v-model="peso" @keyup="updateDescripcion" value="{{ Input::old('peso')}}" step="any" required>
+						<input type="number" class="form-control" name="peso_uni" value="{{ Input::old('peso_uni') }}" step="any" required>
 						<span class="input-group-addon">g</span>
+					</div>
+				</div>
+
+				<label class="control-label col-lg-1">Peso Neto :</label>
+				<div class="col-lg-2">
+					<div class="input-group">
+						<input type="number" class="form-control" name="peso_neto" value="{{ Input::old('peso_neto') }}" step="any" required>
+						<span class="input-group-addon">Kg</span>
 					</div>
 				</div>
 
 			</div>
 
-			<div class="form-group">
+			<div class="form-group form-group-sm">
 
-				<label class="control-label col-sm-2">Activo:</label>
+
+			</div>
+
+			<div class="form-group form-group-sm">
+
+				<label class="control-label col-sm-1">Activo:</label>
 				<div class="col-sm-4">
 					<input type="checkbox" name="activo" data-toggle="toggle" data-on="Si" data-off="No" data-size="small" {{ Input::old('activo') ? "checked" : "" }}>
 				</div>
@@ -86,9 +74,4 @@
 	 </div>
 	  <!-- /.box-footer -->
   </div>
-@endsection
-
-@section('scripts')
-	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/desarrollo/formato.js')}}"></script>
 @endsection

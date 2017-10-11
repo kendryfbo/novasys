@@ -141,9 +141,11 @@
 @endsection
 
 @section('scripts')
-	<script>
-		var formatos = {!!$formatos!!};
-	</script>
-	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/desarrollo/producto.js')}}"></script>
+<script>
+	var marcas = {!!$marcas!!};
+	var formatos = {!!$formatos!!};
+	var sabores = {!!$sabores!!};
+</script>
+<script src="{{asset('vue/vue.js')}}"></script>
+<script src="{{asset('js/desarrollo/producto.js')}}"></script>
 @endsection

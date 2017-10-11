@@ -9,9 +9,9 @@ var app = new Vue({
       peso_bruto: peso_bruto,
       peso_neto: peso_neto,
       volumen: volumen,
-      marcas: [],
+      marcas: marcas,
       formatos: formatos,
-      sabores: [],
+      sabores: sabores,
   },
   methods: {
 
@@ -27,7 +27,7 @@ var app = new Vue({
 
             if (this.formato == this.formatos[i].id) {
 
-                this.peso_neto = (this.formatos[i].display * this.formatos[i].sobre * this.formatos[i].peso) / 1000;
+                this.peso_neto = this.formatos[i].peso_neto;
                 break;
             }
 
@@ -56,7 +56,7 @@ var app = new Vue({
 
                   if (this.formato == this.formatos[i].id) {
 
-                      this.codigo = this.codigo + this.formatNumber(this.formatos[i].id);
+                      this.codigo = this.codigo + this.formatos[i].id;
                       this.descripcion = this.descripcion + " " + this.formatos[i].descripcion;
                       break;
 
@@ -69,7 +69,7 @@ var app = new Vue({
 
                   if (this.sabor == this.sabores[i].id) {
 
-                      this.codigo = this.codigo + this.formatNumber(this.sabores[i].id);
+                      this.codigo = this.codigo + this.sabores[i].id;
                       this.descripcion = this.descripcion + " " + this.sabores[i].descripcion;
                       break;
 
@@ -77,9 +77,6 @@ var app = new Vue({
               }
           }
 	  },
-      formatNumber : function(number) {
-          return ("0" + number).slice(-2)
-      }
   },
 
   mounted() {
