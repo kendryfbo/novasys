@@ -26,12 +26,10 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th>Descripcion</th>
-						<th>Unidad</th>
-						<th>Peso</th>
-						<th>Sobres</th>
-						<th>Displays</th>
-						<th>Activo</th>
+						<th class="text-center">Descripcion</th>
+						<th class="text-center">Peso Unidad</th>
+						<th class="text-center">Peso Neto</th>
+						<th class="text-center">Activo</th>
 						<th class="text-center">Editar</th>
 						<th class="text-center">Eliminar</th>
 					</tr>
@@ -41,10 +39,8 @@
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
 						<td>{{$formato->descripcion}}</td>
-						<td>{{$formato->unidad_med}}</td>
-						<td>{{$formato->peso}}</td>
-						<td>{{$formato->sobre}}</td>
-						<td>{{$formato->display}}</td>
+						<td class="text-right">{{$formato->peso_uni . "g"}}</td>
+						<td class="text-right">{{$formato->peso_neto . " Kg"}}</td>
 						<td>{{$formato->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
 							<form action="{{route('editarFormato',['formato' => $formato->id])}}" method="get">

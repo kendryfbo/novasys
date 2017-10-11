@@ -29,9 +29,9 @@ class CreateProductosTable extends Migration
         });
 
         Schema::table('productos', function (Blueprint $table) {
-            $table->foreign('marca_id')->references('id')->on('marcas');
-            $table->foreign('formato_id')->references('id')->on('formatos');
-            $table->foreign('sabor_id')->references('id')->on('sabores');
+            $table->foreign('marca_id')->references('id')->on('marcas')->onUpdate('cascade');
+            $table->foreign('formato_id')->references('id')->on('formatos')->onUpdate('cascade');
+            $table->foreign('sabor_id')->references('id')->on('sabores')->onUpdate('cascade');
         });
     }
 

@@ -23,6 +23,8 @@ class CreateFormatosTable extends Migration
             $table->tinyInteger('activo');
             $table->timestamps();
         });
+
+        DB::update("ALTER TABLE formatos AUTO_INCREMENT = 101;");
     }
 
     /**

@@ -27,6 +27,8 @@ class CreateMarcasTable extends Migration
         Schema::table('marcas', function (Blueprint $table) {
             $table->foreign('familia_id')->references('id')->on('familias');
         });
+
+        DB::update("ALTER TABLE marcas AUTO_INCREMENT = 101;");
     }
 
     /**

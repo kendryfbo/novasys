@@ -26,9 +26,8 @@ class FormatoController extends Controller
      */
     public function create()
     {
-        $unidades = Unidad::getAllActive();
 
-        return view('desarrollo.formatos.create')->with(['unidades' => $unidades]);
+        return view('desarrollo.formatos.create');
     }
 
     /**
@@ -41,20 +40,16 @@ class FormatoController extends Controller
     {
         $this->validate($request,[
             'descripcion' => 'required',
-            'unidad' => 'required',
-            'peso' => 'required',
-            'sobre' => 'required',
-            'display' => 'required'
+            'peso_uni'    => 'required',
+            'peso_neto'   => 'required'
         ]);
 
         $activo = !empty($request->activo);
 
         Formato::create([
             'descripcion' => $request->descripcion,
-            'unidad_med' => $request->unidad,
-            'peso' => $request->peso,
-            'sobre' => $request->sobre,
-            'display' => $request->display,
+            'peso_uni' => $request->peso_uni,
+            'peso_neto' => $request->peso_neto,
             'activo' => $activo,
         ]);
 
@@ -82,8 +77,7 @@ class FormatoController extends Controller
      */
     public function edit(Formato $formato)
     {
-        $unidades = Unidad::getAllActive();
-        return view('desarrollo.formatos.edit')->with(['formato' => $formato,'unidades' => $unidades]);
+        return view('desarrollo.formatos.edit')->with(['formato' => $formato]);
     }
 
     /**
@@ -97,19 +91,15 @@ class FormatoController extends Controller
     {
         $this->validate($request,[
             'descripcion' => 'required',
-            'peso' => 'required',
-            'unidad' => 'required',
-            'sobre' => 'required',
-            'display' => 'required'
+            'peso_uni' => 'required',
+            'peso_neto' => 'required'
         ]);
 
         $activo = !empty($request->activo);
 
         $formato->descripcion = $request->descripcion;
-        $formato->peso = $request->peso;
-        $formato->unidad_med = $request->unidad;
-        $formato->sobre = $request->sobre;
-        $formato->display = $request->display;
+        $formato->peso_uni = $request->peso_uni;
+        $formato->peso_neto = $request->peso_neto;
         $formato->activo = $activo;
 
         $formato->save();
