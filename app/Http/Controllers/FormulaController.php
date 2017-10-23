@@ -121,33 +121,41 @@ class FormulaController extends Controller
 
     public function autorization()
     {
-        $formulas = Formula::all()->where('generada',1);
+        $formulas = Formula::where('generada',1)->whereNull('autorizado')->get();
 
-        return view('desarrollo.formulas.autorization')->with(['formulas' => $formulas]);
+        return view('desarrollo.formulas.authorization')->with(['formulas' => $formulas]);
+    }
+
+    public function showForAuth($id) {
+
+        $id = 3;
+        $formula = Formula::with('producto','detalle.nivel')->find($id);
+
+        return view('desarrollo.formulas.authorize')->with(['formula' => $formula]);
     }
 
     public function autorizar(Formula $formula)
     {
         $formula->autorizado = true;
-        $formula->autorizada_por = 'USER_DEMO';
+        $formula->autorizada_por = auth()->user()->user;
         $formula->fecha_aut = Carbon::today();
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Autorizada.';
 
-        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
+        return redirect(route('autorizacionFormula'))->with(['status' => $msg]);
     }
 
     public function desautorizar(Formula $formula) {
 
         $formula->autorizado = false;
-        $formula->autorizada_por = NULL;
-        $formula->fecha_aut = NULL;
+        $formula->autorizada_por = auth()->user()->user;
+        $formula->fecha_aut = Carbon::today();
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Desautorizada.';
 
-        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
+        return redirect(route('autorizacionFormula'))->with(['status' => $msg]);
     }
 
     public function getFormula(Request $request)

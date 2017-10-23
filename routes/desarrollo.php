@@ -54,10 +54,10 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 	// GRUPO de Rutas de Desarrollo/Productos
 	Route::group(['prefix' => 'productos'], function(){
 
-		Route::get('/',					'ProductoController@index')->name('productos');
-		Route::get('crear', 			'ProductoController@create')->name('crearProducto');
-		Route::post('/', 				'ProductoController@store')->name('guardarProducto');
-		Route::get('/{producto}/edit', 	'ProductoController@edit')->name('editarProducto');
+		Route::get('/',					 'ProductoController@index')->name('productos');
+		Route::get('crear', 			 'ProductoController@create')->name('crearProducto');
+		Route::post('/', 				 'ProductoController@store')->name('guardarProducto');
+		Route::get('/{producto}/edit', 	 'ProductoController@edit')->name('editarProducto');
 		Route::post('update/{producto}', 'ProductoController@update')->name('actualizarProducto');
 		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
 
@@ -65,11 +65,11 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 	// GRUPO de Rutas de Desarrollo/Premezcla
 	Route::group(['prefix' => 'premezclas'], function(){
 
-		Route::get('/',					'PremezclaController@index')->name('premezclas');
-		Route::get('crear', 			'PremezclaController@create')->name('crearPremezcla');
-		Route::get('crearDos', 			'PremezclaController@createDos')->name('crearPremezclaDos');
-		Route::post('/', 				'PremezclaController@store')->name('guardarPremezcla');
-		Route::get('/{premezcla}/edit', 	'PremezclaController@edit')->name('editarPremezcla');
+		Route::get('/',					  'PremezclaController@index')->name('premezclas');
+		Route::get('crear', 			  'PremezclaController@create')->name('crearPremezcla');
+		Route::get('crearDos', 			  'PremezclaController@createDos')->name('crearPremezclaDos');
+		Route::post('/', 				  'PremezclaController@store')->name('guardarPremezcla');
+		Route::get('/{premezcla}/edit',   'PremezclaController@edit')->name('editarPremezcla');
 		Route::post('update/{premezcla}', 'PremezclaController@update')->name('actualizarPremezcla');
 		Route::post('delete/{premezcla}', 'PremezclaController@destroy')->name('eliminarPremezcla');
 
@@ -77,10 +77,10 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 	// GRUPO de Rutas de Desarrollo/Insumo
 	Route::group(['prefix' => 'insumos'], function(){
 
-		Route::get('/',					'InsumoController@index')->name('insumos');
-		Route::get('crear', 			'InsumoController@create')->name('crearInsumo');
-		Route::post('/', 				'InsumoController@store')->name('guardarInsumo');
-		Route::get('/{insumo}/edit', 	'InsumoController@edit')->name('editarInsumo');
+		Route::get('/',				   'InsumoController@index')->name('insumos');
+		Route::get('crear', 		   'InsumoController@create')->name('crearInsumo');
+		Route::post('/', 			   'InsumoController@store')->name('guardarInsumo');
+		Route::get('/{insumo}/edit',   'InsumoController@edit')->name('editarInsumo');
 		Route::post('update/{insumo}', 'InsumoController@update')->name('actualizarInsumo');
 		Route::post('delete/{insumo}', 'InsumoController@destroy')->name('eliminarInsumo');
 
@@ -88,16 +88,17 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 	// GRUPO de Rutas de Desarrollo/Formulas
 	Route::group(['prefix' => 'formulas'], function(){
 
-		Route::get('/',					'FormulaController@index')->name('formulas');
-		Route::get('crear', 			'FormulaController@create')->name('crearFormula');
-		Route::post('/', 				'FormulaController@store')->name('guardarFormula');
-		Route::get('/{formula}/edit', 	'FormulaController@edit')->name('editarFormula');
-		Route::post('update/{formula}', 'FormulaController@update')->name('actualizarFormula');
-		Route::post('generate',         'FormulaController@generate')->name('generarFormula');
-		Route::get('autorization',         'FormulaController@autorization')->name('autorizationFormula');
-		Route::post('autorizar/{formula}',	 'FormulaController@autorizar')->name('autorizarFormula');
-		Route::post('desautorizar/{formula}','FormulaController@desautorizar')->name('desautorizarFormula');
-		Route::post('delete/{formula}', 'FormulaController@destroy')->name('eliminarFormula');
+		Route::get('/',					      'FormulaController@index')->name('formulas');
+		Route::get('crear', 			      'FormulaController@create')->name('crearFormula');
+		Route::post('/', 				      'FormulaController@store')->name('guardarFormula');
+		Route::get('/{formula}/edit', 	      'FormulaController@edit')->name('editarFormula');
+		Route::post('update/{formula}',       'FormulaController@update')->name('actualizarFormula');
+		Route::post('generate',               'FormulaController@generate')->name('generarFormula');
+		Route::get('autorizacion',            'FormulaController@autorization')->name('autorizacionFormula');
+		Route::get('autorizacion/{formula}',  'FormulaController@showForAuth')->name('verAutFormula');
+		Route::post('autorizar/{formula}',	  'FormulaController@autorizar')->name('autorizarFormula');
+		Route::post('desautorizar/{formula}', 'FormulaController@desautorizar')->name('desautorizarFormula');
+		Route::post('delete/{formula}',       'FormulaController@destroy')->name('eliminarFormula');
 		// GRUPO de Rutas de Desarrollo/Formulas
 		Route::group(['prefix' => 'detalle'], function(){
 

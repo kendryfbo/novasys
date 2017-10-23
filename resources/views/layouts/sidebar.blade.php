@@ -30,7 +30,7 @@
           <li><a href="/desarrollo/formulas"><i class="fa fa-link"></i> <span>Formulas</span></a></li>
       </ul>
     </li>
-    <li><a href="/desarrollo/formulas/autorization"><i class="fa fa-link"></i> <span>Autorizar Formulas</span></a></li>
+    <li><a href="/desarrollo/formulas/autorizacion"><i class="fa fa-link"></i> <span>Autorizar Formulas</span></a></li>
   </ul>
   <!-- /.sidebar-menu -->
 </section>

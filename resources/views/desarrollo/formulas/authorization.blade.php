@@ -22,15 +22,14 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th>Producto</th>
-						<th>Generada</th>
-						<th>Generada por</th>
-						<th>Fecha Generación</th>
-						<th>Autorizada</th>
-						<th>Autorizada por</th>
-						<th>Fecha Autorización</th>
-						<th class="text-center">Autorizar</th>
-						<th class="text-center">Desautorizar</th>
+						<th class="text-center">Producto</th>
+						<th class="text-center">Generada</th>
+						<th class="text-center">Generada por</th>
+						<th class="text-center">Fecha Generación</th>
+						<th class="text-center">Autorizada</th>
+						<th class="text-center">Autorizada por</th>
+						<th class="text-center">Fecha Autorización</th>
+						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,22 +40,20 @@
 						<td class="text-center">{{$formula->generada ? "Si" : "No"}}</td>
 						<td class="text-center">{{$formula->generada_por}}</td>
 						<td class="text-center">{{$formula->fecha_gen}}</td>
-						<td class="text-center">{{$formula->autorizado ? "Si" : "No"}}</td>
+						@if ($formula->autorizado === 1)
+							<td class="text-center">Si</td>
+						@elseif ($formula->autorizado === 0)
+							<td class="text-center">No</td>
+						@else
+							<td class="text-center">Pendiente</td>
+
+						@endif
 						<td class="text-center">{{$formula->autorizada_por}}</td>
 						<td class="text-center">{{$formula->fecha_aut}}</td>
 						<td class="text-center">
-							<form action="{{route('autorizarFormula',['formula' => $formula->id])}}" method="post">
-								{{ csrf_field() }}
-								<button class="btn btn-sm btn-primary" type="submit" name="button">
-									<i class="fa fa-check-circle-o" aria-hidden="true"></i>
-								</button>
-							</form>
-						</td>
-						<td class="text-center">
-							<form action="{{route('desautorizarFormula',['formula' => $formula->id])}}" method="post">
-								{{ csrf_field() }}
-								<button class="btn btn-sm btn-danger" type="submit" name="button">
-									<i class="fa fa-ban" aria-hidden="true"></i>
+							<form action="{{route('verAutFormula',['formula' => $formula->id])}}" method="get">
+								<button class="btn btn-sm btn-default" type="submit" name="button">
+									<i class="fa fa-eye" aria-hidden="true"></i> Ver
 								</button>
 							</form>
 						</td>

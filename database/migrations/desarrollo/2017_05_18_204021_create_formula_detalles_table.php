@@ -25,6 +25,12 @@ class CreateFormulaDetallesTable extends Migration
             $table->double('batch');
             $table->timestamps();
         });
+
+        Schema::table('formula_detalles', function (Blueprint $table) {
+            $table->foreign('formula_id')->references('id')->on('formulas')->onDelete('cascade');
+            $table->foreign('insumo_id')->references('id')->on('insumos');
+        });
+
     }
 
     /**

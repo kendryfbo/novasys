@@ -19,7 +19,7 @@ class CreateFormulasTable extends Migration
             $table->tinyInteger('generada')->default(0);
             $table->string('generada_por')->nullable();
             $table->date('fecha_gen')->nullable(); // fecha de generacion
-            $table->tinyInteger('autorizado')->default(0);
+            $table->tinyInteger('autorizado')->nullable();
             $table->string('autorizada_por')->nullable();
             $table->date('fecha_aut')->nullable(); //fecha de autorizacion
             $table->double('cant_batch');
