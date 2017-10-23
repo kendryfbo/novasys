@@ -45,7 +45,7 @@ var app = new Vue({
 
                   if (this.marca == this.marcas[i].id) {
 
-                      this.codigo = this.marcas[i].codigo;
+                      this.codigo = this.marcas[i].codigo + this.marcas[i].id;
                       this.descripcion = this.marcas[i].descripcion;
                       break;
 
