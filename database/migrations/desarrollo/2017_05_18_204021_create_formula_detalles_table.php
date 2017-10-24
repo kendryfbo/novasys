@@ -15,8 +15,8 @@ class CreateFormulaDetallesTable extends Migration
     {
         Schema::create('formula_detalles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('formula_id');
-            $table->string('insumo_id');
+            $table->integer('formula_id')->unsigned();
+            $table->integer('insumo_id')->unsigned();
             $table->string('descripcion');
             $table->integer('nivel_id');
             $table->double('cantxuni');

@@ -26,7 +26,7 @@ class CreateNotaDebitoNacDetallesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('nota_credito_nac_detalle', function (Blueprint $table) {
+        Schema::table('nota_debito_nac_detalles', function (Blueprint $table) {
             $table->foreign('nd_id')->references('id')->on('nota_debito_nac')->onDelete('cascade');
         });
     }
