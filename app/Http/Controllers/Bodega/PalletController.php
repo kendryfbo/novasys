@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bodega;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use PDF;
 use DNS1D;
 use DNS2D;
 use Carbon\Carbon;
@@ -66,9 +67,9 @@ class PalletController extends Controller
             'items' => 'required'
         ]);
 
-        Pallet::createFromProduccion($request);
+        $pallet = Pallet::createFromProduccion($request);
 
-        dd('success');
+        return redirect()->route('etiquetaPalletProduccion',['id' => $pallet->id]);
     }
 
     /**
@@ -136,5 +137,18 @@ class PalletController extends Controller
     // Creacion de Pallet MateriaPrima
     public function createPalletMateriaPrima() {
 
+    }
+
+    public function pdfPalletProd(Pallet $pallet) {
+
+        $pallet->load('detalles');
+        $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1.85,30,"black",true);
+
+        //$pallet->barCode = $barCode;
+
+        $pdf = PDF::loadView('documents.pdf.bodega.labelPalletProd',compact('barCode','pallet'))->setPaper('a5', 'landscape');
+
+
+        return $pdf->stream();
     }
 }

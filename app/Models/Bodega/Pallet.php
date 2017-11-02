@@ -15,7 +15,7 @@ class Pallet extends Model
 
     static function createFromProduccion($request) {
 
-        DB::transaction( function() use($request) {
+        $pallet = DB::transaction( function() use($request) {
 
             //dd($request->all());
             $items = $request->items;
@@ -24,8 +24,6 @@ class Pallet extends Model
                 'numero' => $request->numero,
                 'medida_id' => $request->medida,
             ]);
-
-            $asd = ['pallet_id', 'tipo_id', 'item_id', 'codigo', 'descripcion', 'cantidad', 'fecha_venc', 'lote'];
 
             foreach ( $items as $item) {
 
@@ -48,14 +46,16 @@ class Pallet extends Model
                 $terminoProceso->almacenado = 1;
                 $terminoProceso->save();
             };
-
+        return $pallet;
         }); // end-transaction
+
+        return $pallet;
     }
 
    /*
     * Relations Table
     */
-    public function pallet() {
+    public function detalles() {
 
         return $this->hasMany('App\Models\Bodega\PalletDetalle','pallet_id');
     }

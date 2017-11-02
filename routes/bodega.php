@@ -7,6 +7,7 @@ Route::prefix('bodega')->group( function(){
 
     Route::get('/creacionPalletProduccion', 'Bodega\PalletController@createPalletProduccion')->name('crearPalletProduccion');
     Route::post('/creacionPalletProduccion', 'Bodega\PalletController@storePalletProduccion')->name('guardarPalletProduccion');
+    Route::get('/pallet/{pallet}/pdf', 'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
     Route::get('/ingresoManual', 'Bodega\PalletController@create')->name('crearPallet');
 
 
