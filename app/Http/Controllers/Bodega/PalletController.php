@@ -65,10 +65,10 @@ class PalletController extends Controller
             'fecha_prod' => 'required|date',
             'items' => 'required'
         ]);
-        dd($request->ALL());
-        //Pallet::createFromProduccion($request);
 
+        Pallet::createFromProduccion($request);
 
+        dd('success');
     }
 
     /**
