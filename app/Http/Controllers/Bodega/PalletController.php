@@ -142,11 +142,11 @@ class PalletController extends Controller
     public function pdfPalletProd(Pallet $pallet) {
 
         $pallet->load('detalles');
-        $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1.85,30,"black",true);
+        $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1,40,"black",true);
 
         //$pallet->barCode = $barCode;
 
-        $pdf = PDF::loadView('documents.pdf.bodega.labelPalletProd',compact('barCode','pallet'))->setPaper('a5', 'landscape');
+        $pdf = PDF::loadView('documents.pdf.bodega.labelPalletProd',compact('barCode','pallet'))->setPaper('a5', 'portrait');
 
 
         return $pdf->stream();

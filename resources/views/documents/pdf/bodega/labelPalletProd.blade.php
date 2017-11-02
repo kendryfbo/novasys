@@ -17,25 +17,37 @@
 <body>
 	<div class="contenedor">
 
-        <div class="form-group">
+        <div class="form-horizontal">
 
-            <div class="col-lg-offset-4 col-lg-2">
-                {!!$barCode!!}
-                {{$pallet->numero}}
+            <div class="form-group">
+
+                <div class="col-lg-offset-2 col-lg-2">
+                    {!!$barCode!!}
+                    {{$pallet->numero}}
+                </div>
+
+
             </div>
+
+            <div class="form-group">
+
+                <div class="col-lg-offset-1 col-lg-2">
+                    @foreach ($pallet->detalles as $detalle)
+                        <h5>Codigo: <strong>{{$detalle->codigo}}</strong></h5>
+                        <h5>Producto: <strong>{{$detalle->descripcion}}</strong></h5>
+                        <h5>Cantidad: <strong>{{$detalle->cantidad}}</strong></h5>
+                    @endforeach
+
+                </div>
+
+            </div>
+            
         </div>
+
+
         <div class="col-lg-offset-1 col-lg-2">
             @foreach ($pallet->detalles as $detalle)
-                <h3>Codigo: <strong>{{$detalle->codigo}}</strong></h3>
-                <h3>Producto: <strong>{{$detalle->descripcion}}</strong></h3>
-                <h3>Cantidad: <strong>{{$detalle->cantidad}}</strong></h3>
-            @endforeach
-
-        </div>
-
-        <div class="col-lg-offset-1 col-lg-2">
-            @foreach ($pallet->detalles as $detalle)
-                <h4>lote: <strong>{{$detalle->lote}}</strong></h3>
+                <h6>lote: <strong>{{$detalle->lote}}</strong></h6>
             @endforeach
 
         </div>
