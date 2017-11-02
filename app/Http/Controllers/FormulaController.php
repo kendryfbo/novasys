@@ -128,7 +128,6 @@ class FormulaController extends Controller
 
     public function showForAuth($id) {
 
-        $id = 3;
         $formula = Formula::with('producto','detalle.nivel')->find($id);
 
         return view('desarrollo.formulas.authorize')->with(['formula' => $formula]);

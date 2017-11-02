@@ -79,7 +79,7 @@
 
       <h5>Detalle</h5>
 
-      <div style="overflow-y: scroll;max-height:200px;border:1px solid black;">
+      <div style="overflow-y: scroll;border:1px solid black;">
 
         <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
 

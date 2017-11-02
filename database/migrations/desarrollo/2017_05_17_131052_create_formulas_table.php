@@ -25,6 +25,10 @@ class CreateFormulasTable extends Migration
             $table->double('cant_batch');
             $table->timestamps();
         });
+
+        Schema::table('formulas', function (Blueprint $table) {
+            $table->foreign('producto_id')->references('id')->on('productos');
+        });
     }
 
     /**

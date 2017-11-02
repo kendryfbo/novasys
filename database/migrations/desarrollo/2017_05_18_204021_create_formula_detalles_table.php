@@ -27,7 +27,7 @@ class CreateFormulaDetallesTable extends Migration
         });
 
         Schema::table('formula_detalles', function (Blueprint $table) {
-            $table->foreign('formula_id')->references('id')->on('formulas')->onDelete('cascade');
+            $table->foreign('formula_id')->references('id')->on('formulas')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('insumo_id')->references('id')->on('insumos');
         });
 
