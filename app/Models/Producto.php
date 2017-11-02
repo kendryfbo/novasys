@@ -11,7 +11,7 @@ class Producto extends Model
 
 	static function getAllActive() {
 
-		return Producto::all()->where('activo',1);
+		return self::all()->where('activo',1);
 	}
 
 	public function hasFormula() {
@@ -58,6 +58,11 @@ class Producto extends Model
 	public function facturaNacDetalles() {
 
 		return $this->hasMany('App\Models\Comercial\FacturaNacionalDetalle','producto_id');
+	}
+
+	public function produccion() {
+
+		return $this->hasMany('App\Models\Produccion\TerminoProceso');
 	}
 
 }

@@ -30,7 +30,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-
+                        <li><a href="{{url('bodega/ingresoManual')}}"><i class=""></i> <span>Ingreso Manual</span></a></li>
                     </ul>
                 </li>
 
@@ -72,7 +72,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-
+                        <li><a href="{{url('produccion/terminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
+                        <li><a href="{{url('bodega/creacionPalletProduccion')}}"><i class=""></i> <span>Creacion Pallet</span></a></li>
                     </ul>
                 </li>
 
