@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePalletsTable extends Migration
+class CreatePalletCondTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreatePalletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pallets', function (Blueprint $table) {
+        Schema::create('pallet_cond', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('numero');
-            $table->integer('medida_id')->unsigned();
+            $table->integer('pallet_id')->unsigned();
+            $table->integer('tipo_id')->unsigned();
+            $table->string('tipo');
+            $table->integer('opcion_id')->unsigned();
+            $table->tinyInteger('activo');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreatePalletsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pallets');
+        Schema::dropIfExists('pallet_cond');
     }
 }
