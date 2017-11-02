@@ -118,4 +118,27 @@ class BodegaController extends Controller
     {
         //
     }
+
+    public function consult($bodega) {
+
+
+        $bloques = Posicion::where('bodega_id',$bodega)->orderBy('bloque','asc')->groupBy('bloque')->pluck('bloque');
+
+
+        foreach ($bloques as $keyBloq => $bloque) {
+
+            $estantes = Posicion::where('bodega_id',$bodega)->where('bloque',$bloque)->orderBy('estante','desc')->groupBy('estante')->pluck('estante');
+
+            foreach ($estantes as $keyEstante => $estante) {
+
+                $posicion = Posicion::orderBy('columna','asc')->where('bodega_id',$bodega)->where('bloque',$bloque)->where('estante',$estante)->get();
+
+                $estantes[$keyEstante] = $posicion;
+            }
+            $bloques[$keyBloq] = $estantes;
+        };
+        $bodega = Bodega::find($bodega);
+
+        return view('bodega.bodega.consult')->with(['bodega' => $bodega, 'bloques' => $bloques]);
+    }
 }

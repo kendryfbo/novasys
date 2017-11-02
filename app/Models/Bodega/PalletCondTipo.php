@@ -4,9 +4,9 @@ namespace App\Models\Bodega;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PalletMedida extends Model
+class PalletCondTipo extends Model
 {
-    protected $table = 'pallet_medida';
+    protected $table = 'pallet_cond_tipo';
 
     static function getAllActive() {
 

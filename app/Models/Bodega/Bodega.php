@@ -12,7 +12,6 @@ class Bodega extends Model
 
     protected $fillable = ['descripcion', 'bloque', 'columna', 'estante', 'activo'];
 
-
     static function createBodega($request) {
 
         DB::transaction(function () use ($request) {
