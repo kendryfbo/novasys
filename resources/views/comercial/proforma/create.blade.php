@@ -347,7 +347,7 @@
 
 @section('scripts')
 <script>
-		var productos = {!!$productos!!};
+		var productos = Object.values({!!$productos!!});
 		var clientes = {!!$clientes!!};
 		var items = [];
 	</script>
