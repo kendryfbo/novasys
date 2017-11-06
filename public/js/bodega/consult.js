@@ -10,7 +10,8 @@ var app = new Vue ({
         statusAll: [],
         selected: false,
         posicion_id: '',
-        posicion: ''
+        posicion: '',
+        pallet: [],
     },
 
     methods: {
@@ -24,6 +25,7 @@ var app = new Vue ({
 
             this.opcion = '';
             this.getCondicion(posicion.id);
+            this.getPallet(posicion.id);
             this.posicion_id = posicion.id;
             this.posicion = posicion;
             this.status = posicion.status_id;
@@ -58,6 +60,38 @@ var app = new Vue ({
             })
 			.then(response => this.updateStatusPos())
 			.catch(error => this.handleError(error))
+        },
+
+        getCondicion: function() {
+
+        },
+
+        getPallet: function(id) {
+
+            if (!id) {
+
+                return;
+            }
+
+            posicion = id;
+            var url = '/bodega/posicion/pallet';
+
+			axios.post(url,{
+                posicion_id: posicion
+            })
+			.then(response => this.loadPallet(response.data))
+			.catch(error => this.handleError(error))
+        },
+
+        loadPallet: function(data) {
+
+
+            this.pallet = data;
+
+            if (!this.pallet) {
+
+                this.pallet = [];
+            }
         },
 
         updateStatusPos: function() {

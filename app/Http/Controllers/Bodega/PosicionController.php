@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Bodega;
 
 use App\Models\Bodega\Posicion;
+use App\Models\Bodega\PalletDetalle;
+use App\Models\Bodega\Pallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -110,5 +112,34 @@ class PosicionController extends Controller
     public function destroy(Posicion $posicion)
     {
         //
+    }
+
+
+    /*
+     * Get Pallet From posicion
+     * *this should be declared in api controller
+     */
+    public function getPallet(Request $request) {
+
+        $pos_id = $request->posicion_id;
+        $posicion = Posicion::find($pos_id);
+
+        $pallet = Pallet::with('detalles')->where('id',$posicion->pallet_id)->first();
+
+        if (!$pallet) {
+
+            return response('',200);
+        }
+
+        try {
+            $pallet->detalleGroup = $pallet->detalles()->selectRaw('item_id, sum(cantidad) as cantidad,codigo,descripcion')->groupBy('item_id','codigo','descripcion')->get();
+
+            return response($pallet,200);
+
+        } catch (Exception $e) {
+
+            dd($e);
+        }
+
     }
 }

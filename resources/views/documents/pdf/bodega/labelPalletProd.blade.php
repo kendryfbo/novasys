@@ -21,27 +21,28 @@
 
             <div class="form-group">
 
-                <div class="col-lg-offset-2 col-lg-2">
+                <div class="col-lg-1 pull-right">
+
                     {!!$barCode!!}
                     {{$pallet->numero}}
+
                 </div>
 
+                <div class="col-lg-2">
 
-            </div>
-
-            <div class="form-group">
-
-                <div class="col-lg-offset-1 col-lg-2">
                     @foreach ($pallet->detalles as $detalle)
-                        <h5>Codigo: <strong>{{$detalle->codigo}}</strong></h5>
-                        <h5>Producto: <strong>{{$detalle->descripcion}}</strong></h5>
-                        <h5>Cantidad: <strong>{{$detalle->cantidad}}</strong></h5>
+                        <h6>Fecha: <strong>{{$detalle->created_at}}</strong></h6>
+                        <h6>Codigo: <strong>{{$detalle->codigo}}</strong></h6>
+                        <h6>Producto: <strong>{{$detalle->descripcion}}</strong></h6>
+                        <h6>Cantidad: <strong>{{$detalle->cantidad}}</strong></h6>
                     @endforeach
 
                 </div>
 
+
+
             </div>
-            
+
         </div>
 
 

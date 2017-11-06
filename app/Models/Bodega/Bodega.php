@@ -3,7 +3,6 @@
 namespace App\Models\Bodega;
 
 use DB;
-
 use App\Models\Bodega\Posicion;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +10,16 @@ class Bodega extends Model
 {
 
     protected $fillable = ['descripcion', 'bloque', 'columna', 'estante', 'activo'];
+
+
+    /*
+     *    STATIC FUNCTIONS
+     */
+
+     static function getAllActive() {
+
+        return self::all()->where('activo',1);
+     }
 
     static function createBodega($request) {
 
@@ -45,13 +54,6 @@ class Bodega extends Model
                 }
             }
 
-
-
-
-
-        });
-
-        dd('finished');
-
+        },5); // transaction
     }
 }

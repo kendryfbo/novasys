@@ -18,9 +18,16 @@ class BodegaController extends Controller
      */
     public function index()
     {
-        $bodegas = Bodega::all();
+        $bodegas = Bodega::getAllActive();
 
         return view('bodega.bodega.index')->with(['bodegas' => $bodegas]);
+    }
+
+    public function indexConfig()
+    {
+        $bodegas = Bodega::all();
+
+        return view('bodega.bodega.indexConfig')->with(['bodegas' => $bodegas]);
     }
 
     /**
@@ -53,6 +60,8 @@ class BodegaController extends Controller
 
         Bodega::createBodega($request);
 
+        return redirect()->route('configBodega');
+
     }
 
     /**
@@ -64,6 +73,16 @@ class BodegaController extends Controller
     public function show($bodega)
     {
 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Bodega\Bodega  $bodega
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($bodega)
+    {
         $bloques = Posicion::where('bodega_id',$bodega)->orderBy('bloque','asc')->groupBy('bloque')->pluck('bloque');
 
         foreach ($bloques as $keyBloq => $bloque) {
@@ -72,7 +91,7 @@ class BodegaController extends Controller
 
             foreach ($estantes as $keyEstante => $estante) {
 
-                $posicion = Posicion::orderBy('columna','asc')->where('bodega_id',$bodega)->where('bloque',$bloque)->where('estante',$estante)->get();
+                $posicion = Posicion::with('status')->orderBy('columna','asc')->where('bodega_id',$bodega)->where('bloque',$bloque)->where('estante',$estante)->get();
 
                 $estantes[$keyEstante] = $posicion;
             }
@@ -83,17 +102,7 @@ class BodegaController extends Controller
         $status = PosicionStatus::getAllActive();
 
         return view('bodega.bodega.show')->with(['bloques' => $bloques, 'tiposCondicion' => $tiposCondicion, 'status' => $status]);
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bodega\Bodega  $bodega
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bodega $bodega)
-    {
-        //
     }
 
     /**
@@ -124,14 +133,13 @@ class BodegaController extends Controller
 
         $bloques = Posicion::where('bodega_id',$bodega)->orderBy('bloque','asc')->groupBy('bloque')->pluck('bloque');
 
-
         foreach ($bloques as $keyBloq => $bloque) {
 
             $estantes = Posicion::where('bodega_id',$bodega)->where('bloque',$bloque)->orderBy('estante','desc')->groupBy('estante')->pluck('estante');
 
             foreach ($estantes as $keyEstante => $estante) {
 
-                $posicion = Posicion::orderBy('columna','asc')->where('bodega_id',$bodega)->where('bloque',$bloque)->where('estante',$estante)->get();
+                $posicion = Posicion::with('status')->orderBy('columna','asc')->where('bodega_id',$bodega)->where('bloque',$bloque)->where('estante',$estante)->get();
 
                 $estantes[$keyEstante] = $posicion;
             }

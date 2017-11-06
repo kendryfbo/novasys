@@ -3,8 +3,10 @@
 @section('content')
 <style>
 .custom {
-width: 50px !important;
-}
+		margin: 0px;
+		padding: 0px;
+		width: 30px !important;
+	}
 </style>
 	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
@@ -38,7 +40,7 @@ width: 50px !important;
 
 					<template v-for='posicion in columnas'>
 
-						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button">@{{posicion.columna +"-"+ posicion.estante}}</button>
+						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button"><small>@{{posicion.columna +"-"+ posicion.estante}}</small></button>
 
 					</template>
 

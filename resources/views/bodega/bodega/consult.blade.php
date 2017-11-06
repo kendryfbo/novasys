@@ -3,14 +3,16 @@
 @section('content')
 <style>
 .custom {
-width: 50px !important;
+	margin: 0px;
+	padding: 0px;
+	width: 30px !important;
 }
 </style>
 	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Bodega {{$bodega->descripcion}}</h4>
+			<h4>{{$bodega->descripcion}}</h4>
 		</div>
 
 		<!-- box-body -->
@@ -52,48 +54,137 @@ width: 50px !important;
 		</div>
 		<!-- /box-body -->
 
-		<!-- box-body -->
-		<div class="box-body">
+		<!-- tab-list -->
+		<ul v-if="selected" class="nav nav-tabs">
+		  <li class="active"><a data-toggle="tab" href="#info">Info</a></li>
+		  <li><a data-toggle="tab" href="#detalles">Detalles</a></li>
+		</ul>
+		<!-- /tab-list -->
 
-			<div class="row">
-	          <div class=" col-sm-2">
-	            <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+		<!-- tab-content -->
+		<div class="tab-content">
 
-	                <tr>
-	                  <th class="bg-gray text-right">id:</th>
-	                  <td class="bg-gray text-right">@{{posicion.id}}</td>
-	                </tr>
+			<!-- tab-panel -->
+  			<div id="info" class="tab-pane fade in active">
 
-	                <tr>
-	                  <th class="bg-gray text-right">Rack:</th>
-	                  <td class="bg-gray text-right">@{{posicion.bloque}}</td>
-	                </tr>
-	                <tr>
-	                  <th class="bg-gray text-right">Columna:</th>
-	                  <td class="bg-gray text-right">@{{posicion.columna}}</td>
-	                </tr>
-	                <tr>
-	                  <th class="bg-gray text-right">Estante:</th>
-	                  <td class="bg-gray text-right">@{{posicion.estante}}</td>
-	                </tr>
-	                <tr>
-	                  <th class="bg-gray text-right">Status:</th>
-	                  <td class="bg-gray text-right">@{{posicion.status_id}}</td>
-	                </tr>
+				<!-- box-body -->
+				<div v-if="selected" class="box-body">
 
-	            </table>
-	          </div>
+					<div class="row">
 
-			  <!-- form-horizontal -->
-			  <div class="form-horizontal col-sm-8">
+						<div class=" col-sm-2">
+							<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-			  </div>
-			  <!-- /form-horizontal -->
-	        </div>
+							    <tr>
+							      <th class="bg-gray text-right">Posicion:</th>
+							      <td class="bg-gray text-right">@{{posicion.bloque+'-'+posicion.columna+'-'+posicion.estante}}</td>
+							    </tr>
 
+							    <tr>
+							      <th class="bg-gray text-right">Rack:</th>
+							      <td class="bg-gray text-right">@{{posicion.bloque}}</td>
+							    </tr>
+							    <tr>
+							      <th class="bg-gray text-right">Columna:</th>
+							      <td class="bg-gray text-right">@{{posicion.columna}}</td>
+							    </tr>
+							    <tr>
+							      <th class="bg-gray text-right">Estante:</th>
+							      <td class="bg-gray text-right">@{{posicion.estante}}</td>
+							    </tr>
+
+							    <tr>
+							      <th class="bg-gray text-right">Status:</th>
+							      <td class="bg-gray text-right">@{{posicion.status.descripcion}}</td>
+							    </tr>
+
+							</table>
+						</div>
+
+					 	<div class=" col-sm-8">
+
+							<table v-show="pallet != ''" class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+
+								<thead>
+
+									<tr>
+										<th colspan="3" class="text-center">RESUMEN</th>
+									</tr>
+									<tr>
+										<th class="text-center">PRODUCTO</th>
+										<th class="text-center">CANTIDAD</th>
+									</tr>
+
+								</thead>
+
+								<tbody>
+
+									<tr v-for="detalle in pallet.detalleGroup">
+										<td class="text-left">@{{detalle.descripcion}}</td>
+										<td class="text-right">@{{detalle.cantidad}}</td>
+									</tr>
+
+								</tbody>
+
+				            </table>
+
+						</div>
+
+			        </div>
+
+				</div>
+				<!-- /box-body -->
+			</div>
+			<!-- /tab-panel -->
+
+			<!-- tab-panel -->
+  			<div id="detalles" class="tab-pane fade in">
+
+				<!-- box-body -->
+				<div v-if="selected" class="box-body">
+
+					<div class="row">
+
+					 	<div class=" col-sm-8">
+
+							<table v-show="pallet != ''" class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
+
+								<thead>
+
+									<tr>
+										<th class="text-center">PRODUCTO</th>
+										<th class="text-center">LOTE</th>
+										<th class="text-center">F. VENC.</th>
+										<th class="text-center">CANTIDAD</th>
+									</tr>
+
+								</thead>
+
+								<tbody>
+
+									<tr v-for="detalle in pallet.detalles">
+										<td class="text-left">@{{detalle.descripcion}}</td>
+										<td class="text-left">@{{detalle.lote}}</td>
+										<td class="text-center">@{{detalle.fecha_venc}}</td>
+										<td class="text-right">@{{detalle.cantidad}}</td>
+									</tr>
+
+								</tbody>
+
+				            </table>
+
+						</div>
+
+			        </div>
+
+				</div>
+				<!-- /box-body -->
+
+			</div>
+			<!-- /tab-panel -->
 
 		</div>
-		<!-- /box-body -->
+		<!-- /tab-content -->
 
 	</div>
 @endsection

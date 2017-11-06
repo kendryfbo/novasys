@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pallet extends Model
 {
 
-    protected $fillable= ['numero', 'medida_id'];
+    protected $fillable= ['numero', 'medida_id', 'almacenado'];
 
     static function createFromProduccion($request) {
 
@@ -23,6 +23,7 @@ class Pallet extends Model
             $pallet = Pallet::create([
                 'numero' => $request->numero,
                 'medida_id' => $request->medida,
+                'almacenado' => 0,
             ]);
 
             foreach ( $items as $item) {
@@ -58,6 +59,11 @@ class Pallet extends Model
     public function detalles() {
 
         return $this->hasMany('App\Models\Bodega\PalletDetalle','pallet_id');
+    }
+
+    public function posicion() {
+
+        return $this->hasOne('App\Models\Bodega\Posicion','pallet_id');
     }
 
 

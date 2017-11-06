@@ -38,9 +38,9 @@
 							<td class="text-center">{{$bodega->activo ? 'Si':'No'}}</td>
 
 							<td class="text-center">
-								<form style="display: inline" action="{{route('consultarBodega', ['id' => $bodega->id])}}" method="get">
+								<form style="display: inline" action="{{route('editarBodega', ['id' => $bodega->id])}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
-										<i class="fa fa-eye" aria-hidden="true"></i> Consultar
+										<i class="fa fa-cog" aria-hidden="true"></i> Configurar
 									</button>
 								</form>
 							</td>

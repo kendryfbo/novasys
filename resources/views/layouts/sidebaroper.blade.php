@@ -19,7 +19,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{url('bodega')}}"><i class=""></i> <span>Bodega</span></a></li>
+                        <li><a href="{{url('bodega/config')}}"><i class=""></i> <span>Bodega</span></a></li>
                     </ul>
                 </li>
 
@@ -30,7 +30,10 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="{{url('bodega')}}"><i class=""></i> <span>Consultar Bodega</span></a></li>
                         <li><a href="{{url('bodega/ingresoManual')}}"><i class=""></i> <span>Ingreso Manual</span></a></li>
+                        <li><a href="{{url('bodega/pallet/materiaPrima/crear')}}"><i class=""></i> <span>Ingreso MP</span></a></li>
+                        <li><a href="{{url('bodega/pallet/porIngresar')}}"><i class=""></i> <span>Ing. Pallet Prod.</span></a></li>
                     </ul>
                 </li>
 

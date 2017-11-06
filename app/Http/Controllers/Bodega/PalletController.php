@@ -9,13 +9,16 @@ use PDF;
 use DNS1D;
 use DNS2D;
 use Carbon\Carbon;
+use App\Models\Producto;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
 use App\Models\comercial\Pais;
+use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletCond;
 use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletCondTipo;
 use App\Models\Produccion\TerminoProceso;
+use App\Models\Insumo;
 
 class PalletController extends Controller
 {
@@ -27,6 +30,9 @@ class PalletController extends Controller
     public function index()
     {
 
+        $pallets = Pallet::where('almacenado',0)->get();
+
+        return view('bodega.pallet.index')->with(['pallets' => $pallets]);
     }
 
     /**
@@ -134,11 +140,6 @@ class PalletController extends Controller
              'opciones' => $opciones, 'numero' => $numero, 'barCode' => $barCode]);
     }
 
-    // Creacion de Pallet MateriaPrima
-    public function createPalletMateriaPrima() {
-
-    }
-
     public function pdfPalletProd(Pallet $pallet) {
 
         $pallet->load('detalles');
@@ -150,5 +151,57 @@ class PalletController extends Controller
 
 
         return $pdf->stream();
+    }
+
+    public function position($id) {
+
+        $pallet = Pallet::with('detalles')->find($id);
+        $productos = [];
+
+        foreach ($pallet->detalles as $detalle) {
+
+            $producto = Producto::with('marca.familia.tipo')->find($detalle->item_id);
+
+            array_push($productos,$producto);
+        }
+        $positions = Posicion::findPositionFor($productos);
+    }
+
+    public function createPalletMateriaPrima() {
+
+        $bodegas = Bodega::getAllActive();
+        $insumos = Insumo::getAllActive();
+        $medidas = PalletMedida::getAllActive();
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+
+        return view('bodega.pallet.createPalletMP')->with([
+            'bodegas' => $bodegas, 'insumos' => $insumos, 'medidas' => $medidas,
+            'numero' => $numero, 'barCode' => $barCode
+        ]);
+    }
+
+    /*
+     *    PRIVATE FUNCTIONS
+     */
+
+    // generate bar code from a number
+    private function barCode($numero) {
+
+        $barCode = DNS1D::getBarcodeHTML($numero, "C128",1,40,"black",true);
+
+        return $barCode;
+    }
+    // generate pallet num (year-month-day-hours-minutes-seconds)
+    private function palletNum() {
+
+        return Carbon::now()->format('YmdHis');
+    }
+
+
+    public function test() {
+
+        $pallet = Pallet::with('detalles')->where('id',7)->first();
+        dd($pallet->id);
     }
 }

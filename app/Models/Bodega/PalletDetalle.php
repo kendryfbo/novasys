@@ -11,6 +11,6 @@ class PalletDetalle extends Model
 
     public function pallet() {
 
-        return $this->belongsTo('App\Models\Bodega\Pallet');
+        return $this->belongsTo('App\Models\Bodega\Pallet','pallet_id');
     }
 }

@@ -11,7 +11,7 @@ class Insumo extends Model
 
 	static function getAllActive() {
 
-		return Insumo::all()->where('activo',1);
+		return self::all()->where('activo',1);
 	}
 
 	public function familia() {
