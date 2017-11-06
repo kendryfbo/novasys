@@ -174,7 +174,7 @@
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-default btn-sm" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
-							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
+							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.producto.descripcion}}</option>
 						</select>
 					</div>
 

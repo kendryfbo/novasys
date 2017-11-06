@@ -79,7 +79,7 @@ var app = new Vue ({
 
 					var formato = this.listaDetalle[i].producto.formato;
 					this.codigo = this.listaDetalle[i].producto.codigo;
-					this.descripcion = this.listaDetalle[i].descripcion;
+					this.descripcion = this.listaDetalle[i].producto.descripcion;
 					this.precio = Math.round(this.listaDetalle[i].precio);
 					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;

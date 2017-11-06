@@ -76,7 +76,7 @@
 						<div class="form-group" style="padding-left: 10px">
 							<label>Precio:</label>
 							<div class="input-group" >
-								<input type="number" step="any" min="1" class="form-control" name="precio" v-model="precio" placeholder="Precio de Producto..." required>
+								<input type="number" step="any" min="1" class="form-control" name="precio" v-model="precio" required>
 							</div>
 						</div>
 
@@ -94,7 +94,7 @@
 						<thead>
 							<tr>
 								<th class="text-center">#</th>
-								<th>id</th>
+								<th>codigo</th>
 								<th>decripcion</th>
 								<th>precio</th>
 								<th class="text-center">Eliminar</th>
@@ -104,8 +104,8 @@
 							<td colspan="5" class="text-center" v-if="items <= 0">Tabla Sin Datos...</td>
 							<tr v-for="(item,key) in items" @click="loadItem(item.id)">
 								<th class="text-center" v-text="(key+1)"></th>
-								<td>@{{ item.id }}</td>
-								<td>@{{ item.descripcion }}</td>
+								<td>@{{ item.producto.codigo }}</td>
+								<td>@{{ item.producto.descripcion }}</td>
 								<td>@{{ item.precio }}</td>
 								<td class="text-center">
 									<button class="btn btn-sm" type="button" @click="deleteDetalle(item.id)">
