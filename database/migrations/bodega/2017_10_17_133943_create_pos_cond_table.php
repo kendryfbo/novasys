@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCondPosTable extends Migration
+class CreatePosCondTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCondPosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cond_pos', function (Blueprint $table) {
+        Schema::create('pos_cond', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('posicion_id')->unsigned();
             $table->integer('tipo_id')->unsigned();
@@ -22,9 +22,9 @@ class CreateCondPosTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('cond_pos', function (Blueprint $table) {
+        Schema::table('pos_cond', function (Blueprint $table) {
             $table->foreign('posicion_id')->references('id')->on('posicion')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('tipo_id')->references('id')->on('cond_pos_tipo')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('tipo_id')->references('id')->on('pos_cond_tipo')->onUpdate('cascade')->onDelete('cascade');
         });
 
     }
@@ -36,6 +36,6 @@ class CreateCondPosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cond_pos');
+        Schema::dropIfExists('pos_cond');
     }
 }

@@ -18,11 +18,10 @@ class CreatePalletDetalleTable extends Migration
             $table->integer('pallet_id')->unsigned();
             $table->integer('tipo_id')->unsigned();
             $table->integer('item_id')->unsigned();
-            $table->string('codigo');
-            $table->string('descripcion');
+            $table->integer('ing_tipo_id')->unsigned();
+            $table->integer('ing_id')->unsigned()->nullable();
             $table->integer('cantidad');
             $table->date('fecha_venc');
-            $table->string('lote')->nullable();
             $table->timestamps();
         });
     }

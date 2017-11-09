@@ -19,6 +19,7 @@ class CreateTerminoProcesoTable extends Migration
             $table->string('turno');
             $table->integer('producidas');
             $table->integer('rechazadas');
+            $table->integer('total');
             $table->date('fecha_prod');
             $table->date('fecha_venc');
             $table->string('maquina');
@@ -26,7 +27,8 @@ class CreateTerminoProcesoTable extends Migration
             $table->string('cod')->nullable();
             $table->string('batch');
             $table->STRING('lote')->unique();
-            $table->tinyInteger('almacenado')->default(0);
+            $table->integer('por_procesar');
+            $table->tinyInteger('procesado')->default(0);
             $table->timestamps();
         });
 
