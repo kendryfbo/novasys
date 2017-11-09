@@ -198,7 +198,7 @@ class Posicion extends Model
 
 
         // si no cumple ninguna condicion buscar posicion sin condicion
-        $query = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.id!=pos_cond.posicion_id AND posicion.status_id=2 LIMIT 1";
+        $query = "SELECT posicion.id FROM posicion WHERE posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=2 LIMIT 1";
         $results = DB::select(DB::raw($query));
 
         if ($results) {
