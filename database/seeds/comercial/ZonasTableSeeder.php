@@ -16,7 +16,8 @@ class ZonasTableSeeder extends Seeder
           ['descripcion' => 'America del Norte', 'activo' => 1],
           ['descripcion' => 'America del Sur', 'activo' => 1],
           ['descripcion' => 'Caribe', 'activo' => 1],
-          ['descripcion' => 'Centro America', 'activo' => 1]
+          ['descripcion' => 'Centro America', 'activo' => 1],
+          ['descripcion' => 'Oceania', 'activo' => 1]
       ];
 
       foreach ($zonas as $zona) {

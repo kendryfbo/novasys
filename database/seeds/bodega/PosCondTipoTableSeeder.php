@@ -13,10 +13,11 @@ class PosCondTipoTableSeeder extends Seeder
     public function run()
     {
         $tipoCondiciones = [
-            ['id' => 1, 'descripcion' => 'Producto', 'activo' => 1],
-            ['id' => 2, 'descripcion' => 'Marca', 'activo' => 1],
-            ['id' => 3, 'descripcion' => 'Familia', 'activo' => 1],
-            ['id' => 4, 'descripcion' => 'Tipo Familia', 'activo' => 1]
+            ['id' => 1, 'descripcion' => 'Tipo Familia', 'activo' => 1]
+            ['id' => 2, 'descripcion' => 'Familia', 'activo' => 1],
+            ['id' => 3, 'descripcion' => 'Marca', 'activo' => 1],
+            ['id' => 4, 'descripcion' => 'Producto', 'activo' => 1],
+            ['id' => 5, 'descripcion' => 'Insumo', 'activo' => 1],
         ];
 
         foreach ($tipoCondiciones as $tipo) {
