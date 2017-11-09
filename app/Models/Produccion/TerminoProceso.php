@@ -8,9 +8,9 @@ class TerminoProceso extends Model
 {
     protected $table = 'termino_proceso';
 
-    protected $fillable = ['prod_id','turno','producidas','rechazadas',
+    protected $fillable = ['prod_id','turno','producidas','rechazadas', 'total',
                            'fecha_prod','fecha_venc','maquina','operador','cod',
-                           'batch','lote'];
+                           'batch','lote', 'por_procesar', 'procesado'];
 
     public function producto() {
 

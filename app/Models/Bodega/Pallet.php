@@ -17,9 +17,9 @@ class Pallet extends Model
 
         $pallet = DB::transaction( function() use($request) {
 
-            //dd($request->all());
             $items = $request->items;
-
+            $tipoIngreso = $request->tipo_ingreso;
+            $tipoProd = config('globalVars.PT');
             $pallet = Pallet::create([
                 'numero' => $request->numero,
                 'medida_id' => $request->medida,
@@ -30,25 +30,51 @@ class Pallet extends Model
 
                 $item = json_decode($item);
 
-                $total = $item->producidas - $item->rechazadas;
+                if ($item->procesar > $item->por_procesar) {
+
+                    return;
+                }
+
+
+                $cantidad = $item->procesar;
 
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
-                    'tipo_id' => 1, // TEMPORAL en analisis si es necesario
+                    'tipo_id' => $tipoProd,
                     'item_id' => $item->prod_id,
-                    'codigo' => $item->producto->codigo,
-                    'descripcion' => $item->producto->descripcion,
-                    'cantidad' => $total,
+                    'ing_tipo_id' => $tipoIngreso,
+                    'ing_id' => $item->id,
+                    'cantidad' => $cantidad,
                     'fecha_venc' => $item->fecha_venc,
-                    'lote' => $item->lote
                 ]);
 
                 $terminoProceso = TerminoProceso::find($item->id);
-                $terminoProceso->almacenado = 1;
+                $terminoProceso->procesado = 1;
+                $terminoProceso->por_procesar = $terminoProceso->por_procesar - $cantidad;
                 $terminoProceso->save();
             };
         return $pallet;
         }); // end-transaction
+
+        return $pallet;
+    }
+
+
+    static function getDataForBodega($id) {
+
+        $pallet = self::with('detalles.producto','detalles.ingreso','detalles.tipo')->where('id',$id)->first();
+
+        if (!$pallet) {
+
+            return;
+        }
+
+        $pallet->detalleGroup = DB::table('pallet_detalle')
+        ->join('productos', 'pallet_detalle.item_id', '=', 'productos.id')
+        ->select('pallet_detalle.item_id', DB::raw('SUM(cantidad) as cantidad'), 'productos.codigo', 'productos.descripcion')
+        ->where('pallet_id',$pallet->id)
+        ->groupBy('item_id','codigo','descripcion')
+        ->get();
 
         return $pallet;
     }

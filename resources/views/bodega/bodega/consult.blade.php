@@ -145,14 +145,16 @@
 
 					<div class="row">
 
-					 	<div class=" col-sm-8">
+					 	<div class=" col-sm-10">
 
 							<table v-show="pallet != ''" class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
 								<thead>
 
 									<tr>
+										<th class="text-center">CODIGO</th>
 										<th class="text-center">PRODUCTO</th>
+										<th class="text-center">PROCEDENCIA</th>
 										<th class="text-center">LOTE</th>
 										<th class="text-center">F. VENC.</th>
 										<th class="text-center">CANTIDAD</th>
@@ -163,8 +165,11 @@
 								<tbody>
 
 									<tr v-for="detalle in pallet.detalles">
-										<td class="text-left">@{{detalle.descripcion}}</td>
-										<td class="text-left">@{{detalle.lote}}</td>
+										<td class="text-left">@{{detalle.producto.codigo}}</td>
+										<td class="text-left">@{{detalle.producto.descripcion}}</td>
+										<td class="text-left">@{{detalle.tipo.descripcion}}</td>
+										<td v-if="detalle.ingreso" class="text-center">@{{detalle.ingreso.lote}}</td>
+										<td v-else class="text-left"></td>
 										<td class="text-center">@{{detalle.fecha_venc}}</td>
 										<td class="text-right">@{{detalle.cantidad}}</td>
 									</tr>

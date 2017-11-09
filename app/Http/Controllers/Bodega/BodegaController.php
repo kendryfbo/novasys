@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Bodega;
 use Illuminate\Http\Request;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Posicion;
-use App\Models\Bodega\CondPosTipo;
+use App\Models\Bodega\PosCondTipo;
 use App\Http\Controllers\Controller;
 use App\Models\Bodega\PosicionStatus;
 
@@ -98,7 +98,7 @@ class BodegaController extends Controller
             $bloques[$keyBloq] = $estantes;
         };
 
-        $tiposCondicion = CondPosTipo::getAllActive();
+        $tiposCondicion = PosCondTipo::getAllActive();
         $status = PosicionStatus::getAllActive();
 
         return view('bodega.bodega.show')->with(['bloques' => $bloques, 'tiposCondicion' => $tiposCondicion, 'status' => $status]);
@@ -148,5 +148,12 @@ class BodegaController extends Controller
         $bodega = Bodega::find($bodega);
 
         return view('bodega.bodega.consult')->with(['bodega' => $bodega, 'bloques' => $bloques]);
+    }
+
+    public function entry() {
+
+        $bodegas = Bodega::getAllActive();
+
+        return view('bodega.bodega.ingresoPallet')->with(['bodegas' => $bodegas]);
     }
 }

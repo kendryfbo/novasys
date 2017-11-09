@@ -15,10 +15,14 @@ Route::prefix('bodega')->group( function(){
         Route::get('/materiaPrima/crear', 'Bodega\PalletController@createPalletMateriaPrima')->name('crearPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
 
+        // this should be declared in API controller
+        Route::post('/data',       'Bodega\PalletController@apiData')->name('palletData');
+
     });
-    Route::get('/creacionPalletProduccion', 'Bodega\PalletController@createPalletProduccion')->name('crearPalletProduccion');
+
+    Route::get('/creacionPalletProduccion',  'Bodega\PalletController@createPalletProduccion')->name('crearPalletProduccion');
     Route::post('/creacionPalletProduccion', 'Bodega\PalletController@storePalletProduccion')->name('guardarPalletProduccion');
-    Route::get('/ingresoManual', 'Bodega\PalletController@create')->name('crearPallet');
+    Route::get('/ingresoManual',             'Bodega\PalletController@create')->name('crearPallet');
 
 
 
@@ -27,7 +31,7 @@ Route::prefix('bodega')->group( function(){
     Route::get('/getCondicion/{posicion}',  'Bodega\CondPosController@getCondicionOfPos')->name('getCondicionDePosicion');
     Route::post('/posicion/condicion',      'Bodega\CondPosController@store')->name('guardarCondicion');
     Route::post('/posicion/status',         'Bodega\PosicionController@storeStatus')->name('guardarStatusPosicion');
-    Route::post('/posicion/pallet',         'Bodega\PosicionController@getPallet')->name('obtenerPalletDePosicion');
+    Route::post('/posicion/pallet',         'Bodega\PosicionController@getPalletFromPosition')->name('obtenerPalletDePosicion');
 
     Route::get('/config',         'Bodega\BodegaController@indexConfig')->name('configBodega');
     Route::get('/',               'Bodega\BodegaController@index')->name('bodega');
@@ -35,6 +39,7 @@ Route::prefix('bodega')->group( function(){
     Route::get('/{id}/config',    'Bodega\BodegaController@edit')->name('editarBodega');
     Route::get('/{id}/consultar', 'Bodega\BodegaController@consult')->name('consultarBodega');
     Route::post('/',              'Bodega\BodegaController@store')->name('guardarBodega');
+    Route::get('/ingreso/pallet', 'Bodega\BodegaController@entry')->name('ingresoPallet');
 });
 
 

@@ -25,7 +25,7 @@ class TerminoProcesoController extends Controller
      */
     public function index()
     {
-        $producciones = TerminoProceso::with('producto')->where('almacenado',0)->get();
+        $producciones = TerminoProceso::with('producto')->where('procesado',0)->get();
 
         return view('produccion.terminoProceso.index')->with(['producciones' => $producciones]);
     }
@@ -70,6 +70,10 @@ class TerminoProcesoController extends Controller
             'batch' => 'required',
             'lote' => 'required'
         ]);
+
+
+        $datos['total'] = $datos['producidas'] + $datos['rechazadas'];
+        $datos['por_procesar'] = $datos['total'];
 
         $produccion = TerminoProceso::create($datos);
 

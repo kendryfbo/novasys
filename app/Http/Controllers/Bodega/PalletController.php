@@ -9,19 +9,24 @@ use PDF;
 use DNS1D;
 use DNS2D;
 use Carbon\Carbon;
+use App\Models\Insumo;
 use App\Models\Producto;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
 use App\Models\comercial\Pais;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletCond;
+use App\Models\Bodega\IngresoTipo;
 use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletCondTipo;
 use App\Models\Produccion\TerminoProceso;
-use App\Models\Insumo;
 
 class PalletController extends Controller
 {
+
+    /* Constantes */
+    const TERMPROC = 2; // ID Tipo de Ingreso Termino de Proceso
+
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +74,6 @@ class PalletController extends Controller
         $this->validate($request,[
             'numero' =>'required',
             'medida' => 'required',
-            'fecha_prod' => 'required|date',
             'items' => 'required'
         ]);
 
@@ -128,21 +132,27 @@ class PalletController extends Controller
 
         $medidas = PalletMedida::getAllActive();
         $palletCondTipos = PalletCondTipo::getAllActive();
+        $tipoIngreso = self::TERMPROC;
 
         //Prueba
         $opciones = Pais::select('id','nombre as descripcion')->get();
-        $producidos = TerminoProceso::with('producto')->where('almacenado',0)->get();
+
+        $producidos = TerminoProceso::with('producto')->where('procesado',0)->orWhere('por_procesar','>',0)->get();
         $numero = Carbon::now()->format('YmdHis');
         $barCode = DNS1D::getBarcodeHTML($numero, "C128",1.85,30,"black",true);
 
         return view('bodega.pallet.createFromProduccion')->with(
             ['medidas' => $medidas, 'condiciones' => $palletCondTipos, 'producidos' => $producidos,
-             'opciones' => $opciones, 'numero' => $numero, 'barCode' => $barCode]);
+             'tipoIngreso' => $tipoIngreso,'opciones' => $opciones, 'numero' => $numero,
+             'barCode' => $barCode]);
     }
 
     public function pdfPalletProd(Pallet $pallet) {
 
-        $pallet->load('detalles');
+        $pallet = Pallet::getDataForBodega($pallet->id);
+
+        //$pallet->load('detalles.producto','detalles.produccion');
+
         $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1,40,"black",true);
 
         //$pallet->barCode = $barCode;
@@ -156,6 +166,16 @@ class PalletController extends Controller
     public function position($id) {
 
         $pallet = Pallet::with('detalles')->find($id);
+        $posicion = Posicion::findPositionForPallet(1,$id);
+        
+        if (!$posicion) {
+
+            return response('NO POSITION',200);
+        }
+
+        $posicion = Posicion::with('status')->find($posicion->id);
+
+        return response($posicion,200);
         $productos = [];
 
         foreach ($pallet->detalles as $detalle) {
@@ -203,5 +223,18 @@ class PalletController extends Controller
 
         $pallet = Pallet::with('detalles')->where('id',7)->first();
         dd($pallet->id);
+    }
+
+    public function apiData(Request $request) {
+
+        $pallet = Pallet::where('numero',$request->numero)->first();
+
+        if(!$pallet) {
+
+            return response ('',200);
+        }
+        $pallet = pallet::getDataForBodega($pallet->id);
+
+        return response($pallet,200);
     }
 }

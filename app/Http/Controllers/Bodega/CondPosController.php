@@ -7,8 +7,8 @@ use App\Models\Marca;
 use App\Models\Familia;
 use App\Models\TipoFamilia;
 use Illuminate\Http\Request;
-use App\Models\Bodega\CondPos;
-use App\Models\Bodega\CondPosTipo;
+use App\Models\Bodega\PosCond;
+use App\Models\Bodega\PosCondTipo;
 use App\Http\Controllers\Controller;
 
 class CondPosController extends Controller
@@ -29,19 +29,19 @@ class CondPosController extends Controller
 
             if ((!$tipo_id) && (!$opcion_id)) {
 
-                CondPos::where('posicion_id',$posicion_id)->delete();
+                PosCond::where('posicion_id',$posicion_id)->delete();
 
                 return response('Ok',200);
             }
 
-            $condicion = CondPos::where('posicion_id',$posicion_id)->first();
+            $condicion = PosCond::where('posicion_id',$posicion_id)->first();
 
             if ($condicion) {
 
                 $condicion->delete();
             }
 
-            CondPos::create([
+            PosCond::create([
                 'posicion_id' => $posicion_id,
                 'tipo_id' => $tipo_id,
                 'opcion_id' => $opcion_id,
@@ -87,7 +87,7 @@ class CondPosController extends Controller
 
     public function getCondicionOfPos($posicion) {
 
-        $condicion = CondPos::where('posicion_id',$posicion)->first();
+        $condicion = PosCond::where('posicion_id',$posicion)->first();
 
         if($condicion) {
 

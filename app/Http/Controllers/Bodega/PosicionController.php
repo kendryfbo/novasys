@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Bodega;
 
+use DB;
+use Illuminate\Http\Request;
+use App\Models\Bodega\Pallet;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletDetalle;
-use App\Models\Bodega\Pallet;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PosicionController extends Controller
@@ -119,12 +120,12 @@ class PosicionController extends Controller
      * Get Pallet From posicion
      * *this should be declared in api controller
      */
-    public function getPallet(Request $request) {
+    public function getPalletFromPosition(Request $request) {
 
         $pos_id = $request->posicion_id;
         $posicion = Posicion::find($pos_id);
 
-        $pallet = Pallet::with('detalles')->where('id',$posicion->pallet_id)->first();
+        $pallet = Pallet::getDataForBodega($posicion->pallet_id);
 
         if (!$pallet) {
 
@@ -132,7 +133,6 @@ class PosicionController extends Controller
         }
 
         try {
-            $pallet->detalleGroup = $pallet->detalles()->selectRaw('item_id, sum(cantidad) as cantidad,codigo,descripcion')->groupBy('item_id','codigo','descripcion')->get();
 
             return response($pallet,200);
 

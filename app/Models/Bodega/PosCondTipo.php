@@ -4,15 +4,14 @@ namespace App\Models\Bodega;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CondPosTipo extends Model
+class PosCondTipo extends Model
 {
-    protected $table = 'cond_pos_tipo';
+    protected $table = 'pos_cond_tipo';
 
     static function getAllActive() {
 
         return self::all()->where('activo',1);
     }
-
 
     static function condicion() {
 

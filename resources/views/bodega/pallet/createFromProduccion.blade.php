@@ -54,7 +54,7 @@
                     <div class="col-lg-2">
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
-
+					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>
 
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
@@ -64,11 +64,6 @@
                              <option {{Input::old('medida') ? 'selected':''}} value="{{$medida->id}}">{{$medida->descripcion}}</option>
                         @endforeach
                         </select>
-        			</div>
-
-                    <label class="control-label col-lg-2">Fecha Ingreso:</label>
-        			<div class="col-lg-2">
-        				<input class="form-control input-sm" type="date" name="fecha_prod" required>
         			</div>
 
                 </div>
@@ -106,15 +101,20 @@
                 <div class="form-group">
 
                     <label class="control-label col-lg-1">Produccion:</label>
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="produccion in producidos" :value="produccion.id">@{{produccion.producto.descripcion +' - LOTE: ' + produccion.lote}}</option>
+						    <option v-for="produccion in producidos" :value="produccion.id">@{{produccion.producto.descripcion +' - LOTE: ' + produccion.lote + ' Por Procesar: ' + produccion.por_procesar}}</option>
                         </select>
                     </div>
 
+					<label class="control-label col-lg-1">Cantidad:</label>
+					<div class="col-lg-1">
+						<input class="form-control input-sm" name="cantidad" type="number" v-model="cantidad" required>
+                    </div>
+
 					<div class="col-lg-2">
-					    <button :disabled="itemId == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+					    <button :disabled="itemId == '' || cantidad == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
                     </div>
 
                 </div>
@@ -149,13 +149,14 @@
                 <th class="text-center">PRODUCIDAS</th>
                 <th class="text-center">RECHAZADAS</th>
                 <th class="text-center">TOTAL</th>
+                <th class="text-center">INGRESADAS</th>
               </tr>
 
             </thead>
 
             <tbody>
 				<tr v-if="items <= 0">
-					<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+					<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
 				</tr>
 				<tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.producto_id)">
 					<td class="text-center">
@@ -166,7 +167,8 @@
 				    <td class="text-left">@{{item.producto.descripcion}}</td>
 				    <td class="text-right">@{{item.producidas}}</td>
 				    <td class="text-right">@{{item.rechazadas}}</td>
-				    <td class="text-right">@{{item.producidas - item.rechazadas}}</td>
+				    <td class="text-right">@{{item.total}}</td>
+				    <td class="text-right">@{{item.procesar}}</td>
 				</tr>
 
             </tbody>

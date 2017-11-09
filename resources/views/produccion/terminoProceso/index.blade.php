@@ -36,6 +36,7 @@
 						<th class="text-center">Producto</th>
 						<th class="text-center">Producidas</th>
 						<th class="text-center">Rechazadas</th>
+						<th class="text-center">Total</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -48,6 +49,7 @@
 							<td class="text-left">{{$produccion->producto->descripcion}}</td>
 							<td class="text-right">{{$produccion->producidas}}</td>
 							<td class="text-right">{{$produccion->rechazadas}}</td>
+							<td class="text-right">{{$produccion->total}}</td>
 							<td class="text-center">
 								<form style="display: inline" method="get" action="{{route('editarTerminoProceso',['terminoProceso' => $produccion->id])}}">
 									{{csrf_field()}}

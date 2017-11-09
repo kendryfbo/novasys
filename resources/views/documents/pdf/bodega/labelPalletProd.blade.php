@@ -21,39 +21,50 @@
 
             <div class="form-group">
 
-                <div class="col-lg-1 pull-right">
-
+                <div class="col-sm-1 pull-right">
                     {!!$barCode!!}
                     {{$pallet->numero}}
+                </div>
+
+                <div class="col-sm-1">
+
+                    <p><strong>CODIGO: </strong>{{$pallet->detalleGroup[0]->codigo}}</p>
+                    <p><strong>PRODUCTO: </strong></p>
+                    <p>{{$pallet->detalleGroup[0]->descripcion}}</p>
+                    <p><strong>UNIDADES: </strong>{{$pallet->detalleGroup[0]->cantidad}}</p>
 
                 </div>
 
-                <div class="col-lg-2">
+            </div>
 
-                    @foreach ($pallet->detalles as $detalle)
-                        <h6>Fecha: <strong>{{$detalle->created_at}}</strong></h6>
-                        <h6>Codigo: <strong>{{$detalle->codigo}}</strong></h6>
-                        <h6>Producto: <strong>{{$detalle->descripcion}}</strong></h6>
-                        <h6>Cantidad: <strong>{{$detalle->cantidad}}</strong></h6>
-                    @endforeach
+            <div class="form-group">
+
+                <div class=" col-sm-5">
+
+                    <table>
+                            @foreach ($pallet->detalles as $detalle)
+                                <tr>
+                                    @if ($detalle->produccion)
+                                        <td class="text-left"><strong>Lote:</strong> {{$detalle->produccion->lote}} </td>
+                                    @else
+                                        <td class="text-left"><strong>Lote:</strong> </td>
+                                    @endif
+                                    <td class="text-left"></td>
+                                    <td class="text-left"><strong>/ Venc:</strong> {{$detalle->fecha_venc}}</td>
+                                    <td class="text-left"><strong>/ Cant:</strong> {{$detalle->cantidad}}</td>
+                                </tr>
+                            @endforeach
+                    </table>
+
 
                 </div>
-
-
 
             </div>
 
         </div>
 
-
-        <div class="col-lg-offset-1 col-lg-2">
-            @foreach ($pallet->detalles as $detalle)
-                <h6>lote: <strong>{{$detalle->lote}}</strong></h6>
-            @endforeach
-
-        </div>
-
 	</div>
 
+    <script src="{{asset('js/customDataTable.js')}}"></script>
 </body>
 </html>

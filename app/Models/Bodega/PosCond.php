@@ -4,9 +4,9 @@ namespace App\Models\Bodega;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CondPos extends Model
+class PosCond extends Model
 {
-    protected $table = 'cond_pos';
+    protected $table = 'pos_cond';
     protected $fillable = ['posicion_id', 'tipo_id', 'opcion_id', 'activo'];
 
     static function posicion() {
