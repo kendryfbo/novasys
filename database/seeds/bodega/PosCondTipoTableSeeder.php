@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Bodega\CondPosTipo;
+use App\Models\Bodega\PosCondTipo;
 
-class CondPosTipoTableSeeder extends Seeder
+class PosCondTipoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,7 +21,7 @@ class CondPosTipoTableSeeder extends Seeder
 
         foreach ($tipoCondiciones as $tipo) {
 
-            CondPosTipo::create($tipo);
+            PosCondTipo::create($tipo);
         }
     }
 }

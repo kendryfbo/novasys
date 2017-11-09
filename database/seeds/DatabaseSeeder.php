@@ -37,10 +37,16 @@ class DatabaseSeeder extends Seeder
         $this->call(RegionesTableSeeder::class);
         $this->call(VendedoresTableSeeder::class);
         $this->call(ZonasTableSeeder::class);
+        //$this->call(ClientesNacionalesTableSeeder::class); Por llenar semilla
 
         // Semillas de Modulo configuracion
         $this->call(AccesosTableSeeder::class);
         $this->call(UsuarioTableSeeder::class);
+
+        // Semillas de Modulo Bodega
+        $this->call(IngresoTipoTableSeeder::class);
+        $this->call(PosCondTipoTableSeeder::class);
+        $this->call(PosicionStatusTableSeeder::class);
 
     }
 }
