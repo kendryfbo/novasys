@@ -28,10 +28,8 @@
 
                 <div class="col-sm-1">
 
-                    <p><strong>CODIGO: </strong>{{$pallet->detalleGroup[0]->codigo}}</p>
-                    <p><strong>PRODUCTO: </strong></p>
-                    <p>{{$pallet->detalleGroup[0]->descripcion}}</p>
-                    <p><strong>UNIDADES: </strong>{{$pallet->detalleGroup[0]->cantidad}}</p>
+                    <p><strong> FECHA: </strong>{{$pallet->created_at}}</p>
+                    <p><strong>NUMERO: </strong>{{$pallet->numero}}</p>
 
                 </div>
 
@@ -39,24 +37,23 @@
 
             <div class="form-group">
 
-                <div class=" col-sm-5">
 
-                    <table>
-                            @foreach ($pallet->detalles as $detalle)
-                                <tr>
-                                    @if ($detalle->produccion)
-                                        <td class="text-left"><strong>Lote:</strong> {{$detalle->produccion->lote}} </td>
-                                    @else
-                                        <td class="text-left"><strong>Lote:</strong> </td>
-                                    @endif
-                                    <td class="text-left"></td>
-                                    <td class="text-left"><strong>/ Venc:</strong> {{$detalle->fecha_venc}}</td>
-                                    <td class="text-left"><strong>/ Cant:</strong> {{$detalle->cantidad}}</td>
-                                </tr>
-                            @endforeach
-                    </table>
+                <table style="border-spacing: 1px">
+                        @foreach ($pallet->detalles as $detalle)
+                            <tr>
+                                <td class="text-left"><h6><strong>Producto:</strong>{{$detalle->producto->descripcion}}</h6></td>
+                                <td class="text-left"><h6><strong>Lote:</strong> {{$detalle->produccion ? $detalle->produccion->lote : ''}}</h6></td>
+                                <td class="text-left"><h6><strong>Venc:</strong> {{$detalle->fecha_venc}}</h6></td>
+                                <td class="text-left"><h6><strong>Cant:</strong> {{$detalle->cantidad}}</h6></td>
+                            </tr>
+                        @endforeach
+                </table>
+                <br>
+                <br>
+                <div class="form-group">
 
-
+                    <label class="col-sm-2 col-sm-offset-2" for="">C Calidad Envasado</label>
+                    <label class="col-sm-1" for="">C Calidad Bodega</label>
                 </div>
 
             </div>
