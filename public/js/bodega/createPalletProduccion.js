@@ -9,6 +9,7 @@ var app = new Vue({
         item: [],
         items: [],
         cantidad: '',
+        totalCantidad: 0,
     },
 
     methods: {
@@ -37,6 +38,7 @@ var app = new Vue({
             this.items.push(this.item);
             this.removeProduccion(this.itemId);
             this.itemId = '';
+            this.updateTotalCantidad();
         },
 
         removeItem: function(item) {
@@ -49,6 +51,20 @@ var app = new Vue({
                     this.restoreProduccion(item);
                 }
             }
+
+            this.updateTotalCantidad();
+        },
+
+        updateTotalCantidad: function() {
+
+            cantidad= 0;
+
+            for (var i = 0; i < this.items.length; i++) {
+
+                cantidad += this.items[i].procesar;
+            }
+
+            this.totalCantidad = cantidad;
         },
 
         restoreProduccion: function(item) {

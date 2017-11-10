@@ -93,6 +93,15 @@ class PalletController extends Controller
         //
     }
 
+    public function showPalletProduccion(Pallet $pallet)
+    {
+
+        $pallet->load('detalles','medida');
+        $barCode = $this->barCode($pallet->numero);
+
+        return view('bodega.pallet.showFromProduccion')->with(['pallet' => $pallet, 'barCode' => $barCode]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -150,7 +159,7 @@ class PalletController extends Controller
     public function pdfPalletProd(Pallet $pallet) {
 
         $pallet = Pallet::getDataForBodega($pallet->id);
-
+        //dd($pallet);
         //$pallet->load('detalles.producto','detalles.produccion');
 
         $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1,40,"black",true);
@@ -167,7 +176,7 @@ class PalletController extends Controller
 
         $pallet = Pallet::with('detalles')->find($id);
         $posicion = Posicion::findPositionForPallet(1,$id);
-        
+
         if (!$posicion) {
 
             return response('NO POSITION',200);

@@ -44,6 +44,11 @@
                     <div class="col-lg-offset-1 col-lg-2">
                         {!!$barCode!!}
                     </div>
+
+					<div class="col-lg-1 col-lg-offset-7">
+						<a class="btn btn-sm btn-default" href="{{url('http://novasys.dev/bodega/pallet/'.$pallet->id.'/pdf')}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+					</div>
+
                 </div>
                 <!-- /form-group -->
 
@@ -52,26 +57,21 @@
 
                     <label class="control-label col-lg-1">Nº Pallet:</label>
                     <div class="col-lg-2">
-                        <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
+                        <input class="form-control input-sm" name="numero" type="number" value="{{$pallet->numero}}" required readonly>
                     </div>
-					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>
 
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="medida" required>
-                             <option value=""> </option>
-                        @foreach ($medidas as $medida)
-                             <option {{Input::old('medida') ? 'selected':''}} value="{{$medida->id}}">{{$medida->descripcion}}</option>
-                        @endforeach
-                        </select>
+						<input class="form-control input-sm" name="medida" type="text" value="{{$pallet->medida->descripcion}}" required readonly>
         			</div>
+
 
                 </div>
                 <!-- /form-group -->
 
 				<!-- form-group -->
                 <div class="form-group">
-
+				{{--
                     <label class="control-label col-lg-1">Condicion:</label>
         			<div class="col-lg-3">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="codicion" v-model="condicion">
@@ -91,42 +91,10 @@
                         @endforeach
                         </select>
         			</div>
-
+				--}}
                 </div>
                 <!-- /form-group -->
 
-                <h5>Produccion</h5>
-
-                <!-- form-group -->
-                <div class="form-group">
-
-                    <label class="control-label col-lg-1">Produccion:</label>
-                    <div class="col-lg-6">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
-                            <option value=""> </option>
-						    <option v-for="produccion in producidos" :value="produccion.id">@{{produccion.producto.descripcion +' - LOTE: ' + produccion.lote + ' Por Procesar: ' + produccion.por_procesar}}</option>
-                        </select>
-                    </div>
-
-					<label class="control-label col-lg-1">Cantidad:</label>
-					<div class="col-lg-1">
-						<input class="form-control input-sm" name="cantidad" type="number" v-model="cantidad" required>
-                    </div>
-
-					<div class="col-lg-2">
-					    <button :disabled="itemId == '' || cantidad == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
-                    </div>
-
-                </div>
-                <!-- /form-group -->
-
-				<!-- Items -->
-				<select style="display: none;"  name="items[]" multiple>
-					<option v-for="item in items" selected>
-						@{{item}}
-					</option>
-				</select>
-				<!-- /items -->
 
             </form>
             <!-- /form -->
@@ -137,39 +105,29 @@
         <!-- box-footer -->
         <div class="box-footer">
 
+			<h5>Detalles</h5>
           <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 
             <thead>
 
               <tr>
-                <th class="text-center"></th>
                 <th class="text-center">#</th>
-                <th class="text-center">LOTE</th>
                 <th class="text-center">PRODUCTO</th>
-                <th class="text-center">PRODUCIDAS</th>
-                <th class="text-center">RECHAZADAS</th>
-                <th class="text-center">TOTAL</th>
-                <th class="text-center">INGRESADAS</th>
+                <th class="text-center">CANTIDAD</th>
               </tr>
 
             </thead>
 
             <tbody>
-				<tr v-if="items <= 0">
-					<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
-				</tr>
-				<tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.producto_id)">
-					<td class="text-center">
-                        <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(item)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
-                    </td>
-					<td class="text-center">@{{key+1}}</td>
-				    <td class="text-center">@{{item.lote}}</td>
-				    <td class="text-left">@{{item.producto.descripcion}}</td>
-				    <td class="text-right">@{{item.producidas}}</td>
-				    <td class="text-right">@{{item.rechazadas}}</td>
-				    <td class="text-right">@{{item.total}}</td>
-				    <td class="text-right">@{{item.procesar}}</td>
-				</tr>
+				@foreach ($pallet->detalles as $detalle)
+
+					<tr>
+						<td class="text-center">{{$loop->iteration}}</td>
+						<td class="text-left">{{$detalle->producto->descripcion}}</td>
+						<td class="text-right">{{$detalle->cantidad}}</td>
+					</tr>
+
+				@endforeach
 
             </tbody>
 
@@ -182,7 +140,7 @@
 
 						<tr>
 						<th class="bg-gray text-right">TOTAL:</th>
-						<th class="text-right">@{{totalCantidad}}</th>
+						<th class="text-right">{{$pallet->detalles->sum('cantidad')}}</th>
 						</tr>
 
 					</table>
@@ -200,12 +158,4 @@
 @endsection
 
 @section('scripts')
-	<script>
-		var producidos = Object.values({!!$producidos!!});
-		var condiciones = {!!$condiciones!!};
-	</script>
-
-    <script src="{{asset('js/customDataTable.js')}}"></script>
-	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/createPalletProduccion.js')}}"></script>
 @endsection

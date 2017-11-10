@@ -86,6 +86,10 @@ class Pallet extends Model
 
         return $this->hasMany('App\Models\Bodega\PalletDetalle','pallet_id');
     }
+    public function medida() {
+
+        return $this->belongsTo('App\Models\Bodega\PalletMedida','medida_id');
+    }
 
     public function posicion() {
 
