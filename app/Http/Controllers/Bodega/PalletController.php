@@ -79,7 +79,7 @@ class PalletController extends Controller
 
         $pallet = Pallet::createFromProduccion($request);
 
-        return redirect()->route('etiquetaPalletProduccion',['id' => $pallet->id]);
+        return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
 
     /**
