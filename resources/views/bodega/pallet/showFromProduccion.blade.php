@@ -46,7 +46,7 @@
                     </div>
 
 					<div class="col-lg-1 col-lg-offset-7">
-						<a class="btn btn-sm btn-default" href="{{url('http://novasys.dev/bodega/pallet/'.$pallet->id.'/pdf')}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+						<a class="btn btn-sm btn-default" href="{{route('etiquetaPalletProduccion',['pallet' => $pallet->id])}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
 					</div>
 
                 </div>
