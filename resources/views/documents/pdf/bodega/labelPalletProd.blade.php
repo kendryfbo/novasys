@@ -30,6 +30,7 @@
 
                     <p><strong> FECHA: </strong>{{$pallet->created_at}}</p>
                     <p><strong>NUMERO: </strong>{{$pallet->numero}}</p>
+                    <p><strong>TOTAL: </strong>{{$pallet->detalles->sum('cantidad')}}</p>
 
                 </div>
 
@@ -38,23 +39,28 @@
             <div class="form-group">
 
 
-                <table style="border-spacing: 1px">
+                <table>
                         @foreach ($pallet->detalles as $detalle)
                             <tr>
                                 <td class="text-left"><h6><strong>Producto:</strong>{{$detalle->producto->descripcion}}</h6></td>
-                                <td class="text-left"><h6><strong>Lote:</strong> {{$detalle->produccion ? $detalle->produccion->lote : ''}}</h6></td>
-                                <td class="text-left"><h6><strong>Venc:</strong> {{$detalle->fecha_venc}}</h6></td>
-                                <td class="text-left"><h6><strong>Cant:</strong> {{$detalle->cantidad}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left"><h6>
+                                    <strong>Lote:</strong> {{$detalle->produccion ? $detalle->produccion->lote : ''}}
+                                    <strong>Venc:</strong> {{$detalle->fecha_venc}}
+                                    <strong>Cant:</strong> {{$detalle->cantidad}}</h6>
+                                </td>
                             </tr>
                         @endforeach
                 </table>
-                <br>
-                <br>
-                <div class="form-group">
 
-                    <label class="col-sm-2 col-sm-offset-2" for="">C Calidad Envasado</label>
-                    <label class="col-sm-1" for="">C Calidad Bodega</label>
-                </div>
+                <label class="col-sm-2 pull-right" for="">Total: {{$pallet->detalles->sum('cantidad')}}</label>
+
+                <br>
+                <br>
+
+                <label class="col-sm-2 col-sm-offset-2" for="">C Calidad Envasado</label>
+                <label class="col-sm-1" for="">C Calidad Bodega</label>
 
             </div>
 
