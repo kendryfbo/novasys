@@ -42,10 +42,6 @@
 						<input class="form-control input-sm" name="palletNum" type="number" v-model="palletNum" v-on:keyup.enter.prevent="getPallet" required>
                     </div>
 
-					<div class="col-lg-1">
-						<button class="btn btn-default btn-sm" type="button">Buscar Pallet</button>
-					</div>
-
                 </div>
                 <!-- /form-group -->
 
@@ -96,6 +92,12 @@
 									  <td class="bg-gray text-right">@{{posicion.status.descripcion}}</td>
 									</tr>
 
+									<tr>
+										<th class="bg-gray text-right" colspan="2">
+											<button form="insertPallet" class="btn btn-sm btn-default" type="submit" name="button">Ingresar pallet</button>
+										</th>
+									</tr>
+
 								</table>
 							</div>
 
@@ -140,7 +142,12 @@
 							</div>
 
 						</div>
+						<form id="insertPallet" method="post" action="{{route('guardarPalletEnPosicion')}}">
+							{{ csrf_field() }}
+							<input type="hidden" name="posicion" :value="posicion.id" required>
+							<input type="hidden" name="pallet" :value="pallet.id" required>
 
+						</form>
 					</div>
 					<!-- /box-body -->
 				</div>

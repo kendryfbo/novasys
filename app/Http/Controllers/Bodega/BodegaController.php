@@ -156,4 +156,21 @@ class BodegaController extends Controller
 
         return view('bodega.bodega.ingresoPallet')->with(['bodegas' => $bodegas]);
     }
+
+    public function storePalletInPosition(Request $request) {
+
+        $this->validate($request, [
+            'posicion' => 'required',
+            'pallet' => 'required'
+        ]);
+        $pos_id = $request->posicion;
+        $pallet_id = $request->pallet;
+
+        $posicion = Posicion::find($pos_id);
+        $posicion->pallet_id = $pallet_id;
+        $posicion->status_id = 3;
+        $posicion->save();
+
+        return redirect()->route('bodega');
+    }
 }

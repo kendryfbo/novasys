@@ -14,6 +14,7 @@ Route::prefix('bodega')->group( function(){
         Route::get('/{id}/findPosition/', 'Bodega\PalletController@position')->name('position'); // TEST
         Route::get('/materiaPrima/crear', 'Bodega\PalletController@createPalletMateriaPrima')->name('crearPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
+        Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
         // this should be declared in API controller
         Route::post('/data',       'Bodega\PalletController@apiData')->name('palletData');
@@ -33,6 +34,7 @@ Route::prefix('bodega')->group( function(){
     Route::post('/posicion/status',         'Bodega\PosicionController@storeStatus')->name('guardarStatusPosicion');
     Route::post('/posicion/pallet',         'Bodega\PosicionController@getPalletFromPosition')->name('obtenerPalletDePosicion');
 
+    Route::post('/ingreso/pallet', 'Bodega\BodegaController@storePalletInPosition')->name('guardarPalletEnPosicion');
     Route::get('/config',         'Bodega\BodegaController@indexConfig')->name('configBodega');
     Route::get('/',               'Bodega\BodegaController@index')->name('bodega');
     Route::get('/crear',          'Bodega\BodegaController@create')->name('crearBodega');
