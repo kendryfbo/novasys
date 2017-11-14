@@ -62,22 +62,22 @@ class CondPosController extends Controller
         $opciones = [];
 
         // CONDICION PARA PRODUCTO ESPECIFICO
-        if ($condicion == 1) {
+        if ($condicion == 4) {
 
             $opciones = Producto::getAllActive();
         }
         // CONDICION PARA MARCA ESPECIFICO
-        if ($condicion == 2) {
+        if ($condicion == 3) {
 
             $opciones = Marca::getAllActive();
         }
         // CONDICION PARA FAMILIA ESPECIFICO
-        if ($condicion == 3) {
+        if ($condicion == 2) {
 
             $opciones = Familia::getAllActive();
         }
         // CONDICION PARA TIPO DE FAMLIA ESPECIFICO
-        if ($condicion == 4) {
+        if ($condicion == 1) {
 
             $opciones = TipoFamilia::getAllActive();
         }
