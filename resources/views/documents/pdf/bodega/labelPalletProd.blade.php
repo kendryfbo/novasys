@@ -28,7 +28,7 @@
 
                 <div class="col-sm-1">
 
-                    <p><strong> FECHA: </strong>{{$pallet->created_at}}</p>
+                    <p><strong>FECHA: </strong>{{$pallet->created_at}}</p>
                     <p><strong>NUMERO: </strong>{{$pallet->numero}}</p>
                     <p><strong>TOTAL: </strong>{{$pallet->detalles->sum('cantidad')}}</p>
 
