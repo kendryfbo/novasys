@@ -13,7 +13,7 @@ class CreateIngresoTable extends Migration
      */
     public function up()
     {
-        Schema::create('ingreso_manual', function (Blueprint $table) {
+        Schema::create('ingreso', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero')->unique();
             $table->string('descripcion');
@@ -33,6 +33,6 @@ class CreateIngresoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingreso_manual');
+        Schema::dropIfExists('ingreso');
     }
 }
