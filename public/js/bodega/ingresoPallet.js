@@ -27,10 +27,15 @@ var app = new Vue({
 
             this.pallet = data;
 
-            if (this.pallet) {
+            if (this.pallet.almacenado) {
 
-                this.getPosition();
+                alert('Pallet ya se encuentra almacenado');
+                this.pallet= [];
+                this.posicion= [];
+                return;
             }
+
+            this.getPosition();
         },
 
         getPosition: function() {

@@ -16,19 +16,17 @@ class Proforma extends Model
         'cif', 'descuento','total','user_id'
     ];
 
-    public function detalles() {
+    static function getAllUnathorized() {
 
-        return $this->hasMany(ProformaDetalle::class);
+        return self::whereNull('aut_comer')->get();
     }
 
-    public function clienteIntl() {
+    static function getAllAuthorizedNotProcessed() {
 
-        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
-    }
-
-    public function guiaDespacho() {
-
-        return $this->hasOne(GuiaDespacho::class);
+        return self::where('aut_comer',1)
+                        ->where('aut_contab',1)
+                        ->where('status',1)
+                        ->get();
     }
 
     static function register($request) {
@@ -316,11 +314,6 @@ class Proforma extends Model
       	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
     }
 
-    static function getAllUnathorized() {
-
-        return self::whereNull('aut_comer')->get();
-    }
-
     public function authorize() {
 
         $this->aut_comer = 1;
@@ -336,5 +329,31 @@ class Proforma extends Model
         $this->aut_contab = 0; // Temporal hasta implementacion de Modulo de Finanzas
 
         $this->save();
+    }
+
+    /*
+    |
+    |  Relationships
+    |
+    */
+
+    public function detalles() {
+
+        return $this->hasMany(ProformaDetalle::class);
+    }
+    // same as cliente
+    public function clienteIntl() {
+
+        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
+    }
+    // same as clienteIntl
+    public function cliente() {
+
+        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
+    }
+
+    public function guiaDespacho() {
+
+        return $this->hasOne(GuiaDespacho::class);
     }
 }

@@ -29,6 +29,12 @@
 						</select>
 
 					</div>
+
+					<label class="control-label col-lg-1"></label>
+					<label class="control-label col-lg-1"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
+					<label class="control-label col-lg-1"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
+					<label class="control-label col-lg-1"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
+					<label class="control-label col-lg-1"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloqueado</label>
 				</div>
 			</div>
 
@@ -130,6 +136,14 @@
 
 						</div>
 
+						<div v-if="pallet != ''" class="col-lg-12">
+							<div class="btn-group align-center" role="group" aria-label="...">
+								<button type="button" class="btn btn-default">Traslado de Pallet</button>
+								<button type="button" class="btn btn-default">Limpiar Posicion</button>
+								<button type="button" class="btn btn-default">Egreso Manual</button>
+							</div>
+						</div>
+
 			        </div>
 
 				</div>
@@ -190,6 +204,20 @@
 
 		</div>
 		<!-- /tab-content -->
+
+		<!-- box-footer -->
+		<div class="box-footer">
+
+			<ul>
+				<li><a href="">Saldos Bodega</a></li>
+				<li><a href="">Saldos Producto Terminado</a></li>
+				<li><a href="">Saldos Producto Insumos</a></li>
+				<li><a href="">Saldos Producto Premezcla</a></li>
+				<li><a href="">Buscar Producto</a></li>
+			</ul>
+
+		</div>
+		<!-- /box-footer -->
 
 	</div>
 @endsection

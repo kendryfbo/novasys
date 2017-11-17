@@ -11,6 +11,7 @@ Route::prefix('bodega')->group( function() {
     Route::get('/crear',          'Bodega\BodegaController@create')->name('crearBodega');
     Route::get('/{id}/config',    'Bodega\BodegaController@edit')->name('editarBodega');
     Route::get('/{id}/consultar', 'Bodega\BodegaController@consult')->name('consultarBodega');
+    Route::get('/ordenEgreso',    'Bodega\BodegaController@indexOrdenEgreso')->name('ordenEgreso');
     Route::post('/',              'Bodega\BodegaController@store')->name('guardarBodega');
     Route::get('/ingreso/pallet', 'Bodega\BodegaController@entry')->name('ingresoPallet');
 
@@ -22,7 +23,8 @@ Route::prefix('bodega')->group( function() {
         Route::get('/porIngresar',        'Bodega\PalletController@index')->name('palletPorIngresar');
         Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
         Route::get('/{id}/findPosition/', 'Bodega\PalletController@position')->name('position'); // TEST
-        Route::get('/materiaPrima/crear', 'Bodega\PalletController@createPalletMateriaPrima')->name('crearPalletMP');
+        Route::get('/MPManual/crear',     'Bodega\PalletController@createPalletMPManual')->name('crearPalletMPManual');
+        Route::post('/MPManual',          'Bodega\PalletController@storePalletMPManual')->name('guardarPalletMPManual');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
         Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
@@ -31,9 +33,22 @@ Route::prefix('bodega')->group( function() {
 
     });
 
+    // Resource Ingreso
+    Route::prefix('ingreso')->group(function(){
+
+        Route::get('/',        'Bodega\IngresoController@index')->name('ingreso');
+        Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
+
+        //ingreso Manual Materia Prima
+        Route::get('/Manual/MP/crear', 'Bodega\IngresoController@createIngManualMP')->name('crearIngManualMP');
+        Route::post('/Manual/MP',      'Bodega\IngresoController@storeIngManualMP')->name('guardarIngManualMP');
+
+
+    });
+
     Route::get('/creacionPalletProduccion',  'Bodega\PalletController@createPalletProduccion')->name('crearPalletProduccion');
     Route::post('/creacionPalletProduccion', 'Bodega\PalletController@storePalletProduccion')->name('guardarPalletProduccion');
-    Route::get('/ingresoManual',             'Bodega\PalletController@create')->name('crearPallet');
+    //Route::get('/ingresoManual',             'Bodega\PalletController@create')->name('crearPallet');
 
     // this should be declared in API controller
     Route::get('/getOpciones/{condicion}',  'Bodega\CondPosController@getOpcionesFromTipo')->name('getopcionesDeCondicion');

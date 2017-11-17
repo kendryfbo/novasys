@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Creacion Pallet Produccion</h4>
+			<h4>Previsualizacion de Pallet</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->

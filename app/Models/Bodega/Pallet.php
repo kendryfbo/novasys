@@ -59,6 +59,43 @@ class Pallet extends Model
         return $pallet;
     }
 
+    static function createPalletMPManual($request) {
+
+        $pallet = DB::transaction( function() use($request) {
+
+            $items = $request->items;
+            $tipoIngreso = $request->tipo_ingreso;
+            $tipoProd = $request->tipo_prod;
+            $pallet = Pallet::create([
+                'numero' => $request->numero,
+                'medida_id' => $request->medida,
+                'almacenado' => 0,
+            ]);
+
+            foreach ( $items as $item) {
+
+                $item = json_decode($item);
+
+
+                $cantidad = $item->cantidad;
+
+                PalletDetalle::create([
+                    'pallet_id' => $pallet->id,
+                    'tipo_id' => $tipoProd,
+                    'item_id' => $item->id,
+                    'ing_tipo_id' => $tipoIngreso,
+                    'ing_id' => $item->id,
+                    'cantidad' => $cantidad,
+                    'fecha_venc' => $item->fecha_venc,
+                ]);
+            };
+
+            return $pallet;
+        }); // end-transaction
+
+        return $pallet;
+    }
+
 
     static function getDataForBodega($id) {
 

@@ -11,7 +11,7 @@ var app = new Vue ({
         selected: false,
         posicion_id: '',
         posicion: '',
-        pallet: [],
+        pallet: '',
     },
 
     methods: {

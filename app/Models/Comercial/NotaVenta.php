@@ -25,6 +25,14 @@ class NotaVenta extends Model
 		return self::whereNull('aut_comer')->get();
 	}
 
+	static function getAllAuthorizedNotProcessed() {
+
+        return self::where('aut_comer',1)
+                        ->where('aut_contab',1)
+                        ->where('status',1)
+                        ->get();
+    }
+
 
 	// public Methods
 	public function authorize() {

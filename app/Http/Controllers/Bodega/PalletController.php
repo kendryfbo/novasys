@@ -13,9 +13,11 @@ use App\Models\Insumo;
 use App\Models\Producto;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
+use App\Models\Bodega\PalletDetalle;
 use App\Models\comercial\Pais;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletCond;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\IngresoTipo;
 use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletCondTipo;
@@ -40,6 +42,11 @@ class PalletController extends Controller
         return view('bodega.pallet.index')->with(['pallets' => $pallets]);
     }
 
+    public function indexIngresoManual() {
+
+        return view('bodega.pallet.indexIngresoManual');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,13 +57,69 @@ class PalletController extends Controller
         $bodegas = [];
         $tipos = [];
         $medidas = [];
-        $numero = Carbon::now()->format('YmdHis');
-
-        $png = DNS1D::getBarcodeHTML($numero, "C128",1.85,30,"black",true);
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+        $medidas = [];
 
         return view('bodega.pallet.create')->with(
-            ['bodegas' => $bodegas, 'tipos' => $tipos, 'medidas' => $medidas, 'numero' => $numero, 'png' => $png]);
+            ['bodegas' => $bodegas, 'tipos' => $tipos, 'medidas' => $medidas, 'numero' => $numero, 'barCode' => $barCode]);
     }
+
+    // creacion de pallet de Materia Prima Manual
+    public function createPalletMPManual() {
+
+        $tipoProd = config('globalVars.MP');
+
+        $detalles = PalletDetalle::with('insumo')->where('tipo_id',$tipoProd)->where('pallet_id',NULL)->get();
+        $medidas = PalletMedida::getAllActive();
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+
+        return view('bodega.pallet.createPalletMPManual')->with([
+            'detalles' => $detalles, 'medidas' => $medidas,
+            'numero' => $numero, 'barCode' => $barCode,
+            'tipoProd' => $tipoProd,
+        ]);
+    }
+
+    // Creacion de pallet Producto Terminado
+    public function createPalletProduccion() {
+
+        $medidas = PalletMedida::getAllActive();
+        $palletCondTipos = PalletCondTipo::getAllActive();
+        $tipoIngreso = self::TERMPROC;
+
+        //Prueba
+        $opciones = Pais::select('id','nombre as descripcion')->get();
+
+        $producidos = TerminoProceso::with('producto')->where('procesado',0)->orWhere('por_procesar','>',0)->get();
+        $numero = Carbon::now()->format('YmdHis');
+        $barCode = DNS1D::getBarcodeHTML($numero, "C128",1.85,30,"black",true);
+
+        return view('bodega.pallet.createFromProduccion')->with(
+            ['medidas' => $medidas, 'condiciones' => $palletCondTipos, 'producidos' => $producidos,
+             'tipoIngreso' => $tipoIngreso,'opciones' => $opciones, 'numero' => $numero,
+             'barCode' => $barCode]);
+    }
+
+    public function createPalletManual() {
+
+        $tipoIngreso = '';
+        $tipoProducto = TipoFamilia::getAllActive();
+        $medidas = [];
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+
+        return view('bodega.pallet.createPalletManual')->with([
+            'numero' => $numero,
+            'barCode' => $barCode,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProducto' => $tipoProducto,
+            'medidas' => $medidas,
+        ]);
+
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -82,6 +145,26 @@ class PalletController extends Controller
         return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
 
+    public function storePalletMPManual(Request $request) {
+
+        $this->validate($request,[
+            'numero' =>'required',
+            'tipo_ingreso' =>'required',
+            'tipo_prod' =>'required',
+            'medida' => 'required',
+            'items' => 'required'
+        ]);
+
+        $pallet = Pallet::createPalletMPManual($request);
+
+        return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
+    }
+
+    public function storePalletManual() {
+
+        dd('StorePalletManual');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -90,7 +173,11 @@ class PalletController extends Controller
      */
     public function show(Pallet $pallet)
     {
-        //
+        $pallet->load('detalles','medida');
+        $barCode = $this->barCode($pallet->numero);
+
+        return view('bodega.pallet.showFromProduccion')->with(['pallet' => $pallet, 'barCode' => $barCode]);
+
     }
 
     public function showPalletProduccion(Pallet $pallet)
@@ -136,26 +223,6 @@ class PalletController extends Controller
         //
     }
 
-    // Creacion de pallet Producto Terminado
-    public function createPalletProduccion() {
-
-        $medidas = PalletMedida::getAllActive();
-        $palletCondTipos = PalletCondTipo::getAllActive();
-        $tipoIngreso = self::TERMPROC;
-
-        //Prueba
-        $opciones = Pais::select('id','nombre as descripcion')->get();
-
-        $producidos = TerminoProceso::with('producto')->where('procesado',0)->orWhere('por_procesar','>',0)->get();
-        $numero = Carbon::now()->format('YmdHis');
-        $barCode = DNS1D::getBarcodeHTML($numero, "C128",1.85,30,"black",true);
-
-        return view('bodega.pallet.createFromProduccion')->with(
-            ['medidas' => $medidas, 'condiciones' => $palletCondTipos, 'producidos' => $producidos,
-             'tipoIngreso' => $tipoIngreso,'opciones' => $opciones, 'numero' => $numero,
-             'barCode' => $barCode]);
-    }
-
     public function pdfPalletProd(Pallet $pallet) {
 
         $pallet = Pallet::getDataForBodega($pallet->id);
@@ -196,19 +263,6 @@ class PalletController extends Controller
         $positions = Posicion::findPositionFor($productos);
     }
 
-    public function createPalletMateriaPrima() {
-
-        $bodegas = Bodega::getAllActive();
-        $insumos = Insumo::getAllActive();
-        $medidas = PalletMedida::getAllActive();
-        $numero = $this->palletNum();
-        $barCode = $this->barCode($numero);
-
-        return view('bodega.pallet.createPalletMP')->with([
-            'bodegas' => $bodegas, 'insumos' => $insumos, 'medidas' => $medidas,
-            'numero' => $numero, 'barCode' => $barCode
-        ]);
-    }
 
     /*
      *    PRIVATE FUNCTIONS

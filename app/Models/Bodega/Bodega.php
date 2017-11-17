@@ -21,6 +21,26 @@ class Bodega extends Model
         return self::all()->where('activo',1);
      }
 
+     static function getPositions($bodegaId) {
+
+         $bloques = Posicion::where('bodega_id',$bodegaId)->orderBy('bloque','asc')->groupBy('bloque')->pluck('bloque');
+
+         foreach ($bloques as $keyBloq => $bloque) {
+
+             $estantes = Posicion::where('bodega_id',$bodegaId)->where('bloque',$bloque)->orderBy('estante','desc')->groupBy('estante')->pluck('estante');
+
+             foreach ($estantes as $keyEstante => $estante) {
+
+                 $posicion = Posicion::with('status')->orderBy('columna','asc')->where('bodega_id',$bodegaId)->where('bloque',$bloque)->where('estante',$estante)->get();
+
+                 $estantes[$keyEstante] = $posicion;
+             }
+             $bloques[$keyBloq] = $estantes;
+         };
+
+         return $bloques;
+     }
+
     static function createBodega($request) {
 
         DB::transaction(function () use ($request) {
