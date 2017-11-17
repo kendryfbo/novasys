@@ -65,7 +65,7 @@ class ProvinciasTableSeeder extends Seeder
             ['id' => 50,  'descripcion' => 'Cordillera', 'region_id' => 15],
             ['id' => 51,  'descripcion' => 'Chacabuco', 'region_id' => 15],
             ['id' => 52,  'descripcion' => 'Maipo', 'region_id' => 15],
-            ['id' => 53,  'descripcion' => 'Melifica', 'region_id' => 15],
+            ['id' => 53,  'descripcion' => 'melipilla', 'region_id' => 15],
             ['id' => 54,  'descripcion' => 'Talagante', 'region_id' => 15],
         ];
 

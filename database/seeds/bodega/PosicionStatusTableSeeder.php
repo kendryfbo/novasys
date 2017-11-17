@@ -13,10 +13,10 @@ class PosicionStatusTableSeeder extends Seeder
     public function run()
     {
         $statusAll = [
-            ['id' => 1, 'descripcion' => 'deshabilitado', 'activo'=> 1],
-            ['id' => 2, 'descripcion' => 'disponible', 'activo'=> 1],
-            ['id' => 3, 'descripcion' => 'ocupado', 'activo'=> 1],
-            ['id' => 4, 'descripcion' => 'reservado', 'activo'=> 1]
+            ['id' => 1, 'descripcion' => 'Deshabilitado', 'activo'=> 1],
+            ['id' => 2, 'descripcion' => 'Disponible', 'activo'=> 1],
+            ['id' => 3, 'descripcion' => 'Ocupado', 'activo'=> 1],
+            ['id' => 4, 'descripcion' => 'Reservado', 'activo'=> 1]
         ];
 
         foreach ($statusAll as $status) {

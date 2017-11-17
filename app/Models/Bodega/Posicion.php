@@ -249,11 +249,9 @@ class Posicion extends Model
         return $query;
     }
 
-
     /*
      * RELATIONS FUNCTIONS
      */
-
      public function pallet() {
 
          return $this->belongsTo('App\Models\Bodega\Pallet','pallet_id');

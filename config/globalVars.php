@@ -22,4 +22,11 @@ return [
 
     'MP' => 1,
 
+    /*
+    | Variable que Representa el id del Tipo de ingreso
+    | Este id debe ser igual al de la table ingreso_tipo. (creado a partir de semilla)
+    */
+
+    'ingresoManual' => 1,
+
 ];
