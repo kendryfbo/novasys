@@ -185,13 +185,13 @@
 
 					<label class="control-label col-lg-1">%Dscto:</label>
 					<div class="col-lg-1">
-						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento" disabled>
+						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento">
 					</div>
 
 					<label class="control-label col-lg-1">Precio:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="hidden" name="precio" v-model.number="precio" disabled>
-						<input class="form-control text-right" type="text" name="strPrecio" :value="precio.toLocaleString()" disabled>
+						<input class="form-control" type="number" name="precio" v-model.number="precio">
+						{{--<input class="form-control text-right" type="text" name="strPrecio" :value="precio.toLocaleString()" disabled>--}}
 					</div>
 
 					<div class="col-lg-2">
