@@ -75,7 +75,7 @@ var app = new Vue ({
 
 			for (var i=0; i<this.listaDetalle.length; i++) {
 
-				if (this.producto == this.listaDetalle[i].id) {
+				if (this.producto == this.listaDetalle[i].producto_id) {
 
 					var formato = this.listaDetalle[i].producto.formato;
 					this.codigo = this.listaDetalle[i].producto.codigo;
