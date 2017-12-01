@@ -202,6 +202,10 @@ var app = new Vue ({
 				if (this.items[i].iaba) {
 
 					iaba = (neto * 10) / 100; // reemplazar por valor de tabla;
+
+				} else {
+
+					iaba = 0;
 				}
 
 				subTotal += itemSubTotal;
