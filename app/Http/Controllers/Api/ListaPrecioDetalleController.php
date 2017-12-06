@@ -168,7 +168,9 @@ class ListaPrecioDetalleController extends Controller
 
     public function insert(Request $request)
     {
-        $detalle = ListaPrecioDetalle::where('producto_id',$request->producto)->first();
+        $detalle = ListaPrecioDetalle::where('producto_id',$request->producto)
+                                        ->where('lista_id',$request->lista)
+                                        ->first();
 
         if($detalle) {
 
