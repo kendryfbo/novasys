@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Formula;
 use App\Models\Producto;
 use App\Models\Familia;
+use App\Models\Insumo;
 use App\Models\Nivel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -74,7 +75,14 @@ class FormulaController extends Controller
      */
     public function edit(Formula $formula)
     {
-        //
+        $formula->load('detalle.insumo','producto.formato');
+
+        $niveles = Nivel::getAllActive();
+        $insumos = Insumo::getAllActive();
+
+        return view('desarrollo.formulas.edit')
+                ->with([
+                    'formula' => $formula, 'niveles' => $niveles, 'insumos' => $insumos]);
     }
 
     /**
