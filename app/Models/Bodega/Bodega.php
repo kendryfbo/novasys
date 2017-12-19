@@ -16,12 +16,12 @@ class Bodega extends Model
      *    STATIC FUNCTIONS
      */
 
-     static function getAllActive() {
+    static function getAllActive() {
 
         return self::all()->where('activo',1);
-     }
+    }
 
-     static function getPositions($bodegaId) {
+    static function getPositions($bodegaId) {
 
          $bloques = Posicion::where('bodega_id',$bodegaId)->orderBy('bloque','asc')->groupBy('bloque')->pluck('bloque');
 
@@ -39,7 +39,7 @@ class Bodega extends Model
          };
 
          return $bloques;
-     }
+    }
 
     static function createBodega($request) {
 
@@ -76,4 +76,70 @@ class Bodega extends Model
 
         },5); // transaction
     }
+
+    static function getExistTotalPT($productoId,$bodegaId = NULL) {
+
+        if ($bodegaId) {
+
+            $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
+            WHERE tipo_id=4
+            AND item_id=". $productoId . " AND pallet_id
+            IN (SELECT pallet_id FROM posicion WHERE bodega_id=" . $bodegaId . " AND status_id=3)
+            GROUP BY item_id";
+
+        } else {
+
+            $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
+            WHERE tipo_id=4
+            AND item_id=". $productoId . " AND pallet_id
+            IN (SELECT pallet_id FROM posicion WHERE status_id=3)
+            GROUP BY item_id LIMIT 1";
+        }
+
+        $results = DB::select(DB::raw($query));
+
+        if (!$results) {
+
+            return 0;
+        }
+        return $results[0]->cantidad;
+    }
+
+    static function getStockFromBodega($bodegaId,$tipo = NULL) {
+
+        $results = [];
+
+        if(!$bodegaId) {
+
+            return $results;
+        }
+
+        if ($tipo) {
+
+            $query = "SELECT
+                        productos.codigo,
+                        productos.descripcion,
+                        sum(pallet_detalle.cantidad) as cantidad
+                        FROM productos,pallet_detalle
+                        WHERE pallet_detalle.item_id=productos.id
+                        AND pallet_detalle.tipo_id=".$tipo."
+                        AND pallet_detalle.pallet_id
+                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC
+";
+        } else {
+
+            $query = "SELECT
+                        productos.codigo,
+                        productos.descripcion,
+                        sum(pallet_detalle.cantidad) as cantidad
+                        FROM productos,pallet_detalle
+                        WHERE pallet_detalle.item_id=productos.id AND pallet_detalle.pallet_id
+                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC
+";
+        }
+        //dd($query);
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
 }

@@ -15,7 +15,7 @@ class CreatePalletDetalleTable extends Migration
     {
         Schema::create('pallet_detalle', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('pallet_id')->unsigned()->nullable();
+            $table->integer('pallet_id')->unsigned();
             $table->integer('tipo_id')->unsigned();
             $table->integer('item_id')->unsigned();
             $table->integer('ing_tipo_id')->unsigned();
@@ -23,6 +23,10 @@ class CreatePalletDetalleTable extends Migration
             $table->integer('cantidad');
             $table->date('fecha_venc');
             $table->timestamps();
+        });
+
+        Schema::table('pallet_detalle', function (Blueprint $table) {
+            $table->foreign('pallet_id')->references('id')->on('pallets')->onDelete('cascade');
         });
     }
 

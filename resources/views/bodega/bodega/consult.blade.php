@@ -210,7 +210,7 @@
 
 			<ul>
 				<li><a href="">Saldos Bodega</a></li>
-				<li><a href="">Saldos Producto Terminado</a></li>
+				<li><a href="{{route('verStockBodegaPT', ['bodega' => $bodega->id])}}">Saldos Producto Terminado</a></li>
 				<li><a href="">Saldos Producto Insumos</a></li>
 				<li><a href="">Saldos Producto Premezcla</a></li>
 				<li><a href="">Buscar Producto</a></li>

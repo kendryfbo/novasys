@@ -10,7 +10,7 @@ class Nivel extends Model
 
     static function getAllActive() {
 
-        return Nivel::all()->where('activo',1);
+        return self::all()->where('activo',1);
     }
 
 	public function formulaDetalle() {

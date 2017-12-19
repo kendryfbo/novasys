@@ -116,6 +116,31 @@ class Pallet extends Model
         return $pallet;
     }
 
+
+    /*
+    | public functions
+    */
+    // descontar Pallet dado el id de Detalle
+    public function subtract($id,$cantidad) {
+
+        //dd('pallet substract');
+
+        $detalle = $this->detalles->find($id);
+        $detalle->subtract($cantidad);
+    }
+
+    public function isEmpty() {
+
+        $total = $this->detalles->sum('cantidad');
+
+        if ($total <= 0) {
+
+            return true;
+        }
+
+        return false;
+    }
+
    /*
     * Relations Table
     */

@@ -10,6 +10,13 @@ use App\Models\Bodega\Pallet;
 
 class Posicion extends Model
 {
+    /* status de posiciones */
+    const DESHABILITADO = 1;
+    const DISPONIBLE = 2;
+    const OCUPADO = 3;
+    const RESERVADO = 4;
+
+    /* condiciones disponibles */
     const COND_TIPO_FAMILIA = 1;
     const COND_FAMILIA = 2;
     const COND_MARCA = 3;
@@ -52,14 +59,14 @@ class Posicion extends Model
 
         }
 
-        $query = "SELECT * FROM posicion,cond_pos WHERE posicion.id=cond_pos.posicion_id AND posicion.status_id=2 ". $queryCond1;
+        $query = "SELECT * FROM posicion,cond_pos WHERE posicion.id=cond_pos.posicion_id AND posicion.status_id=".self::DISPONIBLE." ". $queryCond1;
         $results = DB::select(DB::raw($query));
 
         if ($results) {
 
             dd($results);
         }
-        $query = "SELECT * FROM posicion,cond_pos WHERE posicion.id=cond_pos.posicion_id AND posicion.status_id=2 ". $queryCond2;
+        $query = "SELECT * FROM posicion,cond_pos WHERE posicion.id=cond_pos.posicion_id AND posicion.status_id=".self::DISPONIBLE." ". $queryCond2;
         $results = DB::select(DB::raw($query));
 
         if ($results) {
@@ -141,7 +148,7 @@ class Posicion extends Model
             $conditionTipoFamilia = $conditionTipoFamilia . $conditions['tipo_familia'];
         }
 
-        $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.id=pos_cond.posicion_id AND posicion.status_id=2";
+        $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE;
 
         $query = $baseQuery . $conditionProducto .' LIMIT 1';
 
@@ -198,7 +205,7 @@ class Posicion extends Model
 
 
         // si no cumple ninguna condicion buscar posicion sin condicion
-        $query = "SELECT posicion.id FROM posicion WHERE posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=2 LIMIT 1";
+        $query = "SELECT posicion.id FROM posicion WHERE posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE." LIMIT 1";
         $results = DB::select(DB::raw($query));
 
         if ($results) {
@@ -214,6 +221,65 @@ class Posicion extends Model
         }
     }
 
+    static function getPositionThatContainItem($bodega,$tipo,$id) {
+
+
+        $posicion = [];
+
+        if ($bodega){
+
+            $query = "SELECT posicion.id, pallet_detalle.id as detalle_id, pallet_detalle.cantidad as existencia FROM posicion,pallets,pallet_detalle WHERE
+                posicion.pallet_id=pallets.id AND pallets.id=pallet_detalle.pallet_id AND
+                posicion.bodega_id=" . $bodega . " AND pallet_detalle.tipo_id=" . $tipo . " AND pallet_detalle.item_id= " . $id . " ORDER BY fecha_venc LIMIT 1";
+        } else {
+
+            $query = "SELECT posicion.id, pallet_detalle.id as detalle_id, pallet_detalle.cantidad as existencia FROM posicion,pallets,pallet_detalle WHERE
+                posicion.pallet_id=pallets.id AND pallets.id=pallet_detalle.pallet_id AND
+                pallet_detalle.tipo_id=" . $tipo . " AND pallet_detalle.item_id= " . $id . " ORDER BY fecha_venc LIMIT 1";
+        }
+
+        $results = DB::select(DB::raw($query));
+
+        if (!$results) {
+
+            return $posicion;
+
+        }
+
+        $posicion = Posicion::find($results[0]->id);
+        $posicion->detalle_id = $results[0]->detalle_id;
+        $posicion->existencia = $results[0]->existencia;
+        return $posicion;
+    }
+
+    public function subtract($detalle_id,$cantidad) {
+
+        $this->pallet->subtract($detalle_id,$cantidad);
+
+        if ($this->pallet->isEmpty()) {
+
+            unset($this->detalle_id);
+            unset($this->existencia);
+
+            $this->pallet_id = NULL;
+            $this->status_id = self::DISPONIBLE;
+
+            $this->save();
+
+            $this->pallet->delete();
+        }
+    }
+
+    public function format() {
+
+        $bloque = sprintf("%02d", $this->bloque);
+        $columna = sprintf("%02d", $this->columna);
+        $estante = sprintf("%02d", $this->estante);
+
+        $formato = $bloque . $columna . $estante;
+
+        return $formato;
+    }
     /*
     |
     | Condiciones
@@ -252,6 +318,10 @@ class Posicion extends Model
     /*
      * RELATIONS FUNCTIONS
      */
+     public function bodega() {
+
+         return $this->belongsTo('App\Models\Bodega\Bodega','bodega_id');
+     }
      public function pallet() {
 
          return $this->belongsTo('App\Models\Bodega\Pallet','pallet_id');

@@ -11,10 +11,10 @@ Route::prefix('bodega')->group( function() {
     Route::get('/crear',          'Bodega\BodegaController@create')->name('crearBodega');
     Route::get('/{id}/config',    'Bodega\BodegaController@edit')->name('editarBodega');
     Route::get('/{id}/consultar', 'Bodega\BodegaController@consult')->name('consultarBodega');
-    Route::get('/ordenEgreso',    'Bodega\BodegaController@indexOrdenEgreso')->name('ordenEgreso');
     Route::post('/',              'Bodega\BodegaController@store')->name('guardarBodega');
     Route::get('/ingreso/pallet', 'Bodega\BodegaController@entry')->name('ingresoPallet');
-
+    Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
+    Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
     // Resource Pallets
     Route::prefix('pallet')->group(function(){
 
@@ -30,6 +30,18 @@ Route::prefix('bodega')->group( function() {
 
         // this should be declared in API controller
         Route::post('/data',       'Bodega\PalletController@apiData')->name('palletData');
+
+    });
+
+    // Resource Orden Egreso
+    Route::prefix('ordenEgreso')->group(function(){
+
+        Route::get('/',            'Bodega\OrdenEgresoController@index');
+        Route::get('/pendientes',  'Bodega\OrdenEgresoController@pendingOrdenEgreso')->name('ordenEgresoPendientes');
+        Route::post('/consultar',  'Bodega\OrdenEgresoController@consultExistence')->name('ordenEgresoConsultarExistencia');
+        Route::post('/existencia', 'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
+        Route::post('/generar',    'Bodega\OrdenEgresoController@store')->name('generarOrdenEgreso');
+        Route::get('/{numero}',    'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
 
     });
 

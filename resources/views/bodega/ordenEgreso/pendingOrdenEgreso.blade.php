@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Ordenes Egreso</h4>
+			<h4>Ordenes de Egreso Pendientes por Generar</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -28,6 +28,7 @@
 						<th class="text-center">numero</th>
 						<th class="text-center">Tipo</th>
 						<th class="text-center">Cliente</th>
+						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -37,6 +38,14 @@
 							<td class="text-center">{{$orden->numero}}</td>
 							<td class="text-center">{{$orden->tipo}}</td>
 							<td class="text-center">{{$orden->Cliente->descripcion}}</td>
+							<td class="text-center">
+								<form style="display: inline" action="{{route('ordenEgresoConsultarExistencia',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
+									{{ csrf_field() }}
+									<button class="btn btn-sm btn-default" type="submit">
+										<i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i> Existencia
+									</button>
+								</form>
+							</td>
 						</tr>
 					@endforeach
 				</tbody>

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Bodega;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Posicion;
-use App\Models\Comercial\Proforma;
-use App\Models\Comercial\NotaVenta;
+use App\Models\Bodega\Pallet;
+use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\PosCondTipo;
-use App\Http\Controllers\Controller;
+use App\Models\Comercial\NotaVenta;
 use App\Models\Bodega\PosicionStatus;
 
 class BodegaController extends Controller
@@ -30,25 +32,6 @@ class BodegaController extends Controller
         $bodegas = Bodega::all();
 
         return view('bodega.bodega.indexConfig')->with(['bodegas' => $bodegas]);
-    }
-
-    public function indexOrdenEgreso()
-    {
-        $proformas = Proforma::getAllAuthorizedNotProcessed();
-        $proformas->map(function ($proforma){
-            $proforma['tipo'] = 'proforma';
-            return $proforma;
-        });
-
-        $notasVenta = NotaVenta::getAllAuthorizedNotProcessed();
-        $notasVenta->map(function ($notaVenta){
-            $notaVenta['tipo'] = 'nota Venta';
-            return $notaVenta;
-        });
-
-        $ordenes = $proformas->merge($notasVenta)->sortBy('created_at');
-
-        return view('bodega.bodega.indexOrdenEgreso')->with(['ordenes' => $ordenes]);
     }
 
     /**
@@ -94,6 +77,20 @@ class BodegaController extends Controller
     public function show($bodega)
     {
 
+    }
+
+    public function showStock() {
+
+    }
+
+    public function showStockPT($bodega) {
+
+        $productoT = config('globalVars.PT');
+
+        $stocks = Bodega::getStockFromBodega($bodega,$productoT);
+        $bodega = Bodega::find($bodega);
+
+        return view('bodega.bodega.stock')->with(['bodega' => $bodega, 'stocks' => $stocks]);
     }
 
     /**
