@@ -51,13 +51,15 @@ var app = new Vue({
                 }
             }
 
-            this.updateVenc();
+            if (this.fechaProd) {
+
+                this.updateVenc();
+            }
         },
 
         updateNumLote: function() {
 
-            if (this.fechavencLoteString && this.turno && this.maquina && this.operador && this.batch) {
-
+            if (this.fechaVenc && this.turno && this.maquina && this.operador && this.batch) {
 
                 this.lote = this.fechavencLoteString + this.maquina + this.operador + this.turno.charAt(0) + this.codigo + this.batch;
             }
