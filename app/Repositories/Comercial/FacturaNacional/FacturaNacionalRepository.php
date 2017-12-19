@@ -154,7 +154,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 		DB::transaction(function() use ($request) {
 
-			$notaVenta = NotaVenta::with('detalle')->find($request->notaVenta);
+			$notaVenta = NotaVenta::with('detalles')->find($request->notaVenta);
 			$centroVenta = CentroVenta::find($request->centroVenta);
 			$cliente = ClienteNacional::find($request->cliente);
 			$vendedor = Vendedor::find($request->vendedor);

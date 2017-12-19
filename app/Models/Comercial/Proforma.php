@@ -314,19 +314,30 @@ class Proforma extends Model
       	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
     }
 
-    public function authorize() {
+    public function authorizeComer() {
 
         $this->aut_comer = 1;
-        $this->aut_contab = 1; // Temporal hasta implementacion de Modulo de Finanzas
+
+        $this->save();
+
+    }
+    public function authorizeContab() {
+
+        $this->aut_contab = 1;
 
         $this->save();
 
     }
 
-    public function unauthorize() {
+    public function unauthorizeComer() {
 
         $this->aut_comer = 0;
-        $this->aut_contab = 0; // Temporal hasta implementacion de Modulo de Finanzas
+
+        $this->save();
+    }
+    public function unauthorizeContab() {
+
+        $this->aut_contab = 0;
 
         $this->save();
     }

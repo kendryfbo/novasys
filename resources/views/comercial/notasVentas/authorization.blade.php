@@ -48,10 +48,10 @@
 									</button>
 							</td>
 							<!-- Forms -->
-							<form id="authorize" style="display: inline" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post" v-on:submit="confirmAutorizar">
+							<form id="authorize" style="display: inline" action="{{route('autorizarNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
 								{{csrf_field()}}
 							</form>
-							<form id="unauthorized" style="display: inline" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post" v-on:submit="confirmDesautorizar">
+							<form id="unauthorized" style="display: inline" action="{{route('desautNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
 								{{csrf_field()}}
 							</form>
 							<!-- /Forms -->
@@ -69,5 +69,4 @@
 @section('scripts')
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/comercial/nvAutorizacion.js')}}"></script>
 @endsection

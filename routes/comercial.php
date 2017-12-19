@@ -40,8 +40,9 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 	Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
 	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta')->name('desautNotaVenta');
 	Route::put('notasVentas/{notaVenta}',               'Comercial\NotaVentaController@update')->name('actualizarNotaVenta');
-	Route::resource('notasVentas','Comercial\NotaVentaController',[
-		'parameters' => ['notasVentas' => 'notaVenta']]);
+    Route::resource('notasVentas','Comercial\NotaVentaController',[
+        'parameters' => ['notasVentas' => 'notaVenta']]);
+    route::get('notasVentas/{numero}',                  'Comercial\NotaVentaController@show')->name('verNotaVenta');
 
   // Resource Factura Nacionale
   Route::prefix('facturasNacionales')->group(function(){
@@ -100,7 +101,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::post('proformas',                          'Comercial\ProformaController@store')->name('guardarProforma');
   Route::get('proformas/{proforma}/editar',         'Comercial\ProformaController@edit')->name('editarProforma');
   Route::put('proformas/{proforma}',                'Comercial\ProformaController@update')->name('actualizarProforma');
-  Route::get('proformas/autorizacion/',              'Comercial\ProformaController@authorization')->name('autorizacionProforma');
+  Route::get('proformas/autorizacion/',             'Comercial\ProformaController@authorization')->name('autorizacionProforma');
   Route::get('proformas/{proforma}',                'Comercial\ProformaController@show')->name('verProforma');
   Route::delete('proformas/{proforma}',             'Comercial\ProformaController@delete')->name('eliminarProforma');
   Route::get('proformas/autorizacion/{proforma}',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');

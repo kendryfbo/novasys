@@ -35,18 +35,29 @@ class NotaVenta extends Model
 
 
 	// public Methods
-	public function authorize() {
+	public function authorizeComer() {
 
 		$this->aut_comer = 1;
-		$this->aut_contab = 1; // mientras se implementa FINANZAS
 		$this->save();
 		$this->fireModelEvent('authorized',false);
 	}
 
-	public function unauthorize() {
+	public function unauthorizeComer() {
 
 		$this->aut_comer = 0;
 		$this->status = 0;
+		$this->save();
+	}
+
+	public function authorizeContab() {
+
+		$this->aut_contab = 1;
+		$this->save();
+	}
+
+	public function unauthorizeContab() {
+
+		$this->aut_contab = 0;
 		$this->save();
 	}
 	public function setTitleAttribute($value) {
@@ -55,7 +66,12 @@ class NotaVenta extends Model
 	}
 
 	//relations Methods
+	/* duplicado para retro compatibilidad */
 	public function detalle() {
+
+		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');
+	}
+	public function detalles() {
 
 		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');
 	}

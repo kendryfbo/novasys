@@ -126,7 +126,7 @@ class NotaVentaController extends Controller
 
             return redirect()->back();
         }
-        
+
         $notaVenta->load('detalle','cliente.sucursal',
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',
@@ -194,19 +194,19 @@ class NotaVentaController extends Controller
 
     public function authorizeNotaVenta(NotaVenta $notaVenta)
     {
-        $notaVenta->authorize();
+        $notaVenta->authorizeComer();
 
         $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
 
-        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
+        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
     }
 
     public function unauthorizedNotaVenta(NotaVenta $notaVenta)
     {
-        $notaVenta->unauthorize();
+        $notaVenta->unauthorizeComer();
 
-        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Desautorizada.";
+        $msg = "NotaVenta: " . $notaVenta->numero . " No ha sido autorizada.";
 
-        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
+        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
     }
 }

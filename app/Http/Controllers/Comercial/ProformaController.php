@@ -21,7 +21,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-      $proformas = Proforma::orderBy('numero')->take(20)->get();
+      $proformas = Proforma::orderBy('numero','desc')->take(20)->get();
 
       return view('comercial.proforma.index')->with(['proformas' => $proformas]);
     }
@@ -221,7 +221,7 @@ class ProformaController extends Controller
 
     public function auth(Proforma $proforma) {
 
-        $proforma->authorize();
+        $proforma->authorizeComer();
 
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
 
@@ -230,9 +230,9 @@ class ProformaController extends Controller
 
     public function unauth(Proforma $proforma) {
 
-        $proforma->unauthorize();
+        $proforma->unauthorizeComer();
 
-        $msg = 'Proforma N°' . $proforma->numero . ' ha sido No Autorizada.';
+        $msg = 'Proforma N°' . $proforma->numero . ' No ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
     }
