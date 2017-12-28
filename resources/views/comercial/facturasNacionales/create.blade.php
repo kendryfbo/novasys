@@ -46,8 +46,13 @@
 							<input form="import" class="form-control" type="number" name="numNV" value="" placeholder="Nota Venta...">
 						</div>
 						<div class="col-lg-1">
-              <button form="import" class="btn btn-default btn-sm" type="submit" >Importar</button>
-            </div>
+			              <button form="import" class="btn btn-default btn-sm" type="submit" >Importar</button>
+			            </div>
+						@if (session('status'))
+						<div class="col-lg-2">
+							<p class="control-label text-red text-left">{{session('status')}}</p>
+						</div>
+						@endif
 
 					</div>
 

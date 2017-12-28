@@ -60,6 +60,15 @@ class NotaVenta extends Model
 		$this->aut_contab = 0;
 		$this->save();
 	}
+
+	public function isAuthorized() {
+
+        if ($this->aut_comer && $this->aut_contab) {
+            return true;
+        }
+        return false;
+    }
+	
 	public function setTitleAttribute($value) {
 
 		dd($value);

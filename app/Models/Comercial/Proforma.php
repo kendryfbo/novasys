@@ -342,6 +342,14 @@ class Proforma extends Model
         $this->save();
     }
 
+    public function isAuthorized() {
+
+        if ($this->aut_comer && $this->aut_contab) {
+            return true;
+        }
+        return false;
+    }
+
     /*
     |
     |  Relationships

@@ -63,19 +63,20 @@ class FacturaNacionalController extends Controller
             'centroVenta:id,descripcion',
             'cliente.formaPago',
             'vendedor:id,nombre',
-            'detalle')->where('numero',$numNV)
-                        ->where('aut_comer',1)
-                        ->where('aut_contab',1)
-                        ->whereNull('factura')
-                        ->first();
+            'detalle')->where('numero',$numNV)->first();
 
-        if ($notaVenta) {
+        if ($notaVenta->factura) {
 
-            return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
-        } else {
+            $msg = 'Nota de Venta ya se encuentra asociada a Factura Nº'. $notaVenta->factura .'.';
+            return redirect()->back()->with('status',$msg);
 
-            return redirect()->back();
+        } else if (!$notaVenta->isAuthorized()) {
+
+            $msg = 'Nota de Venta no se encuentra Autorizada.';
+            return redirect()->back()->with('status',$msg);
         }
+
+        return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
     }
 
     /**

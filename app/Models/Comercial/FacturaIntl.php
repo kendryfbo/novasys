@@ -83,6 +83,9 @@ class FacturaIntl extends Model
 				]);
 			}
 
+			$proforma->factura = $factura->numero;
+			$proforma->save();
+
 			return $factura;
 		}, 5);
 

@@ -149,7 +149,16 @@ class FacturaIntlController extends Controller
         $msg = 'Proforma No existe';
 
         return redirect()->back()->with(['status' => $msg]);
-      }
+    } else if (!$proforma->isAuthorized()) {
+
+        $msg = 'Proforma no se encuentra autorizada.';
+        return redirect()->back()->with(['status' => $msg]);
+
+    } else if ($proforma->factura) {
+
+        $msg = 'Proforma ya se encuentra relacionada a la factura Nº'.$proforma->factura.'.';
+        return redirect()->back()->with(['status' => $msg]);
+    }
 
       return view('comercial.facturaIntl.createFromProforma')->with(['proforma' => $proforma]);
     }

@@ -145,7 +145,7 @@ class ProformaController extends Controller
     {
         $proforma = Proforma::with('detalles')->where('numero',$proforma)->first();
 
-        if (!$proforma) {
+        if (!$proforma || $proforma->aut_contab) {
 
             return redirect()->back();
         }

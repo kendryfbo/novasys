@@ -122,7 +122,7 @@ class NotaVentaController extends Controller
      */
     public function edit(NotaVenta $notaVenta)
     {
-        if ($notaVenta->aut_contab) {
+        if (!$notaVenta || $notaVenta->aut_contab) {
 
             return redirect()->back();
         }

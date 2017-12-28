@@ -48,17 +48,16 @@
             <input class="form-control input-sm" type="numero"  min="0" autofocus required>
           </div>
 
-
-					<label class="control-label col-lg-1 col-lg-offset-4">Proforma:</label>
-					<div class="col-lg-1">
-						<input form="importProforma" class="form-control input-sm" type="number" name="proforma">
-					</div>
-					<button form="importProforma" class="col-lg-1 btn btn-default btn-sm" type="submit" name="button">Importar</button>
-					<div class="col-lg-2">
-						@if (session('status'))
-							<p class="control-label text-red text-left">{{session('status')}}</p>
-						@endif
-					</div>
+			<label class="control-label col-lg-1 col-lg-offset-4">Proforma:</label>
+			<div class="col-lg-1">
+				<input form="importProforma" class="form-control input-sm" type="number" name="proforma">
+			</div>
+			<button form="importProforma" class="col-lg-1 btn btn-default btn-sm" type="submit" name="button">Importar</button>
+			<div class="col-lg-3">
+				@if (session('status'))
+					<p class="control-label text-red text-left">{{session('status')}}</p>
+				@endif
+			</div>
 
         </div>
         <!-- /form-group -->
