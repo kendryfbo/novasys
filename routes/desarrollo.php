@@ -67,7 +67,6 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 
 		Route::get('/',					  'PremezclaController@index')->name('premezclas');
 		Route::get('crear', 			  'PremezclaController@create')->name('crearPremezcla');
-		Route::get('crearDos', 			  'PremezclaController@createDos')->name('crearPremezclaDos');
 		Route::post('/', 				  'PremezclaController@store')->name('guardarPremezcla');
 		Route::get('/{premezcla}/edit',   'PremezclaController@edit')->name('editarPremezcla');
 		Route::post('update/{premezcla}', 'PremezclaController@update')->name('actualizarPremezcla');

@@ -105,9 +105,9 @@
                 <td class="text-center">{{$detalle->id}}</td>
                 <td class="text-left">{{$detalle->descripcion}}</td>
 				<td class="text-left">{{$detalle->nivel->descripcion}}</td>
-                <td class="text-right">{{rtrim(sprintf('%.20F', $detalle->cantxuni), '0')}}</td>
-                <td class="text-right">{{rtrim(sprintf('%.20F', $detalle->cantxcaja), '0')}}</td>
-                <td class="text-right">{{rtrim(sprintf('%.20F', $detalle->cantxbatch), '0')}}</td>
+                <td class="text-right">{{rtrim(sprintf('%.8F', $detalle->cantxuni), '0')}}</td>
+                <td class="text-right">{{rtrim(sprintf('%.5F', $detalle->cantxcaja), '0')}}</td>
+                <td class="text-right">{{rtrim(sprintf('%.3F', $detalle->cantxbatch), '0')}}</td>
               </tr>
             @endforeach
 
