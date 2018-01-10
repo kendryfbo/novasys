@@ -83,7 +83,7 @@
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number="cantidad" required>
+							<input class="form-control input-sm" type="number" v-model.number.lazy="cantidad" required>
 							<span class="input-group-addon">@{{item.unidad_med}}</span>
 						</div>
                     </div>
@@ -160,20 +160,6 @@
 
           </table>
 
-			<div class="row">
-
-				<div class=" col-sm-3 pull-right">
-					<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
-
-						<tr>
-						<th class="bg-gray text-right">TOTAL:</th>
-						<th class="text-right">@{{totalCantidad}}</th>
-						</tr>
-
-					</table>
-				</div>
-
-			</div>
           <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
 
         </div>

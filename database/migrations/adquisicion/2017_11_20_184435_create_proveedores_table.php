@@ -19,21 +19,25 @@ class CreateProveedoresTable extends Migration
             $table->string('descripcion');
             $table->string('abreviacion');
             $table->string('direccion');
-            $table->string('region');
-            $table->string('provincia');
             $table->string('comuna');
             $table->string('ciudad');
             $table->string('fono');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->string('giro');
             $table->string('contacto');
             $table->string('cargo');
             $table->string('celular');
             $table->string('email');
-            $table->string('cond_pago');
-            $table->string('cto_cbrnza');
-            $table->string('email_cbrnza');
+            $table->integer('fp_id')->unsigned();
+            $table->string('cto_cbrnza')->nullable();
+            $table->string('email_cbrnza')->nullable();
+            $table->tinyInteger('activo');
             $table->timestamps();
+        });
+
+        Schema::table('proveedores', function (Blueprint $table) {
+
+            $table->foreign('fp_id')->references('id')->on('forma_pago_proveedor');
         });
     }
 

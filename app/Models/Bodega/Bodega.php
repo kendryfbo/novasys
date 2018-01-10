@@ -86,7 +86,7 @@ class Bodega extends Model
             AND item_id=". $productoId . " AND pallet_id
             IN (SELECT pallet_id FROM posicion WHERE bodega_id=" . $bodegaId . " AND status_id=3)
             GROUP BY item_id";
-
+            return response($query,200);
         } else {
 
             $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
@@ -124,8 +124,7 @@ class Bodega extends Model
                         WHERE pallet_detalle.item_id=productos.id
                         AND pallet_detalle.tipo_id=".$tipo."
                         AND pallet_detalle.pallet_id
-                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC
-";
+                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC";
         } else {
 
             $query = "SELECT
@@ -134,12 +133,17 @@ class Bodega extends Model
                         sum(pallet_detalle.cantidad) as cantidad
                         FROM productos,pallet_detalle
                         WHERE pallet_detalle.item_id=productos.id AND pallet_detalle.pallet_id
-                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC
-";
+                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC";
         }
         //dd($query);
         $results = DB::select(DB::raw($query));
         return $results;
     }
 
+    // Relationships
+
+    public function posiciones() {
+
+        return $this->hasMany('App\Models\Bodega\Posicion','bodega_id');
+    }
 }

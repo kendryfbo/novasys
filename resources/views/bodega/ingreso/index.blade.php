@@ -27,12 +27,12 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{route('crearIngManualMP')}}">Materia Prima</a></li>
-                  <li><a href="#">Premezcla</a></li>
+                  <li><a href="{{route('crearIngManualPM')}}">Premezcla</a></li>
                   <li><a href="#">Reproceso</a></li>
                   <li><a href="#">Producto Terminado</a></li>
                 </ul>
               </div>
-              <button type="button" class="btn btn-primary">Ingreso Orden de Compra</button>
+              <a class="btn btn-primary" href="{{route('crearIngOC')}}">Ingreso Orden de Compra</a>
             </div>
 
 		</div>
@@ -67,13 +67,13 @@
                                 <a class="btn btn-default btn-sm" href="">
                                     <i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i>
                                 </a>
-								<form style="display: inline" method="get" action="{{route('editarTerminoProceso',['terminoProceso' => $ingreso->id])}}">
+								<form style="display: inline" method="get" action="">
 									{{csrf_field()}}
 									<button type="submit" class="btn btn-default btn-sm">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" method="post" action="{{route('eliminarIngreso',['id' => $ingreso->id])}}">
+								<form style="display: inline" method="post" action="">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button type="submit" class="btn btn-default btn-sm">

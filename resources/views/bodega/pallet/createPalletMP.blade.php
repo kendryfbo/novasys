@@ -31,29 +31,10 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarPalletProduccion')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarPalletMP')}}">
 
 				{{ csrf_field() }}
 
-
-				<h5>Bodega</h5>
-
-				<!-- form-group -->
-				<div class="form-group">
-
-					<label class="control-label col-lg-1">Bodega:</label>
-					<div class="col-lg-3">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega" required>
-							<option value=""> </option>
-							@foreach ($bodegas as $bodega)
-								<option {{Input::old('bodega') ? 'selected':''}} value="{{$bodega->id}}">{{$bodega->descripcion}}</option>
-							@endforeach
-						</select>
-					</div>
-
-				</div>
-				<!-- /form-group -->
-				<hr>
                 <h5>Pallet</h5>
 
                 <!-- form-group -->
@@ -73,7 +54,7 @@
                     <div class="col-lg-2">
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
-
+					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="" required readonly>
 
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
@@ -85,39 +66,35 @@
                         </select>
         			</div>
 
-                    <label class="control-label col-lg-2">Fecha Ingreso:</label>
-        			<div class="col-lg-2">
-        				<input class="form-control input-sm" type="date" name="fecha_prod" required>
-        			</div>
-
                 </div>
                 <!-- /form-group -->
 
-				<hr>
-                <h5>Insumos</h5>
+				<!-- form-group -->
+                <div class="form-group">
+					<!-- Bloque de condiciones - POR IMPLEMENTAR -->
+                </div>
+                <!-- /form-group -->
+
+                <h5>Materia Prima</h5>
 
                 <!-- form-group -->
                 <div class="form-group">
 
-                    <label class="control-label col-lg-1">Insumo:</label>
-                    <div class="col-lg-4">
+                    <label class="control-label col-lg-1">Producto:</label>
+                    <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
+						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.insumo.descripcion + ' Por Procesar: ' + insumo.por_almacenar}}</option>
                         </select>
                     </div>
 
-					<label class="control-label col-lg-1">Unidad:</label>
-					<div class="col-lg-1">
-						<input class="form-control input-sm" type="text" name="unidad" :value="item.unidad_med" required readonly>
-					</div>
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" type="number" name="cantidad" v-model="cantidad" required>
-					</div>
+						<input class="form-control input-sm" name="cantidad" type="number" v-model="cantidad" required>
+                    </div>
 
 					<div class="col-lg-2">
-					    <button :disabled="itemId == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+					    <button :disabled="itemId == '' || cantidad == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
                     </div>
 
                 </div>
@@ -147,25 +124,29 @@
               <tr>
                 <th class="text-center"></th>
                 <th class="text-center">#</th>
-                <th class="text-center">PRODUCTO</th>
+                <th class="text-center">LOTE</th>
+                <th class="text-center">CODIGO</th>
+                <th class="text-center">INSUMOS</th>
                 <th class="text-center">UNIDAD</th>
-                <th class="text-center">CANTIDAD</th>
+                <th class="text-center">INGRESADAS</th>
               </tr>
 
             </thead>
 
             <tbody>
 				<tr v-if="items <= 0">
-					<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+					<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
 				</tr>
 				<tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.producto_id)">
 					<td class="text-center">
                         <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(item)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </td>
 					<td class="text-center">@{{key+1}}</td>
-				    <td class="text-left">@{{item.descripcion}}</td>
-				    <td class="text-right">@{{item.unidad_med}}</td>
-				    <td class="text-right">@{{item.cantidad}}</td>
+				    <td class="text-center">@{{item.lote}}</td>
+					<td class="text-center">@{{item.insumo.codigo}}</td>
+				    <td class="text-left">@{{item.insumo.descripcion}}</td>
+				    <td class="text-center">@{{item.insumo.unidad_med}}</td>
+				    <td class="text-right">@{{item.por_almacenar}}</td>
 				</tr>
 
             </tbody>

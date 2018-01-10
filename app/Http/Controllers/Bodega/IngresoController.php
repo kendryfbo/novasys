@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Models\Insumo;
 use App\Models\Producto;
+use App\Models\Premezcla;
 use App\Models\Bodega\Ingreso;
 use App\Models\Bodega\IngresoTipo;
+use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Produccion\TerminoProceso;
+use App\Models\Adquisicion\OrdenCompraDetalle;
 
 class IngresoController extends Controller
 {
@@ -37,7 +40,7 @@ class IngresoController extends Controller
     {
         //
     }
-
+    // Crear Ingreso Manual Materia Prima
     public function createIngManualMP()
     {
         $tipoIngreso = config('globalVars.ingresoManual');
@@ -53,6 +56,43 @@ class IngresoController extends Controller
         ]);
 
     }
+    // Crear Ingreso Manual Premezcla
+    public function createIngManualPM()
+    {
+        $tipoIngreso = config('globalVars.ingresoManual');
+        $tipoProd = config('globalVars.PP');
+        $premezclas = Premezcla::getAllActive();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngManualPM')->with([
+            'premezclas' => $premezclas,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+
+    }
+    // Crear Ingreso desde Orden de Compra
+    public function createIngFromOC()
+    {
+        $area = config('globalVars.areaBodega');
+        $pendiente = config('globalVars.statusPendienteOC');
+
+        $ordenesCompra = OrdenCompra::with('detalles','proveedor')
+                            ->where('aut_contab',1)
+                            ->where('area_id',$area)
+                            ->where('status_id',$pendiente)->get();
+
+        $tipoIngreso = config('globalVars.ingresoOC');
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngOC')->with([
+            'ordenesCompra' => $ordenesCompra,
+            'tipoIngreso' => $tipoIngreso,
+            'fecha' => $fecha,
+        ]);
+
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +104,7 @@ class IngresoController extends Controller
     {
         //
     }
-
+    // Guardar Ingreso Manual Materia Prima
     public function storeIngManualMP(Request $request)
     {
 
@@ -77,6 +117,40 @@ class IngresoController extends Controller
         ]);
 
         $ingreso = Ingreso::register($request);
+        $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
+
+        return redirect()->route('ingreso')->with(['status' => $msg]);
+    }
+    // Guardar Ingreso Manual Premezcla
+    public function storeIngManualPM(Request $request)
+    {
+
+        $this->validate($request,[
+            'descripcion' =>'required',
+            'tipo_ingreso' => 'required',
+            'tipo_prod' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+        ]);
+
+        $ingreso = Ingreso::register($request);
+        $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
+
+        return redirect()->route('ingreso')->with(['status' => $msg]);
+    }
+
+    // Guardar Ingreso Orden de Compra
+    public function storeIngFromOC(Request $request)
+    {
+        //dd($request->all());
+        $this->validate($request,[
+            'tipo_ingreso' => 'required',
+            'ordenCompra' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+        ]);
+
+        $ingreso = Ingreso::registerFromOC($request);
         $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
 
         return redirect()->route('ingreso')->with(['status' => $msg]);

@@ -21,7 +21,7 @@ class CreatePosicionTable extends Migration
             $table->integer('estante')->unsigned();
             $table->string('medida');
             $table->integer('status_id')->unsigned();
-            $table->integer('pallet_id')->unsigned()->nullable();
+            $table->integer('pallet_id')->unsigned()->nullable()->unique();
             $table->index(['bloque', 'columna','estante']);
             $table->timestamps();
         });

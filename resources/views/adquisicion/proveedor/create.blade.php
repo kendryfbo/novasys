@@ -38,7 +38,7 @@
 
 						<label class="control-label col-lg-1" >R.U.T:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ Input::old('rut') ? Input::old('rut') : '' }}" required>
+							<input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{ Input::old('rut') ? Input::old('rut') : '' }}" pattern="^([0-9]+-[0-9K])$" required>
 						</div>
 
 					</div>
@@ -61,23 +61,24 @@
 					</div>
 
 					<div class="form-group">
+
+						<label class="control-label col-lg-1" >F. Pago:</label>
+						<div class="col-lg-3">
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" required>
+								<option value="">Seleccionar Forma de Pago...</option>
+								@foreach ($formasPagos as $formaPago)
+									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected':''}} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
+								@endforeach
+							</select>
+						</div>
+
+					</div>
+
+					<div class="form-group">
 						<label class="control-label col-lg-1" >Direccion:</label>
 						<div class="col-lg-6">
 							<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{ Input::old('direccion') ? Input::old('direccion') : '' }}" required>
 						</div>
-					</div>
-
-					<div class="form-group">
-
-						<label class="control-label col-lg-1" >Region:</label>
-						<div class="col-lg-3">
-							<input type="text" class="form-control input-sm" name="region" placeholder="Region..." value="{{ Input::old('region') ? Input::old('region') : '' }}" required>
-						</div>
-						<label class="control-label col-lg-1" >Provincia:</label>
-						<div class="col-lg-3">
-							<input type="text" class="form-control input-sm" name="provincia" placeholder="Provincia..." value="{{ Input::old('provincia') ? Input::old('provincia') : '' }}" required>
-						</div>
-
 					</div>
 
 					<div class="form-group">
@@ -96,21 +97,10 @@
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1" >F. Pago:</label>
-						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="forma_pago" placeholder="Forma de pago..." value="{{ Input::old('forma_pago') ? Input::old('forma_pago') : '' }}" required>
-						</div>
-
-					</div>
-
-					<div class="form-group">
-
 						<label class="control-label col-lg-1" >Giro:</label>
 						<div class="col-lg-2">
 							<input type="text" class="form-control input-sm" name="giro" placeholder="Giro..." value="{{ Input::old('giro') ? Input::old('giro') : '' }}" required>
 						</div>
-
-
 
 					</div>
 
@@ -127,6 +117,7 @@
 						</div>
 
 					</div>
+
 					<div class="form-group">
 
 						<label class="control-label col-lg-1">fono:</label>
@@ -161,12 +152,12 @@
 
 						<label class="control-label col-lg-1">Contacto:</label>
 						<div class="col-lg-2">
-							<input type="email" class="form-control input-sm" name="cto_cbrnza" placeholder="Nombre contacto cobranza..." value="{{ Input::old('cto_cbrnza') ? Input::old('cto_cbrnza') : '' }}" required>
+							<input type="text" class="form-control input-sm" name="cto_cbrnza" placeholder="Nombre contacto cobranza..." value="{{ Input::old('cto_cbrnza') ? Input::old('cto_cbrnza') : '' }}">
 						</div>
 
 						<label class="control-label col-lg-1">Email:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="email_cbrnza" placeholder="Email contacto Cobranza..." value="{{ Input::old('email_cbrnza') ? Input::old('email_cbrnza') : '' }}" >
+							<input type="email" class="form-control input-sm" name="email_cbrnza" placeholder="Email contacto Cobranza..." value="{{ Input::old('email_cbrnza') ? Input::old('email_cbrnza') : '' }}">
 						</div>
 
 					</div>
@@ -192,10 +183,4 @@
 @endsection
 
 @section('scripts')
-<script>
-</script>
-
-<script src="{{asset('js/customDataTable.js')}}"></script>
-<script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/comercial/createClienteIntl.js')}}"></script>
 @endsection

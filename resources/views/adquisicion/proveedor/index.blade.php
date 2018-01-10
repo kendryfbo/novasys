@@ -48,20 +48,20 @@
 							<td>{{$proveedor->contacto}}</td>
 							<td>{{$proveedor->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="" method="get">
-									<button class="btn btn-sm" type="submit">
+								<form style="display: inline" action="{{route('verProveedor',['proveedor' => $proveedor->id])}}" method="get">
+									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-eye" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="" method="get">
-									<button class="btn btn-sm" type="submit">
+								<form style="display: inline" action="{{route('editarProveedor',['proveedor' => $proveedor->id])}}" method="get">
+									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="" method="post">
+								<form style="display: inline" action="{{route('eliminarProveedor',['proveedor' => $proveedor->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
-									<button class="btn btn-sm" type="submit">
+									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>
 									</button>
 								</form>

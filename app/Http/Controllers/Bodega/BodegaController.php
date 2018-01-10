@@ -155,13 +155,14 @@ class BodegaController extends Controller
             'posicion' => 'required',
             'pallet' => 'required'
         ]);
-        $pos_id = $request->posicion;
-        $pallet_id = $request->pallet;
 
-        $posicion = Posicion::find($pos_id);
-        $posicion->pallet_id = $pallet_id;
-        $posicion->status_id = 3;
-        $posicion->save();
+        $posId = $request->posicion;
+        $palletId = $request->pallet;
+
+        $posicion = Posicion::find($posId);
+
+        $posicion->insertPallet($palletId);
+
 
         return redirect()->route('bodega');
     }

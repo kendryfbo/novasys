@@ -19,7 +19,20 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearTerminoProceso')}}">Crear</a>
+			<div class="btn-group pull-right">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Creacion de Pallet <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{route('crearPalletMP')}}">Materia Prima</a></li>
+                  <li><a href="#">Premezcla</a></li>
+                  <li><a href="#">Reproceso</a></li>
+                  <li><a href="#">Producto Terminado</a></li>
+                </ul>
+              </div>
+              <button type="button" class="btn btn-primary">Almacenar Pallet</button>
+            </div>
 		</div>
 		<!-- box-body -->
 
@@ -31,37 +44,26 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">Lote</th>
-						<th class="text-center">Fecha Prod.</th>
-						<th class="text-center">Producto</th>
-						<th class="text-center">Producidas</th>
-						<th class="text-center">Rechazadas</th>
+						<th class="text-center">Numero</th>
+						<th class="text-center">Fecha</th>
+						<th class="text-center">Tamaño</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($producciones as $produccion)
+					@foreach ($pallets as $pallet)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center">{{$produccion->lote}}</td>
-							<td class="text-center">{{$produccion->fecha_prod}}</td>
-							<td class="text-left">{{$produccion->producto->descripcion}}</td>
-							<td class="text-right">{{$produccion->producidas}}</td>
-							<td class="text-right">{{$produccion->rechazadas}}</td>
+							<td class="text-center">{{$pallet->numero}}</td>
+							<td class="text-center">{{$pallet->created_at}}</td>
+							<td class="text-center">{{$pallet->medida->descripcion}}</td>
 							<td class="text-center">
-								<form style="display: inline" method="get" action="{{route('editarTerminoProceso',['terminoProceso' => $produccion->id])}}">
-									{{csrf_field()}}
 									<button type="submit" class="btn btn-default btn-sm">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>
 									</button>
-								</form>
-								<form style="display: inline" method="post" action="{{route('eliminarTerminoProceso',['id' => $produccion->id])}}">
-									{{csrf_field()}}
-									{{ method_field('DELETE') }}
 									<button type="submit" class="btn btn-default btn-sm">
 										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>
 									</button>
-								</form>
 							</td>
 						</tr>
 					@endforeach

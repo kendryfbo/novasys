@@ -4,6 +4,30 @@
 // GRUPO de Rutas de Modulo Operaciones-Bodega
 Route::prefix('bodega')->group( function() {
 
+    Route::get('/test', function(){
+
+        return view('bodega.bodega.test');
+        $routes = Route::getRoutes();
+        $routesFormatted = [];
+
+        foreach ($routes as $route) {
+
+            $controller = (explode('@', $route->getActionName()));
+            //list($controller, $method) = explode('@', $route->getActionName());
+            // $controller now is "App\Http\Controllers\FooBarController"
+            $controller = preg_replace('/.*\\\/', '', $controller);
+            // $controller now is "FooBarController"
+            $array = [
+                'name' => $route->getName(),
+                'prefix' => $route->getPrefix(),
+                'actionName' => $route->getActionName(),
+                'controllerName' => $controller[0],
+                'actionMethod' => $route->getActionMethod(),
+            ];
+            array_push($routesFormatted,$array);
+        }
+        return response($routesFormatted,200);
+    });
     // Bodega
     Route::post('/ingreso/pallet', 'Bodega\BodegaController@storePalletInPosition')->name('guardarPalletEnPosicion');
     Route::get('/config',         'Bodega\BodegaController@indexConfig')->name('configBodega');
@@ -18,13 +42,13 @@ Route::prefix('bodega')->group( function() {
     // Resource Pallets
     Route::prefix('pallet')->group(function(){
 
-        Route::get('/', 'Bodega\PalletController@test');
+        //Route::get('/', 'Bodega\PalletController@test');
 
-        Route::get('/porIngresar',        'Bodega\PalletController@index')->name('palletPorIngresar');
+        Route::get('/',                   'Bodega\PalletController@index')->name('palletPorIngresar');
         Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
         Route::get('/{id}/findPosition/', 'Bodega\PalletController@position')->name('position'); // TEST
-        Route::get('/MPManual/crear',     'Bodega\PalletController@createPalletMPManual')->name('crearPalletMPManual');
-        Route::post('/MPManual',          'Bodega\PalletController@storePalletMPManual')->name('guardarPalletMPManual');
+        Route::get('/MateriaPrima/crear', 'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
+        Route::post('/MateriaPrima',          'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
         Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
@@ -51,9 +75,15 @@ Route::prefix('bodega')->group( function() {
         Route::get('/',        'Bodega\IngresoController@index')->name('ingreso');
         Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
 
+        //ingreso Orden Compra
+        Route::get('/ordenCompra/crear', 'Bodega\IngresoController@createIngFromOC')->name('crearIngOC');
+        Route::post('/OrdenCompra',      'Bodega\IngresoController@storeIngFromOC')->name('guardarIngOC');
         //ingreso Manual Materia Prima
         Route::get('/Manual/MP/crear', 'Bodega\IngresoController@createIngManualMP')->name('crearIngManualMP');
         Route::post('/Manual/MP',      'Bodega\IngresoController@storeIngManualMP')->name('guardarIngManualMP');
+        //ingreso Manual Premezcla
+        Route::get('/Manual/PM/crear', 'Bodega\IngresoController@createIngManualPM')->name('crearIngManualPM');
+        Route::post('/Manual/PM',      'Bodega\IngresoController@storeIngManualPM')->name('guardarIngManualPM');
 
 
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adquisicion;
 
 use App\Models\Adquisicion\Proveedor;
+use App\Models\Adquisicion\FormaPagoProveedor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,8 +29,9 @@ class ProveedorController extends Controller
      */
     public function create()
     {
+        $formaPago = FormaPagoProveedor::getAllActive();
 
-        return view('adquisicion.proveedor.create');
+        return view('adquisicion.proveedor.create')->with(['formasPagos' => $formaPago]);
     }
 
     /**
@@ -40,7 +42,45 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request,[
+            'rut' => 'required',
+            'descripcion' => 'required',
+            'abreviacion' => 'required',
+            'direccion' => 'required',
+            'comuna' => 'required',
+            'ciudad' => 'required',
+            'fono' => 'required',
+            'giro' => 'required',
+            'contacto' => 'required',
+            'cargo' => 'required',
+            'celular' => 'required',
+            'email' => 'required',
+            'formaPago' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        Proveedor::create([
+            'rut' => $request->rut,
+            'descripcion' => $request->descripcion,
+            'abreviacion' => $request->abreviacion,
+            'direccion' => $request->direccion,
+            'comuna' => $request->comuna,
+            'ciudad' => $request->ciudad,
+            'fono' => $request->fono,
+            'giro' => $request->giro,
+            'contacto' => $request->contacto,
+            'cargo' => $request->cargo,
+            'celular' => $request->celular,
+            'email' => $request->email,
+            'fp_id' => $request->formaPago,
+            'activo' => $activo,
+        ]);
+
+        $msg = 'Proveedor ' . $request->descripcion . ' ha sido creado.';
+
+        return redirect()->route('proveedores')->with('status', $msg);
     }
 
     /**
@@ -51,7 +91,7 @@ class ProveedorController extends Controller
      */
     public function show(Proveedor $proveedor)
     {
-        //
+
     }
 
     /**
@@ -62,7 +102,9 @@ class ProveedorController extends Controller
      */
     public function edit(Proveedor $proveedor)
     {
-        //
+        $formasPagos = FormaPagoProveedor::getAllActive();
+
+        return view('adquisicion.proveedor.edit')->with(['proveedor' => $proveedor, 'formasPagos' => $formasPagos]);
     }
 
     /**
@@ -74,7 +116,42 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, Proveedor $proveedor)
     {
-        //
+        $this->validate($request,[
+            'rut' => 'required',
+            'descripcion' => 'required',
+            'abreviacion' => 'required',
+            'direccion' => 'required',
+            'comuna' => 'required',
+            'ciudad' => 'required',
+            'fono' => 'required',
+            'giro' => 'required',
+            'contacto' => 'required',
+            'cargo' => 'required',
+            'celular' => 'required',
+            'email' => 'required',
+            'formaPago' => 'required'
+        ]);
+
+        $activo = !empty($request->activo);
+
+        $proveedor->abreviacion = $request->abreviacion;
+        $proveedor->direccion = $request->direccion;
+        $proveedor->comuna = $request->comuna;
+        $proveedor->ciudad = $request->ciudad;
+        $proveedor->fono = $request->fono;
+        $proveedor->giro = $request->giro;
+        $proveedor->contacto = $request->contacto;
+        $proveedor->cargo = $request->cargo;
+        $proveedor->celular = $request->celular;
+        $proveedor->email = $request->email;
+        $proveedor->fp_id = $request->formaPago;
+        $proveedor->activo = $activo;
+
+        $proveedor->save();
+
+        $msg = 'Proveedor ' . $proveedor->descripcion . ' ha sido actualizado.';
+
+        return redirect()->route('proveedores')->with(['status' => $msg]);
     }
 
     /**
@@ -85,6 +162,10 @@ class ProveedorController extends Controller
      */
     public function destroy(Proveedor $proveedor)
     {
-        //
+        $proveedor->delete();
+
+        $msg = 'Proveedor ' . $proveedor->descripcion . ' Ha sido eliminado.';
+
+        return redirect()->route('proveedores')->with(['status' => $msg]);
     }
 }

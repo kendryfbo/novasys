@@ -81,7 +81,7 @@ class OrdenEgresoController extends Controller
         $tipo = intval($request->tipo);
         $id = intval($request->id);
         $user = $request->user()->id;
-        
+
         $ordenEgreso = OrdenEgreso::generate($user,$tipo,$id,$bodega);
 
         return redirect()->route('verOrdenEgreso', ['numero' => $ordenEgreso->numero]);
@@ -197,9 +197,7 @@ class OrdenEgresoController extends Controller
             $existencia = Bodega::getExistTotalPT($item->producto_id,$bodega);
             $item['existencia'] = $existencia;
         });
+        
         return response($items,200);
-
-        return response($items,200);
-
     }
 }

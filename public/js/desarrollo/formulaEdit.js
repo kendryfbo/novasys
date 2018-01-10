@@ -142,7 +142,7 @@ var app = new Vue({
     calculate: function() {
 
         this.cantCaja = ((this.cantidad * this.formato.peso_neto) / this.formato.peso_uni) * 1000;
-        this.cantBatch = (this.batch * this.cantidad) / (this.formato.peso_uni);
+        this.cantBatch = ((this.batch * this.cantidad) / (this.formato.peso_uni)) * 1000;
     },
 
     validateInput: function() {

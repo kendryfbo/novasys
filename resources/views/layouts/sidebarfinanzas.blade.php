@@ -20,6 +20,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{url('adquisicion/proveedores')}}"><i class=""></i> <span>Proveedores</span></a></li>
+                        <li><a href="{{url('adquisicion/formaPago')}}"><i class=""></i> <span>Cond. Pago</span></a></li>
                     </ul>
                 </li>
 
@@ -30,10 +31,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{url('bodega')}}"><i class=""></i> <span>Consultar Bodega</span></a></li>
-                        <li><a href="{{url('bodega/ingreso/')}}"><i class=""></i> <span>Ingreso</span></a></li>
-                        <li><a href="{{url('bodega/pallet/MPManual/crear')}}"><i class=""></i> <span>Ingreso MP</span></a></li>
-                        <li><a href="{{url('bodega/ingreso/pallet')}}"><i class=""></i> <span>Ing. Pallet Prod.</span></a></li>
+                        <li><a href="{{url('adquisicion/ordenCompra')}}"><i class=""></i> <span>Orden Compra</span></a></li>
                     </ul>
                 </li>
 
@@ -75,8 +73,6 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{url('produccion/terminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
-                        <li><a href="{{url('bodega/creacionPalletProduccion')}}"><i class=""></i> <span>Creacion Pallet</span></a></li>
                     </ul>
                 </li>
 

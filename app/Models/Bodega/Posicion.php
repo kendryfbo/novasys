@@ -252,6 +252,20 @@ class Posicion extends Model
         return $posicion;
     }
 
+    static function palletIsStored($palletId) {
+
+        $pallet = self::where('pallet_id',$palletId)->first();
+
+        if ($pallet) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    * PUBLIC FUNCTIONS
+    */
+
     public function subtract($detalle_id,$cantidad) {
 
         $this->pallet->subtract($detalle_id,$cantidad);
@@ -279,6 +293,19 @@ class Posicion extends Model
         $formato = $bloque . $columna . $estante;
 
         return $formato;
+    }
+
+    public function insertPallet($palletId) {
+
+        DB::transaction(function () use ($palletId) {
+
+            $pallet = Pallet::find($palletId);
+            $pallet->almacenado = 1;
+            $pallet->save();
+            $this->pallet_id = $pallet->id;
+            $this->status_id = self::OCUPADO;
+            $this->save();
+        },5);
     }
     /*
     |

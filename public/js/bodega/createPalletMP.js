@@ -18,7 +18,7 @@ var app = new Vue({
                 if ( this.insumos[i].id === this.itemId ) {
 
                     this.item = this.insumos[i];
-
+                    this.cantidad = this.item.por_almacenar;
                     return;
                 }
             }
@@ -26,9 +26,9 @@ var app = new Vue({
 
         addItem: function() {
 
-            this.item.cantidad = this.cantidad;
+            this.item.por_almacenar = this.cantidad;
             this.items.push(this.item);
-            this.removeProduccion(this.itemId);
+            this.removeInsumo(this.itemId);
             this.itemId = '';
         },
 
@@ -39,16 +39,16 @@ var app = new Vue({
                 if ( this.items[i].id == item.id ) {
 
                     this.items.splice(i,1);
-                    this.restoreProduccion(item);
+                    this.restoreInsumo(item);
                 }
             }
         },
 
-        restoreProduccion: function(item) {
+        restoreInsumo: function(item) {
 
             this.insumos.push(item);
         },
-        removeProduccion: function(id) {
+        removeInsumo: function(id) {
 
             for (var i = 0; i < this.insumos.length; i++) {
 

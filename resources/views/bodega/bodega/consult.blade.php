@@ -103,6 +103,10 @@
 							      <th class="bg-gray text-right">Status:</th>
 							      <td class="bg-gray text-right">@{{posicion.status.descripcion}}</td>
 							    </tr>
+							    <tr>
+							      <th class="bg-gray text-right">Pallet:</th>
+							      <td class="bg-gray text-right">@{{ pallet.numero ? pallet.numero : 'Vacio'}}</td>
+							    </tr>
 
 							</table>
 						</div>

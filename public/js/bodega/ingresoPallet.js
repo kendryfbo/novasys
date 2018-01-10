@@ -53,7 +53,7 @@ var app = new Vue({
 
         },
 
-        handleError: function() {
+        handleError: function(error) {
 
             alert(error);
         }

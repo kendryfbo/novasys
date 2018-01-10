@@ -13,4 +13,9 @@ class PosicionStatus extends Model
 
         return self::all()->where('activo',1);
     }
+
+    static function disponible(){
+
+        return self::where('id',2)->first();
+    }
 }

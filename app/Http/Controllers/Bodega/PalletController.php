@@ -11,15 +11,17 @@ use DNS2D;
 use Carbon\Carbon;
 use App\Models\Insumo;
 use App\Models\Producto;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
-use App\Models\Bodega\PalletDetalle;
 use App\Models\comercial\Pais;
+use App\Models\Bodega\Ingreso;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletCond;
-use App\Models\TipoFamilia;
 use App\Models\Bodega\IngresoTipo;
 use App\Models\Bodega\PalletMedida;
+use App\Models\Bodega\PalletDetalle;
+use App\Models\Bodega\IngresoDetalle;
 use App\Models\Bodega\PalletCondTipo;
 use App\Models\Produccion\TerminoProceso;
 
@@ -37,7 +39,7 @@ class PalletController extends Controller
     public function index()
     {
 
-        $pallets = Pallet::where('almacenado',0)->get();
+        $pallets = Pallet::with('medida')->where('almacenado',0)->get();
 
         return view('bodega.pallet.index')->with(['pallets' => $pallets]);
     }
@@ -65,20 +67,18 @@ class PalletController extends Controller
             ['bodegas' => $bodegas, 'tipos' => $tipos, 'medidas' => $medidas, 'numero' => $numero, 'barCode' => $barCode]);
     }
 
-    // creacion de pallet de Materia Prima Manual
-    public function createPalletMPManual() {
+    // creacion de pallet de Materia Prima
+    public function createPalletMP() {
 
-        $tipoProd = config('globalVars.MP');
-
-        $detalles = PalletDetalle::with('insumo')->where('tipo_id',$tipoProd)->where('pallet_id',NULL)->get();
+        $tipoMP = config('globalVars.MP');
+        $insumos = IngresoDetalle::with('insumo')->where('tipo_id',$tipoMP)->where('por_almacenar','>',0)->get();
+        
         $medidas = PalletMedida::getAllActive();
         $numero = $this->palletNum();
         $barCode = $this->barCode($numero);
 
-        return view('bodega.pallet.createPalletMPManual')->with([
-            'detalles' => $detalles, 'medidas' => $medidas,
-            'numero' => $numero, 'barCode' => $barCode,
-            'tipoProd' => $tipoProd,
+        return view('bodega.pallet.createPalletMP')->with(['medidas' => $medidas,
+            'numero' => $numero, 'barCode' => $barCode, 'insumos' => $insumos
         ]);
     }
 

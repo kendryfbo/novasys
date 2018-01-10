@@ -20,8 +20,12 @@ class CreateIngresoDetalleTable extends Migration
             $table->integer('item_id');
             $table->date('fecha_venc');
             $table->integer('cantidad');
-            $table->integer('ingresado');
+            $table->integer('por_almacenar');
             $table->timestamps();
+        });
+
+        Schema::table('ingreso_detalle', function (Blueprint $table) {
+            $table->foreign('ing_id')->references('id')->on('ingreso')->onDelete('cascade');
         });
     }
 

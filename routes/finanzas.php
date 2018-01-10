@@ -23,7 +23,7 @@ Route::prefix('finanzas')->group( function() {
 
         // Autorizacion de Orden de Compra
         route::get('/ordenCompra',                             'Finanzas\FinanzasController@authOC')->name('autFinanzasOC');
-        route::get('/ordenCompra/{ordenCompra}',               'Finanzas\FinanzasController@showAuthOC')->name('verAutFinanzasOC');
+        route::get('/ordenCompra/{ordenCompra}',               'Finanzas\FinanzasController@showAuthFinanzasOC')->name('verAutFinanzasOC');
         route::post('/ordenCompra/{ordenCompra}/autorizar',    'Finanzas\FinanzasController@authorizeOC')->name('autorizarFinanzasOC');
         route::post('/ordenCompra/{ordenCompra}/desautorizar', 'Finanzas\FinanzasController@unauthorizeOC')->name('desautorizarFinanzasOC');
 
