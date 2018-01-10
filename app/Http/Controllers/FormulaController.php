@@ -30,11 +30,6 @@ class FormulaController extends Controller
      */
     public function create()
     {
-        // $productos = Producto::doesntHave('formula')->get();
-        // $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
-        // $niveles = Nivel::getAllActive();
-        // return view('desarrollo.formulas.create2')
-        //         ->with(['productos' => $productos,'familias' => $familias,'niveles' => $niveles]);
 
         $productos = Producto::getAllActive();
         $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
@@ -75,7 +70,7 @@ class FormulaController extends Controller
      */
     public function edit(Formula $formula)
     {
-        $formula->load('detalle.insumo','producto.formato');
+        $formula->load('detalle.insumo','producto.formato','detalle.nivel');
 
         $niveles = Nivel::getAllActive();
         $insumos = Insumo::getAllActive();
@@ -94,7 +89,16 @@ class FormulaController extends Controller
      */
     public function update(Request $request, Formula $formula)
     {
-        //
+
+        $this->validate($request, [
+            'batch' => 'required',
+            'items' => 'required',
+        ]);
+
+        $formula = Formula::registerEdit($request,$formula->id);
+        $msg = 'Formula id:'. $formula->id . ' ha sido editada.';
+
+        return redirect()->route('formulas')->with(['status' => $msg]);
     }
 
     /**

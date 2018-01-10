@@ -1,4 +1,4 @@
-@extends('layouts.master2')
+@extends('layouts.master')
 
 @section('content')
 
@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="edit" method="post" action="">
+			<form class="form-horizontal"  id="edit" method="post" action="{{route('actualizarFormula', ['formula' => $formula->id])}}">
 
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
@@ -57,10 +57,10 @@
 				<input class="form-control input-sm" type="text" name="numero" value="{{$formula->producto->formato->descripcion}}" readonly>
 			</div>
 
-			<label class="control-label col-lg-1">Batch:</label>
+			<label class="control-label col-lg-1">batch:</label>
 			<div class="col-lg-2">
 				<div class="input-group">
-					<input class="form-control input-sm" name="bacth" type="number" min="0" value="{{$formula->cant_batch}}" required>
+					<input class="form-control input-sm" name="batch" type="number" min="0" v-model="batch" required>
 					<span class="input-group-addon">Kg</span>
 				</div>
 			</div>
@@ -72,25 +72,29 @@
 
 		<!-- form-group -->
         <div class="form-group">
+			<label class="control-label col-lg-1">Insumos:</label>
+			<div class="col-lg-3">
+			  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="insumo" v-model="insumoID" @change="loadInsumo">
+			    	<option value=""></option>
+					<option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
+			  </select>
+			</div>
+		</div>
+		<!-- /form-group -->
+
+		<!-- form-group -->
+        <div class="form-group">
 
 			<label class="control-label col-lg-1">Nivel:</label>
 			<div class="col-lg-2">
-				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="nivel" required>
+				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="nivel" v-model="nivelID" @change="loadNivel">
 					<option value=""></option>
 					<option v-for="nivel in niveles" :value="nivel.id">@{{nivel.descripcion}}</option>
 				</select>
 			</div>
 
-			<label class="control-label col-lg-1">Insumos:</label>
-			<div class="col-lg-3">
-			  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="insumo" v-model="itemId" @change="loadInsumo" required>
-			    	<option value=""></option>
-					<option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
-			  </select>
-			</div>
-
 			<label class="control-label col-lg-1">CantXuni:</label>
-			<div class="col-lg-2">
+			<div class="col-lg-4">
 				<div class="input-group">
 					<input class="form-control" type="number" min="0" step="any" class="form-control" name="cantidad" v-model="cantidad" placeholder="cantidad x Unidad...">
 					<span class="input-group-addon">Un / Kg</span>
@@ -138,19 +142,19 @@
         </thead>
 
         <tbody>
-					<tr v-if="items <= 0">
-						<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
-					</tr>
+			<tr v-if="items <= 0">
+				<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+			</tr>
 
-          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.producto_id)">
-            <td class="text-center">@{{key+1}}</td>
-            <td class="text-center">@{{item.codigo}}</td>
-            <td>@{{item.descripcion}}</td>
-            <td class="text-right">@{{item.cantidad.toLocaleString()}}</td>
-            <td class="text-right">@{{numberFormat(item.precio)}}</td>
-            <td class="text-right">@{{numberFormat(item.descuento)}}</td>
-						<td class="text-right">@{{numberFormat(item.sub_total)}}</td>
-          </tr>
+			<tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.id)">
+				<td class="text-center">@{{key+1}}</td>
+				<td class="text-center">@{{item.insumo.codigo}}</td>
+				<td>@{{item.insumo.descripcion}}</td>
+				<td class="text-right">@{{item.cantxuni}}</td>
+				<td class="text-right">@{{item.cantxcaja}}</td>
+				<td class="text-right">@{{item.cantxbatch}}</td>
+				<td class="text-right">@{{item.nivel.descripcion}}</td>
+			</tr>
 
         </tbody>
 
@@ -223,9 +227,11 @@
 
 @section('scripts')
 <script>
-	var insumos = {!!$insumos!!};
+	var insumos = Object.values({!!$insumos!!});
 	var niveles = {!!$niveles!!};
 	var items = {!!$formula->detalle!!};
+	var formato = {!!$formula->producto->formato!!};
+	var batch = {!!$formula->cant_batch!!};
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
