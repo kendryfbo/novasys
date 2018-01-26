@@ -14,12 +14,13 @@ class ApiBodegaController extends Controller
     public function asd(){
         return 'hola';
     }
+
     public function getBodegasWithPos() {
 
         try {
             $disponible = PosicionStatus::disponible();
-            dd($disponible);
-            $bodegas = Bodega::with(['posiciones' => function($posiciones){
+
+            $bodegas = Bodega::with(['posiciones' => function($posiciones) use($disponible){
                 $posiciones->where('status_id',$disponible->id);
             }])->get();
 
@@ -37,5 +38,21 @@ class ApiBodegaController extends Controller
 
             return response($e->getMEssage(),500);
         }
+    }
+
+    public function getPositionsFrom(Request $request) {
+
+        try {
+
+            $bodegaId = $request->bodegaId;
+            $bloques = Bodega::getPositions($bodegaId);
+
+            return response($bloques,200);
+
+        } catch (\Exception $e) {
+
+            return response($e,404);
+        }
+
     }
 }
