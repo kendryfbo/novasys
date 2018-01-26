@@ -16,7 +16,7 @@ class CreateFormatosTable extends Migration
         Schema::create('formatos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion');
-            $table->string('peso_uni'); // Peso en gramos
+            $table->double('peso_uni'); // Peso en gramos
             $table->double('peso_neto'); // Peso en Kilogramos
             $table->tinyInteger('activo');
             $table->timestamps();

@@ -14,6 +14,11 @@ class Premezcla extends Model
 		return Premezcla::all()->where('activo',1);
 	}
 
+	/*
+	|
+	| Relationships
+	|
+	*/
 	public function familia() {
 
 		return $this->belongsTo('App\Models\Familia');
