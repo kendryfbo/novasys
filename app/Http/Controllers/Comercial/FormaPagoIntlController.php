@@ -17,7 +17,7 @@ class FormaPagoIntlController extends Controller
     {
       $formasPagos = FormaPagoIntl::all();
 
-      return view('comercial.FormaPagoIntl.index')->with(['formasPagos' => $formasPagos]);
+      return view('comercial.formaPagoIntl.index')->with(['formasPagos' => $formasPagos]);
     }
 
     /**
