@@ -20,7 +20,7 @@ class FormaPagoProveedorTableSeeder extends Seeder
             ['id' => 6, 'descripcion' => '120 Días fecha factura', 'dias' => 120, 'activo' => 1],
             ['id' => 7, 'descripcion' => 'Cheque',                 'dias' => 1,   'activo' => 1],
             ['id' => 8, 'descripcion' => 'Transferencia',          'dias' => 1,   'activo' => 1],
-            ['id' => 8, 'descripcion' => '50% OC y 50% contra entrega', 'dias' => 1, 'activo' => 1],
+            ['id' => 9, 'descripcion' => '50% OC y 50% contra entrega', 'dias' => 1, 'activo' => 1],
         ];
 
         foreach ($formasPago as $formaPago) {

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Adquicicion\OrdenCompraStatus;
+use App\Models\Adquisicion\OrdenCompraStatus;
 
 class OrdenCompraStatusTableSeeder extends Seeder
 {

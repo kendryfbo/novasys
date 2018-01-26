@@ -15,7 +15,7 @@ class CreateIngresoDetalleTable extends Migration
     {
         Schema::create('ingreso_detalle', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ing_id');
+            $table->integer('ing_id')->unsigned();
             $table->integer('tipo_id');
             $table->integer('item_id');
             $table->date('fecha_venc');

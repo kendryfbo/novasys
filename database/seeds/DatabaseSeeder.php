@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
         // Semillas de Modulo Desarrollo
         $this->call(TipoFamiliaTableSeeder::class);
         $this->call(FamiliaTableSeeder::class);
@@ -49,7 +50,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PosicionStatusTableSeeder::class);
 
         // Semillas de Modulo Adquisicion
-        $this->call(AreaTablleSeeder::class);
+        $this->call(AreaTableSeeder::class);
         $this->call(FormaPagoProveedorTableSeeder::class);
         $this->call(OrdenCompraStatusTableSeeder::class);
         $this->call(OrdenCompraTipoTableSeeder::class);
