@@ -6,15 +6,15 @@ var app = new Vue({
 
     proveedores: proveedores,
     tipos: tipos,
-    tipoId: '',
-    proveedorId: '',
+    tipoId: tipoId,
+    proveedorId: proveedorId,
     formaPagoDescrip: '',
     contacto: '',
     productos: productos,
     prodId: '',
     descripProd: '',
     codigoProd: '',
-    umed: '',
+    unidad: '',
     item: [],
     itemSelected: false,
     items: items,
@@ -24,7 +24,7 @@ var app = new Vue({
     total: 0,
     subTotal: 0,
     descuento: 0,
-    porcDesc: 0,
+    porcDesc: porcDesc,
     iva: iva,
     impuesto: 0,
     neto: 0,
@@ -60,7 +60,7 @@ var app = new Vue({
             this.descripProd =  this.productos[i].descripcion;
             this.codigoProd =  this.productos[i].codigo;
             this.ultPrecio = this.productos[i].precio;
-            this.umed =  this.productos[i].unidad_med ? this.productos[i].unidad_med : 'Unidad';
+            this.unidad =  this.productos[i].unidad_med ? this.productos[i].unidad_med : 'Unidad';
 
           break;
         }
@@ -88,7 +88,7 @@ var app = new Vue({
           id: this.prodId,
           codigo: this.codigoProd,
           descripcion: this.descripProd,
-          umed: this.umed,
+          unidad: this.unidad,
           cantidad: this.cantidad,
           precio: this.precio,
           sub_total: this.precio * this.cantidad
@@ -107,7 +107,7 @@ var app = new Vue({
         this.prodId = this.items[key].id;
         this.codigoProd = this.items[key].codigo;
         this.descripProd = this.items[key].descripcion;
-        this.umed = this.items[key].umed;
+        this.unidad = this.items[key].unidad;
         this.cantidad = this.items[key].cantidad;
         this.precio = this.items[key].precio;
 
@@ -147,7 +147,7 @@ var app = new Vue({
         alert('Debe Contener Descripcion Producto');
         return false;
       }
-      if (!this.umed) {
+      if (!this.unidad) {
 
         alert('Debe Contener unidad de medicion');
         return false;
@@ -261,7 +261,8 @@ var app = new Vue({
 
   mounted: function() {
 
-      this.tipoId = 3;
+      this.calculateTotal();
+      this.loadDatos();
   },
 
   updated() {

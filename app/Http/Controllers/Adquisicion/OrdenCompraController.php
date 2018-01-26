@@ -37,7 +37,7 @@ class OrdenCompraController extends Controller
     {
         $areas = Area::getAllActive();
         $monedas = Moneda::getAllActive();
-        $materiaPrima = Insumo::getAllActive();
+        $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
@@ -90,7 +90,7 @@ class OrdenCompraController extends Controller
     {
 
         $ordenCompra = OrdenCompra::with('proveedor', 'area', 'tipo', 'detalles')->where('numero',$numero)->first();
-        
+
         return view('adquisicion.ordenCompra.show')->with(['ordenCompra' => $ordenCompra]);
     }
 
@@ -100,17 +100,35 @@ class OrdenCompraController extends Controller
      * @param  \App\Models\Adquisicion\OrdenCompra  $ordenCompra
      * @return \Illuminate\Http\Response
      */
-    public function edit(OrdenCompra $ordenCompra)
+    public function edit($numero)
     {
+        $ordenCompra = OrdenCompra::with('detalles')->where('numero',$numero)->first();
+
         if ($ordenCompra->aut_contab) {
 
-            $msg = 'Orden Compra Numero N°' . $ordenCompra->numero . 'Ya ha sido Autorizada, no se puede modificar';
+            $msg = 'Orden Compra Numero N°' . $ordenCompra->numero . ' Ya ha sido Autorizada, no se puede modificar.';
             return redirect()->route('ordenCompra')->with(['status' => $msg]);
         }
 
         // Por Implementar
-        $msg = "Por implementar Editar Orden de Compra";
-        return redirect()->route('ordenCompra')->with(['status' => $msg]);
+        $ordenCompra->porcDesc = $ordenCompra->descuento ? (($ordenCompra->descuento * 100) / $ordenCompra->sub_total) : 0;
+
+        $areas = Area::getAllActive();
+        $monedas = Moneda::getAllActive();
+        $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
+        $tipos = OrdenCompraTipo::getAllActive();
+        $proveedores = Proveedor::getAllActive()->load('formaPago');
+        $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
+
+        return view('adquisicion.ordenCompra.edit')->with([
+            'ordenCompra' => $ordenCompra,
+            'tipos' => $tipos,
+            'monedas' => $monedas,
+            'proveedores' => $proveedores,
+            'areas' => $areas,
+            'productos' => $materiaPrima,
+            'iva' => $iva,
+        ]);
     }
 
     /**
@@ -122,7 +140,24 @@ class OrdenCompraController extends Controller
      */
     public function update(Request $request, OrdenCompra $ordenCompra)
     {
-        //
+
+        $this->validate($request,[
+            'numero' => 'required',
+            'prov_id' => 'required',
+            'area_id' => 'required',
+            'contacto' => 'required',
+            'forma_pago' => 'required',
+            'fecha_emision' => 'required',
+            'moneda' => 'required',
+            'porc_desc' => 'required',
+            'tipo' => 'required',
+            'impuesto' => 'required',
+        ]);
+
+        $ordenCompra = OrdenCompra::registerEdit($request,$ordenCompra);
+        $msg = 'Orden de Compra Nº' . $ordenCompra->numero . ' Ha sido Modificada.';
+
+        return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }
 
     /**
@@ -133,8 +168,16 @@ class OrdenCompraController extends Controller
      */
     public function destroy(OrdenCompra $ordenCompra)
     {
-        // Por Implementar
-        $msg = "Por implementar Eliminar Orden de Compra";
+        $ordenCompra->delete();
+        $msg = "Orden Compra Nº". $ordenCompra->numero . " ha sido Eliminada";
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
+    }
+
+    public function pdf($numero) {
+
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',$ordenCompra);
+
+
+        return $pdf->stream();
     }
 }

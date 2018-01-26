@@ -307,7 +307,7 @@
 
 @section('scripts')
 <script>
-	var productos = Object.values({!!$productos!!});
+	var productos = Object.values({!!json_encode($productos)!!});
 	var tipos = Object.values({!!$tipos!!})
 	var proveedores = {!!$proveedores!!};
 	var items = [];

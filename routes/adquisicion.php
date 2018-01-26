@@ -1,4 +1,5 @@
 <?php
+use App\Models\FormulaDetalle;
 
 
 // GRUPO de Rutas de Modulo Operaciones-Bodega
@@ -33,13 +34,89 @@ Route::prefix('adquisicion')->group( function() {
 
     Route::prefix('ordenCompra')->group(function() {
 
-        Route::get('/crear',       'Adquisicion\OrdenCompraController@create')->name('crearOrdenCompra');
-        Route::get('/',            'Adquisicion\OrdenCompraController@index')->name('ordenCompra');
-        Route::get('/{numero}',    'Adquisicion\OrdenCompraController@show')->name('verOrdenCompra');
-        Route::post('/',           'Adquisicion\OrdenCompraController@store')->name('guardarOrdenCompra');
-        Route::get('{numero}/editar',      'Adquisicion\OrdenCompraController@edit')->name('editarOrdenCompra');
-        Route::put('/{numero}',    'Adquisicion\OrdenCompraController@update')->name('actualizarOrdenCompra');
-        Route::delete('/{numero}', 'Adquisicion\OrdenCompraController@destroy')->name('eliminarOrdenCompra');
+        Route::get('/crear',            'Adquisicion\OrdenCompraController@create')->name('crearOrdenCompra');
+        Route::get('/',                 'Adquisicion\OrdenCompraController@index')->name('ordenCompra');
+        Route::get('/{numero}',         'Adquisicion\OrdenCompraController@show')->name('verOrdenCompra');
+        Route::get('/{numero}/pdf',     'Adquisicion\OrdenCompraController@pdf')->name('verOrdenCompraPDF');
+        Route::post('/',                'Adquisicion\OrdenCompraController@store')->name('guardarOrdenCompra');
+        Route::get('{numero}/editar',   'Adquisicion\OrdenCompraController@edit')->name('editarOrdenCompra');
+        Route::put('/{ordenCompra}',    'Adquisicion\OrdenCompraController@update')->name('actualizarOrdenCompra');
+        Route::delete('/{ordenCompra}', 'Adquisicion\OrdenCompraController@destroy')->name('eliminarOrdenCompra');
+    });
+
+    Route::prefix('planProduccion')->group( function(){
+
+        Route::get('/', 'Adquisicion\PlanProduccionController@index')->name('planProduccion');
+    });
+
+
+
+    Route::prefix('planTrabajo')->group( function(){
+
+        Route::get('/', function(){
+
+            $producto = App\Models\Producto::find(8);
+            $cantidad = 70;
+            $cantidadRestante = $cantidad;
+            $stockPallet = App\Models\Bodega\Pallet::getStockofProd($producto->id);
+            if ($cantidad <= $stockPallet) {
+
+                return 'Unidades Completas';
+            }
+
+            $cantidadRestante -= $stockPallet;
+            // determinar si se divide las busquedas, se agrupan o no se incluyen productos en fase de ingreso
+            $stockIngreso = App\Models\Bodega\Ingreso::getStockofProd($producto->id);
+
+            $preDetalle = App\Models\PremezclaDetalle::where('prod_id',$producto->id)->first();
+            $stockPremezcla = App\Models\Bodega\Pallet::getStockofPremezcla($preDetalle->prem_id);
+
+            //formula debe estar aprobada
+            $formulaDetalle = App\Models\Formula::with('detalle')->where('producto_id',$producto->id)->first();
+
+            $arrayInsumos = [];
+            $i=0;
+            foreach ($formulaDetalle->detalle as $detalle) {
+
+                $existencia = App\Models\Bodega\Pallet::getStockofInsumo($detalle->insumo_id);
+                if ($detalle->nivel_id == 1) {
+                    $requerida = $detalle->cantxcaja * $cantidadRestante;
+                } else if ($detalle->nivel_id == 2) {
+                    $requerida = ($detalle->cantxcaja * $cantidadRestante) - ($detalle->cantxbatch * $stockPremezcla);
+                }
+                $arrayInsumos[$i] = [
+                    'nombre' => $detalle->descripcion,
+                    'existencia' =>$existencia,
+                    'requerida' => $requerida,
+                    'faltante' => ($existencia >=$requerida ? 0:$requerida-$existencia),
+                ];
+
+                $i++;
+            };
+            //dd($arrayInsumos);
+            dump(
+                'Producto:'.$producto->descripcion,
+                'Cajas Requeridas:'.$cantidad,
+                'Cajas Existencia:'.$stockPallet,
+                'Cajas Faltantes:' . $cantidadRestante,
+                //'Existencia Ingreso:'.$stockIngreso,
+                'Existencia Premezcla:'.$stockPremezcla
+            //'Existencia Materia Prima:'.print_r($arrayInsumos)
+            );
+            foreach ($arrayInsumos as $insumo) {
+
+                dump($insumo);
+            }
+
+            $existencia = '';
+
+            $existencia = 'en stock =' . $stockPallet;
+
+
+
+
+
+        });
     });
 });
 

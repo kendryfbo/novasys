@@ -67,7 +67,7 @@
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
 									</button>
 								</form>
-								<form style="display: inline" action="{{route('eliminarOrdenCompra', ['numero' => $ordenCompra->numero])}}" method="post">
+								<form style="display: inline" action="{{route('eliminarOrdenCompra', ['ordenCompra' => $ordenCompra->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm btn-default" type="submit">

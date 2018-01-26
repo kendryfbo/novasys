@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Modificar de Proforma</h4>
+			<h4>Editar Orden de Compra</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="edit" method="post" action="{{route('actualizarProforma',['proforma' => $proforma->numero])}}">
+			<form class="form-horizontal"  id="edit" method="post" action="{{route('actualizarOrdenCompra',['ordenCompra' => $ordenCompra->id])}}">
 
 				{{ csrf_field() }}
 				{{ method_field('PUT') }}
@@ -41,26 +41,9 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">C. Venta:</label>
-          <div class="col-lg-2">
-            <select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" required>
-              <option value=""></option>
-							@foreach ($centrosVenta as $centro)
-
-								<option {{ $proforma->cv_id == $centro->id ? 'selected':'' }} value="{{ $centro->id }}">{{ $centro->descripcion }}</option>
-
-							@endforeach
-            </select>
-          </div>
-
 			<label class="control-label col-lg-1">Numero:</label>
 			<div class="col-lg-1">
-				<input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
-			</div>
-
-			<label class="control-label col-lg-1">Version:</label>
-			<div class="col-lg-1">
-				<input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version + 1}}" readonly>
+				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->numero}}" readonly>
 			</div>
 
         </div>
@@ -71,47 +54,28 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Emision:</label>
-          <div class="col-lg-2">
-            <input class="form-control input-sm" name="emision" type="date" value="{{ $proforma->fecha_emision }}" required>
-          </div>
+			<label class="control-label col-lg-1">Proveedor:</label>
+            <div class="col-lg-4">
+              <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="prov_id" v-model="proveedorId" @change="loadDatos" required>
+  							<option value=""></option>
+  							<option v-for="proveedor in proveedores" v-bind:value="proveedor.id">@{{proveedor.descripcion}}</option>
+              </select>
+            </div>
 
-          <label class="control-label col-lg-1">Clausula:</label>
-          <div class="col-lg-2">
-            <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" required>
-              <option value=""></option>
-							@foreach ($clausulas as $clausula)
+			<label class="control-label col-lg-1">Emision:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$ordenCompra->fecha_emision}}" required>
+			</div>
 
-								<option {{ $proforma->clau_venta == $clausula->nombre ? 'selected':'' }} value="{{ $clausula->nombre }}">{{ $clausula->nombre }}</option>
-
-							@endforeach
-            </select>
-          </div>
-
-          <label class="control-label col-lg-1">Semana:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}">
-          </div>
-
-        </div>
-        <!-- /form-group -->
-
-        <!-- form-group -->
-        <div class="form-group">
-
-          <label class="control-label col-lg-1">Cliente:</label>
-          <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadFormaPago" required>
-				<option value=""></option>
-				<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
-            </select>
-          </div>
-
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-          <div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" v-model="formaPagoDescrip" readonly>
-          </div>
-
+			<label class="control-label col-lg-1">Area:</label>
+            <div class="col-lg-2">
+              <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="area_id" required>
+                <option value=""></option>
+				@foreach ($areas as $area)
+					<option {{$ordenCompra->area_id == $area->id ? 'selected':''}} value="{{$area->id}}">{{$area->descripcion}}</option>
+				@endforeach
+              </select>
+            </div>
 
         </div>
         <!-- /form-group -->
@@ -119,29 +83,20 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Puerto E. :</label>
-          <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" required>
-              <option value=""></option>
-							@foreach ($puertoEmbarque as $puerto)
+			<label class="control-label col-lg-1">Cond. Pago:</label>
+			<div class="col-lg-4">
+				<input class="form-control input-sm" type="text" name="forma_pago" v-model="formaPagoDescrip" readonly>
+			</div>
 
-								<option {{$proforma->puerto_emb == $puerto->nombre ? 'selected':''}} value="{{$puerto->nombre}}">{{$puerto->nombre}}</option>
-
-							@endforeach
-            </select>
-          </div>
-
-					<label class="control-label col-lg-2">Medio Transporte:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="transporte" required>
-							<option value=""></option>
-							@foreach ($transportes as $transporte)
-
-								<option {{$proforma->transporte == $transporte->descripcion ? 'selected':''}} value="{{$transporte->descripcion}}">{{$transporte->descripcion}}</option>
-
-							@endforeach
-						</select>
-					</div>
+			<label class="control-label col-lg-1">Moneda:</label>
+            <div class="col-lg-2">
+              <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="moneda" required>
+                <option value=""></option>
+				@foreach ($monedas as $moneda)
+					<option {{$ordenCompra->moneda == $moneda->descripcion ? 'selected':''}} value="{{$moneda->descripcion}}">{{$moneda->descripcion}}</option>
+				@endforeach
+              </select>
+            </div>
 
         </div>
         <!-- /form-group -->
@@ -149,25 +104,29 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Direccion:</label>
-          <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" required>
-          </div>
+			<label class="control-label col-lg-1">Contacto:</label>
+			<div class="col-lg-4">
+				<input class="form-control input-sm" type="text" name="contacto" v-model="contacto" readonly>
+			</div>
 
-          <label class="control-label col-lg-1">Puerto D. :</label>
-          <div class="col-lg-4">
-            <input class="form-control input-sm" type="text" name="puertoD" value="{{$proforma->puerto_dest}}">
-          </div>
+			<div class="col-lg-4">
+				<div v-for="tipo in tipos" class="radio-inline">
+					<label>
+						<input type="radio" name="tipo" :id="tipo.id" :value="tipo.id" v-model="tipoId" @change="calculateTotal" required>
+							@{{tipo.descripcion}}
+					</label>
+				</div>
+			</div>
 
         </div>
         <!-- /form-group -->
 
-				<!-- form-group -->
+		<!-- form-group -->
         <div class="form-group">
 
           <label class="control-label col-lg-1">Nota:</label>
           <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="nota" value="{{$proforma->nota}}">
+            <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}">
           </div>
 
         </div>
@@ -177,26 +136,48 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Producto:</label>
-          <div class="col-lg-2">
-            <select id="prodSelect" class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" v-model="prodId" @change="loadProducto" :disabled="itemSelected">
-							<option value=""></option>
-							<option v-if="productos" v-for="producto in productos" v-bind:value="producto.id">@{{producto.descripcion}}</option>
+          <label class="control-label col-lg-1">Tipo:</label>
+          <div class="col-lg-3">
+            <select id="prodSelect" class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" :disabled="itemSelected">
+				<option value="">Materia Prima</option>
             </select>
+          </div>
+
+		  <label class="control-label col-lg-1">Producto:</label>
+          <div class="col-lg-3">
+            <select id="prodSelect" class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="prodId" @change="loadProducto" :disabled="itemSelected">
+				<option value=""></option>
+				<option v-if="productos" v-for="producto in productos" v-bind:value="producto.id">@{{producto.descripcion}}</option>
+            </select>
+          </div>
+
+		  <label class="control-label col-lg-1">Ult.Precio:</label>
+		  <div class="col-lg-1">
+        	<input class="form-control input-sm" type="text" v-model.lazy="ultPrecio" readonly>
+          </div>
+
+        </div>
+        <!-- /form-group -->
+        <!-- form-group -->
+        <div class="form-group">
+
+		  <label class="control-label col-lg-1">Descripcion:</label>
+		  <div class="col-lg-3">
+        	<input class="form-control input-sm" type="text" name="descripProd" v-model.lazy="descripProd">
+          </div>
+
+		  <label class="control-label col-lg-1">U.Med:</label>
+		  <div class="col-lg-1">
+        	<input class="form-control input-sm" type="text" name="unidad" v-model.lazy="unidad">
           </div>
 
           <label class="control-label col-lg-1">Cant:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" type="number" min="0" v-model.number="cantidad">
-          </div>
-
-          <label class="control-label col-lg-1">% desc:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" type="number" min="0" max="100" v-model.number="descuento" value="0">
+            <input class="form-control input-sm" type="number" min="0" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model.lazy="cantidad">
           </div>
 
           <label class="control-label col-lg-1">precio:</label>
-          <div class="col-lg-2">
+          <div class="col-lg-1">
             <input id="precio" class="form-control input-sm" type="number" min="0" v-model.number="precio">
           </div>
 
@@ -216,10 +197,10 @@
 				</select>
 				<!-- /items -->
 
-				<input type="hidden" name="freight" :value="freight">
-				<input type="hidden" lang="es" name="insurance" :value="insurance">
-				<input type="hidden" name="fob" :value="fob">
-				<input type="hidden" name="total" :value="total">
+				{{-- <input type="hidden" name="freight" :value="freight"> --}}
+				{{-- <input type="hidden" lang="es" name="insurance" :value="insurance"> --}}
+				{{-- <input type="hidden" name="fob" :value="fob"> --}}
+				{{-- <input type="hidden" name="total" :value="total"> --}}
 
       </form>
       <!-- /form -->
@@ -238,9 +219,9 @@
             <th class="text-center">#</th>
             <th class="text-center">CODIGO</th>
             <th class="text-center">DESCRIPCION</th>
+			<th class="text-center">U.MED</th>
             <th class="text-center">CANT</th>
             <th class="text-center">PRECIO</th>
-            <th class="text-center">DESC</th>
             <th class="text-center">TOTAL</th>
           </tr>
 
@@ -251,14 +232,14 @@
 						<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
 					</tr>
 
-          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.producto_id)">
+          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(key)">
             <td class="text-center">@{{key+1}}</td>
             <td class="text-center">@{{item.codigo}}</td>
             <td>@{{item.descripcion}}</td>
-            <td class="text-right">@{{item.cantidad.toLocaleString()}}</td>
+			<td class="text-right">@{{item.unidad}}</td>
+            <td class="text-right">@{{item.cantidad}}</td>
             <td class="text-right">@{{numberFormat(item.precio)}}</td>
-            <td class="text-right">@{{numberFormat(item.descuento)}}</td>
-						<td class="text-right">@{{numberFormat(item.sub_total)}}</td>
+			<td class="text-right">@{{numberFormat(item.sub_total)}}</td>
           </tr>
 
         </tbody>
@@ -266,55 +247,50 @@
       </table>
 
       <div class="row">
-        <div class=" col-sm-3">
-          <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-              <tr>
-                <th class="bg-gray text-right">Peso Neto:</th>
-                <td class="text-right">@{{totalPesoNeto}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Peso Bruto:</th>
-                <td class="text-right">@{{totalPesoBruto}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Volumen:</th>
-                <td class="text-right">@{{totalVolumen}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Cant. Cajas:</th>
-                <td class="text-right">@{{totalCajas}}</td>
-              </tr>
-
-
-          </table>
-        </div>
-        <div class=" col-sm-3 col-md-offset-6">
+        <div class=" col-sm-4 col-md-offset-8">
 			<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-			<tr>
-				<th class="bg-gray text-right">TOTAL F.O.B. US$</th>
-				<th class="text-right">@{{numberFormat(fob)}}</th>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">FREIGHT US$</th>
-				<td class="input-td">
-					<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" @change="freightChange">
-				</td>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">INSURANCE US$</th>
-				<td class="input-td">
-					<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" @change="insuranceChange">
-				</td>
-			</tr>
-			<tr>
-				<th colspan="2" class=""></th>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">TOTAL US$</th>
-				<th class="bg-gray text-right">@{{numberFormat(total)}}</th>
-			</tr>
+				<tr>
+					<th class="bg-gray text-right">SUB-TOTAL</th>
+					<td class="input-td">
+					<input class="form-control text-right" type="number" name="sub_total" :value="subTotal.toFixed(2)" readonly>
+					</td>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">% DESC.:</th>
+					<td class="input-td">
+						<input form="edit" class="form-control text-right" type="number" name="porc_desc" v-model="porcDesc" @change="calculateTotal">
+					</td>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">DESCUENTO:</th>
+					<td class="input-td">
+						<input class="form-control text-right" type="number" name="descuento" :value="descuento.toFixed(2)" readonly>
+					</td>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">@{{netoLabelText}}</th>
+					<td class="input-td">
+						<input class="form-control text-right" type="number" name="neto" :value="neto.toFixed(2)" readonly>
+					</td>
+				</tr>
+				<tr>
+					<th class="bg-gray text-right">@{{ivaLabelText}}</th>
+					<td class="input-td">
+						<input form="edit" class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" readonly>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" class=""></th>
+				</tr>
+
+				<tr>
+					<th class="bg-gray text-right">@{{totalLabelText}}</th>
+					<td class="input-td">
+						<input class="form-control text-right" type="number" name="freight" min="0" step="0.01" :value="total.toFixed(2)" readonly>
+					</td>
+				</tr>
 
 			</table>
         </div>
@@ -332,14 +308,16 @@
 
 @section('scripts')
 <script>
-		var productos = {!!$productos!!};
-		var clientes = {!!$clientes!!};
-		var clienteId = {!!$proforma->cliente_id!!};
-		var items = {!!$proforma->detalles->toJson()!!};
-		var freight = {!!$proforma->freight!!};
-		var insurance = {!!$proforma->insurance!!};
+	var productos = Object.values({!!json_encode($productos)!!});
+	var tipos = Object.values({!!$tipos!!});
+	var tipoId = {!!$ordenCompra->tipo_id!!}
+	var proveedores = {!!$proveedores!!};
+	var proveedorId = {!!$ordenCompra->prov_id!!};
+	var items = {!!$ordenCompra->detalles!!};
+	var iva = {!!$iva!!};
+	var porcDesc = {!!$ordenCompra->porcDesc!!};
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/comercial/proformaEdit.js')}}"></script>
+<script src="{{asset('js/adquisicion/ordenCompraEdit.js')}}"></script>
 @endsection
