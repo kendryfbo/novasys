@@ -60,7 +60,7 @@
 			<label class="control-label col-lg-1">batch:</label>
 			<div class="col-lg-2">
 				<div class="input-group">
-					<input class="form-control input-sm" name="batch" type="number" min="0" v-model="batch" required>
+					<input class="form-control input-sm" name="batch" type="number" min="0" step="any" v-model="batch" required>
 					<span class="input-group-addon">Kg</span>
 				</div>
 			</div>
