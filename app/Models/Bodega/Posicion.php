@@ -26,7 +26,7 @@ class Posicion extends Model
     const COND_REPROCESO = 7;
 
     protected $table = 'posicion';
-    protected $fillable = ['bodega_id', 'bloque', 'columna', 'estante', 'medida', 'status_id', 'pallet_id'];
+    protected $fillable = ['bodega_id', 'bloque', 'columna', 'estante', 'medida_id', 'status_id', 'pallet_id'];
 
     protected $PT;
     protected $MP;
@@ -86,11 +86,12 @@ class Posicion extends Model
 
         $PT = config('globalVars.PT');
         $MP = config('globalVars.MP');
+        $PP = config('globalVars.PP');
 
         $array = [];
 
         $pallet = Pallet::with('detalles')->find($palletId);
-        //dd($pallet);
+        $medidaPallet = $pallet->medida_id;
 
         foreach ($pallet->detalles as $detalle) {
 
@@ -98,6 +99,7 @@ class Posicion extends Model
             $valores = (object) array(
                 'insumo' => NULL,
                 'producto' => NULL,
+                'premezcla' => NULL,
                 'marca' => NULL,
                 'familia' => NULL,
                 'tipo_familia' => NULL
@@ -116,9 +118,8 @@ class Posicion extends Model
 
                 array_push($array, (new self)->arrayQuery($valores));
 
-
             // Si es Insumo Armar busquedas de condiciones
-            } elseif ($detalle->tipo_id == $MP) {
+            } else if ($detalle->tipo_id == $MP) {
 
                 $detalle->load('insumo.familia.tipo');
                 $insumo = $detalle->insumo;
@@ -128,6 +129,19 @@ class Posicion extends Model
                 $valores->tipo_familia = $insumo->familia->tipo->id;
 
                 array_push($array, (new self)->arrayQuery($valores));
+
+            // Si es Premezcla Armar busquedas de condiciones
+            } else if ($detalle->tipo_id == $PP) {
+
+                $detalle->load('producto.marca.familia.tipo');
+                $premezcla = $detalle->producto;
+
+                $valores->premezcla = $premezcla->id;
+                $valores->marca = $premezcla->marca->id;
+                $valores->familia = $premezcla->marca->familia->id;
+                $valores->tipo_familia = $premezcla->marca->familia->tipo->id;
+
+                array_push($array, (new self)->arrayQuery($valores));
             }
 
         }
@@ -135,6 +149,7 @@ class Posicion extends Model
 
         $conditionProducto = '';
         $conditionInsumo = '';
+        $conditionPremezcla = '';
         $conditionMarca = '';
         $conditionFamilia = '';
         $conditionTipoFamilia = '';
@@ -143,12 +158,13 @@ class Posicion extends Model
 
             $conditionProducto = $conditionProducto . $conditions['producto'];
             $conditionInsumo = $conditionInsumo . $conditions['insumo'];
+            $conditionPremezcla = $conditionPremezcla . $conditions['premezcla'];
             $conditionMarca = $conditionMarca . $conditions['marca'];
             $conditionFamilia = $conditionFamilia . $conditions['familia'];
             $conditionTipoFamilia = $conditionTipoFamilia . $conditions['tipo_familia'];
         }
 
-        $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE;
+        $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE . " AND posicion.medida=" . $medidaPallet;
 
         $query = $baseQuery . $conditionProducto .' LIMIT 1';
 
@@ -262,6 +278,22 @@ class Posicion extends Model
         return false;
     }
 
+    static function changePositionPallet($anterior,$nueva) {
+
+        DB::transaction(function() use($anterior,$nueva){
+
+            $posAnterior = Posicion::find($anterior);
+            $posNueva = Posicion::find($nueva);
+
+            $posNueva->pallet_id = $posAnterior->pallet_id;
+            $posNueva->status_id = PosicionStatus::ocupado()->id;
+            $posAnterior->pallet_id = null;
+            $posAnterior->status_id = PosicionStatus::disponible()->id;
+            $posAnterior->save();
+            $posNueva->save();
+        },5);
+    }
+
     /*
     * PUBLIC FUNCTIONS
     */
@@ -315,12 +347,14 @@ class Posicion extends Model
     public function arrayQuery($object) {
 
         $insumo = $object->insumo == NULL ? 'NULL' : $object->insumo;
+        $premezcla = $object->premezcla == NULL ? 'NULL' : $object->premezcla;
         $producto = $object->producto == NULL ? 'NULL' : $object->producto;
         $marca = $object->marca == NULL ? 'NULL' : $object->marca;
         $familia = $object->familia == NULL ? 'NULL' : $object->familia;
         $tipoFamilia = $object->tipo_familia == NULL ? 'NULL' : $object->tipo_familia;
 
         $conditionQueryInsumo =  $this->conditionQuery(self::COND_INSUMO,$insumo);
+        $conditionQueryPremezcla =  $this->conditionQuery(self::COND_PREMEZCLA,$premezcla);
         $conditionQueryProducto = $this->conditionQuery(self::COND_PRODUCTO,$producto);
         $conditionQueryMarca = $this->conditionQuery(self::COND_MARCA,$marca);
         $conditionQueryFamilia = $this->conditionQuery(self::COND_FAMILIA,$familia);
@@ -328,6 +362,7 @@ class Posicion extends Model
 
 
         return ['insumo' => $conditionQueryInsumo,
+                'premezcla' => $conditionQueryPremezcla,
                 'producto' => $conditionQueryProducto,
                 'marca' => $conditionQueryMarca,
                 'familia' => $conditionQueryFamilia,

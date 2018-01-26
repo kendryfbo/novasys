@@ -26,10 +26,16 @@ var app = new Vue({
 
         addItem: function() {
 
-            this.item.por_almacenar = this.cantidad;
+            if (this.cantidad > this.item.por_almacenar) {
+                alert('Cantidad ingresada Mayor a la disponible');
+                return;
+            }
+
+            this.item.cantidad = this.cantidad;
             this.items.push(this.item);
             this.removeInsumo(this.itemId);
             this.itemId = '';
+            this.cantidad = '';
         },
 
         removeItem: function(item) {

@@ -6,6 +6,7 @@ var app = new Vue({
         palletNum: '',
         pallet: '',
         posicion: '',
+        bodega: '',
     },
 
     methods: {
@@ -26,8 +27,11 @@ var app = new Vue({
         loadPallet: function(data) {
 
             this.pallet = data;
+            if (!this.pallet) {
+                alert('pallet no existe');
+                return;
 
-            if (this.pallet.almacenado) {
+            } else if (this.pallet.almacenado) {
 
                 alert('Pallet ya se encuentra almacenado');
                 this.pallet= [];
@@ -40,9 +44,12 @@ var app = new Vue({
 
         getPosition: function() {
 
-            var url = '/bodega/pallet/'+ this.pallet.id +'/findPosition';
+            var url = '/bodega/pallet/findPosition';
 
-			axios.get(url)
+			axios.post(url,{
+                bodega: this.bodega,
+                id: this.pallet.id
+            })
 			.then(response => this.loadPosition(response.data))
 			.catch(error => this.handleError(error))
         },

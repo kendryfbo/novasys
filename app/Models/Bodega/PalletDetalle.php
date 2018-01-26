@@ -47,7 +47,24 @@ class PalletDetalle extends Model
 
     public function producto() {
 
-        return $this->belongsTo('App\Models\Producto','item_id');
+        $PT = config('globalVars.PT');
+        $MP = config('globalVars.MP');
+        $PP = config('globalVars.PP');
+
+        if ($this->tipo_id == $PT) {
+
+            return $this->belongsTo('App\Models\Producto','item_id');
+
+        } else if ($this->tipo_id == $MP) {
+            return $this->belongsTo('App\Models\Insumo','item_id');
+
+        } else if ($this->tipo_id == $PP) {
+            
+            return $this->belongsTo('App\Models\Premezcla','item_id');
+
+        } else {
+            return null;
+        }
     }
 
     public function insumo() {

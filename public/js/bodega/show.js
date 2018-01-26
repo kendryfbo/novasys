@@ -3,6 +3,7 @@ var app = new Vue ({
     el: '#vue-app',
 
     data: {
+        bodega: bodega,
         bloques: bloques,
         bloque: '',
         tiposCondicion: tiposCondicion,
@@ -12,6 +13,8 @@ var app = new Vue ({
         estantes: [],
         status: '',
         statusAll: statusAll,
+        medidas: medidas,
+        medida: '',
         selected: false,
         posicion_id: '',
         posicion: ''
@@ -30,6 +33,7 @@ var app = new Vue ({
             this.getCondicion(posicion.id);
             this.posicion_id = posicion.id;
             this.posicion = posicion;
+            this.medida = posicion.medida_id;
             this.status = posicion.status_id;
             this.selected = true;
         },
@@ -108,17 +112,19 @@ var app = new Vue ({
 
         storeStatus: function() {
 
-            if (!this.status) {
-
+            if (!this.status || !this.medida) {
+                alert('Debe seleccionar status y medida');
                 return;
             }
 
             status = this.status;
+            medida = this.medida;
             posicion = this.posicion_id;
             var url = '/bodega/posicion/status';
 
 			axios.post(url,{
                 status_id: status,
+                medida_id: medida,
                 posicion_id: posicion
             })
 			.then(response => this.updateStatusPos())
@@ -127,7 +133,24 @@ var app = new Vue ({
 
         updateStatusPos: function() {
 
+            this.getPositions();
+            alert('status actualizado');
+        },
 
+        getPositions: function() {
+
+            var url = '/api/bodega/posiciones';
+
+			axios.post(url,{
+                bodegaId: this.bodega
+            })
+			.then(response => this.loadPositions(response.data))
+			.catch(error => this.handleError(error))
+        },
+
+        loadPositions: function(data) {
+
+            this.bloques = data;
         },
 
         handleError: function(error) {

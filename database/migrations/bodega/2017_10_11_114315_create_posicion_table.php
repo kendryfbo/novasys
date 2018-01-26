@@ -19,7 +19,7 @@ class CreatePosicionTable extends Migration
             $table->integer('bloque')->unsigned();
             $table->integer('columna')->unsigned();
             $table->integer('estante')->unsigned();
-            $table->string('medida');
+            $table->integer('medida_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->integer('pallet_id')->unsigned()->nullable()->unique();
             $table->index(['bloque', 'columna','estante']);
@@ -30,6 +30,7 @@ class CreatePosicionTable extends Migration
             $table->foreign('bodega_id')->references('id')->on('bodegas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('pallet_id')->references('id')->on('pallets')->onUpdate('cascade');
             $table->foreign('status_id')->references('id')->on('posicion_status')->onUpdate('cascade');
+            $table->foreign('medida_id')->references('id')->on('pallet_medida')->onUpdate('cascade');
         });
     }
 

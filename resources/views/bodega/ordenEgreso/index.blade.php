@@ -16,7 +16,20 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearBodega')}}">Crear</a>
+			<div class="btn-group pull-right">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Egreso Manual <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{route('crearIngManualMP')}}">Materia Prima</a></li>
+                  <li><a href="{{route('crearIngManualPM')}}">Premezcla</a></li>
+                  <li><a href="#">Reproceso</a></li>
+                  <li><a href="#">Producto Terminado</a></li>
+                </ul>
+              </div>
+              <a class="btn btn-primary" href="{{route('ordenEgresoPendientes')}}">Orden Egreso</a>
+            </div>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
@@ -37,7 +50,7 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{route('verOrdenEgreso',['numero' => $orden->numero])}}"><strong>{{$orden->numero}}</strong></a></td>
-							<td class="text-center">{{$orden->tipo_doc}}</td>
+							<td class="text-center">{{$orden->documento->descripcion}}</td>
 							@if ($orden->tipo_doc == config('globalVars.TDP'))
 								<td class="text-center"><a href="{{route('verProforma',['proforma' => $orden->documento->numero])}}"><strong>{{$orden->documento->numero}}</strong></a></td>
 							@elseif ($orden->tipo_doc == config('glovalVars.TDNV'))
@@ -47,12 +60,7 @@
 							@endif
 							<td class="text-center">{{$orden->documento->cliente}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{route('ordenEgresoConsultarExistencia',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
-									{{ csrf_field() }}
-									<button class="btn btn-sm btn-default" type="submit">
-										<i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i> Existencia
-									</button>
-								</form>
+
 							</td>
 						</tr>
 					@endforeach

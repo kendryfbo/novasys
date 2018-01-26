@@ -6,6 +6,8 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
+        //return App\Models\Bodega\Pallet::getDataForBodega(5);
+        dd(App\Models\Bodega\Posicion::findPositionForPallet(1,1));
         return view('bodega.bodega.test');
         $routes = Route::getRoutes();
         $routesFormatted = [];
@@ -39,6 +41,9 @@ Route::prefix('bodega')->group( function() {
     Route::get('/ingreso/pallet', 'Bodega\BodegaController@entry')->name('ingresoPallet');
     Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
     Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
+
+    // Resourse Posiciones
+    Route::post('/posicion/moverPallet', 'Bodega\PosicionController@changePositionPallet')->name('cambiarPosicionPallet');
     // Resource Pallets
     Route::prefix('pallet')->group(function(){
 
@@ -46,9 +51,9 @@ Route::prefix('bodega')->group( function() {
 
         Route::get('/',                   'Bodega\PalletController@index')->name('palletPorIngresar');
         Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
-        Route::get('/{id}/findPosition/', 'Bodega\PalletController@position')->name('position'); // TEST
+        Route::post('/findPosition',       'Bodega\PalletController@position')->name('position'); // TEST
         Route::get('/MateriaPrima/crear', 'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
-        Route::post('/MateriaPrima',          'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
+        Route::post('/MateriaPrima',      'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
         Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 

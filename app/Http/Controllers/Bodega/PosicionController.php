@@ -45,11 +45,12 @@ class PosicionController extends Controller
     public function storeStatus(Request $request)
     {
             $status_id = $request->status_id;
+            $medida_id = $request->medida_id;
             $posicion_id = $request->posicion_id;
 
         try {
 
-            if ((!$status_id) || (!$posicion_id)) {
+            if ((!$status_id) || (!$medida_id) || (!$posicion_id)) {
 
                 return response(404);
             }
@@ -57,6 +58,7 @@ class PosicionController extends Controller
             $posicion = Posicion::where('id',$posicion_id)->first();
 
             $posicion->status_id = $status_id;
+            $posicion->medida_id = $medida_id;
 
             $posicion->save();
 
@@ -115,6 +117,17 @@ class PosicionController extends Controller
         //
     }
 
+    public function changePositionPallet(Request $request) {
+
+        $this->validate($request,[
+            'posicion_ant' => 'required',
+            'posicion_nueva' => 'required'
+        ]);
+
+        Posicion::changePositionPallet($request->posicion_ant,$request->posicion_nueva);
+
+        return redirect()->back();
+    }
 
     /*
      * Get Pallet From posicion

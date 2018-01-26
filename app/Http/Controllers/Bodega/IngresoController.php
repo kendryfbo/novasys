@@ -198,9 +198,14 @@ class IngresoController extends Controller
      */
     public function destroy(Ingreso $ingreso)
     {
-        $ingreso->delete();
+        if ($ingreso->procesado) {
 
-        $msg = 'Ingreso Nº' . $ingreso->numero . ' ha sido Eliminado.';
+            $msg = 'Ingreso Nº' . $ingreso->numero . ' No puede ser eliminado ya que fue procesado.';
+        } else {
+
+            $ingreso->delete();
+            $msg = 'Ingreso Nº' . $ingreso->numero . ' ha sido Eliminado.';
+        }
 
         return redirect()->route('ingreso')->with([
             'status' => $msg

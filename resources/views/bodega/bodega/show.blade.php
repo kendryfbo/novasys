@@ -79,6 +79,10 @@
 	                  <td class="bg-gray text-right">@{{posicion.estante}}</td>
 	                </tr>
 	                <tr>
+	                  <th class="bg-gray text-right">Medida:</th>
+	                  <td class="bg-gray text-right">@{{posicion.medida_id}}</td>
+	                </tr>
+	                <tr>
 	                  <th class="bg-gray text-right">Status:</th>
 	                  <td class="bg-gray text-right">@{{posicion.status_id}}</td>
 	                </tr>
@@ -119,6 +123,18 @@
 
 				  <!-- form-group -->
 				  <div class="form-group form-group-sm">
+					  <label class="control-label col-lg-1">Tamaño:</label>
+					  <div class="col-lg-2">
+						  <select :disabled="!selected" class="selectpicker" data-width="false" data-live-search="true" v-model="medida" data-style="btn-sm btn-default" name="medida" required>
+							  <option value="">Seleccione Medida</option>
+							  <option v-for="medida in medidas" :value="medida.id">@{{medida.descripcion}}</option>
+						  </select>
+
+					  </div>
+				  </div>
+				  <!-- /form-group -->
+				  <!-- form-group -->
+				  <div class="form-group form-group-sm">
 					  <label class="control-label col-lg-1">Status:</label>
 					  <div class="col-lg-2">
 						  <select :disabled="!selected" class="selectpicker" data-width="false" data-live-search="true" v-model="status" data-style="btn-sm btn-default" name="opcion" required>
@@ -151,9 +167,11 @@
 
 @section('scripts')
 	<script>
+		bodega = {!!$bodega!!};
 		bloques = {!!$bloques!!};
 		tiposCondicion = {!!$tiposCondicion!!};
 		statusAll = {!!$status!!}
+		medidas = {!!$medidas!!}
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>

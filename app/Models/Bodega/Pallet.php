@@ -4,8 +4,9 @@ namespace App\Models\Bodega;
 
 use DB;
 use App\Models\Bodega\PalletDetalle;
-use App\Models\Produccion\TerminoProceso;
+use App\Models\Bodega\IngresoDetalle;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Produccion\TerminoProceso;
 
 
 class Pallet extends Model
@@ -59,13 +60,12 @@ class Pallet extends Model
         return $pallet;
     }
 
-    static function createPalletMPManual($request) {
+    static function createPalletMP($request) {
 
         $pallet = DB::transaction( function() use($request) {
 
             $items = $request->items;
-            $tipoIngreso = $request->tipo_ingreso;
-            $tipoProd = $request->tipo_prod;
+
             $pallet = Pallet::create([
                 'numero' => $request->numero,
                 'medida_id' => $request->medida,
@@ -76,18 +76,25 @@ class Pallet extends Model
 
                 $item = json_decode($item);
 
-
                 $cantidad = $item->cantidad;
 
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
-                    'tipo_id' => $tipoProd,
-                    'item_id' => $item->id,
-                    'ing_tipo_id' => $tipoIngreso,
-                    'ing_id' => $item->id,
+                    'tipo_id' => $item->tipo_id,
+                    'item_id' => $item->item_id,
+                    'ing_tipo_id' => $item->ing_tipo_id,
+                    'ing_id' => $item->ing_id,
                     'cantidad' => $cantidad,
                     'fecha_venc' => $item->fecha_venc,
                 ]);
+
+                $detalle = IngresoDetalle::with('ingreso')->find($item->id);
+
+                $detalle->ingreso->procesado = 1;
+                $detalle->por_almacenar = $detalle->por_almacenar - $cantidad;
+
+                $detalle->ingreso->save();
+                $detalle->save();
             };
 
             return $pallet;
@@ -96,30 +103,48 @@ class Pallet extends Model
         return $pallet;
     }
 
-
     static function getDataForBodega($id) {
 
-        $pallet = self::with('detalles.producto','detalles.ingreso','detalles.tipo')->where('id',$id)->first();
+        $pallet = self::with('detalles.ingreso','detalles.tipo')->where('id',$id)->first();
 
         if (!$pallet) {
 
             return;
         }
 
-        $pallet->detalleGroup = DB::table('pallet_detalle')
-        ->join('productos', 'pallet_detalle.item_id', '=', 'productos.id')
-        ->select('pallet_detalle.item_id', DB::raw('SUM(cantidad) as cantidad'), 'productos.codigo', 'productos.descripcion')
-        ->where('pallet_id',$pallet->id)
-        ->groupBy('item_id','codigo','descripcion')
-        ->get();
+        foreach ($pallet->detalles as $detalle) {
+            $detalle->load('producto');
+        };
+
+        $palletDetalleGroup = PalletDetalle::where('pallet_id',$id)->groupBy('tipo_id','item_id')->selectRaw('sum(cantidad) as cantidad, tipo_id,item_id')->get();
+
+        foreach ($palletDetalleGroup as $detalle) {
+            $detalle->load('producto');
+        };
+        $pallet->detalleGroup = $palletDetalleGroup;
 
         return $pallet;
     }
 
+    static function getStockofProd($id) {
 
+        $PT = config('globalVars.PT');
+        return PalletDetalle::where('tipo_id',$PT)->where('item_id',$id)->sum('cantidad');
+    }
+    static function getStockofPremezcla($id) {
+
+        $PP = config('globalVars.PP');
+        return PalletDetalle::where('tipo_id',$PP)->where('item_id',$id)->sum('cantidad');
+    }
+    static function getStockofInsumo($id) {
+
+        $MP = config('globalVars.MP');
+        return PalletDetalle::where('tipo_id',$MP)->where('item_id',$id)->sum('cantidad');
+    }
     /*
     | public functions
     */
+
     // descontar Pallet dado el id de Detalle
     public function subtract($id,$cantidad) {
 

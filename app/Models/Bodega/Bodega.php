@@ -54,7 +54,7 @@ class Bodega extends Model
             $bloques = $request->bloque;
             $columnas = $request->columna;
             $estantes = $request->estante;
-
+            $medida = $request->medida;
 
             for ($bloque=0; $bloque < $bloques; $bloque++) {
 
@@ -67,7 +67,7 @@ class Bodega extends Model
                             'bloque' => $bloque+1,
                             'columna' => $columna+1,
                             'estante' => $estante+1,
-                            'medida' => 'TEST',
+                            'medida_id' => $medida,
                             'status_id' => 2
                         ]);
                     }

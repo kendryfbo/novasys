@@ -130,7 +130,7 @@
 								<tbody>
 
 									<tr v-for="detalle in pallet.detalleGroup">
-										<td class="text-left">@{{detalle.descripcion}}</td>
+										<td class="text-left">@{{detalle.producto.descripcion}}</td>
 										<td class="text-right">@{{detalle.cantidad}}</td>
 									</tr>
 
@@ -142,7 +142,7 @@
 
 						<div v-if="pallet != ''" class="col-lg-12">
 							<div class="btn-group align-center" role="group" aria-label="...">
-								<button type="button" class="btn btn-default">Traslado de Pallet</button>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#trasladoPallet">Traslado de Pallet</button>
 								<button type="button" class="btn btn-default">Limpiar Posicion</button>
 								<button type="button" class="btn btn-default">Egreso Manual</button>
 							</div>
@@ -224,6 +224,10 @@
 		<!-- /box-footer -->
 
 	</div>
+
+	@include('bodega.bodega.trasladoPalletTab')
+
+
 @endsection
 
 @section('scripts')
@@ -233,4 +237,5 @@
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/bodega/consult.js')}}"></script>
+	<script src="{{asset('js/bodega/trasladoPallet.js')}}"></script>
 @endsection

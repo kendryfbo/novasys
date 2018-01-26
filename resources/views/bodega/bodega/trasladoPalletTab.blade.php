@@ -1,10 +1,3 @@
-@extends('layouts.masterOperaciones')
-
-@section('content')
-
-<!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#trasladoPallet">Open Modal</button>
-
 <!-- Modal -->
 <div id="trasladoPallet" class="modal fade" role="dialog">
 
@@ -23,14 +16,16 @@
             <div class="modal-body">
 
                 <!-- /form-->
-                <form class="form-horizontal" action="" method="post">
+                <form id="formTrasladarPallet" class="form-horizontal" action="{{@route('cambiarPosicionPallet')}}" method="post">
 
+                    {{ csrf_field() }}
                     <!-- form-group -->
                     <div class="form-group">
 
-                        <label class="control-label col-lg-1">Posicion:</label>
-                        <div class="col-lg-5">
-                            <input class="form-control input-sm" type="text" name="descripcion" value="POSICION" readonly>
+                        <label class="control-label col-lg-2">Posicion Actual:</label>
+                        <div class="col-lg-2">
+                            <input class="form-control input-sm" type="text" name="descripcion" :value="posicion.bloque +'-'+posicion.columna+'-'+posicion.estante" readonly>
+                            <input class="form-control input-sm" type="hidden" name="posicion_ant" :value="posicion.id">
                         </div>
 
                     </div>
@@ -38,7 +33,7 @@
                     <!-- form-group -->
                     <div class="form-group">
 
-                        <label class="control-label col-lg-1">Bodega:</label>
+                        <label class="control-label col-lg-2">Bodega:</label>
                         <div class="col-lg-3">
                             <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega" v-model="bodegaID" @change="loadPosiciones">
                                 <option value=""></option>
@@ -51,9 +46,9 @@
                     <!-- form-group -->
                     <div class="form-group">
 
-                        <label class="control-label col-lg-1">Posicion:</label>
-                        <div class="col-lg-3">
-                            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="posicion" v-model="posicionID" >
+                        <label class="control-label col-lg-2">Posicion Nueva:</label>
+                        <div class="col-lg-2">
+                            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="posicion_nueva" v-model="newPosicionID" >
                                 <option value=""></option>
                                 <option v-for="posicion in posiciones" :value="posicion.id">@{{posicion.bloque +'-'+posicion.columna+'-'+posicion.estante}}</option>
                             </select>
@@ -64,21 +59,14 @@
 
                 </form>
                 <!-- /form-->
+
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                <button form="formTrasladarPallet" v-if="posicion && newPosicionID" type="submit" class="btn btn-default">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
 
     </div>
 </div>
-
-@endsection
-
-@section('scripts')
-
-    <script src="{{asset('vue/vue.js')}}"></script>
-    <script src="{{asset('js/bodega/trasladoPallet.js')}}"></script>
-@endsection

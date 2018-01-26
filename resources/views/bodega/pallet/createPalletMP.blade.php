@@ -54,7 +54,6 @@
                     <div class="col-lg-2">
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
-					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="" required readonly>
 
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
@@ -84,17 +83,17 @@
                     <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.insumo.descripcion + ' Por Procesar: ' + insumo.por_almacenar}}</option>
+						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion + ' Por Procesar: ' + insumo.por_almacenar}}</option>
                         </select>
                     </div>
 
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" name="cantidad" type="number" v-model="cantidad" required>
+						<input class="form-control input-sm" type="number" v-model="cantidad">
                     </div>
 
 					<div class="col-lg-2">
-					    <button :disabled="itemId == '' || cantidad == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+					    <button :disabled="itemId == '' || cantidad == '' || cantidad > item.por_almacenar" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
                     </div>
 
                 </div>
@@ -124,7 +123,6 @@
               <tr>
                 <th class="text-center"></th>
                 <th class="text-center">#</th>
-                <th class="text-center">LOTE</th>
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">INSUMOS</th>
                 <th class="text-center">UNIDAD</th>
@@ -142,11 +140,10 @@
                         <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(item)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </td>
 					<td class="text-center">@{{key+1}}</td>
-				    <td class="text-center">@{{item.lote}}</td>
-					<td class="text-center">@{{item.insumo.codigo}}</td>
-				    <td class="text-left">@{{item.insumo.descripcion}}</td>
-				    <td class="text-center">@{{item.insumo.unidad_med}}</td>
-				    <td class="text-right">@{{item.por_almacenar}}</td>
+					<td class="text-center">@{{item.codigo}}</td>
+				    <td class="text-left">@{{item.descripcion}}</td>
+				    <td class="text-center">@{{item.unidad_med}}</td>
+				    <td class="text-right">@{{item.cantidad}}</td>
 				</tr>
 
             </tbody>

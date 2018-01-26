@@ -30,6 +30,7 @@ var app = new Vue ({
             this.posicion = posicion;
             this.status = posicion.status_id;
             this.selected = true;
+            trasladoPallet.posicion = posicion; // instancia de trasladoPallet
         },
 
         nextEstante: function() {

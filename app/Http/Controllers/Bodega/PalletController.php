@@ -71,8 +71,26 @@ class PalletController extends Controller
     public function createPalletMP() {
 
         $tipoMP = config('globalVars.MP');
-        $insumos = IngresoDetalle::with('insumo')->where('tipo_id',$tipoMP)->where('por_almacenar','>',0)->get();
-        
+        $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_almacenar','>',0)->get();
+
+        $insumos = $insumos->map(function($insumo){
+
+            $newInsumo = collect([
+                'id' => $insumo->id,
+                'tipo_id' => $insumo->tipo_id,
+                'item_id' => $insumo->item_id,
+                'codigo' => $insumo->insumo->codigo,
+                'descripcion' => $insumo->insumo->descripcion,
+                'unidad_med' => $insumo->insumo->unidad_med,
+                'fecha_venc' => $insumo->fecha_venc,
+                'ing_tipo_id' => $insumo->ingreso->tipo_id,
+                'ing_id' => $insumo->ingreso->id,
+                'por_almacenar' => $insumo->por_almacenar
+            ]);
+            return $newInsumo;
+        });
+        //dd($insumos);
+
         $medidas = PalletMedida::getAllActive();
         $numero = $this->palletNum();
         $barCode = $this->barCode($numero);
@@ -145,17 +163,15 @@ class PalletController extends Controller
         return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
 
-    public function storePalletMPManual(Request $request) {
+    public function storePalletMP(Request $request) {
 
         $this->validate($request,[
             'numero' =>'required',
-            'tipo_ingreso' =>'required',
-            'tipo_prod' =>'required',
             'medida' => 'required',
             'items' => 'required'
         ]);
 
-        $pallet = Pallet::createPalletMPManual($request);
+        $pallet = Pallet::createPalletMP($request);
 
         return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
@@ -239,10 +255,13 @@ class PalletController extends Controller
         return $pdf->stream();
     }
 
-    public function position($id) {
+    public function position(Request $request) {
 
+        //return response($request->all(),200);
+        $bodega = $request->bodega;
+        $id = $request->id;
         $pallet = Pallet::with('detalles')->find($id);
-        $posicion = Posicion::findPositionForPallet(1,$id);
+        $posicion = Posicion::findPositionForPallet($bodega,$id);
 
         if (!$posicion) {
 

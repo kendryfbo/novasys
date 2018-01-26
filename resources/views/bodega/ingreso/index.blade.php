@@ -73,7 +73,7 @@
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" method="post" action="">
+								<form style="display: inline" method="post" action="{{route('eliminarIngreso',['ingreso' => $ingreso->id])}}">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button type="submit" class="btn btn-default btn-sm">

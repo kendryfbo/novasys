@@ -132,6 +132,15 @@ class Ingreso extends Model
         return $ingreso;
     }
 
+    static function getStockofProd($id) {
+
+        return IngresoDetalle::where('item_id',$id)->sum('por_almacenar');
+    }
+    /*
+    |
+    | Public Functions
+    |
+    */
 
     /*
     |

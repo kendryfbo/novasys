@@ -25,5 +25,6 @@ Route::prefix('bodega')->group( function() {
     });
     //Route::get('/', 'Api\ApiBodegaController@asd');
     Route::get('/', 'Api\ApiBodegaController@getBodegasWithPos');
+    Route::post('/posiciones', 'Api\ApiBodegaController@getPositionsFrom');
 
 });

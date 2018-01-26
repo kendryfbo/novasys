@@ -28,7 +28,7 @@
 
                     <label class="control-label col-lg-1">Bodega:</label>
                     <div class="col-lg-4">
-                      <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodegaId" required>
+                      <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodegaId" v-model="bodega" required>
                         <option value=""></option>
 						@foreach ($bodegas as $bodega)
 							<option value="{{$bodega->id}}">{{$bodega->descripcion}}</option>
@@ -131,7 +131,7 @@
 									<tbody>
 
 										<tr v-for="detalle in pallet.detalleGroup">
-											<td class="text-left">@{{detalle.descripcion}}</td>
+											<td class="text-left">@{{detalle.producto.descripcion}}</td>
 											<td class="text-right">@{{detalle.cantidad}}</td>
 										</tr>
 

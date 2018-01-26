@@ -19,9 +19,23 @@ class OrdenEgresoController extends Controller
      */
     public function index()
     {
+        $tipoProforma  = config('globalVars.TDP');
+        $tipoNotaVenta = config('globalVars.TDNV');
+
         $ordenes = OrdenEgreso::orderBy('numero','desc')->take(20)->get();
 
         $ordenes->load('documento.cliente');
+        $ordenes = $ordenes->map(function($orden) use($tipoProforma,$tipoNotaVenta){
+
+            if ($orden->tipo_doc == $tipoProforma) {
+                $orden->documento->descripcion = 'Proforma';
+
+            } else if ($orden->tipo_doc == $tipoNotaVenta) {
+                $orden->documento->descripcion = 'NotaVenta';
+            }
+
+            return $orden;
+        });
 
         return view('bodega.ordenEgreso.index')->with(['ordenes' => $ordenes]);
     }
@@ -197,7 +211,7 @@ class OrdenEgresoController extends Controller
             $existencia = Bodega::getExistTotalPT($item->producto_id,$bodega);
             $item['existencia'] = $existencia;
         });
-        
+
         return response($items,200);
     }
 }

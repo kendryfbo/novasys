@@ -31,9 +31,8 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{url('bodega')}}"><i class=""></i> <span>Consultar Bodega</span></a></li>
-                        <li><a href="{{url('bodega/ordenEgreso/pendientes')}}"><i class=""></i> <span>Orden de Egreso</span></a></li>
+                        <li><a href="{{url('bodega/ordenEgreso')}}"><i class=""></i> <span>Orden de Egreso</span></a></li>
                         <li><a href="{{url('bodega/ingreso')}}"><i class=""></i> <span>Ingreso</span></a></li>
-                        <li><a href="{{url('bodega/ingreso/pallet')}}"><i class=""></i> <span>Almac. Pallet</span></a></li>
                         <li><a href="{{url('bodega/pallet')}}"><i class=""></i> <span>Pallets</span></a></li>
                     </ul>
                 </li>

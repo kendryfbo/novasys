@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Bodega\Bodega;
-use App\Models\Bodega\Posicion;
 use App\Models\Bodega\Pallet;
-use App\Models\Bodega\PalletDetalle;
+use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PosCondTipo;
 use App\Models\Comercial\NotaVenta;
+use App\Models\Bodega\PalletMedida;
+use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\PosicionStatus;
 
 class BodegaController extends Controller
@@ -41,8 +42,9 @@ class BodegaController extends Controller
      */
     public function create()
     {
+        $medidas = PalletMedida::getAllActive();
 
-        return view('bodega.bodega.create');
+        return view('bodega.bodega.create')->with(['medidas' => $medidas]);
     }
 
     /**
@@ -57,7 +59,8 @@ class BodegaController extends Controller
             'descripcion' => 'required',
             'bloque' => 'required',
             'columna' => 'required',
-            'estante' => 'required'
+            'estante' => 'required',
+            'medida' => 'required'
         ]);
 
         $request->activo = !empty($request->activo);
@@ -101,12 +104,19 @@ class BodegaController extends Controller
      */
     public function edit($bodega)
     {
-        $bloques = Bodega::getPositions($bodega);
-
+        $bodegaId = $bodega;
+        $bloques = Bodega::getPositions($bodegaId);
         $tiposCondicion = PosCondTipo::getAllActive();
         $status = PosicionStatus::getAllActive();
+        $medidas = PalletMedida::all(); // no solo las activas ya que pueden existir posiciones con medidas no activas asignadas
 
-        return view('bodega.bodega.show')->with(['bloques' => $bloques, 'tiposCondicion' => $tiposCondicion, 'status' => $status]);
+        return view('bodega.bodega.show')->with([
+            'bodega' => $bodega,
+            'bloques' => $bloques,
+            'tiposCondicion' => $tiposCondicion,
+            'status' => $status,
+            'medidas' => $medidas
+        ]);
 
     }
 
@@ -155,14 +165,13 @@ class BodegaController extends Controller
             'posicion' => 'required',
             'pallet' => 'required'
         ]);
+        $pos_id = $request->posicion;
+        $pallet_id = $request->pallet;
 
-        $posId = $request->posicion;
-        $palletId = $request->pallet;
-
-        $posicion = Posicion::find($posId);
-
-        $posicion->insertPallet($palletId);
-
+        $posicion = Posicion::find($pos_id);
+        $posicion->pallet_id = $pallet_id;
+        $posicion->status_id = 3;
+        $posicion->save();
 
         return redirect()->route('bodega');
     }

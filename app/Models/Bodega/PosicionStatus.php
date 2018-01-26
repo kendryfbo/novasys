@@ -18,4 +18,8 @@ class PosicionStatus extends Model
 
         return self::where('id',2)->first();
     }
+    static function ocupado(){
+
+        return self::where('id',3)->first();
+    }
 }

@@ -31,7 +31,7 @@
                   <li><a href="#">Producto Terminado</a></li>
                 </ul>
               </div>
-              <button type="button" class="btn btn-primary">Almacenar Pallet</button>
+              <a type="button" href="{{route('ingresoPallet')}}" class="btn btn-primary">Almacenar Pallet</a>
             </div>
 		</div>
 		<!-- box-body -->

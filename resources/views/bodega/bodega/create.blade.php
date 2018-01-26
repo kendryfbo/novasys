@@ -70,7 +70,21 @@
 
                 </div>
                 <!-- /form-group -->
+                <!-- form-group -->
+                <div class="form-group">
 
+                    <label class="control-label col-lg-1">Tamaño Posiciones:</label>
+                    <div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="medida" required>
+			              <option value=""></option>
+										@foreach ($medidas as $medida)
+											<option {{Input::old('medida') ? 'selected':''}} value="{{$medida->id}}">{{$medida->descripcion}}</option>
+										@endforeach
+			            </select>
+                    </div>
+
+                </div>
+                <!-- /form-group -->
                 <!-- form-group -->
                 <div class="form-group">
 
