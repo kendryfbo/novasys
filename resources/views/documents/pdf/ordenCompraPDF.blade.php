@@ -1,46 +1,124 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Modelo</title>
+    <head>
+        <meta charset="utf-8">
+        <title>Orden Compra Nº{{$ordenCompra->numero}}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-    <!-- PDF default CSS -->
-    <link rel="stylesheet" href="{{asset('css/defaultPDF.css')}}">
-  </head>
-  <body>
-    <div class="header">
-      <div class="left">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
-      <div class="right">
-        <p>hola</p>
-      </div>
-    </div>
-    <div class="body">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-    <div class="footer">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-  </body>
+        <!-- PDF default CSS -->
+        <link rel="stylesheet" href="{{asset('css/adquisicion/ordenCompra/formatoPDF.css')}}">
+    </head>
+    <body>
+        <h1 class="text-center">Orden de Compra</h1>
+
+        <div class="title-content">
+            <h3 class="num-oc">
+                Nº{{$ordenCompra->numero}}
+            </h3>
+            <h4 class="date">
+                Santiago, {{$ordenCompra->fecha_emision}}
+            </h4>
+            <table>
+                <tr>
+                    <th>R.U.T: {{$centroVenta->rut}}</th>
+                </tr>
+                <tr>
+                    <th>Direccion: {{$centroVenta->descripcion}}</th>
+                </tr>
+                <tr>
+                    <th>Fono: {{$centroVenta->fono}}</th>
+                </tr>
+                <tr>
+                    <th>E-mail: adquisiciones@novafoods</th>
+                </tr>
+                <tr>
+                    <th>Santiago Chile</th>
+                </tr>
+                <tr>
+                    <th><br></th>
+                </tr>
+                <tr>
+                    <th>Señores: {{$ordenCompra->proveedor->descripcion}}</th>
+                    <th colspan="3"></th>
+                    <th>At: {{$ordenCompra->contacto}}</th>
+                </tr>
+                <tr>
+                    <th>R.U.T: {{$ordenCompra->proveedor->rut}}</th>
+                    <th colspan="3"></th>
+                    <th>Fono: {{$ordenCompra->proveedor->fono}}</th>
+                </tr>
+                <tr>
+                    <th>Direccion: {{$ordenCompra->proveedor->direccion}}</th>
+                </tr>
+                <tr>
+                    <th><br></th>
+                </tr>
+                <tr>
+                    <th>Presente</th>
+                </tr>
+                <tr>
+                    <th>Confirmo pedido de compra de:</th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="content">
+            <table class="table" width="100%">
+                <<thead>
+                    <tr>
+                        <th class="text-center">CODIGO</th>
+                        <th class="text-center">DESCRIPCION</th>
+                        <th class="text-center">CANTIDAD</th>
+                        <th class="text-center">UNITARIO</th>
+                        <th class="text-center">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($ordenCompra->detalles as $detalle)
+                        <tr>
+                            <td class="text-center">{{$detalle->codigo}}</td>
+                            <td class="text-left">{{$detalle->descripcion}}</td>
+                            <td class="text-right">{{$detalle->cantidad}}</td>
+                            <td class="text-right">{{number_format($detalle->precio,2)}}</td>
+                            <td class="text-right">{{number_format($detalle->sub_total,2)}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <table class="table table-total" width="200px">
+            <tbody>
+                <tr>
+                    <th>SUB-TOTAL</th>
+                    <th class="text-right">{{number_format($ordenCompra->sub_total,2)}}</th>
+                </tr>
+                <tr>
+                    <th>DESCUENTO</th>
+                    <th class="text-right">{{number_format($ordenCompra->descuento,2)}}</th>
+                </tr>
+                <tr>
+                    <th>NETO</th>
+                    <th class="text-right">{{number_format($ordenCompra->neto,2)}}</th>
+                </tr>
+                <tr>
+                    <th>IMPUESTO</th>
+                    <th class="text-right">{{number_format($ordenCompra->impuesto,2)}}</th>
+                </tr>
+                <tr>
+                    <th>TOTAL</th>
+                    <th class="text-right">{{number_format($ordenCompra->total,2)}}</th>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer-content">
+            <h4>Nota: {{$ordenCompra->nota}}</h4>
+            <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}}</p>
+            <p>Facturar a: {{$centroVenta->descripcion}}, R.U.T:{{$centroVenta->rut}}, {{$centroVenta->direccion}}</p>
+        </div>
+        <div class="footer">
+            <p><strong>Atentamente</strong></p>
+            <p><strong>Viviana Cabrera .......................</strong></p>
+            <p><strong>{{$centroVenta->descripcion}}</strong></p>
+        </div>
+    </body>
 </html>

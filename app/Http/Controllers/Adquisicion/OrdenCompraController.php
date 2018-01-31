@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Adquisicion;
 
+use PDF;
 use App\Models\Insumo;
 use App\Models\Finanzas\Moneda;
 use App\Models\Adquisicion\Area;
 use App\Models\Comercial\Impuesto;
+use App\Models\Comercial\CentroVenta;
 use App\Models\Adquisicion\Proveedor;
 use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Adquisicion\OrdenCompraTipo;
@@ -173,11 +175,38 @@ class OrdenCompraController extends Controller
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }
 
+    public function complete(OrdenCompra $ordenCompra) {
+
+        $ordenCompra->complete();
+        $msg = 'Orden Compra N°' . $ordenCompra->numero . ' Completa.';
+
+        return redirect()->route('ordenCompra')->with(['status' => $msg]);
+    }
+
+    public function incomplete(OrdenCompra $ordenCompra) {
+
+        $ordenCompra->incomplete();
+        $msg = 'Orden Compra N°' . $ordenCompra->numero . ' Pendiente.';
+        return redirect()->route('ordenCompra')->with(['status' => $msg]);
+    }
+
     public function pdf($numero) {
 
-        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',$ordenCompra);
-
+        $centroVenta = CentroVenta::getMainCentroVenta();
+        $ordenCompra = OrdenCompra::with('proveedor','detalles')->where('numero',$numero)->first();
+        //return view('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
 
         return $pdf->stream();
+    }
+
+    public function downloadPDF($numero) {
+
+        $centroVenta = CentroVenta::getMainCentroVenta();
+        $ordenCompra = OrdenCompra::with('proveedor','detalles')->where('numero',$numero)->first();
+        //return view('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
+
+        return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
     }
 }

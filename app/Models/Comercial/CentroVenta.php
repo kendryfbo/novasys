@@ -12,6 +12,11 @@ class CentroVenta extends Model
 		return self::all()->where('activo',1);
 	}
 
+	static function getMainCentroVenta() {
+
+		return self::find(1); // id novafoods
+	}
+
 	public function notaVenta() {
 
 		return $this->hasMany('App\Models\Comercial\NotaVenta','cv_id');

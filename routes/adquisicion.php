@@ -34,14 +34,17 @@ Route::prefix('adquisicion')->group( function() {
 
     Route::prefix('ordenCompra')->group(function() {
 
-        Route::get('/crear',            'Adquisicion\OrdenCompraController@create')->name('crearOrdenCompra');
-        Route::get('/',                 'Adquisicion\OrdenCompraController@index')->name('ordenCompra');
-        Route::get('/{numero}',         'Adquisicion\OrdenCompraController@show')->name('verOrdenCompra');
-        Route::get('/{numero}/pdf',     'Adquisicion\OrdenCompraController@pdf')->name('verOrdenCompraPDF');
-        Route::post('/',                'Adquisicion\OrdenCompraController@store')->name('guardarOrdenCompra');
-        Route::get('{numero}/editar',   'Adquisicion\OrdenCompraController@edit')->name('editarOrdenCompra');
-        Route::put('/{ordenCompra}',    'Adquisicion\OrdenCompraController@update')->name('actualizarOrdenCompra');
-        Route::delete('/{ordenCompra}', 'Adquisicion\OrdenCompraController@destroy')->name('eliminarOrdenCompra');
+        Route::get('/crear',                     'Adquisicion\OrdenCompraController@create')->name('crearOrdenCompra');
+        Route::get('/',                          'Adquisicion\OrdenCompraController@index')->name('ordenCompra');
+        Route::get('/{numero}',                  'Adquisicion\OrdenCompraController@show')->name('verOrdenCompra');
+        Route::get('/{numero}/pdf',              'Adquisicion\OrdenCompraController@pdf')->name('verOrdenCompraPDF');
+        Route::get('/{numero}/descargar',        'Adquisicion\OrdenCompraController@downloadPDF')->name('descargarOrdenCompraPDF');
+        Route::post('/',                         'Adquisicion\OrdenCompraController@store')->name('guardarOrdenCompra');
+        Route::get('{numero}/editar',            'Adquisicion\OrdenCompraController@edit')->name('editarOrdenCompra');
+        Route::put('/{ordenCompra}',             'Adquisicion\OrdenCompraController@update')->name('actualizarOrdenCompra');
+        Route::delete('/{ordenCompra}',          'Adquisicion\OrdenCompraController@destroy')->name('eliminarOrdenCompra');
+        Route::post('/{ordenCompra}/completa',   'Adquisicion\OrdenCompraController@complete')->name('ordenCompraCompleta');
+        Route::post('/{ordenCompra}/incompleta', 'Adquisicion\OrdenCompraController@incomplete')->name('ordenCompraIncompleta');
     });
 
     Route::prefix('planProduccion')->group( function(){

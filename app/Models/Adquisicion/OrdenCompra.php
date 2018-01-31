@@ -231,6 +231,16 @@ class OrdenCompra extends Model
         $this->aut_contab = 0;
         $this->save();
     }
+    public function complete() {
+
+        $this->status_id = 3; // importar desde global vars o tabla orden_compra_status
+        $this->save();
+    }
+    public function incomplete() {
+
+        $this->status_id = 1; // importar desde global vars o tabla orden_compra_status
+        $this->save();
+    }
     /*
     | Relations
     */

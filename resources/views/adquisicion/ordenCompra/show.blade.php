@@ -12,6 +12,16 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<!-- form unauthorize-->
+			<form id="complete" action="{{route('ordenCompraCompleta',['ordenCompra' => $ordenCompra->id])}}" method="post">
+				{{csrf_field()}}
+			</form>
+			<!-- /form unauthorize-->
+			<!-- form authorize-->
+			<form id="incomplete" action="{{route('ordenCompraIncompleta',['ordenCompra' => $ordenCompra->id])}}" method="post">
+				{{csrf_field()}}
+			</form>
+			<!-- /form authorize-->
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarOrdenCompra')}}">
 
@@ -25,6 +35,19 @@
 			<label class="control-label col-lg-1">Numero:</label>
 			<div class="col-lg-1">
 				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->numero}}" readonly>
+			</div>
+			<label class="control-label col-lg-1">Status:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->status_id}}" readonly>
+			</div>
+
+			<div class="col-lg-2 col-lg-offset-3 btn-group">
+				<button form="complete" type="submit" class="btn btn-success btn-sm">Compeleta</button>
+				<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
+			</div>
+
+			<div class="col-lg-1">
+				<button form="download" class="btn btn-default btn-sm" type="submit" name="button"><i class="fa fa-download" aria-hidden="true"></i> Descargar</button>
 			</div>
 
         </div>
@@ -197,7 +220,9 @@
       </div>
     </div>
     <!-- /box-footer -->
-
+	<form id="download" method="get" action="{{route('descargarOrdenCompraPDF',['numero' => $ordenCompra->numero])}}">
+		{{ csrf_field() }}
+	</form>
 
   </div>
   <!-- /box -->
