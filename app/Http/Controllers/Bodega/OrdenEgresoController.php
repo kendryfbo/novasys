@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bodega;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use PDF;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\OrdenEgreso;
 use App\Models\Comercial\Proforma;
@@ -154,6 +155,23 @@ class OrdenEgresoController extends Controller
     public function destroy(OrdenEgreso $ordenEgreso)
     {
         //
+    }
+
+    public function pdf($numero) {
+
+        $ordenEgreso = OrdenEgreso::where('numero',$numero)->first();
+        $ordenEgreso->load('documento.cliente');
+        $ordenEgreso->tipo();
+        dd($ordenEgreso);
+    }
+    public function downloadPDF($numero) {
+
+        $ordenEgreso = OrdenEgreso::where('numero',$numero)->first();
+        $ordenEgreso->load('documento.cliente','detalles.item');
+        $ordenEgreso->tipo();
+        $pdf = PDF::loadView('bodega.ordenEgreso.pdf',compact('ordenEgreso'));
+
+        return $pdf->stream('Orden Egreso N°'.$ordenEgreso->numero.'.pdf');
     }
 
     public function consultExistence(Request $request) {

@@ -125,4 +125,22 @@ class OrdenEgreso extends Model
 
         return $this->hasMany('App\Models\Bodega\OrdenEgresoDetalle','orden_id');
     }
+
+    // Esto debe ser sustituido por la relacion a tabla tipo_documento.
+    public function tipo() {
+
+        $tipoProforma  = config('globalVars.TDP');
+        $tipoNotaVenta = config('globalVars.TDNV');
+
+        if ($this->tipo_doc == $tipoProforma) {
+
+            $this->tipo_descrip = 'Proforma';
+        } else if ($this->tipo_doc == $tipoNotaVenta) {
+
+            $this->tipo_descrip = 'Nota Venta';
+        } else {
+
+            $this->tipo_descrip = 'DESCONOCIDO';
+        }
+    }
 }

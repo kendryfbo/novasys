@@ -24,7 +24,7 @@
 
 
 					<div class="col-lg-2 pull-right">
-						<a class="btn btn-sm btn-default" href="" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+						<a class="btn btn-sm btn-default"  href="{{route('descargarOrdenEgresoPDF',['numero' => $ordenEgreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
 					</div>
 
                 </div>

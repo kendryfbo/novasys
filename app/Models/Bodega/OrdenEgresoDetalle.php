@@ -24,7 +24,8 @@ class OrdenEgresoDetalle extends Model
 
         } else {
 
-            return;
+
+            return $this->belongsTo('App\Models\Producto','item_id');
         }
     }
 }

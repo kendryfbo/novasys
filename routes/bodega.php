@@ -71,6 +71,8 @@ Route::prefix('bodega')->group( function() {
         Route::post('/existencia', 'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
         Route::post('/generar',    'Bodega\OrdenEgresoController@store')->name('generarOrdenEgreso');
         Route::get('/{numero}',    'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
+        Route::get('/{numero}/pdf','Bodega\OrdenEgresoController@pdf')->name('verOrdenEgresoPDF');
+        Route::get('/{numero}/descargar','Bodega\OrdenEgresoController@downloadPDF')->name('descargarOrdenEgresoPDF');
 
     });
 

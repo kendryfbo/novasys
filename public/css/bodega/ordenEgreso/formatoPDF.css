@@ -1,0 +1,67 @@
+body {
+  border: 1px solid black;
+  font-family: DejaVu Sans;
+  font-family: helvetica;
+  font-size: 11px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.title-content {
+    height: 100px;
+    border: 1px solid red;
+}
+
+.num-oc {
+    position: absolute;
+    right: 10px;
+}
+.date {
+    position: absolute;
+    right: 30px;
+    top: 100px;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.content {
+    height: 500px;
+    border: 1px solid black;
+}
+
+.table table {
+    padding: 0px;
+    margin: 0px;
+}
+.table th {
+    margin: 0px;
+    padding: 1px;
+    padding-right: 3px;
+    border: 1px solid black;
+}
+.table td {
+    margin: 0px;
+    padding: 5px;
+}
+.table-total {
+    position: absolute;
+    right: 1px;
+}
+
+.footer-content {
+    padding: 5px;
+    border: 1px solid black;
+}
+.footer {
+    padding: 5px;
+    position: absolute;
+    bottom: 0px;
+}
