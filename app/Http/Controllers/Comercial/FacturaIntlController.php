@@ -131,7 +131,10 @@ class FacturaIntlController extends Controller
     public function destroy($numero)
     {
         $factura = FacturaIntl::where('numero', $numero)->first();
+        $proforma = Proforma::where('factura',$factura->numero)->first();
 
+        $proforma->factura = NULL;
+        $proforma->save();
         $factura->delete();
 
         $msg = 'Factura N°' . $factura->numero . ' ha sido eliminada.';

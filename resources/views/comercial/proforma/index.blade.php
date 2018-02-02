@@ -44,7 +44,7 @@
 							<td class="text-center"><a href="{{url('comercial/proformas/'.$proforma->numero)}}" target="_blank"><strong>{{$proforma->numero}}</strong></a></td>
 							<td class="text-center">{{$proforma->fecha_emision}}</td>
 							<td class="text-center">{{$proforma->centro_venta}}</td>
-							<td>{{$proforma->cliente}}</td>
+							<td>{{$proforma->cliente->descripcion}}</td>
 							<td class="text-center">{{$proforma->clau_venta}}</td>
 							<td class="text-center">{{$proforma->forma_pago}}</td>
 							<td class="text-right">{{'US$ ' . number_format($proforma->total,2,",",".")}}</td>

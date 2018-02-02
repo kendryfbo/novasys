@@ -46,7 +46,7 @@ class FacturaIntl extends Model
 				'cv_id' => $proforma->cv_id,
 				'centro_venta' => $proforma->centro_venta,
 				'cliente_id' => $proforma->cliente_id,
-				'cliente' => $proforma->cliente,
+				'cliente' => $proforma->cliente->descripcion,
 				'fecha_emision' => $emision,
 				'fecha_venc' => $vencimiento,
 				'direccion' => $proforma->direccion,
