@@ -4,6 +4,7 @@ namespace App\Models\Bodega;
 
 use DB;
 use App\Models\Bodega\Posicion;
+use App\Models\Insumo;
 use Illuminate\Database\Eloquent\Model;
 
 class Bodega extends Model
@@ -105,37 +106,56 @@ class Bodega extends Model
         return $results[0]->cantidad;
     }
 
-    static function getStockFromBodega($bodegaId,$tipo = NULL) {
+    static function getStockFromBodega($bodegaId = NULL,$tipo = NULL) {
 
         $results = [];
+        $query = "SELECT productos.codigo,productos.descripcion, sum(pallet_detalle.cantidad) as cantidad
+                    FROM productos,pallet_detalle
+                    WHERE pallet_detalle.item_id=productos.id AND pallet_detalle.pallet_id";
 
-        if(!$bodegaId) {
-
-            return $results;
-        }
 
         if ($tipo) {
 
-            $query = "SELECT
-                        productos.codigo,
-                        productos.descripcion,
-                        sum(pallet_detalle.cantidad) as cantidad
-                        FROM productos,pallet_detalle
-                        WHERE pallet_detalle.item_id=productos.id
-                        AND pallet_detalle.tipo_id=".$tipo."
-                        AND pallet_detalle.pallet_id
-                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC";
-        } else {
+            $query = $query . " AND pallet_detalle.tipo_id=".$tipo;
 
-            $query = "SELECT
-                        productos.codigo,
-                        productos.descripcion,
-                        sum(pallet_detalle.cantidad) as cantidad
-                        FROM productos,pallet_detalle
-                        WHERE pallet_detalle.item_id=productos.id AND pallet_detalle.pallet_id
-                        IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.") GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC";
         }
-        //dd($query);
+
+        if($bodegaId) {
+
+            $query = $query . " IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.")";
+        } else {
+            $query = $query . " IN (SELECT pallet_id FROM posicion)";
+        }
+
+         $query = $query . " GROUP BY pallet_detalle.item_id, productos.codigo, productos.descripcion ORDER BY cantidad DESC";
+
+
+        dd($query);
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
+    static function getStockOfMPFromBodega($bodegaId = NULL) {
+
+        $tipo = Insumo::tipoID();
+
+        $results = [];
+        $query = "SELECT insumos.id,pallet_detalle.tipo_id,insumos.codigo,insumos.descripcion,insumos.unidad_med, sum(pallet_detalle.cantidad) as existencia
+                    FROM insumos,pallet_detalle
+                    WHERE pallet_detalle.item_id=insumos.id
+                    AND pallet_detalle.tipo_id=".$tipo."
+                    AND pallet_detalle.pallet_id";
+
+
+        if($bodegaId) {
+
+            $query = $query . " IN (SELECT pallet_id FROM posicion WHERE bodega_id=".$bodegaId.")";
+        } else {
+            $query = $query . " IN (SELECT pallet_id FROM posicion)";
+        }
+
+         $query = $query . " GROUP BY pallet_detalle.item_id,pallet_detalle.tipo_id,insumos.id, insumos.codigo, insumos.descripcion,insumos.unidad_med ORDER BY cantidad DESC";
+
         $results = DB::select(DB::raw($query));
         return $results;
     }

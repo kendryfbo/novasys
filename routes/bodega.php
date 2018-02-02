@@ -7,6 +7,7 @@ Route::prefix('bodega')->group( function() {
     Route::get('/test', function(){
 
         //return App\Models\Bodega\Pallet::getDataForBodega(5);
+        dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
         dd(App\Models\Bodega\Posicion::findPositionForPallet(1,17));
         return view('bodega.bodega.test');
         $routes = Route::getRoutes();
@@ -73,6 +74,8 @@ Route::prefix('bodega')->group( function() {
         Route::get('/{numero}',    'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
         Route::get('/{numero}/pdf','Bodega\OrdenEgresoController@pdf')->name('verOrdenEgresoPDF');
         Route::get('/{numero}/descargar','Bodega\OrdenEgresoController@downloadPDF')->name('descargarOrdenEgresoPDF');
+        Route::get('/manual/crear', 'Bodega\OrdenEgresoController@createEgresoManualMP')->name('crearOrdenEgresoManual');
+        Route::post('/manual', 'Bodega\OrdenEgresoController@storeEgresoManualMP')->name('guardarOrdenEgresoManualMP');
 
     });
 

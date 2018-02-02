@@ -16,6 +16,11 @@ class Insumo extends Model
 		return self::all()->where('activo',1);
 	}
 
+	static function tipoID() {
+
+		return 1; // tipo de famila Materia Prima
+	}
+
 	static function getArrayOfAllActiveWithLastPrice() {
 
 		return DB::select('SELECT i.id,i.codigo,i.descripcion, ocd.tipo_id,IFNULL(ocd.precio,0) as precio FROM insumos as i left join orden_compra_detalles as ocd on i.id=ocd.item_id AND ocd.tipo_id=1

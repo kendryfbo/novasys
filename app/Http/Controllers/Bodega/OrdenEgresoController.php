@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use PDF;
+use Carbon\Carbon;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\OrdenEgreso;
 use App\Models\Comercial\Proforma;
@@ -25,16 +26,9 @@ class OrdenEgresoController extends Controller
 
         $ordenes = OrdenEgreso::orderBy('numero','desc')->take(20)->get();
 
-        $ordenes->load('documento.cliente');
-        $ordenes = $ordenes->map(function($orden) use($tipoProforma,$tipoNotaVenta){
+        $ordenes = $ordenes->map(function($orden) {
 
-            if ($orden->tipo_doc == $tipoProforma) {
-                $orden->documento->descripcion = 'Proforma';
-
-            } else if ($orden->tipo_doc == $tipoNotaVenta) {
-                $orden->documento->descripcion = 'NotaVenta';
-            }
-
+            $orden->load('documento.cliente');
             return $orden;
         });
 
@@ -77,6 +71,14 @@ class OrdenEgresoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function createEgresoManualMP() {
+
+        $productos = Bodega::getStockOfMPFromBodega();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ordenEgreso.createEgresoManualMP')->with(['productos' => $productos, 'fecha' => $fecha]);
     }
 
     /**

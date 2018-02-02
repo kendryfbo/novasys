@@ -111,11 +111,13 @@ class OrdenEgreso extends Model
 
         if ($this->tipo_doc == $tipoProforma) {
 
+            $this->tipo_descrip = 'Proforma';
             return $this->belongsTo('App\Models\Comercial\Proforma','doc_id');
 
         } elseif ($this->tipo_doc == $tipoNotaVenta) {
 
-            return $this->belongsTo('App\Models\Comercial\Proforma','doc_id');
+            $this->tipo_descrip = 'NotaVenta';
+            return $this->belongsTo('App\Models\Comercial\NotaVenta','doc_id');
         }
 
         return;

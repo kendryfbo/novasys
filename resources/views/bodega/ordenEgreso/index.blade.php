@@ -58,7 +58,7 @@
 							@else
 								<td class="text-center">NO</td>
 							@endif
-							<td class="text-center">{{$orden->documento->cliente}}</td>
+							<td class="text-center">{{$orden->documento->cliente->descripcion}}</td>
 							<td class="text-center">
 
 							</td>
