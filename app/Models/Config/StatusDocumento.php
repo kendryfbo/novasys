@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\Adquisicion;
+namespace App\Models\Config;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrdenCompraStatus extends Model
+class StatusDocumento extends Model
 {
-    protected $table = 'orden_compra_status';
-
+    protected $table = 'status_documento';
     protected $fillable = ['descripcion', 'activo'];
 
     static function getAllActive() {

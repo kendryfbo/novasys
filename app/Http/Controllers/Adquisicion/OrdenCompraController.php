@@ -91,7 +91,7 @@ class OrdenCompraController extends Controller
     public function show($numero)
     {
 
-        $ordenCompra = OrdenCompra::with('proveedor', 'area', 'tipo', 'detalles')->where('numero',$numero)->first();
+        $ordenCompra = OrdenCompra::with('proveedor', 'area', 'tipo', 'detalles','status')->where('numero',$numero)->first();
 
         return view('adquisicion.ordenCompra.show')->with(['ordenCompra' => $ordenCompra]);
     }

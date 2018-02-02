@@ -38,7 +38,7 @@
 			</div>
 			<label class="control-label col-lg-1">Status:</label>
 			<div class="col-lg-2">
-				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->status_id}}" readonly>
+				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->status->descripcion}}" readonly>
 			</div>
 
 			<div class="col-lg-2 col-lg-offset-3 btn-group">

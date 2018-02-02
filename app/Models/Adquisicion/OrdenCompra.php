@@ -260,7 +260,7 @@ class OrdenCompra extends Model
 
     public function status() {
 
-        return $this->belongsTo('App\Models\Adquisicion\OrdenCompraStatus','status_id');
+        return $this->belongsTo('App\Models\Config\StatusDocumento','status_id');
     }
 
     public function tipo() {

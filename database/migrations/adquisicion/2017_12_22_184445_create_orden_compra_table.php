@@ -37,7 +37,7 @@ class CreateOrdenCompraTable extends Migration
         Schema::table('orden_compra', function (Blueprint $table) {
             $table->foreign('prov_id')->references('id')->on('proveedores');
             $table->foreign('area_id')->references('id')->on('areas');
-            $table->foreign('status_id')->references('id')->on('orden_compra_status');
+            $table->foreign('status_id')->references('id')->on('status_documento');
             $table->foreign('tipo_id')->references('id')->on('orden_compra_tipos');
         });
     }

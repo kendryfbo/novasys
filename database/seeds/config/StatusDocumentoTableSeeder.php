@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Adquisicion\OrdenCompraStatus;
+use App\Models\Config\StatusDocumento;
 
-class OrdenCompraStatusTableSeeder extends Seeder
+class StatusDocumentoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,15 +12,15 @@ class OrdenCompraStatusTableSeeder extends Seeder
      */
     public function run()
     {
-        $statusOC = [
+        $statusDocumentos = [
             ['id' => 1, 'descripcion' => 'Pendiente', 'activo' => 1],
             ['id' => 2, 'descripcion' => 'Ingresada', 'activo' => 1],
             ['id' => 3, 'descripcion' => 'Completa', 'activo' => 1],
         ];
 
-        foreach ($statusOC as $status) {
+        foreach ($statusDocumentos as $status) {
 
-            OrdenCompraStatus::create($status);
+            StatusDocumento::create($status);
         }
     }
 }
