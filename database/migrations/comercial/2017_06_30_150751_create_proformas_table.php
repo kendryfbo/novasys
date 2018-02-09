@@ -20,7 +20,6 @@ class CreateProformasTable extends Migration
             $table->integer('cv_id')->unsigned(); // FK
             $table->string('centro_venta');
             $table->integer('cliente_id')->unsigned(); // FK
-            $table->string('cliente');
             $table->date('fecha_emision');
             $table->integer('semana');
             $table->string('direccion');

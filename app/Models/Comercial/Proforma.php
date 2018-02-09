@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proforma extends Model
 {
     protected $fillable = [
-        'numero', 'version', 'cv_id', 'centro_venta', 'cliente_id', 'cliente', 'fecha_emision',
+        'numero', 'version', 'cv_id', 'centro_venta', 'cliente_id', 'fecha_emision',
         'semana', 'direccion', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago',
         'clau_venta', 'peso_neto', 'peso_bruto', 'volumen', 'fob', 'freight', 'insurance',
         'cif', 'descuento','total','user_id'
