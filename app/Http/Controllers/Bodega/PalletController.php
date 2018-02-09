@@ -71,8 +71,7 @@ class PalletController extends Controller
     public function createPalletMP() {
 
         $tipoMP = config('globalVars.MP');
-        $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_almacenar','>',0)->get();
-
+        $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
         $insumos = $insumos->map(function($insumo){
 
             $newInsumo = collect([
@@ -85,7 +84,7 @@ class PalletController extends Controller
                 'fecha_venc' => $insumo->fecha_venc,
                 'ing_tipo_id' => $insumo->ingreso->tipo_id,
                 'ing_id' => $insumo->ingreso->id,
-                'por_almacenar' => $insumo->por_almacenar
+                'por_procesar' => $insumo->por_procesar
             ]);
             return $newInsumo;
         });
@@ -171,7 +170,7 @@ class PalletController extends Controller
             'items' => 'required'
         ]);
 
-        $pallet = Pallet::createPalletMP($request);
+        $pallet = Pallet::storePalletMP($request);
 
         return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
@@ -298,13 +297,6 @@ class PalletController extends Controller
     private function palletNum() {
 
         return Carbon::now()->format('YmdHis');
-    }
-
-
-    public function test() {
-
-        $pallet = Pallet::with('detalles')->where('id',7)->first();
-        dd($pallet->id);
     }
 
     public function apiData(Request $request) {

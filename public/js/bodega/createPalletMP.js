@@ -18,7 +18,7 @@ var app = new Vue({
                 if ( this.insumos[i].id === this.itemId ) {
 
                     this.item = this.insumos[i];
-                    this.cantidad = this.item.por_almacenar;
+                    this.cantidad = this.item.por_procesar;
                     return;
                 }
             }
@@ -26,7 +26,7 @@ var app = new Vue({
 
         addItem: function() {
 
-            if (this.cantidad > this.item.por_almacenar) {
+            if (this.cantidad > this.item.por_procesar) {
                 alert('Cantidad ingresada Mayor a la disponible');
                 return;
             }

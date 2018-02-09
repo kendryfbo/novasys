@@ -60,7 +60,7 @@ class Pallet extends Model
         return $pallet;
     }
 
-    static function createPalletMP($request) {
+    static function storePalletMP($request) {
 
         $pallet = DB::transaction( function() use($request) {
 
@@ -90,11 +90,11 @@ class Pallet extends Model
 
                 $detalle = IngresoDetalle::with('ingreso')->find($item->id);
 
-                $detalle->ingreso->procesado = 1;
-                $detalle->por_almacenar = $detalle->por_almacenar - $cantidad;
-
-                $detalle->ingreso->save();
+                $detalle->por_procesar = $detalle->por_procesar - $cantidad;
                 $detalle->save();
+
+                $detalle->ingreso->updateStatus();
+                $detalle->ingreso->save();
             };
 
             return $pallet;

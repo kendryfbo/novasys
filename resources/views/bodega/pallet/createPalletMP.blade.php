@@ -83,7 +83,7 @@
                     <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion + ' Por Procesar: ' + insumo.por_almacenar}}</option>
+						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion + ' Por Procesar: ' + insumo.por_procesar}}</option>
                         </select>
                     </div>
 
