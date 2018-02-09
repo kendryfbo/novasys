@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IngresoDetalle extends Model
 {
     protected $table = 'ingreso_detalle';
-    protected $fillable = ['ing_id','tipo_id', 'item_id', 'fecha_venc', 'cantidad', 'por_almacenar'];
+    protected $fillable = ['ing_id','tipo_id', 'item_id', 'fecha_venc', 'cantidad', 'por_procesar'];
 
     public function insumo() {
 

@@ -10,7 +10,7 @@
 		</div>
 		<!-- /box-header -->
 
-        <!-- /box-header -->
+        <!-- box-body -->
 		<div class="box-body">
 			@if (session('status'))
 				@component('components.panel')
@@ -32,11 +32,11 @@
                   <li><a href="#">Producto Terminado</a></li>
                 </ul>
               </div>
-              <a class="btn btn-primary" href="{{route('crearIngOC')}}">Ingreso Orden de Compra</a>
+              <a class="btn btn-primary" href="{{route('ingOC')}}">Ingreso Orden de Compra</a>
             </div>
 
 		</div>
-		<!-- box-body -->
+		<!-- /box-body -->
 
 		<!-- box-body -->
 		<div class="box-body">
@@ -64,9 +64,11 @@
 							<td class="text-center">{{$ingreso->fecha_ing}}</td>
 							<td class="text-center">{{$ingreso->usuario->nombre}}</td>
 							<td class="text-center">
-                                <a class="btn btn-default btn-sm" href="">
-                                    <i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i>
-                                </a>
+								<form style="display: inline" method="get" action="{{route('verIngreso',['numero' => $ingreso->numero])}}">
+									<button type="submit" class="btn btn-default btn-sm">
+										<i class="fa fa-eye fa-sm" aria-hidden="true"></i>
+									</button>
+								</form>
 								<form style="display: inline" method="get" action="">
 									{{csrf_field()}}
 									<button type="submit" class="btn btn-default btn-sm">
@@ -78,6 +80,53 @@
 									{{ method_field('DELETE') }}
 									<button type="submit" class="btn btn-default btn-sm">
 										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					@endforeach
+				</tbody>
+			</table>
+			<!-- /table -->
+        </div>
+        <!-- /box-body -->
+  	<!-- box -->
+	<div id="vue-app-2" class="box box-solid box-default">
+		<!-- box-header -->
+		<div class="box-header text-center">
+			<h4>Ingresos Procesados</h4>
+		</div>
+		<!-- /box-header -->
+
+		<!-- box-body -->
+		<div class="box-body">
+
+			<!-- table -->
+			<table id="data-table-2" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="text-center">#</th>
+						<th class="text-center">numero</th>
+						<th class="text-center">descripcion</th>
+						<th class="text-center">Tipo Ingreso</th>
+						<th class="text-center">fecha</th>
+						<th class="text-center">Usuario</th>
+						<th class="text-center">Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($ingresosProcesados as $ingreso)
+						<tr>
+							<th class="text-center">{{$loop->iteration}}</th>
+                            <td class="text-center">{{$ingreso->numero}}</td>
+							<td class="text-left">{{$ingreso->descripcion}}</td>
+							<td class="text-center">{{$ingreso->tipo->descripcion}}</td>
+							<td class="text-center">{{$ingreso->fecha_ing}}</td>
+							<td class="text-center">{{$ingreso->usuario->nombre}}</td>
+							<td class="text-center">
+								<form style="display: inline" method="get" action="{{route('verIngreso',['numero' => $ingreso->numero])}}">
+									<button type="submit" class="btn btn-default btn-sm">
+										<i class="fa fa-eye fa-sm" aria-hidden="true"></i>
 									</button>
 								</form>
 							</td>

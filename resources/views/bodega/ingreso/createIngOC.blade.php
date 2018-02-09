@@ -60,11 +60,12 @@
 					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>
 
 					<label class="control-label col-lg-1">O.C :</label>
-					<div class="col-lg-4">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="ordenCompra" v-model.lazy="itemId" @change="loadItems" :required="items.length <= 0">
-                            <option value=""> </option>
-						    <option v-for="orden in ordenesCompra" :value="orden.id">@{{'Numero: '+ orden.numero + ' - Cliente: ' + orden.proveedor.descripcion}}</option>
-                        </select>
+					<div class="col-lg-1">
+						<input class="form-control input-sm" name="ordenCompra" type="text" value="{{$ordenCompra->numero}}" required readonly>
+                    </div>
+					<label class="control-label col-lg-1">Proveedor:</label>
+					<div class="col-lg-3">
+						<input class="form-control input-sm" name="proveedor" type="text" value="{{$ordenCompra->proveedor->descripcion}}" required readonly>
                     </div>
 
                 </div>
@@ -100,7 +101,9 @@
                 <th class="text-center">CANTIDAD</th>
                 <th class="text-center">UNIDAD</th>
                 <th class="text-center">RECIBIDAS</th>
+				<th class="text-center">INGRESO</th>
                 <th class="text-center">FECHA VENC</th>
+                <th class="text-center">N° LOTE</th>
 
               </tr>
 
@@ -116,11 +119,15 @@
 				    <td class="text-left">@{{item.descripcion}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
 				    <td class="text-right">@{{item.unidad}}</td>
+					<td class="text-right">@{{item.recibidas}}</td>
 					<td class="input-td">
 						<input class="form-control text-right" type="number" value="0" min="0" step="0.01" @change="updateRecibidas(item.id)">
 					</td>
 					<td class="input-td">
 						<input class="form-control text-center" type="date" @change="updateFechaVenc(item.id)">
+					</td>
+					<td class="text-right">
+						<input class="form-control text-center" type="text"  @change="updateNumLote(item.id)">
 					</td>
 				</tr>
 
@@ -141,7 +148,7 @@
 @section('scripts')
 	<script>
 
-	var ordenesCompra = Object.values({!!$ordenesCompra!!});
+	var productos = Object.values({!!$ordenCompra->detalles!!});
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>

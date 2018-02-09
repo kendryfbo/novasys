@@ -10,7 +10,9 @@ use App\Models\Insumo;
 use App\Models\Producto;
 use App\Models\Premezcla;
 use App\Models\Bodega\Ingreso;
+use App\Models\Adquisicion\Area;
 use App\Models\Bodega\IngresoTipo;
+use App\Models\Config\StatusDocumento;
 use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Produccion\TerminoProceso;
 use App\Models\Adquisicion\OrdenCompraDetalle;
@@ -24,10 +26,28 @@ class IngresoController extends Controller
      */
     public function index()
     {
-        $ingresos = Ingreso::with('usuario','tipo')->where('procesado',0)->get();
+        $statusCompleta = StatusDocumento::completaID();
+        $ingresos = Ingreso::with('usuario','tipo','status')->where('status_id','!=',$statusCompleta)->get();
+        $ingresosProcesados = Ingreso::with('usuario','tipo','status')->where('status_id','=',$statusCompleta)->get();
 
         return view('bodega.ingreso.index')->with([
-            'ingresos' => $ingresos
+            'ingresos' => $ingresos,
+            'ingresosProcesados' => $ingresosProcesados
+        ]);
+    }
+
+    public function indexPendingOC()
+    {
+        $bodega = Area::bodegaID();
+        $statusCompleta = StatusDocumento::completaID();
+
+        $ordenesCompra = OrdenCompra::with('detalles','proveedor')
+                            ->where('aut_contab',1)
+                            ->where('area_id',$bodega)
+                            ->where('status_id','!=',$statusCompleta)->get();
+
+        return view('bodega.ingreso.indexPendingOC')->with([
+            'ordenesCompra' => $ordenesCompra
         ]);
     }
 
@@ -43,7 +63,7 @@ class IngresoController extends Controller
     // Crear Ingreso Manual Materia Prima
     public function createIngManualMP()
     {
-        $tipoIngreso = config('globalVars.ingresoManual');
+        $tipoIngreso = IngresoTipo::manualID();
         $tipoProd = config('globalVars.MP');
         $insumos = Insumo::getAllActive();
         $fecha = Carbon::now()->toDateString();
@@ -59,7 +79,7 @@ class IngresoController extends Controller
     // Crear Ingreso Manual Premezcla
     public function createIngManualPM()
     {
-        $tipoIngreso = config('globalVars.ingresoManual');
+        $tipoIngreso = IngresoTipo::manualID();
         $tipoProd = config('globalVars.PP');
         $premezclas = Premezcla::getAllActive();
         $fecha = Carbon::now()->toDateString();
@@ -73,21 +93,23 @@ class IngresoController extends Controller
 
     }
     // Crear Ingreso desde Orden de Compra
-    public function createIngFromOC()
+    public function createIngOC(Request $request)
     {
-        $area = config('globalVars.areaBodega');
-        $pendiente = config('globalVars.statusPendienteOC');
+        $numero = $request->numero;
+        $bodega = Area::bodegaID();
+        $tipoIngreso = IngresoTipo::ordenCompraID();
+        $statusCompleta = StatusDocumento::completaID();
 
-        $ordenesCompra = OrdenCompra::with('detalles','proveedor')
+        $ordenCompra = OrdenCompra::with('detalles','proveedor')
+                            ->where('numero',$numero)
                             ->where('aut_contab',1)
-                            ->where('area_id',$area)
-                            ->where('status_id',$pendiente)->get();
+                            ->where('area_id',$bodega)
+                            ->where('status_id','!=',$statusCompleta)->first();
 
-        $tipoIngreso = config('globalVars.ingresoOC');
         $fecha = Carbon::now()->toDateString();
 
         return view('bodega.ingreso.createIngOC')->with([
-            'ordenesCompra' => $ordenesCompra,
+            'ordenCompra' => $ordenCompra,
             'tipoIngreso' => $tipoIngreso,
             'fecha' => $fecha,
         ]);
@@ -142,7 +164,6 @@ class IngresoController extends Controller
     // Guardar Ingreso Orden de Compra
     public function storeIngFromOC(Request $request)
     {
-        //dd($request->all());
         $this->validate($request,[
             'tipo_ingreso' => 'required',
             'ordenCompra' => 'required',
@@ -162,9 +183,11 @@ class IngresoController extends Controller
      * @param  \App\Models\Bodega\Ingreso  $ingreso
      * @return \Illuminate\Http\Response
      */
-    public function show(Ingreso $ingreso)
+    public function show($numero)
     {
-        //
+        $ingreso = Ingreso::with('detalles','tipo','status')->where('numero',$numero)->first();
+        //dd($ingreso);
+        return view('bodega.ingreso.show')->with(['ingreso' => $ingreso]);
     }
 
     /**
@@ -198,7 +221,7 @@ class IngresoController extends Controller
      */
     public function destroy(Ingreso $ingreso)
     {
-        if ($ingreso->procesado) {
+        if (!$ingreso->statusPendiente()) {
 
             $msg = 'Ingreso Nº' . $ingreso->numero . ' No puede ser eliminado ya que fue procesado.';
         } else {

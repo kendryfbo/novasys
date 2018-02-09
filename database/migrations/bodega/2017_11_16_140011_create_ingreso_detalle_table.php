@@ -19,6 +19,7 @@ class CreateIngresoDetalleTable extends Migration
             $table->integer('tipo_id');
             $table->integer('item_id');
             $table->date('fecha_venc');
+            $table->date('lote');
             $table->integer('cantidad');
             $table->integer('por_almacenar');
             $table->timestamps();

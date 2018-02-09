@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
+use App\Models\Config\StatusDocumento;
 use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Adquisicion\OrdenCompraDetalle;
 
@@ -14,7 +15,6 @@ class Ingreso extends Model
 {
     protected $table = 'ingreso';
     protected $fillable = ['numero', 'descripcion', 'tipo_id', 'item_id', 'procesado', 'fecha_ing', 'user_id'];
-
 
     static function register($request) {
 
@@ -59,7 +59,7 @@ class Ingreso extends Model
                     'item_id' => $item->id,
                     'fecha_venc' => $item->fecha_venc,
                     'cantidad' => $item->cantidad,
-                    'por_almacenar' => $item->cantidad,
+                    'por_procesar' => $item->cantidad,
                 ]);
 
             };
@@ -75,8 +75,8 @@ class Ingreso extends Model
 
         $ingreso = DB::transaction(function() use($request) {
 
-            $ordenCompra = OrdenCompra::with('detalles')->where('id',$request->ordenCompra)->first();
-            $statusIngresadaOC = config('globalVars.statusIngresadaOC');
+            $ordenCompra = OrdenCompra::with('detalles')->where('numero',$request->ordenCompra)->first();
+            $statusIngresadaOC = StatusDocumento::ingresadaID();
 
             $fecha = $request->fecha;
             $descripcion = "Ingreso por Orden de compra numero ". $ordenCompra->numero;
@@ -111,18 +111,25 @@ class Ingreso extends Model
 
                 $item = json_decode($item);
 
+                if ($item->cant_ing <= 0) {
+                    continue;
+                }
+                $detalle = OrdenCompraDetalle::find($item->id);
+                $detalle->recibidas = $detalle->recibidas + $item->cant_ing;
+                $detalle->save();
                 IngresoDetalle::create([
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $item->tipo_id,
                     'item_id' => $item->item_id,
-                    'fecha_venc' => "2000-12-12",
-                    'cantidad' => $item->recibidas,
-                    'por_almacenar' => $item->recibidas,
+                    'fecha_venc' => $item->fecha_venc,
+                    'lote' => $item->num_lote,
+                    'cantidad' => $item->cant_ing,
+                    'por_procesar' => $item->cant_ing,
                 ]);
 
             };
 
-            $ordenCompra->status_id = $statusIngresadaOC;
+            $ordenCompra->updateStatus();
             $ordenCompra->save();
 
             return $ingreso;
@@ -136,11 +143,45 @@ class Ingreso extends Model
 
         return IngresoDetalle::where('item_id',$id)->sum('por_almacenar');
     }
+
     /*
     |
     | Public Functions
     |
     */
+    public function updateStatus() {
+
+        $completa = true;
+        $ingresada = false;
+
+        foreach ($this->detalles as $detalle) {
+
+            if ($detalle->por_procesar > 0) {
+                $completa = false;
+            }
+            if ($detalle->por_procesar < $detalle->cantidad) {
+                $ingresada = true;
+            }
+        }
+
+        if ($completa) {
+            $this->status_id = StatusDocumento::completaID();
+        } else if($ingresada) {
+            $this->status_id = StatusDocumento::ingresadaID();
+        } else {
+            $this->status_id = StatusDocumento::pendienteID();
+        }
+    }
+    public function statusPendiente() {
+
+        $pendiente = StatusDocumento::pendienteID();
+
+        if ($this->status_id == $pendiente) {
+
+            return true;
+        }
+        return false;
+    }
 
     /*
     |
@@ -156,5 +197,14 @@ class Ingreso extends Model
     public function tipo() {
 
         return $this->belongsTo('App\Models\Bodega\IngresoTipo','tipo_id');
+    }
+
+    public function detalles() {
+
+        return $this->hasMany('App\Models\Bodega\IngresoDetalle','ing_id');
+    }
+    public function status() {
+
+        return $this->belongsTo('App\Models\Config\StatusDocumento','status_id');
     }
 }

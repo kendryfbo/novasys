@@ -20,9 +20,15 @@ class CreateIngresoTable extends Migration
             $table->integer('tipo_id');
             $table->integer('item_id')->nullable();
             $table->date('fecha_ing');
-            $table->tinyInteger('procesado');
+            $table->tinyInteger('por_procesar');
+            $table->integer('status_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('ingreso', function (Blueprint $table) {
+            $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
         });
     }
 

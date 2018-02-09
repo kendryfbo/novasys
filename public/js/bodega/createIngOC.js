@@ -4,39 +4,22 @@ var app = new Vue({
 
     data: {
         tipoId: '',
-        ordenesCompra: ordenesCompra,
         ordenId: '',
-        itemId: '',
-        item: [],
-        items: [],
-        cantidad: 0,
-        fecha_venc: '',
-        lote: '',
-        totalCantidad: 0,
+        items: productos,
     },
 
     methods: {
 
-        loadItems: function() {
-
-            for (var i = 0; i < this.ordenesCompra.length; i++) {
-                if ( this.ordenesCompra[i].id === this.itemId ) {
-
-                    this.items = this.ordenesCompra[i].detalles;
-                    return;
-                }
-            }
-        },
-
         updateRecibidas: function(id) {
 
             var value = event.target.valueAsNumber;
-
             for (var i = 0; i < this.items.length; i++) {
 
                 if ( this.items[i].id === id ) {
 
-                    this.items[i].recibidas = value;
+                    let temp = this.items[i];
+                    temp.cant_ing = value;
+                    Vue.set(this.items,i,temp);
                     return;
                 }
             }
@@ -44,27 +27,33 @@ var app = new Vue({
 
         updateFechaVenc: function(id) {
 
-            var date = event.target.valueAsDate;
+            var date = event.target.value;
             for (var i = 0; i < this.items.length; i++) {
 
                 if ( this.items[i].id === id ) {
 
-                    this.items[i].fecha_venc = date;
+                    let temp = this.items[i];
+                    temp.fecha_venc = date;
+                    Vue.set(this.items,i,temp);
                     return;
                 }
             }
         },
 
-        updateTotalCantidad: function() {
+        updateNumLote: function(id) {
 
-            cantidad = 0;
+            var lote = event.target.value;
 
             for (var i = 0; i < this.items.length; i++) {
 
-                cantidad += this.items[i].cantidad;
-            }
+                if ( this.items[i].id === id ) {
 
-            this.totalCantidad = cantidad;
+                    let temp = this.items[i];
+                    temp.num_lote = lote;
+                    Vue.set(this.items,i,temp);
+                    return;
+                }
+            }
         },
 
     },
@@ -72,5 +61,19 @@ var app = new Vue({
     updated() {
 
       $('.selectpicker').selectpicker('refresh');
+    },
+
+    mounted: function() {
+
+        for (var i = 0; i < this.items.length; i++) {
+
+            let temp = this.items[i];
+            temp.cant_ing = 0;
+            temp.fecha_venc = '';
+            temp.num_lote = '';
+            Vue.set(this.items,i,temp);
+
+        }
     }
+
 });
