@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarOrdenEgresoManualMP')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgresoManualMP')}}">
 
 				{{ csrf_field() }}
 

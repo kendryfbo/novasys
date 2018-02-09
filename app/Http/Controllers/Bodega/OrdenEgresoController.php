@@ -104,6 +104,23 @@ class OrdenEgresoController extends Controller
         return redirect()->route('verOrdenEgreso', ['numero' => $ordenEgreso->numero]);
     }
 
+    public function storeEgresoManualMP(Request $request)
+    {
+        $this->validate($request,[
+            'tipo' => 'required',
+            'id' => 'required',
+        ]);
+
+        $bodega = intval($request->bodega);
+        $tipo = intval($request->tipo);
+        $id = intval($request->id);
+        $user = $request->user()->id;
+
+        $ordenEgreso = OrdenEgreso::generate($user,$tipo,$id,$bodega);
+
+        return redirect()->route('verOrdenEgreso', ['numero' => $ordenEgreso->numero]);
+    }
+
     /**
      * Display the specified resource.
      *
