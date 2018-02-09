@@ -210,7 +210,9 @@ class PaisTableSeeder extends Seeder
         [ 'nombre' => 'Yemen' , 'capital' => 'Saná', 'continente' => 'Asia' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Yibuti' , 'capital' => 'Yibuti', 'continente' => 'África' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Zambia' , 'capital' => 'Lusaka', 'continente' => 'África' , 'moneda' => '', 'activo' => 1 ],
-        [ 'nombre' => 'Zimbabue' , 'capital' => 'Harare', 'continente' => 'África' , 'moneda' => '', 'activo' => 1 ]
+        [ 'nombre' => 'Zimbabue' , 'capital' => 'Harare', 'continente' => 'África' , 'moneda' => '', 'activo' => 1 ],
+        [ 'nombre' => 'Tahití' , 'capital' => 'Papeete', 'continente' => 'La Polinesia Francesa' , 'moneda' => '', 'activo' => 1 ],
+        [ 'nombre' => 'Puerto Rico' , 'capital' => 'San Juan', 'continente' => 'América' , 'moneda' => '', 'activo' => 1 ],
       ];
 
       foreach ($paises as $pais) {
