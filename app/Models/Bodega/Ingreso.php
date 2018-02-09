@@ -26,7 +26,7 @@ class Ingreso extends Model
             $tipoProd = $request->tipo_prod;
             $items = $request->items;
             $usuario = $request->user()->id;
-            $status = StatusDocumento::pendienteID;
+            $status = StatusDocumento::pendienteID();
 
             $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
 
@@ -82,7 +82,7 @@ class Ingreso extends Model
             $descripcion = "Ingreso por Orden de compra numero ". $ordenCompra->numero;
             $tipoIngreso = $request->tipo_ingreso;
             $items = $request->items;
-            $status = StatusDocumento::pendienteID;
+            $status = StatusDocumento::pendienteID();
             $usuario = $request->user()->id;
 
             $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
