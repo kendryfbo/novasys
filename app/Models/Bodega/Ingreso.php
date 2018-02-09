@@ -25,8 +25,8 @@ class Ingreso extends Model
             $tipoIngreso = $request->tipo_ingreso;
             $tipoProd = $request->tipo_prod;
             $items = $request->items;
-            $status = StatusDocumento::pendienteID;
             $usuario = $request->user()->id;
+            $status = StatusDocumento::pendienteID;
 
             $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
 
