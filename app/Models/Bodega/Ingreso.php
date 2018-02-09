@@ -14,7 +14,7 @@ use App\Models\Adquisicion\OrdenCompraDetalle;
 class Ingreso extends Model
 {
     protected $table = 'ingreso';
-    protected $fillable = ['numero', 'descripcion', 'tipo_id', 'item_id', 'procesado', 'fecha_ing', 'user_id'];
+    protected $fillable = ['numero', 'descripcion', 'tipo_id', 'item_id', 'por_procesar', 'status_id', 'fecha_ing', 'user_id'];
 
     static function register($request) {
 
@@ -25,7 +25,7 @@ class Ingreso extends Model
             $tipoIngreso = $request->tipo_ingreso;
             $tipoProd = $request->tipo_prod;
             $items = $request->items;
-            $procesado = 0;
+            $status = StatusDocumento::pendienteID;
             $usuario = $request->user()->id;
 
             $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
@@ -44,7 +44,7 @@ class Ingreso extends Model
                 'descripcion' => $descripcion,
                 'tipo_id' => $tipoIngreso,
                 'fecha_ing' => $fecha,
-                'procesado' => $procesado,
+                'status_id' => $status,
                 'user_id' => $usuario,
             ]);
 
@@ -82,7 +82,7 @@ class Ingreso extends Model
             $descripcion = "Ingreso por Orden de compra numero ". $ordenCompra->numero;
             $tipoIngreso = $request->tipo_ingreso;
             $items = $request->items;
-            $procesado = 0;
+            $status = StatusDocumento::pendienteID;
             $usuario = $request->user()->id;
 
             $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
@@ -102,7 +102,7 @@ class Ingreso extends Model
                 'tipo_id' => $tipoIngreso,
                 'item_id' => $ordenCompra->id,
                 'fecha_ing' => $fecha,
-                'procesado' => $procesado,
+                'status_id' => $status,
                 'user_id' => $usuario,
             ]);
 
