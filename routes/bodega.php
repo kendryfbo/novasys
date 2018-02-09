@@ -7,8 +7,9 @@ Route::prefix('bodega')->group( function() {
     Route::get('/test', function(){
 
         //return App\Models\Bodega\Pallet::getDataForBodega(5);
-        dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
-        dd(App\Models\Bodega\Posicion::findPositionForPallet(1,17));
+        //dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
+        dd(App\Models\Bodega\pallet::getDataForBodega(10));
+        dd(App\Models\Bodega\Posicion::findPositionForPallet(1,9));
         return view('bodega.bodega.test');
         $routes = Route::getRoutes();
         $routesFormatted = [];
@@ -32,14 +33,14 @@ Route::prefix('bodega')->group( function() {
         return response($routesFormatted,200);
     });
     // Bodega
-    Route::post('/ingreso/pallet', 'Bodega\BodegaController@storePalletInPosition')->name('guardarPalletEnPosicion');
-    Route::get('/config',         'Bodega\BodegaController@indexConfig')->name('configBodega');
-    Route::get('/',               'Bodega\BodegaController@index')->name('bodega');
-    Route::get('/crear',          'Bodega\BodegaController@create')->name('crearBodega');
-    Route::get('/{id}/config',    'Bodega\BodegaController@edit')->name('editarBodega');
-    Route::get('/{id}/consultar', 'Bodega\BodegaController@consult')->name('consultarBodega');
-    Route::post('/',              'Bodega\BodegaController@store')->name('guardarBodega');
-    Route::get('/ingreso/pallet', 'Bodega\BodegaController@entry')->name('ingresoPallet');
+    Route::post('/ingreso/pallet',   'Bodega\BodegaController@storePalletInPosition')->name('guardarPalletEnPosicion');
+    Route::get('/config',            'Bodega\BodegaController@indexConfig')->name('configBodega');
+    Route::get('/',                  'Bodega\BodegaController@index')->name('bodega');
+    Route::get('/crear',             'Bodega\BodegaController@create')->name('crearBodega');
+    Route::get('/{id}/config',       'Bodega\BodegaController@edit')->name('editarBodega');
+    Route::get('/{id}/consultar',    'Bodega\BodegaController@consult')->name('consultarBodega');
+    Route::post('/',                 'Bodega\BodegaController@store')->name('guardarBodega');
+    Route::get('/ingreso/pallet',    'Bodega\BodegaController@entry')->name('ingresoPallet');
     Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
     Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
 
@@ -66,28 +67,27 @@ Route::prefix('bodega')->group( function() {
     // Resource Orden Egreso
     Route::prefix('ordenEgreso')->group(function(){
 
-        Route::get('/',            'Bodega\OrdenEgresoController@index');
-        Route::get('/pendientes',  'Bodega\OrdenEgresoController@pendingOrdenEgreso')->name('ordenEgresoPendientes');
-        Route::post('/consultar',  'Bodega\OrdenEgresoController@consultExistence')->name('ordenEgresoConsultarExistencia');
-        Route::post('/existencia', 'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
-        Route::post('/generar',    'Bodega\OrdenEgresoController@store')->name('generarOrdenEgreso');
-        Route::get('/{numero}',    'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
-        Route::get('/{numero}/pdf','Bodega\OrdenEgresoController@pdf')->name('verOrdenEgresoPDF');
-        Route::get('/{numero}/descargar','Bodega\OrdenEgresoController@downloadPDF')->name('descargarOrdenEgresoPDF');
-        Route::get('/manual/crear', 'Bodega\OrdenEgresoController@createEgresoManualMP')->name('crearOrdenEgresoManual');
-        Route::post('/manual', 'Bodega\OrdenEgresoController@storeEgresoManualMP')->name('guardarOrdenEgresoManualMP');
+        Route::get('/',                   'Bodega\OrdenEgresoController@index');
+        Route::get('/pendientes',         'Bodega\OrdenEgresoController@pendingOrdenEgreso')->name('ordenEgresoPendientes');
+        Route::post('/consultar',         'Bodega\OrdenEgresoController@consultExistence')->name('ordenEgresoConsultarExistencia');
+        Route::post('/existencia',        'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
+        Route::post('/generar',           'Bodega\OrdenEgresoController@store')->name('generarOrdenEgreso');
+        Route::get('/{numero}',           'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
+        Route::get('/{numero}/pdf',       'Bodega\OrdenEgresoController@pdf')->name('verOrdenEgresoPDF');
+        Route::get('/{numero}/descargar', 'Bodega\OrdenEgresoController@downloadPDF')->name('descargarOrdenEgresoPDF');
+        Route::get('/manualMP/crear',     'Bodega\OrdenEgresoController@createEgresoManualMP')->name('crearEgresoManualMP');
+        Route::post('/manualMP',          'Bodega\OrdenEgresoController@storeEgresoManualMP')->name('guardarEgresoManualMP');
 
     });
 
     // Resource Ingreso
     Route::prefix('ingreso')->group(function(){
 
-        Route::get('/',        'Bodega\IngresoController@index')->name('ingreso');
-        Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
 
         //ingreso Orden Compra
-        Route::get('/ordenCompra/crear', 'Bodega\IngresoController@createIngFromOC')->name('crearIngOC');
-        Route::post('/OrdenCompra',      'Bodega\IngresoController@storeIngFromOC')->name('guardarIngOC');
+        Route::get('/ordenCompra',        'Bodega\IngresoController@indexPendingOC')->name('ingOC');
+        Route::post('/ordenCompra/crear', 'Bodega\IngresoController@createIngOC')->name('crearIngOC');
+        Route::post('/OrdenCompra',       'Bodega\IngresoController@storeIngFromOC')->name('guardarIngOC');
         //ingreso Manual Materia Prima
         Route::get('/Manual/MP/crear', 'Bodega\IngresoController@createIngManualMP')->name('crearIngManualMP');
         Route::post('/Manual/MP',      'Bodega\IngresoController@storeIngManualMP')->name('guardarIngManualMP');
@@ -95,6 +95,9 @@ Route::prefix('bodega')->group( function() {
         Route::get('/Manual/PM/crear', 'Bodega\IngresoController@createIngManualPM')->name('crearIngManualPM');
         Route::post('/Manual/PM',      'Bodega\IngresoController@storeIngManualPM')->name('guardarIngManualPM');
 
+        Route::get('/',             'Bodega\IngresoController@index')->name('ingreso');
+        Route::get('/{ingreso}',    'Bodega\IngresoController@show')->name('verIngreso');
+        Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
 
     });
 

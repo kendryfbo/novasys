@@ -4,8 +4,9 @@ namespace App\Models\Adquisicion;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Comercial\Impuesto;
 use DB;
+use App\Models\Comercial\Impuesto;
+use App\Models\Config\StatusDocumento;
 
 class OrdenCompra extends Model
 {
@@ -231,16 +232,43 @@ class OrdenCompra extends Model
         $this->aut_contab = 0;
         $this->save();
     }
+
     public function complete() {
 
         $this->status_id = 3; // importar desde global vars o tabla orden_compra_status
         $this->save();
     }
+
     public function incomplete() {
 
         $this->status_id = 1; // importar desde global vars o tabla orden_compra_status
         $this->save();
     }
+
+    public function updateStatus() {
+
+        $completa = true;
+        $ingresada = false;
+
+        foreach ($this->detalles as $detalle) {
+
+            if ($detalle->recibidas < $detalle->cantidad) {
+                $completa = false;
+            }
+            if ($detalle->recibidas > 0) {
+                $ingresada = true;
+            }
+        }
+
+        if ($completa) {
+            $this->status_id = StatusDocumento::completaID();
+        } else if($ingresada) {
+            $this->status_id = StatusDocumento::ingresadaID();
+        } else {
+            $this->status_id = StatusDocumento::pendienteID();
+        }
+    }
+
     /*
     | Relations
     */
@@ -248,6 +276,7 @@ class OrdenCompra extends Model
 
         return $this->hasMany('App\Models\Adquisicion\OrdenCompraDetalle','oc_id');
     }
+
     public function proveedor() {
 
         return $this->belongsTo('App\Models\Adquisicion\Proveedor','prov_id');

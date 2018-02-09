@@ -38,7 +38,7 @@ class FacturaIntl extends Model
 			$vencimiento = $request->vencimiento;
 			$nota = $request->nota;
 			$user = $request->user()->id;
-			$proforma = Proforma::with('detalles')->find($proforma);
+			$proforma = Proforma::with('detalles','cliente')->find($proforma);
 
 			$factura = FacturaIntl::create([
 				'numero' => $numero,

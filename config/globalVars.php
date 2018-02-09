@@ -80,7 +80,7 @@ return [
     | Variable que Representa el id del Area BODEGA
     | Este id debe ser igual al de la table areas.
     */
-    'areaBodega' => 2,
+    'areaBodega' => 5,
 
 
 
