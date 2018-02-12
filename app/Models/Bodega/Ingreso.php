@@ -14,7 +14,7 @@ use App\Models\Adquisicion\OrdenCompraDetalle;
 class Ingreso extends Model
 {
     protected $table = 'ingreso';
-    protected $fillable = ['numero', 'descripcion', 'tipo_id', 'item_id', 'por_procesar', 'status_id', 'fecha_ing', 'user_id'];
+    protected $fillable = ['numero', 'descripcion', 'tipo_id', 'item_id', 'status_id', 'fecha_ing', 'user_id'];
 
     static function register($request) {
 

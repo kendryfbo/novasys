@@ -20,7 +20,6 @@ class CreateIngresoTable extends Migration
             $table->integer('tipo_id');
             $table->integer('item_id')->nullable();
             $table->date('fecha_ing');
-            $table->tinyInteger('por_procesar');
             $table->integer('status_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
