@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NivelesTableSeeder::class);
 
         // Semillas de Modulo Comercial
+        $this->call(AduanaTableSeeder::class);
         $this->call(CanalTableSeeder::class);
         $this->call(CentroVentaTableSeeder::class);
         $this->call(ClausulaVentasTableSeeder::class);
@@ -37,12 +38,12 @@ class DatabaseSeeder extends Seeder
         $this->call(RegionesTableSeeder::class);
         $this->call(VendedoresTableSeeder::class);
         $this->call(ZonasTableSeeder::class);
-        //$this->call(ClientesNacionalesTableSeeder::class); Por importacion DB
 
         // Semillas de Modulo configuracion
         $this->call(AccesosTableSeeder::class);
         $this->call(UsuarioTableSeeder::class);
         $this->call(StatusDocumentoTableSeeder::class);
+        $this->call(TipoDocumentoTableSeeder::class);
 
         // Semillas de Modulo Bodega
         $this->call(IngresoTipoTableSeeder::class);

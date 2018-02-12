@@ -15,8 +15,8 @@ class ClausulaVentasTableSeeder extends Seeder
       $clausulas = [
         ['id' => 1,'nombre' => 'C.I.F', 'descripcion' => 'Cost, Insurance and Freight', 'activo' => 1],
         ['id' => 2,'nombre' => 'FOB', 'descripcion' => 'Free On Board', 'activo' => 1],
-        ['id' => 3,'nombre' => 'CFR', 'descripcion' => 'Cost and Freight ', 'activo' => 0],
-        ['id' => 4,'nombre' => 'DDP', 'descripcion' => 'Delivered Duty Paid', 'activo' => 0]
+        ['id' => 3,'nombre' => 'CFR', 'descripcion' => 'Cost and Freight ', 'activo' => 1],
+        ['id' => 4,'nombre' => 'DDP', 'descripcion' => 'Delivered Duty Paid', 'activo' => 1]
       ];
 
       foreach ($clausulas as $clausula) {
