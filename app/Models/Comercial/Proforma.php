@@ -216,7 +216,6 @@ class Proforma extends Model
             $proforma->cv_id = $cvId;
             $proforma->centro_venta = $cvDescrip;
             $proforma->cliente_id = $clienteId;
-            $proforma->cliente = $clienteDescrip;
             $proforma->fecha_emision = $fechaEmision;
             $proforma->semana = $semana;
             $proforma->direccion = $direccion;
