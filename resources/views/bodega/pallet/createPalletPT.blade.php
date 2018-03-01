@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Creacion Pallet Produccion</h4>
+			<h4>Creacion Pallet Producto Terminado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarPalletProduccion')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarPalletPT')}}">
 
 				{{ csrf_field() }}
 
@@ -54,7 +54,6 @@
                     <div class="col-lg-2">
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
-					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>
 
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
@@ -71,50 +70,30 @@
 
 				<!-- form-group -->
                 <div class="form-group">
-
-                    <label class="control-label col-lg-1">Condicion:</label>
-        			<div class="col-lg-3">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="codicion" v-model="condicion">
-                             <option value=""> </option>
-                        @foreach ($condiciones as $condicion)
-                             <option {{Input::old('codicion') ? 'selected':''}} value="{{$condicion->id}}">{{$condicion->descripcion}}</option>
-                        @endforeach
-                        </select>
-        			</div>
-
-                    <label class="control-label col-lg-1">Opcion:</label>
-        			<div class="col-lg-2">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="opcion" :required="condicion != ''">
-                             <option value=""> </option>
-                        @foreach ($opciones as $opcion)
-                             <option {{Input::old('opcion') ? 'selected':''}} value="{{$opcion->id}}">{{$opcion->descripcion}}</option>
-                        @endforeach
-                        </select>
-        			</div>
-
+					<!-- Bloque de condiciones - POR IMPLEMENTAR -->
                 </div>
                 <!-- /form-group -->
 
-                <h5>Produccion</h5>
+                <h5>Productos</h5>
 
                 <!-- form-group -->
                 <div class="form-group">
 
-                    <label class="control-label col-lg-1">Produccion:</label>
+                    <label class="control-label col-lg-1">Producto:</label>
                     <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="produccion in producidos" :value="produccion.id">@{{produccion.producto.descripcion +' - LOTE: ' + produccion.lote + ' Por Procesar: ' + produccion.por_procesar}}</option>
+						    <option v-for="producto in productos" :value="producto.id">@{{producto.descripcion + ' Por Procesar: ' + producto.por_procesar}}</option>
                         </select>
                     </div>
 
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" name="cantidad" type="number" v-model="cantidad" required>
+						<input class="form-control input-sm" type="number" v-model="cantidad">
                     </div>
 
 					<div class="col-lg-2">
-					    <button :disabled="itemId == '' || cantidad == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+					    <button :disabled="itemId == '' || cantidad == '' || cantidad > item.por_almacenar" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
                     </div>
 
                 </div>
@@ -144,8 +123,9 @@
               <tr>
                 <th class="text-center"></th>
                 <th class="text-center">#</th>
-                <th class="text-center">LOTE</th>
-                <th class="text-center">PRODUCTO</th>
+                <th class="text-center">CODIGO</th>
+                <th class="text-center">DESCRIPCION</th>
+                <th class="text-center">UNIDAD</th>
                 <th class="text-center">INGRESADAS</th>
               </tr>
 
@@ -160,29 +140,16 @@
                         <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(item)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </td>
 					<td class="text-center">@{{key+1}}</td>
-				    <td class="text-center">@{{item.lote}}</td>
-				    <td class="text-left">@{{item.producto.descripcion}}</td>
-				    <td class="text-right">@{{item.procesar}}</td>
+					<td class="text-center">@{{item.codigo}}</td>
+				    <td class="text-left">@{{item.descripcion}}</td>
+				    <td class="text-center">@{{item.unidad_med}}</td>
+				    <td class="text-right">@{{item.cantidad}}</td>
 				</tr>
 
             </tbody>
 
           </table>
 
-			<div class="row">
-
-				<div class=" col-sm-3 pull-right">
-					<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
-
-						<tr>
-						<th class="bg-gray text-right">TOTAL:</th>
-						<th class="text-right">@{{totalCantidad}}</th>
-						</tr>
-
-					</table>
-				</div>
-
-			</div>
           <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
 
         </div>
@@ -195,11 +162,10 @@
 
 @section('scripts')
 	<script>
-		var producidos = Object.values({!!$productos!!});
-		var condiciones = {!!$condiciones!!};
+		var productos = {!!json_encode($productos)!!};
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/createPalletProduccion.js')}}"></script>
+	<script src="{{asset('js/bodega/createPalletPT.js')}}"></script>
 @endsection

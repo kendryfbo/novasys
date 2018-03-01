@@ -28,7 +28,7 @@
                   <li><a href="{{route('crearPalletMP')}}">Materia Prima</a></li>
                   <li><a href="#">Premezcla</a></li>
                   <li><a href="#">Reproceso</a></li>
-                  <li><a href="#">Producto Terminado</a></li>
+                  <li><a href="{{route('crearPalletPT')}}">Producto Terminado</a></li>
                 </ul>
               </div>
               <a type="button" href="{{route('ingresoPallet')}}" class="btn btn-primary">Almacenar Pallet</a>

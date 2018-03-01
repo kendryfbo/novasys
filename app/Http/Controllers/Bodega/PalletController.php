@@ -27,10 +27,6 @@ use App\Models\Produccion\TerminoProceso;
 
 class PalletController extends Controller
 {
-
-    /* Constantes */
-    const TERMPROC = 2; // ID Tipo de Ingreso Termino de Proceso
-
     /**
      * Display a listing of the resource.
      *
@@ -43,12 +39,6 @@ class PalletController extends Controller
 
         return view('bodega.pallet.index')->with(['pallets' => $pallets]);
     }
-
-    public function indexIngresoManual() {
-
-        return view('bodega.pallet.indexIngresoManual');
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -70,7 +60,7 @@ class PalletController extends Controller
     // creacion de pallet de Materia Prima
     public function createPalletMP() {
 
-        $tipoMP = config('globalVars.MP');
+        $tipoMP = TipoFamilia::getMP()->id;
         $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
         $insumos = $insumos->map(function($insumo){
 
@@ -98,25 +88,43 @@ class PalletController extends Controller
             'numero' => $numero, 'barCode' => $barCode, 'insumos' => $insumos
         ]);
     }
+    // creacion de pallet de Producto Terminado
+    public function createPalletPT() {
 
-    // Creacion de pallet Producto Terminado
+        $tipo = TipoFamilia::productoTerminado()->id;
+        $productos = IngresoDetalle::getProdIngrPendPorAlmacenar();
+        $medidas = PalletMedida::getAllActive();
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+        return view('bodega.pallet.createPalletPT')->with(['medidas' => $medidas,
+            'numero' => $numero, 'barCode' => $barCode, 'productos' => $productos
+        ]);
+    }
+
+    // Creacion de pallet Producto Terminado Produccion
     public function createPalletProduccion() {
 
         $medidas = PalletMedida::getAllActive();
         $palletCondTipos = PalletCondTipo::getAllActive();
-        $tipoIngreso = self::TERMPROC;
-
+        $tipoIngreso = IngresoTipo::termProcID();
         //Prueba
         $opciones = Pais::select('id','nombre as descripcion')->get();
 
-        $producidos = TerminoProceso::with('producto')->where('procesado',0)->orWhere('por_procesar','>',0)->get();
+        $tipoPT = TipoFamilia::productoTerminado()->id;
+        $productos = IngresoDetalle::with('producto','ingreso')->where('tipo_id',$tipoPT)->where('por_procesar','>',0)->get();
+
         $numero = Carbon::now()->format('YmdHis');
         $barCode = DNS1D::getBarcodeHTML($numero, "C128",1.85,30,"black",true);
 
         return view('bodega.pallet.createFromProduccion')->with(
-            ['medidas' => $medidas, 'condiciones' => $palletCondTipos, 'producidos' => $producidos,
-             'tipoIngreso' => $tipoIngreso,'opciones' => $opciones, 'numero' => $numero,
-             'barCode' => $barCode]);
+            ['medidas' => $medidas,
+             'condiciones' => $palletCondTipos,
+             'tipoIngreso' => $tipoIngreso,
+             'productos' => $productos,
+             'opciones' => $opciones,
+             'numero' => $numero,
+             'barCode' => $barCode
+            ]);
     }
 
     public function createPalletManual() {
@@ -157,12 +165,24 @@ class PalletController extends Controller
             'items' => 'required'
         ]);
 
-        $pallet = Pallet::createFromProduccion($request);
+        $pallet = Pallet::storeFromProduccion($request);
 
         return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
     }
 
     public function storePalletMP(Request $request) {
+
+        $this->validate($request,[
+            'numero' =>'required',
+            'medida' => 'required',
+            'items' => 'required'
+        ]);
+
+        $pallet = Pallet::storePalletMP($request);
+
+        return redirect()->route('verPalletProduccion',['id' => $pallet->id]);
+    }
+    public function storePalletPT(Request $request) {
 
         $this->validate($request,[
             'numero' =>'required',

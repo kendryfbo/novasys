@@ -21,7 +21,8 @@ class CreatePalletDetalleTable extends Migration
             $table->integer('ing_tipo_id')->unsigned();
             $table->integer('ing_id')->unsigned()->nullable();
             $table->integer('cantidad');
-            $table->date('fecha_venc');
+            $table->date('fecha_ing');
+            $table->date('fecha_venc')->nullable();
             $table->timestamps();
         });
 

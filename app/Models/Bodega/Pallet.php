@@ -5,6 +5,7 @@ namespace App\Models\Bodega;
 use DB;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
+use App\Models\Config\StatusDocumento ;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Produccion\TerminoProceso;
 
@@ -14,13 +15,12 @@ class Pallet extends Model
 
     protected $fillable= ['numero', 'medida_id', 'almacenado'];
 
-    static function createFromProduccion($request) {
+    static function storeFromProduccion($request) {
 
         $pallet = DB::transaction( function() use($request) {
 
             $items = $request->items;
             $tipoIngreso = $request->tipo_ingreso;
-            $tipoProd = config('globalVars.PT');
             $pallet = Pallet::create([
                 'numero' => $request->numero,
                 'medida_id' => $request->medida,
@@ -36,22 +36,28 @@ class Pallet extends Model
                     return;
                 }
 
-
                 $cantidad = $item->procesar;
 
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
-                    'tipo_id' => $tipoProd,
-                    'item_id' => $item->prod_id,
-                    'ing_tipo_id' => $tipoIngreso,
-                    'ing_id' => $item->id,
+                    'tipo_id' => $item->tipo_id,
+                    'item_id' => $item->item_id,
+                    'ing_tipo_id' => $item->ingreso->tipo_id,
+                    'ing_id' => $item->ingreso->id,
                     'cantidad' => $cantidad,
                     'fecha_venc' => $item->fecha_venc,
                 ]);
 
-                $terminoProceso = TerminoProceso::find($item->id);
-                $terminoProceso->procesado = 1;
-                $terminoProceso->por_procesar = $terminoProceso->por_procesar - $cantidad;
+                $terminoProceso = TerminoProceso::find($item->ingreso->item_id);
+                $terminoProceso->ingresadas = $terminoProceso->ingresadas + $cantidad;
+
+                if ($terminoProceso->ingresadas >= $terminoProceso->producidas) {
+
+                    $terminoProceso->status_id = StatusDocumento::completaID();
+                } else {
+                    $terminoProceso->status_id = StatusDocumento::ingresadaID();
+                }
+
                 $terminoProceso->save();
             };
         return $pallet;
