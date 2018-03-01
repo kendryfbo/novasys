@@ -267,6 +267,8 @@ class OrdenCompra extends Model
         } else {
             $this->status_id = StatusDocumento::pendienteID();
         }
+
+        $this->save();
     }
 
     /*
