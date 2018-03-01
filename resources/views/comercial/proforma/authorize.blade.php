@@ -13,12 +13,12 @@
 		<div class="box-body">
 
 			<!-- form unauthorize-->
-			<form id="authorize" action="{{route('autorizarProforma',['proforma' => $proforma->numero])}}" method="post">
+			<form id="authorize" action="{{route('autorizarProforma',['proforma' => $proforma->id])}}" method="post">
 				{{csrf_field()}}
 			</form>
 			<!-- /form unauthorize-->
 			<!-- form authorize-->
-			<form id="unauthorize" action="{{route('desautorizarProforma',['proforma' => $proforma->numero])}}" method="post">
+			<form id="unauthorize" action="{{route('desautorizarProforma',['proforma' => $proforma->id])}}" method="post">
 				{{csrf_field()}}
 			</form>
 			<!-- /form authorize-->

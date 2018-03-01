@@ -32,7 +32,7 @@ class CreateProformaDetallesTable extends Migration
         });
 
         Schema::table('proforma_detalles', function (Blueprint $table) {
-            $table->foreign('proforma_id')->references('id')->on('proformas')->onDelete('cascade');
+            $table->foreign('proforma_id')->references('id')->on('proformas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('producto_id')->references('id')->on('productos');
         });
 
