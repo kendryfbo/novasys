@@ -8,7 +8,8 @@ Route::prefix('bodega')->group( function() {
 
         //return App\Models\Bodega\Pallet::getDataForBodega(5);
         //dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
-        dd(App\Models\Bodega\pallet::getDataForBodega(10));
+        dd(App\Models\Bodega\Bodega::getStockFromBodega(1,4));
+        dd(App\Models\Bodega\pallet::getDataForBodega(14));
         dd(App\Models\Bodega\Posicion::findPositionForPallet(1,9));
         return view('bodega.bodega.test');
         $routes = Route::getRoutes();
@@ -44,6 +45,10 @@ Route::prefix('bodega')->group( function() {
     Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
     Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
 
+    // Reportes
+    Route::get('/reporte',           'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+    Route::post('/reporte',          'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+
     // Resourse Posiciones
     Route::post('/posicion/moverPallet', 'Bodega\PosicionController@changePositionPallet')->name('cambiarPosicionPallet');
     // Resource Pallets
@@ -54,9 +59,14 @@ Route::prefix('bodega')->group( function() {
         Route::get('/',                   'Bodega\PalletController@index')->name('palletPorIngresar');
         Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
         Route::post('/findPosition',      'Bodega\PalletController@position')->name('position'); // TEST
+        // Creacion de pallet Materia Prima
         Route::get('/MateriaPrima/crear', 'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
         Route::post('/MateriaPrima',      'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
+        // Creacion de pallet Producto Terminado
+        Route::get('/PT/crear', 'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
+        Route::post('/PT',      'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
+        
         Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
         // this should be declared in API controller
@@ -91,9 +101,22 @@ Route::prefix('bodega')->group( function() {
         //ingreso Manual Materia Prima
         Route::get('/Manual/MP/crear', 'Bodega\IngresoController@createIngManualMP')->name('crearIngManualMP');
         Route::post('/Manual/MP',      'Bodega\IngresoController@storeIngManualMP')->name('guardarIngManualMP');
+        //ingreso Manual Producto Terminado
+        Route::get('/Manual/PT/crear', 'Bodega\IngresoController@createIngManualPT')->name('crearIngManualPT');
+        Route::post('/Manual/PT',      'Bodega\IngresoController@storeIngManualPT')->name('guardarIngManualPT');
         //ingreso Manual Premezcla
         Route::get('/Manual/PM/crear', 'Bodega\IngresoController@createIngManualPM')->name('crearIngManualPM');
         Route::post('/Manual/PM',      'Bodega\IngresoController@storeIngManualPM')->name('guardarIngManualPM');
+
+        // Ingreso Devolucion Materia Prima
+        Route::get('/Devolucion/MP/crear', 'Bodega\IngresoController@createIngDevolucionMP')->name('crearIngDevolucionMP');
+        Route::post('/Devolucion/MP',      'Bodega\IngresoController@storeIngDevolucionMP')->name('guardarIngDevolucionMP');
+        // Ingreso Devolucion Producto terminado
+        Route::get('/Devolucion/PT/crear', 'Bodega\IngresoController@createIngDevolucionPT')->name('crearIngDevolucionPT');
+        Route::post('/Devolucion/PT',      'Bodega\IngresoController@storeIngDevolucionPT')->name('guardarIngDevolucionPT');
+        // Ingreso Devolucion Premezcla
+        Route::get('/Devolucion/PM/crear', 'Bodega\IngresoController@createIngDevolucionPM')->name('crearIngDevolucionPM');
+        Route::post('/Devolucion/PM',      'Bodega\IngresoController@storeIngDevolucionPM')->name('guardarIngDevolucionPM');
 
         Route::get('/',             'Bodega\IngresoController@index')->name('ingreso');
         Route::get('/{ingreso}',    'Bodega\IngresoController@show')->name('verIngreso');
