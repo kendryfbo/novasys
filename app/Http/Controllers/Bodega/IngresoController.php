@@ -27,7 +27,8 @@ class IngresoController extends Controller
     public function index()
     {
         $statusCompleta = StatusDocumento::completaID();
-        $ingresos = Ingreso::with('usuario','tipo','status')->where('status_id','!=',$statusCompleta)->get();
+        $tipo = IngresoTipo::termProcID();
+        $ingresos = Ingreso::with('usuario','tipo','status')->where('status_id','!=',$statusCompleta)->where('tipo_id','!=',$tipo)->get();
         $ingresosProcesados = Ingreso::with('usuario','tipo','status')->where('status_id','=',$statusCompleta)->get();
 
         return view('bodega.ingreso.index')->with([
@@ -76,6 +77,22 @@ class IngresoController extends Controller
         ]);
 
     }
+    // Crear Ingreso Manual Producto Terminado
+    public function createIngManualPT()
+    {
+        $tipoIngreso = IngresoTipo::manualID();
+        $tipoProd = config('globalVars.PT');
+        $productos = Producto::getAllActive();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngManualPT')->with([
+            'productos' => $productos,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+
+    }
     // Crear Ingreso Manual Premezcla
     public function createIngManualPM()
     {
@@ -86,6 +103,38 @@ class IngresoController extends Controller
 
         return view('bodega.ingreso.createIngManualPM')->with([
             'premezclas' => $premezclas,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+
+    }
+    // Crear Ingreso Devolucion Materia Prima
+    public function createIngDevolucionMP()
+    {
+        $tipoIngreso = IngresoTipo::devolucionID();
+        $tipoProd = config('globalVars.MP');
+        $insumos = Insumo::getAllActive();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngDevolucionMP')->with([
+            'insumos' => $insumos,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+
+    }
+    // Crear Ingreso Devolucion Producto Terminado
+    public function createIngDevolucionPT()
+    {
+        $tipoIngreso = IngresoTipo::devolucionID();
+        $tipoProd = config('globalVars.PT');
+        $productos = Producto::getAllActive();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngDevolucionPT')->with([
+            'productos' => $productos,
             'tipoIngreso' => $tipoIngreso,
             'tipoProd' => $tipoProd,
             'fecha' => $fecha,
@@ -143,6 +192,23 @@ class IngresoController extends Controller
 
         return redirect()->route('ingreso')->with(['status' => $msg]);
     }
+    // Guardar Ingreso Manual Producto Terminado
+    public function storeIngManualPT(Request $request)
+    {
+
+        $this->validate($request,[
+            'descripcion' =>'required',
+            'tipo_ingreso' => 'required',
+            'tipo_prod' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+        ]);
+
+        $ingreso = Ingreso::register($request);
+        $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
+
+        return redirect()->route('ingreso')->with(['status' => $msg]);
+    }
     // Guardar Ingreso Manual Premezcla
     public function storeIngManualPM(Request $request)
     {
@@ -160,7 +226,40 @@ class IngresoController extends Controller
 
         return redirect()->route('ingreso')->with(['status' => $msg]);
     }
+    // Guardar Ingreso Devolucion Materia Prima
+    public function storeIngDevolucionMP(Request $request)
+    {
 
+        $this->validate($request,[
+            'descripcion' =>'required',
+            'tipo_ingreso' => 'required',
+            'tipo_prod' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+        ]);
+
+        $ingreso = Ingreso::register($request);
+        $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
+
+        return redirect()->route('ingreso')->with(['status' => $msg]);
+    }
+    // Guardar Ingreso Devolucion Producto Terminado
+    public function storeIngDevolucionPT(Request $request)
+    {
+
+        $this->validate($request,[
+            'descripcion' =>'required',
+            'tipo_ingreso' => 'required',
+            'tipo_prod' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+        ]);
+
+        $ingreso = Ingreso::register($request);
+        $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
+
+        return redirect()->route('ingreso')->with(['status' => $msg]);
+    }
     // Guardar Ingreso Orden de Compra
     public function storeIngFromOC(Request $request)
     {
@@ -172,6 +271,8 @@ class IngresoController extends Controller
         ]);
 
         $ingreso = Ingreso::registerFromOC($request);
+        $ordenCompra = OrdenCompra::find($ingreso->item_id);
+        $ordenCompra->updateStatus();
         $msg = "Ingreso N°". $ingreso->numero . " ha sido Creada.";
 
         return redirect()->route('ingreso')->with(['status' => $msg]);
@@ -186,7 +287,12 @@ class IngresoController extends Controller
     public function show($numero)
     {
         $ingreso = Ingreso::with('detalles','tipo','status')->where('numero',$numero)->first();
-        //dd($ingreso);
+
+        foreach ($ingreso->detalles as $detalle) {
+
+            $detalle->load('item');
+        }
+
         return view('bodega.ingreso.show')->with(['ingreso' => $ingreso]);
     }
 

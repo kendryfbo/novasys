@@ -21,18 +21,29 @@
 			@endif
 
             <div class="btn-group pull-right">
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Ingreso Manual <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{route('crearIngManualMP')}}">Materia Prima</a></li>
-                  <li><a href="{{route('crearIngManualPM')}}">Premezcla</a></li>
-                  <li><a href="#">Reproceso</a></li>
-                  <li><a href="#">Producto Terminado</a></li>
-                </ul>
-              </div>
-              <a class="btn btn-primary" href="{{route('ingOC')}}">Ingreso Orden de Compra</a>
+				<a class="btn btn-primary" href="{{route('ingOC')}}">Ingreso Orden de Compra</a>
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						Devolucion <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="{{route('crearIngDevolucionMP')}}">Materia Prima</a></li>
+						<li><a href="{{route('crearIngDevolucionPM')}}">Premezcla</a></li>
+						<li><a href="#">Reproceso</a></li>
+						<li><a href="{{route('crearIngDevolucionPT')}}">Producto Terminado</a></li>
+					</ul>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					    Ingreso Manual <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+					  <li><a href="{{route('crearIngManualMP')}}">Materia Prima</a></li>
+					  <li><a href="{{route('crearIngManualPM')}}">Premezcla</a></li>
+					  <li><a href="#">Reproceso</a></li>
+					  <li><a href="{{route('crearIngManualPT')}}">Producto Terminado</a></li>
+					</ul>
+				</div>
             </div>
 
 		</div>

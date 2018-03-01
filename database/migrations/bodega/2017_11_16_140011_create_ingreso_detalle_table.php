@@ -18,8 +18,9 @@ class CreateIngresoDetalleTable extends Migration
             $table->integer('ing_id')->unsigned();
             $table->integer('tipo_id');
             $table->integer('item_id');
-            $table->date('fecha_venc');
-            $table->date('lote')->nullable();
+            $table->date('fecha_ing');
+            $table->date('fecha_venc')->nullable();
+            $table->string('lote')->nullable();
             $table->integer('cantidad');
             $table->integer('por_procesar');
             $table->timestamps();

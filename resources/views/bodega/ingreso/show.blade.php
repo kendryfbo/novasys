@@ -103,8 +103,8 @@
 				@foreach ($ingreso->detalles as $detalle)
 				<tr>
 					<td class="text-center">{{$loop->iteration}}</td>
-					<td class="text-left">{{$detalle->id}}</td>
-					<td class="text-left">{{$detalle->item_id}}</td>
+					<td class="text-left">{{$detalle->item->codigo}}</td>
+					<td class="text-left">{{$detalle->item->descripcion}}</td>
 					<td class="text-right">{{$detalle->cantidad}}</td>
 					<td class="text-right">{{$detalle->por_procesar}}</td>
 					<td class="text-center">{{$detalle->lote}}</td>

@@ -5,6 +5,7 @@ namespace App\Models\Bodega;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
 use App\Models\Config\StatusDocumento;
@@ -28,16 +29,7 @@ class Ingreso extends Model
             $usuario = $request->user()->id;
             $status = StatusDocumento::pendienteID();
 
-            $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
-
-            if (is_null($numero)) {
-
-    			$numero = 1;
-
-    		} else {
-
-    			$numero++;
-    		};
+            $numero = Ingreso::getNextNumber();
 
             $ingreso = Ingreso::create([
                 'numero' => $numero,
@@ -57,6 +49,7 @@ class Ingreso extends Model
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $tipoProd,
                     'item_id' => $item->id,
+                    'fecha_ing' => $fecha,
                     'fecha_venc' => $item->fecha_venc,
                     'cantidad' => $item->cantidad,
                     'por_procesar' => $item->cantidad,
@@ -79,22 +72,13 @@ class Ingreso extends Model
             $statusIngresadaOC = StatusDocumento::ingresadaID();
 
             $fecha = $request->fecha;
-            $descripcion = "Ingreso por Orden de compra numero ". $ordenCompra->numero;
+            $descripcion = "Ingreso por Orden de compra Nº". $ordenCompra->numero;
             $tipoIngreso = $request->tipo_ingreso;
             $items = $request->items;
             $status = StatusDocumento::pendienteID();
             $usuario = $request->user()->id;
 
-            $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
-
-            if (is_null($numero)) {
-
-    			$numero = 1;
-
-    		} else {
-
-    			$numero++;
-    		};
+            $numero = Ingreso::getNextNumber();
 
             $ingreso = Ingreso::create([
                 'numero' => $numero,
@@ -121,6 +105,7 @@ class Ingreso extends Model
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $item->tipo_id,
                     'item_id' => $item->item_id,
+                    'fecha_ing' => $fecha,
                     'fecha_venc' => $item->fecha_venc,
                     'lote' => $item->num_lote,
                     'cantidad' => $item->cant_ing,
@@ -129,9 +114,6 @@ class Ingreso extends Model
 
             };
 
-            $ordenCompra->updateStatus();
-            $ordenCompra->save();
-
             return $ingreso;
 
         });
@@ -139,9 +121,66 @@ class Ingreso extends Model
         return $ingreso;
     }
 
+    static function registerFromTermProc($terminoProceso) {
+
+        DB::transaction(function() use($terminoProceso){
+
+            $numero = Ingreso::getNextNumber();
+            $descripcion = "Ingreso por Termino de Proceso Lote Nº". $terminoProceso->lote;
+            $tipoIngreso = IngresoTipo::termProcID();
+            $fecha = $terminoProceso->fecha_prod;
+            $status = StatusDocumento::pendienteID();
+            $usuario = $terminoProceso->user_id;
+
+            $ingreso = Ingreso::create([
+                'numero' => $numero,
+                'descripcion' => $descripcion,
+                'tipo_id' => $tipoIngreso,
+                'item_id' => $terminoProceso->id,
+                'fecha_ing' => $fecha,
+                'status_id' => $status,
+                'user_id' => $usuario,
+            ]);
+
+            $id = $ingreso->id;
+            $tipoProd = TipoFamilia::productoTerminado()->id;
+            $productoID = $terminoProceso->prod_id;
+            $fechaVenc = $terminoProceso->fecha_venc;
+            $lote = $terminoProceso->lote;
+            $cantidad = $terminoProceso->producidas;
+
+            IngresoDetalle::create([
+                'ing_id' => $id,
+                'tipo_id' => $tipoProd,
+                'item_id' => $productoID,
+                'fecha_ing' => $fecha,
+                'fecha_venc' => $fechaVenc,
+                'lote' => $lote,
+                'cantidad' => $cantidad,
+                'por_procesar' => $cantidad,
+            ]);
+
+        });
+    }
+
     static function getStockofProd($id) {
 
         return IngresoDetalle::where('item_id',$id)->sum('por_almacenar');
+    }
+
+    static function getNextNumber() {
+
+        $numero = Ingreso::orderBy('numero','desc')->pluck('numero')->first();
+
+        if (is_null($numero)) {
+
+            $numero = 1;
+
+        } else {
+
+            $numero++;
+        };
+        return $numero;
     }
 
     /*
