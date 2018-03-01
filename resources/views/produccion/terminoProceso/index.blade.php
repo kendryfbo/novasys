@@ -37,6 +37,7 @@
 						<th class="text-center">Producidas</th>
 						<th class="text-center">Rechazadas</th>
 						<th class="text-center">Total</th>
+						<th class="text-center">status</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -50,20 +51,27 @@
 							<td class="text-right">{{$produccion->producidas}}</td>
 							<td class="text-right">{{$produccion->rechazadas}}</td>
 							<td class="text-right">{{$produccion->total}}</td>
+							<td class="text-center">{{$produccion->status->descripcion}}</td>
 							<td class="text-center">
-								<form style="display: inline" method="get" action="{{route('editarTerminoProceso',['terminoProceso' => $produccion->id])}}">
-									{{csrf_field()}}
-									<button type="submit" class="btn btn-default btn-sm">
-										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>
-									</button>
-								</form>
-								<form style="display: inline" method="post" action="{{route('eliminarTerminoProceso',['id' => $produccion->id])}}">
-									{{csrf_field()}}
-									{{ method_field('DELETE') }}
-									<button type="submit" class="btn btn-default btn-sm">
-										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>
-									</button>
-								</form>
+								@if ($produccion->status_id == $statusPend)
+									{{--
+									 //EDIT PRODUCTO TERMINADO NOT IMPLEMENTED YET
+
+									<form style="display: inline" method="get" action="{{route('editarTerminoProceso',['terminoProceso' => $produccion->id])}}">
+										<button type="submit" class="btn btn-default btn-sm">
+											<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>
+										</button>
+									</form>
+
+									--}}
+									<form style="display: inline" method="post" action="{{route('eliminarTerminoProceso',['id' => $produccion->id])}}">
+										{{csrf_field()}}
+										{{ method_field('DELETE') }}
+										<button type="submit" class="btn btn-default btn-sm">
+											<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>
+										</button>
+									</form>
+								@endif
 							</td>
 						</tr>
 					@endforeach

@@ -26,12 +26,17 @@ class CreateTerminoProcesoTable extends Migration
             $table->string('operador');
             $table->string('cod')->nullable();
             $table->string('batch');
-            $table->STRING('lote')->unique();
-            $table->integer('por_procesar');
-            $table->tinyInteger('procesado')->default(0);
+            $table->string('lote')->unique();
+            $table->integer('ingresadas')->default(0);
+            $table->integer('status_id')->unsigned()->default(0);
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
 
+        Schema::table('termino_proceso', function (Blueprint $table) {
+            $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
+        });
     }
 
     /**

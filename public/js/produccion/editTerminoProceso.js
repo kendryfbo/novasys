@@ -7,15 +7,16 @@ var app = new Vue({
         productos: productos,
         prodId: prodId,
         fechaProd: fechaProd,
-        fechaVenc: '',
+        fechaVenc: fechaVenc,
         fechavencLoteString: '',
         vidaUtil: '',
+        turnos: turnos,
         turno: turno,
         maquina: '',
         operador: '',
         codigo: '',
         batch: '',
-        lote: '',
+        lote: lote,
     },
 
     methods : {
@@ -63,5 +64,9 @@ var app = new Vue({
             }
         }
     },
+
+    updated() {
+        $('.selectpicker').selectpicker('refresh');
+    }
 
 });

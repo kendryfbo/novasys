@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Producto;
+use App\Models\Config\StatusDocumento;
 use App\Models\Produccion\TerminoProceso;
 
 class TerminoProcesoController extends Controller
@@ -25,9 +26,10 @@ class TerminoProcesoController extends Controller
      */
     public function index()
     {
-        $producciones = TerminoProceso::with('producto')->where('procesado',0)->get();
+        $statusPend = StatusDocumento::pendienteID();
+        $producciones = TerminoProceso::with('producto','status')->get();
 
-        return view('produccion.terminoProceso.index')->with(['producciones' => $producciones]);
+        return view('produccion.terminoProceso.index')->with(['producciones' => $producciones,'statusPend' => $statusPend]);
     }
 
     /**
@@ -71,13 +73,9 @@ class TerminoProcesoController extends Controller
             'lote' => 'required'
         ]);
 
+        $terminoProceso = TerminoProceso::register($request);
 
-        $datos['total'] = $datos['producidas'] + $datos['rechazadas'];
-        $datos['por_procesar'] = $datos['total'];
-
-        $produccion = TerminoProceso::create($datos);
-
-        $status = 'Termino de Proceso creado, Lote Nº '. $produccion->lote;
+        $status = 'Termino de Proceso creado, Lote Nº '. $terminoProceso->lote;
 
         return redirect()->route('terminoProceso')->with(['status' => $status]);
     }
@@ -101,6 +99,8 @@ class TerminoProcesoController extends Controller
      */
     public function edit(TerminoProceso $terminoProceso)
     {
+        return redirect()->back();
+        
         $maquinas = self::MAQUINAS;
         $operadores = self::OPERADORES;
         $codigos = self::CODIGOS;
@@ -134,9 +134,13 @@ class TerminoProcesoController extends Controller
     public function destroy($id)
     {
 
-        $produccion = TerminoProceso::destroy($id);
+        $terminoProceso = TerminoProceso::remove($id);
 
-        $status = 'Termino de Proceso Eliminado';
+        if ($terminoProceso) {
+            $status = 'Termino de Proceso Lote Nº'.$terminoProceso->lote.'ha sido eliminado.';
+        } else {
+            $status = 'Termino de Proceso No ha podido ser eliminado.';
+        }
 
         return redirect()->route('terminoProceso')->with(['status' => $status]);
     }

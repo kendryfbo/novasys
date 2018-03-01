@@ -80,13 +80,9 @@
         			<label class="control-label col-lg-1">Turno:</label>
         			<div class="col-lg-5">
 
-                        @foreach ($turnos as $turno)
-
-                            <div class="radio-inline">
-                                <label><input type="radio" name="turno" v-model="turno" @change="updateNumLote" value="{{$turno}}">{{$turno}}</label>
+                            <div v-for="turno in turnos" class="radio-inline">
+                                <label><input type="radio" name="turno" @change="updateNumLote" value="turno">@{{turno}}</label>
                             </div>
-
-                        @endforeach
 
         			</div>
 
@@ -99,7 +95,7 @@
 
                     <label class="control-label col-lg-1">Producidas:</label>
                     <div class="col-lg-1">
-                        <input class="form-control input-sm" name="producidas" type="number" value="{{$terminoProceso->producidas}} "min="1" required>
+                        <input class="form-control input-sm" name="producidas" type="number" value="{{$terminoProceso->producidas}}" min="1" required>
                     </div>
 
                     <label class="control-label col-lg-1">Rechazadas:</label>
@@ -191,13 +187,23 @@
 
 @section('scripts')
 	<script>
-		var productos = Object.values({!!$productos!!});
+		var productos = {!!$productos!!};
+		var prodId = {!!$terminoProceso->fecha_prod!!};
+		var fechaProd = {!!$terminoProceso->fecha_prod!!};
+		var fechaVenc = {!!$terminoProceso->fecha_venc!!};
+		var turnos = {!!json_encode($turnos)!!};
+		var turno = '';
+		var lote = '';
+	</script>
+	{{--
+	<script>
+		var productos = {!!$productos!!};
 		var fechaProd = {!!$terminoProceso->fecha_prod!!};
 		var prodId = {!!$terminoProceso->prod_id!!};
 		var turno = {!!$terminoProceso->turno!!};
 		var lote = {!!$terminoProceso->lote!!};
-		var producidas = {!!$terminoProceso->producidas!!};
 	</script>
+	--}}
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/produccion/editTerminoProceso.js')}}"></script>
 @endsection
