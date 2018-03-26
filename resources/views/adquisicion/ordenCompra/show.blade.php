@@ -42,7 +42,7 @@
 			</div>
 
 			<div class="col-lg-2 col-lg-offset-3 btn-group">
-				<button form="complete" type="submit" class="btn btn-success btn-sm">Compeleta</button>
+				<button form="complete" type="submit" class="btn btn-success btn-sm">Completar</button>
 				<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
 			</div>
 

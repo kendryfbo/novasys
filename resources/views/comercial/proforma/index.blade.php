@@ -73,7 +73,7 @@
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
 									</button>
 								</form>
-								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero)}}" method="post">
+								<form style="display: inline" action="{{route('eliminarProforma',['proforma' => $proforma->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm btn-default" type="submit">
