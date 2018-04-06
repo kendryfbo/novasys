@@ -77,6 +77,7 @@
                     <ul class="treeview-menu">
                         <li><a href="{{url('produccion/terminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
                         <li><a href="{{url('bodega/creacionPalletProduccion')}}"><i class=""></i> <span>Creacion Pallet</span></a></li>
+                        <li><a href="{{url('produccion/premezcla')}}"><i class=""></i> <span>Prod. Premezcla</span></a></li>
                     </ul>
                 </li>
 
