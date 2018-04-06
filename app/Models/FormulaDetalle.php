@@ -38,7 +38,7 @@ class FormulaDetalle extends Model
 
 	public function formula() {
 
-		return $this->belongsTo('App\Models\Formula');
+		return $this->belongsTo('App\Models\Formula','formula_id');
 	}
 
 	public function nivel() {

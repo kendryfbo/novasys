@@ -22,6 +22,7 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
+						<th class="text-center">AUT</th>
 						<th class="text-center">Producto</th>
 						<th class="text-center">Generada</th>
 						<th class="text-center">Generada por</th>
@@ -36,6 +37,7 @@
 				@foreach ($formulas as $formula)
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
+						<th class="text-center"><input type="checkbox" name="" value=""></th>
 						<td>{{$formula->producto->descripcion}}</td>
 						<td class="text-center">{{$formula->generada ? "Si" : "No"}}</td>
 						<td class="text-center">{{$formula->generada_por}}</td>

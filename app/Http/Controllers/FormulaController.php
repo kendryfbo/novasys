@@ -14,8 +14,6 @@ class FormulaController extends Controller
 {
     // tipo de familia MateriaPrima e Insumos
     protected $tipoFamilia = 1;
-    // reemplazar por usuario de la aplicacion
-    protected $usuario = 'USER_DEMO';
 
     public function index()
     {
@@ -172,7 +170,7 @@ class FormulaController extends Controller
     public function getFormula(Request $request)
     {
 
-        $usuario = $this->usuario;
+        $usuario = $request->user()->id;
 
         if (!$request->producto) {
             return 'ERROR';

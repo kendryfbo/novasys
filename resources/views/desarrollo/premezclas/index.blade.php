@@ -29,8 +29,7 @@
 						<th>Sabor</th>
 						<th>Unidad</th>
 						<th>Activo</th>
-						<th class="text-center">Editar</th>
-						<th class="text-center">Eliminar</th>
+						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -44,16 +43,14 @@
 						<td>{{$premezcla->unidad_med}}</td>
 						<td>{{$premezcla->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
-							<form action="{{route('editarPremezcla',['premezcla' => $premezcla->id])}}" method="get">
-								<button class="btn btn-sm" type="submit" name="button">
+							<form style="display: inline" action="{{route('editarPremezcla',['premezcla' => $premezcla->id])}}" method="get">
+								<button class="btn btn-default btn-sm" type="submit" name="button">
 									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								</button>
 							</form>
-						</td>
-						<td class="text-center">
-							<form action="{{route('eliminarPremezcla',['premezcla' => $premezcla->id])}}" method="post">
+							<form  style="display: inline" action="{{route('eliminarPremezcla',['premezcla' => $premezcla->id])}}" method="post">
 								{{csrf_field()}}
-								<button class="btn btn-sm" type="submit" name="button">
+								<button class="btn btn-default btn-sm" type="submit" name="button">
 									<i class="fa fa-trash-o" aria-hidden="true"></i>
 								</button>
 							</form>

@@ -54,6 +54,16 @@ class Formula extends Model
 		return $formula;
 	}
 
+	static function getAllAuthorized() {
+
+		return self::where('autorizado',1)->get();
+	}
+
+	// public functions
+	public function authorized() {
+
+		return $this->where('autorizado',1)->get();
+	}
 	// Relationships
 	public function detalle() {
 
@@ -63,6 +73,11 @@ class Formula extends Model
     public function producto() {
 
 		return $this->belongsTo('App\Models\Producto');
+	}
+
+	public function premezcla() {
+
+		return $this->belongsTo('App\Models\Premezcla');
 	}
 
 }

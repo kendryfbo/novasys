@@ -3,9 +3,9 @@
 
 @section('content')
 
-<div id="vue-app" class="container box box-gray">
+<div id="vue-app" class="box box-solid box-default">
 
-	<div class="box-header with-border">
+	<div class="box-header text-center">
       <h3 class="box-title">Crear Premezcla</h3>
     </div>
     <!-- /.box-header -->
@@ -45,9 +45,8 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Familia:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" @change="updateDescripcion" required>
-								<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
-			            </select>
+						<input type="hidden" class="form-control" name="familia" value="{{$familia->id}}" readonly required>
+						<input type="text" class="form-control"  value="{{$familia->descripcion}}" readonly required>
 					</div>
 				</div>
 				<div class="form-group">
@@ -98,8 +97,8 @@
 		</form>
      </div>
 	 <!-- /.box-body -->
-	 <div class="box-footer col-sm-8">
-	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
+	 <div class="box-footer">
+	 	<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>
