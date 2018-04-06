@@ -15,6 +15,7 @@ class MonedaTableSeeder extends Seeder
         $monedas = [
             ['id' => 1, 'descripcion' => 'Pesos Chilenos', 'simbolo' => '$', 'pais' => 'Chile', 'activo' => 1],
             ['id' => 2, 'descripcion' => 'Dolares Americanos', 'simbolo' => '$$', 'pais' => 'Estados Unidos', 'activo' => 1],
+            ['id' => 3, 'descripcion' => 'Uniddad de Fomento', 'simbolo' => 'UF', 'pais' => 'Chile', 'activo' => 1],
         ];
 
         foreach ($monedas as $moneda) {
