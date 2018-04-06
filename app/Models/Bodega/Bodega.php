@@ -107,6 +107,34 @@ class Bodega extends Model
         return $results[0]->cantidad;
     }
 
+    static function getExistTotalMP($productoId,$bodegaId = NULL) {
+
+        if ($bodegaId) {
+
+            $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
+            WHERE tipo_id=1
+            AND item_id=". $productoId . " AND pallet_id
+            IN (SELECT pallet_id FROM posicion WHERE bodega_id=" . $bodegaId . " AND status_id=3)
+            GROUP BY item_id";
+
+        } else {
+
+            $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
+            WHERE tipo_id=1
+            AND item_id=". $productoId . " AND pallet_id
+            IN (SELECT pallet_id FROM posicion WHERE status_id=3)
+            GROUP BY item_id LIMIT 1";
+        }
+
+        $results = DB::select(DB::raw($query));
+
+        if (!$results) {
+
+            return 0;
+        }
+        return $results[0]->cantidad;
+    }
+
     static function getStockFromBodega($bodegaId = NULL,$tipo = NULL) {
 
         $results = [];
@@ -147,7 +175,7 @@ class Bodega extends Model
             $query = $query . " AND pd.tipo_id=" . $tipo;
         }
 
-        $query = $query . "GROUP BY pos,tipo_id,item_id";
+        $query = $query . " GROUP BY pos,tipo_id,item_id";
         //$query = $query . "GROUP BY bod.id,bodega,pos_id,medida,status_posicion,pallet_id,pallet_numero,pd_id,fecha_Venc,pos,tipo_id,item_id";
         $results = DB::select(DB::raw($query));
 

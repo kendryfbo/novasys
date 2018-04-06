@@ -40,7 +40,8 @@ class OrdenEgresoController extends Controller
         $tipoProforma  = config('globalVars.TDP');
         $tipoNotaVenta = config('globalVars.TDNV');
 
-        $proformas = Proforma::getAllAuthorizedNotProcessed();
+        $proformas = Proforma::where('numero',10907)->get();
+
         $proformas->map(function ($proforma) use($tipoProforma){
 
             $proforma['tipo_id'] = $tipoProforma;
@@ -58,7 +59,7 @@ class OrdenEgresoController extends Controller
             return $notaVenta;
         });
 
-        $ordenes = $proformas->merge($notasVenta)->sortBy('created_at');
+        $ordenes = $proformas->sortBy('created_at');
 
         return view('bodega.ordenEgreso.pendingOrdenEgreso')->with(['ordenes' => $ordenes]);
     }

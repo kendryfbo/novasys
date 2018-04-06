@@ -55,8 +55,13 @@
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
 
+                    <label class="control-label col-lg-1">Fecha:</label>
+                    <div class="col-lg-2">
+                        <input class="form-control input-sm" name="fecha" type="date" value="{{$fecha}}" required readonly>
+                    </div>
+
                     <label class="control-label col-lg-1">Tamaño:</label>
-        			<div class="col-lg-1">
+        			<div class="col-lg-2">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="medida" required>
                              <option value=""> </option>
                         @foreach ($medidas as $medida)

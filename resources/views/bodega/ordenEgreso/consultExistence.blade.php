@@ -22,7 +22,7 @@
 		        <!-- form-group -->
 		        <div class="form-group">
 
-		          <label class="control-label col-lg-1">Tipo Documento:</label>
+		          <label class="control-label col-lg-1">Tipo Doc:</label>
 		          <div class="col-lg-2">
 						<input class="form-control input-sm" type="text" name="tipo_doc" value="{{$documento->tipo}}" readonly>
 		          </div>

@@ -4,6 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+use App\Models\Config\Acceso;
+use App\Models\Config\PerfilAcceso;
+
 class AuthenticationMiddleware
 {
     /**
@@ -26,13 +29,21 @@ class AuthenticationMiddleware
         // Comentar para habilitar autorizacion
         return $next($request);
 
-        $actions = $request->route()->getAction();
-        $acceso = isset($actions['prefix']) ? $actions['prefix'] : null;
+        $actions = (explode('@', $request->route()->getActionName()));
+        $actions = preg_replace('/.*\\\/', '', $actions);
+        dd($actions);
+        $controllerName = $actions[0];
+        $actionName = $actions[1];
 
-        if( $request->user()->haveAccessTo($acceso) || !$acceso ) {
+        $perfil_id = $request->user()->perfil->id;
+        $acceso_id = Acceso::where('controller',$controllerName)->where('action',$actionName)->pluck('id')->first();
+        $acceso = PerfilAcceso::where('perfil_id',$perfil_id)->where('acceso_id',$acceso_id)->pluck('acceso')->first();
+        if ($acceso) {
 
-          return $next($request);
+            return $next($request);
+        } else {
+
+            return response('Acceso No Autorizado',401);
         }
-        return response('Acceso No Autorizado',401);
     }
 }

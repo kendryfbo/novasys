@@ -58,7 +58,7 @@ Route::prefix('adquisicion')->group( function() {
 
         Route::get('/', function(){
 
-            $producto = App\Models\Producto::find(8);
+            $producto = App\Models\Producto::find(9);
             $cantidad = 70;
             $cantidadRestante = $cantidad;
             $stockPallet = App\Models\Bodega\Pallet::getStockofProd($producto->id);
@@ -70,9 +70,14 @@ Route::prefix('adquisicion')->group( function() {
             $cantidadRestante -= $stockPallet;
             // determinar si se divide las busquedas, se agrupan o no se incluyen productos en fase de ingreso
             $stockIngreso = App\Models\Bodega\Ingreso::getStockofProd($producto->id);
+            $producto->load('formula.premezcla');
 
-            $preDetalle = App\Models\PremezclaDetalle::where('prod_id',$producto->id)->first();
-            $stockPremezcla = App\Models\Bodega\Pallet::getStockofPremezcla($preDetalle->prem_id);
+            $premezcla = $producto->formula->premezcla;
+            if (!$premezcla) {
+                $stockPremezcla = 0;
+            } else {
+                $stockPremezcla = App\Models\Bodega\Pallet::getStockofPremezcla($premezcla->id);
+            }
 
             //formula debe estar aprobada
             $formulaDetalle = App\Models\Formula::with('detalle')->where('producto_id',$producto->id)->first();

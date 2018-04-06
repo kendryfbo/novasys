@@ -8,10 +8,10 @@ Route::prefix('bodega')->group( function() {
 
         //return App\Models\Bodega\Pallet::getDataForBodega(5);
         //dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
-        dd(App\Models\Bodega\Bodega::getStockFromBodega(1,4));
-        dd(App\Models\Bodega\pallet::getDataForBodega(14));
-        dd(App\Models\Bodega\Posicion::findPositionForPallet(1,9));
-        return view('bodega.bodega.test');
+        //dd(App\Models\Bodega\Bodega::getStockFromBodega(1,4));
+        //dd(App\Models\Bodega\pallet::getDataForBodega(14));
+        //dd(App\Models\Bodega\Posicion::findPositionForPallet(1,9));
+        //return view('bodega.bodega.test');
         $routes = Route::getRoutes();
         $routesFormatted = [];
 
@@ -31,7 +31,16 @@ Route::prefix('bodega')->group( function() {
             ];
             array_push($routesFormatted,$array);
         }
-        return response($routesFormatted,200);
+        //dd($routesFormatted[0]['name']);
+        //return response($routesFormatted,200);
+
+        return Excel::create('Reporte X Facturas Intl', function($excel) use ($routesFormatted) {
+            $excel->sheet('New sheet', function($sheet) use ($routesFormatted) {
+                $sheet->loadView('documents.excel.routes')
+                        ->with('routes', $routesFormatted);
+                            })->download('xlsx');
+                        });
+
     });
     // Bodega
     Route::post('/ingreso/pallet',   'Bodega\BodegaController@storePalletInPosition')->name('guardarPalletEnPosicion');
@@ -66,7 +75,7 @@ Route::prefix('bodega')->group( function() {
         // Creacion de pallet Producto Terminado
         Route::get('/PT/crear', 'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
         Route::post('/PT',      'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
-        
+
         Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
         // this should be declared in API controller

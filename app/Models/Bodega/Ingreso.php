@@ -5,6 +5,7 @@ namespace App\Models\Bodega;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Carbon\Carbon;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
@@ -101,6 +102,8 @@ class Ingreso extends Model
                 $detalle = OrdenCompraDetalle::find($item->id);
                 $detalle->recibidas = $detalle->recibidas + $item->cant_ing;
                 $detalle->save();
+                $item->fecha_venc = $item->fecha_venc ? $item->fecha_venc:null;
+
                 IngresoDetalle::create([
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $item->tipo_id,
@@ -165,7 +168,7 @@ class Ingreso extends Model
 
     static function getStockofProd($id) {
 
-        return IngresoDetalle::where('item_id',$id)->sum('por_almacenar');
+        return IngresoDetalle::where('item_id',$id)->sum('por_procesar');
     }
 
     static function getNextNumber() {

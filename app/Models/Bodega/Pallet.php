@@ -71,6 +71,7 @@ class Pallet extends Model
         $pallet = DB::transaction( function() use($request) {
 
             $items = $request->items;
+            $fechaIng = $request->fecha;
 
             $pallet = Pallet::create([
                 'numero' => $request->numero,
@@ -91,6 +92,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $item->ing_tipo_id,
                     'ing_id' => $item->ing_id,
                     'cantidad' => $cantidad,
+                    'fecha_ing' => $fechaIng,
                     'fecha_venc' => $item->fecha_venc,
                 ]);
 

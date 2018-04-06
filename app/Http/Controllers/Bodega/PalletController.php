@@ -62,8 +62,8 @@ class PalletController extends Controller
 
         $tipoMP = TipoFamilia::getMP()->id;
         $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
-        $insumos = $insumos->map(function($insumo){
 
+        $insumos = $insumos->map(function($insumo){
             $newInsumo = collect([
                 'id' => $insumo->id,
                 'tipo_id' => $insumo->tipo_id,
@@ -76,16 +76,17 @@ class PalletController extends Controller
                 'ing_id' => $insumo->ingreso->id,
                 'por_procesar' => $insumo->por_procesar
             ]);
+
             return $newInsumo;
         });
-        //dd($insumos);
 
         $medidas = PalletMedida::getAllActive();
         $numero = $this->palletNum();
         $barCode = $this->barCode($numero);
+        $fecha = Carbon::now()->format('Y-m-d');
 
         return view('bodega.pallet.createPalletMP')->with(['medidas' => $medidas,
-            'numero' => $numero, 'barCode' => $barCode, 'insumos' => $insumos
+            'numero' => $numero, 'barCode' => $barCode, 'insumos' => $insumos, 'fecha' => $fecha
         ]);
     }
     // creacion de pallet de Producto Terminado
@@ -175,7 +176,8 @@ class PalletController extends Controller
         $this->validate($request,[
             'numero' =>'required',
             'medida' => 'required',
-            'items' => 'required'
+            'items' => 'required',
+            'fecha' => 'required'
         ]);
 
         $pallet = Pallet::storePalletMP($request);

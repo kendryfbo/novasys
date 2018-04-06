@@ -16,9 +16,9 @@ class CreateAccesosTable extends Migration
         Schema::create('accesos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('descripcion');
-            $table->string('padre');
-            $table->tinyInteger('activo');
+            $table->string('modulo');
+            $table->string('controller');
+            $table->strings('action');
             $table->timestamps();
         });
     }

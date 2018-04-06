@@ -63,7 +63,7 @@
 
 			<label class="control-label col-lg-1">Emision:</label>
 			<div class="col-lg-2">
-				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{Input::old('emision')}}" required>
+				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$fecha}}" required readonly>
 			</div>
 
 			<label class="control-label col-lg-1">Area:</label>

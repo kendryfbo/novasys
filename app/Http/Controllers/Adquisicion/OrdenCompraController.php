@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Adquisicion;
 
 use PDF;
+use Carbon\Carbon;
 use App\Models\Insumo;
 use App\Models\Finanzas\Moneda;
 use App\Models\Adquisicion\Area;
@@ -43,6 +44,7 @@ class OrdenCompraController extends Controller
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
+        $fecha = Carbon::now()->format('Y-m-d');
 
         return view('adquisicion.ordenCompra.create')->with([
             'tipos' => $tipos,
@@ -51,6 +53,7 @@ class OrdenCompraController extends Controller
             'areas' => $areas,
             'productos' => $materiaPrima,
             'iva' => $iva,
+            'fecha' => $fecha,
         ]);
     }
 
