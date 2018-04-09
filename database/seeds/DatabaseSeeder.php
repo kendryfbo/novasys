@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ZonasTableSeeder::class);
 
         // Semillas de Modulo configuracion
-        $this->call(AccesosTableSeeder::class);
+        //$this->call(AccesosTableSeeder::class); -> por modificar
         $this->call(UsuarioTableSeeder::class);
         $this->call(StatusDocumentoTableSeeder::class);
         $this->call(TipoDocumentoTableSeeder::class);
