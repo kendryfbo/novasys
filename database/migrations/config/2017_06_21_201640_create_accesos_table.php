@@ -18,7 +18,7 @@ class CreateAccesosTable extends Migration
             $table->string('nombre');
             $table->string('modulo');
             $table->string('controller');
-            $table->strings('action');
+            $table->string('action');
             $table->timestamps();
         });
     }
