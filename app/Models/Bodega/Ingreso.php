@@ -166,9 +166,58 @@ class Ingreso extends Model
         });
     }
 
-    static function getStockofProd($id) {
+    static function getStockofProd($id = null) {
 
-        return IngresoDetalle::where('item_id',$id)->sum('por_procesar');
+        $PT = config('globalVars.PT');
+
+        if ($id) {
+            return IngresoDetalle::where('tipo_id',$PT)->where('item_id',$id)->sum('por_procesar');
+
+        } else {
+
+            $table = (new IngresoDetalle)->getTable();
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(por_procesar) as cantidad'))
+            ->where('tipo_id',$PT)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+        }
+    }
+
+    static function getStockofPremezcla($id = null) {
+
+        $PP = config('globalVars.PP');
+
+        if ($id) {
+            return IngresoDetalle::where('tipo_id',$PP)->where('item_id',$id)->sum('por_procesar');
+
+        } else {
+
+            $table = (new IngresoDetalle)->getTable();
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(por_procesar) as cantidad'))
+            ->where('tipo_id',$PP)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+        }
+    }
+
+    static function getStockofInsumo($id = null) {
+
+        $MP = config('globalVars.MP');
+
+        if ($id) {
+            return IngresoDetalle::where('tipo_id',$MP)->where('item_id',$id)->sum('por_procesar');
+
+        } else {
+
+            $table = (new IngresoDetalle)->getTable();
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(por_procesar) as cantidad'))
+            ->where('tipo_id',$MP)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+        }
     }
 
     static function getNextNumber() {

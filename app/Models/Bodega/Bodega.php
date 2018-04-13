@@ -6,6 +6,7 @@ use DB;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Insumo;
+use App\Models\Premezcla;
 use Illuminate\Database\Eloquent\Model;
 
 class Bodega extends Model
@@ -210,6 +211,44 @@ class Bodega extends Model
 
          $query = $query . " GROUP BY pallet_detalle.item_id,pallet_detalle.tipo_id,insumos.id, insumos.codigo, insumos.descripcion,insumos.unidad_med ORDER BY cantidad DESC";
 
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
+    static function getStockTotalPT() {
+
+    }
+    static function getStockTotalPP() {
+
+        $PP = config('globalVars.PP');
+        $tablePremezcla = (new Premezcla)->getTable();
+        $tablePalletDetalle = (new PalletDetalle)->getTable();
+        $tableIngresoDetalle = (new IngresoDetalle)->getTable();
+
+        $query = 'SELECT pre.id,pre.codigo,pre.descripcion,
+            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PP.'),0) as cant_bod,
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.'),0) as cant_ing,
+            IFNULL(((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PP.') +
+            (SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.')),0) as total
+            FROM '.$tablePremezcla.' pre';
+
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+    static function getStockTotalMP() {
+
+        $MP = config('globalVars.MP');
+        $tableInsumo = (new Insumo)->getTable();
+        $tablePalletDetalle = (new PalletDetalle)->getTable();
+        $tableIngresoDetalle = (new IngresoDetalle)->getTable();
+
+        $query = 'SELECT mp.id,mp.codigo,mp.descripcion,
+            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) as cant_bod,
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0) as cant_ing,
+            IFNULL((IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) +
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0)),0) as total,
+            0 as requerida,0 as faltante
+            FROM '.$tableInsumo.' mp';
         $results = DB::select(DB::raw($query));
         return $results;
     }

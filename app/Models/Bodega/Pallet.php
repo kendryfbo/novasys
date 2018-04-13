@@ -12,7 +12,6 @@ use App\Models\Produccion\TerminoProceso;
 
 class Pallet extends Model
 {
-
     protected $fillable= ['numero', 'medida_id', 'almacenado'];
 
     static function storeFromProduccion($request) {
@@ -134,20 +133,61 @@ class Pallet extends Model
         return $pallet;
     }
 
-    static function getStockofProd($id) {
+    static function getStockofProd($id = null) {
 
         $PT = config('globalVars.PT');
-        return PalletDetalle::where('tipo_id',$PT)->where('item_id',$id)->sum('cantidad');
+
+        if ($id) {
+
+            return PalletDetalle::where('tipo_id',$PT)->where('item_id',$id)->sum('cantidad');
+
+        } else {
+
+            $table = (new PalletDetalle)->getTable();
+
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(cantidad) as cantidad'))
+            ->where('tipo_id',$PT)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+        }
     }
-    static function getStockofPremezcla($id) {
+
+    static function getStockofPremezcla($id = null) {
 
         $PP = config('globalVars.PP');
-        return PalletDetalle::where('tipo_id',$PP)->where('item_id',$id)->sum('cantidad');
+
+        if ($id) {
+            return PalletDetalle::where('tipo_id',$PP)->groupBy('tipo_id','item_id')->sum('cantidad');
+
+        } else {
+
+            $table = (new PalletDetalle)->getTable();
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(cantidad) as cantidad'))
+            ->where('tipo_id',$PP)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+
+        }
     }
-    static function getStockofInsumo($id) {
+    static function getStockofInsumo($id = null) {
 
         $MP = config('globalVars.MP');
-        return PalletDetalle::where('tipo_id',$MP)->where('item_id',$id)->sum('cantidad');
+
+        if ($id) {
+            return PalletDetalle::where('tipo_id',$MP)->groupBy('tipo_id','item_id')->sum('cantidad');
+
+        } else {
+
+            $table = (new PalletDetalle)->getTable();
+            return DB::table($table)
+            ->select('item_id','tipo_id',DB::raw('SUM(cantidad) as cantidad'))
+            ->where('tipo_id',$MP)
+            ->groupBy('item_id','tipo_id')
+            ->get();
+
+        }
     }
     /*
     | public functions

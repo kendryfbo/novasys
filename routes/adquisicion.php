@@ -51,9 +51,7 @@ Route::prefix('adquisicion')->group( function() {
 
         Route::get('/', 'Adquisicion\PlanProduccionController@index')->name('planProduccion');
     });
-
-
-
+    
     Route::prefix('planTrabajo')->group( function(){
 
         Route::get('/', function(){
@@ -119,10 +117,6 @@ Route::prefix('adquisicion')->group( function() {
             $existencia = '';
 
             $existencia = 'en stock =' . $stockPallet;
-
-
-
-
 
         });
     });

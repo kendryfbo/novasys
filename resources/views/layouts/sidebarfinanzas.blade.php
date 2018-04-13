@@ -3,7 +3,7 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-        <li class="header">Opéraciones</li>
+        <li class="header">Finanzas</li>
         <li class="treeview menu-open">
             <a href=""><i class="fa fa-credit-card"></i> <span>Adquisiciones</span>
                 <span class="pull-right-container">
@@ -32,6 +32,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{url('adquisicion/ordenCompra')}}"><i class=""></i> <span>Orden Compra</span></a></li>
+                        <li><a href="{{route('planProduccion')}}"><i class=""></i> <span>Analisis Produccion</span></a></li>
                     </ul>
                 </li>
 

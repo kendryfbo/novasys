@@ -15,8 +15,14 @@ class PlanProduccionController extends Controller
      */
     public function index()
     {
-        $planes = [];//PlanProduccion::all();
-        return view('adquisicion.planProduccion.index')->with(['planes' => $planes]);
+        $items = [
+            ['id' => 9, 'cantidad' => 730],
+        ];
+        $plan = PlanProduccion::analisisRequerimientos($items);
+         $productos = $plan[0];
+        $insumos = $plan[1];
+        
+        return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
     }
 
     /**
