@@ -5,11 +5,13 @@ namespace App\Listeners;
 use App\Events\AuthorizedNotaVentaEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Mail\NewNotaVenta;
-use Mail;
+
 use PDF;
+use Mail;
 use Storage;
-class GenerateNotaVenta implements ShouldQueue
+use App\Mail\NewNotaVenta;
+
+class sendEmailOfAuthNotaVenta implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -30,6 +32,7 @@ class GenerateNotaVenta implements ShouldQueue
     public function handle(AuthorizedNotaVentaEvent $event)
     {
         $notaVenta = $event->notaVenta;
+
         $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
 
         $numero = $notaVenta->numero;
@@ -37,7 +40,7 @@ class GenerateNotaVenta implements ShouldQueue
 
         $fileName = 'nota_venta_'.$numero.'v'.$version;
         $path = storage_path().'/app/public/notas_ventas/'.$fileName;
-        
+
         // Creacion de Archivo PDF
         $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
         $pdf->save($path);

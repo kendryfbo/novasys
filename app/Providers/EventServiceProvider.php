@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\AuthorizedNotaVentaEvent' => [
-            'App\Listeners\GenerateNotaVenta',
+            'App\Listeners\sendEmailOfAuthNotaVenta',
         ],
         'App\Events\CreateFacturaNacionalEvent' => [
             'App\Listeners\GenerateFacturaExcel',

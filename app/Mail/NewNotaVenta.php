@@ -38,6 +38,7 @@ class NewNotaVenta extends Mailable
         $fileName = 'nota_venta_'.$numero.'v'.$version;
         $path = '/public/notas_ventas/'.$fileName;
 
+        // load pdf
         $pdf = Storage::get($path);
 
         return $this->markdown('emails.newNotaVenta')

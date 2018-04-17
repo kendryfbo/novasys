@@ -8,7 +8,7 @@ use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\FormaPagoNac;
 use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\ListaPrecio;
-
+use App\Events\AuthorizedNotaVentaEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -195,7 +195,7 @@ class NotaVentaController extends Controller
     public function authorizeNotaVenta(NotaVenta $notaVenta)
     {
         $notaVenta->authorizeComer();
-
+        event(new AuthorizedNotaVentaEvent($notaVenta));
         $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
 
         return redirect()->route('autNotaVenta')->with(['status' => $msg]);
