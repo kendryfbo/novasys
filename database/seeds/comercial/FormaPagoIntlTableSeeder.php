@@ -22,6 +22,9 @@ class FormaPagoIntlTableSeeder extends Seeder
             ['id' => 8,  'descripcion' => '60 días fecha CRT', 'dias' => 60, 'activo' => 1],
             ['id' => 9,  'descripcion' => 'Carta de credito a la vista', 'dias' => 1, 'activo' => 1],
             ['id' => 10, 'descripcion' => '100% Contra BL', 'dias' => 1, 'activo' => 1],
+            ['id' => 11, 'descripcion' => 'Contado', 'dias' => 1, 'activo' => 1],
+            ['id' => 12, 'descripcion' => '30 días fecha BL', 'dias' => 30, 'activo' => 1],
+            ['id' => 13, 'descripcion' => 'Credito 60 días', 'dias' => 60, 'activo' => 1],
         ];
 
         foreach ($formasPago as $formas) {

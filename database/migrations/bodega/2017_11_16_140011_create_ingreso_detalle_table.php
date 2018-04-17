@@ -21,8 +21,8 @@ class CreateIngresoDetalleTable extends Migration
             $table->date('fecha_ing');
             $table->date('fecha_venc')->nullable();
             $table->string('lote')->nullable();
-            $table->integer('cantidad');
-            $table->integer('por_procesar');
+            $table->double('cantidad',10,2);
+            $table->double('por_procesar',10,2);
             $table->timestamps();
         });
 

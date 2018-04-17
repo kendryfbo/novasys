@@ -213,6 +213,7 @@ class PaisTableSeeder extends Seeder
         [ 'nombre' => 'Zimbabue' , 'capital' => 'Harare', 'continente' => 'África' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Tahití' , 'capital' => 'Papeete', 'continente' => 'La Polinesia Francesa' , 'moneda' => '', 'activo' => 1 ],
         [ 'nombre' => 'Puerto Rico' , 'capital' => 'San Juan', 'continente' => 'América' , 'moneda' => '', 'activo' => 1 ],
+        [ 'nombre' => 'Curazao' , 'capital' => 'Willemstad', 'continente' => 'América' , 'moneda' => '', 'activo' => 1 ],
       ];
 
       foreach ($paises as $pais) {
