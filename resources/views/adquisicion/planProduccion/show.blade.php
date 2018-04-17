@@ -70,7 +70,7 @@
 												<td class="text-center">{{$insumo->descripcion}}</td>
 												<td class="text-right">{{$insumo->total}}</td>
 												<td class="text-right">{{$insumo->requerida}}</td>
-												<td class="text-right">{{abs($insumo->requerida - $insumo->total)}}</td>
+												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs($insumo->requerida - $insumo->total)}}</td>
 											</tr>
 										@endif
 									@endforeach
