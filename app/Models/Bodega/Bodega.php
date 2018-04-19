@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bodega extends Model
 {
+    const BOD_PREMIX_ID = 5 // Id de bodega premix virtual en tabla bodega.
 
     protected $fillable = ['descripcion', 'bloque', 'columna', 'estante', 'activo'];
 
@@ -252,6 +253,12 @@ class Bodega extends Model
         $results = DB::select(DB::raw($query));
         return $results;
     }
+
+    static getBodPremixID() {
+
+        return self::BOD_PREMIX_ID;
+    }
+    
     /*
     |
     | Public Functions

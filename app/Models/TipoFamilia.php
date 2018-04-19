@@ -29,6 +29,14 @@ class TipoFamilia extends Model
 
 		return self::find(self::PT_ID);
 	}
+	static function getInsumoID() {
+
+		return self::INSUMO_ID;
+	}
+	static function getProdTermID() {
+
+		return self::PT_ID;
+	}
 
 	// Relationships
 	public function familias(){

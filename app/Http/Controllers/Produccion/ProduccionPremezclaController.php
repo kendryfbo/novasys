@@ -136,8 +136,11 @@ class ProduccionPremezclaController extends Controller
 
         return view('produccion.premezcla.descount')->with(['prodPremezcla' => $prodPremezcla]);
     }
-    public function storeDescProdPremezcla() {
+    public function storeDescProdPremezcla($id) {
 
+        $bodega = Bodega::getBodPremixID();
+
+        $descount = ProduccionPremezcla::descountFromBod($id, $bodega)
     }
 
 }

@@ -55,6 +55,18 @@ class ProduccionPremezcla extends Model
         },5);
     }
 
+    static function descountFromBod($prodPremID,$bodega) {
+
+        $prodPrem = ProduccionPremezcla::with('detalles')->where('id',$prodPremID)->first();
+
+
+        $descProdPrem = DB::transaction( function() use($prodPremID,$bodega) {
+
+            $tipoProd = TipoFamilia::getInsumoID();
+
+        });
+
+    }
     // Relationships
 
     public function detalles() {
