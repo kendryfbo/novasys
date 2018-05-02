@@ -10,9 +10,11 @@ use App\Models\Adquisicion\Area;
 use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Adquisicion\Proveedor;
+use App\Models\Config\StatusDocumento;
 use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Adquisicion\OrdenCompraTipo;
 use App\Models\Adquisicion\OrdenCompraDetalle;
+
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -107,9 +109,15 @@ class OrdenCompraController extends Controller
      */
     public function edit($numero)
     {
+        $pendiente = StatusDocumento::pendienteID();
         $ordenCompra = OrdenCompra::with('detalles')->where('numero',$numero)->first();
 
-        if ($ordenCompra->aut_contab) {
+        if ($ordenCompra->status_id != $pendiente) {
+
+            $msg = "Orden Compra Nº". $ordenCompra->numero . " No puede Editarse porque ya ha sido ingresada";
+            return redirect()->route('ordenCompra')->with(['status' => $msg,'tipo' => 'danger']);
+
+        } else if ($ordenCompra->aut_contab) {
 
             $msg = 'Orden Compra Numero N°' . $ordenCompra->numero . ' Ya ha sido Autorizada, no se puede modificar.';
             return redirect()->route('ordenCompra')->with(['status' => $msg]);
@@ -173,7 +181,16 @@ class OrdenCompraController extends Controller
      */
     public function destroy(OrdenCompra $ordenCompra)
     {
+        $pendiente = StatusDocumento::pendienteID();
+        
+        if ($ordenCompra->status_id != $pendiente) {
+
+            $msg = "Orden Compra Nº". $ordenCompra->numero . " No puede eliminarse porque ya ha sido ingresada";
+            return redirect()->route('ordenCompra')->with(['status' => $msg,'tipo' => 'danger']);
+        }
+
         $ordenCompra->delete();
+
         $msg = "Orden Compra Nº". $ordenCompra->numero . " ha sido Eliminada";
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }

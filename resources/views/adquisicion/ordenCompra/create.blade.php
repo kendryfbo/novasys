@@ -143,16 +143,17 @@
           </div>
 
 		  <label class="control-label col-lg-1">Producto:</label>
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <select id="prodSelect" class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="prodId" @change="loadProducto" :disabled="itemSelected">
 				<option value=""></option>
-				<option v-if="productos" v-for="producto in productos" v-bind:value="producto.id">@{{producto.descripcion}}</option>
+				<option v-if="productos" v-for="producto in productos" v-bind:value="producto.id">@{{producto.codigo +' - '+ producto.descripcion}}</option>
             </select>
           </div>
 
 		  <label class="control-label col-lg-1">Ult.Precio:</label>
 		  <div class="col-lg-1">
-        	<input class="form-control input-sm" type="text" v-model.lazy="ultPrecio" readonly>
+        	<input class="form-control input-sm" type="hidden" v-model.lazy="ultPrecio" readonly>
+        	<input class="form-control input-sm" type="text" :value="ultPrecio.toLocaleString('de-DE')" readonly>
           </div>
 
         </div>

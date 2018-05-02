@@ -235,13 +235,13 @@ class OrdenCompra extends Model
 
     public function complete() {
 
-        $this->status_id = 3; // importar desde global vars o tabla orden_compra_status
+        $this->status_id = StatusDocumento::completaID();
         $this->save();
     }
 
     public function incomplete() {
 
-        $this->status_id = 1; // importar desde global vars o tabla orden_compra_status
+        $this->status_id = StatusDocumento::ingresadaID();
         $this->save();
     }
 

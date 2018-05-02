@@ -12,16 +12,16 @@
 		<!-- box-body -->
 		<div class="box-body">
 
-			<!-- form unauthorize-->
+			<!-- form complete-->
 			<form id="complete" action="{{route('ordenCompraCompleta',['ordenCompra' => $ordenCompra->id])}}" method="post">
 				{{csrf_field()}}
 			</form>
-			<!-- /form unauthorize-->
-			<!-- form authorize-->
+			<!-- /form complete-->
+			<!-- form incomplete-->
 			<form id="incomplete" action="{{route('ordenCompraIncompleta',['ordenCompra' => $ordenCompra->id])}}" method="post">
 				{{csrf_field()}}
 			</form>
-			<!-- /form authorize-->
+			<!-- /form incomplete-->
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarOrdenCompra')}}">
 
@@ -37,14 +37,26 @@
 				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->numero}}" readonly>
 			</div>
 			<label class="control-label col-lg-1">Status:</label>
-			<div class="col-lg-2">
+			<div class="col-lg-1">
 				<input class="form-control input-sm" type="text" name="numero" value="{{$ordenCompra->status->descripcion}}" readonly>
 			</div>
 
-			<div class="col-lg-2 col-lg-offset-3 btn-group">
-				<button form="complete" type="submit" class="btn btn-success btn-sm">Completar</button>
-				<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
+			<div class="col-lg-2">
+				<div class="btn-group" role="group" aria-label="...">
+					<button form="complete" type="submit" class="btn btn-success btn-sm">Completar</button>
+					<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
+				</div>
 			</div>
+			<div class="col-lg-1 col-lg-offset-4 btn-group">
+				@if ($ordenCompra->aut_contab == null)
+					<span class="label label-warning">PENDIENTE</span>
+				@elseif ($ordenCompra->aut_contab == 1)
+					<span class="label label-success">AUTORIZADA</span>
+				@elseif ($ordenCompra->aut_contab == 0)
+					<span class="label label-danger">NO AUTORIZADA</span>
+				@endif
+			</div>
+
 
 			<div class="col-lg-1">
 				<button form="download" class="btn btn-default btn-sm" type="submit" name="button"><i class="fa fa-download" aria-hidden="true"></i> Descargar</button>

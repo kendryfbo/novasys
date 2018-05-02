@@ -51,17 +51,20 @@
 							<td class="text-center">{{$ordenCompra->moneda}}</td>
 							<td class="text-center">{{$ordenCompra->tipo->descripcion}}</td>
 							<td class="text-center">{{$ordenCompra->status->descripcion}}</td>
-							<td class="text-center">
-								@if (is_null($ordenCompra->aut_contab))
-									Pendiente
-								@elseif ($ordenCompra->aut_contab == 0)
-									No
-								@else
-									Si
-								@endif
+							@if (is_null($ordenCompra->aut_contab))
+							<td class="text-center warning">
+								Pendiente
 							</td>
+							@elseif ($ordenCompra->aut_contab == 0)
+								<td class="text-center danger">
+									No
+								</td>
+							@else
+								<td class="text-center success">
+									Si
+								</td>
+							@endif
 							<td class="text-center">
-							@if (!$ordenCompra->aut_contab)
 								<form style="display: inline" action="{{route('editarOrdenCompra',['numero' => $ordenCompra->numero])}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
@@ -74,7 +77,6 @@
 										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Eliminar
 									</button>
 								</form>
-							@endif
 							</td>
 						</tr>
 					@endforeach
