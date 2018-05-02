@@ -276,6 +276,46 @@ class Ingreso extends Model
 
     /*
     |
+    | Public functions
+    |
+    */
+
+    public function deleteIngOC() {
+
+        DB::transaction( function() {
+
+            $ordenCompra = OrdenCompra::with('detalles')->find($this->item_id);
+
+            //si no encuentra orden de compra finaliza la ejecucion
+            if (!$ordenCompra) {
+
+                $this->delete();
+                return;
+            }
+
+            foreach ($this->detalles as $detalleIngreso) {
+
+                foreach ($ordenCompra->detalles as $detalleOC) {
+
+                    if ($detalleIngreso->tipo_id == $detalleOC->tipo_id && $detalleIngreso->item_id == $detalleOC->item_id) {
+
+                        $resta = $detalleOC->recibidas -  $detalleIngreso->cantidad;
+                        $detalleOC->recibidas = $resta < 0 ? 0: $resta;
+                        $detalleOC->save();
+                        break;
+                    }
+                }
+            }
+            $ordenCompra->updateStatus();
+            $this->delete();
+        },5);
+    }
+
+
+
+
+    /*
+    |
     | Relationships
     |
     */

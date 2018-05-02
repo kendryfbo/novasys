@@ -6,11 +6,85 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
+        $nivelPremix = 2;
+        $formulas = App\Models\Formula::with('producto')->where('autorizado',1)->get();
+        $formulas->load(['detalle' => function ($query) use ($nivelPremix){
+            $query->where('nivel_id',$nivelPremix);
+        }]);
+
+        $premezclaNum = 0;
+
+        foreach ($formulas as &$formulaUno) {
+
+            if($formulaUno->premezcla_num) {
+                continue;
+            }
+            $premezclaNum++;
+
+            $formulaUno->premezcla_num = $premezclaNum;
+
+            foreach ($formulas as &$formulaDos) {
+
+                if($formulaDos->premezcla_num) {
+                    continue;
+                }
+
+                $detalleUno = $formulaUno->detalle;
+                $detalleDos = $formulaDos->detalle;
+
+                $formulasIguales = true;
+
+                if (count($detalleUno) == count($detalleDos)) {
+
+                    foreach ($detalleUno as $uno) {
+                        $detIguales = false;
+                        foreach ($detalleDos as $dos) {
+
+                            $detIguales = false;
+                            if ($uno->insumo_id == $dos->insumo_id) {
+                                $detIguales = true;
+                                break;
+                            }
+                        }
+
+                        if (!$detIguales) {
+                            $formulasIguales = false;
+                            break;
+                        }
+                    }
+                } else {
+
+                    $formulasIguales = false;
+                }
+
+                //dump("formulaUno ".$formulaUno->id,"formulaDos ".$formulaDos->id);
+                if ($formulasIguales) {
+                    $formulaDos->premezcla_num = $formulaUno->premezcla_num;
+                    //dump('son iguales');
+                } else {
+
+                    //dump('no son iguales');
+                }
+            }
+        }
+
+        $groupByPrem = $formulas->groupBy('premezcla_num');
+
+        foreach ($groupByPrem as $premezcla) {
+            dump('--------------------GRUPO DE PREMEZCLA--------------------');
+            foreach ($premezcla as $item) {
+                dump($item->producto->descripcion);
+            }
+        }
+        dd('fin');
+
         //return App\Models\Bodega\Pallet::getDataForBodega(5);
         //dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
         //dd(App\Models\Bodega\Bodega::getStockFromBodega(1,4));
         //dd(App\Models\Bodega\pallet::getDataForBodega(14));
-        //dd(App\Models\Bodega\Posicion::findPositionForPallet(1,9));
+        $posicion = App\Models\Bodega\Posicion::findPositionForPallet(2,16);
+        $posicion = App\Models\Bodega\Posicion::with('status')->find($posicion->id);
+        dd($posicion);
         //return view('bodega.bodega.test');
         $routes = Route::getRoutes();
         $routesFormatted = [];
@@ -55,8 +129,12 @@ Route::prefix('bodega')->group( function() {
     Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
 
     // Reportes
-    Route::get('/reporte',           'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
-    Route::post('/reporte',          'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+    Route::get('/reporte',          'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+    Route::post('/reporte',         'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+    Route::post('/reporte/excel',   'Bodega\BodegaReportController@donwloadBodegaReportExcel')->name('reporteBodegaExcel');
+    Route::get('/stock',            'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
+    Route::post('/stock',           'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
+    Route::post('/stock/reporte',   'Bodega\BodegaReportController@donwloadStockTotalReportExcel')->name('descargarReportStockTotalExcel');
 
     // Resourse Posiciones
     Route::post('/posicion/moverPallet', 'Bodega\PosicionController@changePositionPallet')->name('cambiarPosicionPallet');
@@ -67,19 +145,19 @@ Route::prefix('bodega')->group( function() {
 
         Route::get('/',                   'Bodega\PalletController@index')->name('palletPorIngresar');
         Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
-        Route::post('/findPosition',      'Bodega\PalletController@position')->name('position'); // TEST
         // Creacion de pallet Materia Prima
         Route::get('/MateriaPrima/crear', 'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
         Route::post('/MateriaPrima',      'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
         Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
         // Creacion de pallet Producto Terminado
-        Route::get('/PT/crear', 'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
-        Route::post('/PT',      'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
+        Route::get('/PT/crear',            'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
+        Route::post('/PT',                 'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
 
-        Route::get('/{pallet}',           'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
+        Route::get('/{pallet}',            'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
 
         // this should be declared in API controller
-        Route::post('/data',       'Bodega\PalletController@apiData')->name('palletData');
+        Route::post('/findPosition',       'Bodega\PalletController@position')->name('position'); // TEST
+        Route::post('/data',               'Bodega\PalletController@apiData')->name('palletData');
 
     });
 

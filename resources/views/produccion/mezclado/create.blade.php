@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Produccion Premezcla</h4>
+			<h4>Produccion Mezclado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->

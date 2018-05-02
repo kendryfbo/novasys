@@ -40,7 +40,7 @@
 
                     <label class="control-label col-lg-1">Cliente:</label>
         			<div class="col-lg-5">
-						<input class="form-control input-sm" name="medida" type="text" value="{{$ordenEgreso->documento->cliente}}" required readonly>
+						<input class="form-control input-sm" name="medida" type="text" value="{{$ordenEgreso->documento->cliente->descripcion}}" required readonly>
         			</div>
 
 

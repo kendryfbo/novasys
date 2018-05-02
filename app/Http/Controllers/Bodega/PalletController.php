@@ -62,7 +62,6 @@ class PalletController extends Controller
 
         $tipoMP = TipoFamilia::getMP()->id;
         $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
-
         $insumos = $insumos->map(function($insumo){
             $newInsumo = collect([
                 'id' => $insumo->id,
@@ -73,6 +72,8 @@ class PalletController extends Controller
                 'unidad_med' => $insumo->insumo->unidad_med,
                 'fecha_venc' => $insumo->fecha_venc,
                 'ing_tipo_id' => $insumo->ingreso->tipo_id,
+                'ing_id' => $insumo->ingreso->id,
+                'ing_num' => $insumo->ingreso->numero,
                 'ing_id' => $insumo->ingreso->id,
                 'por_procesar' => $insumo->por_procesar
             ]);

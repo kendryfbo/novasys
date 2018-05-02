@@ -25,7 +25,7 @@
                     <td>Documento: <strong>{{$ordenEgreso->tipo_descrip}}</strong></td>
                 </tr>
                 <tr>
-                    <td>Cliente: <strong>{{$ordenEgreso->documento->cliente}}</strong></td>
+                    <td>Cliente: <strong>{{$ordenEgreso->documento->cliente->descripcion}}</strong></td>
                 </tr>
             </table>
         </div>
@@ -34,15 +34,17 @@
             <table class="table" width="100%">
                 <<thead>
                     <tr>
-                        <th class="text-center">UBICACION</th>
+                        <th class="text-center">BODEGA</th>
+                        <th class="text-center">POS</th>
                         <th class="text-center">DESCRIPCION</th>
-                        <th class="text-center">CANTIDAD</th>
-                        <th class="text-center">ORDEN CARGA</th>
+                        <th class="text-center">CANT</th>
+                        <th class="text-center">CARGA</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($ordenEgreso->detalles as $detalle)
                         <tr>
+                            <td class="text-left">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
                             <td class="text-left">{{$detalle->item->descripcion}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>

@@ -26,6 +26,19 @@ Route::prefix('produccion')->group( function(){
         Route::post('/{id}',          'Produccion\ProduccionPremezclaController@storeDescProdPremezcla')->name('guardarDescProdPremezcla');
 
     });
+
+    // Produccion Mezclado
+    Route::prefix('mezclado')->group(function() {
+
+        Route::post('/',              'Produccion\ProduccionMezcladoController@store')->name('guardarProduccionMezclado');
+        Route::get('/',               'Produccion\ProduccionMezcladoController@index')->name('produccionMezclado');
+        Route::get('/crear',          'Produccion\ProduccionMezcladoController@create')->name('crearProduccionMezclado');
+        Route::get('/{id}/edit',      'Produccion\ProduccionMezcladoController@edit')->name('editarProduccionMezclado');
+        Route::delete('/{id}',        'Produccion\ProduccionMezcladoController@destroy')->name('eliminarProduccionMezclado');
+        Route::get('/{id}/descontar', 'Produccion\ProduccionMezcladoController@createDescProdMezclado')->name('crearDescProdMezclado');
+        Route::post('/{id}',          'Produccion\ProduccionMezcladoController@storeDescProdMezclado')->name('guardarDescProdMezclado');
+
+    });
 });
 
 

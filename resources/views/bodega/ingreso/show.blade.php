@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Ingreso Orden Compra</h4>
+			<h4>Ingreso</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -95,7 +95,8 @@
 	                <th class="text-center">CANTIDAD</th>
 	                <th class="text-center">POR PROCESAR</th>
 	                <th class="text-center">LOTE</th>
-	                <th class="text-center">VENCIMIENTO</th>
+	                <th class="text-center">FECHA ING.</th>
+	                <th class="text-center">FECHA VENC.</th>
           		</tr>
             </thead>
 
@@ -108,6 +109,7 @@
 					<td class="text-right">{{$detalle->cantidad}}</td>
 					<td class="text-right">{{$detalle->por_procesar}}</td>
 					<td class="text-center">{{$detalle->lote}}</td>
+					<td class="text-center">{{$detalle->fecha_ing}}</td>
 					<td class="text-center">{{$detalle->fecha_venc}}</td>
 				</tr>
 				@endforeach

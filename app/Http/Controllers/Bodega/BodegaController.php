@@ -167,7 +167,9 @@ class BodegaController extends Controller
         ]);
         $pos_id = $request->posicion;
         $pallet_id = $request->pallet;
-
+        $pallet = Pallet::find($pallet_id);
+        $pallet->almacenado = 1;
+        $pallet->save();
         $posicion = Posicion::find($pos_id);
         $posicion->pallet_id = $pallet_id;
         $posicion->status_id = 3;

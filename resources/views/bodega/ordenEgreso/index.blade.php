@@ -29,6 +29,7 @@
                 </ul>
               </div>
               <a class="btn btn-primary" href="{{route('ordenEgresoPendientes')}}">Orden Egreso</a>
+              <a class="btn btn-primary" href="{{route('ordenEgresoPendientes')}}">Egreso a bodega</a>
             </div>
 		</div>
 		<!-- box-body -->

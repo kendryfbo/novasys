@@ -83,6 +83,7 @@ class Pallet extends Model
                 $item = json_decode($item);
 
                 $cantidad = $item->cantidad;
+                $fechaVenc = null;// $item->fecha_venc ? $item->fecha_venc : null; // no esta registrando fecha de vencimiento - Corregir
 
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
@@ -92,7 +93,7 @@ class Pallet extends Model
                     'ing_id' => $item->ing_id,
                     'cantidad' => $cantidad,
                     'fecha_ing' => $fechaIng,
-                    'fecha_venc' => $item->fecha_venc,
+                    'fecha_venc' => $fechaVenc,
                 ]);
 
                 $detalle = IngresoDetalle::with('ingreso')->find($item->id);

@@ -9,7 +9,7 @@ use DB;
 class Insumo extends Model
 {
 
-	protected $fillable = ['codigo', 'descripcion', 'familia_id', 'unidad_med', 'stock_min', 'stock_max', 'activo'];
+	protected $fillable = ['codigo', 'descripcion', 'familia_id', 'unidad_med', 'stock_min', 'stock_max', 'alerta_bod', 'activo'];
 
 	static function getAllActive() {
 

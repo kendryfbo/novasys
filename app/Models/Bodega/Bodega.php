@@ -3,15 +3,18 @@
 namespace App\Models\Bodega;
 
 use DB;
+use App\Models\Insumo;
+use App\Models\Producto;
+use App\Models\Premezcla;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletDetalle;
-use App\Models\Insumo;
-use App\Models\Premezcla;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Bodega extends Model
 {
-    const BOD_PREMIX_ID = 5 // Id de bodega premix virtual en tabla bodega.
+    const BOD_PREMIX_ID = 5; // Id de bodega premix virtual en tabla bodega.
 
     protected $fillable = ['descripcion', 'bloque', 'columna', 'estante', 'activo'];
 
@@ -89,8 +92,8 @@ class Bodega extends Model
             WHERE tipo_id=4
             AND item_id=". $productoId . " AND pallet_id
             IN (SELECT pallet_id FROM posicion WHERE bodega_id=" . $bodegaId . " AND status_id=3)
-            GROUP BY item_id";
-            return response($query,200);
+            GROUP BY item_id LIMIT 1";
+
         } else {
 
             $query = "SELECT SUM(cantidad) AS cantidad FROM pallet_detalle
@@ -254,11 +257,75 @@ class Bodega extends Model
         return $results;
     }
 
-    static getBodPremixID() {
+    static function getStockTotal($tipoReporte = NULL,$tipo = NULL) {
+
+        $results = [];
+
+        if ($tipoReporte == 1) {
+            $query = "SELECT id.tipo_id,id.item_id,
+            IFNULL((select SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0) as cantidad
+            from ingreso_detalle as id";
+
+        } else if ($tipoReporte == 2) {
+
+            $query = "SELECT pd.tipo_id,pd.item_id,
+            IFNULL((select SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=pd.tipo_id and pallet_detalle.item_id=pd.item_id),0) as cantidad
+            from pallet_detalle as pd";
+
+        } else {
+
+            $query = "SELECT id.tipo_id,id.item_id,
+                (IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+
+                IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)) as cantidad
+                from ingreso_detalle as id
+                join pallet_detalle as pd using (tipo_id,tipo_id) ";
+        }
+
+
+        if ($tipo) {
+            $query = $query . " WHERE tipo_id=" . $tipo;
+        }
+
+        $query = $query . " GROUP BY item_id,tipo_id";
+
+        //dd($query);
+        $results = DB::select(DB::raw($query));
+
+
+        $insumo = TipoFamilia::getInsumoID();
+        $prodTerm = TipoFamilia::getProdTermID();
+        $premezcla = TipoFamilia::getPremezclaID();
+
+        foreach ($results as $item) {
+
+            if ($item->tipo_id == $insumo) {
+
+                $item->producto = Insumo::find($item->item_id);
+
+            } else if ($item->tipo_id == $prodTerm) {
+
+                $item->producto = Producto::find($item->item_id);
+
+            } else if ($item->tipo_id == $premezcla) {
+
+                $item->producto = Premezcla::find($item->item_id);
+            } else {
+                dd(['ERROR' => 'ERROR en la busqueda de producto',
+                    'tipo_id' => $item->tipo_id,
+                    'item_id' => $item->item_id]);
+            }
+
+        }
+
+        return $results;
+    }
+
+
+    static function getBodPremixID() {
 
         return self::BOD_PREMIX_ID;
     }
-    
+
     /*
     |
     | Public Functions

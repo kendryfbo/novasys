@@ -85,10 +85,12 @@
                 <div class="form-group">
 
                     <label class="control-label col-lg-1">Producto:</label>
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion + ' Por Procesar: ' + insumo.por_procesar}}</option>
+						    <option v-for="insumo in insumos" :value="insumo.id">
+								@{{'Ingreso N°'+insumo.ing_num+' - '+insumo.codigo +' - '+insumo.descripcion + ' - Cantidad: ' + insumo.por_procesar}}
+							</option>
                         </select>
                     </div>
 

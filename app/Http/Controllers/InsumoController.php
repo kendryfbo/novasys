@@ -46,7 +46,7 @@ class InsumoController extends Controller
             'codigo' => 'required|unique:insumos',
             'descripcion' => 'required',
             'familia' => 'required',
-            'unidad' => 'required'
+            'unidad' => 'required',
         ]);
         $activo = !empty($request->activo);
 
@@ -57,6 +57,7 @@ class InsumoController extends Controller
             'unidad_med' => $request->unidad,
             'stock_min' => $request->stock_min,
             'stock_max' => $request->stock_max,
+            'alerta_bod' => $request->alerta_bod,
             'activo' => $activo
         ]);
 
@@ -115,6 +116,7 @@ class InsumoController extends Controller
         $insumo->unidad_med = $request->unidad;
         $insumo->stock_min = $request->stock_min;
         $insumo->stock_max = $request->stock_max;
+        $insumo->alerta_bod = $request->alerta_bod;
         $insumo->activo = $activo;
 
         $insumo->save();
@@ -132,11 +134,17 @@ class InsumoController extends Controller
      */
     public function destroy(Insumo $insumo)
     {
+        $msg = 'No implementado. Favor comuniquese con administrador de sistema.';
+
+        return redirect()->route('insumos')->with(['status' => $msg]);
+        // deshabilitado hasta verificar que el insumo no posee stock activo
+        /*
         Insumo::destroy($insumo->id);
 
         $msg = "Insumo: " . $insumo->descripcion . " ha sido Eliminado.";
 
         return redirect(route('insumos'))->with(['status' => $msg]);
+        */
     }
 
     public function getInsumos(Request $request) {

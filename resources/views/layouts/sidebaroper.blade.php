@@ -44,7 +44,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-
+                        <li><a href="{{route('reporteStockTotal')}}"><i class=""></i> <span>Stock</span></a></li>
                     </ul>
                 </li>
 
@@ -78,6 +78,7 @@
                         <li><a href="{{url('produccion/terminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
                         <li><a href="{{url('bodega/creacionPalletProduccion')}}"><i class=""></i> <span>Creacion Pallet</span></a></li>
                         <li><a href="{{url('produccion/premezcla')}}"><i class=""></i> <span>Prod. Premezcla</span></a></li>
+                        <li><a href="{{url('produccion/mezclado')}}"><i class=""></i> <span>Prod. Mezclado</span></a></li>
                     </ul>
                 </li>
 

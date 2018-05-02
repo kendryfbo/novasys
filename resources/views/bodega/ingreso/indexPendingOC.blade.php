@@ -1,4 +1,4 @@
-@extends('layouts.masterFinanzas')
+@extends('layouts.masterOperaciones')
 
 @section('content')
 	<!-- box -->

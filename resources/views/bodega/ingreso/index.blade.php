@@ -60,6 +60,7 @@
 						<th class="text-center">numero</th>
 						<th class="text-center">descripcion</th>
 						<th class="text-center">Tipo Ingreso</th>
+						<th class="text-center">Status</th>
 						<th class="text-center">fecha</th>
 						<th class="text-center">Usuario</th>
 						<th class="text-center">Opciones</th>
@@ -72,6 +73,7 @@
                             <td class="text-center">{{$ingreso->numero}}</td>
 							<td class="text-left">{{$ingreso->descripcion}}</td>
 							<td class="text-center">{{$ingreso->tipo->descripcion}}</td>
+							<td class="text-center">{{$ingreso->status->descripcion}}</td>
 							<td class="text-center">{{$ingreso->fecha_ing}}</td>
 							<td class="text-center">{{$ingreso->usuario->nombre}}</td>
 							<td class="text-center">

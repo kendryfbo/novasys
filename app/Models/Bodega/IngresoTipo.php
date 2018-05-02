@@ -2,6 +2,7 @@
 
 namespace App\Models\Bodega;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class IngresoTipo extends Model
