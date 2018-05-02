@@ -19,7 +19,7 @@ class FacturaIntlController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaIntl::orderBy('numero')->take(20)->get();
+        $facturas = FacturaIntl::orderBy('numero')->get();
 
         return view('comercial.facturaIntl.index')->with(['facturas' => $facturas]);
     }
@@ -73,6 +73,13 @@ class FacturaIntlController extends Controller
         ]);
         */
 
+        if (FacturaIntl::where('numero',$request->numero)->first()) {
+
+            $msg = 'Numero de Factura ya existe.';
+            
+            return redirect()->route('FacturaIntl')->with(['status' => $msg]);
+        }
+
         $date = new Carbon($request->emision);
         $date->addDays($request->diasFormaPago);
         $date = $date->format('Y-m-d');
@@ -83,7 +90,7 @@ class FacturaIntlController extends Controller
 
         $msg = 'Factura N°' . $factura->numero . ' ha sido creada.';
 
-        return redirect()->route('FacturaIntl');
+        return redirect()->route('FacturaIntl')->with(['status' => $msg]);
     }
 
     /**

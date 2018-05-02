@@ -19,6 +19,9 @@
         <!-- box-body -->
         <div class="box-body">
 
+			<form id="download" action="{{route('descargarFacturaNac',['factura' => $factura->id])}}" method="get">
+				{{ csrf_field() }}
+			</form>
             <!-- form-horizontal -->
             <div class="form-horizontal">
 
@@ -35,6 +38,10 @@
                     <div class="col-lg-1">
                         <input class="form-control" type="text" name="numNV" value="{{$factura->numero_nv}}" readonly>
                     </div>
+
+					<div class="col-lg-1">
+						<button form="download" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i>Descargar</button>
+					</div>
 
                 </div>
 

@@ -30,7 +30,7 @@ class FacturaNacionalController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaNacional::orderBy('numero')->take(20)->get();
+        $facturas = FacturaNacional::orderBy('numero')->get();
 
         return view('comercial.facturasNacionales.index')->with(['facturas' => $facturas]);
     }
@@ -125,6 +125,12 @@ class FacturaNacionalController extends Controller
             'vendedor' => 'required'
         ]);
 
+        if (FacturaNacional::where('numero',$request->numero)->first()) {
+
+            $msg = 'Numero de Factura ya existe.';
+            return redirect()->route('factNac')->with(['status' => $msg]);
+        }
+
         $date = new Carbon($request->fechaEmision);
         $date->addDays($request->diasFormaPago);
         $date = $date->format('Y-m-d');
@@ -186,6 +192,11 @@ class FacturaNacionalController extends Controller
         $msg = "Factura: " . $factura->numero . " ha sido Eliminada.";
 
         return redirect()->route('factNac')->with(['status' => $msg]);
+    }
+
+    public function download(FacturaNacional $factura) {
+
+        dd("Pendiente por implementar");
     }
 
 }

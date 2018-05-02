@@ -21,7 +21,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-      $proformas = Proforma::with('cliente')->orderBy('numero','desc')->take(20)->get();
+      $proformas = Proforma::with('cliente')->orderBy('numero','desc')->get();
 
       return view('comercial.proforma.index')->with(['proformas' => $proformas]);
     }
@@ -208,14 +208,23 @@ class ProformaController extends Controller
      */
     public function destroy(Proforma $proforma)
     {
-        //
+        $numero = $proforma->numero;
+
+        if (!$proforma->isAuthorized()) {
+
+            $proforma->delete();
+            $msg = "Proforma N°". $numero . " ha sido Eliminada.";
+        }
+        $msg = "Proforma N°". $numero . " No ha podido ser Eliminada.";
+
+        return redirect()->route('proforma')->with(['status' => $msg]);
     }
 
     /* Lista de Proformas Por Autorizar */
     public function authorization() {
 
         $proformas = Proforma::getAllUnathorized();
-
+        
         return view('comercial.proforma.authorization')->with(['proformas' => $proformas]);
     }
 

@@ -106,7 +106,7 @@
 								<th class="text-center" v-text="(key+1)"></th>
 								<td>@{{ item.producto.codigo }}</td>
 								<td>@{{ item.producto.descripcion }}</td>
-								<td>@{{ item.precio }}</td>
+								<td class="text-right">@{{ item.precio }}</td>
 								<td class="text-center">
 									<button class="btn btn-sm" type="button" @click="deleteDetalle(item.id)">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>

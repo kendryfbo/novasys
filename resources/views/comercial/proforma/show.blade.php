@@ -68,7 +68,7 @@
 
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
-			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente}}" readonly>
+			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente->descripcion}}" readonly>
           </div>
 
 					<label class="control-label col-lg-2">Condicion Pago:</label>

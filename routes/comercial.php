@@ -47,13 +47,14 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   // Resource Factura Nacionale
   Route::prefix('facturasNacionales')->group(function(){
 
-      Route::get('/',           'Comercial\FacturaNacionalController@index')->name('factNac');
-      Route::get('/crear',      'Comercial\FacturaNacionalController@create')->name('crearFactNac');
-      Route::post('/crear',     'Comercial\FacturaNacionalController@createFromNV')->name('crearFactNacFromNV');
-      Route::get('/{factura}',     'Comercial\FacturaNacionalController@show')->name('verFactNac');
-      Route::post('/guardar',   'Comercial\FacturaNacionalController@store')->name('guardarFactNac');
-      Route::post('/guardarNV', 'Comercial\FacturaNacionalController@storeFromNV')->name('guardarFactNacFromNV');
-      Route::delete('/{factura}', 'Comercial\FacturaNacionalController@destroy')->name('eliminarFactNac');
+      Route::get('/',                    'Comercial\FacturaNacionalController@index')->name('factNac');
+      Route::get('/crear',               'Comercial\FacturaNacionalController@create')->name('crearFactNac');
+      Route::post('/crear',              'Comercial\FacturaNacionalController@createFromNV')->name('crearFactNacFromNV');
+      Route::get('/{factura}',           'Comercial\FacturaNacionalController@show')->name('verFactNac');
+      Route::get('/{factura}/descargar', 'Comercial\FacturaNacionalController@download')->name('descargarFacturaNac');
+      Route::post('/guardar',            'Comercial\FacturaNacionalController@store')->name('guardarFactNac');
+      Route::post('/guardarNV',          'Comercial\FacturaNacionalController@storeFromNV')->name('guardarFactNacFromNV');
+      Route::delete('/{factura}',        'Comercial\FacturaNacionalController@destroy')->name('eliminarFactNac');
   });
 
   // Resource Forma de Pago Nacional
