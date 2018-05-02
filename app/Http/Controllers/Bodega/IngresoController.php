@@ -332,7 +332,13 @@ class IngresoController extends Controller
             $msg = 'Ingreso Nº' . $ingreso->numero . ' No puede ser eliminado ya que fue procesado.';
         } else {
 
-            $ingreso->delete();
+            // si ingreso es por orden de compra devolver cantidades restadas a orden de compra
+            if ($ingreso->tipo_id == IngresoTipo::ordenCompraID()) {
+
+                $ingreso->deleteIngOC();
+            } else {
+                $ingreso->delete();
+            }
             $msg = 'Ingreso Nº' . $ingreso->numero . ' ha sido Eliminado.';
         }
 

@@ -21,13 +21,11 @@
 		<div class="box-body">
 
 			<!-- form -->
-			<form id="download" action="{{route('descargarReportFactExcel')}}" method="post">
+			<form id="download" action="{{route('reporteBodegaExcel')}}" method="post">
 				{{ csrf_field() }}
 
-				<input type="hidden" name="pais" value="{{$busqueda ? $busqueda->pais : ''}}">
-				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
-				<input type="hidden" name="desde" value="{{$busqueda ? $busqueda->desde : ''}}">
-				<input type="hidden" name="hasta" value="{{$busqueda ? $busqueda->hasta : ''}}">
+				<input type="hidden" name="bodega" value="{{$bodega}}">
+				<input type="hidden" name="tipo" value="{{$tipo}}">
 			</form>
 			<!-- /form -->
 			<!-- form -->
@@ -44,9 +42,9 @@
 
 						<option value="">Todas...</option>
 
-						@foreach ($bodegas as $bodega)
+						@foreach ($bodegas as $bod)
 
-							<option value="{{$bodega->id}}">{{$bodega->descripcion}}</option>
+							<option {{$bod->id == $bodega ? 'selected':''}} value="{{$bod->id}}">{{$bod->descripcion}}</option>
 
 						@endforeach
 
@@ -59,9 +57,9 @@
 
 							<option value="">Todos...</option>
 
-							@foreach ($tiposProducto as $tipo)
+							@foreach ($tiposProducto as $tp)
 
-								<option value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
+								<option {{$tp->id == $tipo ? 'selected':''}} value="{{$tp->id}}">{{$tp->descripcion}}</option>
 
 							@endforeach
 
@@ -113,7 +111,7 @@
 							<td class="text-center">{{$producto->producto->codigo}}</td>
 							<td class="text-left">{{$producto->producto->descripcion}}</td>
 							<td class="text-left">{{$producto->cantidad}}</td>
-							<td class="text-center">ASD</td>
+							<td class="text-center warning">pendiente</td>
 							<td class="text-center">{{$producto->fecha_venc}}</td>
 						</tr>
 					@endforeach

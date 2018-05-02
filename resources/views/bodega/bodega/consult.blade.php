@@ -173,7 +173,7 @@
 										<th class="text-center">CODIGO</th>
 										<th class="text-center">PRODUCTO</th>
 										<th class="text-center">PROCEDENCIA</th>
-										<th class="text-center">LOTE</th>
+										<th class="text-center">NUMERO</th>
 										<th class="text-center">F. VENC.</th>
 										<th class="text-center">CANTIDAD</th>
 									</tr>

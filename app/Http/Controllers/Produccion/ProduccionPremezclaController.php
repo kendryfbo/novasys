@@ -40,12 +40,10 @@ class ProduccionPremezclaController extends Controller
         $formulas = Formula::with('producto','premezcla')->where('autorizado',1)->get();
         $formulas->load(['detalle' => function ($query) use ($nivelPremix){
             $query->where('nivel_id',$nivelPremix);
-        },'detalle.insumo']);
-        $bodegas = Bodega::getAllActive();
+        },'detalle.insumo','detalle.nivel']);
 
         return view('produccion.premezcla.create')->with([
             'formulas' => $formulas,
-            'bodegas' => $bodegas
         ]);
     }
 
@@ -140,7 +138,7 @@ class ProduccionPremezclaController extends Controller
 
         $bodega = Bodega::getBodPremixID();
 
-        $descount = ProduccionPremezcla::descountFromBod($id, $bodega)
+        $descount = ProduccionPremezcla::descountFromBod($id, $bodega);
     }
 
 }
