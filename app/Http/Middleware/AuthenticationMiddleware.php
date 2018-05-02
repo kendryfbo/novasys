@@ -21,7 +21,7 @@ class AuthenticationMiddleware
         // Comentar para habilitar autenticacion
         // return $next($request);
 
-        if ($request->user() === null) {
+        if ($request->user() === null || !$request->user()->activo ) {
 
             return redirect()->guest('ingresar');
         }
