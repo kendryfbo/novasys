@@ -29,9 +29,9 @@
 											<th class="text-center">{{$loop->iteration}}</th>
 											<td class="text-center">{{$producto->codigo}}</td>
 											<td class="text-center">{{$producto->descripcion}}</td>
-											<td>{{$producto->stock_total}}</td>
-											<td class="text-center">{{$producto->cantidad}}</td>
-											<td class="text-center">{{$producto->cant_restante}}</td>
+											<td class="text-right">{{$producto->stock_total}}</td>
+											<td class="text-right">{{$producto->cantidad}}</td>
+											<td class="text-right">{{$producto->cant_restante}}</td>
 										</tr>
 
 									@endforeach

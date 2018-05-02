@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Adquisicion;
 
-use App\Models\Adquisicion\PlanProduccion;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Adquisicion\PlanProduccion;
 
 class PlanProduccionController extends Controller
 {
@@ -16,12 +17,14 @@ class PlanProduccionController extends Controller
     public function index()
     {
         $items = [
-            ['id' => 9, 'cantidad' => 730],
+            ['id' => 9, 'cantidad' => 7000],
+            ['id' => 10, 'cantidad' => 5000],
         ];
         $plan = PlanProduccion::analisisRequerimientos($items);
+        dd($plan);
          $productos = $plan[0];
         $insumos = $plan[1];
-        
+
         return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
     }
 
@@ -32,6 +35,9 @@ class PlanProduccionController extends Controller
      */
     public function create()
     {
+        $productos = Producto::getAllActive();
+
+        return view('adquisicion.planProduccion.create')->with(['productos' => $productos]);
     }
 
     /**
@@ -51,9 +57,18 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function show(PlanProduccion $planProduccion)
+    public function show(Request $request)
     {
-        //
+        if (!$request->items) {
+            return redirect()->back();
+        }
+
+        $items = $request->items;
+        $plan = PlanProduccion::analisisRequerimientos($items);
+        $productos = $plan[0];
+        $insumos = $plan[1];
+
+        return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
     }
 
     /**
