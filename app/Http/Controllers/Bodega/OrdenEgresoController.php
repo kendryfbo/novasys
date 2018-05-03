@@ -40,7 +40,7 @@ class OrdenEgresoController extends Controller
         $tipoProforma  = config('globalVars.TDP');
         $tipoNotaVenta = config('globalVars.TDNV');
 
-        $proformas = Proforma::where('numero',11020)->get();
+        $proformas = Proforma::where('numero',632)->get();
 
         $proformas->map(function ($proforma) use($tipoProforma){
 
