@@ -16,16 +16,7 @@ class PlanProduccionController extends Controller
      */
     public function index()
     {
-        $items = [
-            ['id' => 9, 'cantidad' => 7000],
-            ['id' => 10, 'cantidad' => 5000],
-        ];
-        $plan = PlanProduccion::analisisRequerimientos($items);
-        dd($plan);
-         $productos = $plan[0];
-        $insumos = $plan[1];
-
-        return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
+        return redirect()->route('crearPlanProduccion');
     }
 
     /**

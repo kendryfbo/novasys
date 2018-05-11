@@ -182,7 +182,7 @@ class OrdenCompraController extends Controller
     public function destroy(OrdenCompra $ordenCompra)
     {
         $pendiente = StatusDocumento::pendienteID();
-        
+
         if ($ordenCompra->status_id != $pendiente) {
 
             $msg = "Orden Compra Nº". $ordenCompra->numero . " No puede eliminarse porque ya ha sido ingresada";
@@ -224,6 +224,10 @@ class OrdenCompraController extends Controller
 
         $centroVenta = CentroVenta::getMainCentroVenta();
         $ordenCompra = OrdenCompra::with('proveedor','detalles')->where('numero',$numero)->first();
+
+        if (!$ordenCompra->aut_contab) {
+            dd('Orden de compra no Autorizada.');
+        }
         //return view('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
         $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
 

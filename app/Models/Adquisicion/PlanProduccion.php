@@ -27,7 +27,7 @@ class PlanProduccion extends Model
         $stockPremezclas = Bodega::getStockTotalPP();
 
         foreach ($items as $item) {
-
+            
             $item = json_decode($item);
             $producto = Producto::with('formula.detalle.insumo','formula.premezcla')->where('id',$item->id)->first();
 

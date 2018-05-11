@@ -57,10 +57,11 @@
 				@endif
 			</div>
 
-
-			<div class="col-lg-1">
-				<button form="download" class="btn btn-default btn-sm" type="submit" name="button"><i class="fa fa-download" aria-hidden="true"></i> Descargar</button>
-			</div>
+			@if ($ordenCompra->aut_contab)
+				<div class="col-lg-1">
+					<button form="download" class="btn btn-default btn-sm" type="submit" name="button"><i class="fa fa-download" aria-hidden="true"></i> Descargar</button>
+				</div>
+			@endif
 
         </div>
         <!-- /form-group -->

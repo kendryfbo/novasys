@@ -23,6 +23,10 @@ table {
     right: 30px;
     top: 100px;
 }
+.firma {
+    position: absolute;
+    left: 85px;
+}
 .text-center {
     text-align: center;
 }
@@ -33,7 +37,7 @@ table {
     text-align: right;
 }
 .content {
-    height: 500px;
+    height: 450px;
     border: 1px solid black;
 }
 

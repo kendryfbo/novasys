@@ -8,13 +8,20 @@
         <link rel="stylesheet" href="{{asset('css/adquisicion/ordenCompra/formatoPDF.css')}}">
     </head>
     <body>
-        <h1 class="text-center">Orden de Compra</h1>
+
+        <div>
+            <img class="img-responsive" src="images/encabezado_orden_compra.jpg" alt="encabezado" width="100%">
+        </div>
 
         <div class="title-content">
             <h3 class="num-oc">
+                <br>
+                <br>
                 Nº{{$ordenCompra->numero}}
             </h3>
             <h4 class="date">
+                <br>
+                <br>
                 Santiago, {{$ordenCompra->fecha_emision}}
             </h4>
             <table>
@@ -117,7 +124,11 @@
         </div>
         <div class="footer">
             <p><strong>Atentamente</strong></p>
-            <p><strong>Viviana Cabrera .......................</strong></p>
+            <img class="img-responsive firma" src="images/firma_viviana_cabrera.png" alt="encabezado" width="20%">
+            <br>
+            <br>
+            <p><strong>Viviana Cabrera .......................</strong>
+            </p>
             <p><strong>{{$centroVenta->descripcion}}</strong></p>
         </div>
     </body>
