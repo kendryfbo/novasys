@@ -39,7 +39,7 @@
 
                     <label class="control-label col-lg-1">Pallet:</label>
                     <div class="col-lg-2">
-						<input class="form-control input-sm" name="palletNum" type="number" v-model="palletNum" v-on:keyup.enter.prevent="getPallet" required>
+						<input v-if="bodega" class="form-control input-sm" name="palletNum" type="number" v-model="palletNum" v-on:keyup.enter.prevent="getPallet" required>
                     </div>
 
                 </div>

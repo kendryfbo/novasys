@@ -133,6 +133,7 @@
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">INSUMOS</th>
                 <th class="text-center">UNIDAD</th>
+                <th class="text-center">FECHA ING.</th>
                 <th class="text-center">INGRESADAS</th>
               </tr>
 
@@ -150,6 +151,7 @@
 					<td class="text-center">@{{item.codigo}}</td>
 				    <td class="text-left">@{{item.descripcion}}</td>
 				    <td class="text-center">@{{item.unidad_med}}</td>
+				    <td class="text-center">@{{item.fecha_ing}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
 				</tr>
 

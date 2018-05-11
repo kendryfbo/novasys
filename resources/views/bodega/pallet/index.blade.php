@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Pallets</h4>
+			<h4>Pallets pendientes por Almacenar</h4>
 		</div>
 		<!-- /box-header -->
 
@@ -54,7 +54,9 @@
 					@foreach ($pallets as $pallet)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center">{{$pallet->numero}}</td>
+							<td class="text-center">
+								<a href="{{route('verPallet',['pallet' => $pallet->id])}}" target="_blank"><strong>{{$pallet->numero}}</strong></a>
+								</td>
 							<td class="text-center">{{$pallet->created_at}}</td>
 							<td class="text-center">{{$pallet->medida->descripcion}}</td>
 							<td class="text-center">

@@ -55,6 +55,11 @@
                         <input class="form-control input-sm" name="numero" type="number" value="{{$numero}}" required readonly>
                     </div>
 
+					<label class="control-label col-lg-1">Fecha:</label>
+                    <div class="col-lg-2">
+                        <input class="form-control input-sm" name="fecha" type="date" value="{{$fecha}}" required readonly>
+                    </div>
+
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="medida" required>
@@ -83,7 +88,7 @@
                     <div class="col-lg-6">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="producto in productos" :value="producto.id">@{{producto.descripcion + ' Por Procesar: ' + producto.por_procesar}}</option>
+						    <option v-for="producto in productos" :value="producto.id">@{{'Ingreso #'+ producto.ing_num + ' - ' + producto.descripcion + ' Por Procesar: ' + producto.por_procesar}}</option>
                         </select>
                     </div>
 
@@ -125,7 +130,7 @@
                 <th class="text-center">#</th>
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">DESCRIPCION</th>
-                <th class="text-center">UNIDAD</th>
+                <th class="text-center">FECHA ING.</th>
                 <th class="text-center">INGRESADAS</th>
               </tr>
 
@@ -142,7 +147,7 @@
 					<td class="text-center">@{{key+1}}</td>
 					<td class="text-center">@{{item.codigo}}</td>
 				    <td class="text-left">@{{item.descripcion}}</td>
-				    <td class="text-center">@{{item.unidad_med}}</td>
+				    <td class="text-center">@{{item.fecha_ing}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
 				</tr>
 

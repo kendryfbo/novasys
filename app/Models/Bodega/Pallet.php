@@ -44,6 +44,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $item->ingreso->tipo_id,
                     'ing_id' => $item->ingreso->id,
                     'cantidad' => $cantidad,
+                    'fecha_ing' => $item->fecha_ing,
                     'fecha_venc' => $item->fecha_venc,
                 ]);
 
@@ -65,12 +66,11 @@ class Pallet extends Model
         return $pallet;
     }
 
-    static function storePalletMP($request) {
+    static function storePallet($request) {
 
         $pallet = DB::transaction( function() use($request) {
 
             $items = $request->items;
-            $fechaIng = $request->fecha;
 
             $pallet = Pallet::create([
                 'numero' => $request->numero,
@@ -84,7 +84,7 @@ class Pallet extends Model
 
                 $cantidad = $item->cantidad;
                 $fechaVenc = null;// $item->fecha_venc ? $item->fecha_venc : null; // no esta registrando fecha de vencimiento - Corregir
-
+                $fechaIng = $item->fecha_ing;
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
                     'tipo_id' => $item->tipo_id,
