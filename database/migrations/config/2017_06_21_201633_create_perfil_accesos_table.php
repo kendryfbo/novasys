@@ -16,10 +16,14 @@ class CreatePerfilAccesosTable extends Migration
         Schema::create('perfil_accesos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('perfil_id')->unsigned();
-            $table->string('nombre');
-            $table->string('descripcion');
+            $table->string('acceso_id')->unsigned();
             $table->tinyInteger('acceso');
             $table->timestamps();
+        });
+
+        Schema::table('perfil_accesos', function (Blueprint $table) {
+            $table->foreign('perfil_id')->references('id')->on('perfiles')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('acceso_id')->references('id')->on('accesos')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
