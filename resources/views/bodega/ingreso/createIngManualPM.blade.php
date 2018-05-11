@@ -105,7 +105,7 @@
 					</div>
 
 					<div class="col-lg-1">
-						<button :disabled="itemId == '' || cantidad == '' || cantidad <= 0 || fecha_venc == ''" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+						<button :disabled="itemId == '' || cantidad == '' || cantidad <= 0" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
 					</div>
 
                 </div>

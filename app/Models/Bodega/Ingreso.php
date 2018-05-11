@@ -22,7 +22,7 @@ class Ingreso extends Model
 
         $ingreso = DB::transaction(function() use($request) {
 
-            $fecha = $request->fecha;
+            $fechaIng = $request->fecha;
             $descripcion = $request->descripcion;
             $tipoIngreso = $request->tipo_ingreso;
             $tipoProd = $request->tipo_prod;
@@ -36,7 +36,7 @@ class Ingreso extends Model
                 'numero' => $numero,
                 'descripcion' => $descripcion,
                 'tipo_id' => $tipoIngreso,
-                'fecha_ing' => $fecha,
+                'fecha_ing' => $fechaIng,
                 'status_id' => $status,
                 'user_id' => $usuario,
             ]);
@@ -45,13 +45,13 @@ class Ingreso extends Model
             foreach ($items as $item) {
 
                 $item = json_decode($item);
-
+                $fechaVenc = $item->fecha_venc ? $item->fecha_venc: null;
                 IngresoDetalle::create([
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $tipoProd,
                     'item_id' => $item->id,
-                    'fecha_ing' => $fecha,
-                    'fecha_venc' => $item->fecha_venc,
+                    'fecha_ing' => $fechaIng,
+                    'fecha_venc' =>  $fechaVenc,
                     'cantidad' => $item->cantidad,
                     'por_procesar' => $item->cantidad,
                 ]);
@@ -129,7 +129,7 @@ class Ingreso extends Model
         DB::transaction(function() use($terminoProceso){
 
             $numero = Ingreso::getNextNumber();
-            $descripcion = "Ingreso por Termino de Proceso Lote Nº". $terminoProceso->lote;
+            $descripcion = "Ingreso por Termino de Proceso Lote # ". $terminoProceso->lote;
             $tipoIngreso = IngresoTipo::termProcID();
             $fecha = $terminoProceso->fecha_prod;
             $status = StatusDocumento::pendienteID();
