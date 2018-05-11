@@ -4,9 +4,11 @@
 Route::middleware('auth')->prefix('desarrollo')->group( function(){
 
 	// Pantalla Principal Modulo Desarrollo
-    Route::get('/', 'DesarrolloController@main');
-    Route::get('/pdf', 'DesarrolloController@pdf');
-    Route::get('/htmlPdf', 'DesarrolloController@htmlPdf');
+    Route::get('/', 'DesarrolloController@main')->name('desarrollo');
+
+    Route::get('/pdf', 'DesarrolloController@pdf')->name('testPDF');
+    Route::get('/htmlPdf', 'DesarrolloController@htmlPdf')->name('testPDF2');
+
 	// GRUPO de Rutas de Desarrollo/Familias
 	Route::group(['prefix' => 'familias'], function(){
 

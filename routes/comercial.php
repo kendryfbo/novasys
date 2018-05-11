@@ -4,12 +4,12 @@
 Route::middleware('auth')->prefix('comercial')->group( function(){
 
 	// Pantalla Principal Modulo Comercial
-    Route::get('/',         'Comercial\ComercialController@main');
+    Route::get('/',         'Comercial\ComercialController@main')->name('comercial');
 
     // Test Excel y PDF
-	Route::get('/excel',    'Comercial\ComercialController@excel');
-	Route::get('/pdf',      'Comercial\ComercialController@pdf');
-	Route::get('/email',      'Comercial\ComercialController@email');
+	Route::get('/excel',    'Comercial\ComercialController@excel')->name('testExcel');
+	Route::get('/pdf',      'Comercial\ComercialController@pdf')->name('testPDF');
+	Route::get('/email',      'Comercial\ComercialController@email')->name('testEmail');
 
 	// Resource Vendedores
 	Route::resource('vendedores','Comercial\VendedorController',[

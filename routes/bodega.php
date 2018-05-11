@@ -6,86 +6,8 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
-        $nivelPremix = 2;
-        $formulas = App\Models\Formula::with('producto')->where('autorizado',1)->get();
-        $formulas->load(['detalle' => function ($query) use ($nivelPremix){
-            $query->where('nivel_id',$nivelPremix);
-        }]);
 
-        $premezclaNum = 0;
-
-        foreach ($formulas as &$formulaUno) {
-
-            if($formulaUno->premezcla_num) {
-                continue;
-            }
-            $premezclaNum++;
-
-            $formulaUno->premezcla_num = $premezclaNum;
-
-            foreach ($formulas as &$formulaDos) {
-
-                if($formulaDos->premezcla_num) {
-                    continue;
-                }
-
-                $detalleUno = $formulaUno->detalle;
-                $detalleDos = $formulaDos->detalle;
-
-                $formulasIguales = true;
-
-                if (count($detalleUno) == count($detalleDos)) {
-
-                    foreach ($detalleUno as $uno) {
-                        $detIguales = false;
-                        foreach ($detalleDos as $dos) {
-
-                            $detIguales = false;
-                            if ($uno->insumo_id == $dos->insumo_id) {
-                                $detIguales = true;
-                                break;
-                            }
-                        }
-
-                        if (!$detIguales) {
-                            $formulasIguales = false;
-                            break;
-                        }
-                    }
-                } else {
-
-                    $formulasIguales = false;
-                }
-
-                //dump("formulaUno ".$formulaUno->id,"formulaDos ".$formulaDos->id);
-                if ($formulasIguales) {
-                    $formulaDos->premezcla_num = $formulaUno->premezcla_num;
-                    //dump('son iguales');
-                } else {
-
-                    //dump('no son iguales');
-                }
-            }
-        }
-
-        $groupByPrem = $formulas->groupBy('premezcla_num');
-
-        foreach ($groupByPrem as $premezcla) {
-            dump('--------------------GRUPO DE PREMEZCLA--------------------');
-            foreach ($premezcla as $item) {
-                dump($item->producto->descripcion);
-            }
-        }
-        dd('fin');
-
-        //return App\Models\Bodega\Pallet::getDataForBodega(5);
-        //dd(App\Models\Bodega\Bodega::getStockOfMPFromBodega());
-        //dd(App\Models\Bodega\Bodega::getStockFromBodega(1,4));
-        //dd(App\Models\Bodega\pallet::getDataForBodega(14));
-        $posicion = App\Models\Bodega\Posicion::findPositionForPallet(2,16);
-        $posicion = App\Models\Bodega\Posicion::with('status')->find($posicion->id);
-        dd($posicion);
-        //return view('bodega.bodega.test');
+        // LISTA DE RUTAS
         $routes = Route::getRoutes();
         $routesFormatted = [];
 
@@ -153,7 +75,8 @@ Route::prefix('bodega')->group( function() {
         Route::get('/PT/crear',            'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
         Route::post('/PT',                 'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
 
-        Route::get('/{pallet}',            'Bodega\PalletController@showPalletProduccion')->name('verPalletProduccion');
+
+        Route::get('/{pallet}',            'Bodega\PalletController@show')->name('verPallet');
 
         // this should be declared in API controller
         Route::post('/findPosition',       'Bodega\PalletController@position')->name('position'); // TEST
@@ -164,7 +87,7 @@ Route::prefix('bodega')->group( function() {
     // Resource Orden Egreso
     Route::prefix('ordenEgreso')->group(function(){
 
-        Route::get('/',                   'Bodega\OrdenEgresoController@index');
+        Route::get('/',                   'Bodega\OrdenEgresoController@index')->name('ordenEgreso');
         Route::get('/pendientes',         'Bodega\OrdenEgresoController@pendingOrdenEgreso')->name('ordenEgresoPendientes');
         Route::post('/consultar',         'Bodega\OrdenEgresoController@consultExistence')->name('ordenEgresoConsultarExistencia');
         Route::post('/existencia',        'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
@@ -206,7 +129,7 @@ Route::prefix('bodega')->group( function() {
         Route::post('/Devolucion/PM',      'Bodega\IngresoController@storeIngDevolucionPM')->name('guardarIngDevolucionPM');
 
         Route::get('/',             'Bodega\IngresoController@index')->name('ingreso');
-        Route::get('/{ingreso}',    'Bodega\IngresoController@show')->name('verIngreso');
+        Route::get('/{numero}',    'Bodega\IngresoController@show')->name('verIngreso');
         Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
 
     });

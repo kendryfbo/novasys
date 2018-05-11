@@ -10,26 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/email', 'Comercial\ComercialController@email')->name('email');
+Route::get('/', 'MainController@index')->name('main');
 
 Route::get('/ingresar', 'Config\AuthenticationController@signIn')->name('signin');
 Route::post('/login', 'Config\AuthenticationController@login')->name('login');
 Route::get('/logout', 'Config\AuthenticationController@logout')->name('logout');
-Route::get('array', 'MainController@accesos');
 
-Route::middleware('auth')->group( function() {
+Route::get('/email', 'Comercial\ComercialController@email')->name('email');
 
-	Route::get('/', 'MainController@index');
-	Route::prefix('admin')->group(function() {
-
-		Route::get('/',[
-			'uses' => 'MainController@welcome']);
-
-		Route::get('welcome',[
-			'uses' => 'MainController@welcome',
-			'acceso' => 'welcome']);
-	});
-});
 
 // GRUPO de Rutas Api
 /* CAMBIAR a archivo routes/api.php */

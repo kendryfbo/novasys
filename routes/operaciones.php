@@ -5,10 +5,8 @@
 Route::prefix('operaciones')->group( function(){
 
     // Pantalla Principal Modulo Operaciones
-    Route::get('/', function(){
+    Route::get('/', 'Produccion\OperacionController@index')->name('operaciones');
 
-        return view('operaciones.main');
-    });
 });
 
  ?>

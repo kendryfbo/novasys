@@ -8,9 +8,6 @@ Route::prefix('adquisicion')->group( function() {
     // Proveedores
     Route::prefix('proveedores')->group( function() {
 
-        route::get('/', function() {
-            dd('proveedor');
-        });
         Route::get('/',                   'Adquisicion\ProveedorController@index')->name('proveedores');
         Route::get('/crear',              'Adquisicion\ProveedorController@create')->name('crearProveedor');
         Route::post('/',                  'Adquisicion\ProveedorController@store')->name('guardarProveedor');
@@ -54,74 +51,6 @@ Route::prefix('adquisicion')->group( function() {
         Route::post('/',     'Adquisicion\PlanProduccionController@show')->name('verPlanProduccion');
     });
 
-    Route::prefix('planTrabajo')->group( function(){
-
-        Route::get('/', function(){
-
-            $producto = App\Models\Producto::find(9);
-            $cantidad = 70;
-            $cantidadRestante = $cantidad;
-            $stockPallet = App\Models\Bodega\Pallet::getStockofProd($producto->id);
-            if ($cantidad <= $stockPallet) {
-
-                return 'Unidades Completas';
-            }
-
-            $cantidadRestante -= $stockPallet;
-            // determinar si se divide las busquedas, se agrupan o no se incluyen productos en fase de ingreso
-            $stockIngreso = App\Models\Bodega\Ingreso::getStockofProd($producto->id);
-            $producto->load('formula.premezcla');
-
-            $premezcla = $producto->formula->premezcla;
-            if (!$premezcla) {
-                $stockPremezcla = 0;
-            } else {
-                $stockPremezcla = App\Models\Bodega\Pallet::getStockofPremezcla($premezcla->id);
-            }
-
-            //formula debe estar aprobada
-            $formulaDetalle = App\Models\Formula::with('detalle')->where('producto_id',$producto->id)->first();
-
-            $arrayInsumos = [];
-            $i=0;
-            foreach ($formulaDetalle->detalle as $detalle) {
-
-                $existencia = App\Models\Bodega\Pallet::getStockofInsumo($detalle->insumo_id);
-                if ($detalle->nivel_id == 1) {
-                    $requerida = $detalle->cantxcaja * $cantidadRestante;
-                } else if ($detalle->nivel_id == 2) {
-                    $requerida = ($detalle->cantxcaja * $cantidadRestante) - ($detalle->cantxbatch * $stockPremezcla);
-                }
-                $arrayInsumos[$i] = [
-                    'nombre' => $detalle->descripcion,
-                    'existencia' =>$existencia,
-                    'requerida' => $requerida,
-                    'faltante' => ($existencia >=$requerida ? 0:$requerida-$existencia),
-                ];
-
-                $i++;
-            };
-            //dd($arrayInsumos);
-            dump(
-                'Producto:'.$producto->descripcion,
-                'Cajas Requeridas:'.$cantidad,
-                'Cajas Existencia:'.$stockPallet,
-                'Cajas Faltantes:' . $cantidadRestante,
-                //'Existencia Ingreso:'.$stockIngreso,
-                'Existencia Premezcla:'.$stockPremezcla
-            //'Existencia Materia Prima:'.print_r($arrayInsumos)
-            );
-            foreach ($arrayInsumos as $insumo) {
-
-                dump($insumo);
-            }
-
-            $existencia = '';
-
-            $existencia = 'en stock =' . $stockPallet;
-
-        });
-    });
 });
 
  ?>
