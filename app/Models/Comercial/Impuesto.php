@@ -11,4 +11,8 @@ class Impuesto extends Model
 
         return self::where('id',1)->first();
     }
+    static function getIaba() {
+
+        return self::where('id',2)->first();
+    }
 }

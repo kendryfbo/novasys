@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Excel;
+use Carbon\Carbon;
 use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\FormaPagoNac;
@@ -196,7 +198,31 @@ class FacturaNacionalController extends Controller
 
     public function download(FacturaNacional $factura) {
 
-        dd("Pendiente por implementar");
+        //dd("Pendiente por implementar");
+        $factura->load('clienteNac.comuna','detalles.producto.marca');
+
+        foreach ($factura->detalles as &$detalle) {
+            $valorIaba = Impuesto::getIaba()->valor;
+            $valorIva = Impuesto::getIva()->valor;
+            $impuesto = 0;
+            $descuento = ($detalle->precio * $detalle->descuento) / 100;
+            $precioUniTotal = $detalle->precio - $descuento;
+
+            if ($detalle->producto->marca->iaba) {
+                $impuesto = $valorIaba;
+            }
+            $impuesto += $valorIva;
+
+            $impuesto = ($precioUniTotal * $impuesto) / 100;
+            $precioUniTotal = $precioUniTotal + $impuesto;
+            $detalle->precio = $precioUniTotal;
+        }
+        return Excel::create('Factura_'.$factura->numero, function($excel) use ($factura) {
+            $excel->sheet('New sheet', function($sheet) use ($factura) {
+                $sheet->loadView('documents.excel.facturaNacional')
+                        ->with('factura', $factura);
+                            })->download('xlsx');
+                        });
     }
 
 }

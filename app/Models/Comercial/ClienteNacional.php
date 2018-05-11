@@ -72,4 +72,9 @@ class ClienteNacional extends Model
 
 		return $this->hasMany('App\Models\Comercial\FacturaNacional','cliente_id');
 	}
+
+	public function comuna() {
+
+		return $this->belongsTo('App\Models\Comercial\Comuna','comuna_id');
+	}
 }
