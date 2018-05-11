@@ -5,8 +5,11 @@ namespace App\Models\Bodega;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Carbon\Carbon;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\NotaVenta;
+use App\Models\Config\StatusDocumento;
+
 class OrdenEgreso extends Model
 {
     protected $table = 'orden_egreso';
@@ -19,24 +22,27 @@ class OrdenEgreso extends Model
         $tipoProforma  = config('globalVars.TDP');
         $tipoNotaVenta = config('globalVars.TDNV');
         $documento = [];
-
+        $tipoDoc = '';
         if ($tipo == $tipoProforma) {
 
             $documento = Proforma::with('detalles')->find($id);
-            $documento->tipo_id = $tipoProforma;
+            $tipoDoc = $tipoProforma;
 
 
         } else if ($tipo == $tipoNotaVenta) {
 
             $documento = NotaVenta::with('detalles')->find($id);
-            $documento->tipo_id = $tipoNotaVenta;
+            $tipoDoc = $tipoNotaVenta;
         }
 
+        if ($documento->status != StatusDocumento::pendienteID()) {
+            dd('ERROR - Ya este documento fue Generado',$documento->attributes);
+        };
 
-        $ordenEgreso = DB::transaction(function() use($bodega,$documento,$user){
+        $ordenEgreso = DB::transaction(function() use($bodega,$documento,$user,$tipoDoc){
 
             $tipoProducto = config('globalVars.PT');
-
+            $fecha = Carbon::now()->format('Y-m-d');
             $numero = OrdenEgreso::orderBy('numero','desc')->pluck('numero')->first();
 
             if (is_null($numero)) {
@@ -50,9 +56,9 @@ class OrdenEgreso extends Model
 
             $ordenEgreso = OrdenEgreso::create([
                 'numero' => $numero,
-                'tipo_doc' => $documento->tipo_id,
+                'tipo_doc' => $tipoDoc,
                 'doc_id' => $documento->id,
-                'fecha_gen' => '1987/12/12', // obtener de formulario
+                'fecha_gen' => $fecha,
                 'user_id' => $user,
             ]);
 
@@ -94,6 +100,9 @@ class OrdenEgreso extends Model
                     ]);
                 }
             }
+
+            $documento->status = StatusDocumento::completaID();
+            $documento->save();
 
             return $ordenEgreso;
         });

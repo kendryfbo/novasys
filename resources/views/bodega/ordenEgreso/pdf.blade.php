@@ -15,7 +15,11 @@
                 Nº{{$ordenEgreso->numero}}
             </h3>
             <h4 class="date">
+                Fecha Generacion :
                 Santiago, {{$ordenEgreso->fecha_gen}}
+            </h4>
+            <h4 class="date2">
+                Fecha Despacho :
             </h4>
             <table>
                 <tr>

@@ -40,7 +40,7 @@ class OrdenEgresoController extends Controller
         $tipoProforma  = config('globalVars.TDP');
         $tipoNotaVenta = config('globalVars.TDNV');
 
-        $proformas = Proforma::where('numero',632)->get();
+        $proformas = Proforma::getAllAuthorizedNotProcessed();
 
         $proformas->map(function ($proforma) use($tipoProforma){
 
@@ -59,9 +59,7 @@ class OrdenEgresoController extends Controller
             return $notaVenta;
         });
 
-        $ordenes = $proformas->sortBy('created_at');
-
-        return view('bodega.ordenEgreso.pendingOrdenEgreso')->with(['ordenes' => $ordenes]);
+        return view('bodega.ordenEgreso.pendingOrdenEgreso')->with(['notasVenta' => $notasVenta, 'proformas' => $proformas]);
     }
 
     /**
@@ -99,7 +97,7 @@ class OrdenEgresoController extends Controller
         $tipo = intval($request->tipo);
         $id = intval($request->id);
         $user = $request->user()->id;
-
+        
         $ordenEgreso = OrdenEgreso::generate($user,$tipo,$id,$bodega);
 
         return redirect()->route('verOrdenEgreso', ['numero' => $ordenEgreso->numero]);
@@ -177,13 +175,6 @@ class OrdenEgresoController extends Controller
         //
     }
 
-    public function pdf($numero) {
-
-        $ordenEgreso = OrdenEgreso::where('numero',$numero)->first();
-        $ordenEgreso->load('documento.cliente');
-        $ordenEgreso->tipo();
-        dd($ordenEgreso);
-    }
     public function downloadPDF($numero) {
 
         $ordenEgreso = OrdenEgreso::where('numero',$numero)->first();
