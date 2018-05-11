@@ -5,8 +5,9 @@ namespace App\Models\Bodega;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
-use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\Pallet;
+use App\Models\Bodega\PalletMedida;
+use App\Models\Bodega\PalletDetalle;
 
 class Posicion extends Model
 {
@@ -164,7 +165,14 @@ class Posicion extends Model
             $conditionTipoFamilia = $conditionTipoFamilia . $conditions['tipo_familia'];
         }
 
-        $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE . " AND posicion.medida_id=" . $medidaPallet;
+        if ($medidaPallet == palletMedida::bajoID()) {
+
+            $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE ." ";
+
+        } else {
+
+            $baseQuery = "SELECT posicion.id FROM posicion,pos_cond WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id=pos_cond.posicion_id AND posicion.status_id=" . self::DISPONIBLE . " AND posicion.medida_id=" . $medidaPallet;
+        }
 
         $query = $baseQuery . $conditionProducto .' LIMIT 1';
 
@@ -221,7 +229,16 @@ class Posicion extends Model
 
 
         // si no cumple ninguna condicion buscar posicion sin condicion
-        $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE . " AND posicion.medida_id=" . $medidaPallet ." LIMIT 1";
+
+        // si medida es baja buscar posicion con cualquier medida
+        if ($medidaPallet == PalletMedida::bajoID()) {
+
+            $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE . " LIMIT 1";
+        } else {
+
+            $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE . " AND posicion.medida_id=" . $medidaPallet ." LIMIT 1";
+        }
+
         $results = DB::select(DB::raw($query));
 
         if ($results) {

@@ -63,6 +63,21 @@
 						</select>
 					</div>
 
+					<label class="control-label col-lg-1">Familia:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="familiaID">
+
+							<option value="">Todos...</option>
+
+							@foreach ($familias as $familia)
+
+								<option {{$familiaID == $familia->id ? 'selected':''}} value="{{$familia->id}}">{{$familia->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
 					@if ($productos)
 
 						<div class="col-lg-1 pull-right">
@@ -100,8 +115,8 @@
 
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center">{{$producto->producto['codigo']}}</td>
-							<td class="text-left">{{$producto->producto['descripcion']}}</td>
+							<td class="text-center">{{$producto->codigo}}</td>
+							<td class="text-left">{{$producto->descripcion}}</td>
 							<td class="text-right">{{$producto->cantidad}}</td>
 						</tr>
 					@endforeach

@@ -23,7 +23,7 @@ class Insumo extends Model
 
 	static function getArrayOfAllActiveWithLastPrice() {
 
-		return DB::select('SELECT i.id,i.codigo,i.descripcion, ocd.tipo_id,IFNULL(ocd.precio,0) as precio FROM insumos as i left join orden_compra_detalles as ocd on i.id=ocd.item_id AND ocd.tipo_id=1
+		return DB::select('SELECT i.id,i.codigo,i.descripcion,i.unidad_med, ocd.tipo_id,IFNULL(ocd.precio,0) as precio FROM insumos as i left join orden_compra_detalles as ocd on i.id=ocd.item_id AND ocd.tipo_id=1
 AND ocd.id=(SELECT MAX(id) FROM orden_compra_detalles as subocd where subocd.item_id=ocd.item_id) WHERE i.activo=1');
 
 

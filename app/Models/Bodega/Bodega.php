@@ -199,7 +199,7 @@ class Bodega extends Model
         $tipo = Insumo::tipoID();
 
         $results = [];
-        $query = "SELECT insumos.id,pallet_detalle.tipo_id,insumos.codigo,insumos.descripcion,insumos.unidad_med, sum(pallet_detalle.cantidad) as existencia
+        $query = "SELECT insumos.id,pallet_detalle.tipo_id,insumos.codigo,insumos.descripcion,insumos.unidad_med, sum(pallet_detalle.cantidad) AS existencia
                     FROM insumos,pallet_detalle
                     WHERE pallet_detalle.item_id=insumos.id
                     AND pallet_detalle.tipo_id=".$tipo."
@@ -230,10 +230,10 @@ class Bodega extends Model
         $tableIngresoDetalle = (new IngresoDetalle)->getTable();
 
         $query = 'SELECT pre.id,pre.codigo,pre.descripcion,
-            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PP.'),0) as cant_bod,
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.'),0) as cant_ing,
+            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PP.'),0) AS cant_bod,
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.'),0) AS cant_ing,
             IFNULL(((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PP.') +
-            (SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.')),0) as total
+            (SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PP.')),0) AS total
             FROM '.$tablePremezcla.' pre';
 
         $results = DB::select(DB::raw($query));
@@ -247,75 +247,89 @@ class Bodega extends Model
         $tableIngresoDetalle = (new IngresoDetalle)->getTable();
 
         $query = 'SELECT mp.id,mp.codigo,mp.descripcion,
-            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) as cant_bod,
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0) as cant_ing,
+            IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) AS cant_bod,
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0) AS cant_ing,
             IFNULL((IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) +
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0)),0) as total,
-            0 as requerida,0 as faltante
+            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0)),0) AS total,
+            0 AS requerida,0 AS faltante
             FROM '.$tableInsumo.' mp';
         $results = DB::select(DB::raw($query));
         return $results;
     }
 
-    static function getStockTotal($tipoReporte = NULL,$tipo = NULL) {
+    static function getStockTotal($tipoReporte = NULL,$tipo = NULL, $familia = NULL) {
 
         $results = [];
 
         if ($tipoReporte == 1) {
-            $query = "SELECT id.tipo_id,id.item_id,
-            IFNULL((select SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0) as cantidad
-            from ingreso_detalle as id";
+            $query = "SELECT
+                        case when tipo_id=4 THEN (select codigo from productos where productos.id=id.item_id)
+                        when tipo_id=1 THEN (select codigo from insumos where insumos.id=id.item_id)
+                        end as codigo,
+                        case when tipo_id=4 THEN (select descripcion from productos where productos.id=id.item_id)
+                        when tipo_id=1 THEN (select descripcion from insumos where insumos.id=id.item_id)
+                        end as descripcion,
+                        (
+                        case when tipo_id=4 THEN (SELECT fam.id as familia_id FROM productos as prod JOIN marcas AS marc ON prod.marca_id=marc.id JOIN familias AS fam ON marc.familia_id=fam.id where prod.id=id.item_id)
+                        when tipo_id=1 THEN (select familia_id from insumos where insumos.id=id.item_id)
+                        end
+                        ) as familia_id,
+                        IFNULL(SUM(por_procesar),0) AS cantidad
+                        FROM ingreso_detalle AS id";
 
         } else if ($tipoReporte == 2) {
 
-            $query = "SELECT pd.tipo_id,pd.item_id,
-            IFNULL((select SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=pd.tipo_id and pallet_detalle.item_id=pd.item_id),0) as cantidad
-            from pallet_detalle as pd";
+            $query = "SELECT
+                        case when tipo_id=4 THEN (select codigo from productos where productos.id=item_id)
+                        when tipo_id=1 THEN (select codigo from insumos where insumos.id=item_id)
+                        end as codigo,
+                        case when tipo_id=4 THEN (select descripcion from productos where productos.id=item_id)
+                        when tipo_id=1 THEN (select descripcion from insumos where insumos.id=item_id)
+                        end as descripcion,
+                        (
+                        case when tipo_id=4 THEN (SELECT fam.id as familia_id FROM productos as prod JOIN marcas AS marc ON prod.marca_id=marc.id JOIN familias AS fam ON marc.familia_id=fam.id where prod.id=item_id)
+                        when tipo_id=1 THEN (select familia_id from insumos where insumos.id=item_id)
+                        end
+                        ) as familia_id,
+                        IFNULL(SUM(cantidad),0) AS cantidad
+                        FROM pallet_detalle AS id";
 
         } else {
-
-            $query = "SELECT id.tipo_id,id.item_id,
-                (IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+
-                IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)) as cantidad
-                from ingreso_detalle as id
-                join pallet_detalle as pd using (tipo_id,tipo_id) ";
+            $query = "SELECT
+                        case when tipo_id=4 THEN (select codigo from productos where productos.id=id.item_id)
+                        when tipo_id=1 THEN (select codigo from insumos where insumos.id=id.item_id)
+                        end as codigo,
+                        case when tipo_id=4 THEN (select descripcion from productos where productos.id=id.item_id)
+                        when tipo_id=1 THEN (select descripcion from insumos where insumos.id=id.item_id)
+                        end as descripcion,
+                        (
+                        case when tipo_id=4 THEN (SELECT fam.id as familia_id FROM productos as prod JOIN marcas AS marc ON prod.marca_id=marc.id JOIN familias AS fam ON marc.familia_id=fam.id where prod.id=id.item_id)
+                        when tipo_id=1 THEN (select familia_id from insumos where insumos.id=id.item_id)
+                        end
+                        ) as familia_id,
+                        (
+                        IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+
+                        IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)
+                        ) as cantidad
+                        from ingreso_detalle as id
+                        join pallet_detalle  as pd using (tipo_id,tipo_id)";
         }
 
-
+        //dd($query);
         if ($tipo) {
             $query = $query . " WHERE tipo_id=" . $tipo;
         }
+        // AGRUPADO POR item_id y tipo_id
+        $query = $query . " GROUP BY id.item_id,id.tipo_id";
+        // FILTRO Familia
+        if ($familia) {
+            $query = $query . " having familia_id=" . $familia;
+        }
+        // Ordenado por cantidad de mayor a menor
+        $query = $query . " ORDER BY cantidad DESC";
 
-        $query = $query . " GROUP BY item_id,tipo_id";
-
-        //dd($query);
         $results = DB::select(DB::raw($query));
 
-
-        $insumo = TipoFamilia::getInsumoID();
-        $prodTerm = TipoFamilia::getProdTermID();
-        $premezcla = TipoFamilia::getPremezclaID();
-
-        foreach ($results as $item) {
-
-            if ($item->tipo_id == $insumo) {
-
-                $item->producto = Insumo::find($item->item_id);
-
-            } else if ($item->tipo_id == $prodTerm) {
-
-                $item->producto = Producto::find($item->item_id);
-
-            } else if ($item->tipo_id == $premezcla) {
-
-                $item->producto = Premezcla::find($item->item_id);
-            } else {
-                dd(['ERROR' => 'ERROR en la busqueda de producto',
-                    'tipo_id' => $item->tipo_id,
-                    'item_id' => $item->item_id]);
-            }
-
-        }
 
         return $results;
     }

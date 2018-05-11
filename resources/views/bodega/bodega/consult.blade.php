@@ -30,11 +30,14 @@
 
 					</div>
 
-					<label class="control-label col-lg-1"></label>
+				</div>
+				<div class="form-group form-group-sm">
+
 					<label class="control-label col-lg-1"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
 					<label class="control-label col-lg-1"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
 					<label class="control-label col-lg-1"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
 					<label class="control-label col-lg-1"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloqueado</label>
+
 				</div>
 			</div>
 
@@ -174,7 +177,8 @@
 										<th class="text-center">PRODUCTO</th>
 										<th class="text-center">PROCEDENCIA</th>
 										<th class="text-center">NUMERO</th>
-										<th class="text-center">F. VENC.</th>
+										<th class="text-center">FECHA. ING.</th>
+										<th class="text-center">FECHA. VENC.</th>
 										<th class="text-center">CANTIDAD</th>
 									</tr>
 
@@ -186,8 +190,10 @@
 										<td class="text-left">@{{detalle.producto.codigo}}</td>
 										<td class="text-left">@{{detalle.producto.descripcion}}</td>
 										<td class="text-left">@{{detalle.tipo.descripcion}}</td>
-										<td v-if="detalle.ingreso" class="text-center">@{{detalle.ingreso.lote}}</td>
+										<td v-if="detalle.ingreso" class="text-center">@{{detalle.ingreso.numero}}</td>
 										<td v-else class="text-left"></td>
+										<td class="text-center">
+											@{{detalle.fecha_ing}}</td>
 										<td class="text-center">@{{detalle.fecha_venc}}</td>
 										<td class="text-right">@{{detalle.cantidad}}</td>
 									</tr>

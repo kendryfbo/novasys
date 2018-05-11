@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Excel;
+use App\Models\Familia;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 
@@ -40,6 +41,7 @@ class BodegaReportController extends Controller
     public function indexStockReport(Request $request) {
 
         $tipoFamilia = '';
+        $familiaID = '';
         $tipoReporte = '';
         $productos = [];
         $tiposReporte = [
@@ -49,12 +51,15 @@ class BodegaReportController extends Controller
         ];
 
         $tiposProducto = TipoFamilia::getAllActive();
+        $familias = Familia::getAllActive();
 
         if ($request->all()) {
 
+            $familiaID = $request->familiaID;
             $tipoFamilia = $request->tipoFamilia;
             $tipoReporte = $request->tipoReporte;
-            $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia);
+
+            $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID);
         }
 
         return view('bodega.bodega.reportStock')
@@ -62,6 +67,8 @@ class BodegaReportController extends Controller
                 'productos' => $productos,
                 'tipoReporte' =>  $tipoReporte,
                 'tipoFamilia' => $tipoFamilia,
+                'familiaID' => $familiaID,
+                'familias' => $familias,
                 'tiposReporte' => $tiposReporte,
                 'tiposProducto' => $tiposProducto
             ]);
