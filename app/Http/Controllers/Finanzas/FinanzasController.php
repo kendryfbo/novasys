@@ -54,11 +54,9 @@ class FinanzasController extends Controller
     public function showAuthFinanzasNV(NotaVenta $notaVenta) {
 
         if ($notaVenta->aut_comer == 1 && $notaVenta->aut_contab == null) {
-            dd('si');
-            return redirect()->route('autFinanzasNV')->with(['notaVenta' => $notaVenta]);
-        }
-        dd('no');
 
+            return view('finanzas.autorizacion.authorizeNV')->with(['notaVenta' => $notaVenta]);
+        }
         return redirect()->back();
     }
     // Ver Orden de Compra para autorizar
