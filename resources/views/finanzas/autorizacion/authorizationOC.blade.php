@@ -51,16 +51,18 @@
 							<td class="text-center">{{$ordenCompra->tipo->descripcion}}</td>
 							<td class="text-center">{{$ordenCompra->status->descripcion}}</td>
 							<td class="text-center">
-								<button form="authorize" class="btn btn-success btn-sm" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
-								<button form="unauthorized" class="btn btn-danger btn-sm" type="submit">
-									<i class="fa fa-ban" aria-hidden="true"></i>
-								</button>
 								<!-- Forms -->
-								<form id="authorize" style="display: inline" action="{{route('autorizarFinanzasOC',['ordenCompra' => $ordenCompra->id])}}" method="post" v-on:submit="confirmAutorizar">
+								<form style="display: inline" action="{{route('autorizarFinanzasOC',['ordenCompra' => $ordenCompra->id])}}" method="post" v-on:submit="confirmAutorizar">
 									{{csrf_field()}}
+									<button class="btn btn-success btn-sm" type="submit">
+										<i class="fa fa-check-circle" aria-hidden="true"></i>
+									</button>
 								</form>
-								<form id="unauthorized" style="display: inline" action="{{route('desautorizarFinanzasOC',['ordenCompra' => $ordenCompra->id])}}" method="post" v-on:submit="confirmDesautorizar">
+								<form style="display: inline" action="{{route('desautorizarFinanzasOC',['ordenCompra' => $ordenCompra->id])}}" method="post" v-on:submit="confirmDesautorizar">
 									{{csrf_field()}}
+									<button class="btn btn-danger btn-sm" type="submit">
+										<i class="fa fa-ban" aria-hidden="true"></i>
+									</button>
 								</form>
 								<!-- /Forms -->
 							</td>

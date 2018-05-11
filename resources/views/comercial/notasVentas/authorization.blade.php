@@ -42,18 +42,18 @@
 							<td class="text-right">{{number_format($notaVenta->total,0,",",".")}}</td>
 							<td class="text-center">{{$notaVenta->cliente->formaPago->descripcion}}</td>
 							<td class="text-center">
-									<button form="authorize" class="btn btn-success btn-sm" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
-									<button form="unauthorized" class="btn btn-danger btn-sm" type="submit">
+								<form style="display: inline" action="{{route('autorizarNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-success btn-sm" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+								</form>
+								<form style="display: inline" action="{{route('desautNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-danger btn-sm" type="submit">
 										<i class="fa fa-ban" aria-hidden="true"></i>
 									</button>
+								</form>
 							</td>
 							<!-- Forms -->
-							<form id="authorize" style="display: inline" action="{{route('autorizarNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
-								{{csrf_field()}}
-							</form>
-							<form id="unauthorized" style="display: inline" action="{{route('desautNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
-								{{csrf_field()}}
-							</form>
 							<!-- /Forms -->
 						</tr>
 					@endforeach
