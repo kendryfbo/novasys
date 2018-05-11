@@ -29,7 +29,6 @@ Route::prefix('finanzas')->group( function() {
 
     });
 
-
 });
 
  ?>

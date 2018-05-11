@@ -39,7 +39,7 @@ Route::prefix('produccion')->group( function(){
         Route::post('/{id}',          'Produccion\ProduccionMezcladoController@storeDescProdMezclado')->name('guardarDescProdMezclado');
 
     });
+    
 });
-
 
  ?>
