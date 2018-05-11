@@ -22,8 +22,8 @@
               @foreach ($productos as $item)
                   <tr>
                       <th class="text-center">{{$loop->iteration}}</th>
-                      <td class="text-left">{{$item->producto->codigo}}</td>
-                      <td class="text-left">{{$item->producto['descripcion']}}</td>
+                      <td class="text-left">{{$item->codigo}}</td>
+                      <td class="text-left">{{$item->descripcion}}</td>
                       <td class="text-left">{{$item->cantidad}}</td>
                   </tr>
               @endforeach
