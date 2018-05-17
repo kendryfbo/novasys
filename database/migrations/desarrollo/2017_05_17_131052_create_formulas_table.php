@@ -28,7 +28,8 @@ class CreateFormulasTable extends Migration
         });
 
         Schema::table('formulas', function (Blueprint $table) {
-            $table->foreign('producto_id')->references('id')->on('productos');
+            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade');
+            $table->foreign('premezcla_id')->references('id')->on('premezclas')->onUpdate('cascade');
         });
     }
 

@@ -43,7 +43,7 @@
 						<td class="text-center">{{$formula->generada_por}}</td>
 						<td class="text-center">{{$formula->fecha_gen}}</td>
 						<td class="text-center">{{$formula->autorizado ? "Si" : "No"}}</td>
-						<td class="text-center">{{$formula->autorizado_por}}</td>
+						<td class="text-center">{{$formula->autorizada_por}}</td>
 						<td class="text-center">{{$formula->fecha_aut}}</td>
 						<td class="text-center">
 							<form action="{{route('editarFormula',['formula' => $formula->id])}}" method="get">

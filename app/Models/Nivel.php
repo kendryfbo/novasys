@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nivel extends Model
 {
-    const PRODUCCION = 1; // corresponde al id de nivel en tabla niveles.
-    const PREMIX = 2; // corresponde al id de nivel en tabla niveles.
-    const BASE = 3; // corresponde al id de nivel en tabla niveles.
+    const PRODUCCION = 1; // corresponde al id de nivel produccion en tabla niveles.
+    const PREMIX = 2; // corresponde al id de nivel premix en tabla niveles.
+    const MEZCLADO = 3; // corresponde al id de nivel mezclado en tabla niveles.
 
     protected $table = 'niveles';
 
@@ -26,11 +26,14 @@ class Nivel extends Model
 
         return self::PREMIX;
     }
-    
-    static function baseID() {
 
-        return self::BASE;
+    static function mezcladoID() {
+
+        return self::MEZCLADO;
     }
+
+
+    // Relationships
 
 	public function formulaDetalle() {
 
