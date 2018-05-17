@@ -16,7 +16,7 @@ class CreatePerfilAccesosTable extends Migration
         Schema::create('perfil_accesos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('perfil_id')->unsigned();
-            $table->string('acceso_id')->unsigned();
+            $table->integer('acceso_id')->unsigned();
             $table->tinyInteger('acceso');
             $table->timestamps();
         });
