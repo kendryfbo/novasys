@@ -4,6 +4,82 @@
 // GRUPO de Rutas de Modulo Operaciones-Bodega
 Route::prefix('bodega')->group( function() {
 
+
+    Route::get('/grupoprem', function(){
+        $nivelPremix = 2;
+        $formulas = App\Models\Formula::with('producto')->where('autorizado',1)->get();
+        $formulas->load(['detalle' => function ($query) use ($nivelPremix){
+            $query->where('nivel_id',$nivelPremix);
+        }]);
+
+        $premezclaNum = 0;
+
+        foreach ($formulas as &$formulaUno) {
+
+            if($formulaUno->premezcla_num) {
+                continue;
+            }
+            $premezclaNum++;
+
+            $formulaUno->premezcla_num = $premezclaNum;
+
+            foreach ($formulas as &$formulaDos) {
+
+                if($formulaDos->premezcla_num) {
+                    continue;
+                }
+
+                $detalleUno = $formulaUno->detalle;
+                $detalleDos = $formulaDos->detalle;
+
+                $formulasIguales = true;
+
+                if (count($detalleUno) == count($detalleDos)) {
+
+                    foreach ($detalleUno as $uno) {
+                        $detIguales = false;
+                        foreach ($detalleDos as $dos) {
+
+                            $detIguales = false;
+                            if ($uno->insumo_id == $dos->insumo_id) {
+                                $detIguales = true;
+                                break;
+                            }
+                        }
+
+                        if (!$detIguales) {
+                            $formulasIguales = false;
+                            break;
+                        }
+                    }
+                } else {
+
+                    $formulasIguales = false;
+                }
+
+                //dump("formulaUno ".$formulaUno->id,"formulaDos ".$formulaDos->id);
+                if ($formulasIguales) {
+                    $formulaDos->premezcla_num = $formulaUno->premezcla_num;
+                    //dump('son iguales');
+                } else {
+
+                    //dump('no son iguales');
+                }
+            }
+        }
+
+        $groupByPrem = $formulas->groupBy('premezcla_num');
+        $i=0;
+        foreach ($groupByPrem as $premezcla) {
+            $i++;
+            dump('#'.$i.'--------------------GRUPO DE PREMEZCLA--------------------');
+            foreach ($premezcla as $item) {
+                dump('-id: '.$item->producto->id.' -Descrip:'.$item->producto->descripcion);
+            }
+        }
+        dd('fin');
+    });
+
     Route::get('/test', function(){
 
 

@@ -261,22 +261,21 @@ class Posicion extends Model
 
         if ($bodega){
 
-            $query = "SELECT posicion.id, pallet_detalle.id as detalle_id, pallet_detalle.cantidad as existencia FROM posicion,pallets,pallet_detalle WHERE
-                posicion.pallet_id=pallets.id AND pallets.id=pallet_detalle.pallet_id AND
-                posicion.bodega_id=" . $bodega . " AND pallet_detalle.tipo_id=" . $tipo . " AND pallet_detalle.item_id= " . $id . " ORDER BY fecha_venc LIMIT 1";
+            $query = "SELECT pos.id as id, pd.id as detalle_id, pd.cantidad as existencia
+                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id
+                        WHERE pos.bodega_id=".$bodega." AND pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC LIMIT 1";
+
         } else {
 
-            $query = "SELECT posicion.id, pallet_detalle.id as detalle_id, pallet_detalle.cantidad as existencia FROM posicion,pallets,pallet_detalle WHERE
-                posicion.pallet_id=pallets.id AND pallets.id=pallet_detalle.pallet_id AND
-                pallet_detalle.tipo_id=" . $tipo . " AND pallet_detalle.item_id= " . $id . " ORDER BY fecha_venc LIMIT 1";
+            $query = "SELECT pos.id AS id, pd.id AS detalle_id, pd.cantidad AS existencia
+                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id
+                        WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC LIMIT 1";
         }
-
         $results = DB::select(DB::raw($query));
-
+        
         if (!$results) {
 
             return $posicion;
-
         }
 
         $posicion = Posicion::find($results[0]->id);

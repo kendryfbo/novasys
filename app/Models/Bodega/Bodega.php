@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bodega extends Model
 {
     const BOD_PREMIX_ID = 5; // Id de bodega premix virtual en tabla bodega.
+    const BOD_MEZCLADO_ID = 6; // Id de bodega Mezclado virtual en tabla bodega.
 
     protected $fillable = ['descripcion', 'bloque', 'columna', 'estante', 'activo'];
 
@@ -334,10 +335,47 @@ class Bodega extends Model
         return $results;
     }
 
+    static function descount($bodegaID,$tipoID,$item) {
+
+        $posiciones = [];
+        $cantidad = $item->cantidad;
+        while ($cantidad > 0) {
+
+            $restar=0;
+            
+            $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoID,$item->item_id);
+
+            if (!$posicion) {
+
+                dd('Error al Descontar Producto o Insumo - No existencia');
+            }
+
+            if ($cantidad > $posicion->existencia) {
+
+                $restar = $posicion->existencia;
+
+            } else {
+
+                $restar = $cantidad;
+            }
+
+            $cantidad = $cantidad - $restar;
+            $posicion->subtract($posicion->detalle_id,$restar);
+
+            array_push($posiciones,$posicion);
+        };
+
+        return $posiciones;
+    }
 
     static function getBodPremixID() {
 
         return self::BOD_PREMIX_ID;
+    }
+
+    static function getBodMezcladoID() {
+
+        return self::BOD_MEZCLADO_ID;
     }
 
     /*
@@ -345,7 +383,6 @@ class Bodega extends Model
     | Public Functions
     |
     */
-
 
     // Relationships
 
