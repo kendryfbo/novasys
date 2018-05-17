@@ -28,6 +28,11 @@ class CreateOrdenCompraDetallesTable extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('orden_compra_detalles', function (Blueprint $table) {
+            $table->foreign('oc_id')->references('id')->on('orden_compra')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('tipo_id')->references('id')->on('tipo_familia')->onUpdate('cascade');
+        });
     }
 
     /**
