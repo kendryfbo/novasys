@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Produccion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Carbon\Carbon;
 use App\Models\Nivel;
 use App\Models\Formula;
-use App\Models\Premezcla;
 use App\Models\Producto;
+use App\Models\Premezcla;
 use App\Models\Bodega\Bodega;
 use App\Models\FormulaDetalle;
+use App\Models\Config\StatusDocumento;
 use App\Models\Produccion\ProdPremDetalle;
 use App\Models\Produccion\ProduccionPremezcla;
 
@@ -23,10 +25,13 @@ class ProduccionPremezclaController extends Controller
      */
     public function index()
     {
-        $prodPremezcla = ProduccionPremezcla::with('premezcla')->get();
+        $completa = StatusDocumento::completaID();
+        $pendiente = StatusDocumento::pendienteID();
 
+        $prodPremezcla = ProduccionPremezcla::with('premezcla','status')->where('status_id',$pendiente)->get();
+        $prodPremezclaCompleta = ProduccionPremezcla::with('premezcla','status')->where('status_id',$completa)->get();
 
-        return view('produccion.premezcla.index')->with(['prodPremezcla' => $prodPremezcla]);
+        return view('produccion.premezcla.index')->with(['prodPremezcla' => $prodPremezcla, 'prodPremezclaCompleta' => $prodPremezclaCompleta]);
     }
 
     /**
@@ -36,6 +41,7 @@ class ProduccionPremezclaController extends Controller
      */
     public function create()
     {
+        $fecha = Carbon::now()->format('Y-m-d');
         $nivelPremix = Nivel::premixID();
         $formulas = Formula::with('producto','premezcla')->where('autorizado',1)->get();
         $formulas->load(['detalle' => function ($query) use ($nivelPremix){
@@ -44,6 +50,8 @@ class ProduccionPremezclaController extends Controller
 
         return view('produccion.premezcla.create')->with([
             'formulas' => $formulas,
+            'nivel' => $nivelPremix,
+            'fecha' => $fecha,
         ]);
     }
 
@@ -59,6 +67,8 @@ class ProduccionPremezclaController extends Controller
             'formulaID' => 'required',
             'premezclaID' => 'required',
             'cantBatch' => 'required',
+            'nivelID' => 'required',
+            'fecha' => 'required'
         ]);
 
         $prodPremezcla = ProduccionPremezcla::register($request);
@@ -116,13 +126,23 @@ class ProduccionPremezclaController extends Controller
 
     public function createDescProdPremezcla($id) {
 
-        $bodega = null;
+        $pendiente = StatusDocumento::pendienteID();
+        $prodPremezcla = ProduccionPremezcla::with('detalles.insumo')->find($id);
+
+        if ($prodPremezcla->status_id == $pendiente) {
+
+            $msg = 'ERROR - Produccion Premezcla #' . $prodPremezcla->numero . ' ya ha sido procesada.';
+            return redirect()->route('produccionPremezcla')->with(['status' => $msg]);
+        }
+
+        $bodegaID = Bodega::getBodPremixID(); // id de bodega premix;
+        $bodega = Bodega::find($bodegaID);
         $disponible = true;
         $prodPremezcla = ProduccionPremezcla::with('detalles.insumo')->find($id);
 
-        $prodPremezcla->detalles->map(function($item) use($bodega,&$disponible) {
+        $prodPremezcla->detalles->map(function($item) use($bodegaID,&$disponible) {
 
-            $existencia = Bodega::getExistTotalMP($item->insumo_id,$bodega);
+            $existencia = Bodega::getExistTotalMP($item->insumo_id,$bodegaID);
             $item['existencia'] = $existencia;
 
             if ($existencia < $item->cantidad) {
@@ -132,13 +152,17 @@ class ProduccionPremezclaController extends Controller
 
         $prodPremezcla->disponible = $disponible;
 
-        return view('produccion.premezcla.descount')->with(['prodPremezcla' => $prodPremezcla]);
+        return view('produccion.premezcla.descount')->with(['prodPremezcla' => $prodPremezcla, 'bodega' => $bodega]);
     }
+
     public function storeDescProdPremezcla($id) {
 
-        $bodega = Bodega::getBodPremixID();
+        $bodegaID = Bodega::getBodPremixID(); // id de bodega premix;
+        $prodPremezcla = ProduccionPremezcla::processPremix($id, $bodegaID);
 
-        $descount = ProduccionPremezcla::descountFromBod($id, $bodega);
+        $msg = 'Produccion Premezcla #' . $prodPremezcla->numero . ' ha sido descontada.';
+        return redirect()->route('produccionPremezcla')->with(['status' => $msg]);
     }
+
 
 }

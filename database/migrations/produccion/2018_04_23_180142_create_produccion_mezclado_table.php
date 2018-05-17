@@ -15,7 +15,19 @@ class CreateProduccionMezcladoTable extends Migration
     {
         Schema::create('produccion_mezclado', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('numero')->unsigned();
+            $table->integer('premezcla_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->double('cant_batch');
+            $table->date('fecha');
+            $table->integer('status_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('produccion_mezclado', function (Blueprint $table) {
+            $table->foreign('premezcla_id')->references('id')->on('premezclas')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
         });
     }
 

@@ -6,14 +6,14 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Produccion Premezcla</h4>
+			<h4>Produccion Mezclado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarProduccionPremezcla')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarDescProdMezclado')}}">
 
 				{{ csrf_field() }}
 
@@ -22,9 +22,25 @@
 		        <!-- form-group -->
 		        <div class="form-group">
 
+				  <label class="control-label col-lg-1">Bodega:</label>
+				  <div class="col-lg-3">
+					  <input class="form-control input-sm" type="hidden" name="bodega" value="{{$bodega->id}}" readonly>
+					  <input class="form-control input-sm" type="text" value="{{$bodega->descripcion}}" readonly>
+				  </div>
+
+		        </div>
+		        <!-- /form-group -->
+		        <!-- form-group -->
+		        <div class="form-group">
+
+				  <label class="control-label col-lg-1">Numero:</label>
+				  <div class="col-lg-1">
+					  <input class="form-control input-sm" type="hidden" name="prodMezclado" value="{{$prodPremezcla->id}}" readonly>
+					  <input class="form-control input-sm" type="text" value="{{$prodPremezcla->numero}}" readonly>
+				  </div>
 				  <label class="control-label col-lg-1">Premezcla:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="text" name="premezcla" value="{{$prodPremezcla->premezcla->descripcion}}" readonly>
+					  <input class="form-control input-sm" type="text" value="{{$prodPremezcla->premezcla->descripcion}}" readonly>
 				  </div>
 				  <label class="control-label col-lg-1">Batch:</label>
 				  <div class="col-lg-1">

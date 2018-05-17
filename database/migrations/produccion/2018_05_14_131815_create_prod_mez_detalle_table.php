@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProdPremDetalleTable extends Migration
+class CreateProdMezDetalleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateProdPremDetalleTable extends Migration
      */
     public function up()
     {
-        Schema::create('prod_prem_detalle', function (Blueprint $table) {
+        Schema::create('prod_mez_detalle', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('prodprem_id')->unsigned();
+            $table->integer('prodmez_id')->unsigned();
             $table->integer('insumo_id')->unsigned();
             $table->double('cantidad');
             $table->timestamps();
         });
 
-        Schema::table('prod_prem_detalle', function (Blueprint $table) {
-            $table->foreign('prodprem_id')->references('id')->on('produccion_premezcla')->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('prod_mez_detalle', function (Blueprint $table) {
+            $table->foreign('prodmez_id')->references('id')->on('produccion_mezclado')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('insumo_id')->references('id')->on('insumos')->onUpdate('cascade');
         });
     }
@@ -34,6 +34,6 @@ class CreateProdPremDetalleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prod_prem_detalle');
+        Schema::dropIfExists('prod_mez_detalle');
     }
 }

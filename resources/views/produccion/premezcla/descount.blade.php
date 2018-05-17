@@ -13,12 +13,22 @@
 		<div class="box-body">
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarProduccionPremezcla')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarDescProdPremezcla',['id' => $prodPremezcla->id])}}">
 
 				{{ csrf_field() }}
 
 		        <h5>Datos</h5>
 
+		        <!-- form-group -->
+		        <div class="form-group">
+
+				  <label class="control-label col-lg-1">Bodega:</label>
+				  <div class="col-lg-3">
+					  <input class="form-control input-sm" type="text" name="bodega" value="{{$bodega->descripcion}}" readonly>
+				  </div>
+
+		        </div>
+		        <!-- /form-group -->
 		        <!-- form-group -->
 		        <div class="form-group">
 

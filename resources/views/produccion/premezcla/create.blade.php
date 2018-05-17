@@ -22,6 +22,21 @@
 		        <!-- form-group -->
 		        <div class="form-group">
 
+					<label class="control-label col-lg-1">Numero:</label>
+					<div class="col-lg-1">
+						<input class="form-control input-sm" type="text"  value="NUEVO" readonly>
+					</div>
+					<label class="control-label col-lg-1">Fecha:</label>
+					<div class="col-lg-1">
+						<input class="form-control input-sm text-center" type="text" name="fecha" value="{{$fecha}}" readonly>
+					</div>
+
+				</div>
+				<!-- /form-group -->
+
+		        <!-- form-group -->
+		        <div class="form-group">
+
 		          <label class="control-label col-lg-1">Formula:</label>
 				  <div class="col-lg-3">
 		            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formulaID" v-model="formulaID" @change="updateList" required>
@@ -45,6 +60,7 @@
 		        <!-- /form-group -->
 				<input class="form-control input-sm" type="hidden" name="formulaID" :value="formulaID" required>
 				<input class="form-control input-sm" type="hidden" name="premezclaID" :value="premezclaID" required>
+				<input class="form-control input-sm" type="hidden" name="nivelID" value="{{$nivel}}" required>
 
 			</form>
 			<!-- /form -->

@@ -23,6 +23,12 @@ class CreateProduccionPremezclaTable extends Migration
             $table->integer('status_id')->unsigned();
             $table->timestamps();
         });
+
+        Schema::table('produccion_premezcla', function (Blueprint $table) {
+            $table->foreign('premezcla_id')->references('id')->on('premezclas')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
+            $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
+        });
     }
 
     /**

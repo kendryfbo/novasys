@@ -36,10 +36,10 @@ Route::prefix('produccion')->group( function(){
         Route::get('/{id}/edit',      'Produccion\ProduccionMezcladoController@edit')->name('editarProduccionMezclado');
         Route::delete('/{id}',        'Produccion\ProduccionMezcladoController@destroy')->name('eliminarProduccionMezclado');
         Route::get('/{id}/descontar', 'Produccion\ProduccionMezcladoController@createDescProdMezclado')->name('crearDescProdMezclado');
-        Route::post('/{id}',          'Produccion\ProduccionMezcladoController@storeDescProdMezclado')->name('guardarDescProdMezclado');
+        Route::post('/descontar',          'Produccion\ProduccionMezcladoController@storeDescProdMezclado')->name('guardarDescProdMezclado');
 
     });
-    
+
 });
 
  ?>
