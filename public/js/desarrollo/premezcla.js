@@ -6,16 +6,16 @@ var app = new Vue({
 	  familia: codFamilia,
 	  marca: $('select[name=marca]').val(),
 	  sabor: $('select[name=sabor]').val(),
-      unidad: $('select[name=unidad]').val(),
+      formato: $('select[name=formato]').val(),
       marcas: [],
       sabores: [],
-      unidades: unidades,
+      formatos: formatos,
   },
   methods: {
 	  updateDescripcion: function() {
 
           this.codigo = this.familia;
-          this.descripcion = this.familia;
+          this.descripcion = "PREMEZCLA";
 
           if (this.marca) {
               for (var i = 0; i < this.marcas.length; i++) {
@@ -35,6 +35,19 @@ var app = new Vue({
 
                       this.codigo = this.codigo + this.formatNumber(this.sabores[i].id);
                       this.descripcion = this.descripcion + " " + this.sabores[i].descripcion;
+                      break;
+
+                  }
+              }
+          }
+          if (this.formato) {
+
+              for (var i = 0; i < this.formatos.length; i++) {
+
+                  if (this.formato == this.formatos[i].id) {
+
+                      this.codigo = this.codigo + this.formatNumber(this.formatos[i].id);
+                      this.descripcion = this.descripcion + " " + this.formatos[i].peso_uni +"g";
                       break;
 
                   }

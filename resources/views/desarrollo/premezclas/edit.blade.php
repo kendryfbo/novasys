@@ -73,12 +73,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2">Unidad:</label>
+					<label class="control-label col-sm-2">Formato:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" required>
-								<option value="">Seleccionar Unidad...</option>
-								@foreach ($unidades as $unidad)
-									<option value="{{$unidad->unidad}}">{{$unidad->descripcion}}</option>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="updateDescripcion" required>
+								<option value="">Seleccionar Formato...</option>
+								@foreach ($formatos as $formato)
+									<option value="{{$formato->id}}">{{$formato->descripcion}}</option>
 								@endforeach
 			            </select>
 					</div>
@@ -108,8 +108,8 @@
 		var codFamilia = "{!! $familia->codigo !!}";
 		$('select[name=marca]').val({!!$premezcla->marca->id!!});
 		$('select[name=sabor]').val({!!$premezcla->sabor->id!!});
-		$('select[name=unidad]').val("{!!$premezcla->unidad_med!!}");
-		var unidades ={!! $unidades !!};
+		$('select[name=formato]').val("{!!$premezcla->formato_id!!}");
+		var formatos ={!! $formatos !!};
 	</script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/premezclaEdit.js')}}"></script>

@@ -32,7 +32,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" >Descripcion:</label>
 					<div class="col-sm-6">
-						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Producto..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : $familia->codigo }}" readonly required>
+						<input type="text" v-model='descripcion' class="form-control" name="descripcion" placeholder="Descripcion de Producto..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : "PREMEZCLA" }}" readonly required>
 					</div>
 					@if ($errors->has('descripcion'))
 						@component('components.errors.validation')
@@ -72,12 +72,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2">Unidad:</label>
+					<label class="control-label col-sm-2">Formato:</label>
 					<div class="col-sm-6">
-						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="unidad" v-model="unidad" required>
-								<option value="">Seleccionar Unidad...</option>
-								@foreach ($unidades as $unidad)
-									<option value="{{$unidad->unidad}}">{{$unidad->descripcion}}</option>
+						<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="updateDescripcion" required>
+								<option value="">Seleccionar Formato...</option>
+								@foreach ($formatos as $formato)
+									<option value="{{$formato->id}}">{{$formato->descripcion}}</option>
 								@endforeach
 			            </select>
 					</div>
@@ -106,8 +106,8 @@
 
 @section('scripts')
 	<script>
-	var codFamilia = "{!! $familia->codigo !!}";
-		var unidades ={!! $unidades !!};
+		var codFamilia = "{!! $familia->codigo !!}";
+		var formatos = {!! $formatos !!};
 	</script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/desarrollo/premezcla.js')}}"></script>

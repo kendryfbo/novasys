@@ -27,7 +27,7 @@
 						<th>Descripcion</th>
 						<th>Marca</th>
 						<th>Sabor</th>
-						<th>Unidad</th>
+						<th>Formato</th>
 						<th>Activo</th>
 						<th class="text-center">Opciones</th>
 					</tr>
@@ -40,7 +40,7 @@
 						<td>{{$premezcla->descripcion}}</td>
 						<td>{{$premezcla->marca->descripcion}}</td>
 						<td>{{$premezcla->sabor->descripcion}}</td>
-						<td>{{$premezcla->unidad_med}}</td>
+						<td>{{$premezcla->formato->descripcion}}</td>
 						<td>{{$premezcla->activo ? "Si" : "No"}}</td>
 						<td class="text-center">
 							<form style="display: inline" action="{{route('editarPremezcla',['premezcla' => $premezcla->id])}}" method="get">

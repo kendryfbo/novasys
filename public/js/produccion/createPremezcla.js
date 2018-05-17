@@ -40,9 +40,10 @@ var app = new Vue({
             for (var i = 0; i < this.items.length; i++) {
 
                 this.items[i].totalBatch = this.items[i].cantxbatch * this.cantBatch;
+                this.items[i].totalBatch = Math.round(this.items[i].totalBatch * 100) / 100;
                 this.totalBatch += this.items[i].totalBatch;
             }
-
+            this.totalBatch =  Math.round(this.totalBatch * 100) / 100;
             $('.selectpicker').selectpicker('refresh');
         }
     },
