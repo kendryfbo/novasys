@@ -14,7 +14,7 @@ class NivelesTableSeeder extends Seeder
         $niveles = [
             ['id' => 1, 'descripcion' => 'Produccion', 'activo' => 1],
             ['id' => 2, 'descripcion' => 'Premix', 'activo' => 1],
-            ['id' => 3, 'descripcion' => 'Base', 'activo' => 1],
+            ['id' => 3, 'descripcion' => 'Mezclado', 'activo' => 1],
         ];
 
         foreach ($niveles as $nivel) {
