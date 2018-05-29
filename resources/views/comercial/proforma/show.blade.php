@@ -12,6 +12,9 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<form id="pdf" action="{{route('descargarProformaPDF',['numero' => $proforma->numero])}}" method="get">
+
+			</form>
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="">
 
@@ -37,6 +40,9 @@
             <input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
           </div>
 
+			<div class="col-lg-1 col-lg-offset-2">
+			  	<button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
+			</div>
         </div>
         <!-- /form-group -->
 
@@ -71,13 +77,23 @@
 			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente->descripcion}}" readonly>
           </div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
-					</div>
+        </div>
+		<!-- /form-group -->
+
+        <!-- form-group -->
+        <div class="form-group">
+
+		<label class="control-label col-lg-1">Direccion:</label>
+		<div class="col-lg-4">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->direccion}}" readonly>
+		</div>
+		<label class="control-label col-lg-2">Condicion Pago:</label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
+		</div>
 
         </div>
-				<!-- /form-group -->
+		<!-- /form-group -->
 
         <!-- form-group -->
         <div class="form-group">
@@ -98,9 +114,9 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Direccion:</label>
+          <label class="control-label col-lg-1">Dir. Desp.:</label>
           <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" readonly>
+            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->despacho}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Puerto D. :</label>

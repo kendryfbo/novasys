@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Comercial;
 
+use PDF;
+use Carbon\Carbon;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
@@ -66,8 +68,7 @@ class ProformaController extends Controller
         }
 
         $centrosVenta = CentroVenta::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-        $clientes->load('formaPago');
+        $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
@@ -105,6 +106,7 @@ class ProformaController extends Controller
         'puertoE' => 'required',
         'formaPago' => 'required',
         'direccion' => 'required',
+        'despacho' => 'required',
         'puertoD' => 'required'
       ]);
 
@@ -151,8 +153,7 @@ class ProformaController extends Controller
         }
 
         $centrosVenta = CentroVenta::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-        $clientes->load('formaPago');
+        $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
@@ -190,6 +191,7 @@ class ProformaController extends Controller
           'puertoE' => 'required',
           'formaPago' => 'required',
           'direccion' => 'required',
+          'despacho' => 'required',
           'puertoD' => 'required'
         ]);
 
@@ -224,7 +226,7 @@ class ProformaController extends Controller
     public function authorization() {
 
         $proformas = Proforma::getAllUnathorized();
-        
+
         return view('comercial.proforma.authorization')->with(['proformas' => $proformas]);
     }
 
@@ -244,6 +246,16 @@ class ProformaController extends Controller
         $msg = 'Proforma N°' . $proforma->numero . ' No ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
+    }
+
+    public function downloadPDF($numero) {
+
+        $proforma = Proforma::with('centroVenta','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')
+        ->where('numero',$numero)->first();
+        $proforma->fecha_emision = Carbon::createFromFormat('Y-m-d', $proforma->fecha_emision)->format('d/m/Y');
+        $pdf = PDF::loadView('documents.pdf.proforma',compact('proforma'));
+        return $pdf->stream('test.pdf');
+        return view('documents.pdf.proforma')->with(['proforma' => $proforma]);
     }
 
 }

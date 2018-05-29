@@ -113,17 +113,27 @@
 
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadFormaPago" required>
+            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadDatos" required>
 				<option value=""></option>
 				<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
             </select>
           </div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-          <div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" v-model="formaPagoDescrip" readonly>
-          </div>
+        </div>
+        <!-- /form-group -->
 
+		<!-- form-group -->
+        <div class="form-group">
+
+			<label class="control-label col-lg-1">Direccion:</label>
+			<div class="col-lg-4">
+				<input class="form-control input-sm" type="text" name="direccion" v-model="direccion" readonly>
+			</div>
+
+			<label class="control-label col-lg-2">Condicion Pago:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="formaPago" v-model="formaPagoDescrip" readonly>
+			</div>
 
         </div>
         <!-- /form-group -->
@@ -133,7 +143,7 @@
 
           <label class="control-label col-lg-1">Puerto E. :</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" required>
+            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" required>
               <option value=""></option>
 							@foreach ($puertoEmbarque as $puerto)
 
@@ -161,10 +171,12 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Direccion:</label>
-          <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" required>
-          </div>
+			<label class="control-label col-lg-1">Dir.Desp.:</label>
+            <div class="col-lg-5">
+  			<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="despacho" required>
+  				<option v-if="sucursales" v-for="sucursal in sucursales" v-bind:value="sucursal.direccion">@{{sucursal.descripcion + " - " + sucursal.direccion }}</option>
+  			</select>
+  		  </div>
 
           <label class="control-label col-lg-1">Puerto D. :</label>
           <div class="col-lg-4">

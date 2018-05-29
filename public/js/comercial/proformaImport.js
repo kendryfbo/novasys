@@ -7,6 +7,8 @@ var app = new Vue({
     clientes: clientes,
     clienteId: clienteId,
     formaPagoDescrip: '',
+    direccion: '',
+    sucursales: [],
     productos: productos,
     prodId: '',
     item: [],
@@ -28,6 +30,13 @@ var app = new Vue({
 
   methods: {
 
+    loadDatos: function() {
+
+        this.loadSucursales();
+        this.loadFormaPago();
+
+    },
+
     loadFormaPago: function() {
 
       for (var i=0; i < this.clientes.length; i++) {
@@ -37,6 +46,18 @@ var app = new Vue({
           this.formaPagoDescrip = this.clientes[i].forma_pago.descripcion;
         }
       }
+    },
+
+    loadSucursales: function() {
+
+        for (var i=0; i < this.clientes.length; i++) {
+
+            if (this.clienteId == this.clientes[i].id) {
+
+                this.sucursales = this.clientes[i].sucursales;
+                this.direccion = this.clientes[i].direccion;
+            }
+        }
     },
 
     loadProducto: function() {
@@ -262,7 +283,7 @@ var app = new Vue({
   },
 
   created() {
-      this.loadFormaPago();
+      this.loadDatos();
       this.calculateTotal();
   },
 

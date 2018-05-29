@@ -46,6 +46,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$version = $request->version ? $request->version : 1;
 			$vendedor = $request->vendedor;
 			$ordenCompra = $request->orden_compra;
+			$direccion = $request->direccion;
 			$despacho = $request->despacho;
 			$user = $request->user()->id;
 			$fechaEmision = $request->fechaEmision;
@@ -59,6 +60,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				'version' => $version,
 				'vendedor_id' => $vendedor,
 				'orden_compra' => $ordenCompra,
+				'direccion' => $direccion,
 				'despacho' => $despacho,
 				'sub_total' => $totalSubTotal,
 				'descuento' => $totalDescuento,
@@ -243,6 +245,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$notaVenta->vendedor_id = $request->vendedor;
 			$notaVenta->orden_compra = $request->orden_compra;
 			$notaVenta->despacho = $request->despacho;
+			$notaVenta->direccion = $request->direccion;
 			$notaVenta->user_id = $request->user()->id;
 			$notaVenta->fecha_emision = $request->fechaEmision;
 			$notaVenta->fecha_despacho = $request->fechaDespacho;

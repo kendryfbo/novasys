@@ -11,7 +11,7 @@ table {
 }
 .title-content {
     height: 100px;
-    border: 1px solid red;
+    border: 1px solid;
 }
 
 .num-oc {

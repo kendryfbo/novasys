@@ -7,6 +7,8 @@ var app = new Vue({
     clientes: clientes,
     clienteId: clienteId,
     formaPagoDescrip: '',
+    direccion: '',
+    sucursales: [],
     productos: productos,
     prodId: '',
     item: [],
@@ -23,10 +25,22 @@ var app = new Vue({
     freight: freight,
     insurance: insurance,
     total: 0,
+    clausulas: clausulas,
+    clausulaID: '',
+    fobValidator: true,
+    freightValidator: true,
+    insuranceValidator: true,
 
   },
 
   methods: {
+
+    loadDatos: function() {
+
+      this.loadSucursales();
+      this.loadFormaPago();
+
+    },
 
     loadFormaPago: function() {
 
@@ -37,6 +51,18 @@ var app = new Vue({
           this.formaPagoDescrip = this.clientes[i].forma_pago.descripcion;
         }
       }
+    },
+
+    loadSucursales: function() {
+
+        for (var i=0; i < this.clientes.length; i++) {
+
+            if (this.clienteId == this.clientes[i].id) {
+
+                this.sucursales = this.clientes[i].sucursales;
+                this.direccion = this.clientes[i].direccion;
+            }
+        }
     },
 
     loadProducto: function() {
@@ -249,7 +275,30 @@ var app = new Vue({
     numberFormat: function(x) {
 
       return x.toLocaleString(undefined, {minimumFractionDigits: 2})
-    }
+  },
+
+  updateClausula: function () {
+
+      // FOB
+      if (this.clausulaID == 2) {
+
+          this.fobValidator = true;
+          this.freightValidator = false;
+          this.insuranceValidator = false;
+
+      // CFR
+      } else if (this.clausulaID == 3) {
+
+              this.fobValidator = false;
+              this.freightValidator = true;
+              this.insuranceValidator = false;
+      } else {
+
+          this.fobValidator = true;
+          this.freightValidator = true;
+          this.insuranceValidator = true;
+      }
+  },
 
 },
 
@@ -262,7 +311,7 @@ var app = new Vue({
   },
 
   created() {
-      this.loadFormaPago();
+      this.loadDatos();
       this.calculateTotal();
   },
 

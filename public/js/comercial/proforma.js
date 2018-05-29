@@ -7,6 +7,7 @@ var app = new Vue({
     clientes: clientes,
     clienteId: '',
     formaPagoDescrip: '',
+    direccion: '',
     sucursales: [],
     productos: productos,
     prodId: '',
@@ -24,7 +25,11 @@ var app = new Vue({
     freight: 0,
     insurance: 0,
     total: 0,
-
+    clausulas: clausulas,
+    clausulaID: '',
+    fobValidator: true,
+    freightValidator: true,
+    insuranceValidator: true,
   },
 
   methods: {
@@ -33,6 +38,7 @@ var app = new Vue({
 
         this.loadSucursales();
         this.loadFormaPago();
+
     },
 
     loadSucursales: function() {
@@ -42,6 +48,7 @@ var app = new Vue({
             if (this.clienteId == this.clientes[i].id) {
 
                 this.sucursales = this.clientes[i].sucursales;
+                this.direccion = this.clientes[i].direccion;
             }
         }
     },
@@ -263,7 +270,30 @@ var app = new Vue({
     numberFormat: function(x) {
 
         return x.toLocaleString(undefined, {minimumFractionDigits: 2})
-    }
+    },
+
+    updateClausula: function () {
+
+        // FOB
+        if (this.clausulaID == 2) {
+
+            this.fobValidator = true;
+            this.freightValidator = false;
+            this.insuranceValidator = false;
+
+        // CFR
+        } else if (this.clausulaID == 3) {
+
+                this.fobValidator = false;
+                this.freightValidator = true;
+                this.insuranceValidator = false;
+        } else {
+
+            this.fobValidator = true;
+            this.freightValidator = true;
+            this.insuranceValidator = true;
+        }
+    },
 
   },
 

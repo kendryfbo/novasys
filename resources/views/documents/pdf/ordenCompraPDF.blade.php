@@ -70,7 +70,7 @@
 
         <div class="content">
             <table class="table" width="100%">
-                <<thead>
+                <thead>
                     <tr>
                         <th class="text-center">CODIGO</th>
                         <th class="text-center">DESCRIPCION</th>

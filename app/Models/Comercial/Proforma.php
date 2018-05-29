@@ -4,6 +4,7 @@ namespace App\Models\Comercial;
 
 use DB;
 use App\Models\Comercial\ClienteIntl;
+use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\FormaPagoIntl;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +12,7 @@ class Proforma extends Model
 {
     protected $fillable = [
         'numero', 'version', 'cv_id', 'centro_venta', 'cliente_id', 'fecha_emision',
-        'semana', 'direccion', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago',
+        'semana', 'direccion', 'despacho', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago',
         'clau_venta', 'peso_neto', 'peso_bruto', 'volumen', 'fob', 'freight', 'insurance',
         'cif', 'descuento','total','user_id'
     ];
@@ -63,6 +64,7 @@ class Proforma extends Model
             $fechaEmision = $request->emision;
             $semana = $request->semana;
             $direccion = $request->direccion;
+            $despacho = $request->despacho;
             $nota = $request->nota;
             $transporte = $request->transporte;
             $puertoE = $request->puertoE;
@@ -84,6 +86,7 @@ class Proforma extends Model
                 'fecha_emision' => $fechaEmision,
                 'semana' => $semana,
     			'direccion' => $direccion,
+    			'despacho' => $despacho,
                 'nota' => $nota,
     			'transporte' => $transporte,
                 'puerto_emb' => $puertoE,
@@ -117,7 +120,6 @@ class Proforma extends Model
     			}
 
     			$item = json_decode($item);
-
     			$id = $item->producto_id;
     			$codigo = $item->codigo;
     			$descripcion = $item->descripcion;
@@ -127,7 +129,6 @@ class Proforma extends Model
     			$pesoNeto = $item->peso_neto;
     			$pesoBruto = $item->peso_bruto;
     			$volumen = $item->volumen;
-
     			$subTotal = $cantidad * $precio;
     			$descuento = ($subTotal * $porcDesc) / 100;
 
@@ -148,9 +149,9 @@ class Proforma extends Model
 
     			$totalFob += $subTotal;
     			$totalDescuento += $descuento;
-    			$totalPesoNeto += $pesoNeto;
-    			$totalPesoBruto += $pesoBruto;
-    			$totalVolumen += $volumen;
+    			$totalPesoNeto += $pesoNeto * $item->cantidad;
+    			$totalPesoBruto += $pesoBruto * $item->cantidad;
+    			$totalVolumen += $volumen * $item->cantidad;
 
     		};
 
@@ -201,6 +202,7 @@ class Proforma extends Model
             $fechaEmision = $request->emision;
             $semana = $request->semana;
             $direccion = $request->direccion;
+            $despacho = $request->despacho;
             $nota = $request->nota;
             $transporte = $request->transporte;
             $puertoE = $request->puertoE;
@@ -219,6 +221,7 @@ class Proforma extends Model
             $proforma->fecha_emision = $fechaEmision;
             $proforma->semana = $semana;
             $proforma->direccion = $direccion;
+            $proforma->despacho = $despacho;
             $proforma->nota = $nota;
             $proforma->transporte = $transporte;
             $proforma->puerto_emb = $puertoE;
@@ -373,5 +376,9 @@ class Proforma extends Model
     public function guiaDespacho() {
 
         return $this->hasOne(GuiaDespacho::class);
+    }
+    public function centroVenta() {
+
+        return $this->belongsTo(CentroVenta::class, 'cv_id');
     }
 }

@@ -6,6 +6,7 @@ var app = new Vue ({
 
 		cliente : '',
 		sucursales: [],
+		direccion:'',
 		despacho: '',
 		formaPago: '',
 		formaPagoID: '',
@@ -68,6 +69,7 @@ var app = new Vue ({
 			this.listaDetalle = data.lista_precio.detalle;
 			this.canal = data.canal;
 			this.descuento = data.canal.descuento;
+			this.direccion = data.direccion;
 
 		},
 

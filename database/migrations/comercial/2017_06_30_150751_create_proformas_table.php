@@ -23,6 +23,7 @@ class CreateProformasTable extends Migration
             $table->date('fecha_emision');
             $table->integer('semana');
             $table->string('direccion');
+            $table->string('despacho');
             $table->string('nota')->nullable();
             $table->string('transporte');
             $table->string('puerto_emb');

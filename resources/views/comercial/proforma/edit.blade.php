@@ -78,13 +78,9 @@
 
           <label class="control-label col-lg-1">Clausula:</label>
           <div class="col-lg-2">
-            <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" required>
-              <option value=""></option>
-							@foreach ($clausulas as $clausula)
-
-								<option {{ $proforma->clau_venta == $clausula->nombre ? 'selected':'' }} value="{{ $clausula->nombre }}">{{ $clausula->nombre }}</option>
-
-							@endforeach
+            <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" v-model="clausulaID" @change="updateClausula" required>
+				<option value=""></option>
+                <option v-for="clausula in clausulas"  :value="clausula.id">@{{clausula.nombre}}</option>
             </select>
           </div>
 
@@ -96,22 +92,32 @@
         </div>
         <!-- /form-group -->
 
-        <!-- form-group -->
+		<!-- form-group -->
         <div class="form-group">
 
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadFormaPago" required>
+            <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente" v-model="clienteId" @change="loadDatos" required>
 				<option value=""></option>
 				<option v-for="cliente in clientes" v-bind:value="cliente.id">@{{cliente.descripcion}}</option>
             </select>
           </div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-          <div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" v-model="formaPagoDescrip" readonly>
-          </div>
+        </div>
+        <!-- /form-group -->
 
+		<!-- form-group -->
+        <div class="form-group">
+
+			<label class="control-label col-lg-1">Direccion:</label>
+			<div class="col-lg-4">
+				<input class="form-control input-sm" type="text" name="direccion" v-model="direccion" readonly>
+			</div>
+
+			<label class="control-label col-lg-2">Condicion Pago:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="formaPago" v-model="formaPagoDescrip" readonly>
+			</div>
 
         </div>
         <!-- /form-group -->
@@ -149,10 +155,12 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Direccion:</label>
-          <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" required>
-          </div>
+			<label class="control-label col-lg-1">Dir.Desp.:</label>
+            <div class="col-lg-5">
+  			<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="despacho" required>
+  				<option v-if="sucursales" v-for="sucursal in sucursales" v-bind:value="sucursal.direccion">@{{sucursal.descripcion + " - " + sucursal.direccion }}</option>
+  			</select>
+  		  </div>
 
           <label class="control-label col-lg-1">Puerto D. :</label>
           <div class="col-lg-4">
@@ -299,13 +307,13 @@
 			<tr>
 				<th class="bg-gray text-right">FREIGHT US$</th>
 				<td class="input-td">
-					<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" @change="freightChange">
+					<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" :disabled="!freightValidator" @change="freightChange">
 				</td>
 			</tr>
 			<tr>
 				<th class="bg-gray text-right">INSURANCE US$</th>
 				<td class="input-td">
-					<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" @change="insuranceChange">
+					<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" :disabled="!insuranceValidator" @change="insuranceChange">
 				</td>
 			</tr>
 			<tr>
@@ -338,6 +346,7 @@
 		var items = {!!$proforma->detalles->toJson()!!};
 		var freight = {!!$proforma->freight!!};
 		var insurance = {!!$proforma->insurance!!};
+		var clausulas = {!!$clausulas!!};
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>

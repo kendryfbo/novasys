@@ -67,6 +67,7 @@ class NotaVentaController extends Controller
           'cliente' => 'required',
           'formaPago' => 'required',
           'despacho' => 'required',
+          'direccion' => 'required',
           'vendedor' => 'required',
           'items' => 'required'
       ]);
