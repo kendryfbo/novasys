@@ -9,31 +9,15 @@ use App\Models\Comercial\GuiaDespachoDetalle;
 
 class GuiaDespacho extends Model
 {
-  protected $fillable = [
-    'proforma_id', 'numero', 'aduana_id', 'fecha', 'mn', 'booking', 'contenedor','sello', 'chofer', 'patente',
-    'movil', 'prof', 'dus', 'peso_neto', 'peso_bruto', 'volumen', 'fecha_emision', 'user_id'
-  ];
-
-  public function detalles() {
-
-    return $this->hasMany(GuiaDespachoDetalle::class,'guia_id');
-  }
-
-  public function proforma() {
-
-    return $this->belongsTo(Proforma::class);
-  }
-
-  public function aduana() {
-
-    return $this->belongsTo(Aduana::class);
-  }
+    protected $fillable = [
+        'proforma_id', 'numero', 'aduana_id', 'fecha', 'mn', 'booking', 'contenedor','sello', 'chofer', 'patente',
+        'movil', 'prof', 'dus', 'peso_neto', 'peso_bruto', 'volumen', 'fecha_emision', 'user_id'];
 
     static function register($request) {
 
         $guia = DB::transaction(function () use ($request){
 
-            $proforma = Proforma::with('detalles')->where('numero',$request->proforma)->first();
+            $proforma = Proforma::with('detalles','cliente')->where('numero',$request->proforma)->first();
 
             $guia = GuiaDespacho::create([
                 'numero' => $request->numero,
@@ -76,5 +60,23 @@ class GuiaDespacho extends Model
         },5);
 
         return $guia;
+    }
+
+
+    // RELATIONSHIPS
+
+    public function detalles() {
+
+      return $this->hasMany(GuiaDespachoDetalle::class,'guia_id');
+    }
+
+    public function proforma() {
+
+      return $this->belongsTo(Proforma::class);
+    }
+
+    public function aduana() {
+
+      return $this->belongsTo(Aduana::class);
     }
 }

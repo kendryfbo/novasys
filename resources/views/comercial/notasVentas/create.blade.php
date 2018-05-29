@@ -88,7 +88,7 @@
 
 						<label class="control-label col-lg-2">Cliente:</label>
 						<div class="col-lg-4">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
 								@foreach ($clientes as $cliente)
 									<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
@@ -105,6 +105,14 @@
 
 					</div>
 
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Direccion:</label>
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="numero" placeholder="direccion facturacion..." :value="direccion" readonly>
+						</div>
+
+					</div>
 					<div class="form-group form-group-sm">
 
 						<label class="control-label col-lg-2">Despacho:</label>

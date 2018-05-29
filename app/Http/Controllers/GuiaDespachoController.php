@@ -14,13 +14,13 @@ class GuiaDespachoController extends Controller
 
   public function index() {
 
-    $guias = GuiaDespacho::with('proforma:id,numero,cliente', 'aduana:id,descripcion')->orderBy('numero')->take(20)->get();
+    $guias = GuiaDespacho::with('proforma:id,numero,cliente_id', 'aduana:id,descripcion','proforma.cliente')->orderBy('numero')->take(20)->get();
     return view('comercial.guiaDespacho.index')->with(['guias' => $guias]);
   }
 
   public function show($guia) {
 
-    $guia = GuiaDespacho::with('detalles','proforma:id,numero', 'aduana:id,descripcion')->where('numero',$guia)->first();
+    $guia = GuiaDespacho::with('detalles','proforma:id,numero', 'aduana:id,descripcion','proforma.cliente')->where('numero',$guia)->first();
 
     return view('comercial.guiaDespacho.show')->with(['guia' => $guia]);
   }
@@ -71,11 +71,8 @@ class GuiaDespachoController extends Controller
         return redirect()->route('guiaDespacho')->with('status', $msg);
     }
 
-  public function pdf($guia) {
-
-      return redirect()->back();
-    $datos = [];
-
-    $pdf = PDF::loadView('documents.pdf.guiaDespacho', $datos);
+  public function pdf(GuiaDespacho $guia) {
+      
+    $pdf = PDF::loadView('documents.pdf.guiaDespacho', $guia);
   }
 }

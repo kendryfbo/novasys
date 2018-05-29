@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div id="vue-app" class="container box box-gray">
+<div id="vue-app" class="box box-solid box-default">
 
 	<!-- Modal -->
 	<div id="myModal" class="modal fade" role="dialog">
@@ -34,7 +34,7 @@
 	  </div>
 	</div>
 	<!-- /modal -->
-	<div class="box-header with-border">
+	<div class="box-header text-center">
 	  <h3 class="box-title">Crear Formula</h3>
 	</div>
 	<!-- /.box-header -->
@@ -44,7 +44,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-1">Producto:</label>
 				<div class="col-sm-6">
-					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="getFormula" required>
+					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" required>
 							<option value="">Seleccionar Producto...</option>
 							@foreach ($productos as $producto)
 								<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
