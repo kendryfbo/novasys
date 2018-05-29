@@ -21,7 +21,7 @@ var app = new Vue({
               for (var i = 0; i < this.marcas.length; i++) {
 
                   if (this.marca == this.marcas[i].id) {
-                      this.codigo = this.codigo + this.marcas[i].codigo;
+                      this.codigo = this.codigo + this.marcas[i].id;
                       this.descripcion = this.descripcion + " " + this.marcas[i].descripcion;
                       break;
                   }
@@ -33,7 +33,7 @@ var app = new Vue({
 
                   if (this.sabor == this.sabores[i].id) {
 
-                      this.codigo = this.codigo + this.formatNumber(this.sabores[i].id);
+                      this.codigo = this.codigo + this.sabores[i].id;
                       this.descripcion = this.descripcion + " " + this.sabores[i].descripcion;
                       break;
 
@@ -46,7 +46,7 @@ var app = new Vue({
 
                   if (this.formato == this.formatos[i].id) {
 
-                      this.codigo = this.codigo + this.formatNumber(this.formatos[i].id);
+                      this.codigo = this.codigo + this.formatos[i].id;
                       this.descripcion = this.descripcion + " " + this.formatos[i].peso_uni +"g";
                       break;
 
@@ -54,9 +54,6 @@ var app = new Vue({
               }
           }
 	  },
-      formatNumber : function(number) {
-          return ("0" + number).slice(-2)
-      }
   },
 
   mounted() {

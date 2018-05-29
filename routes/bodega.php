@@ -7,7 +7,9 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/grupoprem', function(){
         $nivelPremix = 2;
-        $formulas = App\Models\Formula::with('producto')->where('autorizado',1)->get();
+        $formulas = App\Models\Formula::with('producto.marca','producto.sabor','producto.formato')
+                                            ->where('autorizado',1)
+                                            ->where('premezcla_id',0)->get();
         $formulas->load(['detalle' => function ($query) use ($nivelPremix){
             $query->where('nivel_id',$nivelPremix);
         }]);
@@ -69,15 +71,46 @@ Route::prefix('bodega')->group( function() {
         }
 
         $groupByPrem = $formulas->groupBy('premezcla_num');
-        $i=0;
+        $premezclas = [];
+        $relaciones = [];
+        $i=59;
         foreach ($groupByPrem as $premezcla) {
             $i++;
-            dump('#'.$i.'--------------------GRUPO DE PREMEZCLA--------------------');
-            foreach ($premezcla as $item) {
-                dump('-id: '.$item->producto->id.' -Descrip:'.$item->producto->descripcion);
-            }
+            $prem = $premezcla[0];
+            $premId = $i;
+            $premCod = 'PRE'.$prem->producto->marca_id.$prem->producto->sabor_id.$prem->producto->formato_id;
+            $premDescrip = 'PREMEZCLA '.$prem->producto->marca->descripcion.' '.$prem->producto->sabor->descripcion.' '.$prem->producto->formato->peso_uni.'g';
+            $premezclas[$i]['id'] = $premId;
+            $premezclas[$i]['codigo'] = $premCod;
+            $premezclas[$i]['descripcion'] = $premDescrip;
+            $premezclas[$i]['familia_id'] = 1;
+            $premezclas[$i]['marca_id'] = $prem->producto->marca_id;
+            $premezclas[$i]['sabor_id'] = $prem->producto->sabor_id;
+            $premezclas[$i]['formato_id'] = $prem->producto->formato_id;
+            //dump('#'.$i.' - GRUPO PREMEZCLA -');
+                foreach ($premezcla as $item) {
+                    $relacion = [];
+                    $relacion['id'] = $item->producto->id;
+                    $relacion['prem_id'] = $premId;
+                    $relacion['descripcion'] = $item->producto->descripcion;
+                    array_push($relaciones,$relacion);
+                    //dump('-id: '.$item->producto->id.' -Descrip:'.$item->producto->descripcion);
+                }
         }
-        dd('fin');
+        return Excel::create('RELACION PREMEZCLA', function($excel) use ($premezclas,$relaciones) {
+
+            $excel->sheet('Premezcla', function($sheet) use ($premezclas) {
+                            $sheet->loadView('documents.excel.premezclas')
+                                ->with('premezclas', $premezclas);
+                            })
+                    ->sheet('Relacion', function($sheet) use ($relaciones) {
+                                $sheet->loadView('documents.excel.grupoPremezclas')
+                                        ->with('relaciones', $relaciones);
+                                })
+                    ->download('xlsx');
+        });
+        dd('FIN');
+
     });
 
     Route::get('/test', function(){

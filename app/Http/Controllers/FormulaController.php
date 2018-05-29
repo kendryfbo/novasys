@@ -28,8 +28,7 @@ class FormulaController extends Controller
      */
     public function create()
     {
-
-        $productos = Producto::getAllActive();
+        $productos = Producto::doesntHave('formula')->where('activo',1)->get();
         $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
         $niveles = Nivel::getAllActive();
 

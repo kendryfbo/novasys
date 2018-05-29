@@ -102,7 +102,7 @@ class PremezclaController extends Controller
         $marcas = Marca::getAllActive();
         $sabores = Sabor::getAllActive();
         $formatos = Formato::getAllActive();
-        
+
         return view('desarrollo.premezclas.edit')
                 ->with(['premezcla' => $premezcla,
                         'familia' => $familia,
@@ -152,12 +152,16 @@ class PremezclaController extends Controller
      */
     public function destroy(Premezcla $premezcla)
     {
+        dd('Por implementar');
+
+        // comentado hasta asegurar integridad - relacion formula Premezcla
+        /*
         Premezcla::destroy($premezcla->id);
 
         $msg = "Premezcla: " . $premezcla->descripcion . " ha sido Eliminada.";
 
         return redirect(route('premezclas'))->with(['status' => $msg]);
-
+        */
     }
 
 }

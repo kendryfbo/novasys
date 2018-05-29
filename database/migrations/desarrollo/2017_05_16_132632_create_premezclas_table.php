@@ -15,8 +15,8 @@ class CreatePremezclasTable extends Migration
     {
         Schema::create('premezclas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo');
-            $table->string('descripcion');
+            $table->string('codigo')->unique();
+            $table->string('descripcion')->unique();
             $table->integer('familia_id')->unsigned();
             $table->integer('marca_id')->unsigned();
             $table->integer('sabor_id')->unsigned();
