@@ -23,6 +23,7 @@ class CreateFacturaNacionalTable extends Migration
             $table->integer('cliente_id')->unsigned();
             $table->string('cliente_rut');
             $table->string('cliente');
+            $table->string('direccion');
             $table->string('despacho');
             $table->string('cond_pago');
             $table->string('observacion')->nullable();

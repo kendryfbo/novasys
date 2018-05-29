@@ -13,7 +13,7 @@ class FacturaIntl extends Model
 
 	protected $fillable = [
     'numero', 'proforma', 'cv_id', 'centro_venta', 'cliente_id', 'cliente', 'fecha_emision', 'fecha_venc',
-    'direccion', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago', 'clau_venta', 'fob',
+    'direccion', 'despacho', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago', 'clau_venta', 'fob',
 		'freight', 'insurance','cif', 'descuento','total','user_id'
   ];
 
@@ -50,6 +50,7 @@ class FacturaIntl extends Model
 				'fecha_emision' => $emision,
 				'fecha_venc' => $vencimiento,
 				'direccion' => $proforma->direccion,
+				'despacho' => $proforma->despacho,
 				'nota' => $nota,
 				'transporte' => $proforma->transporte,
 				'puerto_emb' => $proforma->puerto_emb,

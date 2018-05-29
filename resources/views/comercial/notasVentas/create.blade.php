@@ -109,7 +109,7 @@
 
 						<label class="control-label col-lg-2">Direccion:</label>
 						<div class="col-lg-4">
-							<input type="text" class="form-control" name="numero" placeholder="direccion facturacion..." :value="direccion" readonly>
+							<input type="text" class="form-control" name="direccion" placeholder="direccion facturacion..." :value="direccion" readonly>
 						</div>
 
 					</div>

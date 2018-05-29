@@ -47,6 +47,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$cliente = '';
 			$condPago = $request->formaPago;
 			$vendedor = $request->vendedor;
+			$direccion = $request->direccion;
 			$despacho = $request->despacho;
 			$observacion = $request->observacion;
 			$pesoNeto = $request->peso_neto;
@@ -176,8 +177,9 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$clienteId = $cliente->id;
 			$clienteRut = $cliente->rut;
 			$cliente = $cliente->descripcion;
-			$despacho = $request->despacho;
-			$condPago = $request->formaPago;
+			$direccion = $notaVenta->direccion;
+			$despacho = $notaVenta->despacho;
+			$condPago = $notaVenta->cond_pago;
 			$observacion = $request->observacion;
 			$vendedorId = $vendedor->id;
 			$vendedor = $vendedor->nombre;
@@ -196,6 +198,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				'cliente_id' => $clienteId,
 				'cliente_rut' => $clienteRut,
 				'cliente' => $cliente,
+				'direccion' => $direccion,
 				'despacho' => $despacho,
 				'cond_pago' => $condPago,
 				'observacion' => $observacion,

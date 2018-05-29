@@ -24,6 +24,7 @@ class CreateFacturaIntlTable extends Migration
             $table->date('fecha_emision');
             $table->date('fecha_venc');
             $table->string('direccion');
+            $table->string('despacho');
             $table->string('nota')->nullable();
             $table->string('transporte');
             $table->string('puerto_emb');

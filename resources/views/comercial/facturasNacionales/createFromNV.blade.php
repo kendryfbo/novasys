@@ -105,8 +105,8 @@
 
 						<label class="control-label col-lg-2">Vendedor:</label>
 						<div class="col-lg-3">
-							<input type="text" class="form-control " name="vendedor" value="{{$notaVenta->vendedor->id}}" readonly required>
-							<input type="hidden" class="form-control " value="{{$notaVenta->vendedor->nombre}}" readonly required>
+							<input type="hidden" class="form-control " name="vendedor" value="{{$notaVenta->vendedor->id}}" readonly required>
+							<input type="text" class="form-control " value="{{$notaVenta->vendedor->nombre}}" readonly required>
 						</div>
 
 					</div>

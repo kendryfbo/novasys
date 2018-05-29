@@ -57,7 +57,7 @@
                       <td>{{$factura->clienteNac->giro}}</td>
                       <td>{{$factura->clienteNac->comuna->descripcion}}</td>
                       <td>{{$factura->clienteNac->comuna->descripcion}}</td>
-                      <td>{{$factura->clienteNac->direccion}}</td>
+                      <td>{{$factura->direccion}}</td>
                       <td>{{$factura->clienteNac->email}}</td>
                       <td>{{$factura->clienteNac->fono}}</td>
                       <td>{{$factura->cond_pago}}</td>
