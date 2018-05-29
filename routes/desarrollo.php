@@ -20,6 +20,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{familia}', 'FamiliaController@destroy')->name('eliminarFamilia');
 
 	});
+
 	// GRUPO de Rutas de Desarrollo/Marcas
 	Route::group(['prefix' => 'marcas'], function(){
 
@@ -31,6 +32,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{marca}', 	'MarcaController@destroy')->name('eliminarMarca');
 
 	});
+
 	// GRUPO de Rutas de Desarrollo/Sabores
 	Route::group(['prefix' => 'sabores'], function(){
 
@@ -42,6 +44,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{sabor}', 	'SaborController@destroy')->name('eliminarSabor');
 
 	});
+
 	// GRUPO de Rutas de Desarrollo/Formatos
 	Route::group(['prefix' => 'formatos'], function(){
 
@@ -53,6 +56,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{formato}', 'FormatoController@destroy')->name('eliminarFormato');
 
 	});
+
 	// GRUPO de Rutas de Desarrollo/Productos
 	Route::group(['prefix' => 'productos'], function(){
 
@@ -64,6 +68,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
 
 	});
+
 	// GRUPO de Rutas de Desarrollo/Premezcla
 	Route::group(['prefix' => 'premezclas'], function(){
 
@@ -75,6 +80,19 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::post('delete/{premezcla}', 'PremezclaController@destroy')->name('eliminarPremezcla');
 
 	});
+
+	// GRUPO de Rutas de Desarrollo/Reproceso
+	Route::group(['prefix' => 'reprocesos'], function(){
+
+		Route::get('/',					  'ReprocesoController@index')->name('reprocesos');
+		Route::get('crear', 			  'ReprocesoController@create')->name('crearReproceso');
+		Route::post('/', 				  'ReprocesoController@store')->name('guardarReproceso');
+		Route::get('/{reproceso}/edit',   'ReprocesoController@edit')->name('editarReproceso');
+		Route::post('update/{reproceso}', 'ReprocesoController@update')->name('actualizarReproceso');
+		Route::post('delete/{reproceso}', 'ReprocesoController@destroy')->name('eliminarReproceso');
+
+	});
+
 	// GRUPO de Rutas de Desarrollo/Insumo
 	Route::group(['prefix' => 'insumos'], function(){
 
