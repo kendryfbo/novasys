@@ -17,6 +17,7 @@
           <li><a href="/desarrollo/sabores"><i class=""></i> <span>Sabores</span></a></li>
           <li><a href="/desarrollo/formatos"><i class=""></i> <span>Formatos</span></a></li>
           <li><a href="/desarrollo/premezclas"><i class=""></i> <span>Premezclas</span></a></li>
+          <li><a href="/desarrollo/reprocesos"><i class=""></i> <span>Reprocesos</span></a></li>
           <li><a href="/desarrollo/insumos"><i class=""></i> <span>Insumos</span></a></li>
       </ul>
     </li>
