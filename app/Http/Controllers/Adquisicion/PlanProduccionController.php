@@ -61,6 +61,18 @@ class PlanProduccionController extends Controller
 
         return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
     }
+    public function showTwo(Request $request)
+    {
+        if (!$request->items) {
+            return redirect()->back();
+        }
+        $items = $request->items;
+        $plan = PlanProduccion::requerimientoDeCompra($items);
+        $productos = $plan[0];
+        $insumos = $plan[1];
+
+        return view('adquisicion.planProduccion.showTwo')->with(['productos' => $productos, 'insumos' => $insumos]);
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -49,6 +49,7 @@ Route::prefix('adquisicion')->group( function() {
         Route::get('/',      'Adquisicion\PlanProduccionController@index')->name('planProduccion');
         Route::get('/crear', 'Adquisicion\PlanProduccionController@create')->name('crearPlanProduccion');
         Route::post('/',     'Adquisicion\PlanProduccionController@show')->name('verPlanProduccion');
+        Route::post('/adquisicion',     'Adquisicion\PlanProduccionController@showTwo')->name('verPlanProduccionAdquisicion');
     });
 
 });

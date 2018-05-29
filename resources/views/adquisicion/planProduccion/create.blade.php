@@ -11,7 +11,7 @@
 		<!-- box-body -->
 		<div class="box-body">
 
-			<form id="create" class="form-horizontal" action="{{route('verPlanProduccion')}}" method="post">
+			<form id="create" class="form-horizontal" action="{{route('verPlanProduccionAdquisicion')}}" method="post">
 				{{ csrf_field() }}
 
 				<h5>Seleccion de Producto Terminado</h5>
