@@ -26,7 +26,7 @@ return [
     | Variable que Representa el id del Tipo de Producto => PRE-PROCESO
     | Este id debe ser igual al de la table Tipo_familia. (creado a partir de semilla)
     */
-    'PP' => 2,
+    'PR' => 5,
 
 
     /*

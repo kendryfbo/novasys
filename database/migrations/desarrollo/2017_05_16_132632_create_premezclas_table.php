@@ -17,9 +17,11 @@ class CreatePremezclasTable extends Migration
             $table->increments('id');
             $table->string('codigo')->unique();
             $table->string('descripcion')->unique();
+            $table->string('unimed_id')->unsigned();
             $table->integer('familia_id')->unsigned();
             $table->integer('marca_id')->unsigned();
             $table->integer('sabor_id')->unsigned();
+            $table->integer('formato_id')->unsigned();
             $table->integer('formato_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
