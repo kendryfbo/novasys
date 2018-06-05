@@ -19,7 +19,7 @@ class FacturaIntlController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaIntl::orderBy('numero')->get();
+        $facturas = FacturaIntl::orderBy('created_at','desc')->get();
 
         return view('comercial.facturaIntl.index')->with(['facturas' => $facturas]);
     }
@@ -76,7 +76,7 @@ class FacturaIntlController extends Controller
         if (FacturaIntl::where('numero',$request->numero)->first()) {
 
             $msg = 'Numero de Factura ya existe.';
-            
+
             return redirect()->route('FacturaIntl')->with(['status' => $msg]);
         }
 

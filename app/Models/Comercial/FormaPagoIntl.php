@@ -8,7 +8,7 @@ class FormaPagoIntl extends Model
 {
 	protected $table = 'forma_pago_intl';
 
-	protected $fillable = ['descripcion', 'dias', 'activo'];
+	protected $fillable = ['descripcion', 'descrip_ing', 'dias', 'activo'];
 
 	static function getAllActive() {
 

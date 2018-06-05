@@ -46,6 +46,7 @@ class FormaPagoIntlController extends Controller
 
       FormaPagoIntl::create([
         'descripcion' => $request->descripcion,
+        'descrip_ing' => $request->descrip_ing,
         'dias' => $request->dias,
         'activo' => $activo,
       ]);

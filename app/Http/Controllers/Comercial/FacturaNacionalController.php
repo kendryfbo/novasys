@@ -32,7 +32,7 @@ class FacturaNacionalController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaNacional::orderBy('numero')->get();
+        $facturas = FacturaNacional::orderBy('created_at','desc')->get();
 
         return view('comercial.facturasNacionales.index')->with(['facturas' => $facturas]);
     }

@@ -2,12 +2,14 @@
 
 namespace App\Mail;
 
+use PDF;
+use Storage;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Comercial\NotaVenta;
-use Storage;
 
 class NewNotaVenta extends Mailable
 {
@@ -34,18 +36,14 @@ class NewNotaVenta extends Mailable
     {
         $numero = $this->notaVenta->numero;
         $version = $this->notaVenta->version;
-
+        $notaVenta = $this->notaVenta;
         $fileName = 'nota_venta_'.$numero.'v'.$version;
-        $path = '/public/notas_ventas/'.$fileName;
-
-        // load pdf
-        $pdf = Storage::get($path);
+        $pdf = PDF::loadView('documents.pdf.ordenDespacho',compact('notaVenta'));
 
         return $this->markdown('emails.newNotaVenta')
                     ->subject('Nota de Venta '.$numero.' version Nº '.$version)
-                    ->attachData($pdf, $fileName.'.pdf', [
+                    ->attachData($pdf->download(), $fileName.'.pdf', [
                         'mime' => 'application/pdf',
                     ]);
-                    // ->attach($path, ['as' => $fileName,'mime' => 'application/pdf',]);
     }
 }

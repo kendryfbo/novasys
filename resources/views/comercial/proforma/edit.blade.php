@@ -80,7 +80,7 @@
           <div class="col-lg-2">
             <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" v-model="clausulaID" @change="updateClausula" required>
 				<option value=""></option>
-                <option v-for="clausula in clausulas"  :value="clausula.id">@{{clausula.nombre}}</option>
+                <option v-for="clausula in clausulas"  :value="clausula.nombre">@{{clausula.nombre}}</option>
             </select>
           </div>
 

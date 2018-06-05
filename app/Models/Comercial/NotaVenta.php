@@ -64,8 +64,13 @@ class NotaVenta extends Model
 		dd($value);
 	}
 
-	//relations Methods
-	/* duplicado para retro compatibilidad */
+	/*
+	|
+	|	Relationships
+	|
+	*/
+	
+	// duplicado para retro compatibilidad
 	public function detalle() {
 
 		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');

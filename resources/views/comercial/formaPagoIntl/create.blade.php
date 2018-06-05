@@ -25,10 +25,16 @@
 							<input type="text" class="form-control" name="descripcion" placeholder="Descripcion condicion..." value="{{ Input::old('descripcion') ? Input::old('descripcion') : '' }}" required>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" >Descrip. ingles:</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="descrip_ing" placeholder="Descripcion condicion en ingles..." value="{{ Input::old('descrip_ing') ? Input::old('descrip_ing') : '' }}" required>
+						</div>
+					</div>
 
 					<div class="form-group">
 						<label class="control-label col-sm-2" >Dias:</label>
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<input type="number" class="form-control" name="dias" placeholder="dias de condicion..." value="{{ Input::old('dias') ? Input::old('dias') : '' }}" required>
 						</div>
 					</div>
