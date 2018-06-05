@@ -14,7 +14,7 @@ use App\Models\Producto;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
-use App\Models\comercial\Pais;
+use App\Models\Comercial\Pais;
 use App\Models\Bodega\Ingreso;
 use App\Models\Bodega\Posicion;
 use App\Models\Bodega\PalletCond;
