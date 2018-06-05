@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Insumo;
 use App\Models\Producto;
 use App\Models\Premezcla;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Ingreso;
 use App\Models\Adquisicion\Area;
 use App\Models\Bodega\IngresoTipo;
@@ -94,14 +95,14 @@ class IngresoController extends Controller
 
     }
     // Crear Ingreso Manual Premezcla
-    public function createIngManualPM()
+    public function createIngManualPR()
     {
         $tipoIngreso = IngresoTipo::manualID();
-        $tipoProd = config('globalVars.PP');
+        $tipoProd = TipoFamilia::getPremezclaID();
         $premezclas = Premezcla::getAllActive();
         $fecha = Carbon::now()->toDateString();
 
-        return view('bodega.ingreso.createIngManualPM')->with([
+        return view('bodega.ingreso.createIngManualPR')->with([
             'premezclas' => $premezclas,
             'tipoIngreso' => $tipoIngreso,
             'tipoProd' => $tipoProd,
@@ -210,7 +211,7 @@ class IngresoController extends Controller
         return redirect()->route('ingreso')->with(['status' => $msg]);
     }
     // Guardar Ingreso Manual Premezcla
-    public function storeIngManualPM(Request $request)
+    public function storeIngManualPR(Request $request)
     {
 
         $this->validate($request,[

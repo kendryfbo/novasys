@@ -9,7 +9,7 @@ class TipoFamilia extends Model
 	// Constancia
 	const INSUMO_ID = 1; // correspondiente a materia prima tabla tipo_familia
 	const PT_ID = 4;	 // correspondiente a Producto Terminado tabla tipo_familia
-	const PM_ID = 5;	 // correspondiente a Producto Terminado tabla tipo_familia
+	const PM_ID = 5;	 // correspondiente a Premezcla tabla tipo_familia
 
 	// static methods
 	static function getAllActive() {

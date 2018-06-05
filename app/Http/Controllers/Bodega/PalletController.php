@@ -125,6 +125,41 @@ class PalletController extends Controller
         ]);
     }
 
+    // creacion de pallet de Premezcla
+    public function createPalletPR() {
+
+        $tipoPR = TipoFamilia::getPremezclaID();
+        $premezclas = IngresoDetalle::with('premezcla','ingreso')->where('tipo_id',$tipoPR)->where('por_procesar','>',0)->get();
+        $premezclas = $premezclas->map(function($premezcla){
+            $newPremezcla = collect([
+                'id' => $premezcla->id,
+                'tipo_id' => $premezcla->tipo_id,
+                'item_id' => $premezcla->item_id,
+                'codigo' => $premezcla->premezcla->codigo,
+                'descripcion' => $premezcla->premezcla->descripcion,
+                'unidad_med' => $premezcla->premezcla->unidad_med,
+                'fecha_venc' => $premezcla->fecha_venc,
+                'fecha_ing' => $premezcla->fecha_ing,
+                'ing_tipo_id' => $premezcla->ingreso->tipo_id,
+                'ing_id' => $premezcla->ingreso->id,
+                'ing_num' => $premezcla->ingreso->numero,
+                'ing_id' => $premezcla->ingreso->id,
+                'por_procesar' => $premezcla->por_procesar
+            ]);
+
+            return $newPremezcla;
+        });
+
+        $medidas = PalletMedida::getAllActive();
+        $numero = $this->palletNum();
+        $barCode = $this->barCode($numero);
+        $fecha = Carbon::now()->format('Y-m-d');
+
+        return view('bodega.pallet.createPalletPR')->with(['medidas' => $medidas,
+            'numero' => $numero, 'barCode' => $barCode, 'premezclas' => $premezclas, 'fecha' => $fecha
+        ]);
+    }
+
     // Creacion de pallet Producto Terminado Produccion
     public function createPalletProduccion() {
 
@@ -281,15 +316,10 @@ class PalletController extends Controller
     public function pdfPalletProd(Pallet $pallet) {
 
         $pallet = Pallet::getDataForBodega($pallet->id);
-        //dd($pallet);
-        //$pallet->load('detalles.producto','detalles.produccion');
-
+        $pallet->fecha = Carbon::createFromFormat('Y-m-d H:i:s', $pallet->created_at)->format('d/m/Y');
         $barCode = DNS1D::getBarcodeHTML($pallet->numero, "C128",1,40,"black",true);
-
-        //$pallet->barCode = $barCode;
-
-        $pdf = PDF::loadView('documents.pdf.bodega.labelPalletProd',compact('barCode','pallet'))->setPaper('a5', 'portrait');
-
+        //return view('documents.pdf.bodega.labelPalletProd2')->with(['barCode' => $barCode, 'pallet' => $pallet]);
+        $pdf = PDF::loadView('documents.pdf.bodega.labelPalletProd2',compact('barCode','pallet'))->setPaper('a5', 'portrait');
 
         return $pdf->stream();
     }

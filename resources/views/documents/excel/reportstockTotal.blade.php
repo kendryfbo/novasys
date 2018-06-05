@@ -15,6 +15,7 @@
                   <th class="text-center">#</th>
                   <th class="text-center">codigo</th>
                   <th class="text-center">descripcion</th>
+                  <th class="text-center">familia</th>
                   <th class="text-center">cantidad</th>
               </tr>
           </thead>
@@ -24,6 +25,7 @@
                       <th class="text-center">{{$loop->iteration}}</th>
                       <td class="text-left">{{$item->codigo}}</td>
                       <td class="text-left">{{$item->descripcion}}</td>
+                      <td class="text-left">{{$item->familia}}</td>
                       <td class="text-left">{{$item->cantidad}}</td>
                   </tr>
               @endforeach

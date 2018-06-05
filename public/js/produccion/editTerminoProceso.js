@@ -33,11 +33,11 @@ var app = new Vue({
 
             fechaVenc.setMonth(fechaVenc.getMonth() + this.vidaUtil);
 
-            var day = ("0" + fechaVenc.getDate()).slice(-2);
+            var day = ("0" + fechaVenc.getDate()+1).slice(-2);
             var month = ("0" + (fechaVenc.getMonth() + 1)).slice(-2);
             var year = fechaVenc.getFullYear();
 
-            this.fechavencLoteString = year + month + day;
+            this.fechavencLoteString = day + year + month;
             this.fechaVenc = year + '-' + month + '-' + day;
 
         },

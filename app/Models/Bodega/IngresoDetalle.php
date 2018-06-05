@@ -29,6 +29,11 @@ class IngresoDetalle extends Model
         return $this->belongsTo('App\Models\Producto','item_id');
     }
 
+    public function premezcla() {
+
+        return $this->belongsTo('App\Models\Premezcla','item_id');
+    }
+
     public function ingreso() {
 
         return $this->belongsTo('App\Models\Bodega\Ingreso','ing_id');
@@ -38,13 +43,16 @@ class IngresoDetalle extends Model
 
         switch ($this->tipo_id) {
 
-            case TipoFamilia::insumo()->id:
+            case TipoFamilia::getInsumoID();
                 return $this->belongsTo('App\Models\insumo','item_id');
                 break;
 
-            case TipoFamilia::productoTerminado()->id:
+            case TipoFamilia::getProdTermID();
                 return $this->belongsTo('App\Models\Producto','item_id');
                 break;
+
+            case TipoFamilia::getPremezclaID();
+                return $this->belongsTo('App\Models\Premezcla','item_id');
         }
     }
 }

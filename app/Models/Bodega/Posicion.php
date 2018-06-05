@@ -5,6 +5,7 @@ namespace App\Models\Bodega;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Pallet;
 use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletDetalle;
@@ -85,9 +86,9 @@ class Posicion extends Model
 
     static function findPositionForPallet($bodegaId,$palletId) {
 
-        $PT = config('globalVars.PT');
-        $MP = config('globalVars.MP');
-        $PP = config('globalVars.PP');
+        $PT = TipoFamilia::getProdTermID();
+        $MP = TipoFamilia::getInsumoID();
+        $PR = TipoFamilia::getPremezclaID();
 
         $array = [];
 
@@ -132,15 +133,14 @@ class Posicion extends Model
                 array_push($array, (new self)->arrayQuery($valores));
 
             // Si es Premezcla Armar busquedas de condiciones
-            } else if ($detalle->tipo_id == $PP) {
+            } else if ($detalle->tipo_id == $PR) {
 
-                $detalle->load('producto.marca.familia.tipo');
-                $premezcla = $detalle->producto;
-
+                $detalle->load('premezcla.familia.tipo');
+                $premezcla = $detalle->premezcla;
+                
                 $valores->premezcla = $premezcla->id;
-                $valores->marca = $premezcla->marca->id;
-                $valores->familia = $premezcla->marca->familia->id;
-                $valores->tipo_familia = $premezcla->marca->familia->tipo->id;
+                $valores->familia = $premezcla->familia->id;
+                $valores->tipo_familia = $premezcla->familia->tipo->id;
 
                 array_push($array, (new self)->arrayQuery($valores));
             }
@@ -272,7 +272,7 @@ class Posicion extends Model
                         WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC LIMIT 1";
         }
         $results = DB::select(DB::raw($query));
-        
+
         if (!$results) {
 
             return $posicion;

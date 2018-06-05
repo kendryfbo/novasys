@@ -13,7 +13,7 @@ class TerminoProcesoController extends Controller
 {
 
     /* Constantes Temporales hasta implementar tablas */
-    const MAQUINAS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','R'];
+    const MAQUINAS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Q','R','T'];
     const OPERADORES = [0,1,2,3,4,5,6,7,8,9];
     const CODIGOS = ['Z'];
     const BATCHS = [1,2,3,4,5,6,7,8,9];
@@ -27,7 +27,7 @@ class TerminoProcesoController extends Controller
     public function index()
     {
         $statusPend = StatusDocumento::pendienteID();
-        $producciones = TerminoProceso::with('producto','status')->get();
+        $producciones = TerminoProceso::with('producto','status')->orderBy('id','DESC')->get();
 
         return view('produccion.terminoProceso.index')->with(['producciones' => $producciones,'statusPend' => $statusPend]);
     }
@@ -100,7 +100,7 @@ class TerminoProcesoController extends Controller
     public function edit(TerminoProceso $terminoProceso)
     {
         return redirect()->back();
-        
+
         $maquinas = self::MAQUINAS;
         $operadores = self::OPERADORES;
         $codigos = self::CODIGOS;
@@ -137,7 +137,7 @@ class TerminoProcesoController extends Controller
         $terminoProceso = TerminoProceso::remove($id);
 
         if ($terminoProceso) {
-            $status = 'Termino de Proceso Lote Nº'.$terminoProceso->lote.'ha sido eliminado.';
+            $status = 'Termino de Proceso Lote Nº '.$terminoProceso->lote.' ha sido eliminado.';
         } else {
             $status = 'Termino de Proceso No ha podido ser eliminado.';
         }

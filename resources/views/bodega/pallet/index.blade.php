@@ -26,7 +26,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{route('crearPalletMP')}}">Materia Prima</a></li>
-                  <li><a href="#">Premezcla</a></li>
+                  <li><a href="{{route('crearPalletPR')}}">Premezcla</a></li>
                   <li><a href="#">Reproceso</a></li>
                   <li><a href="{{route('crearPalletPT')}}">Producto Terminado</a></li>
                 </ul>

@@ -60,15 +60,23 @@
                         <input class="form-control input-sm" name="numero" type="number" value="{{$pallet->numero}}" required readonly>
                     </div>
 
+                </div>
+                <!-- /form-group -->
+                <!-- form-group -->
+                <div class="form-group">
+
+                    <label class="control-label col-lg-1">Nº Fisico:</label>
+                    <div class="col-lg-2">
+                        <input class="form-control input-sm" name="numero" type="number" value="{{$pallet->num_fisico}}" required readonly>
+                    </div>
+
                     <label class="control-label col-lg-1">Tamaño:</label>
         			<div class="col-lg-1">
 						<input class="form-control input-sm" name="medida" type="text" value="{{$pallet->medida->descripcion}}" required readonly>
         			</div>
 
-
                 </div>
                 <!-- /form-group -->
-
 				<!-- form-group -->
                 <div class="form-group">
 				{{--

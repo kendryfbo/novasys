@@ -2,6 +2,8 @@
 
 namespace App\Models\Bodega;
 
+use App\Models\TipoFamilia;
+
 use Illuminate\Database\Eloquent\Model;
 
 class PalletDetalle extends Model
@@ -53,9 +55,9 @@ class PalletDetalle extends Model
 
     public function producto() {
 
-        $PT = config('globalVars.PT');
-        $MP = config('globalVars.MP');
-        $PP = config('globalVars.PP');
+        $PT = TipoFamilia::getProdTermID();
+        $MP = TipoFamilia::getInsumoID();
+        $PR = TipoFamilia::getPremezclaID();
 
         if ($this->tipo_id == $PT) {
 
@@ -64,7 +66,7 @@ class PalletDetalle extends Model
         } else if ($this->tipo_id == $MP) {
             return $this->belongsTo('App\Models\Insumo','item_id');
 
-        } else if ($this->tipo_id == $PP) {
+        } else if ($this->tipo_id == $PR) {
 
             return $this->belongsTo('App\Models\Premezcla','item_id');
 
@@ -76,6 +78,10 @@ class PalletDetalle extends Model
     public function insumo() {
 
         return $this->belongsTo('App\Models\Insumo','item_id');
+    }
+    public function premezcla() {
+
+        return $this->belongsTo('App\Models\Premezcla','item_id');
     }
 
     public function produccion() {

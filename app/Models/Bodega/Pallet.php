@@ -12,7 +12,7 @@ use App\Models\Produccion\TerminoProceso;
 
 class Pallet extends Model
 {
-    protected $fillable= ['numero', 'medida_id', 'almacenado'];
+    protected $fillable= ['numero', 'num_fisico', 'medida_id', 'almacenado'];
 
     static function storeFromProduccion($request) {
 
@@ -22,6 +22,7 @@ class Pallet extends Model
             $tipoIngreso = $request->tipo_ingreso;
             $pallet = Pallet::create([
                 'numero' => $request->numero,
+                'num_fisico' => $request->num_fisico,
                 'medida_id' => $request->medida,
                 'almacenado' => 0,
             ]);
@@ -29,13 +30,18 @@ class Pallet extends Model
             foreach ( $items as $item) {
 
                 $item = json_decode($item);
+                $ingDetalle = IngresoDetalle::with('ingreso')->find($item->id);
 
-                if ($item->procesar > $item->por_procesar) {
+                if ($item->procesar > $ingDetalle->por_procesar) {
 
                     return;
                 }
 
                 $cantidad = $item->procesar;
+                $ingDetalle->por_procesar -= $cantidad;
+                $ingDetalle->save();
+                $ingDetalle->ingreso->updateStatus();
+                $ingDetalle->ingreso->save();
 
                 PalletDetalle::create([
                     'pallet_id' => $pallet->id,
@@ -74,6 +80,7 @@ class Pallet extends Model
 
             $pallet = Pallet::create([
                 'numero' => $request->numero,
+                'num_fisico' => $request->num_fisico,
                 'medida_id' => $request->medida,
                 'almacenado' => 0,
             ]);
@@ -113,7 +120,7 @@ class Pallet extends Model
 
     static function getDataForBodega($id) {
 
-        $pallet = self::with('detalles.ingreso','detalles.tipo')->where('id',$id)->first();
+        $pallet = self::with('detalles.ingreso.detalles','detalles.tipo')->where('id',$id)->first();
 
         if (!$pallet) {
 
@@ -231,8 +238,5 @@ class Pallet extends Model
 
         return $this->hasOne('App\Models\Bodega\Posicion','pallet_id');
     }
-
-
-
 
 }

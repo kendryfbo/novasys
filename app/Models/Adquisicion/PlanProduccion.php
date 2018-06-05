@@ -22,7 +22,7 @@ class PlanProduccion extends Model
 
         $productos = [];
         $stockMatPrima = Bodega::getStockTotalMP();
-        $stockPremezclas = Bodega::getStockTotalPP();
+        $stockPremezclas = Bodega::getStockTotalPR();
 
         foreach ($items as $item) {
 
@@ -114,7 +114,7 @@ class PlanProduccion extends Model
 
         $productos = [];
         $stockMatPrima = Bodega::getStockTotalMP();
-        $stockPremezclas = Bodega::getStockTotalPP();
+        $stockPremezclas = Bodega::getStockTotalPR();
 
         foreach ($items as $item) {
 
