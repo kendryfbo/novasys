@@ -16,6 +16,7 @@ class CreatePalletsTable extends Migration
         Schema::create('pallets', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('numero')->unique();
+            $table->bigInteger('num_fisico')->unique()->nullable();
             $table->tinyInteger('almacenado')->default(0);
             $table->integer('medida_id')->unsigned();
             $table->timestamps();

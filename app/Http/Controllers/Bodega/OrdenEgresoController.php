@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\OrdenEgreso;
 use App\Models\Comercial\Proforma;
@@ -72,12 +73,34 @@ class OrdenEgresoController extends Controller
         //
     }
 
+    // Crear Egreso Manual Materia Prima
     public function createEgresoManualMP() {
 
-        $productos = Bodega::getStockOfMPFromBodega();
+        $tipo = TipoFamilia::getInsumoID();
+        $productos = Bodega::getStockInBodega(null,$tipo,null);
         $fecha = Carbon::now()->toDateString();
 
         return view('bodega.ordenEgreso.createEgresoManualMP')->with(['productos' => $productos, 'fecha' => $fecha]);
+    }
+
+    // Crear Egreso Manual Producto Terminado
+    public function createEgresoManualPT() {
+
+        $tipo = TipoFamilia::getProdTermID();
+        $productos = Bodega::getStockInBodega(null,$tipo,null);
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ordenEgreso.createEgresoManualPT')->with(['productos' => $productos, 'fecha' => $fecha]);
+    }
+
+    // Crear Egreso Manual Premezcla
+    public function createEgresoManualPR() {
+
+        $tipo = TipoFamilia::getPremezclaID();
+        $productos = Bodega::getStockInBodega(null,$tipo,null);
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ordenEgreso.createEgresoManualPR')->with(['productos' => $productos, 'fecha' => $fecha]);
     }
 
     /**
@@ -97,7 +120,7 @@ class OrdenEgresoController extends Controller
         $tipo = intval($request->tipo);
         $id = intval($request->id);
         $user = $request->user()->id;
-        
+
         $ordenEgreso = OrdenEgreso::generate($user,$tipo,$id,$bodega);
 
         return redirect()->route('verOrdenEgreso', ['numero' => $ordenEgreso->numero]);

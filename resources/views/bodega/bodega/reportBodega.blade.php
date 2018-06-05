@@ -111,7 +111,7 @@
 							<td class="text-center">{{$producto->producto->codigo}}</td>
 							<td class="text-left">{{$producto->producto->descripcion}}</td>
 							<td class="text-left">{{$producto->cantidad}}</td>
-							<td class="text-center warning">pendiente</td>
+							<td class="text-center">{{$producto->fecha_ing}}</td>
 							<td class="text-center">{{$producto->fecha_venc}}</td>
 						</tr>
 					@endforeach

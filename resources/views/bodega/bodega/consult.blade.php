@@ -190,7 +190,10 @@
 										<td class="text-left">@{{detalle.producto.codigo}}</td>
 										<td class="text-left">@{{detalle.producto.descripcion}}</td>
 										<td class="text-left">@{{detalle.tipo.descripcion}}</td>
-										<td v-if="detalle.ingreso" class="text-center">@{{detalle.ingreso.numero}}</td>
+										<td v-if="detalle.ingreso" class="text-center">
+											<a :href="'/bodega/ingreso/' + detalle.ingreso.numero" target="_blank">
+											@{{detalle.ingreso.numero}}</a>
+										</td>
 										<td v-else class="text-left"></td>
 										<td class="text-center">
 											@{{detalle.fecha_ing}}</td>

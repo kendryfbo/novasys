@@ -4,10 +4,10 @@ var app = new Vue({
 
     data: {
         tipoId: '',
-        insumos: insumos,
-        insumoId: '',
-        insumoIndex: '',
-        itemID: '',
+        premezclas: premezclas,
+        premezclaId: '',
+        premezclaIndex: '',
+        itemId: '',
         item: [],
         items: [],
         cantidad: 0,
@@ -21,11 +21,11 @@ var app = new Vue({
 
         loadItem: function() {
 
-            for (var i = 0; i < this.insumos.length; i++) {
-                if ( this.insumos[i].id == this.itemID ) {
+            for (var i = 0; i < this.premezclas.length; i++) {
+                if ( this.premezclas[i].id === this.itemId ) {
 
-                    this.item = this.insumos[i];
-                    this.insumoIndex = i;
+                    this.item = this.premezclas[i];
+                    this.premezclaIndex = i;
                     this.existencia = this.item.existencia;
                     return;
                 }
@@ -42,7 +42,7 @@ var app = new Vue({
             this.item.cantidad = this.cantidad;
             this.item.fecha_venc = this.fecha_venc;
             this.item.lote = this.lote;
-            this.insumos.splice(this.insumoIndex,1);
+            this.premezclas.splice(this.premezclaIndex,1);
             this.items.push(this.item);
             this.itemId = '';
             this.cantidad = 0;
@@ -56,7 +56,7 @@ var app = new Vue({
 
                 if ( this.items[i].id == item.id ) {
 
-                    this.insumos.push(this.items[i]);
+                    this.premezclas.push(this.items[i]);
                     this.items.splice(i,1);
                 }
             }

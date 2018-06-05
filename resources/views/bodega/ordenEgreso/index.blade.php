@@ -23,9 +23,9 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{route('crearEgresoManualMP')}}">Materia Prima</a></li>
-                  <li><a href="{{route('crearIngManualPM')}}">Premezcla</a></li>
+                  <li><a href="{{route('crearEgresoManualPR')}}">Premezcla</a></li>
                   <li><a href="#">Reproceso</a></li>
-                  <li><a href="#">Producto Terminado</a></li>
+                  <li><a href="{{route('crearEgresoManualPT')}}">Producto Terminado</a></li>
                 </ul>
               </div>
               <a class="btn btn-primary" href="{{route('ordenEgresoPendientes')}}">Orden Egreso</a>
