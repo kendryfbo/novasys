@@ -31,19 +31,32 @@ class AuthenticationMiddleware
 
         $actions = (explode('@', $request->route()->getActionName()));
         $actions = preg_replace('/.*\\\/', '', $actions);
-        dd($actions);
         $controllerName = $actions[0];
         $actionName = $actions[1];
 
+        // Verificar si perfil esta activo
+        if (!$request->user()->perfil->activo) {
+
+            return response(['Perfil de Acceso desactivado','Perfil: '.$request->user()->perfil->nombre],401);
+        }
+
         $perfil_id = $request->user()->perfil->id;
         $acceso_id = Acceso::where('controller',$controllerName)->where('action',$actionName)->pluck('id')->first();
+
+        // Verificar si Route esta declarada en tabla Acceso
+        if (!$acceso_id) {
+
+            return response(['Ruta no declarada en permisos de acceso','Controlador: '.$controllerName,'Accion: '.$actionName],401);
+        }
+
         $acceso = PerfilAcceso::where('perfil_id',$perfil_id)->where('acceso_id',$acceso_id)->pluck('acceso')->first();
+
         if ($acceso) {
 
             return $next($request);
         } else {
 
-            return response('Acceso No Autorizado',401);
+            return response(['ACCESO NO AUTORIZADO','Controlador: '.$controllerName,'Accion: '.$actionName],401);
         }
     }
 }

@@ -13,11 +13,10 @@
       <thead>
 
         <tr>
-          <th>name</th>
-          <th>prefix</th>
-          <th>action</th>
-          <th>controller name</th>
-          <th>action method</th>
+          <th>NOMBRE</th>
+          <th>MODULO</th>
+          <th>CONTROLLER</th>
+          <th>ATION</th>
         </tr>
 
       </thead>
@@ -26,11 +25,10 @@
 
         @foreach ($routes as $route)
           <tr>
-            <td>{{$route['name']}}</td>
-            <td>{{$route['prefix']}}</td>
-            <td>{{$route['actionName']}}</td>
-            <td>{{$route['controllerName']}}</td>
-            <td>{{$route['actionMethod']}}</td>
+            <td>{{$route['nombre']}}</td>
+            <td>{{$route['modulo']}}</td>
+            <td>{{$route['controller']}}</td>
+            <td>{{$route['action']}}</td>
           </tr>
         @endforeach
 
