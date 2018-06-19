@@ -115,7 +115,6 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
-        $posicion = App\Models\Bodega\Posicion::findPositionForPallet(5,28);
         // LISTA DE RUTAS
         $routes = Route::getRoutes();
         $routesFormatted = [];
@@ -126,20 +125,33 @@ Route::prefix('bodega')->group( function() {
             //list($controller, $method) = explode('@', $route->getActionName());
             // $controller now is "App\Http\Controllers\FooBarController"
             $controller = preg_replace('/.*\\\/', '', $controller);
-            // $controller now is "FooBarController"
-            $array = [
-                'name' => $route->getName(),
-                'prefix' => $route->getPrefix(),
-                'actionName' => $route->getActionName(),
-                'controllerName' => $controller[0],
-                'actionMethod' => $route->getActionMethod(),
-            ];
-            array_push($routesFormatted,$array);
+
+            $prefix = trim($route->getPrefix());
+            $prefix = explode('/',$prefix);
+            $prefix = array_filter($prefix, function($value) { return $value !== ''; });
+            $prefix = array_slice($prefix,0);
+            if (!$prefix) {
+                $prefix = 'main';
+            } else {
+                $prefix = $prefix[0];
+            }
+            if (!$route->getName()) {
+
+            } else {
+
+                $array = [
+                    'nombre' => $route->getName(),
+                    'modulo' => $prefix,
+                    'controller' => $controller[0],
+                    'action' => $route->getActionMethod(),
+                ];
+                array_push($routesFormatted,$array);
+            }
         }
         //dd($routesFormatted[0]['name']);
         //return response($routesFormatted,200);
 
-        return Excel::create('Reporte X Facturas Intl', function($excel) use ($routesFormatted) {
+        return Excel::create('Routes', function($excel) use ($routesFormatted) {
             $excel->sheet('New sheet', function($sheet) use ($routesFormatted) {
                 $sheet->loadView('documents.excel.routes')
                         ->with('routes', $routesFormatted);
@@ -195,33 +207,8 @@ Route::prefix('bodega')->group( function() {
         Route::post('/data',               'Bodega\PalletController@apiData')->name('palletData');
 
     });
-
-    // Resource Orden Egreso
-    Route::prefix('ordenEgreso')->group(function(){
-
-        Route::get('/',                   'Bodega\OrdenEgresoController@index')->name('ordenEgreso');
-        Route::get('/pendientes',         'Bodega\OrdenEgresoController@pendingOrdenEgreso')->name('ordenEgresoPendientes');
-        Route::post('/consultar',         'Bodega\OrdenEgresoController@consultExistence')->name('ordenEgresoConsultarExistencia');
-        Route::post('/existencia',        'Bodega\OrdenEgresoController@checkExistence')->name('ordenEgresoVerificarExistencia');
-        Route::post('/generar',           'Bodega\OrdenEgresoController@store')->name('generarOrdenEgreso');
-        Route::get('/{numero}',           'Bodega\OrdenEgresoController@show')->name('verOrdenEgreso');
-        Route::get('/{numero}/pdf',       'Bodega\OrdenEgresoController@pdf')->name('verOrdenEgresoPDF');
-        Route::get('/{numero}/descargar', 'Bodega\OrdenEgresoController@downloadPDF')->name('descargarOrdenEgresoPDF');
-        // Egreso Manual de Materia Prima
-        Route::get('/manualMP/crear',     'Bodega\OrdenEgresoController@createEgresoManualMP')->name('crearEgresoManualMP');
-        Route::post('/manualMP',          'Bodega\OrdenEgresoController@storeEgresoManualMP')->name('guardarEgresoManualMP');
-        // Egreso Manual de Producto Terminado
-        Route::get('/manualPT/crear',     'Bodega\OrdenEgresoController@createEgresoManualPT')->name('crearEgresoManualPT');
-        Route::post('/manualPT',          'Bodega\OrdenEgresoController@storeEgresoManualPT')->name('guardarEgresoManualPT');
-        // Egreso Manual de Premezcla
-        Route::get('/manualPR/crear',     'Bodega\OrdenEgresoController@createEgresoManualPR')->name('crearEgresoManualPR');
-        Route::post('/manualPR',          'Bodega\OrdenEgresoController@storeEgresoManualPR')->name('guardarEgresoManualPR');
-
-    });
-
     // Resource Ingreso
     Route::prefix('ingreso')->group(function(){
-
 
         //ingreso Orden Compra
         Route::get('/ordenCompra',        'Bodega\IngresoController@indexPendingOC')->name('ingOC');
@@ -250,6 +237,45 @@ Route::prefix('bodega')->group( function() {
         Route::get('/',             'Bodega\IngresoController@index')->name('ingreso');
         Route::get('/{numero}',    'Bodega\IngresoController@show')->name('verIngreso');
         Route::delete('/{ingreso}', 'Bodega\IngresoController@destroy')->name('eliminarIngreso');
+
+    });
+
+    // Resource Egreso
+    Route::prefix('egreso')->group(function(){
+
+        // ACCESOS API
+        Route::post('/existencia', 'Bodega\EgresoController@checkOrdenEgresoExist')->name('apiExistenciaEgrOrdenEgreso');
+
+        //egreso Documento - Proforma y Nota Venta
+        Route::post('/ordenEgreso',       'Bodega\EgresoController@storeEgrOrdenEgreso')->name('guardarEgrOrdenEgreso');
+        Route::get('/ordenEgreso',        'Bodega\EgresoController@indexPendingOrdenEgreso')->name('egresoOrdenEgreso');
+        Route::post('/ordenEgreso/crear', 'Bodega\EgresoController@createEgrOrdenEgreso')->name('crearEgrOrdenEgreso');
+        //Egreso Manual Materia Prima
+        Route::get('/Manual/MP/crear', 'Bodega\EgresoController@createEgrManualMP')->name('crearEgrManualMP');
+        //egreso Manual Producto Terminado
+        Route::get('/Manual/PT/crear', 'Bodega\EgresoController@createEgrManualPT')->name('crearEgrManualPT');
+        //egreso Manual Premezcla
+        Route::get('/Manual/PR/crear', 'Bodega\EgresoController@createEgrManualPR')->name('crearEgrManualPR');
+        //egreso Manual Reproceso
+        Route::get('/Manual/RP/crear', 'Bodega\EgresoController@createEgrManualRP')->name('crearEgrManualRP');
+        // Guardar Egreso Manual
+        Route::post('/Manual',         'Bodega\EgresoController@storeEgrManual')->name('guardarEgrManual');
+
+        // Egreso Traslado Materia Prima
+        Route::get('/Traslado/MP/crear', 'Bodega\EgresoController@createEgrTrasladoMP')->name('crearEgrTrasladoMP');
+        Route::post('/Traslado/MP',      'Bodega\EgresoController@storeEgrTrasladoMP')->name('guardarEgrTrasladoMP');
+        // Egreso Traslado Producto terminado
+        Route::get('/Traslado/PT/crear', 'Bodega\EgresoController@createEgrTrasladoPT')->name('crearEgrTrasladoPT');
+        Route::post('/Traslado/PT',      'Bodega\EgresoController@storeEgrTrasladoPT')->name('guardarEgrTrasladoPT');
+        // Egreso Traslado Premezcla
+        Route::get('/Traslado/PR/crear', 'Bodega\EgresoController@createEgrTrasladoPR')->name('crearEgrTrasladoPR');
+        Route::post('/Traslado/PR',      'Bodega\EgresoController@storeEgrTrasladoPR')->name('guardarEgrTrasladoPR');
+
+        Route::get('/',             'Bodega\EgresoController@index')->name('egreso');
+        Route::get('/{numero}',    'Bodega\EgresoController@show')->name('verEgreso');
+        Route::delete('/{egreso}', 'Bodega\EgresoController@destroy')->name('eliminarEgreso');
+        Route::get('/{numero}/descargar', 'Bodega\EgresoController@downloadPDF')->name('descargarEgresoPDF');
+
 
     });
 

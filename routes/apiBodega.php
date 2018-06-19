@@ -24,7 +24,7 @@ Route::prefix('bodega')->group( function() {
         return 'hola';
     });
     //Route::get('/', 'Api\ApiBodegaController@asd');
-    Route::get('/', 'Api\ApiBodegaController@getBodegasWithPos');
-    Route::post('/posiciones', 'Api\ApiBodegaController@getPositionsFrom');
-
+    Route::get('/', 'Api\ApiBodegaController@getBodegasWithPos')->name('apiObtenerBodegaConPosiciones');
+    Route::post('/posiciones', 'Api\ApiBodegaController@getPositionsFrom')->name('apiObtenerPosicionDeBodega');
+    Route::post('/stockTipoDesdeBodega', 'Api\ApiBodegaController@getExistTipoFromBodega')->name('apiStockTipoDesdeBodega');
 });

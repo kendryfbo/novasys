@@ -5,13 +5,15 @@ var app = new Vue({
     data: {
         tipoId: '',
         insumos: insumos,
+        bodegas: bodegas,
+        bodegaID: '',
+        bodegaTwoID: '',
         insumoId: '',
-        insumoIndex: '',
-        itemID: '',
+        existInsumo: 0,
+        itemId: '',
         item: [],
         items: [],
         cantidad: 0,
-        existencia: 0,
         fecha_venc: '',
         lote: '',
         totalCantidad: 0,
@@ -22,11 +24,10 @@ var app = new Vue({
         loadItem: function() {
 
             for (var i = 0; i < this.insumos.length; i++) {
-                if ( this.insumos[i].id == this.itemID ) {
+                if ( this.insumos[i].id === this.itemId ) {
 
                     this.item = this.insumos[i];
-                    this.insumoIndex = i;
-                    this.existencia = this.item.existencia;
+                    this.existInsumo = this.item.existencia;
                     return;
                 }
             }
@@ -39,15 +40,30 @@ var app = new Vue({
                 alert('cantidad debe ser mayor a 0');
                 return ;
             }
+            if (this.cantidad > this.existInsumo) {
+                alert('cantidad no puede ser mayor a existencia');
+                return ;
+            }
+
             this.item.cantidad = this.cantidad;
             this.item.fecha_venc = this.fecha_venc;
             this.item.lote = this.lote;
-            this.insumos.splice(this.insumoIndex,1);
             this.items.push(this.item);
             this.itemId = '';
             this.cantidad = 0;
-            this.existencia = 0;
+            this.removeInsumo(this.item.id);
             this.updateTotalCantidad();
+        },
+
+        removeInsumo: function(id) {
+
+            for (var i = 0; i < this.insumos.length; i++) {
+
+                if ( this.insumos[i].id == id ) {
+
+                    this.insumos.splice(i,1);
+                }
+            }
         },
 
         removeItem: function(item) {
@@ -76,6 +92,29 @@ var app = new Vue({
             this.totalCantidad = cantidad;
         },
 
+        getInsumosFromBodega: function() {
+
+            this.restore();
+            var url = '/api/bodega/insumos/' + this.bodegaID;
+
+			axios.get(url)
+			.then(response => this.loadInsumos(response.data))
+			.catch(error => this.handleError(error))
+        },
+
+        loadInsumos: function (data) {
+
+            this.insumos = data;
+        },
+
+        handleError: function(error) {
+			console.log(error);
+			alert(error);
+		},
+
+        restore: function() {
+            this.items = [];
+        }
     },
 
     updated() {

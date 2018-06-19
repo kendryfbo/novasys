@@ -55,4 +55,30 @@ class ApiBodegaController extends Controller
         }
 
     }
+
+    public function getExistTipoFromBodega(Request $request) {
+
+        $bodegaID = $request->bodegaID;
+        $tipoProdID = $request->tipoID;
+
+        if (!$bodegaID || !$tipoProdID) {
+            return response('Faltan datos',404);
+        }
+
+        try {
+            $productos = Bodega::getStockByTipoFromBodega($bodegaID,$tipoProdID);
+
+            return response()->json($productos,200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("DB-ERROR - No se pudo realizar la busqueda de Bodegas: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("APP-ERROR - No se pudo realizar la busqueda de Bodegas: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMEssage(),500);
+        }
+    }
 }

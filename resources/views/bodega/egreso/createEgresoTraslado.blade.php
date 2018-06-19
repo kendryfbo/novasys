@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Egreso Manual Premezcla</h4>
+			<h4>Egreso Manual Materia Prima</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,13 +31,33 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgresoManualPR')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarIngManualMP')}}">
 
 				{{ csrf_field() }}
 
+                <h5>Bodega</h5>
+
+                <!-- form-group -->
+                <div class="form-group">
+
+                    <label class="control-label col-lg-1">Bodega:</label>
+                    <div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaID" @change="getInsumosFromBodega">
+                            <option value=""></option>
+						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
+                        </select>
+                    </div>
+                    <label class="control-label col-lg-1"><i class="fa fa-arrow-right"></i> A Bodega:</label>
+                    <div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaTwoID" @change="getInsumosFromBodega">
+                            <option value=""></option>
+						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <!-- /form-group -->
                 <h5>Datos</h5>
-
-
 
                 <!-- form-group -->
                 <div class="form-group">
@@ -61,8 +81,8 @@
                     <div class="col-lg-5">
                         <input class="form-control input-sm" name="descripcion" type="text" required>
                     </div>
-					{{--<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>--}}
-					{{--<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>--}}
+					<input class="form-control input-sm" name="tipo_egreso" type="hidden" value="{{$tipoEgreso}}" required readonly>
+					<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>
 
                 </div>
                 <!-- /form-group -->
@@ -72,31 +92,40 @@
                 <!-- form-group -->
                 <div class="form-group">
 
-                    <label class="control-label col-lg-1">premezcla:</label>
-                    <div class="col-lg-3">
+                    <label class="control-label col-lg-1">Insumo:</label>
+                    <div class="col-lg-4">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="premezcla in premezclas" :value="premezcla.id">@{{premezcla.descripcion}}</option>
+						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion +' - Existencia: '+ insumo.existencia}}</option>
                         </select>
                     </div>
 
-					<label class="control-label col-lg-1">Existencia:</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number.lazy="existencia" readonly>
-							<span class="input-group-addon">@{{item.unidad_med}}</span>
-						</div>
-                    </div>
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number="cantidad" required>
+							<input class="form-control input-sm" type="number" v-model.number.lazy="cantidad" required>
 							<span class="input-group-addon">@{{item.unidad_med}}</span>
 						</div>
                     </div>
 
-                    <div class="col-lg-1">
-						<button :disabled="itemId == '' || cantidad == '' || cantidad <= 0 || cantidad > existencia" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+                </div>
+                <!-- /form-group -->
+
+                <!-- form-group -->
+                <div class="form-group">
+
+					<label class="control-label col-lg-1">Venc:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" v-model="fecha_venc" type="date">
+					</div>
+
+					<label class="col-lg-offset-1 control-label col-lg-1">Nº Lote:</label>
+					<div class="col-lg-3">
+						<input class="form-control input-sm" v-model="lote" type="text">
+					</div>
+
+					<div class="col-lg-1">
+						<button :disabled="itemId == '' || cantidad == '' || cantidad <= 0 " class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
 					</div>
 
                 </div>
@@ -127,7 +156,7 @@
                 <th class="text-center"></th>
                 <th class="text-center">#</th>
                 <th class="text-center">CODIGO</th>
-                <th class="text-center">DESCRIPCION</th>
+                <th class="text-center">INSUMO</th>
                 <th class="text-center">CANTIDAD</th>
               </tr>
 
@@ -164,10 +193,11 @@
 @section('scripts')
 	<script>
 
-	var premezclas = {!!json_encode($productos)!!};
+	var insumos = {!!$insumos!!};
+	var bodegas = {!!$bodegas!!};
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/ordenEgreso/createEgresoManualPR.js')}}"></script>
+	<script src="{{asset('js/bodega/egreso/createEgresoTraslado.js')}}"></script>
 @endsection

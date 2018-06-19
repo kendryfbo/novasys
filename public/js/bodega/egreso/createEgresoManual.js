@@ -3,17 +3,16 @@ var app = new Vue({
     el: '#vue-app',
 
     data: {
-        tipoId: '',
-        productos: productos,
-        productoId: '',
-        productoIndex: '',
+        tipoID: tipoID,
+        productos: [],
+        bodegas: bodegas,
+        bodegaID: '',
+        productoID: '',
+        existProducto: 0,
         itemId: '',
         item: [],
         items: [],
         cantidad: 0,
-        existencia: 0,
-        fecha_venc: '',
-        lote: '',
         totalCantidad: 0,
     },
 
@@ -25,8 +24,7 @@ var app = new Vue({
                 if ( this.productos[i].id === this.itemId ) {
 
                     this.item = this.productos[i];
-                    this.productoIndex = i;
-                    this.existencia = this.item.existencia;
+                    this.existProducto = this.item.existencia;
                     return;
                 }
             }
@@ -39,15 +37,28 @@ var app = new Vue({
                 alert('cantidad debe ser mayor a 0');
                 return ;
             }
+            if (this.cantidad > this.existProducto) {
+                alert('cantidad no puede ser mayor a existencia');
+                return ;
+            }
+
             this.item.cantidad = this.cantidad;
-            this.item.fecha_venc = this.fecha_venc;
-            this.item.lote = this.lote;
-            this.productos.splice(this.productoIndex,1);
             this.items.push(this.item);
             this.itemId = '';
             this.cantidad = 0;
-            this.existencia = 0;
+            this.removeProducto(this.item.id);
             this.updateTotalCantidad();
+        },
+
+        removeProducto: function(id) {
+
+            for (var i = 0; i < this.productos.length; i++) {
+
+                if ( this.productos[i].id == id ) {
+
+                    this.productos.splice(i,1);
+                }
+            }
         },
 
         removeItem: function(item) {
@@ -76,6 +87,31 @@ var app = new Vue({
             this.totalCantidad = cantidad;
         },
 
+        getProductosFromBodega: function() {
+
+            this.restore();
+            var url = '/api/bodega/stockTipoDesdeBodega';
+            axios.post(url,{
+                bodegaID: this.bodegaID,
+                tipoID: this.tipoID,
+            })
+			.then(response => this.loadProductos(response.data))
+			.catch(error => this.handleError(error))
+        },
+
+        loadProductos: function (data) {
+
+            this.productos = data;
+        },
+
+        handleError: function(error) {
+			console.log(error);
+			alert(error);
+		},
+
+        restore: function() {
+            this.items = [];
+        }
     },
 
     updated() {

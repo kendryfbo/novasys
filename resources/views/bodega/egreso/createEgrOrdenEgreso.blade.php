@@ -100,7 +100,7 @@
       </div>
 
 	  <div class="pull-right">
-	  	<form method="post" action="{{route('generarOrdenEgreso')}}">
+	  	<form method="post" action="{{route('guardarEgrOrdenEgreso')}}">
 			{{ csrf_field() }}
 	  		<button :disabled="!validate" class="btn btn-sm btn-default" type="submit">Generar Orden de Egreso</button>
 			<input class="form-control input-sm" name="bodega" type="hidden" :value="bodega" readonly>
@@ -125,5 +125,5 @@
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/bodega/consultExistenceOrdenEgreso.js')}}"></script>
+<script src="{{asset('js/bodega/egreso/createEgrOrdenEgreso.js')}}"></script>
 @endsection

@@ -2,35 +2,40 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Orden Egreso N°{{$ordenEgreso->numero}}</title>
+        <title>Orden Egreso N°{{$egreso->numero}}</title>
 
         <!-- PDF default CSS -->
-        <link rel="stylesheet" href="{{asset('css/bodega/ordenEgreso/formatoPDF.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bodega/egreso/formatoPDF.css')}}">
     </head>
     <body>
         <h1 class="text-center">Orden de Egreso Bodega</h1>
 
         <div class="title-content">
             <h3 class="num-oc">
-                Nº{{$ordenEgreso->numero}}
+                Nº {{$egreso->numero}}
             </h3>
             <h4 class="date">
                 Fecha Generacion :
-                Santiago, {{$ordenEgreso->fecha_gen}}
+                Santiago, {{$egreso->fecha_egr}}
             </h4>
             <h4 class="date2">
                 Fecha Despacho :
             </h4>
             <table>
                 <tr>
-                    <td>Orden de Egreso N°: <strong>{{$ordenEgreso->numero}}</strong></td>
+                    <td >Orden de Egreso N°: <strong>{{$egreso->numero}}</strong></td>
                 </tr>
                 <tr>
-                    <td>Documento: <strong>{{$ordenEgreso->tipo_descrip}}</strong></td>
+                    <td >Tipo Egreso: <strong>{{$egreso->tipo->descripcion}}</strong></td>
                 </tr>
                 <tr>
-                    <td>Cliente: <strong>{{$ordenEgreso->documento->cliente->descripcion}}</strong></td>
+                    <td >Descripcion: <strong>{{$egreso->descripcion}}</strong></td>
                 </tr>
+                @if (!is_null($egreso->documento))
+                    <tr>
+                        <td >Cliente: <strong>{{$egreso->documento->cliente->descripcion}}</strong></td>
+                    </tr>
+                @endif
             </table>
         </div>
 
@@ -46,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($ordenEgreso->detalles as $detalle)
+                    @foreach ($egreso->detalles as $detalle)
                         <tr>
                             <td class="text-left">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
@@ -63,7 +68,7 @@
             <tbody>
                 <tr>
                     <th>TOTAL</th>
-                    <th class="text-right">{{$ordenEgreso->detalles->sum('cantidad')}}</th>
+                    <th class="text-right">{{$egreso->detalles->sum('cantidad')}}</th>
                 </tr>
             </tbody>
         </table>

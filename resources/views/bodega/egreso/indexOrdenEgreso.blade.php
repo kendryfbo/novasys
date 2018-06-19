@@ -42,7 +42,7 @@
 									  <td class="text-center">{{$orden->numero}}</td>
 									  <td class="text-center">{{$orden->Cliente->descripcion}}</td>
 									  <td class="text-center">
-										  <form style="display: inline" action="{{route('ordenEgresoConsultarExistencia',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
+										  <form style="display: inline" action="{{route('crearEgrOrdenEgreso',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
 											  {{ csrf_field() }}
 											  <button class="btn btn-sm btn-default" type="submit">
 												  <i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i> Existencia
@@ -80,7 +80,7 @@
 										<td class="text-center">{{$orden->numero}}</td>
 										<td class="text-center">{{$orden->Cliente->descripcion}}</td>
 										<td class="text-center">
-											<form style="display: inline" action="{{route('ordenEgresoConsultarExistencia',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
+											<form style="display: inline" action="{{route('crearEgrOrdenEgreso',['tipo' => $orden->tipo_id,'id' => $orden->id])}}" method="post">
 												{{ csrf_field() }}
 												<button class="btn btn-sm btn-default" type="submit">
 													<i class="fa fa-pencil-square-o fa-eye" aria-hidden="true"></i> Existencia

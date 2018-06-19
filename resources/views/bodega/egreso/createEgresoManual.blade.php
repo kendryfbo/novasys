@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Egreso Manual Materia Prima</h4>
+			<h4>{{$titulo}}</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,13 +31,26 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgresoManualMP')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgrManual')}}">
 
 				{{ csrf_field() }}
 
+                <h5>Bodega</h5>
+
+                <!-- form-group -->
+                <div class="form-group">
+
+                    <label class="control-label col-lg-1">Bodega:</label>
+                    <div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaID" @change="getProductosFromBodega">
+                            <option value=""></option>
+						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <!-- /form-group -->
                 <h5>Datos</h5>
-
-
 
                 <!-- form-group -->
                 <div class="form-group">
@@ -61,8 +74,8 @@
                     <div class="col-lg-5">
                         <input class="form-control input-sm" name="descripcion" type="text" required>
                     </div>
-					{{--<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>--}}
-					{{--<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>--}}
+					<input class="form-control input-sm" name="tipo_egreso" type="hidden" value="{{$tipoEgreso}}" required readonly>
+					<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>
 
                 </div>
                 <!-- /form-group -->
@@ -72,31 +85,24 @@
                 <!-- form-group -->
                 <div class="form-group">
 
-                    <label class="control-label col-lg-1">Insumo:</label>
-                    <div class="col-lg-3">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemID" @change="loadItem">
-                            <option value=""></option>
-						    <option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
+                    <label class="control-label col-lg-1">Producto:</label>
+                    <div class="col-lg-4">
+                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="itemId" @change="loadItem" :required="items.length <= 0">
+                            <option value=""> </option>
+						    <option v-for="producto in productos" :value="producto.id">@{{producto.descripcion +' - Existencia: '+ producto.existencia}}</option>
                         </select>
                     </div>
 
-					<label class="control-label col-lg-1">Existencia:</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number.lazy="existencia" readonly>
-							<span class="input-group-addon">@{{item.unidad_med}}</span>
-						</div>
-                    </div>
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number="cantidad" required>
+							<input class="form-control input-sm" type="number" v-model.number.lazy="cantidad" required>
 							<span class="input-group-addon">@{{item.unidad_med}}</span>
 						</div>
                     </div>
 
-                    <div class="col-lg-1">
-						<button :disabled="itemID == '' || cantidad == '' || cantidad <= 0 || cantidad > existencia" class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
+					<div class="col-lg-1">
+						<button :disabled="itemId == '' || cantidad == '' || cantidad <= 0 " class="btn btn-sm btn-default" type="button" name="addItem" @click="addItem">Agregar</button>
 					</div>
 
                 </div>
@@ -163,11 +169,11 @@
 
 @section('scripts')
 	<script>
-
-	var insumos = {!!json_encode($productos)!!};
+	var bodegas = {!!$bodegas!!};
+	var tipoID = {!!$tipoProd!!};
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/ordenEgreso/createEgresoManualMP.js')}}"></script>
+	<script src="{{asset('js/bodega/egreso/createEgresoManual.js')}}"></script>
 @endsection

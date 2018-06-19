@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Orden Egreso</h4>
+			<h4>Egreso</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -24,26 +24,30 @@
 
 
 					<div class="col-lg-2 pull-right">
-						<a class="btn btn-sm btn-default"  href="{{route('descargarOrdenEgresoPDF',['numero' => $ordenEgreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+						<a class="btn btn-sm btn-default"  href="{{route('descargarEgresoPDF',['numero' => $egreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
 					</div>
 
                 </div>
                 <!-- /form-group -->
-
                 <!-- form-group -->
                 <div class="form-group">
 
                     <label class="control-label col-lg-1">Numero:</label>
                     <div class="col-lg-2">
-                        <input class="form-control input-sm" name="numero" type="number" value="{{$ordenEgreso->numero}}" required readonly>
+                        <input class="form-control input-sm" name="numero" type="number" value="{{$egreso->numero}}" required readonly>
                     </div>
 
+					<label class="control-label col-lg-1">Descripcion:</label>
+					<div class="col-lg-3">
+						<input class="form-control input-sm" name="numero" type="text" value="{{$egreso->descripcion}}" required readonly>
+					</div>
+
+					{{--
                     <label class="control-label col-lg-1">Cliente:</label>
         			<div class="col-lg-5">
-						<input class="form-control input-sm" name="medida" type="text" value="{{$ordenEgreso->documento->cliente->descripcion}}" required readonly>
+						<input class="form-control input-sm" name="medida" type="text" value="{{$egreso->documento->cliente->descripcion}}" required readonly>
         			</div>
-
-
+					--}}
                 </div>
                 <!-- /form-group -->
 
@@ -72,12 +76,12 @@
             </thead>
 
             <tbody>
-				@foreach ($ordenEgreso->detalles as $detalle)
+				@foreach ($egreso->detalles as $detalle)
 
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
 						<td class="text-left">{{$detalle->bodega}}</td>
-						<td class="text-left">{{$detalle->posicion}}</td>
+						<td class="text-center">{{$detalle->posicion}}</td>
 						<td class="text-left">{{$detalle->item->descripcion}}</td>
 						<td class="text-right">{{$detalle->cantidad}}</td>
 					</tr>
@@ -95,7 +99,7 @@
 
 						<tr>
 						<th class="bg-gray text-right">TOTAL:</th>
-						<th class="text-right">{{$ordenEgreso->detalles->sum('cantidad')}}</th>
+						<th class="text-right">{{$egreso->detalles->sum('cantidad')}}</th>
 						</tr>
 
 					</table>

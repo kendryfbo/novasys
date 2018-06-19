@@ -31,7 +31,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{url('bodega')}}"><i class=""></i> <span>Consultar Bodega</span></a></li>
-                        <li><a href="{{url('bodega/ordenEgreso')}}"><i class=""></i> <span>Egresos</span></a></li>
+                        <li><a href="{{url('bodega/egreso')}}"><i class=""></i> <span>Egresos</span></a></li>
                         <li><a href="{{url('bodega/ingreso')}}"><i class=""></i> <span>Ingresos</span></a></li>
                         <li><a href="{{url('bodega/pallet')}}"><i class=""></i> <span>Pallets</span></a></li>
                     </ul>
@@ -75,10 +75,11 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="{{url('produccion/premezcla')}}"><i class=""></i> <span>Prod. Premezcla</span></a></li>
+                        <li><a href="{{url('produccion/mezclado')}}"><i class=""></i>  <span>Prod. Mezclado</span></a></li>
+                        <li><a href="{{url('produccion/envasado')}}"><i class=""></i>  <span>Prod. Envasado</span></a></li>
                         <li><a href="{{url('produccion/terminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
                         <li><a href="{{url('bodega/creacionPalletProduccion')}}"><i class=""></i> <span>Creacion Pallet</span></a></li>
-                        <li><a href="{{url('produccion/premezcla')}}"><i class=""></i> <span>Prod. Premezcla</span></a></li>
-                        <li><a href="{{url('produccion/mezclado')}}"><i class=""></i> <span>Prod. Mezclado</span></a></li>
                     </ul>
                 </li>
 
