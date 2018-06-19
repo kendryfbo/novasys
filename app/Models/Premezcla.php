@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Premezcla extends Model
 {
-
 	protected $fillable= ['codigo','descripcion','familia_id','marca_id','sabor_id','formato_id', 'activo'];
 
 	static function getAllActive() {

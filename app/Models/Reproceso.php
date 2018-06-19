@@ -10,7 +10,7 @@ class Reproceso extends Model
 
 	static function getAllActive() {
 
-		return Premezcla::all()->where('activo',1);
+		return Reproceso::all()->where('activo',1);
 	}
 
     /*

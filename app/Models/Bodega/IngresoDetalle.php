@@ -53,6 +53,9 @@ class IngresoDetalle extends Model
 
             case TipoFamilia::getPremezclaID();
                 return $this->belongsTo('App\Models\Premezcla','item_id');
+
+            case TipoFamilia::getReprocesoID();
+                return $this->belongsTo('App\Models\Reproceso','item_id');
         }
     }
 }
