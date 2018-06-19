@@ -32,22 +32,10 @@
 
 									@endforeach
 								</tbody>
-							</table>
-					</div>
-				</form>
-		</div>
-		<hr>
-		<!-- box-header -->
-		<div class="box-header text-center">
-			<h4>Materia Prima Produccion</h4>
-		</div>
-		<!-- /box-header -->
-		<!-- box-body -->
-		<div class="box-body">
-				<form class="form-horizontal" action="index.html" method="post">
-					<div class="col-lg-12">
-							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
 								<thead>
+									<tr>
+										<th colspan="6" class="text-center">PRODUCCION</th>
+									</tr>
 									<tr>
 										<th class="text-center">#</th>
 										<th class="text-center">codigo</th>
@@ -65,7 +53,44 @@
 												<td class="text-center">{{$insumo->codigo}}</td>
 												<td class="text-center">{{$insumo->descripcion}}</td>
 												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{$insumo->requerida}}</td>
+												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
+												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
+											</tr>
+										@endif
+									@endforeach
+								</tbody>
+							</table>
+					</div>
+				</form>
+		</div>
+
+		<!-- box-body -->
+		<div class="box-body">
+				<form class="form-horizontal" action="index.html" method="post">
+					<div class="col-lg-12">
+							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th colspan="6" class="text-center">PRODUCCION</th>
+									</tr>
+									<tr>
+										<th class="text-center">#</th>
+										<th class="text-center">codigo</th>
+										<th class="text-center">descripcion</th>
+										<th class="text-center">existencia</th>
+										<th class="text-center">requerimiento</th>
+										<th class="text-center">faltante</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($insumos as $insumo)
+										@if ($insumo->requerida && $insumo->nivel_id == 1)
+											<tr>
+												<th class="text-center">{{$loop->iteration}}</th>
+												<td class="text-center">{{$insumo->codigo}}</td>
+												<td class="text-center">{{$insumo->descripcion}}</td>
+												<td class="text-right">{{$insumo->total}}</td>
+												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
 												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
 											</tr>
 										@endif
@@ -76,18 +101,15 @@
 				</form>
 		</div>
 		<!-- /box-body -->
-		<hr>
-		<!-- box-header -->
-		<div class="box-header text-center">
-			<h4>Materia Prima - Premezcla</h4>
-		</div>
-		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 				<form class="form-horizontal" action="index.html" method="post">
 					<div class="col-lg-12">
 							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
 								<thead>
+									<tr>
+										<th colspan="6" class="text-center">PREMEZCLA</th>
+									</tr>
 									<tr>
 										<th class="text-center">#</th>
 										<th class="text-center">codigo</th>
@@ -105,7 +127,7 @@
 												<td class="text-center">{{$insumo->codigo}}</td>
 												<td class="text-center">{{$insumo->descripcion}}</td>
 												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{$insumo->requerida}}</td>
+												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
 												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
 											</tr>
 										@endif
@@ -116,18 +138,15 @@
 				</form>
 		</div>
 		<!-- /box-body -->
-		<hr>
-		<!-- box-header -->
-		<div class="box-header text-center">
-			<h4>Materia Prima Mezclado</h4>
-		</div>
-		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 				<form class="form-horizontal" action="index.html" method="post">
 					<div class="col-lg-12">
 							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
 								<thead>
+									<tr>
+										<th colspan="6" class="text-center">MEZCLADO</th>
+									</tr>
 									<tr>
 										<th class="text-center">#</th>
 										<th class="text-center">codigo</th>
@@ -145,7 +164,7 @@
 												<td class="text-center">{{$insumo->codigo}}</td>
 												<td class="text-center">{{$insumo->descripcion}}</td>
 												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{$insumo->requerida}}</td>
+												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
 												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
 											</tr>
 										@endif

@@ -3,6 +3,8 @@
 namespace App\Models\Bodega;
 
 use DB;
+use Carbon\Carbon;
+use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
 use App\Models\Config\StatusDocumento ;
@@ -67,6 +69,54 @@ class Pallet extends Model
                 $terminoProceso->save();
             };
         return $pallet;
+        }); // end-transaction
+
+        return $pallet;
+    }
+
+    static function storeFromIngreso($ingresoID) {
+
+        $pallet = DB::transaction( function() use($ingresoID) {
+
+            $ingreso = Ingreso::with('detalles')->where('id',$ingresoID)->first();
+            $items = $ingreso->detalles;
+            $numero = Carbon::now()->format('YmdHis');
+            $medida = PalletMedida::altoID();
+
+            $pallet = Pallet::create([
+                'numero' => $numero,
+                'num_fisico' => null,
+                'medida_id' => $medida,
+                'almacenado' => 0,
+            ]);
+
+            foreach ( $items as $item) {
+
+                $cantidad = $item->cantidad;
+                $fechaVenc = $item->fecha_venc;
+                $fechaIng = $item->fecha_ing;
+
+                PalletDetalle::create([
+                    'pallet_id' => $pallet->id,
+                    'tipo_id' => $item->tipo_id,
+                    'item_id' => $item->item_id,
+                    'ing_tipo_id' => $ingreso->tipo_id,
+                    'ing_id' => $item->ing_id,
+                    'cantidad' => $cantidad,
+                    'fecha_ing' => $fechaIng,
+                    'fecha_venc' => $fechaVenc,
+                ]);
+
+                $detalle = IngresoDetalle::with('ingreso')->find($item->id);
+
+                $detalle->por_procesar = $detalle->por_procesar - $cantidad;
+                $detalle->save();
+
+                $detalle->ingreso->updateStatus();
+                $detalle->ingreso->save();
+            };
+
+            return $pallet;
         }); // end-transaction
 
         return $pallet;

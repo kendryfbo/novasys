@@ -166,6 +166,97 @@ class Ingreso extends Model
         });
     }
 
+    static function registerFromProdPrem($prodPrem) {
+
+        $ingreso = DB::transaction(function() use($prodPrem){
+
+            $numero = Ingreso::getNextNumber();
+            $descripcion = "Ingreso por Produccion de Premezcla # ". $prodPrem->id;
+            $tipoIngreso = IngresoTipo::prodPremID();
+            $fechaProd = $prodPrem->fecha_prod;
+            $status = StatusDocumento::completaID();
+            $usuario = $prodPrem->user_id;
+
+            $ingreso = Ingreso::create([
+                'numero' => $numero,
+                'descripcion' => $descripcion,
+                'tipo_id' => $tipoIngreso,
+                'item_id' => $prodPrem->id,
+                'fecha_ing' => $fechaProd,
+                'status_id' => $status,
+                'user_id' => $usuario,
+            ]);
+
+            $id = $ingreso->id;
+            $tipoProd = TipoFamilia::getPremezclaID();
+            $productoID = $prodPrem->formula->premezcla->id;
+            $fechaVenc = $prodPrem->fecha_venc ? $prodPrem->fecha_venc : null;
+            $lote = $prodPrem->lote;
+            $cantidad = $prodPrem->cant_batch;
+
+            IngresoDetalle::create([
+                'ing_id' => $id,
+                'tipo_id' => $tipoProd,
+                'item_id' => $productoID,
+                'fecha_ing' => $fechaProd,
+                'fecha_venc' => $fechaVenc,
+                'lote' => $lote,
+                'cantidad' => $cantidad,
+                'por_procesar' => $cantidad,
+            ]);
+
+            return $ingreso;
+        },5);
+
+        return $ingreso;
+    }
+
+    static function registerFromProdMez($prodMez) {
+
+        $ingreso = DB::transaction(function() use($prodMez){
+
+            $numero = Ingreso::getNextNumber();
+            $descripcion = "Ingreso por Produccion de Mezclado # ". $prodMez->id;
+            $tipoIngreso = IngresoTipo::prodMezID();
+            $fechaProd = $prodMez->fecha_prod;
+            $status = StatusDocumento::completaID();
+            $usuario = $prodMez->user_id;
+
+            $ingreso = Ingreso::create([
+                'numero' => $numero,
+                'descripcion' => $descripcion,
+                'tipo_id' => $tipoIngreso,
+                'item_id' => $prodMez->id,
+                'fecha_ing' => $fechaProd,
+                'status_id' => $status,
+                'user_id' => $usuario,
+            ]);
+
+            $id = $ingreso->id;
+            $tipoProd = TipoFamilia::getReprocesoID();
+            $productoID = $prodMez->formula->reproceso->id;
+            $detalle = $prodMez->formula->detalles;
+            $fechaVenc = $prodMez->fecha_venc ? $prodMez->fecha_venc : null;
+            $lote = $prodMez->lote;
+            $cantidad = $prodMez->total_rpr;
+
+            IngresoDetalle::create([
+                'ing_id' => $id,
+                'tipo_id' => $tipoProd,
+                'item_id' => $productoID,
+                'fecha_ing' => $fechaProd,
+                'fecha_venc' => $fechaVenc,
+                'lote' => $lote,
+                'cantidad' => $cantidad,
+                'por_procesar' => $cantidad,
+            ]);
+
+            return $ingreso;
+        },5);
+
+        return $ingreso;
+    }
+
     static function getStockofProd($id = null) {
 
         $PT = config('globalVars.PT');

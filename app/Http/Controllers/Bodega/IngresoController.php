@@ -28,9 +28,19 @@ class IngresoController extends Controller
     public function index()
     {
         $statusCompleta = StatusDocumento::completaID();
-        $tipo = IngresoTipo::termProcID();
-        $ingresos = Ingreso::with('usuario','tipo','status')->where('status_id','!=',$statusCompleta)->where('tipo_id','!=',$tipo)->get();
-        $ingresosProcesados = Ingreso::with('usuario','tipo','status')->where('status_id','=',$statusCompleta)->get();
+        $tipos = [
+            IngresoTipo::manualID(),
+            IngresoTipo::devolucionID(),
+            IngresoTipo::ordenCompraID(),
+        ];
+        $ingresos = Ingreso::with('usuario','tipo','status')
+                                ->where('status_id','!=',$statusCompleta)
+                                ->whereIn('tipo_id',$tipos)
+                                ->get();
+
+        $ingresosProcesados = Ingreso::with('usuario','tipo','status')
+                                        ->where('status_id','=',$statusCompleta)
+                                        ->get();
 
         return view('bodega.ingreso.index')->with([
             'ingresos' => $ingresos,

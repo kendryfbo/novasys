@@ -43,7 +43,7 @@
 		<hr>
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Materia Prima Produccion</h4>
+			<h4>Produccion</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -83,7 +83,7 @@
 		<hr>
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Materia Prima - Premezcla</h4>
+			<h4>Premezcla</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -123,7 +123,7 @@
 		<hr>
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Materia Prima Mezclado</h4>
+			<h4>Mezclado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -163,7 +163,7 @@
 		<hr>
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Materia Prima</h4>
+			<h4>General</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
