@@ -16,6 +16,7 @@ class CreateTerminoProcesoTable extends Migration
         Schema::create('termino_proceso', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('prod_id')->unsigned();
+            $table->integer('prodenv_id')->unsigned();
             $table->string('turno');
             $table->integer('producidas');
             $table->integer('rechazadas');
@@ -36,6 +37,7 @@ class CreateTerminoProcesoTable extends Migration
         Schema::table('termino_proceso', function (Blueprint $table) {
             $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
+            $table->foreign('prodenv_id')->references('id')->on('produccion_envasado')->onUpdate('cascade');
         });
     }
 

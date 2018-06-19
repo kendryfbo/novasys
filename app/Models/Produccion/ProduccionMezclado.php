@@ -9,13 +9,17 @@ use App\Models\Nivel;
 use App\Models\Formula;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
+use App\Models\Bodega\Pallet;
+use App\Models\Bodega\Ingreso;
 use App\Models\FormulaDetalle;
+use App\Models\Bodega\Posicion;
+use App\Models\Bodega\IngresoTipo;
 use App\Models\Config\StatusDocumento;
 
 class ProduccionMezclado extends Model
 {
     protected $table= 'produccion_mezclado';
-    protected $fillable = ['numero','premezcla_id', 'user_id', 'cant_batch', 'fecha', 'status_id'];
+    protected $fillable = ['numero','formula_id', 'user_id', 'cant_batch', 'fecha_prod', 'fecha_venc', 'status_id'];
 
     static function register($request) {
 
@@ -23,25 +27,33 @@ class ProduccionMezclado extends Model
 
             $formulaID = $request->formulaID;
             $cantBatch = $request->cantBatch;
-            $premezclaID = $request->premezclaID;
+            $reprocesoID = $request->reprocesoID;
             $nivelProd = $request->nivelID;
+            $nivelPremix = Nivel::premixID();
             $user = $request->user()->id;
-            $fecha = $request->fecha;
+            $fechaProd = $request->fecha_prod;
+            $fechaVenc = $request->fecha_venc;
             $status = StatusDocumento::pendienteID();
             $numero = ProduccionMezclado::nextNumber();
 
             $insumosProd = FormulaDetalle::where('formula_id',$formulaID)
                 ->where('nivel_id',$nivelProd)->get();
+            $detalleFormula = FormulaDetalle::where('formula_id',$formulaID)
+                ->whereIn('nivel_id',[$nivelProd,$nivelPremix])
+                ->get();
 
+            $totalReproceso = $detalleFormula->sum('cantxbatch')*$cantBatch;
 
             $prodMezclado = ProduccionMezclado::create([
                 'numero' => $numero,
-                'premezcla_id' => $premezclaID,
+                'formula_id' => $formulaID,
                 'user_id' => $user,
                 'cant_batch' => $cantBatch,
-                'fecha' => $fecha,
+                'fecha_prod' => $fechaProd,
+                'fecha_venc' => $fechaVenc,
                 'status_id' => $status,
             ]);
+            $prodMezclado->total_rpr = $totalReproceso;
 
             foreach ($insumosProd as $insumo) {
 
@@ -53,35 +65,76 @@ class ProduccionMezclado extends Model
                     'cantidad' => $cantxbatch,
                 ]);
             };
+            // generar ingreso
+            $ingreso = Ingreso::registerFromProdMez($prodMezclado);
 
             return $prodMezclado;
         },5);
     }
 
 
-    static function processMezclado($prodMezcladoID,$bodegaID) {
+    static function processMezclado($prodMezID,$bodegaID) {
 
-        $prodMezclado = ProduccionMezclado::with('detalles')->where('id',$prodMezcladoID)->first();
+        $prodMez = ProduccionMezclado::with('detalles','formula.premezcla')->where('id',$prodMezID)->first();
         $pendiente = StatusDocumento::pendienteID();
 
-        if($prodMezclado->status_id != $pendiente) {
+        if($prodMez->status_id != $pendiente) {
 
             dd('ERROR - Produccion de Mezclado ya ha sido Procesada');
         }
 
-        $prodMezclado = DB::transaction( function() use($prodMezclado,$bodegaID) {
+        $prodMez = DB::transaction( function() use($prodMez,$bodegaID) {
 
             $tipoProd = TipoFamilia::getInsumoID();
+            $tipoPremix = TipoFamilia::getPremezclaID();
+            $tipoIngreso = IngresoTipo::prodMezID();
 
-            foreach ($prodMezclado->detalles as $detalle) {
+            foreach ($prodMez->detalles as $detalle) {
 
-                $detalle->item_id = $detalle->insumo_id;
+                $detalle->item_id = $detalle->insumo_id; // Crear item_id para descount
 
                 $posiciones = Bodega::descount($bodegaID,$tipoProd,$detalle);
             }
+            // descuento de Premix
+            $premezcla = collect();
+            $premezcla->cantidad = $prodMez->cant_batch;
+            $premezcla->item_id = $prodMez->formula->premezcla->id;
+            Bodega::descount($bodegaID,$tipoPremix,$premezcla);
+            // buscar ingreso
+            $ingreso = Ingreso::where('tipo_id',$tipoIngreso)->where('item_id',$prodMez->id)->first();
+            // generar Pallet
+            $pallet = Pallet::storeFromIngreso($ingreso->id);
+            // Buscar Posicion para Pallet
+            $bodegaMez = Bodega::getBodMezcladoID(); // Reproceso se almacena en bodega Mezclado automaticamente
+            $posicion = Posicion::findPositionForPallet($bodegaMez,$pallet->id);
+            // Ingresar pallet a Bodega
+            Bodega::storePalletInPosition($posicion->id,$pallet->id);
+            // actualizar status
+            $prodMez->status_id = StatusDocumento::completaID();
+            $prodMez->save();
 
-            $prodMezclado->status_id = StatusDocumento::completaID();
-            $prodMezclado->save();
+            return $prodMez;
+        },5);
+
+        return $prodMez;
+    }
+
+    static function remove($id) {
+
+        $prodMezclado = DB::transaction(function() use($id){
+
+            $prodMezclado = ProduccionMezclado::find($id);
+            $tipo = IngresoTipo::prodMezID();
+            $status = StatusDocumento::pendienteID();
+
+            if ($prodMezclado->status_id != $status) {
+
+                return;
+            }
+
+            Ingreso::where('tipo_id',$tipo)->where('item_id',$id)->delete();
+
+            $prodMezclado->delete();
 
             return $prodMezclado;
         },5);
@@ -96,9 +149,9 @@ class ProduccionMezclado extends Model
         return $this->hasMany('App\Models\Produccion\ProdMezDetalle', 'prodmez_id', 'id');
     }
 
-    public function premezcla() {
+    public function formula() {
 
-        return $this->belongsTo('App\Models\Premezcla','premezcla_id');
+        return $this->belongsTo('App\Models\Formula','formula_id');
     }
 
 

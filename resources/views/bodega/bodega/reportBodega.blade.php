@@ -100,6 +100,7 @@
 						<th class="text-center">Cantidad</th>
                         <th class="text-center">Fecha Ing.</th>
 						<th class="text-center">Fecha Venc.</th>
+						<th class="text-center">Vida Util</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -107,12 +108,13 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-left">{{$producto->bodega}}</td>
-                            <td class="text-left">{{$producto->pos}}</td>
-							<td class="text-center">{{$producto->producto->codigo}}</td>
+                            <td class="text-center">{{$producto->pos}}</td>
+							<td class="text-left">{{$producto->producto->codigo}}</td>
 							<td class="text-left">{{$producto->producto->descripcion}}</td>
-							<td class="text-left">{{$producto->cantidad}}</td>
+							<td class="text-right">{{$producto->cantidad}}</td>
 							<td class="text-center">{{$producto->fecha_ing}}</td>
 							<td class="text-center">{{$producto->fecha_venc}}</td>
+							<td class="text-right">{{$producto->vida_util}}</td>
 						</tr>
 					@endforeach
 				</tbody>

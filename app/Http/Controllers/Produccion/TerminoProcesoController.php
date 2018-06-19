@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Config\StatusDocumento;
 use App\Models\Produccion\TerminoProceso;
+use App\Models\Produccion\ProduccionEnvasado;
 
 class TerminoProcesoController extends Controller
 {
@@ -45,11 +46,12 @@ class TerminoProcesoController extends Controller
         $batchs = self::BATCHS;
         $turnos = self::TURNOS;
         $productos = Producto::getAllActive();
+        $prodEnvasado = ProduccionEnvasado::with('formula.producto')->get();
 
 
         return view('produccion.terminoProceso.create')->with(
             ['maquinas' => $maquinas,'operadores' => $operadores, 'codigos' => $codigos,
-             'batchs' => $batchs, 'turnos' => $turnos, 'productos' => $productos]);
+             'batchs' => $batchs, 'turnos' => $turnos, 'productos' => $productos, 'prodEnvasado' => $prodEnvasado]);
     }
 
     /**
@@ -62,6 +64,7 @@ class TerminoProcesoController extends Controller
     {
         $datos = $this->validate($request,[
             'prod_id' => 'required',
+            'prodenv_id' => 'required',
             'fecha_prod' => 'required|date',
             'fecha_venc' => 'required|date',
             'turno' => 'required',

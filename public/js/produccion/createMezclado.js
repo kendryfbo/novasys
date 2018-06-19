@@ -6,8 +6,8 @@ var app = new Vue({
         formulaID: '',
         formulas: formulas,
         items: [],
-        premezcla: '',
-        premezclaID: '',
+        reproceso: '',
+        reprocesoID: '',
         cantBatch: 1,
         totalBatch:0,
         vidaUtil: '',
@@ -25,20 +25,20 @@ var app = new Vue({
 
                     this.items = this.formulas[i].detalle;
 
-                    if (this.formulas[i].premezcla) {
-                        this.premezcla = this.formulas[i].premezcla.descripcion;
-                        this.premezclaID = this.formulas[i].premezcla.id;
+                    if (this.formulas[i].reproceso) {
+                        this.reproceso = this.formulas[i].producto.descripcion;
+                        this.reprocesoID = this.formulas[i].producto.id;
                         this.vidaUtil = this.formulas[i].producto.vida_util;
                         this.updateVenc();
                     } else {
-                        this.premezcla = 'NO POSEE PREMEZCLA ASOCIADA';
+                        this.reproceso = 'NO POSEE REPROCESO ASOCIADA';
                     }
                     return;
                 }
             }
 
         },
-        
+
         updateVenc: function() {
 
             if (!this.vidaUtil || !this.fechaProd) {

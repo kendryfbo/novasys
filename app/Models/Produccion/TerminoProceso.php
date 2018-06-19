@@ -12,7 +12,7 @@ class TerminoProceso extends Model
 {
     protected $table = 'termino_proceso';
 
-    protected $fillable = ['prod_id','turno','producidas','rechazadas', 'total',
+    protected $fillable = ['prod_id','prodenv_id', 'turno','producidas','rechazadas', 'total',
                            'fecha_prod','fecha_venc','maquina','operador','cod',
                            'batch','lote', 'ingresadas', 'status_id', 'user_id'];
 
@@ -30,6 +30,7 @@ class TerminoProceso extends Model
 
             $terminoProceso = Self::create([
                 'prod_id' => $request->prod_id,
+                'prodenv_id' => $request->prodenv_id,
                 'fecha_prod' => $request->fecha_prod,
                 'fecha_venc' => $request->fecha_venc,
                 'turno' => $request->turno,

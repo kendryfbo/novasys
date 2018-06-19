@@ -41,8 +41,8 @@
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
 						<td class="text-center">{{$premezcla->numero}}</td>
-						<td class="text-center">{{$premezcla->premezcla->descripcion}}</td>
-						<td class="text-center">{{$premezcla->fecha}}</td>
+						<td class="text-center">{{$premezcla->formula->premezcla->descripcion}}</td>
+						<td class="text-center">{{$premezcla->fecha_prod}}</td>
 						<td class="text-center">{{$premezcla->status->descripcion}}</td>
 						<td class="text-center">
 							<form style="display: inline" action="{{route('editarProduccionPremezcla',['id' => $premezcla->id])}}" method="get">
@@ -95,8 +95,8 @@
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
 						<td class="text-center">{{$premezcla->numero}}</td>
-						<td class="text-center">{{$premezcla->premezcla->descripcion}}</td>
-						<td class="text-center">{{$premezcla->fecha}}</td>
+						<td class="text-center">{{$premezcla->formula->premezcla->descripcion}}</td>
+						<td class="text-center">{{$premezcla->fecha_prod}}</td>
 						<td class="text-center">{{$premezcla->status->descripcion}}</td>
 					</tr>
 				@endforeach

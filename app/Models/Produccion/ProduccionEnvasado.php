@@ -5,20 +5,19 @@ namespace App\Models\Produccion;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
-use App\Models\Nivel;
 use App\Models\Formula;
+use App\Models\Producto;
+use App\Models\Reproceso;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
-use App\Models\Bodega\Pallet;
-use App\Models\Bodega\Ingreso;
 use App\Models\FormulaDetalle;
-use App\Models\Bodega\Posicion;
 use App\Models\Bodega\IngresoTipo;
 use App\Models\Config\StatusDocumento;
+use App\Models\Produccion\ProdEnvDetalle;
 
-class ProduccionPremezcla extends Model
+class ProduccionEnvasado extends Model
 {
-    protected $table = 'produccion_premezcla';
+    protected $table = 'produccion_envasado';
     protected $fillable = ['numero','formula_id', 'user_id', 'cant_batch', 'fecha_prod', 'fecha_venc', 'status_id'];
 
     static function register($request) {
@@ -27,24 +26,24 @@ class ProduccionPremezcla extends Model
 
             $formulaID = $request->formulaID;
             $cantBatch = $request->cantBatch;
-            $premezclaID = $request->premezclaID;
+            $productoID = $request->productoID;
             $nivelPremix = $request->nivelID;
             $fechaProd = $request->fecha_prod;
-            $fechaVenc = $request->fecha_venc;
+            $fechaVenc = $request->fecha_prod;
             $user = $request->user()->id;
             $status = StatusDocumento::pendienteID();
 
             $insumosPremix = FormulaDetalle::where('formula_id',$formulaID)
                 ->where('nivel_id',$nivelPremix)->get();
 
-            $numero = ProduccionPremezcla::orderBy('numero','desc')->pluck('numero')->first();
+            $numero = ProduccionEnvasado::orderBy('numero','desc')->pluck('numero')->first();
 
             if (is_null($numero)) {
     			$numero = 1;
     		} else {
     			$numero++;
     		};
-            $prodPrem = ProduccionPremezcla::create([
+            $prodEnvasado = ProduccionEnvasado::create([
                 'numero' => $numero,
                 'formula_id' => $formulaID,
                 'user_id' => $user,
@@ -53,84 +52,81 @@ class ProduccionPremezcla extends Model
                 'fecha_venc' => $fechaVenc,
                 'status_id' => $status,
             ]);
+
             foreach ($insumosPremix as $insumoPremix) {
 
                 $cantxbatch = round(($insumoPremix->cantxbatch * $cantBatch),2);
 
-                ProdPremDetalle::create([
-                    'prodprem_id' => $prodPrem->id,
+                ProdEnvDetalle::create([
+                    'prodenv_id' => $prodEnvasado->id,
                     'insumo_id' => $insumoPremix->insumo_id,
                     'cantidad' => $cantxbatch,
                 ]);
             };
-            // generar ingreso
-            $ingreso = Ingreso::registerFromProdPrem($prodPrem);
 
-            return $prodPrem;
+            return $prodEnvasado;
         },5);
     }
 
-    static function processPremix($prodPremID,$bodegaID) {
+    static function processEnvasado($prodEnvID,$bodegaID) {
 
-        $prodPrem = ProduccionPremezcla::with('detalles')->where('id',$prodPremID)->first();
+        $prodEnv = ProduccionEnvasado::with('detalles')->where('id',$prodEnvID)->first();
         $pendiente = StatusDocumento::pendienteID();
 
-        if($prodPrem->status_id != $pendiente) {
+        if($prodEnv->status_id != $pendiente) {
 
-            dd('ERROR - Produccion de Premezcla ya ha sido Procesada');
+            dd('ERROR - Produccion de Envasado ya ha sido Procesada');
         }
 
-        $ProdPrem = DB::transaction( function() use($prodPrem,$bodegaID) {
+        $prodEnv = DB::transaction( function() use($prodEnv,$bodegaID) {
 
             $tipoProd = TipoFamilia::getInsumoID();
-            $tipoIngreso = IngresoTipo::prodPremID();
+            $tipoIngreso = IngresoTipo::prodEnvID();
 
-            foreach ($prodPrem->detalles as $detalle) {
+            foreach ($prodEnv->detalles as $detalle) {
 
                 $detalle->item_id = $detalle->insumo_id; // Crear item_id para descount
 
                 $posiciones = Bodega::descount($bodegaID,$tipoProd,$detalle);
             }
             // buscar ingreso
-            $ingreso = Ingreso::where('tipo_id',$tipoIngreso)->where('item_id',$prodPrem->id)->first();
+            //$ingreso = Ingreso::where('tipo_id',$tipoIngreso)->where('item_id',$prodEnv->id)->first();
             // generar Pallet
-            $pallet = Pallet::storeFromIngreso($ingreso->id);
+            //$pallet = Pallet::storeFromIngreso($ingreso->id);
             // Buscar Posicion para Pallet
-            $bodegaMez = Bodega::getBodMezcladoID(); // premezcla se almacena en bodega Mezclado automaticamente
-            $posicion = Posicion::findPositionForPallet($bodegaMez,$pallet->id);
+            //$bodegaEnv = Bodega::getBodEnvasadoID(); // Reproceso se almacena en bodega Envasado automaticamente
+            //$posicion = Posicion::findPositionForPallet($bodegaEnv,$pallet->id);
             // Ingresar pallet a Bodega
-            Bodega::storePalletInPosition($posicion->id,$pallet->id);
+            //Bodega::storePalletInPosition($posicion->id,$pallet->id);
             // actualizar status
-            $prodPrem->status_id = StatusDocumento::completaID();
-            $prodPrem->save();
+            $prodEnv->status_id = StatusDocumento::completaID();
+            $prodEnv->save();
 
-            return $prodPrem;
+            return $prodEnv;
         },5);
 
-        return $prodPrem;
+        return $prodEnv;
     }
 
     static function remove($id) {
 
-        $prodPrem = DB::transaction(function() use($id){
+        $prodEnvasado = DB::transaction(function() use($id){
 
-            $prodPrem = ProduccionPremezcla::find($id);
-            $tipo = IngresoTipo::prodPremID();
+            $prodEnvasado = ProduccionEnvasado::find($id);
+            $tipo = IngresoTipo::prodEnvID();
             $status = StatusDocumento::pendienteID();
 
-            if ($prodPrem->status_id != $status) {
+            if ($prodEnvasado->status_id != $status) {
 
                 return;
             }
 
-            Ingreso::where('tipo_id',$tipo)->where('item_id',$id)->delete();
+            $prodEnvasado->delete();
 
-            $prodPrem->delete();
-
-            return $prodPrem;
+            return $prodEnvasado;
         },5);
 
-        return $prodPrem;
+        return $prodEnvasado;
     }
 
     /*
@@ -140,12 +136,12 @@ class ProduccionPremezcla extends Model
     */
     public function detalles() {
 
-        return $this->hasMany('App\Models\Produccion\ProdPremDetalle', 'prodprem_id', 'id');
+        return $this->hasMany('App\Models\Produccion\ProdEnvDetalle', 'prodenv_id');
     }
 
     public function formula() {
 
-        return $this->belongsTo('App\Models\Formula','formula_id');
+        return $this->belongsTo('App\Models\formula','formula_id');
     }
 
     public function status() {

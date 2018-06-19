@@ -39,6 +39,18 @@ Route::prefix('produccion')->group( function(){
         Route::post('/descontar',          'Produccion\ProduccionMezcladoController@storeDescProdMezclado')->name('guardarDescProdMezclado');
 
     });
+    // Produccion Envasado
+    Route::prefix('envasado')->group(function() {
+
+        Route::post('/',              'Produccion\ProduccionEnvasadoController@store')->name('guardarProduccionEnvasado');
+        Route::get('/',               'Produccion\ProduccionEnvasadoController@index')->name('produccionEnvasado');
+        Route::get('/crear',          'Produccion\ProduccionEnvasadoController@create')->name('crearProduccionEnvasado');
+        Route::get('/{id}/edit',      'Produccion\ProduccionEnvasadoController@edit')->name('editarProduccionEnvasado');
+        Route::delete('/{id}',        'Produccion\ProduccionEnvasadoController@destroy')->name('eliminarProduccionEnvasado');
+        Route::get('/{id}/descontar', 'Produccion\ProduccionEnvasadoController@createDescProdEnvasado')->name('crearDescProdEnvasado');
+        Route::post('/descontar',     'Produccion\ProduccionEnvasadoController@storeDescProdEnvasado')->name('guardarDescProdEnvasado');
+
+    });
 
 });
 

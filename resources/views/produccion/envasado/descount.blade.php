@@ -6,14 +6,14 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Produccion Mezclado</h4>
+			<h4>Produccion Envasado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarDescProdMezclado')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarDescProdEnvasado',['id' => $prodEnvasado->id])}}">
 
 				{{ csrf_field() }}
 
@@ -24,8 +24,7 @@
 
 				  <label class="control-label col-lg-1">Bodega:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="hidden" name="bodega" value="{{$bodega->id}}" readonly>
-					  <input class="form-control input-sm" type="text" value="{{$bodega->descripcion}}" readonly>
+					  <input class="form-control input-sm" type="text" name="bodega" value="{{$bodega->descripcion}}" readonly>
 				  </div>
 
 		        </div>
@@ -33,18 +32,13 @@
 		        <!-- form-group -->
 		        <div class="form-group">
 
-				  <label class="control-label col-lg-1">Numero:</label>
-				  <div class="col-lg-1">
-					  <input class="form-control input-sm" type="hidden" name="prodMezclado" value="{{$prodMezclado->id}}" readonly>
-					  <input class="form-control input-sm" type="text" value="{{$prodMezclado->numero}}" readonly>
-				  </div>
-				  <label class="control-label col-lg-1">Reproceso:</label>
+				  <label class="control-label col-lg-1">Producto:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="text" value="{{$prodMezclado->formula->reproceso->descripcion}}" readonly>
+					  <input class="form-control input-sm" type="text" name="envasado" value="{{$prodEnvasado->formula->producto->descripcion}}" readonly>
 				  </div>
 				  <label class="control-label col-lg-1">Batch:</label>
 				  <div class="col-lg-1">
-					  <input class="form-control input-sm" type="number" min="1" step="1" name="cantBatch" value="{{$prodMezclado->cant_batch}}" readonly>
+					  <input class="form-control input-sm" type="number" min="1" step="1" name="cantBatch" value="{{$prodEnvasado->cant_batch}}" readonly>
 				  </div>
 
 		        </div>
@@ -64,10 +58,9 @@
         <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
 
           <thead>
-
-			<tr>
-				<th colspan="5" class="text-center">Premezcla</th>
-			</tr>
+			  <tr>
+			  	<th colspan="5" class="text-center">PRODUCTO MEZCLADO</th>
+			  </tr>
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Codigo</th>
@@ -81,23 +74,16 @@
           <tbody>
 				<tr>
 					<td class="text-center">1</td>
-					<td class="text-center">{{$prodMezclado->formula->premezcla->codigo}}</td>
-					<td class="text-center">{{$prodMezclado->formula->premezcla->descripcion}}</td>
-					<td class="text-right">{{$prodMezclado->cant_batch}}</td>
-					<td class="{{ $prodMezclado->premExistencia >= $prodMezclado->cant_batch ? 'success text-right':'danger text-right' }}">{{$prodMezclado->premExistencia}}</td>
+					<td class="text-center">{{$prodEnvasado->formula->reproceso->codigo}}</td>
+					<td class="text-center">{{$prodEnvasado->formula->reproceso->descripcion}}</td>
+					<td class="text-right">{{$prodEnvasado->cant_rpr}}</td>
+					<td class="{{ $prodEnvasado->reprExistencia >= $prodEnvasado->cant_rpr ? 'success text-right':'danger text-right' }}">{{$prodEnvasado->reprExistencia}}</td>
 				</tr>
           </tbody>
-
-        </table>
-
-      </div>
-      <div>
-        <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
-
           <thead>
-			<tr>
-				<th colspan="5" class="text-center">Mezclado</th>
-			</tr>
+			  <tr>
+			   <th colspan="5" class="text-center">ENVASADO</th>
+			 </tr>
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Codigo</th>
@@ -109,7 +95,7 @@
           </thead>
 
           <tbody>
-			@foreach ($prodMezclado->detalles as $item)
+			@foreach ($prodEnvasado->detalles as $item)
 				<tr>
 					<td class="text-center">{{$loop->iteration}}</td>
 					<td class="text-center">{{$item->insumo->codigo}}</td>
@@ -121,8 +107,8 @@
 
 			<tr>
 				<th class="text-right active" colspan="3">TOTAL:</th>
-				<th class="text-right active">{{abs(round($prodMezclado->detalles->sum('cantidad'),2))}}</th>
-				<th class="text-right active">{{abs(round($prodMezclado->detalles->sum('existencia'),2))}}</th>
+				<th class="text-right active">{{abs(round($prodEnvasado->detalles->sum('cantidad'),2))}}</th>
+				<th class="text-right active">{{abs(round($prodEnvasado->detalles->sum('existencia'),2))}}</th>
 			</tr>
           </tbody>
 
@@ -134,7 +120,7 @@
     <!-- /box-footer -->
 	<!-- box-footer -->
 	<div class="box-footer">
-		<button form="create" class="btn btn-default pull-right" type="submit" {{$prodMezclado->disponible ? '':'disabled'}}>Descontar</button>
+		<button form="create" class="btn btn-default pull-right" type="submit" {{$prodEnvasado->disponible ? '':'disabled'}}>Descontar</button>
 	</div>
 	<!-- /box-footer -->
   </div>

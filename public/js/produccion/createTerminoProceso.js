@@ -35,7 +35,7 @@ var app = new Vue({
             var month = ("0" + (fechaVenc.getMonth() + 1)).slice(-2);
             var year = fechaVenc.getFullYear();
 
-            this.fechavencLoteString = day + year + month;
+            this.fechavencLoteString = day +  month + year;
             this.fechaVenc = year + '-' + month + '-' + day;
 
         },

@@ -23,8 +23,8 @@ class ProduccionMezcladoController extends Controller
         $completa = StatusDocumento::completaID();
         $pendiente = StatusDocumento::pendienteID();
 
-        $prodMezclado = ProduccionMezclado::with('premezcla','status')->where('status_id',$pendiente)->get();
-        $prodMezcladoCompleta = ProduccionMezclado::with('premezcla','status')->where('status_id',$completa)->get();
+        $prodMezclado = ProduccionMezclado::with('formula.reproceso','status')->where('status_id',$pendiente)->get();
+        $prodMezcladoCompleta = ProduccionMezclado::with('formula.reproceso','status')->where('status_id',$completa)->get();
 
         return view('produccion.mezclado.index')->with(['prodMezclado' => $prodMezclado, 'prodMezcladoCompleta' => $prodMezcladoCompleta]);
     }
@@ -38,7 +38,7 @@ class ProduccionMezcladoController extends Controller
     {
         $fecha = Carbon::now()->format('Y-m-d');
         $nivelProd = Nivel::mezcladoID();
-        $formulas = Formula::with('producto','premezcla')->where('autorizado',1)->get();
+        $formulas = Formula::with('producto','reproceso')->where('autorizado',1)->get();
         $formulas->load(['detalle' => function ($query) use ($nivelProd){
             $query->where('nivel_id',$nivelProd);
         },'detalle.insumo','detalle.nivel']);
@@ -61,9 +61,10 @@ class ProduccionMezcladoController extends Controller
         $this->validate($request,[
             'formulaID' => 'required',
             'cantBatch' => 'required',
-            'premezclaID' => 'required',
+            'reprocesoID' => 'required',
             'nivelID' => 'required',
-            'fecha' => 'required',
+            'fecha_prod' => 'required',
+            'fecha_venc' => 'required',
         ]);
 
         $prodMezclado = ProduccionMezclado::register($request);
@@ -113,9 +114,17 @@ class ProduccionMezcladoController extends Controller
      * @param  \App\models\Produccion\ProduccionMezclado  $produccionMezclado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProduccionMezclado $produccionMezclado)
+    public function destroy($id)
     {
-        //
+        $prodMezclado = ProduccionMezclado::remove($id);
+
+        if ($prodMezclado) {
+            $status = 'Produccion Mezclado Nº '.$prodMezclado->id.' ha sido eliminado.';
+        } else {
+            $status = 'Produccion Mezclado No ha podido ser eliminado.';
+        }
+
+        return redirect()->route('produccionMezclado')->with(['status' => $status]);
     }
 
     /*
@@ -137,9 +146,9 @@ class ProduccionMezcladoController extends Controller
         $bodegaID = Bodega::getBodMezcladoID(); // id de bodega virtual mezclado;
         $bodega = Bodega::find($bodegaID);
         $disponible = true;
-        $prodPremezcla = ProduccionMezclado::with('detalles.insumo')->find($id);
-
-        $prodPremezcla->detalles->map(function($item) use($bodegaID,&$disponible) {
+        $prodMezclado = ProduccionMezclado::with('formula.reproceso','formula.premezcla','detalles.insumo')->find($id);
+        $prodMezclado->premExistencia = Bodega::getExistTotalPR($prodMezclado->formula->premezcla->id,$bodegaID);
+        $prodMezclado->detalles->map(function($item) use($bodegaID,&$disponible) {
 
             $existencia = Bodega::getExistTotalMP($item->insumo_id,$bodegaID);
             $item['existencia'] = $existencia;
@@ -149,14 +158,14 @@ class ProduccionMezcladoController extends Controller
             }
         });
 
-        $prodPremezcla->disponible = $disponible;
+        $prodMezclado->disponible = $disponible;
 
-        return view('produccion.mezclado.descount')->with(['prodPremezcla' => $prodPremezcla, 'bodega' => $bodega]);
+        return view('produccion.mezclado.descount')->with(['prodMezclado' => $prodMezclado, 'bodega' => $bodega]);
     }
 
     public function storeDescProdMezclado(Request $request) {
 
-        $bodegaID = $request->bodega; // id de bodega premix;
+        $bodegaID = $request->bodega; // id de bodega Mezclado;
         $id = $request->prodMezclado;
 
         $prodMezclado = ProduccionMezclado::processMezclado($id, $bodegaID);

@@ -34,7 +34,7 @@
 
 				  <label class="control-label col-lg-1">Premezcla:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="text" name="premezcla" value="{{$prodPremezcla->premezcla->descripcion}}" readonly>
+					  <input class="form-control input-sm" type="text" name="premezcla" value="{{$prodPremezcla->formula->premezcla->descripcion}}" readonly>
 				  </div>
 				  <label class="control-label col-lg-1">Batch:</label>
 				  <div class="col-lg-1">
@@ -82,8 +82,8 @@
 
 			<tr>
 				<th class="text-right active" colspan="3">TOTAL:</th>
-				<th class="text-right active">{{$prodPremezcla->detalles->sum('cantidad')}}</th>
-				<th class="text-right active">{{$prodPremezcla->detalles->sum('existencia')}}</th>
+				<th class="text-right active">{{abs(round($prodPremezcla->detalles->sum('cantidad')))}}</th>
+				<th class="text-right active">{{abs(round($prodPremezcla->detalles->sum('existencia')))}}</th>
 			</tr>
           </tbody>
 

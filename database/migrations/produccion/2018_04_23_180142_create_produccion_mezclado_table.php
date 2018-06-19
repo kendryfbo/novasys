@@ -16,10 +16,11 @@ class CreateProduccionMezcladoTable extends Migration
         Schema::create('produccion_mezclado', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero')->unsigned();
-            $table->integer('premezcla_id')->unsigned();
+            $table->integer('formula_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->double('cant_batch');
-            $table->date('fecha');
+            $table->date('fecha_prod');
+            $table->date('fecha_venc');
             $table->integer('status_id')->unsigned();
             $table->timestamps();
         });

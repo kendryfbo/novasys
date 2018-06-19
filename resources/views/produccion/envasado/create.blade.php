@@ -6,14 +6,14 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Produccion Premezcla</h4>
+			<h4>Produccion Envasado</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarProduccionPremezcla')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarProduccionEnvasado')}}">
 
 				{{ csrf_field() }}
 
@@ -38,7 +38,6 @@
 					<div class="col-lg-1">
 						<input class="form-control input-sm text-left" type="text" :value="vidaUtil" readonly>
 					</div>
-
 				</div>
 				<!-- /form-group -->
 
@@ -52,9 +51,9 @@
 						<option v-for="formula in formulas" :value="formula.id">@{{formula.producto.descripcion}}</option>
 		            </select>
 		          </div>
-				  <label class="control-label col-lg-1">Premezcla:</label>
+				  <label class="control-label col-lg-1">Producto:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="text" name="premezcla" :value="premezcla" readonly>
+					  <input class="form-control input-sm" type="text" name="producto" :value="producto" readonly>
 				  </div>
 				  <label class="control-label col-lg-1">Batch:</label>
 				  <div class="col-lg-1">
@@ -67,7 +66,7 @@
 		        </div>
 		        <!-- /form-group -->
 				<input class="form-control input-sm" type="hidden" name="formulaID" :value="formulaID" required>
-				<input class="form-control input-sm" type="hidden" name="premezclaID" :value="premezclaID" required>
+				<input class="form-control input-sm" type="hidden" name="productoID" :value="productoID" required>
 				<input class="form-control input-sm" type="hidden" name="nivelID" value="{{$nivel}}" required>
 
 			</form>
@@ -85,7 +84,38 @@
         <table class="table table-condensed table-hover table-bordered table-custom display nowrap" cellspacing="0" width="100%">
 
           <thead>
+			  <tr>
+			  	<th colspan="6" class="text-center">PRODUCTO MEZCLADO</th>
+			  </tr>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">Codigo</th>
+              <th class="text-center">Descripcion</th>
+              <th class="text-center">CxBatch</th>
+              <th class="text-center">Nivel</th>
+			  <th class="text-center">Total Batch</th>
+            </tr>
 
+          </thead>
+
+          <tbody>
+			  <tr v-if="items.length <= 0">
+			  	<td class="text-center" colspan="6">Sin datos...</td>
+			  </tr>
+              <tr v-if="formula">
+                <td class="text-center">1</td>
+                <td class="text-center">@{{formula.reproceso.codigo}}</td>
+                <td class="text-center">@{{formula.reproceso.descripcion}}</td>
+                <td class="text-right">@{{formula.cantxbatch_prodMez}}</td>
+                <td class="text-center">Mezclado</td>
+                <td class="text-right">@{{formula.cantxbatch_total}}</td>
+              </tr>
+          </tbody>
+
+          <thead>
+			  <tr>
+			  	<th colspan="6" class="text-center">ENVASADO</th>
+			  </tr>
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Codigo</th>
@@ -138,5 +168,5 @@
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/produccion/createPremezcla.js')}}"></script>
+<script src="{{asset('js/produccion/createEnvasado.js')}}"></script>
 @endsection

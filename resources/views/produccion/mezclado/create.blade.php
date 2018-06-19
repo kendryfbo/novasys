@@ -26,9 +26,17 @@
 					<div class="col-lg-1">
 						<input class="form-control input-sm" type="text"  value="NUEVO" readonly>
 					</div>
-					<label class="control-label col-lg-1">Fecha:</label>
+					<label class="control-label col-lg-1">F. Prod:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm text-left" type="date" name="fecha_prod" v-model="fechaProd" @change="updateVenc" required>
+					</div>
+					<label class="control-label col-lg-1">F. Venc:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm text-left" type="date" name="fecha_venc" :value="fechaVenc" readonly>
+					</div>
+					<label class="control-label col-lg-1">Vida Util:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm text-center" type="text" name="fecha" value="{{$fecha}}" readonly>
+						<input class="form-control input-sm text-left" type="text" :value="vidaUtil" readonly>
 					</div>
 
 				</div>
@@ -44,9 +52,9 @@
 						<option v-for="formula in formulas" :value="formula.id">@{{formula.producto.descripcion}}</option>
 		            </select>
 		          </div>
-				  <label class="control-label col-lg-1">Premezcla:</label>
+				  <label class="control-label col-lg-1">Mezclado:</label>
 				  <div class="col-lg-3">
-					  <input class="form-control input-sm" type="text" name="premezcla" :value="premezcla" readonly>
+					  <input class="form-control input-sm" type="text" name="reproceso" :value="reproceso" readonly>
 				  </div>
 				  <label class="control-label col-lg-1">Batch:</label>
 				  <div class="col-lg-1">
@@ -59,7 +67,7 @@
 		        </div>
 		        <!-- /form-group -->
 				<input class="form-control input-sm" type="hidden" name="formulaID" :value="formulaID" required>
-				<input class="form-control input-sm" type="hidden" name="premezclaID" :value="premezclaID" required>
+				<input class="form-control input-sm" type="hidden" name="reprocesoID" :value="reprocesoID" required>
 				<input class="form-control input-sm" type="hidden" name="nivelID" value="{{$nivel}}" required>
 
 			</form>
@@ -126,8 +134,9 @@
 @section('scripts')
 <script>
 	var formulas = {!!$formulas!!};
+	var fechaProd = "";
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/produccion/createPremezcla.js')}}"></script>
+<script src="{{asset('js/produccion/createMezclado.js')}}"></script>
 @endsection

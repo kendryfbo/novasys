@@ -28,8 +28,8 @@ class ProduccionPremezclaController extends Controller
         $completa = StatusDocumento::completaID();
         $pendiente = StatusDocumento::pendienteID();
 
-        $prodPremezcla = ProduccionPremezcla::with('premezcla','status')->where('status_id',$pendiente)->get();
-        $prodPremezclaCompleta = ProduccionPremezcla::with('premezcla','status')->where('status_id',$completa)->get();
+        $prodPremezcla = ProduccionPremezcla::with('formula.premezcla','status')->where('status_id',$pendiente)->get();
+        $prodPremezclaCompleta = ProduccionPremezcla::with('formula.premezcla','status')->where('status_id',$completa)->get();
 
         return view('produccion.premezcla.index')->with(['prodPremezcla' => $prodPremezcla, 'prodPremezclaCompleta' => $prodPremezclaCompleta]);
     }
@@ -41,7 +41,6 @@ class ProduccionPremezclaController extends Controller
      */
     public function create()
     {
-        $fecha = Carbon::now()->format('Y-m-d');
         $nivelPremix = Nivel::premixID();
         $formulas = Formula::with('producto','premezcla')->where('autorizado',1)->get();
         $formulas->load(['detalle' => function ($query) use ($nivelPremix){
@@ -51,7 +50,6 @@ class ProduccionPremezclaController extends Controller
         return view('produccion.premezcla.create')->with([
             'formulas' => $formulas,
             'nivel' => $nivelPremix,
-            'fecha' => $fecha,
         ]);
     }
 
@@ -68,7 +66,8 @@ class ProduccionPremezclaController extends Controller
             'premezclaID' => 'required',
             'cantBatch' => 'required',
             'nivelID' => 'required',
-            'fecha' => 'required'
+            'fecha_prod' => 'required',
+            'fecha_venc' => 'required'
         ]);
 
         $prodPremezcla = ProduccionPremezcla::register($request);
@@ -121,7 +120,15 @@ class ProduccionPremezclaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prodPrem = ProduccionPremezcla::remove($id);
+
+        if ($prodPrem) {
+            $status = 'Produccion Premezcla Nº '.$prodPrem->id.' ha sido eliminado.';
+        } else {
+            $status = 'Produccion Premezcla No ha podido ser eliminado.';
+        }
+
+        return redirect()->route('produccionPremezcla')->with(['status' => $status]);
     }
 
     public function createDescProdPremezcla($id) {
@@ -129,7 +136,7 @@ class ProduccionPremezclaController extends Controller
         $pendiente = StatusDocumento::pendienteID();
         $prodPremezcla = ProduccionPremezcla::with('detalles.insumo')->find($id);
 
-        if ($prodPremezcla->status_id == $pendiente) {
+        if ($prodPremezcla->status_id != $pendiente) {
 
             $msg = 'ERROR - Produccion Premezcla #' . $prodPremezcla->numero . ' ya ha sido procesada.';
             return redirect()->route('produccionPremezcla')->with(['status' => $msg]);
@@ -157,7 +164,7 @@ class ProduccionPremezclaController extends Controller
 
     public function storeDescProdPremezcla($id) {
 
-        $bodegaID = Bodega::getBodPremixID(); // id de bodega premix;
+        $bodegaID = Bodega::getBodPremixID(); // id de bodega Premix;
         $prodPremezcla = ProduccionPremezcla::processPremix($id, $bodegaID);
 
         $msg = 'Produccion Premezcla #' . $prodPremezcla->numero . ' ha sido descontada.';

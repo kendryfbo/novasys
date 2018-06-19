@@ -48,6 +48,16 @@
 
                       </select>
                     </div>
+                    <label class="control-label col-md-1">Produccion:</label>
+                    <div class="col-md-4">
+                      <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="prodenv_id"   required>
+                        <option value=""></option>
+						@foreach ($prodEnvasado as $envasado)
+							<option value="{{$envasado->id}}">{{"Produccion # ".$envasado->numero." - Producto: ".$envasado->formula->producto->descripcion}}</option>
+						@endforeach
+
+                      </select>
+                    </div>
 
                     <label class="control-label col-md-1">Vida Util:</label>
                     <div class="col-md-1">
@@ -98,12 +108,12 @@
                 <div class="form-group">
 
                     <label class="control-label col-md-1">Producidas:</label>
-                    <div class="col-md-1">
+                    <div class="col-lg-1">
                         <input class="form-control input-sm" name="producidas" type="number" min="1" required>
                     </div>
 
                     <label class="control-label col-md-1">Rechazadas:</label>
-                    <div class="col-md-1">
+                    <div class="col-lg-1">
                         <input class="form-control input-sm" name="rechazadas" type="number" required>
                     </div>
 
