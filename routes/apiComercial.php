@@ -11,8 +11,8 @@ Route::resource('comunas', 'Api\ComunaController', [
 ]);
 
 // Rutas Api de Sucursales
-Route::post('sucursales/insertar', 'Api\SucursalController@insert');
-Route::get('sucursales/{cliente}', 'Api\SucursalController@index');
+Route::post('sucursales/insertar', 'Api\SucursalController@insert')->name('apiInsertarSucursal');
+Route::get('sucursales/{cliente}', 'Api\SucursalController@index')->name('apiIndexSucursal');
 Route::resource('sucursales', 'Api\SucursalController', [
     'only' => ['index','store','update','destroy','insert'],
     'parameters' => [
@@ -20,12 +20,12 @@ Route::resource('sucursales', 'Api\SucursalController', [
 ]);
 
 // Rutas Api de Clientes Nacionales
-Route::get('clientesNacionales/{cliente}', 'Api\ClienteNacionalController@show');
+Route::get('clientesNacionales/{cliente}', 'Api\ClienteNacionalController@show')->name('apiVerClientenNacional');
 
 // Rutas Api de Lista de Precios
-Route::get('listaPrecios/{lista}', 'Api\ListaPrecioController@show');
-Route::post('listaPreciosDetalle/insertar', 'Api\ListaPrecioDetalleController@insert');
-Route::get('listaPreciosDetalle/{lista}'  , 'Api\ListaPrecioDetalleController@index');
+Route::get('listaPrecios/{lista}', 'Api\ListaPrecioController@show')->name('apiVerListaPrecio');
+Route::post('listaPreciosDetalle/insertar', 'Api\ListaPrecioDetalleController@insert')->name('apiInsertarListaPrecio');
+Route::get('listaPreciosDetalle/{lista}'  , 'Api\ListaPrecioDetalleController@index')->name('apiIndexListaPrecio');
 Route::resource('listaPreciosDetalle', 'Api\ListaPrecioDetalleController', [
     'only' => ['index','store','update','destroy','insert'],
     'parameters' => [
@@ -33,8 +33,8 @@ Route::resource('listaPreciosDetalle', 'Api\ListaPrecioDetalleController', [
 ]);
 
 // Rutas api Notas de Ventas
-route::get('notasVentas', 'Api\NotaVentaController@index');
-route::get('notasVentas/{notaVenta}', 'Api\NotaVentaController@show');
+route::get('notasVentas', 'Api\NotaVentaController@index')->name('apiIndexNotaVenta');
+route::get('notasVentas/{notaVenta}', 'Api\NotaVentaController@show')->name('apiVerNotaVenta');
 
 
 // Rutas Api Sucursales Internacionales

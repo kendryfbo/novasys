@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\Models\Nivel;
 use App\Models\FormulaDetalle;
 
 class Formula extends Model
@@ -54,6 +55,32 @@ class Formula extends Model
 		return $formula;
 	}
 
+
+	static function getDataForProdEnvasado() {
+
+		$nivelProd = Nivel::mezcladoID();
+		$nivelPremix = Nivel::premixID();
+
+		$formulas = self::with('producto','reproceso')->where('autorizado',1)->get();
+
+		$formulas->load(['detalle' => function ($query) use ($nivelProd){
+			$query->where('nivel_id',$nivelProd);
+		},'detalle.insumo','detalle.nivel']);
+
+		foreach ($formulas as &$formula) {
+
+			$detalleFormula = FormulaDetalle::where('formula_id',$formula->id)
+                ->whereIn('nivel_id',[$nivelProd,$nivelPremix])
+                ->get();
+
+            $totalReproceso = $detalleFormula->sum('cantxbatch');
+			$formula->cantxbatch_prodMez = abs(round($totalReproceso,2));
+		}
+
+		return $formulas;
+	}
+	
+
 	static function getAllAuthorized() {
 
 		return self::where('autorizado',1)->get();
@@ -64,7 +91,13 @@ class Formula extends Model
 
 		return $this->where('autorizado',1)->get();
 	}
-	// Relationships
+
+	/*
+	|
+	| Relationships
+	|
+	*/
+
 	public function detalle() {
 
 		return $this->hasMany('App\Models\FormulaDetalle');
@@ -77,7 +110,12 @@ class Formula extends Model
 
 	public function premezcla() {
 
-		return $this->belongsTo('App\Models\Premezcla');
+		return $this->belongsTo('App\Models\Premezcla','premezcla_id');
+	}
+
+	public function reproceso() {
+
+		return $this->belongsTo('App\Models\Reproceso');
 	}
 
 }

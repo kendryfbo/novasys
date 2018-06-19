@@ -13,7 +13,7 @@
 
 		<!-- box-body -->
 		<div class="box-body">
-			<form id="pdf" action="{{route('pdfGuiaDespacho',['guia' => $guia->id])}}" method="get">
+			<form id="pdf" action="#" method="get">
 
 			</form>
 			<!-- form-horizontal -->
