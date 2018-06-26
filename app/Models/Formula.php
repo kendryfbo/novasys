@@ -11,20 +11,74 @@ use App\Models\FormulaDetalle;
 class Formula extends Model
 {
 
-	protected $fillable = ['producto_id','generada','generada_por','autorizado','autorizado_por','cant_batch'];
+	protected $fillable = ['producto_id','premezcla_id', 'reproceso_id', 'generada','generada_por','autorizado','autorizado_por','cant_batch'];
 
 	// static methods
+	static function register($request) {
+
+		$formula = DB::transaction(function() use($request){
+
+			$productoID = $request->productoID;
+			$premezclaID = $request->premezclaID;
+			$reprocesoID = $request->reprocesoID;
+			$cantBatch = $request->cantBatch;
+			$generada = 1; // por determinar.
+			$usuarioID = $request->user()->id;
+			$fecha = ''; // por determinar.
+			$autorizado = null;
+			$items = $request->items;
+
+
+			$formula = Formula::create([
+				'producto_id' => $productoID,
+				'premezcla_id' => $premezclaID,
+				'reproceso_id' => $reprocesoID,
+				'generada' => $generada,
+				'generada_por' => $usuarioID,
+				'fecha_gen' => $fecha,
+				'autorizado' => $autorizado,
+				'cant_batch' => $cantBatch,
+			]);
+
+			foreach ($items as $item) {
+
+				$item = json_decode($item);
+
+				FormulaDetalle::create([
+					'formula_id' => $formula->id,
+					'insumo_id' => $item->id,
+					'descripcion' => $item->descripcion,
+					'nivel_id' => $item->nivel->id,
+					'cantxuni' => $item->cantxuni,
+					'cantxcaja' => $item->cantxcaja,
+					'cantxbatch' => $item->cantxbatch,
+					'batch' => $formula->cant_batch
+				]);
+			};
+			return $formula;
+		},5);
+		return $formula;
+	}
+
 	static function registerEdit($request,$formulaID) {
 
 		$formula = DB::transaction(function() use($request,$formulaID){
 
-			$batch = $request->batch;
+			$productoID = $request->productoID;
+			$premezclaID = $request->premezclaID;
+			$reprocesoID = $request->reprocesoID;
+			$cantBatch = $request->cantBatch;
+			$generada = 1; // por determinar.
+			$usuarioID = $request->user()->id;
+			$fecha = ''; // por determinar.
+			$autorizado = null;
 			$items = $request->items;
 
 			$formula = Formula::where('id',$formulaID)->first();
-			$formula->cant_batch = $batch;
-			$formula->generada = 1; 			// Se genera automaticamente mientras se implementa generacion
-			$formula->autorizado = null;
+
+			$formula->cant_batch = $cantBatch;
+			$formula->generada = $generada; 			// Se genera automaticamente mientras se implementa generacion
+			$formula->autorizado = $autorizado;
 			$formula->autorizada_por = null;
 			$formula->fecha_aut = null;
 
@@ -40,21 +94,17 @@ class Formula extends Model
 					'formula_id' => $formula->id,
 					'insumo_id' => $item->insumo_id,
 					'descripcion' => $item->descripcion,
-					'nivel_id' => $item->nivel_id,
+					'nivel_id' => $item->nivel->id,
 					'cantxuni' => $item->cantxuni,
 					'cantxcaja' => $item->cantxcaja,
 					'cantxbatch' => $item->cantxbatch,
 					'batch' => $formula->cant_batch
 				]);
 			};
-
 			return $formula;
-
 		},5);
-
 		return $formula;
 	}
-
 
 	static function getDataForProdEnvasado() {
 
@@ -79,7 +129,7 @@ class Formula extends Model
 
 		return $formulas;
 	}
-	
+
 
 	static function getAllAuthorized() {
 

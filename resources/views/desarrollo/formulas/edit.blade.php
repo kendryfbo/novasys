@@ -1,239 +1,207 @@
 @extends('layouts.master')
 
 @section('content')
+<!-- box -->
+<div id="vue-app" class="box box-solid box-default">
+	<!-- box-header -->
+	<div class="box-header text-center">
+		<h4>Crear Proveedor</h4>
+	</div>
+	<!-- /box-header -->
+	<!-- box-body -->
+	<div class="box-body">
 
-  <!-- box -->
-	<div id="vue-app" class="box box-solid box-default">
-		<!-- box-header -->
-		<div class="box-header text-center">
-			<h4>Modificar Formula</h4>
-		</div>
-		<!-- /box-header -->
-		<!-- box-body -->
-		<div class="box-body">
+		@if ($errors->any())
 
-			@if ($errors->any())
+			@foreach ($errors->all() as $error)
 
-				@foreach ($errors->all() as $error)
+				@component('components.errors.validation')
+					@slot('errors')
+						{{$error}}
+					@endslot
+				@endcomponent
 
-					@component('components.errors.validation')
+			@endforeach
 
-            @slot('errors')
+		@endif
 
-              {{$error}}
+		<!-- form-horizontal -->
+		<form  id="update" class="form-horizontal" method="post" action="{{route('actualizarFormula',['id' => $formula->id])}}">
 
-						@endslot
+			{{ csrf_field() }}
+			{{ method_field('PUT') }}
+			
+				<div class="form-group">
 
-					@endcomponent
+					<label class="control-label col-lg-1" >Producto:</label>
+					<div class="col-lg-5">
+						<input class="form-control input-sm" type="text" name="productoID" value="{{$formula->producto->descripcion}}" readonly>
+					</div>
 
-				@endforeach
-
-			@endif
-
-			<!-- form -->
-			<form class="form-horizontal"  id="edit" method="post" action="{{route('actualizarFormula', ['formula' => $formula->id])}}">
-
-				{{ csrf_field() }}
-				{{ method_field('PUT') }}
-
-        <h5>Producto</h5>
-
-        <!-- form-group -->
-        <div class="form-group">
-
-          <label class="control-label col-lg-1">producto:</label>
-          <div class="col-lg-5">
-			  <input class="form-control input-sm" type="text" name="producto" value="{{$formula->producto->descripcion}}" readonly>
-          </div>
-
-        </div>
-        <!-- /form-group -->
-
-        <!-- form-group -->
-        <div class="form-group">
-
-			<label class="control-label col-lg-1">Formato:</label>
-			<div class="col-lg-2">
-				<input class="form-control input-sm" type="text" name="numero" value="{{$formula->producto->formato->descripcion}}" readonly>
-			</div>
-
-			<label class="control-label col-lg-1">batch:</label>
-			<div class="col-lg-2">
-				<div class="input-group">
-					<input class="form-control input-sm" name="batch" type="number" min="0" step="any" v-model="batch" required>
-					<span class="input-group-addon">Kg</span>
 				</div>
-			</div>
 
-        </div>
-        <!-- /form-group -->
-		<hr>
-        <h5>Insumos</h5>
+				<div class="form-group">
 
-		<!-- form-group -->
-        <div class="form-group">
-			<label class="control-label col-lg-1">Insumos:</label>
-			<div class="col-lg-3">
-			  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="insumo" v-model="insumoID" @change="loadInsumo">
-			    	<option value=""></option>
-					<option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
-			  </select>
-			</div>
-		</div>
-		<!-- /form-group -->
+					<label class="control-label col-lg-1" >Premezcla:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="premezclaID" required>
+							<option value="">Seleccionar Premezcla...</option>
+							@foreach ($premezclas as $premezcla)
+								<option {{$premezcla->id == $formula->premezcla_id ? 'selected':''}} value="{{$premezcla->id}}">{{$premezcla->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
 
-		<!-- form-group -->
-        <div class="form-group">
+					<label class="control-label col-lg-1" >Reproceso:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="reprocesoID" required>
+							<option value="">Seleccionar Reproceso...</option>
+							@foreach ($reprocesos as $reproceso)
+								<option {{$reproceso->id == $formula->reproceso_id ? 'selected':''}} value="{{$reproceso->id}}">{{$reproceso->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
 
-			<label class="control-label col-lg-1">Nivel:</label>
-			<div class="col-lg-2">
-				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="nivel" v-model="nivelID" @change="loadNivel">
-					<option value=""></option>
-					<option v-for="nivel in niveles" :value="nivel.id">@{{nivel.descripcion}}</option>
-				</select>
-			</div>
-
-			<label class="control-label col-lg-1">CantXuni:</label>
-			<div class="col-lg-4">
-				<div class="input-group">
-					<input class="form-control" type="number" min="0" step="any" class="form-control" name="cantidad" v-model="cantidad" placeholder="cantidad x Unidad...">
-					<span class="input-group-addon">Un / Kg</span>
 				</div>
-			</div>
 
-			<div class="col-lg-2">
-				<button class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
-				<button class="btn btn-sm btn-default" type="button" name="button" @click="removeItem">Borrar</button>
-			</div>
-        </div>
-        <!-- /form-group -->
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Formato:</label>
+					<div class="col-lg-3">
+						<input type="text" class="form-control input-sm" placeholder="Formato de Producto" value="{{$formula->producto->formato->descripcion}}" readonly required>
+					</div>
+					<label class="control-label col-lg-1" >Batch:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" name="cantBatch" v-model.number="cantBatch" placeholder="cantidad x Batch..." @change="calculate" required>
+							<span class="input-group-addon">Kg</span>
+						</div>
+					</div>
+
+				</div>
+
+				<hr>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Nivel:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="nivelID" @change="loadNivel">
+							<option value="">Seleccionar Nivel...</option>
+							<option v-for="nivel in niveles" :value="nivel.id">@{{nivel.descripcion}}</option>
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1" >Insumo:</label>
+					<div class="col-lg-5">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="insumoID" @change="loadInsumo">
+							<option value="">Seleccionar Insumo...</option>
+							<option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
+						</select>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+
+
+					<label class="control-label col-lg-1" >CantXuni:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" v-model.number="cantxuni" placeholder="cantidad x Unidad" @change="calculate">
+							<span class="input-group-addon">Un/Kg</span>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1" >Cant/caja:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" name="cantxuni" :value="cantxcaja" placeholder="cantidad x Caja" readonly>
+							<span class="input-group-addon">Un/Kg</span>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1" >Cant/batch:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" name="cantxuni" :value="cantxbatch" placeholder="cantidad x Batch" readonly>
+							<span class="input-group-addon">Un/Kg</span>
+						</div>
+					</div>
+
+					<div class="col-lg-2">
+						<button  class="btn btn-sm btn-primary pull-right" type="button" name="button" @click="addItem">Agregar</button>
+					</div>
+
+				</div>
 
 				<!-- Items -->
-				<select style="display: none;"  name="items[]" multiple>
+				<select style="display: none;"  name="items[]" multiple required>
 					<option v-for="item in items" selected>
 						@{{item}}
 					</option>
 				</select>
 				<!-- /items -->
 
-      </form>
-      <!-- /form -->
+		</form>
+		<!-- /form-horizontal -->
+	</div>
+	<!-- /box-body -->
+	<!-- box-body -->
+	<div class="box-body">
+		<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 
-    </div>
-    <!-- /box-body -->
-
-    <!-- box-footer -->
-    <div class="box-footer">
-
-      <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
-
-        <thead>
-
-          <tr>
-            <th class="text-center">#</th>
-            <th class="text-center">CODIGO</th>
-            <th class="text-center">DESCRIPCION</th>
-            <th class="text-center">C. Envase</th>
-            <th class="text-center">C. Caja</th>
-            <th class="text-center">C. Batch</th>
-            <th class="text-center">Nivel</th>
-          </tr>
-
-        </thead>
-
-        <tbody>
-			<tr v-if="items <= 0">
-				<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+		<thead>
+			<tr>
+				<th class="text-center"></th>
+				<th class="text-center">#</th>
+				<th class="text-center">DESCRIPCION</th>
+				<th class="text-center">Nivel</th>
+				<th class="text-center">C. Unidad</th>
+				<th class="text-center">C. Caja</th>
+				<th class="text-center">C. Batch</th>
 			</tr>
-
-			<tr v-if="items" v-for="(item,key) in items" @click="loadItem(item.id)">
+		</thead>
+		<tbody>
+			<tr v-if="items <= 0">
+				<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
+			</tr>
+				<tr v-if="items" v-for="(item,key) in items">
+				<td class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(key)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+                </td>
 				<td class="text-center">@{{key+1}}</td>
-				<td class="text-center">@{{item.insumo.codigo}}</td>
-				<td>@{{item.insumo.descripcion}}</td>
+				<td>@{{item.descripcion}}</td>
+				<td class="text-right">@{{item.nivel.descripcion}}</td>
 				<td class="text-right">@{{item.cantxuni}}</td>
 				<td class="text-right">@{{item.cantxcaja}}</td>
 				<td class="text-right">@{{item.cantxbatch}}</td>
-				<td class="text-right">@{{item.nivel.descripcion}}</td>
 			</tr>
+		</tbody>
 
-        </tbody>
+		</table>
+	</div>
+	<!-- /box-body -->
 
-      </table>
-		{{--
-      <div class="row">
-        <div class=" col-sm-3">
-          <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
-
-              <tr>
-                <th class="bg-gray text-right">Peso Neto:</th>
-                <td class="text-right">@{{totalPesoNeto}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Peso Bruto:</th>
-                <td class="text-right">@{{totalPesoBruto}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Volumen:</th>
-                <td class="text-right">@{{totalVolumen}}</td>
-              </tr>
-              <tr>
-                <th class="bg-gray text-right">Cant. Cajas:</th>
-                <td class="text-right">@{{totalCajas}}</td>
-              </tr>
-
-
-          </table>
-        </div>
-        <div class=" col-sm-3 col-md-offset-6">
-			<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
-
-			<tr>
-				<th class="bg-gray text-right">TOTAL F.O.B. US$</th>
-				<th class="text-right">@{{numberFormat(fob)}}</th>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">FREIGHT US$</th>
-				<td class="input-td">
-					<input id="freight" class="form-control text-right" type="number" name="freight" min="0" step="0.01" v-model.number="freight" @change="freightChange">
-				</td>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">INSURANCE US$</th>
-				<td class="input-td">
-					<input class="form-control text-right" type="number" lang="es" min="0" step="0.01" name="insurance" v-model.number="insurance" @change="insuranceChange">
-				</td>
-			</tr>
-			<tr>
-				<th colspan="2" class=""></th>
-			</tr>
-			<tr>
-				<th class="bg-gray text-right">TOTAL US$</th>
-				<th class="bg-gray text-right">@{{numberFormat(total)}}</th>
-			</tr>
-
-			</table>
-        </div>
-
-	</div> --}}
-
-      <button form="edit" class="btn btn-default pull-right" type="submit">Modificar</button>
-    </div>
-    <!-- /box-footer -->
-
-
-  </div>
-  <!-- /box -->
+	<!-- box-footer -->
+	<div class="box-footer">
+		<button type="submit" form="update" class="btn btn-default pull-right">Modificar</button>
+	</div>
+	<!-- /box-footer -->
+</div>
+<!-- /box -->
 @endsection
 
 @section('scripts')
 <script>
-	var insumos = Object.values({!!$insumos!!});
-	var niveles = {!!$niveles!!};
-	var items = {!!$formula->detalle!!};
 	var formato = {!!$formula->producto->formato!!};
-	var batch = {!!$formula->cant_batch!!};
+	var niveles = {!!$niveles!!};
+	var insumos = {!!$insumos!!};
+	var cantBatch = {!!$formula->cant_batch!!};
+	var items = {!!$formula->detalle!!}
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/desarrollo/formulaEdit.js')}}"></script>
+<script src="{{asset('js/desarrollo/editFormula.js')}}"></script>
 @endsection

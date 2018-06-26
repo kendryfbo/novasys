@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Nivel;
+use App\Models\Insumo;
+use App\Models\Familia;
 use App\Models\Formula;
 use App\Models\Producto;
-use App\Models\Familia;
-use App\Models\Insumo;
-use App\Models\Nivel;
+use App\Models\Premezcla;
+use App\Models\Reproceso;
+use App\Models\TipoFamilia;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class FormulaController extends Controller
 {
-    // tipo de familia MateriaPrima e Insumos
-    protected $tipoFamilia = 1;
 
     public function index()
     {
@@ -28,13 +29,18 @@ class FormulaController extends Controller
      */
     public function create()
     {
-        $productos = Producto::doesntHave('formula')->where('activo',1)->get();
-        $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
+        $productos = Producto::with('formato')->doesntHave('formula')->where('activo',1)->get();
+        $insumos = Insumo::getAllActive();
         $niveles = Nivel::getAllActive();
+        $premezclas = Premezcla::getAllActive();
+        $reprocesos = Reproceso::getAllActive();
 
         return view('desarrollo.formulas.create')
-                ->with(['productos' => $productos,'familias' => $familias,'niveles' => $niveles]);
-
+                ->with(['productos' => $productos,
+                        'insumos' => $insumos,
+                        'niveles' => $niveles,
+                        'premezclas' => $premezclas,
+                        'reprocesos' => $reprocesos]);
     }
 
     /**
@@ -45,7 +51,18 @@ class FormulaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'productoID' => 'required',
+            'premezclaID' => 'required',
+            'reprocesoID' => 'required',
+            'cantBatch' => 'required',
+            'items' => 'required'
+        ]);
 
+        $formula = Formula::register($request);
+        $msg = 'Formula id:'. $formula->id . ' ha sido Creada.';
+
+        return redirect()->route('formulas')->with(['status' => $msg]);
     }
 
     /**
@@ -65,16 +82,20 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function edit(Formula $formula)
+    public function edit($id)
     {
-        $formula->load('detalle.insumo','producto.formato','detalle.nivel');
-
+        $formula = Formula::with('detalle.insumo','producto.formato','detalle.nivel')->where('id',$id)->first();
         $niveles = Nivel::getAllActive();
         $insumos = Insumo::getAllActive();
+        $premezclas = Premezcla::getAllActive();
+        $reprocesos = Reproceso::getAllActive();
 
         return view('desarrollo.formulas.edit')
-                ->with([
-                    'formula' => $formula, 'niveles' => $niveles, 'insumos' => $insumos]);
+                ->with(['formula' => $formula,
+                        'niveles' => $niveles,
+                        'insumos' => $insumos,
+                        'premezclas' => $premezclas,
+                        'reprocesos' => $reprocesos]);
     }
 
     /**
@@ -84,15 +105,18 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Formula $formula)
+    public function update(Request $request,$id)
     {
 
-        $this->validate($request, [
-            'batch' => 'required',
-            'items' => 'required',
+        $this->validate($request,[
+            'productoID' => 'required',
+            'premezclaID' => 'required',
+            'reprocesoID' => 'required',
+            'cantBatch' => 'required',
+            'items' => 'required'
         ]);
 
-        $formula = Formula::registerEdit($request,$formula->id);
+        $formula = Formula::registerEdit($request,$id);
         $msg = 'Formula id:'. $formula->id . ' ha sido editada.';
 
         return redirect()->route('formulas')->with(['status' => $msg]);
@@ -107,25 +131,6 @@ class FormulaController extends Controller
     public function destroy(Formula $formula)
     {
         //
-    }
-
-    public function generate(Request $request)
-    {
-        $this->validate($request,[
-            'formula' => 'required'
-        ]);
-
-        $formula = Formula::find($request->formula);
-        $formula->generada = true;
-        $formula->generada_por = 'USER-DEMO';
-        $formula->fecha_gen = Carbon::today();
-
-        $formula->save();
-
-        $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Generada.';
-
-        return redirect(route('formulas'))->with(['status' => $msg]);
-
     }
 
     public function autorization()
