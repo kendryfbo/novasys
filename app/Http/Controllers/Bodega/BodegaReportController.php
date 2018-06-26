@@ -75,7 +75,7 @@ class BodegaReportController extends Controller
     }
 
     /* DESCARGAR Reporte Bodega */
-    public function donwloadBodegaReportExcel(Request $request) {
+    public function downloadBodegaReportExcel(Request $request) {
 
 
         $bodegaID = $request->bodega ? $request->bodega : '';

@@ -10,7 +10,10 @@ var app = new Vue({
     proveedorId: '',
     formaPagoDescrip: '',
     contacto: '',
-    productos: productos,
+    productos: [],
+    listaProductos: listaProductos,
+    tipoProductos: tipoProductos,
+    tipoProdID: '',
     prodId: '',
     descripProd: '',
     codigoProd: '',
@@ -25,6 +28,7 @@ var app = new Vue({
     subTotal: 0,
     descuento: 0,
     porcDesc: 0,
+    tipo_id: '',
     iva: iva,
     impuesto: 0,
     neto: 0,
@@ -61,10 +65,14 @@ var app = new Vue({
             this.codigoProd =  this.productos[i].codigo;
             this.ultPrecio = this.productos[i].precio;
             this.umed =  this.productos[i].unidad_med ? this.productos[i].unidad_med : 'Unidad';
-
+            this.tipo_id = this.productos[i].tipo_id;
           break;
         }
       }
+    },
+    loadProductos: function() {
+
+        this.productos = this.listaProductos[this.tipoProdID];
     },
 
     addItem: function() {
@@ -89,6 +97,7 @@ var app = new Vue({
           codigo: this.codigoProd,
           descripcion: this.descripProd,
           umed: this.umed,
+          tipo_id: this.tipo_id,
           cantidad: this.cantidad,
           precio: this.precio,
           sub_total: this.precio * this.cantidad
@@ -108,6 +117,7 @@ var app = new Vue({
         this.codigoProd = this.items[key].codigo;
         this.descripProd = this.items[key].descripcion;
         this.umed = this.items[key].umed;
+        this.tipo_id = this.items[key].tipo_id;
         this.cantidad = this.items[key].cantidad;
         this.precio = this.items[key].precio;
 

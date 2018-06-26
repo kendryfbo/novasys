@@ -17,7 +17,6 @@ class OrdenCompra extends Model
 
     static function register($request) {
 
-        $MP = config('globalVars.MP');
         $iva = Impuesto::getIva();
         $tiposOC = [
             'tipoOCBoleta' => config('globalVars.tipoOCBoleta'),
@@ -25,7 +24,7 @@ class OrdenCompra extends Model
             'tipoOCFactura' => config('globalVars.tipoOCFactura'),
         ];
 
-        $ordenCompra = DB::transaction(function() use($request,$MP,$iva,$tiposOC) {
+        $ordenCompra = DB::transaction(function() use($request,$iva,$tiposOC) {
 
             $numero = OrdenCompra::orderBy('numero','desc')->pluck('numero')->first();
 
@@ -71,7 +70,7 @@ class OrdenCompra extends Model
 
                 OrdenCompraDetalle::create([
                     'oc_id' => $ordenCompra->id,
-                    'tipo_id' => $MP,
+                    'tipo_id' => $item->tipo_id,
                     'item_id' => $item->id,
                     'codigo' => $item->codigo,
                     'descripcion' => $item->descripcion,

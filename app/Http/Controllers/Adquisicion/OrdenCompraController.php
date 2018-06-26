@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adquisicion;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Insumo;
+use App\Models\ProdMantencion;
 use App\Models\Finanzas\Moneda;
 use App\Models\Adquisicion\Area;
 use App\Models\Comercial\Impuesto;
@@ -43,6 +44,9 @@ class OrdenCompraController extends Controller
         $areas = Area::getAllActive();
         $monedas = Moneda::getAllActive();
         $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
+        $prodMantencion = ProdMantencion::getArrayOfAllActiveWithLastPrice();
+        $productos = collect([$materiaPrima,$prodMantencion]);
+        $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Materia Prima'],['id' => 1 , 'descripcion' => 'Productos Mantencion']]);
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
@@ -53,7 +57,8 @@ class OrdenCompraController extends Controller
             'monedas' => $monedas,
             'proveedores' => $proveedores,
             'areas' => $areas,
-            'productos' => $materiaPrima,
+            'productos' => $productos,
+            'tipoProductos' => $tipoProductos,
             'iva' => $iva,
             'fecha' => $fecha,
         ]);

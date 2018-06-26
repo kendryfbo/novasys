@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\Models\TipoFamilia;
 
 class Insumo extends Model
 {
@@ -13,7 +14,7 @@ class Insumo extends Model
 
 	static function getAllActive() {
 
-		return self::all()->where('activo',1);
+		return self::where('activo',1)->get();
 	}
 
 	static function tipoID() {
@@ -23,8 +24,10 @@ class Insumo extends Model
 
 	static function getArrayOfAllActiveWithLastPrice() {
 
-		return DB::select('SELECT i.id,i.codigo,i.descripcion,i.unidad_med, ocd.tipo_id,IFNULL(ocd.precio,0) as precio FROM insumos as i left join orden_compra_detalles as ocd on i.id=ocd.item_id AND ocd.tipo_id=1
-AND ocd.id=(SELECT MAX(id) FROM orden_compra_detalles as subocd where subocd.item_id=ocd.item_id) WHERE i.activo=1');
+		$tipo = TipoFamilia::getInsumoID();
+
+		return DB::select('SELECT i.id,i.codigo,i.descripcion,i.unidad_med, '.$tipo.' as tipo_id,IFNULL(ocd.precio,0) as precio FROM insumos as i left join orden_compra_detalles as ocd on i.id=ocd.item_id AND ocd.tipo_id='.$tipo.'
+		AND ocd.id=(SELECT MAX(id) FROM orden_compra_detalles as subocd where subocd.item_id=ocd.item_id) WHERE i.activo=1');
 
 
 	}

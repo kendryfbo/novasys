@@ -56,6 +56,9 @@ class IngresoDetalle extends Model
 
             case TipoFamilia::getReprocesoID();
                 return $this->belongsTo('App\Models\Reproceso','item_id');
+
+            case TipoFamilia::getRepuestoID();
+                return $this->belongsTo('App\Models\ProdMantencion','item_id');
         }
     }
 }

@@ -7,9 +7,6 @@
 		<!-- box-header -->
 		<div class="box-header text-center">
 			<h4>Crear Proveedor</h4>
-
-
-
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->

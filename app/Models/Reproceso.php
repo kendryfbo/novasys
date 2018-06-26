@@ -10,7 +10,7 @@ class Reproceso extends Model
 
 	static function getAllActive() {
 
-		return Reproceso::all()->where('activo',1);
+		return Reproceso::where('activo',1)->get();
 	}
 
     /*

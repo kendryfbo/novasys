@@ -10,7 +10,7 @@ class Premezcla extends Model
 
 	static function getAllActive() {
 
-		return Premezcla::all()->where('activo',1);
+		return Premezcla::where('activo',1)->get();
 	}
 
 	/*

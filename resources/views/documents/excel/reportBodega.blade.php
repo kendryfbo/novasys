@@ -31,7 +31,7 @@
                       <td class="text-left">{{$item->producto->codigo}}</td>
                       <td class="text-left">{{$item->producto['descripcion']}}</td>
                       <td class="text-left">{{$item->cantidad}}</td>
-                      <td class="text-left warning">PENDIENTE</td>
+                      <td class="text-left warning">{{$item->fecha_ing}}</td>
                       <td class="text-left">{{$item->fecha_venc}}</td>
                   </tr>
               @endforeach

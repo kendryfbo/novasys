@@ -30,13 +30,13 @@
 
 					</div>
 
+					<label class="control-label col-lg-2"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
+					<label class="control-label col-lg-2"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
+					<label class="control-label col-lg-2"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
+					<label class="control-label col-lg-2"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloqueado</label>
 				</div>
 				<div class="form-group form-group-sm">
 
-					<label class="control-label col-lg-1"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
-					<label class="control-label col-lg-1"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
-					<label class="control-label col-lg-1"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
-					<label class="control-label col-lg-1"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloqueado</label>
 
 				</div>
 			</div>

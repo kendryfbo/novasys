@@ -29,7 +29,7 @@ class NotaVentaController extends Controller
      */
     public function index()
     {
-        $notasVentas = NotaVenta::all();
+        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->get();
 
         return view('comercial.notasVentas.index')->with(['notasVentas' => $notasVentas]);
     }

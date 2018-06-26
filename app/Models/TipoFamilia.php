@@ -11,6 +11,7 @@ class TipoFamilia extends Model
 	const PT_ID = 4;	 // correspondiente aid de Producto Terminado tabla tipo_familia
 	const PM_ID = 5;	 // correspondiente a id de Premezcla tabla tipo_familia
 	const RP_ID = 2;	 // correspondiente a id de Reproceso o Pre-Proceso tabla tipo_familia
+	const REPUESTO_ID = 7;	 // correspondiente a id de Repuestos tabla tipo_familia
 
 	// static methods
 	static function getAllActive() {
@@ -46,6 +47,10 @@ class TipoFamilia extends Model
 	static function getReprocesoID() {
 
 		return self::RP_ID;
+	}
+	static function getRepuestoID() {
+
+		return self::REPUESTO_ID;
 	}
 
 	// Relationships

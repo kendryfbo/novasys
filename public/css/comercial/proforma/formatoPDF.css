@@ -59,8 +59,8 @@ p {
 
 
 .table-content {
-    height: 550px;
-    padding: 1px;
+    height: 640px;
+    padding: 0px;
     border: 1px solid black;
 }
 .text-center {
@@ -88,6 +88,8 @@ p {
     border: 1px solid black;
 }
 .table td {
+    font-weight: bold;
+    font-size: 13px;
     margin: 0px;
     padding: 0px;
     padding-left: 2px;

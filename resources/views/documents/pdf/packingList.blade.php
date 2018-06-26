@@ -50,9 +50,9 @@
 
       <div class="heading">
 
-        <h4>Novafoods S.A</h3>
-        <h4>Cliente S.A</h3>
-        <h4> <strong>Factura N°</strong>{{$factura}}</h3>
+        <h4>{{$factura->centro_venta}}</h3>
+        <h4>{{$factura->cliente}}</h3>
+        <h4> <strong>Factura N°</strong>{{$factura->numero}}</h3>
         <h4><strong>Contenedor N°</strong>{{$guia->contenedor}}</h3>
         <h5 class="etiqueta">PACKING LIST</h4>
       </div>

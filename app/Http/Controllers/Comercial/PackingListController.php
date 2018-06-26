@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Comercial;
 use PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\FacturaIntl;
 use App\Models\Comercial\GuiaDespacho;
 
 class PackingListController extends Controller
@@ -23,13 +24,16 @@ class PackingListController extends Controller
       'guia' => 'required',
       'factura' => 'required'
     ]);
-
+    $numero = $request->factura;
+    $factura = FacturaIntl::where('numero',$numero)->first();
     $guia = GuiaDespacho::with('detalles.producto.formato')->find($request->guia)->first();
-    $factura = $request->factura;
 
+    if (!$factura) {
+        dd('Factura # '. $numero . ' No Existe.');
+    }
     $pdf = PDF::loadView('documents.pdf.packingList',compact('guia','factura'))->setPaper('a4','landscape');
 
-    
+
     return $pdf->stream();
   }
 }

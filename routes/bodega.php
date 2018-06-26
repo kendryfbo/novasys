@@ -174,7 +174,7 @@ Route::prefix('bodega')->group( function() {
     // Reportes
     Route::get('/reporte',          'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
     Route::post('/reporte',         'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
-    Route::post('/reporte/excel',   'Bodega\BodegaReportController@donwloadBodegaReportExcel')->name('reporteBodegaExcel');
+    Route::post('/reporte/excel',   'Bodega\BodegaReportController@downloadBodegaReportExcel')->name('reporteBodegaExcel');
     Route::get('/stock',            'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
     Route::post('/stock',           'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
     Route::post('/stock/reporte',   'Bodega\BodegaReportController@donwloadStockTotalReportExcel')->name('descargarReportStockTotalExcel');
