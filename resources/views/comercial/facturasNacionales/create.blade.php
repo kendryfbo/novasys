@@ -70,7 +70,7 @@
 
 						<label class="control-label col-lg-2">Fecha Emision:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" @change="updateVenc" required>
+							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
 						</div>
 
 						<label class="control-label col-lg-2">Fechan Vencimiento:</label>
@@ -83,7 +83,7 @@
 					<div class="form-group form-group-sm">
 
 						<label class="control-label col-lg-2">Cliente:</label>
-						<div class="col-lg-5">
+						<div class="col-lg-4">
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
 								@foreach ($clientes as $cliente)
@@ -92,18 +92,20 @@
 							</select>
 						</div>
 
+						<label class="control-label col-lg-2">Cond. Pago:</label>
+						<div class="col-lg-2">
+							<input type="text" class="form-control " name="formaPago" :value="formaPagoDescrip" required readonly>
+						</div>
+
 					</div>
 
 					<div class="form-group form-group-sm">
 
-						<label class="control-label col-lg-2">Cond. Pago:</label>
-						<div class="col-lg-3">
-							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
-								<option value="">Cond. Pago...</option>
-								@foreach ($formasPagos as $formaPago)
-									<option {{ Input::old('formaPago') == $formaPago->id ? 'selected' : '' }} value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
-								@endforeach
-							</select>
+						<div class="form-group form-group-sm">
+							<label class="control-label col-lg-2">Direccion:</label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control" name="direccion" placeholder="direccion facturacion..." :value="direccion" readonly>
+							</div>
 						</div>
 
 					</div>
@@ -114,7 +116,7 @@
 						<div class="col-lg-5">
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="despacho" v-model="despacho" required>
 								<option value="">Direccion de despacho...</option>
-								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.descripcion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
+								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.direccion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
 							</select>
 						</div>
 
@@ -175,9 +177,8 @@
 
 					<label class="col-sm-1  text-left control-label">Lista Precios:</label>
 					<div class="col-sm-4">
-						<select class="selectpicker form-control" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="lista">
-							<option v-if="listaDescrip" selected v-bind:value="listaId">@{{listaDescrip}}</option>
-						</select>
+						<input type="text" class="form-control" name="listaDescrip" :value="listaDescrip" readonly required>
+
 					</div>
 
 				</div>
@@ -188,7 +189,7 @@
 					<div class="col-lg-3">
 						<select class="selectpicker form-control" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
-							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
+							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.producto_id">@{{detalle.producto.descripcion}}</option>
 						</select>
 					</div>
 

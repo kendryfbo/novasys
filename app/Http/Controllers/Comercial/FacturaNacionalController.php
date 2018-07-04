@@ -89,21 +89,17 @@ class FacturaNacionalController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request, [
-            //dd($request->all());
             'centroVenta' => 'required',
             'numero' => 'required',
             'fechaEmision' => 'required',
             //'fechaVenc' => 'required',
             'cliente' => 'required',
+            'direccion' => 'required',
             'formaPago' => 'required',
-            'diasFormaPago' => 'required',
             'despacho' => 'required',
             'vendedor' => 'required',
-            //'items' => 'required',
-            // 'items.*.id' => 'required',
-            // 'items.*.descripcion' => 'required|string'
+            'items' => 'required',
         ]);
 
         $this->facturaNacional->register($request);
