@@ -138,7 +138,7 @@
           <label class="control-label col-lg-1">Tipo:</label>
           <div class="col-lg-3">
             <select id="prodSelect" class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" :disabled="itemSelected" v-model="tipoProdID" @change="loadProductos">
-				<option value=""></option>
+				<option value="">Selecciona Tipo de Producto</option>
 				<option v-for="tipo in tipoProductos" :value="tipo.id">@{{tipo.descripcion}}</option>
             </select>
           </div>

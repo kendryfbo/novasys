@@ -42,6 +42,7 @@ Route::prefix('adquisicion')->group( function() {
         Route::delete('/{ordenCompra}',          'Adquisicion\OrdenCompraController@destroy')->name('eliminarOrdenCompra');
         Route::post('/{ordenCompra}/completa',   'Adquisicion\OrdenCompraController@complete')->name('ordenCompraCompleta');
         Route::post('/{ordenCompra}/incompleta', 'Adquisicion\OrdenCompraController@incomplete')->name('ordenCompraIncompleta');
+        Route::post('/email',                    'Adquisicion\OrdenCompraController@sendEmail')->name('enviarEmailOrdenCompra');
     });
 
     Route::prefix('planProduccion')->group( function(){

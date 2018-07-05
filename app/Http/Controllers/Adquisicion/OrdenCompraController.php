@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Adquisicion;
 
 use PDF;
+use Mail;
 use Carbon\Carbon;
 use App\Models\Insumo;
+use App\Mail\MailOrdenCompra;
 use App\Models\ProdMantencion;
 use App\Models\Finanzas\Moneda;
 use App\Models\Adquisicion\Area;
@@ -237,5 +239,12 @@ class OrdenCompraController extends Controller
         $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
 
         return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
+    }
+
+    public function sendEmail() {
+
+        $ordenCompra  = OrdenCompra::with('proveedor','detalles')->first();
+        $ordenCompra->centroVenta = CentroVenta::getMainCentroVenta();
+        Mail::send(new MailOrdenCompra($ordenCompra));
     }
 }

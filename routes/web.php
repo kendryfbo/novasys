@@ -11,7 +11,16 @@
 |
 */
 Route::get('/', 'MainController@index')->name('main');
+Route::get('/mail', function () {
 
+	Mail::send('emails.test', [], function ($message) {
+			$message->from('soporte@novafoods.cl', 'Your Name')
+					->to('soporte@novafoods.cl', 'Receiver Name')
+					->subject('From SparkPost with ❤');
+	});
+
+	dd('aqui');
+});
 Route::get('/ingresar', 'Config\AuthenticationController@signIn')->name('signin');
 Route::post('/login', 'Config\AuthenticationController@login')->name('login');
 Route::get('/logout', 'Config\AuthenticationController@logout')->name('logout');

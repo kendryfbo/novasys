@@ -22,6 +22,11 @@
 				{{csrf_field()}}
 			</form>
 			<!-- /form incomplete-->
+			<!-- form sendEmail-->
+			<form id="sendEmail" action="{{route('enviarEmailOrdenCompra')}}" method="post">
+				{{csrf_field()}}
+			</form>
+			<!-- /form sendEmail-->
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarOrdenCompra')}}">
 
@@ -47,18 +52,28 @@
 					<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
 				</div>
 			</div>
-			<div class="col-lg-1 col-lg-offset-4 btn-group">
+			<div class="col-lg-1">
+					<button form="sendEmail" type="submit" class="btn btn-default btn-sm">Email</button>
+			</div>
+			<label class="control-label col-lg-1">Autorizacion:</label>
+			<div class="col-lg-2">
 				@if ($ordenCompra->aut_contab == null)
-					<span class="label label-warning">PENDIENTE</span>
+					<div class="has-warning">
+						<input type="text" class="form-control input-sm text-center" value="PENDIENTE" readonly>
+					</div>
 				@elseif ($ordenCompra->aut_contab == 1)
-					<span class="label label-success">AUTORIZADA</span>
+					<div class="has-success">
+						<input type="text" class="form-control input-sm text-center" value="AUTORIZADA" readonly>
+					</div>
 				@elseif ($ordenCompra->aut_contab == 0)
-					<span class="label label-danger">NO AUTORIZADA</span>
+					<div class="has-error">
+						<input type="text" class="form-control input-sm text-center" value="NO AUTORIZADA" readonly>
+					</div>
+
 				@endif
 			</div>
-
 			@if ($ordenCompra->aut_contab)
-				<div class="col-lg-1">
+				<div class="col-lg-1 col-lg-offset-1">
 					<button form="download" class="btn btn-default btn-sm" type="submit" name="button"><i class="fa fa-download" aria-hidden="true"></i> Descargar</button>
 				</div>
 			@endif
