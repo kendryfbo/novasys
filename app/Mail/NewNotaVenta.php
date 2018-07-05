@@ -7,9 +7,9 @@ use Storage;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Models\Comercial\NotaVenta;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\Comercial\NotaVenta;
 
 class NewNotaVenta extends Mailable
 {
