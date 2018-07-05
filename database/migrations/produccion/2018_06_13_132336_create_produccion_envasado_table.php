@@ -26,7 +26,7 @@ class CreateProduccionEnvasadoTable extends Migration
         });
 
         Schema::table('produccion_envasado', function (Blueprint $table) {
-            $table->foreign('formula_id')->references('id')->on('formula')->onUpdate('cascade');
+            $table->foreign('formula_id')->references('id')->on('formulas')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('usuarios')->onUpdate('cascade');
             $table->foreign('status_id')->references('id')->on('status_documento')->onUpdate('cascade');
         });
