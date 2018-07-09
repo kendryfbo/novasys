@@ -16,6 +16,7 @@ class CreateOrdenCompraTable extends Migration
         Schema::create('orden_compra', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero')->unique();
+            $table->integer('cv_id')->unsigned();
             $table->integer('prov_id')->unsigned();
             $table->integer('area_id')->unsigned(); // determinar areas
             $table->string('contacto'); // persona de contacto
@@ -35,6 +36,7 @@ class CreateOrdenCompraTable extends Migration
         });
 
         Schema::table('orden_compra', function (Blueprint $table) {
+            $table->foreign('cv_id')->references('id')->on('centro_ventas');
             $table->foreign('prov_id')->references('id')->on('proveedores');
             $table->foreign('area_id')->references('id')->on('areas');
             $table->foreign('status_id')->references('id')->on('status_documento');

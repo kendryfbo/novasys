@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 use App\Models\Comercial\Impuesto;
+use App\Models\Comercial\CentroVenta;
 use App\Models\Config\StatusDocumento;
 
 class OrdenCompra extends Model
 {
     protected $table = 'orden_compra';
-    protected $fillable = ['numero', 'prov_id', 'area_id', 'contacto', 'forma_pago', 'nota',
+    protected $fillable = ['numero', 'cv_id', 'prov_id', 'area_id', 'contacto', 'forma_pago', 'nota',
     'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id'];
 
 
@@ -27,7 +28,7 @@ class OrdenCompra extends Model
         $ordenCompra = DB::transaction(function() use($request,$iva,$tiposOC) {
 
             $numero = OrdenCompra::orderBy('numero','desc')->pluck('numero')->first();
-
+            $centroVentaID = CentroVenta::getMainCentroVenta();
             if (is_null($numero)) {
                 $numero = 1;
             } else {
@@ -44,6 +45,7 @@ class OrdenCompra extends Model
             $ordenCompra = OrdenCompra::Create([
 
                 'numero' => $numero,
+                'cv_id' => $centroVentaID,
                 'prov_id' => $request->prov_id,
                 'area_id' => $request->area_id,
                 'contacto' => $request->contacto,
@@ -278,6 +280,10 @@ class OrdenCompra extends Model
         return $this->hasMany('App\Models\Adquisicion\OrdenCompraDetalle','oc_id');
     }
 
+    public function centroVenta() {
+
+        return $this->belongsTo('App\Models\Comercial\CentroVenta','cv_id');
+    }
     public function proveedor() {
 
         return $this->belongsTo('App\Models\Adquisicion\Proveedor','prov_id');

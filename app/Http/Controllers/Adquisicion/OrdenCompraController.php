@@ -229,22 +229,23 @@ class OrdenCompraController extends Controller
 
     public function downloadPDF($numero) {
 
-        $centroVenta = CentroVenta::getMainCentroVenta();
-        $ordenCompra = OrdenCompra::with('proveedor','detalles')->where('numero',$numero)->first();
+        $ordenCompra = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
 
         if (!$ordenCompra->aut_contab) {
             dd('Orden de compra no Autorizada.');
         }
         //return view('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
-        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra'));
 
         return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
     }
 
-    public function sendEmail() {
+    public function sendEmail($numero) {
 
-        $ordenCompra  = OrdenCompra::with('proveedor','detalles')->first();
-        $ordenCompra->centroVenta = CentroVenta::getMainCentroVenta();
+        $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
+
         Mail::send(new MailOrdenCompra($ordenCompra));
+
+        return redirect()->back();
     }
 }

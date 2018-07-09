@@ -26,13 +26,13 @@
             </h4>
             <table>
                 <tr>
-                    <th>R.U.T: {{$centroVenta->rut}}</th>
+                    <th>R.U.T: {{$ordenCompra->centroVenta->rut}}</th>
                 </tr>
                 <tr>
-                    <th>Direccion: {{$centroVenta->descripcion}}</th>
+                    <th>Direccion: {{$ordenCompra->centroVenta->descripcion}}</th>
                 </tr>
                 <tr>
-                    <th>Fono: {{$centroVenta->fono}}</th>
+                    <th>Fono: {{$ordenCompra->centroVenta->fono}}</th>
                 </tr>
                 <tr>
                     <th>E-mail: adquisiciones@novafoods</th>
@@ -120,7 +120,7 @@
         <div class="footer-content">
             <h4>Nota: {{$ordenCompra->nota}}</h4>
             <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}}</p>
-            <p>Facturar a: {{$centroVenta->descripcion}}, R.U.T:{{$centroVenta->rut}}, {{$centroVenta->direccion}}</p>
+            <p>Facturar a: {{$ordenCompra->centroVenta->descripcion}}, R.U.T:{{$ordenCompra->centroVenta->rut}}, {{$ordenCompra->centroVenta->direccion}}</p>
         </div>
         <div class="footer">
             <p><strong>Atentamente</strong></p>
@@ -129,7 +129,7 @@
             <br>
             <p><strong>Viviana Cabrera .......................</strong>
             </p>
-            <p><strong>{{$centroVenta->descripcion}}</strong></p>
+            <p><strong>{{$ordenCompra->centroVenta->descripcion}}</strong></p>
         </div>
     </body>
 </html>

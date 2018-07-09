@@ -23,7 +23,7 @@
 			</form>
 			<!-- /form incomplete-->
 			<!-- form sendEmail-->
-			<form id="sendEmail" action="{{route('enviarEmailOrdenCompra')}}" method="post">
+			<form id="sendEmail" action="{{route('enviarEmailOrdenCompra',['numero' => $ordenCompra->numero])}}" method="post">
 				{{csrf_field()}}
 			</form>
 			<!-- /form sendEmail-->
