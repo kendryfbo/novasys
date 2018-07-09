@@ -6,10 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class EnvioMail extends Model
 {
-    protected $table = 'envio_mail';
 
+    const LISTA_PROFORMA_ID = 1; // id de lista de mails
+
+    protected $table = 'envio_mail';
     protected $fillable = ['descripcion', 'activo'];
 
+
+    static function proformaMailID() {
+
+        return self::LISTA_PROFORMA_ID;
+    }
     /*
     |
     |   Relationships
@@ -18,6 +25,6 @@ class EnvioMail extends Model
 
     public function detalles() {
 
-        $this->hasMany('App\Models\Config\EnvioMailDetalle','envmail_id');
+        return $this->hasMany('App\Models\Config\EnvioMailDetalle','envmail_id');
     }
 }
