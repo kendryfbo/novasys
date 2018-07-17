@@ -96,61 +96,19 @@
         </div>
 
         <div class="table-content">
-            <table class="table" width="99%">
+            <table class="table" width="auto">
                 <col >
                 <thead>
                     <tr>
                         <th style="width:10">#</th>
                         <th style="width:10">CODIGO/CODE</th>
-                        <th style="width:250">PRODUCTO/PRODUCTS</th>
+                        <th style="width:281">PRODUCTO/PRODUCTS</th>
                         <th style="width:10">CANT/QTY</th>
                         <th style="width:20">PRECIO/PRICE</th>
                         <th style="width:20">VALOR/VALUE</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($proforma->detalles as $detalle)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$detalle->codigo}}</td>
-                            <td>
-                                {{$detalle->producto->marca->descripcion . " "}}
-                                {{$detalle->producto->formato->descripcion . " "}}
-                                {{$detalle->producto->sabor->descrip_ing . " "}}
-                            </td>
-                            <td class="text-right">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{number_format($detalle->precio,2)}}</td>
-                            <td class="text-right">{{number_format($detalle->sub_total,2)}}</td>
-                        </tr>
-                    @endforeach
-                    @foreach ($proforma->detalles as $detalle)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$detalle->codigo}}</td>
-                            <td>
-                                {{$detalle->producto->marca->descripcion . " "}}
-                                {{$detalle->producto->formato->descripcion . " "}}
-                                {{$detalle->producto->sabor->descrip_ing . " "}}
-                            </td>
-                            <td class="text-right">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{number_format($detalle->precio,2)}}</td>
-                            <td class="text-right">{{number_format($detalle->sub_total,2)}}</td>
-                        </tr>
-                    @endforeach
-                    @foreach ($proforma->detalles as $detalle)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$detalle->codigo}}</td>
-                            <td>
-                                {{$detalle->producto->marca->descripcion . " "}}
-                                {{$detalle->producto->formato->descripcion . " "}}
-                                {{$detalle->producto->sabor->descrip_ing . " "}}
-                            </td>
-                            <td class="text-right">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{number_format($detalle->precio,2)}}</td>
-                            <td class="text-right">{{number_format($detalle->sub_total,2)}}</td>
-                        </tr>
-                    @endforeach
                     @foreach ($proforma->detalles as $detalle)
                         <tr>
                             <td>{{$loop->iteration}}</td>

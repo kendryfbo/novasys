@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Comercial;
 
 use PDF;
+use Mail;
+
 use Carbon\Carbon;
 use App\Models\Producto;
+use App\Mail\MailProforma;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
@@ -232,6 +235,9 @@ class ProformaController extends Controller
 
     public function auth(Proforma $proforma) {
 
+        //return redirect()->route('descargarProformaPDF',['numero' => $proforma->numero]);
+        //$this->sendEmail($proforma->numero);
+        //dd('aqui');
         $proforma->authorizeComer();
 
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
@@ -256,6 +262,16 @@ class ProformaController extends Controller
         $pdf = PDF::loadView('documents.pdf.proforma',compact('proforma'));
         return $pdf->stream('test.pdf');
         return view('documents.pdf.proforma')->with(['proforma' => $proforma]);
+    }
+
+    public function sendEmail($numero) {
+
+        $proforma  = Proforma::with('centroVenta','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')
+                            ->where('numero',$numero)
+                            ->first();
+        Mail::send(new MailProforma($proforma));
+
+        return redirect()->back();
     }
 
 }
