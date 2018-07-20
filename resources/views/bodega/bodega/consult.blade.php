@@ -50,7 +50,7 @@
 
 					<template v-for='posicion in columnas'>
 
-						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button">@{{posicion.columna +"-"+ posicion.estante}}</button>
+						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">@{{posicion.columna +"-"+ posicion.estante}}</button>
 
 					</template>
 
