@@ -326,6 +326,14 @@ class Ingreso extends Model
         return $numero;
     }
 
+    static function descountItemFromIngreso($ingresoDetalleID,$cantidad) {
+
+        $detalle = IngresoDetalle::with('ingreso')->find($ingresoDetalleID);
+        $detalle->por_procesar = $detalle->por_procesar - $cantidad;
+        $detalle->save();
+        $detalle->ingreso->updateStatus();
+        $detalle->ingreso->save();
+    }
     /*
     |
     | Public Functions

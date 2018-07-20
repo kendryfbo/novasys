@@ -5,6 +5,7 @@ namespace App\Models\Comercial;
 use DB;
 use App\Models\Comercial\ClienteIntl;
 use App\Models\Comercial\CentroVenta;
+use App\Models\Config\StatusDocumento;
 use App\Models\Comercial\FormaPagoIntl;
 use Illuminate\Database\Eloquent\Model;
 
@@ -380,5 +381,9 @@ class Proforma extends Model
     public function centroVenta() {
 
         return $this->belongsTo(CentroVenta::class, 'cv_id');
+    }
+    public function status() {
+
+        return $this->belongsTo(StatusDocumento::class, 'status');
     }
 }

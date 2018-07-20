@@ -66,7 +66,7 @@
           <thead>
 
 			<tr>
-				<th colspan="5" class="text-center">Premezcla</th>
+				<th colspan="6" class="text-center">Premezcla</th>
 			</tr>
             <tr>
               <th class="text-center">#</th>
@@ -74,17 +74,19 @@
               <th class="text-center">Descripcion</th>
               <th class="text-center">cantidad</th>
               <th class="text-center">Existencia</th>
+              <th class="text-center">Faltante</th>
             </tr>
 
           </thead>
 
           <tbody>
-				<tr>
+				<tr class="{{ $prodMezclado->premExistencia >= $prodMezclado->cant_batch ? '':'danger' }}">
 					<td class="text-center">1</td>
 					<td class="text-center">{{$prodMezclado->formula->premezcla->codigo}}</td>
 					<td class="text-center">{{$prodMezclado->formula->premezcla->descripcion}}</td>
 					<td class="text-right">{{$prodMezclado->cant_batch}}</td>
-					<td class="{{ $prodMezclado->premExistencia >= $prodMezclado->cant_batch ? 'success text-right':'danger text-right' }}">{{$prodMezclado->premExistencia}}</td>
+					<td class="text-right">{{$prodMezclado->premExistencia}}</td>
+					<td class="text-right">{{($prodMezclado->cant_batch - $prodMezclado->premExistencia) >= 0 ? $prodMezclado->cant_batch - $prodMezclado->premExistencia : 0}}</td>
 				</tr>
           </tbody>
 
@@ -96,7 +98,7 @@
 
           <thead>
 			<tr>
-				<th colspan="5" class="text-center">Mezclado</th>
+				<th colspan="6" class="text-center">Mezclado</th>
 			</tr>
             <tr>
               <th class="text-center">#</th>
@@ -104,26 +106,22 @@
               <th class="text-center">Descripcion</th>
               <th class="text-center">cantidad</th>
               <th class="text-center">Existencia</th>
+              <th class="text-center">Faltante</th>
             </tr>
 
           </thead>
 
           <tbody>
 			@foreach ($prodMezclado->detalles as $item)
-				<tr>
+				<tr  class="{{ $item->existencia >= $item->cantidad ? '':'danger' }}">
 					<td class="text-center">{{$loop->iteration}}</td>
 					<td class="text-center">{{$item->insumo->codigo}}</td>
 					<td class="text-center">{{$item->insumo->descripcion}}</td>
 					<td class="text-right">{{abs(round($item->cantidad,2))}}</td>
-					<td class="{{ $item->existencia >= $item->cantidad ? 'success text-right':'danger text-right' }}">{{$item->existencia}}</td>
+					<td class="text-right">{{$item->existencia}}</td>
+					<td class="text-right">{{(abs(round($item->cantidad,2)) - $item->existencia) >= 0 ? abs(round($item->cantidad,2)) - $item->existencia : 0}}</td>
 				</tr>
 			@endforeach
-
-			<tr>
-				<th class="text-right active" colspan="3">TOTAL:</th>
-				<th class="text-right active">{{abs(round($prodMezclado->detalles->sum('cantidad'),2))}}</th>
-				<th class="text-right active">{{abs(round($prodMezclado->detalles->sum('existencia'),2))}}</th>
-			</tr>
           </tbody>
 
         </table>

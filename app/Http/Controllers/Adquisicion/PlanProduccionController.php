@@ -48,7 +48,7 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request) // Toma en cuenta producto terminado existente
     {
         if (!$request->items) {
             return redirect()->back();
@@ -58,11 +58,14 @@ class PlanProduccionController extends Controller
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
-
         return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
     }
-    public function showTwo(Request $request)
+    public function showTwo(Request $request) // NO Toma en cuenta producto terminado existente
     {
+        if ($request->button == 2) {
+
+            return $this->show($request);
+        }
         if (!$request->items) {
             return redirect()->back();
         }

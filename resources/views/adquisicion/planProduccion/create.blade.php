@@ -87,7 +87,8 @@
 		</div>
 
 		<div class="box-footer">
-			 <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
+			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Analisis Sin Existencia</button>
+			 <button form="create" class="btn btn-default pull-right" name="button" value="2" type="submit">Analisis Con Existencia</button>
 		</div>
 
 

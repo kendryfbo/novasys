@@ -13,7 +13,6 @@ use App\Models\Bodega\Bodega;
 class BodegaReportController extends Controller
 {
     public function indexBodegaReport(Request $request) {
-
         $busqueda = [];
         $productos = [];
         $tipo = '';

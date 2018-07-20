@@ -5,6 +5,7 @@ namespace App\Models\Adquisicion;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\Models\Finanzas\Moneda;
 use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Config\StatusDocumento;
@@ -28,7 +29,9 @@ class OrdenCompra extends Model
         $ordenCompra = DB::transaction(function() use($request,$iva,$tiposOC) {
 
             $numero = OrdenCompra::orderBy('numero','desc')->pluck('numero')->first();
-            $centroVentaID = CentroVenta::getMainCentroVenta();
+            $centroVenta = CentroVenta::getMainCentroVenta();
+            $moneda = Moneda::find($request->moneda);
+            $centroVentaID = $centroVenta->id;
             if (is_null($numero)) {
                 $numero = 1;
             } else {
@@ -52,7 +55,7 @@ class OrdenCompra extends Model
                 'forma_pago' => $request->forma_pago,
                 'nota' => $request->nota,
                 'fecha_emision' => $request->fecha_emision,
-                'moneda' => $request->moneda,
+                'moneda' => $moneda->descripcion,
                 'sub_total' => 0,
                 'descuento' => 0,
                 'neto' => 0,
@@ -78,6 +81,8 @@ class OrdenCompra extends Model
                     'descripcion' => $item->descripcion,
                     'unidad' => $item->umed,
                     'cantidad' => $cantidad,
+                    'moneda_id' => $moneda->id,
+                    'moneda' => $moneda->descripcion,
                     'precio' => $precio,
                     'sub_total' => $subTotalItem,
                     'recibidas' => 0

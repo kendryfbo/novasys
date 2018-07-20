@@ -39,7 +39,11 @@
 				@foreach ($productos as $producto)
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
-						<td>{{$producto->codigo}}</td>
+						<td>
+							<a href="{{route('verProducto',['codigo' => $producto->codigo])}}" target="_blank"><strong>
+							{{$producto->codigo}}
+							</strong></a>
+						</td>
 						<td>{{$producto->descripcion}}</td>
 						<td>{{$producto->marca->descripcion}}</td>
 						<td>{{$producto->formato->descripcion}}</td>

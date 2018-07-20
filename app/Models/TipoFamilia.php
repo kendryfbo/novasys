@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoFamilia extends Model
 {
-	// Constancia
+	// Constantes
 	const INSUMO_ID = 1; // correspondiente a id de materia prima tabla tipo_familia
 	const PT_ID = 4;	 // correspondiente aid de Producto Terminado tabla tipo_familia
 	const PM_ID = 5;	 // correspondiente a id de Premezcla tabla tipo_familia

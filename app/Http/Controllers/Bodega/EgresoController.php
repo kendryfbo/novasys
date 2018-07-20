@@ -182,16 +182,72 @@ class EgresoController extends Controller
 
     public function createEgrTrasladoMP(Request $request) {
 
+        $encabezado = "Egreso Traslado Materia Prima";
         $tipoEgreso = EgresoTipo::manualID();
         $tipoProd = TipoFamilia::getInsumoID();
         $bodegas = Bodega::getAllActive();
-        //$insumos = collect(Bodega::getStockOfMPFromBodega());
         $insumos = collect();
         $fecha = Carbon::now()->toDateString();
 
         return view('bodega.egreso.createEgresoTraslado')->with([
+            'encabezado' => $encabezado,
             'bodegas' => $bodegas,
-            'insumos' => $productos,
+            'insumos' => $insumos,
+            'tipoEgreso' => $tipoEgreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+    }
+
+    public function createEgrTrasladoPT(Request $request) {
+
+        $encabezado = "Egreso Traslado Producto Terminado";
+        $tipoEgreso = EgresoTipo::manualID();
+        $tipoProd = TipoFamilia::getProdTermID();
+        $bodegas = Bodega::getAllActive();
+        $insumos = collect();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.egreso.createEgresoTraslado')->with([
+            'encabezado' => $encabezado,
+            'bodegas' => $bodegas,
+            'insumos' => $insumos,
+            'tipoEgreso' => $tipoEgreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+    }
+    public function createEgrTrasladoPR(Request $request) {
+
+        $encabezado = "Egreso Traslado Premezcla";
+        $tipoEgreso = EgresoTipo::manualID();
+        $tipoProd = TipoFamilia::getPremezclaID();
+        $bodegas = Bodega::getAllActive();
+        $insumos = collect();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.egreso.createEgresoTraslado')->with([
+            'encabezado' => $encabezado,
+            'bodegas' => $bodegas,
+            'insumos' => $insumos,
+            'tipoEgreso' => $tipoEgreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+    }
+    public function createEgrTrasladoRP(Request $request) {
+
+        $encabezado = "Egreso Traslado Reproceso";
+        $tipoEgreso = EgresoTipo::trasladoID();
+        $tipoProd = TipoFamilia::getReprocesoID();
+        $bodegas = Bodega::getAllActive();
+        $insumos = collect();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.egreso.createEgresoTraslado')->with([
+            'encabezado' => $encabezado,
+            'bodegas' => $bodegas,
+            'insumos' => $insumos,
             'tipoEgreso' => $tipoEgreso,
             'tipoProd' => $tipoProd,
             'fecha' => $fecha,
@@ -204,19 +260,20 @@ class EgresoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeEgrTrasladoMP(Request $request)
     {
-        //
+        $egreso = Egreso::transfer($request);
+
+        return redirect()->route('verEgreso', ['numero' => $egreso->numero]);
     }
 
     public function storeEgrOrdenEgreso(Request $request)
     {
+
         $this->validate($request,[
-            'bodega' => 'required',
             'tipo' => 'required',
             'id' => 'required',
         ]);
-
         $bodega = intval($request->bodega);
         $tipo = intval($request->tipo);
         $id = intval($request->id);

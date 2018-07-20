@@ -93,7 +93,7 @@
               <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="moneda" required>
                 <option value=""></option>
 				@foreach ($monedas as $moneda)
-					<option {{$ordenCompra->moneda == $moneda->descripcion ? 'selected':''}} value="{{$moneda->descripcion}}">{{$moneda->descripcion}}</option>
+					<option {{$ordenCompra->moneda == $moneda->descripcion ? 'selected':''}} value="{{$moneda->id}}">{{$moneda->descripcion}}</option>
 				@endforeach
               </select>
             </div>

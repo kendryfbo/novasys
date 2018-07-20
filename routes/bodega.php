@@ -186,22 +186,24 @@ Route::prefix('bodega')->group( function() {
 
         //Route::get('/', 'Bodega\PalletController@test');
 
-        Route::get('/',                   'Bodega\PalletController@index')->name('palletPorIngresar');
-        Route::get('/{pallet}/pdf',       'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
+        Route::get('/',                    'Bodega\PalletController@index')->name('palletPorIngresar');
+        Route::get('/{pallet}/pdf',        'Bodega\PalletController@pdfPalletProd')->name('etiquetaPalletProduccion');
         // Creacion de pallet Materia Prima
-        Route::get('/MateriaPrima/crear', 'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
-        Route::post('/MateriaPrima',      'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
-        Route::get('/materiaPrima',       'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
+        Route::get('/MateriaPrima/crear',  'Bodega\PalletController@createPalletMP')->name('crearPalletMP');
+        Route::post('/MateriaPrima',       'Bodega\PalletController@storePalletMP')->name('guardarPalletMP');
+        Route::get('/materiaPrima',        'Bodega\PalletController@indexPalletMateriaPrima')->name('PalletMP');
         // Creacion de pallet Producto Terminado
         Route::get('/PT/crear',            'Bodega\PalletController@createPalletPT')->name('crearPalletPT');
         Route::post('/PT',                 'Bodega\PalletController@storePalletPT')->name('guardarPalletPT');
         // Creacion de pallet Materia Prima
-        Route::get('/Premezcla/crear',    'Bodega\PalletController@createPalletPR')->name('crearPalletPR');
-        Route::post('/Premezcla',         'Bodega\PalletController@storePalletPR')->name('guardarPalletPR');
+        Route::get('/Premezcla/crear',     'Bodega\PalletController@createPalletPR')->name('crearPalletPR');
+        Route::post('/Premezcla',          'Bodega\PalletController@storePalletPR')->name('guardarPalletPR');
 
+        // Agregar Items a Pallet
+        route::get('/agregarItem',         'Bodega\PalletController@addItemToPallet')->name('agregarItemPallet');
+        route::post('/agregarItem',         'Bodega\PalletController@storeItemToPallet')->name('guardarItemPallet');
 
         Route::get('/{pallet}',            'Bodega\PalletController@show')->name('verPallet');
-
         // this should be declared in API controller
         Route::post('/findPosition',       'Bodega\PalletController@position')->name('position'); // TEST
         Route::post('/data',               'Bodega\PalletController@apiData')->name('palletData');
@@ -247,8 +249,8 @@ Route::prefix('bodega')->group( function() {
         Route::post('/existencia', 'Bodega\EgresoController@checkOrdenEgresoExist')->name('apiExistenciaEgrOrdenEgreso');
 
         //egreso Documento - Proforma y Nota Venta
-        Route::post('/ordenEgreso',       'Bodega\EgresoController@storeEgrOrdenEgreso')->name('guardarEgrOrdenEgreso');
         Route::get('/ordenEgreso',        'Bodega\EgresoController@indexPendingOrdenEgreso')->name('egresoOrdenEgreso');
+        Route::post('/ordenEgreso/store', 'Bodega\EgresoController@storeEgrOrdenEgreso')->name('guardarEgrOrdenEgreso');
         Route::post('/ordenEgreso/crear', 'Bodega\EgresoController@createEgrOrdenEgreso')->name('crearEgrOrdenEgreso');
         //Egreso Manual Materia Prima
         Route::get('/Manual/MP/crear', 'Bodega\EgresoController@createEgrManualMP')->name('crearEgrManualMP');

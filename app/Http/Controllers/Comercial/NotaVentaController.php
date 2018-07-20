@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\NotaVenta;
-use App\Models\Comercial\CentroVenta;
-use App\Models\Comercial\ClienteNacional;
-use App\Models\Comercial\FormaPagoNac;
-use App\Models\Comercial\Vendedor;
-use App\Models\Comercial\ListaPrecio;
-use App\Events\AuthorizedNotaVentaEvent;
+use PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\NotaVenta;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Comercial\ListaPrecio;
+use App\Models\Comercial\FormaPagoNac;
+use App\Events\AuthorizedNotaVentaEvent;
+use App\Models\Comercial\ClienteNacional;
 
 use App\Repositories\Comercial\NotaVenta\NotaVentaRepositoryInterface;
 
@@ -195,8 +197,10 @@ class NotaVentaController extends Controller
 
     public function authorizeNotaVenta(NotaVenta $notaVenta)
     {
+        $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
         $notaVenta->authorizeComer();
         event(new AuthorizedNotaVentaEvent($notaVenta));
+        
         $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
 
         return redirect()->route('autNotaVenta')->with(['status' => $msg]);
@@ -209,5 +213,14 @@ class NotaVentaController extends Controller
         $msg = "NotaVenta: " . $notaVenta->numero . " No ha sido autorizada.";
 
         return redirect()->route('autNotaVenta')->with(['status' => $msg]);
+    }
+
+    public function downloadPDF($numero) {
+
+        $notaVenta = NotaVenta::with('centroVenta','detalles')->where('numero',$numero)->first();
+        $notaVenta->fecha_emision = Carbon::createFromFormat('Y-m-d', $notaVenta->fecha_emision)->format('d/m/Y');
+        $pdf = PDF::loadView('documents.pdf.notaVenta',compact('notaVenta'));
+        return $pdf->stream();
+        return view('documents.pdf.notaVenta')->with(['notaVenta' => $notaVenta]);
     }
 }

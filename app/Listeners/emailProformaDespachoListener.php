@@ -2,11 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\CreateProformaEvent;
+use Mail;
+use App\Mail\MailProformaDespacho;
+use App\Events\AuthorizedProformaEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class generateProformaMail
+class emailProformaDespachoListener
 {
     /**
      * Create the event listener.
@@ -21,11 +23,13 @@ class generateProformaMail
     /**
      * Handle the event.
      *
-     * @param  CreateProformaEvent  $event
+     * @param  AuthorizedProformaEvent  $event
      * @return void
      */
-    public function handle(CreateProformaEvent $event)
+    public function handle(AuthorizedProformaEvent $event)
     {
-        //
+        $proforma = $event->proforma;
+
+        Mail::send(new MailProformaDespacho($proforma));
     }
 }

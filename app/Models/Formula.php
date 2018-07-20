@@ -23,7 +23,7 @@ class Formula extends Model
 			$reprocesoID = $request->reprocesoID;
 			$cantBatch = $request->cantBatch;
 			$generada = 1; // por determinar.
-			$usuarioID = $request->user()->id;
+			$usuarioID = $request->user()->nombre;
 			$fecha = ''; // por determinar.
 			$autorizado = null;
 			$items = $request->items;
@@ -108,7 +108,8 @@ class Formula extends Model
 
 	static function getDataForProdEnvasado() {
 
-		$nivelProd = Nivel::mezcladoID();
+		$nivelProd = Nivel::produccionID();
+		$nivelMezclado = Nivel::mezcladoID();
 		$nivelPremix = Nivel::premixID();
 
 		$formulas = self::with('producto','reproceso')->where('autorizado',1)->get();
@@ -120,7 +121,7 @@ class Formula extends Model
 		foreach ($formulas as &$formula) {
 
 			$detalleFormula = FormulaDetalle::where('formula_id',$formula->id)
-                ->whereIn('nivel_id',[$nivelProd,$nivelPremix])
+                ->whereIn('nivel_id',[$nivelMezclado,$nivelPremix])
                 ->get();
 
             $totalReproceso = $detalleFormula->sum('cantxbatch');

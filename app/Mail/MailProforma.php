@@ -35,8 +35,7 @@ class MailProforma extends Mailable
      */
     public function build()
     {
-        $envioID = EnvioMail::proformaMailID();
-        $listaMails = EnvioMail::with('detalles')->where('id',$envioID)->first();
+        $listaMails = EnvioMail::getMailListProforma();
         $recivers = [];
         foreach ($listaMails->detalles as $mail) {
             array_push($recivers, $mail->mail);
@@ -46,14 +45,14 @@ class MailProforma extends Mailable
         $version = $proforma->version;
         $fileName = 'PRUEBA - PROFORMA '.$numero. ' Versión '. $version;
         $sender = Auth::user()->email;
-        $bcc =$sender;
+        //$bcc = $sender;
         $pdf = PDF::loadView('documents.pdf.proforma',['proforma' => $proforma]);
         $pdfFile = $pdf->download('PROFORMA '.$proforma->numero.'.pdf');
         return $this->markdown('emails.mailProforma')
                     ->subject($fileName)
                     ->from($sender)
                     ->to($recivers)
-                    ->bcc($bcc)
+                    //->bcc($bcc)
                     ->attachData($pdfFile, $fileName.'.pdf');
     }
 }

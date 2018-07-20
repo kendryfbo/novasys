@@ -28,7 +28,7 @@ class Egreso extends Model
 
         $egreso = DB::transaction(function() use($request){
 
-            $bodega = $request->bodega_id;
+            $bodegaID = $request->bodega_id;
             $tipoEgreso = $request->tipo_egreso;
             $descripcion = $request->descripcion;
             $tipoProducto = $request->tipo_prod;
@@ -39,11 +39,8 @@ class Egreso extends Model
             $numero = Egreso::orderBy('numero','desc')->pluck('numero')->first();
 
             if (is_null($numero)) {
-
                 $numero = 1;
-
             } else {
-
                 $numero++;
             };
 
@@ -67,7 +64,7 @@ class Egreso extends Model
 
                     $restar = 0;
 
-                    $posicion = Posicion::getPositionThatContainItem($bodega,$tipoProducto,$detalle->id);
+                    $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoProducto,$detalle->id);
 
                     if (!$posicion) {
 
@@ -207,6 +204,120 @@ class Egreso extends Model
 
             return $egreso;
         });
+
+        return $egreso;
+    }
+    // Generar Egreso por transferencia de bodega
+    static function transfer($request) {
+
+        // generar orden de egreso.
+        // crear pallet con orden de egreso.
+        // buscar posicion para pallet.
+        // ingresar pallet a bodega.
+        $egreso = DB::transaction(function() use($request){
+
+            $bodegaID = $request->bodega_id;
+            $bodegaTwoID = $request->bodega_two_id;
+            $tipoEgreso = $request->tipo_egreso;
+            $descripcion = $request->descripcion;
+            $tipoProducto = $request->tipo_prod;
+            $user = $request->user()->id;
+            $status = StatusDocumento::pendienteID();
+            $fecha = Carbon::now()->format('Y-m-d');
+
+            $numero = Egreso::orderBy('numero','desc')->pluck('numero')->first();
+
+            if (is_null($numero)) {
+                $numero = 1;
+            } else {
+                $numero++;
+            };
+
+            // creacion de Orden de Egreso
+            $egreso = Egreso::create([
+                'numero' => $numero,
+                'descripcion' => $descripcion,
+                'tipo_id' => $tipoEgreso,
+                'item_id' => null,
+                'item_num' => null,
+                'fecha_egr' => $fecha,
+                'user_id' => $user,
+                'status_id' => $status,
+            ]);
+
+            $palletInfo = collect();
+            $palletDetalles = [];
+
+            $palletInfo->numero = Pallet::getNewPalletNum();
+            $palletInfo->medida = PalletMedida::altoID(); // Alto por defecto
+            $palletInfo->num_fisico = null;
+
+            foreach ($request->items as $detalle) {
+
+                $detalle = json_decode($detalle);
+                $cantidad = $detalle->cantidad;
+                $detalleID = $detalle->id;
+                while ($cantidad > 0) {
+
+                    $restar = 0;
+                    $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoProducto,$detalleID);
+                    $palletDetalle = PalletDetalle::find($posicion->detalle_id);
+
+                    if (!$posicion) {
+
+                        dd('Error al generar Egreso - No existencia');
+                    }
+
+                    if ($cantidad > $posicion->existencia) {
+
+                        $restar = $posicion->existencia;
+
+                        //dd($posicion->existencia);
+                    } else {
+
+                        $restar = $cantidad;
+                    }
+
+                    $cantidad = $cantidad - $restar;
+                    $posicion->subtract($posicion->detalle_id,$restar);
+
+                    $egresoDetalle = EgresoDetalle::create([
+                        'egr_id' => $egreso->id,
+                        'tipo_id' => $tipoProducto,
+                        'item_id' => $detalleID,
+                        'bodega' => $posicion->bodega->descripcion,
+                        'posicion' => $posicion->format(),
+                        'fecha_egr' => $egreso->fecha_egr,
+                        'cantidad' => $restar,
+                    ]);
+
+                    $detalle = collect([
+                        'id' => null, // no se obtiene directamente de un ingreso
+                        'cantidad' => $restar,
+                        'fecha_ing' => $palletDetalle->fecha_ing,
+                        'tipo_id' => $palletDetalle->tipo_id,
+                        'item_id' => $palletDetalle->item_id,
+                        'ing_tipo_id' => $palletDetalle->ing_tipo_id,
+                        'ing_id' => $palletDetalle->ing_id,
+                    ]);
+                    $detalle->toJson();// covertido a Json ya que funcion Pallet::storePallet() asi lo requiere
+                    array_push($palletDetalles,$detalle);
+
+                }
+            }
+            //dd('aqui');
+            $palletInfo->detalles = $palletDetalles;
+            $pallet = Pallet::storePallet($palletInfo);
+            $palletID = $pallet->id;
+            $posicion = Posicion::findPositionForPallet($bodegaTwoID,$palletID);
+            $posicionID = $posicion->id;
+            Bodega::storePalletInPosition($posicionID,$palletID);
+            $status = StatusDocumento::completaID();
+            $egreso->status_id = $status;
+            $egreso->save();
+
+            return $egreso;
+        },5);
 
         return $egreso;
     }

@@ -13,7 +13,7 @@
 		<div class="box-body">
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="">
+			<form class="form-horizontal" method="get" action="">
 
 				{{ csrf_field() }}
 
@@ -44,7 +44,6 @@
 					<label class="control-label col-lg-1">Bodega:</label>
  		           <div class="col-lg-3">
  		             <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega" v-model="bodega" required>
- 		               	<option value="0">TODAS LAS BODEGAS</option>
 						<option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
  		             </select>
  		           </div>
@@ -100,12 +99,12 @@
       </div>
 
 	  <div class="pull-right">
-	  	<form method="post" action="{{route('guardarEgrOrdenEgreso')}}">
+	  	<form id="create" method="post" action="{{route('guardarEgrOrdenEgreso')}}">
 			{{ csrf_field() }}
-	  		<button :disabled="!validate" class="btn btn-sm btn-default" type="submit">Generar Orden de Egreso</button>
-			<input class="form-control input-sm" name="bodega" type="hidden" :value="bodega" readonly>
-			<input class="form-control input-sm" name="tipo" type="hidden" value="{{$documento->tipo_id}}" readonly>
-			<input class="form-control input-sm" name="id" type="hidden" value="{{$documento->id}}" readonly>
+	  		<button form="create" :disabled="!validate" class="btn btn-sm btn-default" type="submit">Generar Orden de Egreso</button>
+			<input form="create" class="form-control input-sm" name="bodega" type="hidden" :value="bodega" readonly>
+			<input form="create" class="form-control input-sm" name="tipo" type="hidden" value="{{$documento->tipo_id}}" readonly>
+			<input form="create" class="form-control input-sm" name="id" type="hidden" value="{{$documento->id}}" readonly>
 		</form>
 	  </div>
 

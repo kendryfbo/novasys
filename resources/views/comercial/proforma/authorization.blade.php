@@ -60,13 +60,13 @@
 							<td class="text-center">
 
 								<!-- Forms -->
-								<form style="display: inline" action="{{route('autorizarProforma',['proforma' => $proforma->id])}}" method="post">
+								<form style="display: inline" action="{{route('autorizarProforma',['numero' => $proforma->numero])}}" method="post">
 									{{csrf_field()}}
 									<button class="btn btn-success btn-sm" type="submit">
 										<i class="fa fa-check-circle" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="{{route('desautorizarProforma',['proforma' => $proforma->id])}}" method="post">
+								<form style="display: inline" action="{{route('desautorizarProforma',['numero' => $proforma->numero])}}" method="post">
 									{{csrf_field()}}
 									<button class="btn btn-danger btn-sm" type="submit">
 										<i class="fa fa-ban" aria-hidden="true"></i>

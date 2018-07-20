@@ -42,7 +42,7 @@
 
 			<label class="control-label col-lg-1">Numero:</label>
 			<div class="col-lg-1">
-				<input class="form-control input-sm" type="text" name="numero" value="NUEVA" readonly>
+				<input class="form-control input-sm" type="text" name="numero" value="NUEVA" tabIndex="-1" readonly>
 			</div>
 
         </div>
@@ -63,7 +63,7 @@
 
 			<label class="control-label col-lg-1">Emision:</label>
 			<div class="col-lg-2">
-				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$fecha}}" required readonly>
+				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$fecha}}" tabIndex="-1" required readonly>
 			</div>
 
 			<label class="control-label col-lg-1">Area:</label>
@@ -84,7 +84,7 @@
 
 			<label class="control-label col-lg-1">Cond. Pago:</label>
 			<div class="col-lg-4">
-				<input class="form-control input-sm" type="text" name="forma_pago" v-model="formaPagoDescrip" readonly>
+				<input class="form-control input-sm" type="text" name="forma_pago" v-model="formaPagoDescrip" tabIndex="-1" readonly>
 			</div>
 
 			<label class="control-label col-lg-1">Moneda:</label>
@@ -92,7 +92,7 @@
               <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="moneda" required>
                 <option value=""></option>
 				@foreach ($monedas as $moneda)
-					<option {{Input::old('moneda') == $moneda->descripcion ? 'selected':''}} value="{{$moneda->descripcion}}">{{$moneda->descripcion}}</option>
+					<option {{Input::old('moneda') == $moneda->descripcion ? 'selected':''}} value="{{$moneda->id}}">{{$moneda->descripcion}}</option>
 				@endforeach
               </select>
             </div>
@@ -105,7 +105,7 @@
 
 			<label class="control-label col-lg-1">Contacto:</label>
 			<div class="col-lg-4">
-				<input class="form-control input-sm" type="text" name="contacto" v-model="contacto" readonly>
+				<input class="form-control input-sm" type="text" name="contacto" v-model="contacto" tabIndex="-1" readonly>
 			</div>
 
 			<div class="col-lg-4">
@@ -154,7 +154,7 @@
 		  <label class="control-label col-lg-1">Ult.Precio:</label>
 		  <div class="col-lg-1">
         	<input class="form-control input-sm" type="hidden" v-model.lazy="ultPrecio" readonly>
-        	<input class="form-control input-sm" type="text" :value="ultPrecio.toLocaleString('de-DE')" readonly>
+        	<input class="form-control input-sm" type="text" :value="ultPrecio.toLocaleString('de-DE')" tabIndex="-1" readonly>
           </div>
 
         </div>
@@ -179,7 +179,7 @@
 
           <label class="control-label col-lg-1">precio:</label>
           <div class="col-lg-1">
-            <input id="precio" class="form-control input-sm" type="number" min="0" v-model.number="precio">
+            <input id="precio" class="form-control input-sm" type="number" min="0.00" step="0.01" v-model.number="precio">
           </div>
 
           <div class="col-lg-2">
@@ -255,7 +255,7 @@
 				<tr>
 					<th class="bg-gray text-right">SUB-TOTAL</th>
 					<td class="input-td">
-					<input class="form-control text-right" type="number" name="sub_total" :value="subTotal.toFixed(2)" readonly>
+					<input class="form-control text-right" type="number" name="sub_total" :value="subTotal.toFixed(2)" tabIndex="-1" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -267,19 +267,19 @@
 				<tr>
 					<th class="bg-gray text-right">DESCUENTO:</th>
 					<td class="input-td">
-						<input class="form-control text-right" type="number" name="descuento" :value="descuento.toFixed(2)" readonly>
+						<input class="form-control text-right" type="number" name="descuento" :value="descuento.toFixed(2)" tabIndex="-1" readonly>
 					</td>
 				</tr>
 				<tr>
 					<th class="bg-gray text-right">@{{netoLabelText}}</th>
 					<td class="input-td">
-						<input class="form-control text-right" type="number" name="neto" :value="neto.toFixed(2)" readonly>
+						<input class="form-control text-right" type="number" name="neto" :value="neto.toFixed(2)" tabIndex="-1" readonly>
 					</td>
 				</tr>
 				<tr>
 					<th class="bg-gray text-right">@{{ivaLabelText}}</th>
 					<td class="input-td">
-						<input form="create" class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" readonly>
+						<input form="create" class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" tabIndex="-1" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -289,7 +289,7 @@
 				<tr>
 					<th class="bg-gray text-right">@{{totalLabelText}}</th>
 					<td class="input-td">
-						<input class="form-control text-right" type="number" name="freight" min="0" step="0.01" :value="total.toFixed(2)" readonly>
+						<input class="form-control text-right" type="number" name="freight" min="0" step="0.01" :value="total.toFixed(2)" tabIndex="-1" readonly>
 					</td>
 				</tr>
 

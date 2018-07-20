@@ -241,7 +241,14 @@ class PalletController extends Controller
             'fecha' => 'required'
         ]);
 
-        $pallet = Pallet::storePallet($request);
+        // formateo de datos
+        $palletInfo = collect();
+        $palletInfo->detalles = $request->items;
+        $palletInfo->numero = $request->numero;
+        $palletInfo->num_fisico = $request->num_fisico;
+        $palletInfo->medida = $request->medida;
+
+        $pallet = Pallet::storePallet($palletInfo);
         $msg = 'Pallet # ' . $pallet->numero . ' Ha sido creado.';
         return redirect()->route('palletPorIngresar')->with(['status' => $msg]);
     }
@@ -253,7 +260,14 @@ class PalletController extends Controller
             'items' => 'required'
         ]);
 
-        $pallet = Pallet::storePallet($request);
+        // formateo de datos
+        $palletInfo = collect();
+        $palletInfo->detalles = $request->items;
+        $palletInfo->numero = $request->numero;
+        $palletInfo->num_fisico = $request->num_fisico;
+        $palletInfo->medida = $request->medida;
+
+        $pallet = Pallet::storePallet($palletInfo);
 
         $msg = 'Pallet # ' . $pallet->numero . ' Ha sido creado.';
         return redirect()->route('palletPorIngresar')->with(['status' => $msg]);
@@ -324,6 +338,61 @@ class PalletController extends Controller
         return $pdf->stream();
     }
 
+    public function addItemToPallet(Request $request) {
+
+        $numero = $request->numero;
+
+        if (!$numero) {
+
+            return redirect()->back();
+        }
+
+        $tipoPT = TipoFamilia::productoTerminado()->id;
+        $productos = IngresoDetalle::with('producto','ingreso')
+                                    ->where('tipo_id',$tipoPT)
+                                    ->where('por_procesar','>',0)->get();
+        $productos = $productos->map(function($producto){
+            $newProducto = collect([
+                'id' => $producto->id,
+                'tipo_id' => $producto->tipo_id,
+                'item_id' => $producto->item_id,
+                'codigo' => $producto->producto->codigo,
+                'descripcion' => $producto->producto->descripcion,
+                'unidad_med' => $producto->producto->unidad_med,
+                'fecha_venc' => $producto->fecha_venc,
+                'fecha_ing' => $producto->fecha_ing,
+                'ing_tipo_id' => $producto->ingreso->tipo_id,
+                'ing_id' => $producto->ingreso->id,
+                'ing_num' => $producto->ingreso->numero,
+                'ing_id' => $producto->ingreso->id,
+                'por_procesar' => $producto->por_procesar
+            ]);
+
+            return $newProducto;
+        });
+
+        $pallet = Pallet::with('detalles','medida')->where('numero',$numero)->first();
+        foreach ($pallet->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+        $barCode = $this->barCode($pallet->numero);
+
+        return view('bodega.pallet.addItem')
+                ->with(['pallet' => $pallet, 'barCode' => $barCode, 'productos' => $productos]);
+    }
+
+    public function storeItemToPallet(Request $request) {
+
+        $this->validate($request,[
+            'pallet_id' =>'required',
+            'items' => 'required'
+        ]);
+        $pallet = Pallet::storeItemToPallet($request);
+
+        return redirect()->route('verPallet',['pallet' => $pallet]);
+    }
+    // API
     public function position(Request $request) {
 
         //return response($request->all(),200);
@@ -366,7 +435,7 @@ class PalletController extends Controller
     // generate pallet num (year-month-day-hours-minutes-seconds)
     private function palletNum() {
 
-        return Carbon::now()->format('YmdHis');
+        return Pallet::getNewPalletNum();
     }
 
     public function apiData(Request $request) {

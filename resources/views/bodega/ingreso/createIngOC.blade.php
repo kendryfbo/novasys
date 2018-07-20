@@ -98,9 +98,10 @@
                 <th class="text-center">#</th>
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">INSUMO</th>
+				<th class="text-center">UNIDAD</th>
                 <th class="text-center">CANTIDAD</th>
-                <th class="text-center">UNIDAD</th>
                 <th class="text-center">RECIBIDAS</th>
+                <th class="text-center">PENDIENTES</th>
 				<th class="text-center">INGRESO</th>
                 <th class="text-center">FECHA VENC</th>
                 <th class="text-center">N° LOTE</th>
@@ -117,9 +118,10 @@
 					<td class="text-center">@{{key+1}}</td>
 				    <td class="text-center">@{{item.codigo}}</td>
 				    <td class="text-left">@{{item.descripcion}}</td>
+					<td class="text-right">@{{item.unidad}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
-				    <td class="text-right">@{{item.unidad}}</td>
 					<td class="text-right">@{{item.recibidas}}</td>
+					<td class="text-right">@{{item.cantidad - item.recibidas}}</td>
 					<td class="input-td">
 						<input class="form-control text-right" type="number" value="0" min="0" step="0.01" @change="updateRecibidas(item.id)">
 					</td>

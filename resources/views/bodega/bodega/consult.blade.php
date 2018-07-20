@@ -17,6 +17,7 @@
 
 		<!-- box-body -->
 		<div class="box-body">
+
 			<div class="form-horizontal">
 
 				<div class="form-group form-group-sm">
@@ -146,7 +147,11 @@
 						<div v-if="pallet != ''" class="col-lg-12">
 							<div class="btn-group align-center" role="group" aria-label="...">
 								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#trasladoPallet">Traslado de Pallet</button>
-								<button type="button" class="btn btn-default">Limpiar Posicion</button>
+
+								<form class="" style="display:inline" :action="addItemToPalletURL" method="get">
+									<input type="hidden" name="numero" :value="pallet.numero">
+									<button type="submit" class="btn btn-default">Agregar Producto</button>
+								</form>
 								<button type="button" class="btn btn-default">Egreso Manual</button>
 							</div>
 						</div>
@@ -242,6 +247,7 @@
 @section('scripts')
 	<script>
 		bloques = {!!$bloques!!};
+		addItemToPalletURL = "{!!route('agregarItemPallet')!!}";
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>

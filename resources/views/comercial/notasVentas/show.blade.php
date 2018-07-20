@@ -6,105 +6,115 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Emision de Nota de Venta</h4>
+			<h4>Nota de Venta</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
+
+			<!-- /form pdf-->
+			<form id="pdf" action="{{route('descargarNotaVentaPDF',['numero' => $notaVenta->numero])}}" method="get">
+			</form>
+			<!-- /form pdf-->
 			<!-- form-horizontal -->
-			<div class="form-horizontal">
+			<form class="form-horizontal">
 				<h5>Documento</h5>
-				<div class="form-group form-group-sm">
 
-					<label class="control-label col-sm-2" >Centro de Venta:</label>
-					<div class="col-sm-4">
-						<input type="text" class="form-control" name="centroVenta" placeholder="Numero Nota Venta..." value="{{$notaVenta->centroVenta->descripcion}}" readonly>
+				<div class="form-group">
+
+					<label class="control-label col-sm-1" >C.Venta:</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control input-sm" name="centroVenta" placeholder="Numero Nota Venta..." value="{{$notaVenta->centroVenta->descripcion}}" readonly>
 					</div>
 
-					<div class="col-sm-2 pull-right">
-						@if(is_null($notaVenta->aut_comer))
-							<h4><span class="label label-warning">Por Autorizar</span></h4>
-						@elseif ($notaVenta->aut_comer)
-							<h4><span class="label label-success">Autorizada</span></h4>
-						@else
-							<h4><span class="label label-danger">No autorizada</span></h4>
-						@endif
-					</div>
-
-				</div>
-
-				<div class="form-group form-group-sm">
-
-					<label class="control-label col-lg-2">Numero:</label>
+					<label class="control-label col-lg-1">Numero:</label>
 					<div class="col-lg-1">
-						<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{$notaVenta->numero}}" readonly>
+						<input type="text" class="form-control input-sm" name="numero" placeholder="Numero Nota Venta..." value="{{$notaVenta->numero}}" readonly>
 					</div>
 
 					<label class="control-label col-lg-1">Version:</label>
 					<div class="col-lg-1">
-						<input type="text" class="form-control" name="version" placeholder="Numero Version..." value="{{$notaVenta->version}}" readonly>
+						<input type="text" class="form-control input-sm" name="version" placeholder="Numero Version..." value="{{$notaVenta->version}}" readonly>
 					</div>
+
+					<label class="control-label col-lg-1">Autorizacion:</label>
+					<div class="col-lg-2">
+					  @if ($notaVenta->aut_comer == null)
+						  <div class="has-warning">
+							  <input type="text" class="form-control input-sm text-center" value="PENDIENTE" readonly>
+						  </div>
+					  @elseif ($notaVenta->aut_comer == 1)
+						  <div class="has-success">
+							  <input type="text" class="form-control input-sm text-center" value="AUTORIZADA" readonly>
+						  </div>
+					  @elseif ($notaVenta->aut_comer == 0)
+						  <div class="has-error">
+							  <input type="text" class="form-control input-sm text-center" value="NO AUTORIZADA" readonly>
+						  </div>
+
+					  @endif
+					</div>
+
+					<div class="col-lg-2">
+		  			  @if ($notaVenta->aut_comer)
+		  				  <button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
+		  			  @endif
+		  		  </div>
 
 				</div>
 
 				<h5>Datos</h5>
 
-				<div class="form-group form-group-sm">
+				<div class="form-group">
 
-					<label class="control-label col-lg-2">Fecha Emision:</label>
+					<label class="control-label col-lg-1">F. Emision:</label>
 					<div class="col-lg-2">
-						<input type="date" class="form-control" name="fechaEmision" value="{{$notaVenta->fecha_emision}}" readonly>
+						<input type="date" class="form-control input-sm text-center" name="fechaEmision" value="{{$notaVenta->fecha_emision}}" readonly>
 					</div>
 
-					<label class="control-label col-lg-2">Fecha Despacho:</label>
+					<label class="control-label col-lg-1">F. Despacho:</label>
 					<div class="col-lg-2">
-						<input type="date" class="form-control " name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" readonly>
+						<input type="date" class="form-control input-sm text-center" name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" readonly>
 					</div>
 
 					<label class="control-label col-lg-1" >O. Compra:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control input-sm text-center" name="orden_compra" placeholder="Numero..." value="{{ $notaVenta->orden_compra }}" readonly>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1">Cliente:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control input-sm" name="cliente" value="{{$notaVenta->cliente->descripcion}}" readonly>
+					</div>
+
+					<label class="control-label col-lg-1">Cond. Pago:</label>
 					<div class="col-lg-2">
-						<input type="text" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ $notaVenta->orden_compra }}" readonly>
+						<input type="text" class="form-control input-sm" name="formaPago" value="{{$notaVenta->cond_pago}}" readonly>
 					</div>
 
 				</div>
 
-				<div class="form-group form-group-sm">
 
-					<label class="control-label col-lg-2">Cliente:</label>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1">Despacho:</label>
 					<div class="col-lg-4">
-						<input type="text" class="form-control" name="cliente" value="{{$notaVenta->cliente->descripcion}}" readonly>
+						<input type="text" class="form-control input-sm" name="despacho" value="{{$notaVenta->despacho}}" readonly>
 					</div>
 
-				</div>
-
-				<div class="form-group form-group-sm">
-
-					<label class="control-label col-lg-2">Cond. Pago:</label>
+					<label class="control-label col-lg-1">Vendedor:</label>
 					<div class="col-lg-2">
-						<input type="text" class="form-control" name="formaPago" value="{{$notaVenta->cond_pago}}" readonly>
+						<input type="text" class="form-control input-sm" name="vendedor"  value="{{$notaVenta->vendedor->nombre}}" readonly>
 					</div>
 
 				</div>
 
-				<div class="form-group form-group-sm">
-
-					<label class="control-label col-lg-2">Despacho:</label>
-					<div class="col-lg-4">
-						<input type="text" class="form-control" name="despacho" value="{{$notaVenta->despacho}}" readonly>
-					</div>
-
-				</div>
-
-				<div class="form-group form-group-sm">
-
-					<label class="control-label col-lg-2">Vendedor:</label>
-					<div class="col-lg-4">
-						<input type="text" class="form-control" name="vendedor"  value="{{$notaVenta->vendedor->nombre}}" readonly>
-					</div>
-
-				</div>
-
-			</div>
+			</form>
 			<!-- /form-horizontal -->
 			<h5>Detalles</h5>
 

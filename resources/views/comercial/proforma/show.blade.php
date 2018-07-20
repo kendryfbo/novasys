@@ -12,37 +12,57 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<!-- /form pdf-->
 			<form id="pdf" action="{{route('descargarProformaPDF',['numero' => $proforma->numero])}}" method="get">
-
 			</form>
+			<!-- /form pdf-->
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="">
 
 				{{ csrf_field() }}
 
-        <h5>Documento</h5>
-
+		<h5>Documento</h5>
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">C. Venta:</label>
-          <div class="col-lg-2">
+			<label class="control-label col-lg-1">C. Venta:</label>
+			<div class="col-lg-2">
 				<input class="form-control input-sm" type="text" name="centroVenta" value="{{$proforma->centro_venta}}" readonly>
-          </div>
-
-          <label class="control-label col-lg-1">Numero:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
-          </div>
-
-          <label class="control-label col-lg-1">Version:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
-          </div>
-
-			<div class="col-lg-1 col-lg-offset-2">
-			  	<button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
 			</div>
+
+			<label class="control-label col-lg-1">Numero:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
+			</div>
+
+			<label class="control-label col-lg-1">Version:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
+			</div>
+
+			<label class="control-label col-lg-1">Autorizacion:</label>
+			<div class="col-lg-2">
+			  @if ($proforma->aut_comer == null)
+				  <div class="has-warning">
+					  <input type="text" class="form-control input-sm text-center" value="PENDIENTE" readonly>
+				  </div>
+			  @elseif ($proforma->aut_comer == 1)
+				  <div class="has-success">
+					  <input type="text" class="form-control input-sm text-center" value="AUTORIZADA" readonly>
+				  </div>
+			  @elseif ($proforma->aut_comer == 0)
+				  <div class="has-error">
+					  <input type="text" class="form-control input-sm text-center" value="NO AUTORIZADA" readonly>
+				  </div>
+
+			  @endif
+			</div>
+
+		  <div class="col-lg-2">
+			  @if ($proforma->aut_comer)
+				  <button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
+			  @endif
+		  </div>
         </div>
         <!-- /form-group -->
 

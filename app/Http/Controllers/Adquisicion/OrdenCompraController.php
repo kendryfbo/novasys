@@ -48,7 +48,7 @@ class OrdenCompraController extends Controller
         $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
         $prodMantencion = ProdMantencion::getArrayOfAllActiveWithLastPrice();
         $productos = collect([$materiaPrima,$prodMantencion]);
-        $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Materia Prima'],['id' => 1 , 'descripcion' => 'Productos Mantencion']]);
+        $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Producto de Elaboración'],['id' => 1 , 'descripcion' => 'Productos Mantencion']]);
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
@@ -85,6 +85,7 @@ class OrdenCompraController extends Controller
             'porc_desc' => 'required',
             'tipo' => 'required',
             'impuesto' => 'required',
+            'items' => 'required'
         ]);
 
         $ordenCompra = OrdenCompra::register($request);
@@ -202,6 +203,7 @@ class OrdenCompraController extends Controller
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }
 
+    // Cambiar status de orden de compra a "completa"
     public function complete(OrdenCompra $ordenCompra) {
 
         $ordenCompra->complete();
@@ -210,6 +212,7 @@ class OrdenCompraController extends Controller
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }
 
+    // Cambiar status de orden de compra a "incompleta"
     public function incomplete(OrdenCompra $ordenCompra) {
 
         $ordenCompra->incomplete();
@@ -217,6 +220,7 @@ class OrdenCompraController extends Controller
         return redirect()->route('ordenCompra')->with(['status' => $msg]);
     }
 
+    // descargar PDF de Orden de Compra
     public function pdf($numero) {
 
         $centroVenta = CentroVenta::getMainCentroVenta();
@@ -227,6 +231,7 @@ class OrdenCompraController extends Controller
         return $pdf->stream();
     }
 
+    // descargar PDF de Orden de Compra
     public function downloadPDF($numero) {
 
         $ordenCompra = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
@@ -243,9 +248,8 @@ class OrdenCompraController extends Controller
     public function sendEmail($numero) {
 
         $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
-
         Mail::send(new MailOrdenCompra($ordenCompra));
-
+        
         return redirect()->back();
     }
 }

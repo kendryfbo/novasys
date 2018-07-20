@@ -64,6 +64,8 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::get('crear', 			 'ProductoController@create')->name('crearProducto');
 		Route::post('/', 				 'ProductoController@store')->name('guardarProducto');
 		Route::get('/{producto}/edit', 	 'ProductoController@edit')->name('editarProducto');
+		Route::get('/{codigo}', 	     'ProductoController@show')->name('verProducto');
+		Route::get('/{id}/excel', 	     'ProductoController@downloadExcel')->name('descargarCostoProductoExcel');
 		Route::post('update/{producto}', 'ProductoController@update')->name('actualizarProducto');
 		Route::post('delete/{producto}', 'ProductoController@destroy')->name('eliminarProducto');
 

@@ -38,8 +38,9 @@ class CreateNotaVentasTable extends Migration
             $table->date('fecha_despacho');
             $table->tinyInteger('aut_comer')->nullable();
             $table->tinyInteger('aut_contab')->nullable();
-            $table->TinyInteger('status')->default(1);
+            $table->TinyInteger('status_id')->default(1);
             $table->integer('factura')->nullable();
+            $table->integer('user_id')->unsigned(); // FK usuarios
             $table->timestamps();
         });
 
@@ -47,6 +48,7 @@ class CreateNotaVentasTable extends Migration
             $table->foreign('cv_id')->references('id')->on('centro_ventas');
             $table->foreign('cliente_id')->references('id')->on('cliente_nacional');
             $table->foreign('vendedor_id')->references('id')->on('vendedores');
+            $table->foreign('user_id')->references('id')->on('usuarios');
         });
     }
 

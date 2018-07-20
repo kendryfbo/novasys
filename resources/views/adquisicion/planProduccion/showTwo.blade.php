@@ -29,34 +29,6 @@
 											<td class="text-center">{{$producto->descripcion}}</td>
 											<td class="text-right">{{$producto->cantidad}}</td>
 										</tr>
-
-									@endforeach
-								</tbody>
-								<thead>
-									<tr>
-										<th colspan="6" class="text-center">PRODUCCION</th>
-									</tr>
-									<tr>
-										<th class="text-center">#</th>
-										<th class="text-center">codigo</th>
-										<th class="text-center">descripcion</th>
-										<th class="text-center">existencia</th>
-										<th class="text-center">requerimiento</th>
-										<th class="text-center">faltante</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($insumos as $insumo)
-										@if ($insumo->requerida && $insumo->nivel_id == 1)
-											<tr>
-												<th class="text-center">{{$loop->iteration}}</th>
-												<td class="text-center">{{$insumo->codigo}}</td>
-												<td class="text-center">{{$insumo->descripcion}}</td>
-												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
-												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
-											</tr>
-										@endif
 									@endforeach
 								</tbody>
 							</table>

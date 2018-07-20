@@ -13,12 +13,12 @@
 		<div class="box-body">
 
 			<!-- form unauthorize-->
-			<form id="authorize" action="{{route('autorizarProforma',['proforma' => $proforma->id])}}" method="post">
+			<form id="authorize" action="{{route('autorizarProforma',['numero' => $proforma->numero])}}" method="post">
 				{{csrf_field()}}
 			</form>
 			<!-- /form unauthorize-->
 			<!-- form authorize-->
-			<form id="unauthorize" action="{{route('desautorizarProforma',['proforma' => $proforma->id])}}" method="post">
+			<form id="unauthorize" action="{{route('desautorizarProforma',['numero' => $proforma->numero])}}" method="post">
 				{{csrf_field()}}
 			</form>
 			<!-- /form authorize-->
@@ -35,9 +35,7 @@
 
 			<label class="control-label col-lg-1">C. Venta:</label>
 			<div class="col-lg-2">
-				<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="centroVenta" disabled>
-					<option selected>{{$proforma->centro_venta}}</option>
-				</select>
+				<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->centro_venta}}" readonly>
 			</div>
 
 			<label class="control-label col-lg-1">Numero:</label>
@@ -65,19 +63,17 @@
 
           <label class="control-label col-lg-1">Emision:</label>
           <div class="col-lg-2">
-            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}">
+            <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Clausula:</label>
           <div class="col-lg-2">
-            <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="clausula" disabled>
-							<option>{{$proforma->clau_venta}}</option>
-            </select>
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->clau_venta}}" readonly>
           </div>
 
           <label class="control-label col-lg-1">Semana:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}">
+            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}" readonly>
           </div>
 
         </div>
@@ -86,17 +82,15 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Cliente:</label>
-          <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" disabled>
-							<option>{{$proforma->cliente}}</option>
-            </select>
-          </div>
+	          <label class="control-label col-lg-1">Cliente:</label>
+	          <div class="col-lg-4">
+				<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->cliente->descripcion}}" readonly>
+	          </div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
-					</div>
+			<label class="control-label col-lg-2">Condicion Pago:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
+			</div>
 
         </div>
         <!-- /form-group -->
@@ -106,17 +100,13 @@
 
           <label class="control-label col-lg-1">Puerto E. :</label>
           <div class="col-lg-4">
-            <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="puertoE" disabled>
-              <option>{{$proforma->puerto_emb}}</option>
-            </select>
+			  <input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->puerto_emb}}" readonly>
           </div>
 
-					<label class="control-label col-lg-2">Medio Transporte:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="transporte" disabled>
-							<option>{{$proforma->transporte}}</option>
-						</select>
-					</div>
+			<label class="control-label col-lg-2">Medio Transporte:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->transporte}}" readonly>
+			</div>
 
         </div>
         <!-- /form-group -->

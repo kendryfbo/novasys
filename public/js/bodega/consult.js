@@ -12,6 +12,7 @@ var app = new Vue ({
         posicion_id: '',
         posicion: '',
         pallet: '',
+        addItemToPalletURL: addItemToPalletURL,
     },
 
     methods: {

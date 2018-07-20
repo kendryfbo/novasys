@@ -122,16 +122,17 @@ class Pallet extends Model
         return $pallet;
     }
 
-    static function storePallet($request) {
+    static function storePallet($palletInfo) {
 
-        $pallet = DB::transaction( function() use($request) {
+        $pallet = DB::transaction( function() use($palletInfo) {
 
-            $items = $request->items;
+
+            $items = $palletInfo->detalles;
 
             $pallet = Pallet::create([
-                'numero' => $request->numero,
-                'num_fisico' => $request->num_fisico,
-                'medida_id' => $request->medida,
+                'numero' => $palletInfo->numero,
+                'num_fisico' => $palletInfo->num_fisico,
+                'medida_id' => $palletInfo->medida,
                 'almacenado' => 0,
             ]);
 
@@ -139,31 +140,81 @@ class Pallet extends Model
 
                 $item = json_decode($item);
 
+                $ingDetalleID = $item->id;
+                $palletID = $pallet->id;
                 $cantidad = $item->cantidad;
                 $fechaVenc = null;// $item->fecha_venc ? $item->fecha_venc : null; // no esta registrando fecha de vencimiento - Corregir
                 $fechaIng = $item->fecha_ing;
+                $tipoID  = $item->tipo_id;
+                $itemID = $item->item_id;
+                $ingTipoID = $item->ing_tipo_id;
+                $ingID = $item->ing_id;
+
                 PalletDetalle::create([
-                    'pallet_id' => $pallet->id,
-                    'tipo_id' => $item->tipo_id,
-                    'item_id' => $item->item_id,
-                    'ing_tipo_id' => $item->ing_tipo_id,
-                    'ing_id' => $item->ing_id,
+                    'pallet_id' => $palletID,
+                    'tipo_id' => $tipoID,
+                    'item_id' => $itemID,
+                    'ing_tipo_id' => $ingTipoID,
+                    'ing_id' => $ingID,
                     'cantidad' => $cantidad,
                     'fecha_ing' => $fechaIng,
                     'fecha_venc' => $fechaVenc,
                 ]);
 
-                $detalle = IngresoDetalle::with('ingreso')->find($item->id);
+                if ($ingDetalleID) {
 
-                $detalle->por_procesar = $detalle->por_procesar - $cantidad;
-                $detalle->save();
+                    $detalle = IngresoDetalle::with('ingreso')->find($item->id);
+                    $detalle->por_procesar = $detalle->por_procesar - $cantidad;
+                    $detalle->save();
+                    $detalle->ingreso->updateStatus();
+                    $detalle->ingreso->save();
+                }
+            };
+            return $pallet;
+        },5); // end-transaction
 
-                $detalle->ingreso->updateStatus();
-                $detalle->ingreso->save();
+        return $pallet;
+    }
+
+    static function storeItemToPallet($request) {
+
+        $pallet = DB::transaction( function() use($request) {
+
+            $items = $request->items;
+            $palletID = $request->pallet_id;
+
+            foreach ( $items as $item) {
+
+                $item = json_decode($item);
+
+                $ingDetalleID = $item->id;
+                $cantidad = $item->cantidad;
+                $fechaVenc = $item->fecha_venc;
+                $fechaIng = $item->fecha_ing;
+                $tipoID  = $item->tipo_id;
+                $itemID = $item->item_id;
+                $ingTipoID = $item->ing_tipo_id;
+                $ingID = $item->ing_id;
+
+                PalletDetalle::create([
+                    'pallet_id' => $palletID,
+                    'tipo_id' => $tipoID,
+                    'item_id' => $itemID,
+                    'ing_tipo_id' => $ingTipoID,
+                    'ing_id' => $ingID,
+                    'cantidad' => $cantidad,
+                    'fecha_ing' => $fechaIng,
+                    'fecha_venc' => $fechaVenc,
+                ]);
+
+                Ingreso::descountItemFromIngreso($item->id,$cantidad);
+
             };
 
+            $pallet = Pallet::find($palletID);
+            
             return $pallet;
-        }); // end-transaction
+        },5); // end-transaction
 
         return $pallet;
     }
@@ -247,6 +298,13 @@ class Pallet extends Model
 
         }
     }
+
+    // generate pallet num (year-month-day-hours-minutes-seconds)
+    static function getNewPalletNum() {
+
+        return Carbon::now()->format('YmdHis');
+    }
+
     /*
     | public functions
     */

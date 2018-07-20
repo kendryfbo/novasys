@@ -14,13 +14,15 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\AuthorizedNotaVentaEvent' => [
-            'App\Listeners\sendEmailOfAuthNotaVenta',
+            'App\Listeners\emailNotaVentaListener',
+            'App\Listeners\emailNotaVentaDespachoListener',
+        ],
+        'App\Events\AuthorizedProformaEvent' => [
+            'App\Listeners\emailProformaListener',
+            'App\Listeners\emailProformaDespachoListener',
         ],
         'App\Events\CreateFacturaNacionalEvent' => [
             'App\Listeners\GenerateFacturaExcel',
-        ],
-        'App\Events\CreateProformaEvent' => [
-            'App\Listeners\generateProformaMail',
         ],
         'App\Events\CreateFacturaIntlEvent' => [
             'App\Listeners\GenerateFacturaIntlExcel',

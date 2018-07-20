@@ -3,7 +3,7 @@ var app = new Vue({
     el: '#vue-app',
 
     data: {
-        tipoId: '',
+        tipoID: tipoID,
         insumos: insumos,
         bodegas: bodegas,
         bodegaID: '',
@@ -95,9 +95,11 @@ var app = new Vue({
         getInsumosFromBodega: function() {
 
             this.restore();
-            var url = '/api/bodega/insumos/' + this.bodegaID;
-
-			axios.get(url)
+            var url = '/api/bodega/stockTipoDesdeBodega';
+            axios.post(url,{
+                bodegaID: this.bodegaID,
+                tipoID: this.tipoID
+            })
 			.then(response => this.loadInsumos(response.data))
 			.catch(error => this.handleError(error))
         },

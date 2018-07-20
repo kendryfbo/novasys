@@ -7,12 +7,12 @@ use Mail;
 
 use Carbon\Carbon;
 use App\Models\Producto;
-use App\Mail\MailProforma;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\ClienteIntl;
+use App\Events\AuthorizedProformaEvent;
 use App\Models\Comercial\ClausulaVenta;
 use App\Models\Comercial\PuertoEmbarque;
 use App\Models\Comercial\MedioTransporte;
@@ -44,6 +44,7 @@ class ProformaController extends Controller
       $centrosVenta = CentroVenta::getAllActive();
       $transportes = MedioTransporte::getAllActive();
       $puertoEmbarque = PuertoEmbarque::getAllActive();
+      $fecha = Carbon::now()->format('Y-m-d');
 
       return view('comercial.proforma.create')->with([
         'centrosVenta' => $centrosVenta,
@@ -51,7 +52,8 @@ class ProformaController extends Controller
         'clausulas' => $clausulas,
         'transportes' => $transportes,
         'puertoEmbarque' => $puertoEmbarque,
-        'productos' => $productos
+        'productos' => $productos,
+        'fecha' => $fecha
       ]);
     }
 
@@ -76,6 +78,7 @@ class ProformaController extends Controller
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
         $puertoEmbarque = PuertoEmbarque::getAllActive();
+        $fecha = Carbon::now()->format('Y-m-d');
 
         return view('comercial.proforma.createImport')->with([
             'proforma' => $proforma,
@@ -84,7 +87,8 @@ class ProformaController extends Controller
             'clausulas' => $clausulas,
             'transportes' => $transportes,
             'puertoEmbarque' => $puertoEmbarque,
-            'productos' => $productos
+            'productos' => $productos,
+            'fecha' => $fecha
         ]);
     }
 
@@ -96,7 +100,6 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
       $this->validate($request, [
         'centroVenta' => 'required',
         'numero' => 'required',
@@ -233,19 +236,31 @@ class ProformaController extends Controller
         return view('comercial.proforma.authorization')->with(['proformas' => $proformas]);
     }
 
-    public function auth(Proforma $proforma) {
+    public function auth($numero) {
 
-        //return redirect()->route('descargarProformaPDF',['numero' => $proforma->numero]);
-        //$this->sendEmail($proforma->numero);
-        //dd('aqui');
+        $proforma  = Proforma::with('centroVenta',
+                                    'detalles.producto.marca',
+                                    'detalles.producto.formato',
+                                    'detalles.producto.sabor')
+                            ->where('numero',$numero)
+                            ->first();
+
         $proforma->authorizeComer();
+        event(new AuthorizedProformaEvent($proforma));
 
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
     }
 
-    public function unauth(Proforma $proforma) {
+    public function unauth($numero) {
+
+        $proforma  = Proforma::with('centroVenta',
+                                    'detalles.producto.marca',
+                                    'detalles.producto.formato',
+                                    'detalles.producto.sabor')
+                            ->where('numero',$numero)
+                            ->first();
 
         $proforma->unauthorizeComer();
 
@@ -260,18 +275,8 @@ class ProformaController extends Controller
         ->where('numero',$numero)->first();
         $proforma->fecha_emision = Carbon::createFromFormat('Y-m-d', $proforma->fecha_emision)->format('d/m/Y');
         $pdf = PDF::loadView('documents.pdf.proforma',compact('proforma'));
-        return $pdf->stream('test.pdf');
-        return view('documents.pdf.proforma')->with(['proforma' => $proforma]);
-    }
-
-    public function sendEmail($numero) {
-
-        $proforma  = Proforma::with('centroVenta','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')
-                            ->where('numero',$numero)
-                            ->first();
-        Mail::send(new MailProforma($proforma));
-
-        return redirect()->back();
+        return $pdf->stream();
+        //return view('documents.pdf.proforma')->with(['proforma' => $proforma]);
     }
 
 }

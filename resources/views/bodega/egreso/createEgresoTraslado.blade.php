@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Egreso Manual Materia Prima</h4>
+			<h4>{{$encabezado}}</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarIngManualMP')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgrTrasladoMP')}}">
 
 				{{ csrf_field() }}
 
@@ -42,14 +42,14 @@
 
                     <label class="control-label col-lg-1">Bodega:</label>
                     <div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaID" @change="getInsumosFromBodega">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaID" @change="getInsumosFromBodega" required>
                             <option value=""></option>
 						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
                         </select>
                     </div>
                     <label class="control-label col-lg-1"><i class="fa fa-arrow-right"></i> A Bodega:</label>
                     <div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaTwoID" @change="getInsumosFromBodega">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_two_id" v-model="bodegaTwoID" @change="getInsumosFromBodega" required>
                             <option value=""></option>
 						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
                         </select>
@@ -195,6 +195,7 @@
 
 	var insumos = {!!$insumos!!};
 	var bodegas = {!!$bodegas!!};
+	var tipoID = {!!$tipoProd!!};
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>

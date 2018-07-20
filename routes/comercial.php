@@ -37,7 +37,8 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     // Resource Nota de Venta
 	Route::get('notasVentas/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
 	Route::get('notasVentas/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
-	Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
+    Route::get('notasVentas/{numero}/pdf',              'Comercial\NotaVentaController@downloadPDF')->name('descargarNotaVentaPDF');
+    Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
 	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta')->name('desautNotaVenta');
 	Route::put('notasVentas/{notaVenta}',               'Comercial\NotaVentaController@update')->name('actualizarNotaVenta');
     Route::resource('notasVentas','Comercial\NotaVentaController',[
@@ -104,12 +105,11 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::put('proformas/{proforma}',                'Comercial\ProformaController@update')->name('actualizarProforma');
   Route::get('proformas/autorizacion/',             'Comercial\ProformaController@authorization')->name('autorizacionProforma');
   Route::get('proformas/{proforma}',                'Comercial\ProformaController@show')->name('verProforma');
-  Route::get('proformas/{numero}/pdf',            'Comercial\ProformaController@downloadPDF')->name('descargarProformaPDF');
+  Route::get('proformas/{numero}/pdf',              'Comercial\ProformaController@downloadPDF')->name('descargarProformaPDF');
   Route::delete('proformas/{proforma}',             'Comercial\ProformaController@destroy')->name('eliminarProforma');
   Route::get('proformas/autorizacion/{proforma}',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');
-  Route::post('proformas/autorizar/{proforma}',     'Comercial\ProformaController@auth')->name('autorizarProforma');
-  Route::post('proformas/desautorizar/{proforma}',  'Comercial\ProformaController@unauth')->name('desautorizarProforma');
-  Route::post('proformas/desautorizar/{proforma}',  'Comercial\ProformaController@unauth')->name('desautorizarProforma');
+  Route::post('proformas/autorizar/{numero}',       'Comercial\ProformaController@auth')->name('autorizarProforma');
+  Route::post('proformas/desautorizar/{numero}',    'Comercial\ProformaController@unauth')->name('desautorizarProforma');
 
   // Routes Guia de Despacho Internacionales
   route::get('guiaDespacho',                    'GuiaDespachoController@index')->name('guiaDespacho');
