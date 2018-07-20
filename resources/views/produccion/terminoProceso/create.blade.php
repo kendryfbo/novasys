@@ -50,7 +50,7 @@
                     </div>
                     <label class="control-label col-md-1">Produccion:</label>
                     <div class="col-md-4">
-                      <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="prodenv_id"   required>
+                      <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="prodenv_id">
                         <option value=""></option>
 						@foreach ($prodEnvasado as $envasado)
 							<option value="{{$envasado->id}}">{{"Produccion # ".$envasado->numero." - Producto: ".$envasado->formula->producto->descripcion}}</option>

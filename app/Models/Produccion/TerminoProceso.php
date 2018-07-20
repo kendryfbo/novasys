@@ -30,7 +30,7 @@ class TerminoProceso extends Model
 
             $terminoProceso = Self::create([
                 'prod_id' => $request->prod_id,
-                'prodenv_id' => $request->prodenv_id,
+                'prodenv_id' => null, // $request->prodenv_id,
                 'fecha_prod' => $request->fecha_prod,
                 'fecha_venc' => $request->fecha_venc,
                 'turno' => $request->turno,

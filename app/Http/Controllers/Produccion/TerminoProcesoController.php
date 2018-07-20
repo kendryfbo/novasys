@@ -64,7 +64,7 @@ class TerminoProcesoController extends Controller
     {
         $datos = $this->validate($request,[
             'prod_id' => 'required',
-            'prodenv_id' => 'required',
+            //'prodenv_id' => 'required',
             'fecha_prod' => 'required|date',
             'fecha_venc' => 'required|date',
             'turno' => 'required',
