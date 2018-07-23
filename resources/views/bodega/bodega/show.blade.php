@@ -175,5 +175,5 @@
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/Show.js')}}"></script>
+	<script src="{{asset('js/bodega/show.js')}}"></script>
 @endsection
