@@ -1,3 +1,13 @@
+$(document).on("keypress", 'form', function (e) {
+    var code = e.keyCode || e.which;
+    if (code == 13) {
+        e.preventDefault();
+        document.getElementById("addItem").click();
+        return false;
+    }
+});
+
+
 var app = new Vue({
 
   el: '#vue-app',

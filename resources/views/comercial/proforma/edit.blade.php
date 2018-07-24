@@ -209,7 +209,7 @@
           </div>
 
           <div class="col-lg-2">
-            <button class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
+            <button id="addItem" class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
             <button class="btn btn-sm btn-default" type="button" name="button" @click="removeItem">Borrar</button>
           </div>
 

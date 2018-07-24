@@ -82,7 +82,6 @@ class OrdenCompra extends Model
                     'unidad' => $item->umed,
                     'cantidad' => $cantidad,
                     'moneda_id' => $moneda->id,
-                    'moneda' => $moneda->descripcion,
                     'precio' => $precio,
                     'sub_total' => $subTotalItem,
                     'recibidas' => 0

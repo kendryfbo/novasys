@@ -52,9 +52,7 @@
 					<button form="incomplete" type="submit" class="btn btn-warning btn-sm">Pendiente</button>
 				</div>
 			</div>
-			<div class="col-lg-1">
-					<button form="sendEmail" type="submit" class="btn btn-default btn-sm">Email</button>
-			</div>
+
 			<label class="control-label col-lg-1">Autorizacion:</label>
 			<div class="col-lg-2">
 				@if ($ordenCompra->aut_contab == null)
@@ -124,8 +122,16 @@
         <div class="form-group">
 
 			<label class="control-label col-lg-1">Contacto:</label>
-			<div class="col-lg-4">
+			<div class="col-lg-2">
 				<input class="form-control input-sm" type="text" name="contacto" value="{{$ordenCompra->contacto}}" readonly>
+			</div>
+			<label class="control-label col-lg-1">Email:</label>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="contacto" value="{{$ordenCompra->proveedor->email}}" readonly>
+			</div>
+
+			<div class="col-lg-1">
+				<button form="sendEmail" type="submit" class="btn btn-default btn-sm">Email</button>
 			</div>
 
 			<div class="col-lg-4">
