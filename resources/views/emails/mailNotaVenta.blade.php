@@ -1,5 +1,5 @@
 @component('mail::message')
-# Nota de Vente Generada
+# Nota de Venta Generada
 
 Estimados, junto con saludarlos, informo que se ha generado la nota de venta **{{$notaVenta->numero}}**
 
