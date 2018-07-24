@@ -71,13 +71,13 @@
 								{{$notaVenta->status ? 'Aprobada':'Anulada'}}
 							</td>
 							<td class="text-center">
-								@if (!$notaVenta->aut_contab)
 
 									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
 										<button class="btn btn-sm" type="submit">
 											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 										</button>
 									</form>
+								@if (!$notaVenta->aut_contab)
 									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id)}}" method="post">
 										{{csrf_field()}}
 										{{ method_field('DELETE') }}
