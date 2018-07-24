@@ -63,6 +63,7 @@ class NotaVentaController extends Controller
     public function store(Request $request)
     {
       $this->validate($request, [
+          'numero' => 'required',
           'centroVenta' => 'required',
           'fechaEmision' => 'required',
           'fechaDespacho' => 'required',
@@ -200,7 +201,7 @@ class NotaVentaController extends Controller
         $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
         $notaVenta->authorizeComer();
         event(new AuthorizedNotaVentaEvent($notaVenta));
-        
+
         $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
 
         return redirect()->route('autNotaVenta')->with(['status' => $msg]);

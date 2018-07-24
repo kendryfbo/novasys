@@ -43,16 +43,17 @@ class Proforma extends Model
     		$totalPesoBruto = 0;
     		$totalVolumen = 0;
 
-    		$numero = Proforma::orderBy('numero','desc')->pluck('numero')->first();
 
+            $numero = $request->numero;
             if (is_null($numero)) {
 
-    			$numero = 1;
-
-    		} else {
-
-    			$numero++;
-    		};
+                $numero = Proforma::orderBy('numero','desc')->pluck('numero')->first();
+                if (is_null($numero)) {
+                    $numero = 1;
+                } else {
+                    $numero++;
+                }
+            }
 
             $version = 1;
 

@@ -58,7 +58,7 @@
 
 			<label class="control-label col-lg-1">Numero:</label>
 			<div class="col-lg-1">
-				<input class="form-control input-sm" type="text" name="numero" value="NUEVA" readonly>
+				<input class="form-control input-sm" type="text" name="numero">
 			</div>
 
 			<label class="control-label col-lg-1">Version:</label>

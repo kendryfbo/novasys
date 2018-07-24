@@ -27,7 +27,7 @@ class CreateTerminoProcesoTable extends Migration
             $table->string('operador');
             $table->string('cod')->nullable();
             $table->string('batch');
-            $table->string('lote')->unique();
+            $table->string('lote');
             $table->integer('ingresadas')->default(0);
             $table->integer('status_id')->unsigned()->default(0);
             $table->integer('user_id')->unsigned();
