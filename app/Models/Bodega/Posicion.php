@@ -137,7 +137,7 @@ class Posicion extends Model
 
                 $detalle->load('premezcla.familia.tipo');
                 $premezcla = $detalle->premezcla;
-                
+
                 $valores->premezcla = $premezcla->id;
                 $valores->familia = $premezcla->familia->id;
                 $valores->tipo_familia = $premezcla->familia->tipo->id;
@@ -226,17 +226,27 @@ class Posicion extends Model
             return $results[0];
         }
 
-
+        $palletAlto = PalletMedida::altoID();
+        $palletBajo = PalletMedida::bajoID();
 
         // si no cumple ninguna condicion buscar posicion sin condicion
+        $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE." ";
 
-        // si medida es baja buscar posicion con cualquier medida
-        if ($medidaPallet == PalletMedida::bajoID()) {
+        /*
+        |   medida_id Se ordena DESC para buscar primero pallets ALTOS y ASC para buscar primero pallets BAJOS
+        */
 
-            $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE . " LIMIT 1";
+        // si pallet es alto buscar posicion alta si no, buscar posicion baja
+        if ($medidaPallet == $palletAlto) {
+
+            $query = $query . " AND (posicion.medida_id=" . $palletAlto . " OR posicion.medida_id=" . $palletBajo . ")
+            ORDER BY medida_id DESC, bloque ASC, columna ASC, estante ASC  LIMIT 1";
+
+        // de lo contrario buscar posicion baja si no, buscar posicion alta
         } else {
 
-            $query = "SELECT posicion.id FROM posicion WHERE posicion.bodega_id=" . $bodegaId . " AND posicion.id NOT IN (SELECT posicion_id FROM pos_cond WHERE posicion_id=posicion.id) AND posicion.status_id=".self::DISPONIBLE . " AND posicion.medida_id=" . $medidaPallet ." LIMIT 1";
+            $query = $query . " AND (posicion.medida_id=" . $palletBajo . " OR posicion.medida_id=" . $palletAlto . ")
+            ORDER BY medida_id ASC, bloque ASC, columna ASC, estante ASC LIMIT 1";
         }
 
         $results = DB::select(DB::raw($query));
