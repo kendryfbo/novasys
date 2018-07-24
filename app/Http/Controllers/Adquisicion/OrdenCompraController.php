@@ -245,11 +245,15 @@ class OrdenCompraController extends Controller
         return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
     }
 
-    public function sendEmail($numero) {
+    public function sendEmail(Request $request) {
 
+        $numero = $request->numero;
+        $mails = $request->mail;
         $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
-        Mail::send(new MailOrdenCompra($ordenCompra));
+        $ordenCompra->mails = $mails;
         
+        Mail::send(new MailOrdenCompra($ordenCompra));
+
         return redirect()->back();
     }
 }

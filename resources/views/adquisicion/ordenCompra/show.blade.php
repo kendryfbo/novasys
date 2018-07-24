@@ -126,8 +126,8 @@
 				<input class="form-control input-sm" type="text" name="contacto" value="{{$ordenCompra->contacto}}" readonly>
 			</div>
 			<label class="control-label col-lg-1">Email:</label>
-			<div class="col-lg-2">
-				<input class="form-control input-sm" type="text" name="contacto" value="{{$ordenCompra->proveedor->email}}" readonly>
+			<div class="col-lg-4">
+				<input form="sendEmail" class="form-control input-sm" type="text" name="mail" value="{{$ordenCompra->proveedor->email}}">
 			</div>
 
 			<div class="col-lg-1">

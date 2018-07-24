@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Adquisicion\OrdenCompra;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MailOrdenCompra extends Mailable implements ShouldQueue
+class MailOrdenCompra extends Mailable //implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -37,16 +37,17 @@ class MailOrdenCompra extends Mailable implements ShouldQueue
         $ordenCompra = $this->ordenCompra;
         $numero = $ordenCompra->numero;
         $fileName = 'ORDEN COMPRA '.$numero;
-        $sender = 'soporte@novafoods.cl';//Auth::user()->email;
-        $receiver = 'soporte@novafoods.cl';
-        $CC =$sender;
+        $sender = Auth::user()->email;
+        $receiver = explode(';', $ordenCompra->mails);
+        //dd($receiver);
+        //$CC = $sender;
         $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',['ordenCompra' => $ordenCompra]);
         $pdfFile = $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
         return $this->markdown('emails.mailOrdenCompra')
                     ->subject($fileName)
                     ->from($sender)
                     ->to($receiver)
-                    ->cc($CC)
+                    //->cc($CC)
                     ->attachData($pdfFile, $fileName.'.pdf');
     }
 }
