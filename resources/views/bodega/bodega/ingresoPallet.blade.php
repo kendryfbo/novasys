@@ -75,19 +75,6 @@
 									</tr>
 
 									<tr>
-									  <th class="bg-gray text-right">Rack:</th>
-									  <td class="bg-gray text-right">@{{posicion.bloque}}</td>
-									</tr>
-									<tr>
-									  <th class="bg-gray text-right">Columna:</th>
-									  <td class="bg-gray text-right">@{{posicion.columna}}</td>
-									</tr>
-									<tr>
-									  <th class="bg-gray text-right">Estante:</th>
-									  <td class="bg-gray text-right">@{{posicion.estante}}</td>
-									</tr>
-
-									<tr>
 									  <th class="bg-gray text-right">Status:</th>
 									  <td class="bg-gray text-right">@{{posicion.status.descripcion}}</td>
 									</tr>
@@ -144,6 +131,7 @@
 						</div>
 						<form id="insertPallet" method="post" action="{{route('guardarPalletEnPosicion')}}">
 							{{ csrf_field() }}
+							<input type="hidden" name="bodegaID" :value="bodega" required>
 							<input type="hidden" name="posicion" :value="posicion.id" required>
 							<input type="hidden" name="pallet" :value="pallet.id" required>
 
@@ -213,6 +201,10 @@
 @endsection
 
 @section('scripts')
+
+	<script>
+		var bodega = {!!$bodegaID!!};
+	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/bodega/ingresoPallet.js')}}"></script>

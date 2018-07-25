@@ -152,23 +152,27 @@ class BodegaController extends Controller
         return view('bodega.bodega.consult')->with(['bodega' => $bodega, 'bloques' => $bloques]);
     }
 
-    public function entry() {
+    public function entry(Request $request) {
 
+
+        $bodegaID = $request->bodegaID ? $request->bodegaID : 'null';
         $bodegas = Bodega::getAllActive();
 
-        return view('bodega.bodega.ingresoPallet')->with(['bodegas' => $bodegas]);
+        return view('bodega.bodega.ingresoPallet')->with(['bodegas' => $bodegas,'bodegaID' => $bodegaID]);
     }
 
     public function storePalletInPosition(Request $request) {
 
         $this->validate($request, [
+            'bodegaID' => 'required',
             'posicion' => 'required',
             'pallet' => 'required'
         ]);
+        $bodegaID = $request->bodegaID;
         $pos_id = $request->posicion;
         $pallet_id = $request->pallet;
         Bodega::storePalletInPosition($pos_id,$pallet_id);
 
-        return redirect()->route('bodega');
+        return redirect()->route('ingresoPallet',['bodegaID' => $bodegaID]);
     }
 }

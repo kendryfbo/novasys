@@ -6,7 +6,7 @@ var app = new Vue({
         palletNum: '',
         pallet: '',
         posicion: '',
-        bodega: '',
+        bodega: bodega,
     },
 
     methods: {

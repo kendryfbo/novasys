@@ -82,7 +82,7 @@
 
 					<div class="row">
 
-						<div class=" col-sm-2">
+						<div class=" col-sm-3">
 							<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
 							    <tr>
@@ -91,22 +91,10 @@
 							    </tr>
 
 							    <tr>
-							      <th class="bg-gray text-right">Rack:</th>
-							      <td class="bg-gray text-right">@{{posicion.bloque}}</td>
-							    </tr>
-							    <tr>
-							      <th class="bg-gray text-right">Columna:</th>
-							      <td class="bg-gray text-right">@{{posicion.columna}}</td>
-							    </tr>
-							    <tr>
-							      <th class="bg-gray text-right">Estante:</th>
-							      <td class="bg-gray text-right">@{{posicion.estante}}</td>
-							    </tr>
-
-							    <tr>
 							      <th class="bg-gray text-right">Status:</th>
 							      <td class="bg-gray text-right">@{{posicion.status.descripcion}}</td>
 							    </tr>
+
 							    <tr>
 							      <th class="bg-gray text-right">Pallet:</th>
 							      <td class="bg-gray text-right">@{{ pallet.numero ? pallet.numero : 'Vacio'}}</td>
@@ -145,14 +133,20 @@
 						</div>
 
 						<div v-if="pallet != ''" class="col-lg-12">
+							<form id="moveItemToPallet" style="display:inline" :action="moveItemToPallet" method="get">
+							</form>
+							<form id="addItemToPallet" style="display:inline" :action="addItemToPalletURL" method="get">
+							</form>
+							<form id="removeItemFromPallet" style="display:inline" :action="removeItemToPalletURL" method="get">
+							</form>
 							<div class="btn-group align-center" role="group" aria-label="...">
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#trasladoPallet">Traslado de Pallet</button>
-
-								<form class="" style="display:inline" :action="addItemToPalletURL" method="get">
-									<input type="hidden" name="numero" :value="pallet.numero">
-									<button type="submit" class="btn btn-default">Agregar Producto</button>
-								</form>
-								<button type="button" class="btn btn-default">Egreso Manual</button>
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#trasladoPallet">Traslado de Pallet</button>
+									<input form="moveItemToPallet" type="hidden" name="numero" :value="pallet.numero">
+									<button form="moveItemToPallet" type="submit" class="btn btn-default">Mover a Pallet</button>
+									<input form="addItemToPallet" type="hidden" name="numero" :value="pallet.numero">
+									<button form="addItemToPallet" type="submit" class="btn btn-default">Ingresar</button>
+									<input form="removeItemFromPallet" type="hidden" name="numero" :value="pallet.numero">
+									<button form="removeItemFromPallet" type="button" class="btn btn-default">Egresar</button>
 							</div>
 						</div>
 
@@ -228,7 +222,7 @@
 
 			<ul>
 				<li><a href="{{route('reporteBodega')}}">Saldos Bodega</a></li>
-				<li><a href="{{route('verStockBodegaPT', ['bodega' => $bodega->id])}}">Saldos Producto Terminado</a></li>
+				<li><a href="{{route('reporteBodegaPT')}}">Saldos Producto Terminado</a></li>
 				<li><a href="">Saldos Producto Insumos</a></li>
 				<li><a href="">Saldos Producto Premezcla</a></li>
 				<li><a href="">Buscar Producto</a></li>
@@ -248,6 +242,7 @@
 	<script>
 		bloques = {!!$bloques!!};
 		addItemToPalletURL = "{!!route('agregarItemPallet')!!}";
+		removeItemToPalletURL = "{!!route('removerItemPallet')!!}";
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
