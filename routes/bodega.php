@@ -115,6 +115,10 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
+        dd(App\Models\Bodega\Posicion::findPositionForPallet(1,944));
+        // password hash
+        //dd(Hash::make('ca01'));
+
         // LISTA DE RUTAS
         $routes = Route::getRoutes();
         $routesFormatted = [];
@@ -168,12 +172,14 @@ Route::prefix('bodega')->group( function() {
     Route::get('/{id}/consultar',    'Bodega\BodegaController@consult')->name('consultarBodega');
     Route::post('/',                 'Bodega\BodegaController@store')->name('guardarBodega');
     Route::get('/ingreso/pallet',    'Bodega\BodegaController@entry')->name('ingresoPallet');
-    Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
+    //Route::get('/{bodega}/stock/pt', 'Bodega\BodegaController@showStockPT')->name('verStockBodegaPT');
     Route::get('/{bodega}/stock',    'Bodega\BodegaController@stock')->name('verStockBodegas');
 
     // Reportes
     Route::get('/reporte',          'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
     Route::post('/reporte',         'Bodega\BodegaReportController@indexBodegaReport')->name('reporteBodega');
+    Route::get('/reportePT',        'Bodega\BodegaReportController@indexBodegaReportPT')->name('reporteBodegaPT');
+    Route::post('/reportePT',       'Bodega\BodegaReportController@indexBodegaReportPT')->name('reporteBodegaPT');
     Route::post('/reporte/excel',   'Bodega\BodegaReportController@downloadBodegaReportExcel')->name('reporteBodegaExcel');
     Route::get('/stock',            'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
     Route::post('/stock',           'Bodega\BodegaReportController@indexStockReport')->name('reporteStockTotal');
@@ -201,7 +207,10 @@ Route::prefix('bodega')->group( function() {
 
         // Agregar Items a Pallet
         route::get('/agregarItem',         'Bodega\PalletController@addItemToPallet')->name('agregarItemPallet');
-        route::post('/agregarItem',         'Bodega\PalletController@storeItemToPallet')->name('guardarItemPallet');
+        route::post('/agregarItem',        'Bodega\PalletController@storeItemToPallet')->name('guardarItemPallet');
+        // Remover Items de Pallet
+        route::get('/removerItem',         'Bodega\PalletController@removeItemFromPallet')->name('removerItemPallet');
+        route::post('/removerItem',        'Bodega\PalletController@deleteItemFromPallet')->name('eliminarItemPallet');
 
         Route::get('/{pallet}',            'Bodega\PalletController@show')->name('verPallet');
         // this should be declared in API controller

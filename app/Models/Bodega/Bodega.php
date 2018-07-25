@@ -299,6 +299,101 @@ class Bodega extends Model
         return $results;
     }
 
+    static function getStockFromBodegaOfPT(array $datos) {
+
+        // datos de la busqueda
+        $bodegaID = isset($datos['bodegaID']) ? $datos['bodegaID'] : null;
+        $tipoID = isset($datos['tipoID']) ? $datos['tipoID'] : null;
+        $familiaID = isset($datos['familiaID']) ? $datos['familiaID'] : null;
+        $marcaID = isset($datos['marcaID']) ? $datos['marcaID'] : null;
+        $formatoID = isset($datos['formatoID']) ? $datos['formatoID'] : null;
+        $saborID = isset($datos['saborID']) ? $datos['saborID'] : null;
+
+
+        $PT = TipoFamilia::getProdTermID();
+        $PR = TipoFamilia::getPremezclaID();
+        $MP = TipoFamilia::getInsumoID();
+        $RP = TipoFamilia::getReprocesoID();
+
+        $query = "SELECT
+                    bod.descripcion bod_descripcion,
+                    CONCAT(pos.bloque ,'-',pos.columna,'-',pos.estante) pos,
+                    CASE
+                        WHEN pdet.tipo_id=4 THEN (SELECT id FROM productos WHERE productos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=5 THEN (SELECT id FROM premezclas WHERE premezclas.id=pdet.item_id)
+                        WHEN pdet.tipo_id=1 THEN (SELECT id FROM insumos WHERE insumos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=2 THEN (SELECT id FROM reprocesos WHERE reprocesos.id=pdet.item_id)
+                    END AS id,
+                    CASE
+                        WHEN pdet.tipo_id=4 THEN (SELECT codigo FROM productos WHERE productos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=5 THEN (SELECT codigo FROM premezclas WHERE premezclas.id=pdet.item_id)
+                        WHEN pdet.tipo_id=1 THEN (SELECT codigo FROM insumos WHERE insumos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=2 THEN (SELECT codigo FROM reprocesos WHERE reprocesos.id=pdet.item_id)
+                    END AS codigo,
+                    CASE
+                        WHEN pdet.tipo_id=4 THEN (SELECT descripcion FROM productos WHERE productos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=5 THEN (SELECT descripcion FROM premezclas WHERE premezclas.id=pdet.item_id)
+                        WHEN pdet.tipo_id=1 THEN (SELECT descripcion FROM insumos WHERE insumos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=2 THEN (SELECT descripcion FROM reprocesos WHERE reprocesos.id=pdet.item_id)
+                    END AS descripcion,
+                    pdet.cantidad,
+                    pdet.fecha_ing,
+                    pdet.fecha_venc,
+                    TIMESTAMPDIFF(MONTH,pdet.fecha_ing,pdet.fecha_venc) as vida_util,
+                    CASE
+                        WHEN pdet.tipo_id=4 THEN (SELECT marca_id FROM productos WHERE productos.id=pdet.item_id)
+                        WHEN pdet.tipo_id=5 THEN (SELECT marca_id FROM premezclas WHERE premezclas.id=pdet.item_id)
+                        WHEN pdet.tipo_id=1 THEN (0)
+                        WHEN pdet.tipo_id=2 THEN (SELECT marca_id FROM reprocesos WHERE reprocesos.id=pdet.item_id)
+                    END AS marca_id,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT marcas.descripcion FROM marcas,productos WHERE productos.id=pdet.item_id AND productos.marca_id=marcas.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT marcas.descripcion FROM marcas,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.marca_id=marcas.id)
+                    	WHEN pdet.tipo_id=1 THEN ('NO POSEE')
+                    	WHEN pdet.tipo_id=2 THEN (SELECT marcas.descripcion FROM marcas,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.marca_id=marcas.id)
+                    END AS marca_descripcion,
+                    CASE
+                      WHEN pdet.tipo_id=4 THEN (SELECT familia_id FROM marcas,productos WHERE productos.id=pdet.item_id AND productos.marca_id=marcas.id)
+                      WHEN pdet.tipo_id=5 THEN (SELECT familia_id FROM premezclas WHERE premezclas.id=pdet.item_id)
+                      WHEN pdet.tipo_id=1 THEN (SELECT familia_id FROM insumos WHERE insumos.id=pdet.item_id)
+                      WHEN pdet.tipo_id=2 THEN (SELECT familia_id FROM reprocesos WHERE reprocesos.id=pdet.item_id)
+                    END AS familia_id,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT familias.descripcion FROM familias,marcas,productos WHERE productos.id=pdet.item_id AND productos.marca_id=marcas.id AND marcas.familia_id=familias.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT familias.descripcion FROM familias,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.familia_id=familias.id)
+                    	WHEN pdet.tipo_id=1 THEN (SELECT familias.descripcion FROM familias,insumos WHERE insumos.id=pdet.item_id AND insumos.familia_id=familias.id)
+                    	WHEN pdet.tipo_id=2 THEN (SELECT familias.descripcion FROM familias,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.familia_id=familias.id)
+                    END AS familia_descripcion
+                    FROM bodegas bod,posicion pos,pallet_detalle pdet
+                    WHERE bod.id=pos.bodega_id AND pos.pallet_id=pdet.pallet_id";
+
+
+        if ($bodegaID) {
+
+            $query = $query . " AND bod.id=".$bodegaID;
+        }
+        if ($tipoID) {
+
+            $query = $query . " AND pdet.tipo_id=".$tipoID;
+        }
+        // se agrega HAVING a la query
+        $query = $query . " HAVING true ";
+
+        if ($familiaID) {
+            $query = $query . " AND familia_id=".$familiaID;
+        }
+        if ($marcaID) {
+            $query = $query . " AND marca_id=".$marcaID;
+        }
+        if ($formatoID) {
+        }
+        if ($saborID) {
+        }
+        $query = $query . " ORDER BY marca_id";
+        $results = DB::select(DB::raw($query));
+
+        return $results;
+    }
     static function getStockByTipoFromBodega($bodegaID = null, $tipoID = null) {
 
         $PT = TipoFamilia::getProdTermID();
