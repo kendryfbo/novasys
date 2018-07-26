@@ -116,9 +116,9 @@ class ProformaController extends Controller
         'puertoD' => 'required'
       ]);
 
-      $numero = Proforma::register($request);
+      $proforma = Proforma::register($request);
 
-      $msg = "Proforma N°". $numero . " ha sido Creada.";
+      $msg = "Proforma N°". $proforma->numero . " ha sido Creada.";
 
       return redirect(route('proforma'))->with(['status' => $msg]);
     }

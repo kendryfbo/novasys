@@ -33,7 +33,7 @@ class Proforma extends Model
 
     static function register($request) {
 
-        DB::transaction(function () use ($request) {
+        $proforma = DB::transaction(function () use ($request) {
 
     		$totalDescuento = 0;
     		$totalFob = 0;
@@ -54,7 +54,7 @@ class Proforma extends Model
                     $numero++;
                 }
             }
-            
+
             $version = 1;
 
 
@@ -173,9 +173,10 @@ class Proforma extends Model
 
     		$proforma->save();
 
+            return $proforma;
     	}, 5);
 
-    	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
+        return $proforma;
       }
 
       static function edit($request,$proforma) {
