@@ -181,7 +181,7 @@ class Proforma extends Model
 
       static function edit($request,$proforma) {
 
-          DB::transaction(function () use ($request,$proforma) {
+          $proforma = DB::transaction(function () use ($request,$proforma) {
 
       		$totalDescuento = 0;
       		$totalFob = 0;
@@ -314,9 +314,10 @@ class Proforma extends Model
 
             $proforma->save();
 
+            return $proforma;
       	}, 5);
 
-      	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
+      	return $proforma;
     }
 
     public function authorizeComer() {

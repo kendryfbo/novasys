@@ -201,9 +201,9 @@ class ProformaController extends Controller
           'puertoD' => 'required'
         ]);
 
-        $numero = Proforma::edit($request,$proforma);
+        $proforma = Proforma::edit($request,$proforma);
 
-        $msg = "Proforma N°". $numero . " ha sido Modificada.";
+        $msg = "Proforma N°". $proforma->numero . " ha sido Modificada.";
 
         return redirect(route('proforma'))->with(['status' => $msg]);
     }
