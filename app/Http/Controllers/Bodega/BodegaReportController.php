@@ -13,34 +13,7 @@ use App\Models\Bodega\Bodega;
 
 class BodegaReportController extends Controller
 {
-
     public function indexBodegaReport(Request $request) {
-        $busqueda = [];
-        $productos = [];
-        $tipo = '';
-        $bodegaID= '';
-        $bodegas = Bodega::getAllActive();
-        $tiposProducto = TipoFamilia::getAllActive();
-
-        if ($request->all()) {
-
-            $bodegaID = $request->bodega;
-            $tipo = $request->tipo;
-            $productos = Bodega::getStockFromBodega($bodegaID,$tipo);
-        }
-
-        return view('bodega.bodega.reportBodega')
-            ->with([
-                'busqueda' =>  $busqueda,
-                'productos' => $productos,
-                'bodegas' => $bodegas,
-                'tiposProducto' => $tiposProducto,
-                'tipo' => $tipo,
-                'bodega' => $bodegaID
-            ]);
-    }
-
-    public function indexBodegaReportPT(Request $request) {
 
         $busqueda = [];
         $productos = [];
@@ -70,12 +43,12 @@ class BodegaReportController extends Controller
                 'formatoID' => $formatoID,
                 'saborID' => $saborID
             ];
-            
+
             $productos = Bodega::getStockFromBodegaOfPT($datos);
         }
 
 
-        return view('bodega.bodega.reportBodegaPT')
+        return view('bodega.bodega.reportBodega')
             ->with([
                 'busqueda'  =>  $busqueda,
                 'productos' => $productos,
@@ -85,8 +58,10 @@ class BodegaReportController extends Controller
                 'marcaID'   => $marcaID,
                 'familias'  => $familias,
                 'familiaID' => $familiaID,
+                'saborID' => $saborID,
+                'formatoID' => $formatoID,
                 'tipoID'      => $tipoID,
-                'bodega'    => $bodegaID
+                'bodegaID'    => $bodegaID
             ]);
     }
 
@@ -129,10 +104,30 @@ class BodegaReportController extends Controller
     /* DESCARGAR Reporte Bodega */
     public function downloadBodegaReportExcel(Request $request) {
 
+        $busqueda = [];
+        $productos = [];
+        $bodegaID= null;
+        $tipoID = null;
+        $familiaID = null;
+        $marcaID = null;
+        $formatoID = null;
+        $saborID = null;
 
-        $bodegaID = $request->bodega ? $request->bodega : '';
-        $tipo = $request->tipo ? $request->tipo : '';
-        $productos = Bodega::getStockFromBodega($bodegaID,$tipo);
+        $bodegaID = $request->bodegaID;
+        $tipoID = $request->tipoID;
+        $familiaID = $request->familiaID;
+        $marcaID = $request->marcaID;
+
+        $datos = [
+            'bodegaID' => $bodegaID,
+            'tipoID' => $tipoID,
+            'familiaID' => $familiaID,
+            'marcaID' => $marcaID,
+            'formatoID' => $formatoID,
+            'saborID' => $saborID
+        ];
+        
+        $productos = Bodega::getStockFromBodegaOfPT($datos);
 
         return Excel::create('Reporte Stock Bodega', function($excel) use ($productos) {
             $excel->sheet('New sheet', function($sheet) use ($productos) {

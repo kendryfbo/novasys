@@ -222,10 +222,10 @@
 
 			<ul>
 				<li><a href="{{route('reporteBodega')}}">Saldos Bodega</a></li>
-				<li><a href="{{route('reporteBodegaPT')}}">Saldos Producto Terminado</a></li>
-				<li><a href="">Saldos Producto Insumos</a></li>
-				<li><a href="">Saldos Producto Premezcla</a></li>
-				<li><a href="">Buscar Producto</a></li>
+				{{--<li><a href="{{route('reporteBodegaPT')}}">Saldos Producto Terminado</a></li>--}}
+				{{--<li><a href="">Saldos Producto Insumos</a></li>--}}
+				{{--<li><a href="">Saldos Producto Premezcla</a></li>--}}
+				{{--<li><a href="">Buscar Producto</a></li>--}}
 			</ul>
 
 		</div>

@@ -24,8 +24,12 @@
 			<form id="download" action="{{route('reporteBodegaExcel')}}" method="post">
 				{{ csrf_field() }}
 
-				<input type="hidden" name="bodega" value="{{$bodega}}">
-				<input type="hidden" name="tipo" value="{{$tipo}}">
+				<input type="hidden" name="bodegaID" value="{{$bodegaID}}">
+				<input type="hidden" name="tipoID" value="{{$tipoID}}">
+				<input type="hidden" name="familiaID" value="{{$familiaID}}">
+				<input type="hidden" name="marcaID" value="{{$marcaID}}">
+				<input type="hidden" name="saborID" value="{{$saborID}}">
+				<input type="hidden" name="formatoID" value="{{$formatoID}}">
 			</form>
 			<!-- /form -->
 			<!-- form -->
@@ -38,13 +42,13 @@
 
 					<label class="control-label col-lg-1">Bodega:</label>
 					<div class="col-lg-2">
-					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodegaID">
 
 						<option value="">Todas...</option>
 
 						@foreach ($bodegas as $bod)
 
-							<option {{$bod->id == $bodega ? 'selected':''}} value="{{$bod->id}}">{{$bod->descripcion}}</option>
+							<option {{$bod->id == $bodegaID ? 'selected':''}} value="{{$bod->id}}">{{$bod->descripcion}}</option>
 
 						@endforeach
 
@@ -52,35 +56,62 @@
 					</div>
 
 					<label class="control-label col-lg-1">Tipo Producto:</label>
-					<div class="col-lg-3">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="tipo">
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="tipoID">
 
 							<option value="">Todos...</option>
 
 							@foreach ($tiposProducto as $tp)
 
-								<option {{$tp->id == $tipo ? 'selected':''}} value="{{$tp->id}}">{{$tp->descripcion}}</option>
+								<option {{$tp->id == $tipoID ? 'selected':''}} value="{{$tp->id}}">{{$tp->descripcion}}</option>
 
 							@endforeach
 
 						</select>
 					</div>
 
-					@if ($productos)
+					<label class="control-label col-lg-1">Familia:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="familiaID">
 
-						<div class="col-lg-1 pull-right">
-								<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
-						</div>
+							<option value="">Todos...</option>
 
-					@endif
+							@foreach ($familias as $familia)
+
+								<option {{$familia->id == $familiaID ? 'selected':''}} value="{{$familia->id}}">{{$familia->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1">Marca:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="marcaID">
+
+							<option value="">Todos...</option>
+
+							@foreach ($marcas as $marca)
+
+								<option {{$marca->id == $marcaID ? 'selected':''}} value="{{$marca->id}}">{{$marca->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
+
 
 				</div>
 				<!-- /form-group -->
 
 				<!-- form-group -->
 				<div class="form-group form-group-sm">
-					<div class="col-lg-1 pull-right">
+					<div class="col-lg-2 pull-right">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
+						@if ($productos)
+							<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
+						@endif
 					</div>
 				</div>
 				<!-- /form-group -->
@@ -107,10 +138,10 @@
 					@foreach ($productos as $producto)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-left">{{$producto->bodega}}</td>
+							<td class="text-left">{{$producto->bod_descripcion}}</td>
                             <td class="text-center">{{$producto->pos}}</td>
-							<td class="text-left">{{$producto->producto->codigo}}</td>
-							<td class="text-left">{{$producto->producto->descripcion}}</td>
+							<td class="text-left">{{$producto->codigo}}</td>
+							<td class="text-left">{{$producto->descripcion}}</td>
 							<td class="text-right">{{$producto->cantidad}}</td>
 							<td class="text-center">{{$producto->fecha_ing}}</td>
 							<td class="text-center">{{$producto->fecha_venc}}</td>
