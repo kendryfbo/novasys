@@ -11,7 +11,7 @@ class Marca extends Model
 
 	static function getAllActive() {
 
-		return Marca::all()->where('activo',1);
+		return self::where('activo',1)->get();
 	}
 
 	static function getAllFromProductoTerminado() {
