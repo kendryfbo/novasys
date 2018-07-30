@@ -28,10 +28,10 @@
 					</div>
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" type="number" value="0" min="0" v-model.lazy="cantidad">
+						<input class="form-control input-sm" type="number" value="0" min="0" v-model.number="cantidad">
 					</div>
 					<div class="col-lg-1">
-						<button class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
+						<button id="addItem" class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
 					</div>
 
 				</div>
