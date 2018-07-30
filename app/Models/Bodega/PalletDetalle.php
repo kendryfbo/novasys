@@ -21,6 +21,10 @@ class PalletDetalle extends Model
     // descontar de detalle Pallet
     public function subtract($cantidad) {
 
+        if ($this->cantidad < $cantidad) {
+            dd('cantidad a restar es mayor a la existente');
+        }
+        
         $this->cantidad = $this->cantidad - $cantidad;
 
         $this->save();

@@ -83,7 +83,7 @@
 					<label class="control-label col-lg-1">Cantidad:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" v-model.number.lazy="cantidad" required>
+							<input class="form-control input-sm" type="number" v-model.number="cantidad" required>
 						</div>
                     </div>
 

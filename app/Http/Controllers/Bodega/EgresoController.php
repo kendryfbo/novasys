@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Egreso;
+use App\Models\Bodega\Pallet;
 use App\Models\Bodega\EgresoTipo;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\NotaVenta;
@@ -111,7 +112,40 @@ class EgresoController extends Controller
             $documento->tipo = 'Nota de Venta';
         }
 
+        if (!$documento->aut_comer && !$documento->aut_contab) {
+
+            return redirect()->back();
+        }
         return view('bodega.egreso.createEgrOrdenEgreso')->with(['documento' => $documento, 'bodegas' => $bodegas]);
+    }
+
+    public function createEgrFromPallet(Request $request)
+    {
+        $palletNum = $request->numero;
+        $pallet = Pallet::with('Detalles','posicion.bodega')->where('numero',$palletNum)->first();
+
+        if (!$pallet) {
+
+            return redirect()->back();
+        }
+
+        foreach ($pallet->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+
+        $titulo = "Egreso Manual de Pallet";
+        $tipoEgreso = EgresoTipo::manualID();
+        $tipoProd = TipoFamilia::getProdTermID();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.egreso.createEgresoFromPallet')->with([
+            'titulo' => $titulo,
+            'pallet' => $pallet,
+            'tipoEgreso' => $tipoEgreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
     }
 
     public function createEgrManualMP(Request $request) {
@@ -284,7 +318,7 @@ class EgresoController extends Controller
         return redirect()->route('verEgreso', ['numero' => $egreso->numero]);
     }
 
-    // Guardar Egreso Manual Materia Prima
+    // Guardar Egreso Manual
     public function storeEgrManual(Request $request)
     {
 
@@ -299,6 +333,24 @@ class EgresoController extends Controller
         $egreso = Egreso::register($request);
 
         return redirect()->route('verEgreso', ['numero' => $egreso->numero]);
+    }
+    // Guardar Egreso Manual directamente de un Pallet
+    public function storeEgrFromPallet(Request $request)
+    {
+        $this->validate($request,[
+            'descripcion' =>'required',
+            'tipo_egreso' => 'required',
+            'tipo_prod' => 'required',
+            'fecha' => 'required|date',
+            'items' => 'required',
+            'bodegaID' => 'required',
+            'posicionID' => 'required',
+        ]);
+        $bodegaID = $request->bodegaID;
+
+        $egreso = Egreso::generateFromPallet($request);
+
+        return redirect()->route('consultarBodega',['id' => $bodegaID]);
     }
 
     /**

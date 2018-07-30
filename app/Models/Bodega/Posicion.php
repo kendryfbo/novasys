@@ -272,8 +272,8 @@ class Posicion extends Model
         if ($bodega){
 
             $query = "SELECT pos.id as id, pd.id as detalle_id, pd.cantidad as existencia
-                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id
-                        WHERE pos.bodega_id=".$bodega." AND pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC LIMIT 1";
+                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
+                        WHERE pos.bodega_id=".$bodega." AND pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC, pa.numero ASC LIMIT 1";
 
         } else {
 
@@ -320,6 +320,32 @@ class Posicion extends Model
         },5);
     }
 
+    static function blockPosition($posicionID) {
+
+        $status = PosicionStatus::bloqueadoID();
+        $posicion = Posicion::find($posicionID);
+
+        $posicion->status_id = $status;
+        $posicion->save();
+
+        return $posicion;
+    }
+
+    static function unBlockPosition($posicionID) {
+
+        $posicion = Posicion::find($posicionID);
+
+        if ($posicion->pallet_id) {
+            $status = PosicionStatus::ocupadoID();
+        } else {
+            $status = PosicionStatus::disponibleID();
+        }
+
+        $posicion->status_id = $status;
+        $posicion->save();
+
+        return $posicion;
+    }
     /*
     * PUBLIC FUNCTIONS
     */

@@ -212,11 +212,38 @@ class Pallet extends Model
             };
 
             $pallet = Pallet::find($palletID);
-            
+
             return $pallet;
         },5); // end-transaction
 
         return $pallet;
+    }
+
+    static function moveItemBetweenPallet($request) {
+
+        DB::transaction(function() use($request){
+
+            $palletOneID = $request->palletOneID;
+            $palletDetalleID = $request->palletDetalleID;
+            $palletTwoID = $request->palletTwoID;
+            $cantidad = $request->cantidad;
+
+            $posicion = Posicion::where('pallet_id',$palletOneID)->first();
+            $palletDetalle = PalletDetalle::find($palletDetalleID);
+
+            $posicion->subtract($palletDetalle->id,$cantidad);
+            $palletDetalleTwo = PalletDetalle::create([
+                'pallet_id' => $palletTwoID,
+                'tipo_id' => $palletDetalle->tipo_id,
+                'item_id' => $palletDetalle->item_id,
+                'ing_tipo_id' => $palletDetalle->ing_tipo_id,
+                'ing_id' => $palletDetalle->ing_id,
+                'cantidad' => $cantidad,
+                'fecha_ing' => $palletDetalle->fecha_ing,
+                'fecha_venc' => $palletDetalle->fecha_venc,
+            ]);
+
+        },5);
     }
 
     static function getDataForBodega($id) {
@@ -280,6 +307,7 @@ class Pallet extends Model
 
         }
     }
+
     static function getStockofInsumo($id = null) {
 
         $MP = config('globalVars.MP');

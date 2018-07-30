@@ -55,6 +55,31 @@ class ApiBodegaController extends Controller
         }
 
     }
+    public function getBodegasPosWithPallet(Request $request) {
+
+        try {
+            $disponible = PosicionStatus::ocupado();
+
+            $bodegas = Bodega::with(['posiciones' => function($posiciones) use($disponible){
+                $posiciones->where('status_id',$disponible->id)->whereNotNull('pallet_id');
+            }])->get();
+
+            return response()->json($bodegas,200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("DB-ERROR - No se pudo realizar la busqueda de Bodegas: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("APP-ERROR - No se pudo realizar la busqueda de Bodegas: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+
+            return response($e->getMEssage(),500);
+        }
+
+    }
 
     public function getExistTipoFromBodega(Request $request) {
 
@@ -78,6 +103,78 @@ class ApiBodegaController extends Controller
         } catch (\Exception $e) {
 
             Log::critical("APP-ERROR - No se pudo realizar la busqueda de Bodegas: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMEssage(),500);
+        }
+    }
+
+    public function consult(Request $request) {
+
+        $bodegaID = $request->bodegaID;
+
+        if (!$bodegaID) {
+            return response('Faltan datos',404);
+        }
+
+        try {
+            $bloques = Bodega::getPositions($bodegaID);
+
+            return response()->json($bloques,200);
+
+        } catch (QueryException $e) {
+
+            Log::critical("DB-ERROR - No se pudo realizar consulta de bloques en bodega: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("APP-ERROR - No se pudo realizar consulta de bloques en bodega: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMEssage(),500);
+        }
+    }
+
+    public function blockBodegaPosition(Request $request) {
+
+        $posicionID = $request->posicionID;
+
+        if (!$posicionID) {
+            return response('Faltan datos',404);
+        }
+
+        try {
+            $position = Bodega::blockPosition($posicionID);
+
+            return response()->json($position,200);
+        } catch (QueryException $e) {
+
+            Log::critical("DB-ERROR - No se pudo realizar el bloqueo de posicion: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("APP-ERROR - No se pudo realizar el bloqueo de posicion: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMEssage(),500);
+        }
+    }
+    public function unBlockBodegaPosition(Request $request) {
+
+        $posicionID = $request->posicionID;
+
+        if (!$posicionID) {
+            return response('Faltan datos',404);
+        }
+
+        try {
+            $position = Bodega::unBlockPosition($posicionID);
+
+            return response()->json($position,200);
+        } catch (QueryException $e) {
+
+            Log::critical("DB-ERROR - No se pudo realizar el bloqueo de posicion: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
+            return response($e->getMessage(),500);
+
+        } catch (\Exception $e) {
+
+            Log::critical("APP-ERROR - No se pudo realizar el bloqueo de posicion: {$e->getCode()},{$e->getLine()} {$e->getMessage()}");
             return response($e->getMEssage(),500);
         }
     }

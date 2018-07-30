@@ -3,6 +3,7 @@ var app = new Vue ({
     el: '#vue-app',
 
     data: {
+        bodega: bodega,
         bloques: bloques,
         bloque: '',
         estantes: [],
@@ -13,15 +14,59 @@ var app = new Vue ({
         posicion: '',
         pallet: '',
         addItemToPalletURL: addItemToPalletURL,
+        crearEgrManualDePalletURL: crearEgrManualDePalletURL,
+        bodegaConsultURL : bodegaConsultURL,
+        bloquearPosURL : bloquearPosURL,
+        desbloquearPosURL : desbloquearPosURL,
     },
 
     methods: {
 
-        changeBloque: function() {
+        getBloques: function() {
 
+            var url =bodegaConsultURL;
+
+			axios.post(url,{
+                bodegaID: this.bodega.id
+            })
+			.then(response => this.loadBloque(response.data))
+			.catch(error => this.handleError(error))
+
+        },
+
+        loadBloque: function(data) {
+            this.bloques = data;
             this.estantes = this.bloques[this.bloque];
 
         },
+
+        changeBloque: function() {
+
+            this.getBloques();
+        },
+
+        blockPosition: function() {
+
+            var url =bloquearPosURL;
+
+			axios.post(url,{
+                posicionID: this.posicion_id
+            })
+			.then(response => this.getBloques())
+			.catch(error => this.handleError(error))
+        },
+
+        unBlockPosition: function() {
+
+            var url =desbloquearPosURL;
+
+			axios.post(url,{
+                posicionID: this.posicion_id
+            })
+			.then(response => this.getBloques())
+			.catch(error => this.handleError(error))
+        },
+
         selectedPos: function(posicion) {
 
             this.opcion = '';
@@ -32,6 +77,7 @@ var app = new Vue ({
             this.status = posicion.status_id;
             this.selected = true;
             trasladoPallet.posicion = posicion; // instancia de trasladoPallet
+            moveItemBetweenPallet.posicion = posicion; // instancia de trasladoPallet
         },
 
         nextEstante: function() {
@@ -89,7 +135,7 @@ var app = new Vue ({
 
 
             this.pallet = data;
-
+            moveItemBetweenPallet.palletOne = this.pallet;
             if (!this.pallet) {
 
                 this.pallet = [];
@@ -124,6 +170,10 @@ var app = new Vue ({
             } else if (status == 4){
 
                 return 'btn-warning';
+
+            } else if (status == 5){
+
+                return 'btn-primary';
             }
         },
 

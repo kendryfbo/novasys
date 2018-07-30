@@ -103,7 +103,18 @@ class Bodega extends Model
 
         },5); // transaction
     }
+    static function blockPosition($posicionID) {
 
+        $posicion = Posicion::blockPosition($posicionID);
+
+        return $posicion;
+    }
+    static function unBlockPosition($posicionID) {
+
+        $posicion = Posicion::unBlockPosition($posicionID);
+
+        return $posicion;
+    }
     static function getExistTotalPT($productoId,$bodegaId = NULL) {
 
         if ($bodegaId) {

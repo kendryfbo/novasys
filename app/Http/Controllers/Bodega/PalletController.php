@@ -35,7 +35,7 @@ class PalletController extends Controller
     public function index()
     {
 
-        $pallets = Pallet::with('medida')->where('almacenado',0)->get();
+        $pallets = Pallet::with('medida')->where('almacenado',0)->orderBy('numero','DESC')->get();
 
         return view('bodega.pallet.index')->with(['pallets' => $pallets]);
     }
@@ -391,6 +391,75 @@ class PalletController extends Controller
         $pallet = Pallet::storeItemToPallet($request);
 
         return redirect()->route('verPallet',['pallet' => $pallet]);
+    }
+
+    public function removeItemFromPallet(Request $request) {
+
+        $numero = $request->numero;
+
+        if (!$numero) {
+
+            return redirect()->back();
+        }
+
+
+        $pallet = Pallet::with('detalles','medida')->where('numero',$numero)->first();
+        foreach ($pallet->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+        $barCode = $this->barCode($pallet->numero);
+
+        return view('bodega.pallet.removeItem')
+                ->with(['pallet' => $pallet, 'barCode' => $barCode]);
+    }
+
+    public function createMovBetweenPallet(Request $request) {
+
+        $palletOne = Pallet::with('detalles','medida')->first();
+        foreach ($palletOne->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+        $palletTwo = Pallet::with('detalles','medida')->skip(1)->first();
+        foreach ($palletTwo->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+
+        return view('bodega.pallet.createMovBetweenPallets')->with(['palletOne' => $palletOne,'palletTwo' => $palletTwo]);
+
+        $numeroPalletUno = $request->numeroUno;
+        $numeroPalletDos = $request->numeroDos;
+
+        if (!$numeroPalletUno || !$numeroPalletDos) {
+            return redirect()->back();
+        }
+
+        $palletUno = Pallet::with('detalles','medida')->where('numero',$numeroPalletUno)->first();
+        foreach ($palletUno->detalles as &$detalle) {
+
+            $detalle->load('producto');
+        }
+        $barCodeUno = $this->barCode($palletUno->numero);
+        $barCodeDos = $this->barCode($palletDos->numero);
+
+        dd($palletUno,$palletDos);
+
+    }
+
+    public function storeMovBetweenPallet(Request $request) {
+
+        $this->validate($request,[
+            'palletOneID' => 'required',
+            'palletDetalleID' => 'required',
+            'palletTwoID' => 'required',
+
+        ]);
+
+        Pallet::moveItemBetweenPallet($request);
+
+        return redirect()->back();
     }
     // API
     public function position(Request $request) {

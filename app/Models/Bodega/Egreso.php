@@ -321,8 +321,60 @@ class Egreso extends Model
 
         return $egreso;
     }
+    // Generar Egreso directamente de un pallet
+    static function generateFromPallet($request) {
 
+        $egreso = DB::transaction(function() use($request){
 
+            $status = StatusDocumento::completaID();
+            $posicionID = $request->posicionID;
+            $descripcion = $request->descripcion;
+            $tipoEgreso = $request->tipo_egreso;
+            $fecha = $request->fecha;
+            $items = $request->items;
+            $user = $request->user()->id;
+            $tipoProducto = $request->tipo_prod;
+
+            $numero = Egreso::orderBy('numero','desc')->pluck('numero')->first();
+            if (is_null($numero)) {
+                $numero = 1;
+            } else {
+                $numero++;
+            };
+
+            $egreso = Egreso::create([
+                'numero' => $numero,
+                'descripcion' => $descripcion,
+                'tipo_id' => $tipoEgreso,
+                'item_id' => null,
+                'item_num' => null,
+                'fecha_egr' => $fecha,
+                'user_id' => $user,
+                'status_id' => $status,
+            ]);
+
+            foreach ($items as $item) {
+
+                $item = json_decode($item);
+                $restar = $item->producto->cantidad;
+
+                $posicion = Posicion::find($posicionID);
+
+                $posicion->subtract($item->id,$restar);
+
+                $egresoDetalle = EgresoDetalle::create([
+                    'egr_id' => $egreso->id,
+                    'tipo_id' => $tipoProducto,
+                    'item_id' => $item->item_id,
+                    'bodega' => $posicion->bodega->descripcion,
+                    'posicion' => $posicion->format(),
+                    'fecha_egr' => $egreso->fecha_egr,
+                    'cantidad' => $restar,
+                ]);
+            }
+
+        },5);
+    }
     /*
     |
     |   Relationships

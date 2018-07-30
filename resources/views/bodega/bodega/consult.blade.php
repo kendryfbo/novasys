@@ -6,6 +6,7 @@
 	margin: 0px;
 	padding: 0px;
 	width: 30px !important;
+	height: 30px !important;
 }
 </style>
 	<!-- box -->
@@ -20,29 +21,33 @@
 
 			<div class="form-horizontal">
 
-				<div class="form-group form-group-sm">
+				<div class="form-group">
 
-					<label class="control-label col-lg-1">Rack:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="false" data-live-search="true" v-model="bloque" @change="changeBloque" data-style="btn-sm btn-default" name="bloque" required>
+					<label class="control-label col-sm-1">Rack:</label>
+					<div class="col-sm-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" v-model="bloque" @change="changeBloque" data-style="btn-sm btn-default" name="bloque" required>
 							<option value="">Seleccione Bloque</option>
 							<option v-for="(bloque,key) in bloques" :value="key">@{{'Rack #' + (key+1) }}</option>
 						</select>
-
+					</div>
+					<label class="control-label col-sm-1">Pallet:</label>
+					<div class="col-sm-2">
+						<input class="form-control input-sm" type="text" name="pallet_num">
 					</div>
 
-					<label class="control-label col-lg-2"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
-					<label class="control-label col-lg-2"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
-					<label class="control-label col-lg-2"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
-					<label class="control-label col-lg-2"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloqueado</label>
-				</div>
-				<div class="form-group form-group-sm">
+					<div class="col-sm-6">
+						<label class="control-label"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
+						<label class="control-label"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
+						<label class="control-label"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
+						<label class="control-label"><span class="label label-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloq.</label>
+						<label class="control-label"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Inactiva</label>
 
-
+					</div>
 				</div>
+
 			</div>
 
-			<div>
+			<div class="col-sm-12">
 
 			<template v-for='columnas in estantes' >
 
@@ -50,7 +55,9 @@
 
 					<template v-for='posicion in columnas'>
 
-						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">@{{posicion.columna +"-"+ posicion.estante}}</button>
+						<button v-if="posicion.status_id != 1" v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">@{{posicion.columna +"-"+ posicion.estante}}</button>
+
+						<button v-if="posicion.status_id == 1" v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">##</button>
 
 					</template>
 
@@ -99,6 +106,15 @@
 							      <th class="bg-gray text-right">Pallet:</th>
 							      <td class="bg-gray text-right">@{{ pallet.numero ? pallet.numero : 'Vacio'}}</td>
 							    </tr>
+							    <tr>
+							      <th class="bg-gray text-right">Bloqueo:</th>
+							      <td class="bg-gray text-right">
+									<div class="btn-group" role="group" aria-label="...">
+									<button class="btn btn-sm btn-default" type="button" name="button" @click="unBlockPosition">Desbloq.</button>
+									<button class="btn btn-sm btn-default" type="button" name="button" @click="blockPosition">Bloq.</button>
+									</div>
+								  </td>
+							    </tr>
 
 							</table>
 						</div>
@@ -132,21 +148,23 @@
 
 						</div>
 
-						<div v-if="pallet != ''" class="col-lg-12">
-							<form id="moveItemToPallet" style="display:inline" :action="moveItemToPallet" method="get">
-							</form>
+						<div v-if="pallet != ''" class="col-sm-12">
+
 							<form id="addItemToPallet" style="display:inline" :action="addItemToPalletURL" method="get">
 							</form>
-							<form id="removeItemFromPallet" style="display:inline" :action="removeItemToPalletURL" method="get">
+							<form id="removeItemFromPallet" style="display:inline" :action="crearEgrManualDePalletURL" method="get">
 							</form>
 							<div class="btn-group align-center" role="group" aria-label="...">
+
 									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#trasladoPallet">Traslado de Pallet</button>
-									<input form="moveItemToPallet" type="hidden" name="numero" :value="pallet.numero">
-									<button form="moveItemToPallet" type="submit" class="btn btn-default">Mover a Pallet</button>
+
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#moveItemBetweenPallet">Mover Producto a Pallet</button>
+
 									<input form="addItemToPallet" type="hidden" name="numero" :value="pallet.numero">
 									<button form="addItemToPallet" type="submit" class="btn btn-default">Ingresar</button>
+
 									<input form="removeItemFromPallet" type="hidden" name="numero" :value="pallet.numero">
-									<button form="removeItemFromPallet" type="button" class="btn btn-default">Egresar</button>
+									<button form="removeItemFromPallet" type="submit" class="btn btn-default">Egresar</button>
 							</div>
 						</div>
 
@@ -233,6 +251,7 @@
 
 	</div>
 
+	@include('bodega.bodega.moveItemBetweenPalletTab')
 	@include('bodega.bodega.trasladoPalletTab')
 
 
@@ -240,12 +259,17 @@
 
 @section('scripts')
 	<script>
+		bodega = {!!$bodega!!};
 		bloques = {!!$bloques!!};
+		bodegaConsultURL = "{!!route('apiConsultarBodega')!!}";
+		bloquearPosURL = "{!!route('apiBloqPosBodega')!!}";
+		desbloquearPosURL = "{!!route('apiDesBloqPosBodega')!!}";
 		addItemToPalletURL = "{!!route('agregarItemPallet')!!}";
-		removeItemToPalletURL = "{!!route('removerItemPallet')!!}";
+		crearEgrManualDePalletURL = "{!!route('crearEgrManualDePallet')!!}";
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
 	<script src="{{asset('js/bodega/consult.js')}}"></script>
 	<script src="{{asset('js/bodega/trasladoPallet.js')}}"></script>
+	<script src="{{asset('js/bodega/moveItemBetweenPallet.js')}}"></script>
 @endsection

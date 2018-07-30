@@ -40,8 +40,8 @@
 				<!-- form-group -->
 				<div class="form-group form-group-sm">
 
-					<label class="control-label col-lg-1">Bodega:</label>
-					<div class="col-lg-2">
+					<label class="control-label col-sm-1">Bodega:</label>
+					<div class="col-sm-2">
 					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodegaID">
 
 						<option value="">Todas...</option>
@@ -55,8 +55,8 @@
 					  </select>
 					</div>
 
-					<label class="control-label col-lg-1">Tipo Producto:</label>
-					<div class="col-lg-2">
+					<label class="control-label col-sm-1">Tipo Producto:</label>
+					<div class="col-sm-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="tipoID">
 
 							<option value="">Todos...</option>
@@ -70,8 +70,8 @@
 						</select>
 					</div>
 
-					<label class="control-label col-lg-1">Familia:</label>
-					<div class="col-lg-2">
+					<label class="control-label col-sm-1">Familia:</label>
+					<div class="col-sm-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="familiaID">
 
 							<option value="">Todos...</option>
@@ -85,8 +85,8 @@
 						</select>
 					</div>
 
-					<label class="control-label col-lg-1">Marca:</label>
-					<div class="col-lg-2">
+					<label class="control-label col-sm-1">Marca:</label>
+					<div class="col-sm-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="marcaID">
 
 							<option value="">Todos...</option>
@@ -107,7 +107,7 @@
 
 				<!-- form-group -->
 				<div class="form-group form-group-sm">
-					<div class="col-lg-2 pull-right">
+					<div class="col-sm-2 pull-right">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
 						@if ($productos)
 							<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>

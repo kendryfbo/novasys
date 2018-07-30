@@ -202,13 +202,11 @@ Route::prefix('bodega')->group( function() {
         // Creacion de pallet Materia Prima
         Route::get('/Premezcla/crear',     'Bodega\PalletController@createPalletPR')->name('crearPalletPR');
         Route::post('/Premezcla',          'Bodega\PalletController@storePalletPR')->name('guardarPalletPR');
-
         // Agregar Items a Pallet
         route::get('/agregarItem',         'Bodega\PalletController@addItemToPallet')->name('agregarItemPallet');
         route::post('/agregarItem',        'Bodega\PalletController@storeItemToPallet')->name('guardarItemPallet');
-        // Remover Items de Pallet
-        route::get('/removerItem',         'Bodega\PalletController@removeItemFromPallet')->name('removerItemPallet');
-        route::post('/removerItem',        'Bodega\PalletController@deleteItemFromPallet')->name('eliminarItemPallet');
+        // Movimiento entre pallets
+        route::post('/movEntrePallets',    'Bodega\PalletController@storeMovBetweenPallet')->name('guardarMovEntrePallet');
 
         Route::get('/{pallet}',            'Bodega\PalletController@show')->name('verPallet');
         // this should be declared in API controller
@@ -259,6 +257,9 @@ Route::prefix('bodega')->group( function() {
         Route::get('/ordenEgreso',        'Bodega\EgresoController@indexPendingOrdenEgreso')->name('egresoOrdenEgreso');
         Route::post('/ordenEgreso/store', 'Bodega\EgresoController@storeEgrOrdenEgreso')->name('guardarEgrOrdenEgreso');
         Route::post('/ordenEgreso/crear', 'Bodega\EgresoController@createEgrOrdenEgreso')->name('crearEgrOrdenEgreso');
+        // Egreso Manuel de Producto desde
+        Route::get('/Manual/Pallet',      'Bodega\EgresoController@createEgrFromPallet')->name('crearEgrManualDePallet');
+        Route::post('/Manual/Pallet',      'Bodega\EgresoController@storeEgrFromPallet')->name('guardarEgrManualDePallet');
         //Egreso Manual Materia Prima
         Route::get('/Manual/MP/crear', 'Bodega\EgresoController@createEgrManualMP')->name('crearEgrManualMP');
         //egreso Manual Producto Terminado

@@ -5,8 +5,8 @@
   <!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
-		<div class="box-header text-center">
-			<h4>Egreso</h4>
+		<div class="box-header">
+			<h4 class="text-center">Egreso</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -17,14 +17,14 @@
 
 				{{ csrf_field() }}
 
-                <h5>Orden</h5>
+				<a href="{{route('egreso')}}" class="label label-default"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Volver a Egresos</a>
 
                 <!-- form-group -->
                 <div class="form-group">
 
-
+					<h5 class="col-sm-1">Orden</h5>
 					<div class="col-lg-2 pull-right">
-						<a class="btn btn-sm btn-default"  href="{{route('descargarEgresoPDF',['numero' => $egreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+						<a class="btn btn-sm btn-default" target="_blank"  href="{{route('descargarEgresoPDF',['numero' => $egreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
 					</div>
 
                 </div>

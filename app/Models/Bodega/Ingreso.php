@@ -45,6 +45,7 @@ class Ingreso extends Model
             foreach ($items as $item) {
 
                 $item = json_decode($item);
+
                 $fechaVenc = $item->fecha_venc ? $item->fecha_venc: null;
                 IngresoDetalle::create([
                     'ing_id' => $ingreso->id,
@@ -52,6 +53,7 @@ class Ingreso extends Model
                     'item_id' => $item->id,
                     'fecha_ing' => $fechaIng,
                     'fecha_venc' =>  $fechaVenc,
+                    'lote' =>  $item->lote,
                     'cantidad' => $item->cantidad,
                     'por_procesar' => $item->cantidad,
                 ]);

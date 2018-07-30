@@ -11,6 +11,7 @@ class PosicionStatus extends Model
 	const DISPONIBLE_ID = 2; // correspondiente a id posicion disponible tabla posicion_status
 	const OCUPADO_ID = 3;	 // correspondiente a id posicion ocupado tabla posicion_status
 	const RESERVADO_ID = 4;	 // correspondiente a id posicion reservado tabla posicion_status
+	const BLOQUEADO_ID = 5;	 // correspondiente a id posicion bloqueado tabla posicion_status
 
     protected $table = 'posicion_status';
     protected $fillable = ['descripcion', 'activo'];
@@ -40,5 +41,8 @@ class PosicionStatus extends Model
     }
     static function reservadoID() {
         return self::RESERVADO_ID;
+    }
+    static function bloqueadoID() {
+        return self::BLOQUEADO_ID;
     }
 }

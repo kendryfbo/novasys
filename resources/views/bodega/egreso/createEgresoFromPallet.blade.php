@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgrManual')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarEgrManualDePallet')}}">
 
 				{{ csrf_field() }}
 
@@ -42,10 +42,17 @@
 
                     <label class="control-label col-lg-1">Bodega:</label>
                     <div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodega_id" v-model="bodegaID" @change="getProductosFromBodega">
-                            <option value=""></option>
-						    <option v-for="bodega in bodegas" :value="bodega.id">@{{bodega.descripcion}}</option>
-                        </select>
+						<input class="form-control input-sm" type="text" value="{{$pallet->posicion->bodega->descripcion}}" required readonly>
+						<input class="form-control input-sm" type="hidden" name="bodegaID" value="{{$pallet->posicion->bodega->id}}" required readonly>
+                    </div>
+                    <label class="control-label col-lg-1">Posicion:</label>
+                    <div class="col-lg-1">
+						<input class="form-control input-sm" type="text" value="{{$pallet->posicion->bloque."-".$pallet->posicion->columna."-".$pallet->posicion->estante}}" required readonly>
+						<input class="form-control input-sm" name="posicionID" type="hidden" value="{{$pallet->posicion->id}}" required readonly>
+                    </div>
+                    <label class="control-label col-lg-1">Pallet:</label>
+                    <div class="col-lg-2">
+						<input class="form-control input-sm" type="text" value="{{$pallet->numero}}" required readonly>
                     </div>
 
                 </div>
@@ -72,7 +79,7 @@
 
                     <label class="control-label col-lg-1">Descripcion:</label>
                     <div class="col-lg-5">
-                        <input class="form-control input-sm" name="descripcion" type="text" required>
+                        <input class="form-control input-sm" name="descripcion" type="text" value="{{$titulo ." #". $pallet->numero}}" required>
                     </div>
 					<input class="form-control input-sm" name="tipo_egreso" type="hidden" value="{{$tipoEgreso}}" required readonly>
 					<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>
@@ -87,9 +94,9 @@
 
                     <label class="control-label col-lg-1">Producto:</label>
                     <div class="col-lg-4">
-                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="itemId" @change="loadItem" :required="items.length <= 0">
+                        <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId"  :required="items.length <= 0" @change="loadItem">
                             <option value=""> </option>
-						    <option v-for="producto in productos" :value="producto.id">@{{producto.descripcion +' - Existencia: '+ producto.existencia}}</option>
+						    <option v-for="producto in productos" :value="producto.id">@{{producto.producto.descripcion +' - Existencia: '+ producto.cantidad}}</option>
                         </select>
                     </div>
 
@@ -148,9 +155,9 @@
                         <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(item)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
                     </td>
 					<td class="text-center">@{{key+1}}</td>
-				    <td class="text-center">@{{item.codigo}}</td>
-				    <td class="text-left">@{{item.descripcion}}</td>
-				    <td class="text-right">@{{item.cantidad}}</td>
+				    <td class="text-center">@{{item.producto.codigo}}</td>
+				    <td class="text-left">@{{item.producto.descripcion}}</td>
+				    <td class="text-right">@{{item.producto.cantidad}}</td>
 				</tr>
 
             </tbody>
@@ -169,11 +176,11 @@
 
 @section('scripts')
 	<script>
-	var bodegas = {!!$bodegas!!};
 	var tipoID = {!!$tipoProd!!};
+	var productos = {!!$pallet->detalles!!};
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/bodega/egreso/createEgresoManual.js')}}"></script>
+	<script src="{{asset('js/bodega/egreso/createEgresoManualFromPallet.js')}}"></script>
 @endsection
