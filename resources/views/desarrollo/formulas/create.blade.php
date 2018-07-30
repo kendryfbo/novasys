@@ -5,7 +5,7 @@
 <div id="vue-app" class="box box-solid box-default">
 	<!-- box-header -->
 	<div class="box-header text-center">
-		<h4>Crear Proveedor</h4>
+		<h4>Crear Formula</h4>
 	</div>
 	<!-- /box-header -->
 	<!-- box-body -->

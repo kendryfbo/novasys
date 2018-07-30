@@ -38,7 +38,11 @@
 				@foreach ($formulas as $formula)
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
-						<td>{{$formula->producto->descripcion}}</td>
+						<td>
+							<a href="{{route('verFormula',['id' => $formula->id])}}" target="_blank"><strong>
+							{{$formula->producto->descripcion}}
+							</strong></a>
+						</td>
 						<td class="text-center">{{$formula->generada ? "Si" : "No"}}</td>
 						<td class="text-center">{{$formula->generada_por}}</td>
 						<td class="text-center">{{$formula->fecha_gen}}</td>

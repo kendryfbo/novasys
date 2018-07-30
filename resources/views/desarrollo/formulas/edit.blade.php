@@ -5,7 +5,7 @@
 <div id="vue-app" class="box box-solid box-default">
 	<!-- box-header -->
 	<div class="box-header text-center">
-		<h4>Crear Proveedor</h4>
+		<h4>Editar Formulka</h4>
 	</div>
 	<!-- /box-header -->
 	<!-- box-body -->
@@ -30,7 +30,7 @@
 
 			{{ csrf_field() }}
 			{{ method_field('PUT') }}
-			
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-1" >Producto:</label>

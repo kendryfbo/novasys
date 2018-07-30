@@ -71,9 +71,11 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function show(Formula $formula)
+    public function show($id)
     {
-        //
+        $formula = Formula::with('detalle.insumo','producto.formato','detalle.nivel','premezcla','reproceso')->where('id',$id)->first();
+
+        return view('desarrollo.formulas.show')->with(['formula' => $formula]);
     }
 
     /**
