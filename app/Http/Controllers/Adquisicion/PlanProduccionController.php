@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adquisicion;
 
+use Excel;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -48,33 +49,40 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request) // Toma en cuenta producto terminado existente
+    public function showAnalReqWithStock(Request $request) // Toma en cuenta producto terminado existente
     {
         if (!$request->items) {
             return redirect()->back();
         }
 
+        $items = $request->items;
+        $plan = PlanProduccion::analisisRequerimientosConStock($items);
+        $productos = $plan[0];
+        $insumos = $plan[1];
+        return view('adquisicion.planProduccion.showWithStock')
+                ->with(['productos' => $productos,
+                        'insumos' => $insumos,
+                        'items' => $items]);
+    }
+
+    public function showAnalReq(Request $request) // NO Toma en cuenta producto terminado existente
+    {
+        if ($request->button == 2) {
+
+            return $this->showAnalReqWithStock($request);
+        }
+        if (!$request->items) {
+            return redirect()->back();
+        }
         $items = $request->items;
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
-        return view('adquisicion.planProduccion.show')->with(['productos' => $productos, 'insumos' => $insumos]);
-    }
-    public function showTwo(Request $request) // NO Toma en cuenta producto terminado existente
-    {
-        if ($request->button == 2) {
 
-            return $this->show($request);
-        }
-        if (!$request->items) {
-            return redirect()->back();
-        }
-        $items = $request->items;
-        $plan = PlanProduccion::requerimientoDeCompra($items);
-        $productos = $plan[0];
-        $insumos = $plan[1];
-
-        return view('adquisicion.planProduccion.showTwo')->with(['productos' => $productos, 'insumos' => $insumos]);
+        return view('adquisicion.planProduccion.show')
+                ->with(['productos' => $productos,
+                        'insumos' => $insumos,
+                        'items' => $items]);
     }
 
     /**
@@ -109,5 +117,48 @@ class PlanProduccionController extends Controller
     public function destroy(PlanProduccion $planProduccion)
     {
         //
+    }
+
+    public function downloadExcelAnalReq(Request $request) {
+
+        $items = $request->items;
+
+        if (!$items) {
+            dd('no items');
+        }
+
+        $plan = PlanProduccion::analisisRequerimientos($items);
+        $productos = $plan[0];
+        $insumos = $plan[1];
+        /*
+        $excel = Excel::create('Analisis de Produccion', function($excel) use ($insumos) {
+            $excel->sheet('New sheet', function($sheet) use ($insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')
+                        ->with('insumos', $insumos);
+                            });
+                        });
+
+        return $excel->download('xlsx');
+        */
+
+        return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
+            $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetResum')
+                        ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Insumos', function($sheet) use ($insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')
+                        ->with(['insumos' => $insumos]);
+                    })->download('xlsx');
+                })->download('xlsx');
+
+    }
+    public function downloadExcelAnalReqConStock($items) {
+
+        if (!$items) {
+            dd('no items');
+        }
+
+        dd($items);
     }
 }

@@ -12,7 +12,7 @@ use App\Models\Bodega\Ingreso;
 
 class PlanProduccion extends Model
 {
-    static function analisisRequerimientos($items){
+    static function analisisRequerimientosConStock($items){
 
         $mi_temporizador = microtime();
         $partes_de_la_hora_actual = explode(' ', $mi_temporizador);
@@ -99,12 +99,12 @@ class PlanProduccion extends Model
         $hora_actual = $partes_de_la_hora_actual[1] + $partes_de_la_hora_actual[0];
         $hora_al_terminar = $hora_actual;
         $tiempo_total_en_segundos = round(($hora_al_terminar - $hora_al_empezar), 4);
-        dump('La pagina fue generada en '.$tiempo_total_en_segundos.' segundos.');
+        //dump('La pagina fue generada en '.$tiempo_total_en_segundos.' segundos.');
 
         return [$productos,$stockMatPrima];
     }
 
-    static function requerimientoDeCompra($items){
+    static function analisisRequerimientos($items){
 
         $mi_temporizador = microtime();
         $partes_de_la_hora_actual = explode(' ', $mi_temporizador);
@@ -185,7 +185,7 @@ class PlanProduccion extends Model
         $hora_actual = $partes_de_la_hora_actual[1] + $partes_de_la_hora_actual[0];
         $hora_al_terminar = $hora_actual;
         $tiempo_total_en_segundos = round(($hora_al_terminar - $hora_al_empezar), 4);
-        dump('La pagina fue generada en '.$tiempo_total_en_segundos.' segundos.');
+        //dump('La pagina fue generada en '.$tiempo_total_en_segundos.' segundos.');
 
         return [$productos,$stockMatPrima];
     }
