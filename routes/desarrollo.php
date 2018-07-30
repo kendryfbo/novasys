@@ -113,6 +113,7 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::get('crear', 			      'FormulaController@create')->name('crearFormula');
 		Route::post('/', 				      'FormulaController@store')->name('guardarFormula');
 		Route::get('/{id}/edit', 	          'FormulaController@edit')->name('editarFormula');
+		Route::get('/{id}', 	              'FormulaController@show')->name('verFormula');
 		Route::put('/{id}', 	              'FormulaController@update')->name('actualizarFormula');
 		Route::get('autorizacion',            'FormulaController@autorization')->name('autorizacionFormula');
 		Route::get('autorizacion/{formula}',  'FormulaController@showForAuth')->name('verAutFormula');
