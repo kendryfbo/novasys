@@ -347,7 +347,7 @@ class Bodega extends Model
                         WHEN pdet.tipo_id=1 THEN (SELECT descripcion FROM insumos WHERE insumos.id=pdet.item_id)
                         WHEN pdet.tipo_id=2 THEN (SELECT descripcion FROM reprocesos WHERE reprocesos.id=pdet.item_id)
                     END AS descripcion,
-                    pdet.cantidad,
+                    SUM(pdet.cantidad) as cantidad,
                     pdet.fecha_ing,
                     pdet.fecha_venc,
                     TIMESTAMPDIFF(MONTH,pdet.fecha_ing,pdet.fecha_venc) as vida_util,
@@ -388,7 +388,7 @@ class Bodega extends Model
             $query = $query . " AND pdet.tipo_id=".$tipoID;
         }
         // se agrega HAVING a la query
-        $query = $query . " HAVING true ";
+        $query = $query . " GROUP BY pos,tipo_id,item_id HAVING true ";
 
         if ($familiaID) {
             $query = $query . " AND familia_id=".$familiaID;
@@ -400,7 +400,8 @@ class Bodega extends Model
         }
         if ($saborID) {
         }
-        $query = $query . " ORDER BY marca_id";
+        $query = $query . " ORDER BY marca_descripcion,fecha_ing ";
+        //dd($query);
         $results = DB::select(DB::raw($query));
 
         return $results;
