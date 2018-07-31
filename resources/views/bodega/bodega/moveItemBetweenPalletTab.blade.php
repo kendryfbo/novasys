@@ -16,7 +16,7 @@
             <div class="modal-body">
 
                 <!-- /form-->
-                <form id="formTrasladarPallet" class="form-horizontal" action="{{@route('guardarMovEntrePallet')}}" method="post">
+                <form id="moveItemBetweenPallet" class="form-horizontal" action="{{@route('guardarMovEntrePallet')}}" method="post">
 
                     {{ csrf_field() }}
                     <!-- form-group -->
@@ -46,7 +46,7 @@
                         </div>
                         <label class="control-label col-lg-1">Cantidad:</label>
                         <div class="col-lg-2">
-                            <input class="form-control input-sm" type="text" name="cantidad" v-model="cantidad" required>
+                            <input form="moveItemBetweenPallet" class="form-control input-sm" type="text" name="cantidad" v-model="cantidad" required>
                         </div>
                     </div>
                     <!-- /form-group -->
@@ -91,7 +91,7 @@
             </div>
 
             <div class="modal-footer">
-                <button form="formTrasladarPallet" v-if="posicion && newPosicionID && palletTwo && cantidad > 0 && cantidad <= existencia" type="submit" class="btn btn-default">Aceptar</button>
+                <button form="moveItemBetweenPallet" v-if="posicion && newPosicionID && palletTwo && cantidad > 0 && cantidad <= existencia" type="submit" class="btn btn-default">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
