@@ -28,7 +28,7 @@ class TerminoProcesoController extends Controller
     public function index()
     {
         $statusPend = StatusDocumento::pendienteID();
-        $producciones = TerminoProceso::with('producto','status')->orderBy('id','DESC')->get();
+        $producciones = TerminoProceso::with('producto','status')->orderBy('id','DESC')->take(20)->get();
 
         return view('produccion.terminoProceso.index')->with(['producciones' => $producciones,'statusPend' => $statusPend]);
     }
