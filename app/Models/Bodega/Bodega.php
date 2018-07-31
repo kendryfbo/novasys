@@ -294,7 +294,7 @@ class Bodega extends Model
                     SUM(pdet.cantidad) as cantidad,
                     pdet.fecha_ing,
                     pdet.fecha_venc,
-                    TIMESTAMPDIFF(MONTH,pdet.fecha_ing,pdet.fecha_venc) as vida_util,
+                    (TIMESTAMPDIFF(MONTH,pdet.fecha_ing,pdet.fecha_venc) - TIMESTAMPDIFF(MONTH,pdet.fecha_ing,CURDATE())) as vida_util,
                     CASE
                         WHEN pdet.tipo_id=4 THEN (SELECT marca_id FROM productos WHERE productos.id=pdet.item_id)
                         WHEN pdet.tipo_id=5 THEN (SELECT marca_id FROM premezclas WHERE premezclas.id=pdet.item_id)
