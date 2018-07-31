@@ -32,6 +32,9 @@
 				<input type="hidden" name="formatoID" value="{{$formatoID}}">
 			</form>
 			<!-- /form -->
+			<form id="clearInput" action="{{route('reporteBodega')}}" method="get">
+			</form>
+			<!-- /form -->
 			<!-- form -->
 			<form class="form-horizontal" action="{{Route('reporteBodega')}}" method="post">
 
@@ -85,6 +88,16 @@
 						</select>
 					</div>
 
+					<div class="col-sm-2 pull-right">
+						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
+						<button form="clearInput" class="btn btn-sm btn-info" type="submit">Limpiar</button>
+					</div>
+
+				</div>
+				<!-- /form-group -->
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+
 					<label class="control-label col-sm-1">Marca:</label>
 					<div class="col-sm-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="marcaID">
@@ -100,19 +113,42 @@
 						</select>
 					</div>
 
+					<label class="control-label col-sm-1">Formato:</label>
+					<div class="col-sm-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formatoID">
 
+							<option value="">Todos...</option>
 
-				</div>
-				<!-- /form-group -->
+							@foreach ($formatos as $formato)
 
-				<!-- form-group -->
-				<div class="form-group form-group-sm">
+								<option {{$formato->id == $formatoID ? 'selected':''}} value="{{$formato->id}}">{{$formato->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
+					<label class="control-label col-sm-1">Sabor:</label>
+					<div class="col-sm-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="saborID">
+
+							<option value="">Todos...</option>
+
+							@foreach ($sabores as $sabor)
+
+								<option {{$sabor->id == $saborID ? 'selected':''}} value="{{$sabor->id}}">{{$sabor->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
 					<div class="col-sm-2 pull-right">
-						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
 						@if ($productos)
-							<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
+							<button form="download" class="btn btn-sm btn-default align-right" type="submit" name="button">Descargar</button>
 						@endif
 					</div>
+
 				</div>
 				<!-- /form-group -->
 

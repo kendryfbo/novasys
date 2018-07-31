@@ -20,6 +20,7 @@
                   <th class="text-center">cantidad</th>
                   <th class="text-center">Fecha Ing.</th>
                   <th class="text-center">Fecha Venc.</th>
+                  <th class="text-center">Vida Util.</th>
               </tr>
           </thead>
           <tbody>
@@ -33,6 +34,7 @@
                       <td class="text-left">{{$item->cantidad}}</td>
                       <td class="text-left warning">{{$item->fecha_ing}}</td>
                       <td class="text-left">{{$item->fecha_venc}}</td>
+                      <td class="text-left">{{$item->vida_util}}</td>
                   </tr>
               @endforeach
           </tbody>

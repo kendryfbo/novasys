@@ -229,62 +229,6 @@ class Bodega extends Model
         return $results[0]->cantidad;
     }
 
-    static function getStockFromBodega($bodegaId = NULL,$tipo = NULL) {
-
-        $results = [];
-
-        $query = "SELECT    bod.id bodega_id,
-                            bod.descripcion bodega,
-                            pos.id pos_id,
-                            CONCAT(pos.bloque ,'-',pos.columna,'-',pos.estante) pos,
-                            pm.descripcion medida,
-                            ps.descripcion status_posicion,
-                            p.id pallet_id,
-                            p.numero pallet_numero,
-                            pd.id pd_id,
-                            pd.fecha_ing fecha_ing,
-                            pd.fecha_venc fecha_venc,
-                            TIMESTAMPDIFF(MONTH,pd.fecha_ing,pd.fecha_venc) as vida_util,
-                            SUM(pd.cantidad) cantidad,
-                            pd.tipo_id tipo_id,
-                            pd.item_id item_id
-
-                    FROM    bodegas bod,
-                            posicion pos,
-                            posicion_status ps,
-                            pallets p,
-                            pallet_medida pm,
-                            pallet_detalle pd
-
-                    WHERE   pos.bodega_id=bod.id
-                        AND pos.status_id=ps.id
-                        AND pos.pallet_id=p.id
-                        AND p.medida_id=pm.id
-                        AND pd.pallet_id=p.id
-                        AND pos.pallet_id IS NOT NULL ";
-
-        if ($bodegaId) {
-
-            $query = $query . " AND bod.id=" . $bodegaId;
-        }
-        if ($tipo) {
-            $query = $query . " AND pd.tipo_id=" . $tipo;
-        }
-
-        $query = $query . " GROUP BY pos,tipo_id,item_id";
-        //$query = $query . "GROUP BY bod.id,bodega,pos_id,medida,status_posicion,pallet_id,pallet_numero,pd_id,fecha_Venc,pos,tipo_id,item_id";
-        $results = DB::select(DB::raw($query));
-
-        foreach ($results as $item) {
-
-            $detalle = PalletDetalle::find($item->pd_id);
-            $detalle->producto();
-            $item->producto = $detalle->producto;
-        }
-
-        return $results;
-    }
-
     static function getStockOfMPFromBodega($bodegaId = NULL) {
 
         $tipo = Insumo::tipoID();
@@ -310,7 +254,7 @@ class Bodega extends Model
         return $results;
     }
 
-    static function getStockFromBodegaOfPT(array $datos) {
+    static function getStockFromBodega(array $datos) {
 
         // datos de la busqueda
         $bodegaID = isset($datos['bodegaID']) ? $datos['bodegaID'] : null;
@@ -374,7 +318,31 @@ class Bodega extends Model
                     	WHEN pdet.tipo_id=5 THEN (SELECT familias.descripcion FROM familias,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.familia_id=familias.id)
                     	WHEN pdet.tipo_id=1 THEN (SELECT familias.descripcion FROM familias,insumos WHERE insumos.id=pdet.item_id AND insumos.familia_id=familias.id)
                     	WHEN pdet.tipo_id=2 THEN (SELECT familias.descripcion FROM familias,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.familia_id=familias.id)
-                    END AS familia_descripcion
+                    END AS familia_descripcion,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT formatos.id FROM formatos,productos WHERE productos.id=pdet.item_id AND productos.formato_id=formatos.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT formatos.id FROM formatos,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.formato_id=formatos.id)
+                    	WHEN pdet.tipo_id=1 THEN (null)
+                    	WHEN pdet.tipo_id=2 THEN (SELECT formatos.id FROM formatos,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.formato_id=formatos.id)
+                    END AS formato_id,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT formatos.descripcion FROM formatos,productos WHERE productos.id=pdet.item_id AND productos.formato_id=formatos.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT formatos.descripcion FROM formatos,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.formato_id=formatos.id)
+                    	WHEN pdet.tipo_id=1 THEN (null)
+                    	WHEN pdet.tipo_id=2 THEN (SELECT formatos.descripcion FROM formatos,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.formato_id=formatos.id)
+                    END AS formato_descripcion,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT sabores.id FROM sabores,productos WHERE productos.id=pdet.item_id AND productos.sabor_id=sabores.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT sabores.id FROM sabores,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.sabor_id=sabores.id)
+                    	WHEN pdet.tipo_id=1 THEN (null)
+                    	WHEN pdet.tipo_id=2 THEN (SELECT sabores.id FROM sabores,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.sabor_id=sabores.id)
+                    END AS sabor_id,
+                    CASE
+                    	WHEN pdet.tipo_id=4 THEN (SELECT sabores.descripcion FROM sabores,productos WHERE productos.id=pdet.item_id AND productos.sabor_id=sabores.id)
+                    	WHEN pdet.tipo_id=5 THEN (SELECT sabores.descripcion FROM sabores,premezclas WHERE premezclas.id=pdet.item_id AND premezclas.sabor_id=sabores.id)
+                    	WHEN pdet.tipo_id=1 THEN (null)
+                    	WHEN pdet.tipo_id=2 THEN (SELECT sabores.descripcion FROM sabores,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.sabor_id=sabores.id)
+                    END AS sabor_descripcion
                     FROM bodegas bod,posicion pos,pallet_detalle pdet
                     WHERE bod.id=pos.bodega_id AND pos.pallet_id=pdet.pallet_id";
 
@@ -397,10 +365,12 @@ class Bodega extends Model
             $query = $query . " AND marca_id=".$marcaID;
         }
         if ($formatoID) {
+            $query = $query . " AND formato_id=".$formatoID;
         }
         if ($saborID) {
+            $query = $query . " AND sabor_id=".$saborID;
         }
-        $query = $query . " ORDER BY marca_descripcion,fecha_ing ";
+        $query = $query . " ORDER BY marca_descripcion,formato_descripcion,sabor_descripcion,fecha_ing ";
         //dd($query);
         $results = DB::select(DB::raw($query));
 

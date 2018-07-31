@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Marca;
+use App\Models\Sabor;
+use App\Models\Formato;
 use App\Models\Familia;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
@@ -25,6 +27,8 @@ class BodegaReportController extends Controller
         $saborID = null;
         $bodegas = Bodega::getAllActive();
         $marcas= Marca::all(); // todas porque pueden haber marcas desactivadas con productos en stock;
+        $sabores = Sabor::all(); // todas porque pueden haber Sabor desactivadas con productos en stock;
+        $formatos = Formato::all(); // todas porque pueden haber Formato desactivadas con productos en stock;
         $familias = Familia::all(); // todas porque pueden haber Familias desactivadas con productos en stock;
         $tiposProducto = TipoFamilia::all(); // todas porque pueden haber Tipos de Familias desactivadas con productos en stock;
 
@@ -34,6 +38,8 @@ class BodegaReportController extends Controller
             $tipoID = $request->tipoID;
             $familiaID = $request->familiaID;
             $marcaID = $request->marcaID;
+            $saborID = $request->saborID;
+            $formatoID = $request->formatoID;
 
             $datos = [
                 'bodegaID' => $bodegaID,
@@ -44,7 +50,7 @@ class BodegaReportController extends Controller
                 'saborID' => $saborID
             ];
 
-            $productos = Bodega::getStockFromBodegaOfPT($datos);
+            $productos = Bodega::getStockFromBodega($datos);
         }
 
 
@@ -58,7 +64,9 @@ class BodegaReportController extends Controller
                 'marcaID'   => $marcaID,
                 'familias'  => $familias,
                 'familiaID' => $familiaID,
+                'sabores' => $sabores,
                 'saborID' => $saborID,
+                'formatos' => $formatos,
                 'formatoID' => $formatoID,
                 'tipoID'      => $tipoID,
                 'bodegaID'    => $bodegaID
@@ -117,6 +125,8 @@ class BodegaReportController extends Controller
         $tipoID = $request->tipoID;
         $familiaID = $request->familiaID;
         $marcaID = $request->marcaID;
+        $saborID = $request->saborID;
+        $formatoID = $request->formatoID;
 
         $datos = [
             'bodegaID' => $bodegaID,
@@ -126,8 +136,8 @@ class BodegaReportController extends Controller
             'formatoID' => $formatoID,
             'saborID' => $saborID
         ];
-        
-        $productos = Bodega::getStockFromBodegaOfPT($datos);
+
+        $productos = Bodega::getStockFromBodega($datos);
 
         return Excel::create('Reporte Stock Bodega', function($excel) use ($productos) {
             $excel->sheet('New sheet', function($sheet) use ($productos) {
