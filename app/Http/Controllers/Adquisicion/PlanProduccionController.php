@@ -153,12 +153,27 @@ class PlanProduccionController extends Controller
                 })->download('xlsx');
 
     }
-    public function downloadExcelAnalReqConStock($items) {
+    public function downloadExcelAnalReqConStock(Request $request) {
+
+        $items = $request->items;
 
         if (!$items) {
             dd('no items');
         }
 
-        dd($items);
+        $plan = PlanProduccion::analisisRequerimientosConStock($items);
+        $productos = $plan[0];
+        $insumos = $plan[1];
+
+        return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
+            $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqConStockSheetResum')
+                        ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Insumos', function($sheet) use ($insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')
+                        ->with(['insumos' => $insumos]);
+                    })->download('xlsx');
+                })->download('xlsx');
     }
 }
