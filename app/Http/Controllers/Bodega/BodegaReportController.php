@@ -167,10 +167,13 @@ class BodegaReportController extends Controller
     /* DESCARGAR Reporte Stock Total */
     public function donwloadStockTotalReportExcel(Request $request) {
 
-
+        $saborID = $request->saborID;
+        $formatoID = $request->formatoID;
+        $marcaID = $request->marcaID;
+        $familiaID = $request->familiaID;
         $tipoFamilia = $request->tipoFamilia;
         $tipoReporte = $request->tipoReporte;
-        $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia);
+        $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
 
         return Excel::create('Reporte Stock Total', function($excel) use ($productos) {
             $excel->sheet('New sheet', function($sheet) use ($productos) {

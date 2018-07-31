@@ -26,6 +26,10 @@
 
 				<input type="hidden" name="tipoReporte" value="{{$tipoReporte}}">
 				<input type="hidden" name="tipoFamilia" value="{{$tipoFamilia}}">
+				<input type="hidden" name="familiaID" value="{{$familiaID}}">
+				<input type="hidden" name="marcaID" value="{{$marcaID}}">
+				<input type="hidden" name="formatoID" value="{{$formatoID}}">
+				<input type="hidden" name="saborID" value="{{$saborID}}">
 
 			</form>
 			<!-- /form -->
