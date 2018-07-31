@@ -217,6 +217,8 @@ class Proforma extends Model
             $freight = $request->freight;
             $insurance = $request->insurance;
 
+            $totalAnt = $proforma->total; // total anterior
+
             $proforma->version = $version;
             $proforma->cv_id = $cvId;
             $proforma->centro_venta = $cvDescrip;
@@ -304,6 +306,10 @@ class Proforma extends Model
       		}
 
             $total = $totalFob + $freight + $insurance;
+
+            if ($total > $totalAnt) {
+                $proforma->aut_contab = null;
+            }
 
             $proforma->descuento = $totalDescuento;
             $proforma->fob = $totalFob;

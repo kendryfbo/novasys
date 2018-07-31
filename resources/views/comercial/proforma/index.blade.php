@@ -67,12 +67,12 @@
 								@endif
 							</td>
 							<td class="text-center">
-							@if (!$proforma->aut_contab)
 								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero.'/editar')}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
 									</button>
 								</form>
+							@if (!$proforma->aut_contab)
 								<form style="display: inline" action="{{route('eliminarProforma',['proforma' => $proforma->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}

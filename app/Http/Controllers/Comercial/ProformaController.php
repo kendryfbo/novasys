@@ -152,12 +152,12 @@ class ProformaController extends Controller
     public function edit($proforma)
     {
         $proforma = Proforma::with('detalles')->where('numero',$proforma)->first();
-
+        /*
         if (!$proforma || $proforma->aut_contab) {
 
             return redirect()->back();
         }
-
+        */
         $centrosVenta = CentroVenta::getAllActive();
         $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
