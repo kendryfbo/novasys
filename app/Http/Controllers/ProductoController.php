@@ -35,7 +35,7 @@ class ProductoController extends Controller
         $marcas = Marca::getAllActive();
         $formatos = Formato::getAllActive();
         $sabores = Sabor::getAllActive();
-        
+
         return view('desarrollo.productos.create')
                 ->with([
                     'marcas' => $marcas,

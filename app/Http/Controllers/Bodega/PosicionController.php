@@ -123,7 +123,6 @@ class PosicionController extends Controller
             'posicion_ant' => 'required',
             'posicion_nueva' => 'required'
         ]);
-
         Posicion::changePositionPallet($request->posicion_ant,$request->posicion_nueva);
 
         return redirect()->back();
