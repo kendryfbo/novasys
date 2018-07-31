@@ -88,7 +88,7 @@
 						</select>
 					</div>
 
-					<div class="col-sm-2 pull-right">
+					<div class="col-sm-2 pull-right text-right">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
 						<button form="clearInput" class="btn btn-sm btn-info" type="submit">Limpiar</button>
 					</div>
@@ -143,7 +143,7 @@
 						</select>
 					</div>
 
-					<div class="col-sm-2 pull-right">
+					<div class="col-sm-2 pull-right text-right">
 						@if ($productos)
 							<button form="download" class="btn btn-sm btn-default align-right" type="submit" name="button">Descargar</button>
 						@endif

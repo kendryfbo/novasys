@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Reporte Bodega</h4>
+			<h4>Reporte Stock Total</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -29,6 +29,10 @@
 
 			</form>
 			<!-- /form -->
+			<!-- /form -->
+			<form id="clearInput" action="{{route('reporteStockTotal')}}" method="get">
+			</form>
+			<!-- /form -->
 			<!-- form -->
 			<form class="form-horizontal" action="{{Route('reporteStockTotal')}}" method="post">
 
@@ -49,7 +53,7 @@
 					</div>
 
 					<label class="control-label col-lg-1">Tipo Producto:</label>
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="tipoFamilia">
 
 							<option value="">Todos...</option>
@@ -78,9 +82,55 @@
 						</select>
 					</div>
 
+					<div class="col-lg-2 pull-right text-right">
+						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
+						<button form="clearInput" class="btn btn-sm btn-info" type="submit">Limpiar</button>
+					</div>
+
+				</div>
+				<!-- /form-group -->
+
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+
+					<label class="control-label col-lg-1">Marca:</label>
+					<div class="col-lg-2">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="marcaID">
+					  		<option value="">Todos...</option>
+							@foreach ($marcas as $marca)
+							<option {{$marca->id == $marcaID ? 'selected':''}} value="{{$marca->id}}">{{$marca->descripcion}}</option>
+							@endforeach
+					  </select>
+					</div>
+
+					<label class="control-label col-lg-1">Formato:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formatoID">
+							<option value="">Todos...</option>
+							@foreach ($formatos as $formato)
+							<option {{$formatoID == $formato->id ? 'selected':''}} value="{{$formato->id}}">{{$formato->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1">Sabor:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="saborID">
+
+							<option value="">Todos...</option>
+
+							@foreach ($sabores as $sabor)
+
+								<option {{$saborID == $sabor->id ? 'selected':''}} value="{{$sabor->id}}">{{$sabor->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
+
 					@if ($productos)
 
-						<div class="col-lg-1 pull-right">
+						<div class="col-lg-1 pull-right text-right">
 								<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
 						</div>
 
@@ -91,9 +141,7 @@
 
 				<!-- form-group -->
 				<div class="form-group form-group-sm">
-					<div class="col-lg-1 pull-right">
-						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
-					</div>
+
 				</div>
 				<!-- /form-group -->
 

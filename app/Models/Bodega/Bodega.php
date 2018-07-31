@@ -517,7 +517,7 @@ class Bodega extends Model
         return $results;
     }
 
-    static function getStockTotal($tipoReporte = NULL,$tipo = NULL, $familia = NULL) {
+    static function getStockTotal($tipoReporte = NULL,$tipo = NULL, $familia = NULL,$marca = NULL, $formato = NULL, $sabor = NULL) {
 
         $PT = TipoFamilia::getProdTermID();
         $PR = TipoFamilia::getPremezclaID();
@@ -530,68 +530,197 @@ class Bodega extends Model
         $descripProdTermQuery = "WHEN tipo_id=".$PT." THEN (select descripcion from productos where productos.id=id.item_id)";
         $familiaIdProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT fam.id as familia_id FROM productos as prod JOIN marcas AS marc ON prod.marca_id=marc.id JOIN familias AS fam ON marc.familia_id=fam.id where prod.id=id.item_id)";
         $familiaDescripProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT fam.descripcion as familia FROM productos as prod JOIN marcas AS marc ON prod.marca_id=marc.id JOIN familias AS fam ON marc.familia_id=fam.id where prod.id=id.item_id)";
+        $saborIdProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT sabores.id as sabor_id FROM productos as prod,sabores where prod.id=id.item_id AND prod.sabor_id=sabores.id)";
+        $saborDescripProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT sabores.descripcion as sabor FROM productos as prod, sabores where prod.id=id.item_id AND prod.sabor_id=sabores.id)";
+        $formatoIdProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT formatos.id as formato_id FROM productos as prod,formatos where prod.id=id.item_id AND prod.formato_id=formatos.id)";
+        $formatoDescripProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT formatos.descripcion as formato FROM productos as prod, formatos where prod.id=id.item_id AND prod.formato_id=formatos.id)";
+        $marcaIdProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT marcas.id as marca_id FROM productos as prod,marcas where prod.id=id.item_id AND prod.marca_id=marcas.id)";
+        $marcaDescripProdTermQuery = "WHEN tipo_id=".$PT." THEN (SELECT marcas.descripcion as marca FROM productos as prod, marcas where prod.id=id.item_id AND prod.marca_id=marcas.id)";
 
         // consultas de Premezcla
         $codPremezclaQuery = "WHEN tipo_id=".$PR." THEN (select codigo from premezclas where premezclas.id=id.item_id)";
         $descripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (select descripcion from premezclas where premezclas.id=id.item_id)";
         $familiaIdPremezclaQuery = "WHEN tipo_id=".$PR." THEN (select familia_id from premezclas where premezclas.id=id.item_id)";
-        $familiaDescripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (select (select descripcion from familias where premezclas.familia_id=familias.id) as familia
-         from premezclas where premezclas.id=id.item_id)";
+        $familiaDescripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (select (select descripcion from familias where premezclas.familia_id=familias.id) as familia from premezclas where premezclas.id=id.item_id)";
+        $saborIdPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT sabores.id as sabor_id FROM premezclas,sabores where premezclas.id=id.item_id AND premezclas.sabor_id=sabores.id)";
+        $saborDescripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT sabores.descripcion as sabor FROM premezclas, sabores where premezclas.id=id.item_id AND premezclas.sabor_id=sabores.id)";
+        $formatoIdPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT formatos.id as formato_id FROM premezclas,formatos where premezclas.id=id.item_id AND premezclas.formato_id=formatos.id)";
+        $formatoDescripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT formatos.descripcion as formato FROM premezclas, formatos where premezclas.id=id.item_id AND premezclas.formato_id=formatos.id)";
+        $marcaIdPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT marcas.id as marca_id FROM premezclas,marcas where premezclas.id=id.item_id AND premezclas.marca_id=marcas.id)";
+        $marcaDescripPremezclaQuery = "WHEN tipo_id=".$PR." THEN (SELECT marcas.descripcion as marca FROM premezclas, marcas where premezclas.id=id.item_id AND premezclas.marca_id=marcas.id)";
 
         // consultas de Insumos
         $codInsumoQuery = "WHEN tipo_id=".$MP." THEN (select codigo from insumos where insumos.id=id.item_id)";
         $descripInsumoQuery = "WHEN tipo_id=".$MP." THEN (select descripcion from insumos where insumos.id=id.item_id)";
         $familiaIdInsumoQuery = "WHEN tipo_id=".$MP." THEN (select familia_id from insumos where insumos.id=id.item_id)";
-        $familiaDescripInsumoQuery = "WHEN tipo_id=".$MP." THEN (select (select descripcion from familias where insumos.familia_id=familias.id) as familia
-        from insumos where insumos.id=id.item_id)";
+        $familiaDescripInsumoQuery = "WHEN tipo_id=".$MP." THEN (select (select descripcion from familias where insumos.familia_id=familias.id) as familia from insumos where insumos.id=id.item_id)";
+        $saborIdInsumoQuery = " "; // no posee sabor.
+        $saborDescripInsumoQuery = " "; // no posee sabor.
+        $formatoIdInsumoQuery = " "; // no posee formato.
+        $formatoDescripInsumoQuery = " "; // no posee formato.
+        $marcaIdInsumoQuery = " "; // no posee marca.
+        $marcaDescripInsumoQuery = " "; // no posee marca.
 
         // consultas de Reproceso
         $codReprocesoQuery = "WHEN tipo_id=".$RP." THEN (select codigo from reprocesos where reprocesos.id=id.item_id)";
         $descripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (select descripcion from reprocesos where reprocesos.id=id.item_id)";
         $familiaIdReprocesoQuery = "WHEN tipo_id=".$RP." THEN (select familia_id from reprocesos where reprocesos.id=id.item_id)";
-        $familiaDescripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (select (select descripcion from familias where reprocesos.familia_id=familias.id) as familia
-        from reprocesos where reprocesos.id=id.item_id)";
-
+        $familiaDescripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (select (select descripcion from familias where reprocesos.familia_id=familias.id) as familia from reprocesos where reprocesos.id=id.item_id)";
+        $saborIdReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT sabores.id as sabor_id FROM reprocesos,sabores where reprocesos.id=id.item_id AND reprocesos.sabor_id=sabores.id)";
+        $saborDescripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT sabores.descripcion as sabor FROM reprocesos, sabores where reprocesos.id=id.item_id AND reprocesos.sabor_id=sabores.id)";
+        $formatoIdReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT formatos.id as formato_id FROM reprocesos,formatos where reprocesos.id=id.item_id AND reprocesos.formato_id=formatos.id)";
+        $formatoDescripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT formatos.descripcion as formato FROM reprocesos, formatos where reprocesos.id=id.item_id AND reprocesos.formato_id=formatos.id)";
+        $marcaIdReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT marcas.id as marca_id FROM reprocesos,marcas where reprocesos.id=id.item_id AND reprocesos.marca_id=marcas.id)";
+        $marcaDescripReprocesoQuery = "WHEN tipo_id=".$RP." THEN (SELECT marcas.descripcion as marca FROM reprocesos, marcas where reprocesos.id=id.item_id AND reprocesos.marca_id=marcas.id)";
 
         // agrupacion de consultas
-        $codigoQuery = " CASE ".$codProdTermQuery.$codPremezclaQuery.$codInsumoQuery.$codReprocesoQuery." END AS codigo,";
-        $descripcionQuery = " CASE ".$descripProdTermQuery.$descripPremezclaQuery.$descripInsumoQuery.$descripReprocesoQuery."END AS descripcion,";
-        $FamiliaIdQuery = " (CASE ".$familiaIdProdTermQuery.$familiaIdPremezclaQuery.$familiaIdInsumoQuery.$familiaIdReprocesoQuery."END) AS familia_id,";
-        $FamiliaDescripQuery = " (CASE ".$familiaDescripProdTermQuery.$familiaDescripPremezclaQuery.$familiaDescripInsumoQuery.$familiaDescripReprocesoQuery."END) AS familia,";
+        $codigoQuery = " CASE "
+        .$codProdTermQuery
+        .$codPremezclaQuery
+        .$codInsumoQuery
+        .$codReprocesoQuery
+        ." END AS codigo,";
+
+        $descripcionQuery = " CASE "
+        .$descripProdTermQuery
+        .$descripPremezclaQuery
+        .$descripInsumoQuery
+        .$descripReprocesoQuery
+        ."END AS descripcion,";
+
+        $FamiliaIdQuery = " (CASE "
+        .$familiaIdProdTermQuery
+        .$familiaIdPremezclaQuery
+        .$familiaIdInsumoQuery
+        .$familiaIdReprocesoQuery
+        ."END) AS familia_id,";
+
+        $FamiliaDescripQuery = " (CASE "
+        .$familiaDescripProdTermQuery
+        .$familiaDescripPremezclaQuery
+        .$familiaDescripInsumoQuery
+        .$familiaDescripReprocesoQuery
+        ."END) AS familia,";
+
+        $saborIdQuery = " (CASE "
+        .$saborIdProdTermQuery
+        .$saborIdPremezclaQuery
+        .$saborIdInsumoQuery
+        .$saborIdReprocesoQuery
+        ."END) AS sabor_id,";
+
+        $saborDescripQuery = " (CASE "
+        .$saborDescripProdTermQuery
+        .$saborDescripPremezclaQuery
+        .$saborDescripInsumoQuery
+        .$saborDescripReprocesoQuery
+        ."END) AS sabor,";
+
+        $formatoIdQuery = " (CASE "
+        .$formatoIdProdTermQuery
+        .$formatoIdPremezclaQuery
+        .$formatoIdInsumoQuery
+        .$formatoIdReprocesoQuery
+        ."END) AS formato_id,";
+
+        $formatoDescripQuery = " (CASE "
+        .$formatoDescripProdTermQuery
+        .$formatoDescripPremezclaQuery
+        .$formatoDescripInsumoQuery
+        .$formatoDescripReprocesoQuery
+        ."END) AS formato,";
+
+        $marcaIdQuery = " (CASE "
+        .$marcaIdProdTermQuery
+        .$marcaIdPremezclaQuery
+        .$marcaIdInsumoQuery
+        .$marcaIdReprocesoQuery
+        ."END) AS marca_id,";
+
+        $marcaDescripQuery = " (CASE "
+        .$marcaDescripProdTermQuery
+        .$marcaDescripPremezclaQuery
+        .$marcaDescripInsumoQuery
+        .$marcaDescripReprocesoQuery
+        ."END) AS marca,";
+
 
         // Reporte de productos Ingresados
         if ($tipoReporte == 1) {
-            $query = "SELECT ".$codigoQuery.$descripcionQuery.$FamiliaIdQuery.$FamiliaDescripQuery." IFNULL(SUM(por_procesar),0) AS cantidad
-                        FROM ingreso_detalle AS id";
+            $query = "SELECT "
+            .$codigoQuery
+            .$descripcionQuery
+            .$FamiliaIdQuery
+            .$FamiliaDescripQuery
+            .$saborIdQuery
+            .$saborDescripQuery
+            .$formatoIdQuery
+            .$formatoDescripQuery
+            .$marcaIdQuery
+            .$marcaDescripQuery
+            ." IFNULL(SUM(por_procesar),0) AS cantidad FROM ingreso_detalle AS id";
 
         // Reporte de productos En bodega
         } else if ($tipoReporte == 2) {
 
-            $query = "SELECT ".$codigoQuery.$descripcionQuery.$FamiliaIdQuery.$FamiliaDescripQuery."IFNULL(SUM(cantidad),0) AS cantidad
-                        FROM pallet_detalle AS id";
+            $query = "SELECT "
+            .$codigoQuery
+            .$descripcionQuery
+            .$FamiliaIdQuery
+            .$FamiliaDescripQuery
+            .$saborIdQuery
+            .$saborDescripQuery
+            .$formatoIdQuery
+            .$formatoDescripQuery
+            .$marcaIdQuery
+            .$marcaDescripQuery
+            ." IFNULL(SUM(cantidad),0) AS cantidad FROM pallet_detalle AS id";
 
         // Total de productos en ingreso y en bodega
         } else {
-            $query = "SELECT ".$codigoQuery.$descripcionQuery.$FamiliaIdQuery.$FamiliaDescripQuery."
-                        (IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+
-                        IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)
-                        ) as cantidad
+            $query = "SELECT "
+            .$codigoQuery
+            .$descripcionQuery
+            .$FamiliaIdQuery
+            .$FamiliaDescripQuery
+            .$saborIdQuery
+            .$saborDescripQuery
+            .$formatoIdQuery
+            .$formatoDescripQuery
+            .$marcaIdQuery
+            .$marcaDescripQuery
+            ." (IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)) as cantidad
                         from ingreso_detalle as id
                         join pallet_detalle  as pd using (tipo_id,tipo_id)";
         }
 
-        //dd($query);
+
         if ($tipo) {
             $query = $query . " WHERE tipo_id=" . $tipo;
         }
+
         // AGRUPADO POR item_id y tipo_id
         $query = $query . " GROUP BY id.item_id,id.tipo_id";
-        // FILTRO Familia
+
+        // agregado HAVING para filtros
+        $query = $query . " having true ";
+
+        // FILTROS
         if ($familia) {
-            $query = $query . " having familia_id=" . $familia;
+            $query = $query . " AND familia_id=" . $familia;
         }
+        if ($marca) {
+            $query = $query . " AND marca_id=" . $marca;
+        }
+        if ($formato) {
+            $query = $query . " AND formato_id=" . $formato;
+        }
+        if ($sabor) {
+            $query = $query . " AND sabor_id=" . $sabor;
+        }
+
         // Ordenado por cantidad de mayor a menor
-        $query = $query . " ORDER BY cantidad DESC";
+        $query = $query . " ORDER BY descripcion ASC";
 
         $results = DB::select(DB::raw($query));
 

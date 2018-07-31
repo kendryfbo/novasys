@@ -75,26 +75,36 @@ class BodegaReportController extends Controller
 
     public function indexStockReport(Request $request) {
 
-        $tipoFamilia = '';
-        $familiaID = '';
-        $tipoReporte = '';
+        $tipoFamilia = null;
+        $familiaID = null;
+        $marcaID = null;
+        $formatoID = null;
+        $saborID = null;
+        $tipoReporte = null;
         $productos = [];
+
         $tiposReporte = [
             ['id' => 0, 'descripcion' => 'total'],
             ['id' => 1, 'descripcion' => 'Ingreso'],
             ['id' => 2, 'descripcion' => 'Bodega'],
         ];
 
-        $tiposProducto = TipoFamilia::getAllActive();
-        $familias = Familia::getAllActive();
+        $tiposProducto = TipoFamilia::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
+        $familias = Familia::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
+        $marcas = Marca::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
+        $formatos = Formato::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
+        $sabores = Sabor::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
 
         if ($request->all()) {
 
+            $saborID = $request->saborID;
+            $formatoID = $request->formatoID;
+            $marcaID = $request->marcaID;
             $familiaID = $request->familiaID;
             $tipoFamilia = $request->tipoFamilia;
             $tipoReporte = $request->tipoReporte;
 
-            $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID);
+            $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
         }
 
         return view('bodega.bodega.reportStock')
@@ -104,6 +114,13 @@ class BodegaReportController extends Controller
                 'tipoFamilia' => $tipoFamilia,
                 'familiaID' => $familiaID,
                 'familias' => $familias,
+                'familiaID' => $familiaID,
+                'marcas' => $marcas,
+                'marcaID' => $marcaID,
+                'formatos' => $formatos,
+                'formatoID' => $formatoID,
+                'sabores' => $sabores,
+                'saborID' => $saborID,
                 'tiposReporte' => $tiposReporte,
                 'tiposProducto' => $tiposProducto
             ]);
