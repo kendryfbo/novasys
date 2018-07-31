@@ -46,7 +46,7 @@
                         </div>
                         <label class="control-label col-lg-1">Cantidad:</label>
                         <div class="col-lg-2">
-                            <input form="moveItemBetweenPallet" class="form-control input-sm" type="text" name="cantidad" v-model="cantidad" required>
+                            <input class="form-control input-sm" type="text" name="cantidad" v-model="cantidad" required>
                         </div>
                     </div>
                     <!-- /form-group -->
@@ -80,8 +80,10 @@
                     <!-- /form-group -->
                     <!-- form-group -->
                     <div class="form-group">
-
-
+                        <div class="col-sm-3 pull-right">
+                            <button v-if="posicion && newPosicionID && palletTwo && cantidad > 0 && cantidad <= existencia" type="submit" class="btn btn-default">Aceptar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                     <!-- /form-group -->
 
@@ -91,9 +93,8 @@
             </div>
 
             <div class="modal-footer">
-                <button form="moveItemBetweenPallet" v-if="posicion && newPosicionID && palletTwo && cantidad > 0 && cantidad <= existencia" type="submit" class="btn btn-default">Aceptar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
+
         </div>
 
     </div>
