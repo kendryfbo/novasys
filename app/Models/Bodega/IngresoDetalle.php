@@ -44,7 +44,7 @@ class IngresoDetalle extends Model
         switch ($this->tipo_id) {
 
             case TipoFamilia::getInsumoID();
-                return $this->belongsTo('App\Models\insumo','item_id');
+                return $this->belongsTo('App\Models\Insumo','item_id');
                 break;
 
             case TipoFamilia::getProdTermID();
