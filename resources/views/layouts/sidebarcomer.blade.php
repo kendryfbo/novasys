@@ -49,7 +49,7 @@
                 <li><a href="{{url('comercial/informesNac/facturaNacProd')}}"><i class=""></i> <span>Informe X Prod</span></a></li>
             </ul>
           </li>
-          <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
+          <li><a href="{{route('autNotaVenta')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
           <li><a href="{{url('comercial/notasCreditoNac/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Credito</span></a></li>
       </ul>
     </li>
