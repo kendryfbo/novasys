@@ -20,7 +20,7 @@ var app = new Vue ({
 		totaldescuento: '',
 		neto: '',
 		iaba: '',
-		totalIaba: '',
+		totalIaba: iaba,
 		iva: '',
 		total: '',
 		peso_neto: '',
@@ -160,7 +160,7 @@ var app = new Vue ({
 				neto = itemSubTotal - descuento;
 				iva = (neto * 19) / 100;
 
-				if (this.items[i].iaba) {
+				if (this.items[i].producto.marca.iaba) {
 
 					iaba = (neto * 10) / 100;
 				}

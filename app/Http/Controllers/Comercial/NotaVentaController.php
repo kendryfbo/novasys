@@ -133,7 +133,7 @@ class NotaVentaController extends Controller
             return redirect()->back();
         }
         */
-        $notaVenta->load('detalle','cliente.sucursal',
+        $notaVenta->load('detalle.producto.marca','cliente.sucursal',
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',
                          'cliente.canal','cliente.formaPago');
