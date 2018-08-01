@@ -31,7 +31,7 @@ class NotaVentaController extends Controller
      */
     public function index()
     {
-        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->get();
+        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->take(50)->get();
 
         return view('comercial.notasVentas.index')->with(['notasVentas' => $notasVentas]);
     }

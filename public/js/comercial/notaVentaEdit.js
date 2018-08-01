@@ -38,10 +38,10 @@ var app = new Vue ({
 
 			for (var i=0; i<this.listaDetalle.length; i++) {
 
-				if (this.producto == this.listaDetalle[i].id) {
+				if (this.producto == this.listaDetalle[i].producto.id) {
 
 					this.codigo = this.listaDetalle[i].producto.codigo;
-					this.descripcion = this.listaDetalle[i].descripcion;
+					this.descripcion = this.listaDetalle[i].producto.descripcion;
 					this.precio = this.listaDetalle[i].precio;
 					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
@@ -160,7 +160,7 @@ var app = new Vue ({
 				neto = itemSubTotal - descuento;
 				iva = (neto * 19) / 100;
 
-				if (this.items[i].producto.marca.iaba) {
+				if (this.items[i].iaba) {
 
 					iaba = (neto * 10) / 100;
 				} else {
@@ -275,11 +275,12 @@ var app = new Vue ({
 
 				for (var j = 0; j < this.listaDetalle.length; j++) {
 
-					if (this.items[i].id == this.listaDetalle[j].producto.id) {
+					if (this.items[i].producto_id == this.listaDetalle[j].producto.id) {
 
 						this.items[i].peso_neto = this.listaDetalle[j].producto.peso_neto;
 						this.items[i].peso_bruto = this.listaDetalle[j].producto.peso_bruto;
 						this.items[i].volumen = this.listaDetalle[j].producto.volumen;
+						this.items[i].iaba = this.listaDetalle[j].producto.marca.iaba;
 					}
 				}
 			}
