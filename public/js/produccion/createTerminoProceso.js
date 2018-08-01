@@ -27,10 +27,9 @@ var app = new Vue({
                 return;
             }
 
-            var fechaProd = new Date();
             var fechaVenc = new Date(this.fechaProd);
-
             fechaVenc.setMonth(fechaVenc.getMonth() + this.vidaUtil);
+            fechaVenc.setDate(fechaVenc.getDate()+1);
             var day = ("0" + (fechaVenc.getDate()+1)).slice(-2);
             var month = ("0" + (fechaVenc.getMonth() + 1)).slice(-2);
             var year = fechaVenc.getFullYear();
