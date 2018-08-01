@@ -163,6 +163,8 @@ var app = new Vue ({
 				if (this.items[i].producto.marca.iaba) {
 
 					iaba = (neto * 10) / 100;
+				} else {
+					iaba = 0;
 				}
 
 				subTotal += itemSubTotal;
