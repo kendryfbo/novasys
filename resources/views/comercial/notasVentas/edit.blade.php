@@ -70,12 +70,12 @@
 
 						<label class="control-label col-lg-2">Fecha Emision:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
+							<input type="date" class="form-control" name="fechaEmision" value="{{$notaVenta->fecha_emision}}" required>
 						</div>
 
 						<label class="control-label col-lg-2">Fecha despacho:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control " name="fechaDespacho" value="{{ Input::old('fechaDespacho') ? Input::old('fechaDespacho') : '' }}" required>
+							<input type="date" class="form-control " name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" required>
 						</div>
 
 						<label class="control-label col-lg-1" >O. Compra:</label>
@@ -99,6 +99,15 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option selected value="{{ $notaVenta->cond_pago }}" >{{ $notaVenta->cond_pago }}</option>
 							</select>
+						</div>
+
+					</div>
+
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Direccion:</label>
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="direccion" value="{{$notaVenta->direccion}}" placeholder="direccion facturacion..." readonly>
 						</div>
 
 					</div>

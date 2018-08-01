@@ -79,7 +79,7 @@ class NotaVentaController extends Controller
 
       $msg = "Nota de Venta N° " . $numero . " ha sido Creado.";
 
-      return redirect('comercial\notasVentas')->with(['status' => $msg]);
+      return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     /**
@@ -124,19 +124,12 @@ class NotaVentaController extends Controller
      * @param  \App\Models\NotaVenta  $notaVenta
      * @return \Illuminate\Http\Response
      */
-    public function edit(NotaVenta $notaVenta)
+    public function edit($numero)
     {
-        // Comentada para permitir editar nota de venta autorizada
-        /*
-        if (!$notaVenta || $notaVenta->aut_contab) {
-
-            return redirect()->back();
-        }
-        */
-        $notaVenta->load('detalle.producto.marca','cliente.sucursal',
+        $notaVenta = NotaVenta::with('detalle.producto.marca','cliente.sucursal',
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',
-                         'cliente.canal','cliente.formaPago');
+                         'cliente.canal','cliente.formaPago')->where('numero',$numero)->first();
 
         $vendedores = Vendedor::getAllActive();
         $centrosVentas = CentroVenta::getAllActive();
@@ -172,7 +165,7 @@ class NotaVentaController extends Controller
 
       $msg = "Nota de Venta numero: " . $numero . " ha sido Editada.";
 
-      return redirect('comercial\notasVentas')->with(['status' => $msg]);
+      return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     /**
@@ -187,7 +180,7 @@ class NotaVentaController extends Controller
 
         $msg = "Nota de Venta numero: " . $notaVenta->numero . " ha sido Eliminada.";
 
-        return redirect('comercial\notasVentas')->with(['status' => $msg]);
+        return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     public function authorization()

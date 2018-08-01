@@ -35,15 +35,21 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 
 
     // Resource Nota de Venta
-	Route::get('notasVentas/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
-	Route::get('notasVentas/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
-    Route::get('notasVentas/{numero}/pdf',              'Comercial\NotaVentaController@downloadPDF')->name('descargarNotaVentaPDF');
-    Route::post('notasVentas/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
-	Route::post('notasVentas/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta')->name('desautNotaVenta');
-	Route::put('notasVentas/{notaVenta}',               'Comercial\NotaVentaController@update')->name('actualizarNotaVenta');
-    Route::resource('notasVentas','Comercial\NotaVentaController',[
-        'parameters' => ['notasVentas' => 'notaVenta']]);
-    route::get('notasVentas/{numero}',                  'Comercial\NotaVentaController@show')->name('verNotaVenta');
+    Route::prefix('notaVenta')->group(function(){
+
+        route::get('/',                          'Comercial\NotaVentaController@index')->name('notaVenta');
+        route::get('/crear',                     'Comercial\NotaVentaController@create')->name('crearNotaVenta');
+        route::post('/',                         'Comercial\NotaVentaController@store')->name('guardarNotaVenta');
+        Route::get('/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
+        Route::get('/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
+        Route::get('/{numero}/pdf',              'Comercial\NotaVentaController@downloadPDF')->name('descargarNotaVentaPDF');
+        Route::post('/autorizar/{notaVenta}',    'Comercial\NotaVentaController@authorizeNotaVenta')->name('autorizarNotaVenta');
+        Route::post('/desautorizar/{notaVenta}', 'Comercial\NotaVentaController@unauthorizedNotaVenta')->name('desautNotaVenta');
+        Route::put('/{notaVenta}',               'Comercial\NotaVentaController@update')->name('actualizarNotaVenta');
+        route::get('/{numero}/editar',           'Comercial\NotaVentaController@edit')->name('editarNotaVenta');
+        route::get('/{numero}',                  'Comercial\NotaVentaController@show')->name('verNotaVenta');
+        route::delete('/{notaVenta}',              'Comercial\NotaVentaController@destroy')->name('eliminarNotaVenta');
+    });
 
   // Resource Factura Nacionale
   Route::prefix('facturasNacionales')->group(function(){

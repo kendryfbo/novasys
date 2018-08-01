@@ -32,7 +32,7 @@
 			@endif
 
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
+			<form  id="create" method="post" action="{{route('guardarNotaVenta')}}">
 
 				{{ csrf_field() }}
 

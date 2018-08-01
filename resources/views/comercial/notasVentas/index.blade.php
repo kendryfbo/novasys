@@ -16,7 +16,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('notasVentas.create')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearNotaVenta')}}">Crear</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
@@ -42,7 +42,7 @@
 					@foreach ($notasVentas as $notaVenta)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{url('comercial/notasVentas/'.$notaVenta->numero)}}" target="_blank"><strong>{{$notaVenta->numero}} <sup>v.{{$notaVenta->version}}</sup></strong></a></td>
+							<td class="text-center"><a href="{{route('verNotaVenta',['numero' => $notaVenta->numero])}}" target="_blank"><strong>{{$notaVenta->numero}} <sup>v.{{$notaVenta->version}}</sup></strong></a></td>
 							<td class="text-center">{{$notaVenta->fecha_emision}}</td>
 							<td class="text-center">{{$notaVenta->cliente->rut}}</td>
 							<td>{{$notaVenta->cliente->descripcion}}</td>
@@ -72,13 +72,13 @@
 							</td>
 							<td class="text-center">
 
-									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id.'/edit')}}" method="get">
+									<form style="display: inline" action="{{route('editarNotaVenta',['numero' => $notaVenta->numero])}}" method="get">
 										<button class="btn btn-sm" type="submit">
 											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 										</button>
 									</form>
 								@if (!$notaVenta->aut_contab)
-									<form style="display: inline" action="{{url('comercial/notasVentas/'.$notaVenta->id)}}" method="post">
+									<form style="display: inline" action="{{route('eliminarNotaVenta',['id' => $notaVenta->id])}}" method="post">
 										{{csrf_field()}}
 										{{ method_field('DELETE') }}
 										<button class="btn btn-sm" type="submit">
