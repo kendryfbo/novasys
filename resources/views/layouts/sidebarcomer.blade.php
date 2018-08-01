@@ -31,7 +31,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{url('comercial/notasVentas')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
+                <li><a href="{{url('comercial/notaVenta')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
                 <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturacion</span></a></li>
                 <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Credito</span></a></li>
                 <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
