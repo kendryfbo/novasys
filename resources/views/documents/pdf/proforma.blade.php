@@ -146,7 +146,7 @@
         <table class="table table-total" width="200px">
             <tbody>
                 <tr>
-                    <th class="text-right">TOTAL-FOB :</th>
+                    <th class="text-right">FOB :</th>
                     <th class="text-right">{{number_format($proforma->fob,2)}}</th>
                 </tr>
                 <tr>
@@ -158,7 +158,7 @@
                     <th class="text-right">{{number_format($proforma->insurance,2)}}</th>
                 </tr>
                 <tr>
-                    <th class="text-right">TOTAL C.I.F:</th>
+                    <th class="text-right">TOTAL {{$proforma->clau_venta}}:</th>
                     <th class="text-right">{{number_format($proforma->total,2)}}</th>
                 </tr>
             </tbody>
