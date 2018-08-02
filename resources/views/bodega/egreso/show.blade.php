@@ -106,7 +106,6 @@
 				</div>
 
 			</div>
-          <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
 
         </div>
         <!-- /box-footer -->
