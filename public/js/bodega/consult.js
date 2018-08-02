@@ -13,8 +13,6 @@ var app = new Vue ({
         posicion_id: '',
         posicion: '',
         pallet: '',
-        palletNumForFind: '',
-        palletPos: '',
         addItemToPalletURL: addItemToPalletURL,
         crearEgrManualDePalletURL: crearEgrManualDePalletURL,
         bodegaConsultURL : bodegaConsultURL,
@@ -178,23 +176,6 @@ var app = new Vue ({
 
                 return 'btn-primary';
             }
-        },
-
-        findPalletPos: function() {
-
-            var url =findPalletPosURL;
-
-			axios.post(url,{
-                palletNum: this.palletNumForFind,
-                bodegaID: this.bodega.id
-            })
-			.then(response => this.getPalletPos(response.data))
-			.catch(error => this.handleError(error))
-        },
-
-        getPalletPos: function(data) {
-
-            this.palletPos = data.bloque+'-'+data.columna+'-'+data.estante;
         },
 
         clearSelection: function() {

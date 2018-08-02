@@ -212,7 +212,7 @@ Route::prefix('bodega')->group( function() {
         // this should be declared in API controller
         Route::post('/findPosition',       'Bodega\PalletController@position')->name('position'); // TEST
         Route::post('/data',               'Bodega\PalletController@apiData')->name('palletData');
-        Route::post('/buscarPosConPallet', 'Bodega\PalletController@findPalletPos')->name('buscarPosConPallet');
+        Route::post('/buscarPosConPallet', 'Bodega\PalletController@findPallet')->name('buscarPosConPallet');
 
     });
     // Resource Ingreso

@@ -302,12 +302,7 @@ class Posicion extends Model
         }
         return false;
     }
-
-    static function findPalletPos($palletID,$bodegaID) {
-
-        return self::where('pallet_id',$palletID)->where('bodega_id',$bodegaID)->first();
-    }
-
+    
     static function changePositionPallet($anterior,$nueva) {
 
         DB::transaction(function() use($anterior,$nueva){

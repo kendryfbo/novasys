@@ -30,13 +30,8 @@
 							<option v-for="(bloque,key) in bloques" :value="key">@{{'Rack #' + (key+1) }}</option>
 						</select>
 					</div>
-					<label class="control-label col-sm-1">Pallet:</label>
-					<div class="col-sm-2">
-						<input class="form-control input-sm" type="number" name="palletNum" v-model="palletNumForFind"  @keyup.enter="findPalletPos">
-					</div>
-					<label class="control-label col-sm-1">Pos:</label>
 					<div class="col-sm-1">
-						<input class="form-control input-sm" type="text" name="palletPos" :value="palletPos"  readonly>
+						<button type="button"  class="btn btn-default" data-toggle="modal" data-target="#findPalletPos">Buscar Pallet</button>
 					</div>
 
 					<div class="col-sm-6">
@@ -257,6 +252,7 @@
 
 	@include('bodega.bodega.moveItemBetweenPalletTab')
 	@include('bodega.bodega.trasladoPalletTab')
+	@include('bodega.bodega.findPalletPosTab')
 
 
 @endsection
@@ -277,4 +273,5 @@
 	<script src="{{asset('js/bodega/consult.js')}}"></script>
 	<script src="{{asset('js/bodega/trasladoPallet.js')}}"></script>
 	<script src="{{asset('js/bodega/moveItemBetweenPallet.js')}}"></script>
+	<script src="{{asset('js/bodega/findPalletPos.js')}}"></script>
 @endsection

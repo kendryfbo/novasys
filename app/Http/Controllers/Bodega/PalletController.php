@@ -502,19 +502,17 @@ class PalletController extends Controller
         return response($pallet,200);
     }
 
-    public function findPalletPos(Request $request) {
+    public function findPallet(Request $request) {
 
         $palletNum = $request->palletNum;
-        $bodegaID = $request->bodegaID;
 
-        $pallet = Pallet::where('numero',$palletNum)->first();
+        $pallet = Pallet::with('posicion.bodega')->where('numero',$palletNum)->first();
 
         if (!$pallet) {
-            return response ('No encontrado',200);
+            return response ('',200);
         }
 
-        $posicion = Posicion::findPalletPos($pallet->id,$bodegaID);
-        return response($posicion,200);
+        return response($pallet,200);
     }
 
     /*
