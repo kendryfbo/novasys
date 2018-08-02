@@ -489,6 +489,33 @@ class PalletController extends Controller
         $positions = Posicion::findPositionFor($productos);
     }
 
+    public function apiData(Request $request) {
+
+        $pallet = Pallet::where('numero',$request->numero)->first();
+
+        if(!$pallet) {
+
+            return response ('',200);
+        }
+        $pallet = pallet::getDataForBodega($pallet->id);
+
+        return response($pallet,200);
+    }
+
+    public function findPalletPos(Request $request) {
+
+        $palletNum = $request->palletNum;
+        $bodegaID = $request->bodegaID;
+
+        $pallet = Pallet::where('numero',$palletNum)->first();
+
+        if (!$pallet) {
+            return response ('No encontrado',200);
+        }
+
+        $posicion = Posicion::findPalletPos($pallet->id,$bodegaID);
+        return response($posicion,200);
+    }
 
     /*
      *    PRIVATE FUNCTIONS
@@ -507,16 +534,4 @@ class PalletController extends Controller
         return Pallet::getNewPalletNum();
     }
 
-    public function apiData(Request $request) {
-
-        $pallet = Pallet::where('numero',$request->numero)->first();
-
-        if(!$pallet) {
-
-            return response ('',200);
-        }
-        $pallet = pallet::getDataForBodega($pallet->id);
-
-        return response($pallet,200);
-    }
 }

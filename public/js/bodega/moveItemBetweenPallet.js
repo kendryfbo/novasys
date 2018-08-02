@@ -61,7 +61,7 @@ var moveItemBetweenPallet = new Vue({
         loadExistencia: function() {
 
             for (var i = 0; i < this.palletOne.detalles.length; i++) {
-                
+
                 if (this.palletOne.detalles[i].id == this.palletDetalleID) {
 
                     this.existencia = this.palletOne.detalles[i].cantidad;

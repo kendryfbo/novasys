@@ -32,7 +32,11 @@
 					</div>
 					<label class="control-label col-sm-1">Pallet:</label>
 					<div class="col-sm-2">
-						<input class="form-control input-sm" type="text" name="pallet_num">
+						<input class="form-control input-sm" type="number" name="palletNum" v-model="palletNumForFind"  @keyup.enter="findPalletPos">
+					</div>
+					<label class="control-label col-sm-1">Pos:</label>
+					<div class="col-sm-1">
+						<input class="form-control input-sm" type="text" name="palletPos" :value="palletPos"  readonly>
 					</div>
 
 					<div class="col-sm-6">
@@ -266,6 +270,7 @@
 		desbloquearPosURL = "{!!route('apiDesBloqPosBodega')!!}";
 		addItemToPalletURL = "{!!route('agregarItemPallet')!!}";
 		crearEgrManualDePalletURL = "{!!route('crearEgrManualDePallet')!!}";
+		findPalletPosURL = "{!!route('buscarPosConPallet')!!}"
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>

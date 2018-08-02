@@ -269,18 +269,17 @@ class Posicion extends Model
 
         $posicion = [];
 
+        $query = "SELECT pos.id as id, pd.id as detalle_id, pd.cantidad as existencia
+                    FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
+                    WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id;
+
         if ($bodega){
 
-            $query = "SELECT pos.id as id, pd.id as detalle_id, pd.cantidad as existencia
-                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
-                        WHERE pos.bodega_id=".$bodega." AND pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC, pa.numero ASC LIMIT 1";
-
-        } else {
-
-            $query = "SELECT pos.id AS id, pd.id AS detalle_id, pd.cantidad AS existencia
-                        FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id
-                        WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id." ORDER BY fecha_ing ASC LIMIT 1";
+            $query = $query . " AND pos.bodega_id=".$bodega;
         }
+
+        $query = $query ." ORDER BY fecha_ing ASC LIMIT 1";
+
         $results = DB::select(DB::raw($query));
 
         if (!$results) {
@@ -302,6 +301,11 @@ class Posicion extends Model
             return true;
         }
         return false;
+    }
+
+    static function findPalletPos($palletID,$bodegaID) {
+
+        return self::where('pallet_id',$palletID)->where('bodega_id',$bodegaID)->first();
     }
 
     static function changePositionPallet($anterior,$nueva) {
