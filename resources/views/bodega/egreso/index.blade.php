@@ -27,7 +27,7 @@
 						Traslado <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="{{route('crearEgrTrasladoMP')}}">Materia Prima</a></li>
+						<li><a href="{{route('crearEgrTrasladoMP')}}">MP / Insumo</a></li>
 						<li><a href="{{route('crearEgrTrasladoPR')}}">Premezcla</a></li>
 						<li><a href="#">Reproceso</a></li>
 						<li><a href="{{route('crearEgrTrasladoPT')}}">Producto Terminado</a></li>
@@ -38,7 +38,7 @@
 					    Egreso Manual <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-					  <li><a href="{{route('crearEgrManualMP')}}">Materia Prima</a></li>
+					  <li><a href="{{route('crearEgrManualMP')}}">MP / Insumo</a></li>
 					  <li><a href="{{route('crearEgrManualPR')}}">Premezcla</a></li>
 					  <li><a href="{{route('crearEgrManualRP')}}">Reproceso</a></li>
 					  <li><a href="{{route('crearEgrManualPT')}}">Producto Terminado</a></li>

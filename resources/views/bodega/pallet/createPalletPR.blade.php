@@ -79,7 +79,7 @@
                 </div>
                 <!-- /form-group -->
 
-                <h5>Materia Prima</h5>
+                <h5>MP / Insumo</h5>
 
                 <!-- form-group -->
                 <div class="form-group">

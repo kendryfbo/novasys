@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Creacion de Pallet Materia Prima</h4>
+			<h4>Creacion de Pallet MP / Insumo</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->

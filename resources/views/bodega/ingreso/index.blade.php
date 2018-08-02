@@ -27,7 +27,7 @@
 						Devolucion <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="{{route('crearIngDevolucionMP')}}">Materia Prima</a></li>
+						<li><a href="{{route('crearIngDevolucionMP')}}">MP / Insumo</a></li>
 						<li><a href="{{route('crearIngDevolucionPR')}}">Premezcla</a></li>
 						<li><a href="#">Reproceso</a></li>
 						<li><a href="{{route('crearIngDevolucionPT')}}">Producto Terminado</a></li>
@@ -38,7 +38,7 @@
 					    Ingreso Manual <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-					  <li><a href="{{route('crearIngManualMP')}}">Materia Prima</a></li>
+					  <li><a href="{{route('crearIngManualMP')}}">MP / Insumo</a></li>
 					  <li><a href="{{route('crearIngManualPR')}}">Premezcla</a></li>
 					  <li><a href="#">Reproceso</a></li>
 					  <li><a href="{{route('crearIngManualPT')}}">Producto Terminado</a></li>

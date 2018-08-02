@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Ingreso Devolucion Materia Prima</h4>
+			<h4>Ingreso Devolucion MP / Insumo</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -59,7 +59,7 @@
 
                     <label class="control-label col-lg-1">Descripcion:</label>
                     <div class="col-lg-5">
-                        <input class="form-control input-sm" name="descripcion" type="text" value="devolución Materia Prima" required readonly>
+                        <input class="form-control input-sm" name="descripcion" type="text" value="devolución MP / Insumo" required readonly>
                     </div>
 					<input class="form-control input-sm" name="tipo_ingreso" type="hidden" value="{{$tipoIngreso}}" required readonly>
 					<input class="form-control input-sm" name="tipo_prod" type="hidden" value="{{$tipoProd}}" required readonly>

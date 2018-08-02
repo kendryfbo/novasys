@@ -150,7 +150,7 @@ class EgresoController extends Controller
 
     public function createEgrManualMP(Request $request) {
 
-        $titulo = "Egreso Manual Materia Prima";
+        $titulo = "Egreso Manual MP / Insumo";
         $tipoEgreso = EgresoTipo::manualID();
         $tipoProd = TipoFamilia::getInsumoID();
         $bodegas = Bodega::getAllActive();
@@ -216,7 +216,7 @@ class EgresoController extends Controller
 
     public function createEgrTrasladoMP(Request $request) {
 
-        $encabezado = "Egreso Traslado Materia Prima";
+        $encabezado = "Egreso Traslado MP / Insumo";
         $tipoEgreso = EgresoTipo::manualID();
         $tipoProd = TipoFamilia::getInsumoID();
         $bodegas = Bodega::getAllActive();

@@ -25,7 +25,7 @@
                 Creacion de Pallet <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{route('crearPalletMP')}}">Materia Prima</a></li>
+                  <li><a href="{{route('crearPalletMP')}}">MP / Insumo</a></li>
                   <li><a href="{{route('crearPalletPR')}}">Premezcla</a></li>
                   <li><a href="#">Reproceso</a></li>
                   <li><a href="{{route('crearPalletPT')}}">Producto Terminado</a></li>
