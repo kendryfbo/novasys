@@ -56,7 +56,7 @@ class PosicionController extends Controller
             }
 
             $posicion = Posicion::where('id',$posicion_id)->first();
-
+            
             $posicion->status_id = $status_id;
             $posicion->medida_id = $medida_id;
 

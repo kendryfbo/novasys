@@ -55,6 +55,11 @@ class Bodega extends Model
         DB::transaction( function() use($posicionID,$palletID) {
 
             $posicion = Posicion::find($posicionID);
+
+            if ($posicion->pallet_id) {
+
+                dd('ERROR - POSICION OCUPADA');
+            }
             $pallet = Pallet::find($palletID);
             $statusPosicion = PosicionStatus::ocupadoID();
 

@@ -3,10 +3,11 @@
 @section('content')
 <style>
 .custom {
-		margin: 0px;
-		padding: 0px;
-		width: 30px !important;
-	}
+	margin: 0px;
+	padding: 0px;
+	width: 30px !important;
+	height: 30px !important;
+}
 </style>
 	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
@@ -17,22 +18,32 @@
 
 		<!-- box-body -->
 		<div class="box-body">
+
 			<div class="form-horizontal">
 
-				<div class="form-group form-group-sm">
+				<div class="form-group">
 
-					<label class="control-label col-lg-1">Rack:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="false" data-live-search="true" v-model="bloque" @change="changeBloque" data-style="btn-sm btn-default" name="bloque" required>
+					<label class="control-label col-sm-1">Rack:</label>
+					<div class="col-sm-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" v-model="bloque" @change="changeBloque" data-style="btn-sm btn-default" name="bloque" required>
 							<option value="">Seleccione Bloque</option>
 							<option v-for="(bloque,key) in bloques" :value="key">@{{'Rack #' + (key+1) }}</option>
 						</select>
+					</div>
+
+					<div class="col-sm-6">
+						<label class="control-label"><span class="label label-success"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Disponible</label>
+						<label class="control-label"><span class="label label-danger"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Ocupado</label>
+						<label class="control-label"><span class="label label-warning"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Reservado</label>
+						<label class="control-label"><span class="label label-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Bloq.</label>
+						<label class="control-label"><span class="label label-default"><i class="fa fa-info-circle" aria-hidden="true"></i></span> Inactiva</label>
 
 					</div>
+
 				</div>
 			</div>
 
-			<div>
+			<div class="col-lg-12">
 
 			<template v-for='columnas in estantes' >
 
@@ -40,7 +51,10 @@
 
 					<template v-for='posicion in columnas'>
 
-						<button v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button"><small>@{{posicion.columna +"-"+ posicion.estante}}</small></button>
+						<button v-if="posicion.status_id != 1" v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">@{{posicion.columna +"-"+ posicion.estante}}</button>
+
+						<button v-if="posicion.status_id == 1" v-bind:class="statusClass(posicion.status_id)" class="custom btn btn-sm"   @click='selectedPos(posicion)'  type="button" name="button" :disabled="posicion.status_id == 1">##</button>
+
 
 					</template>
 
@@ -172,6 +186,7 @@
 		tiposCondicion = {!!$tiposCondicion!!};
 		statusAll = {!!$status!!}
 		medidas = {!!$medidas!!}
+		bodegaConsultURL = "{!!route('apiConsultarBodega')!!}";
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>

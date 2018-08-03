@@ -17,14 +17,33 @@ var app = new Vue ({
         medida: '',
         selected: false,
         posicion_id: '',
-        posicion: ''
+        posicion: '',
+        bodegaConsultURL : bodegaConsultURL,
     },
 
     methods: {
 
+        getBloques: function() {
+
+            var url =bodegaConsultURL;
+
+			axios.post(url,{
+                bodegaID: this.bodega
+            })
+			.then(response => this.loadBloque(response.data))
+			.catch(error => this.handleError(error))
+
+        },
+
+        loadBloque: function(data) {
+            this.bloques = data;
+            this.estantes = this.bloques[this.bloque];
+
+        },
+
         changeBloque: function() {
 
-            this.estantes = this.bloques[this.bloque];
+            this.getBloques();
 
         },
         selectedPos: function(posicion) {
@@ -87,6 +106,7 @@ var app = new Vue ({
 
             this.storeStatus();
             this.storeCondicion();
+            this.getBloques();
         },
 
         storeCondicion: function() {
@@ -176,6 +196,10 @@ var app = new Vue ({
             } else if (status == 4){
 
                 return 'btn-warning';
+
+            } else if (status == 5){
+
+                return 'btn-primary';
             }
         },
 
