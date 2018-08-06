@@ -11,6 +11,8 @@ class EnvioMail extends Model
 	const MAIL_NOTAVENTA_ID = 2; // id de Mail enviado atravez de Nota Venta tabla envio_mail.
 	const MAIL_PROFORMA_DESPACHO_ID = 3; // id de Mail enviado Despacho Proforma tabla envio_mail.
 	const MAIL_NOTAVENTA_DESPACHO_ID = 4; // id de Mail enviado Despacho Nota Venta tabla envio_mail.
+	const MAIL_EGRESO_BODEGA_ID = 5; // id de Mail enviado Egreso de Bodega tabla envio_mail.
+	const MAIL_EGRESO_CALIDAD_ID = 6; // id de Mail enviado Egreso de bodega a calidad tabla envio_mail.
 
     protected $table = 'envio_mail';
 
@@ -48,6 +50,20 @@ class EnvioMail extends Model
     static function getMailListNotaVentaDespacho() {
 
 		$id = self::MAIL_NOTAVENTA_DESPACHO_ID;
+		$mailList = self::getMailList($id);
+
+		return $mailList;
+    }
+    static function getMailListEgresoBodega() {
+
+		$id = self::MAIL_EGRESO_BODEGA_ID;
+		$mailList = self::getMailList($id);
+
+		return $mailList;
+    }
+    static function getMailListEgresoCalidad() {
+
+		$id = self::MAIL_EGRESO_CALIDAD_ID;
 		$mailList = self::getMailList($id);
 
 		return $mailList;

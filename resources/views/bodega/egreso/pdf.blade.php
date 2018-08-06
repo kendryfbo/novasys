@@ -3,42 +3,55 @@
     <head>
         <meta charset="utf-8">
         <title>Orden Egreso N°{{$egreso->numero}}</title>
-
         <!-- PDF default CSS -->
         <link rel="stylesheet" href="{{asset('css/bodega/egreso/formatoPDF.css')}}">
     </head>
     <body>
-        <h1 class="text-center">Orden de Egreso Bodega</h1>
+
+        <table class="title-content" width="100%">
+            <tr>
+                <th style="width:130px">
+                </th>
+                <th style="width:400px">
+                    <h2 class="text-center">Orden de Egreso Bodega</h2>
+                </th>
+                <th class="text-center">
+                </th>
+            </tr>
+        </table>
 
         <div class="title-content">
             <h3 class="num-oc">
                 Nº {{$egreso->numero}}
             </h3>
-            <h4 class="date">
-                Fecha Generacion :
-                Santiago, {{$egreso->fecha_egr}}
-            </h4>
-            <h4 class="date2">
-                Fecha Despacho :
-            </h4>
-            <table>
+            <table width="100%">
                 <tr>
-                    <td >Orden de Egreso N°: <strong>{{$egreso->numero}}</strong></td>
+                    <td class="text-right" style="width: 70px">Despacho N°: </td>
+                    <td class="text-left" colspan="3"><strong>{{$egreso->numero}}</strong></td>
                 </tr>
                 <tr>
-                    <td >Tipo Egreso: <strong>{{$egreso->tipo->descripcion}}</strong></td>
+                    <td class="text-right">Tipo Egreso:</td>
+                    <td class="text-left" colspan="3"><strong>{{$egreso->tipo->descripcion}}</strong></td>
                 </tr>
                 <tr>
-                    <td >Descripcion: <strong>{{$egreso->descripcion}}</strong></td>
+                    <td class="text-right">Descripcion:</td>
+                    <td class="text-left" style="width:300px"><strong>{{$egreso->descripcion}}</strong></td>
+                    <td class="text-right"><strong>Fecha Generacion:</strong></td>
+                    <td class="text-left"><strong>Santiago, {{$egreso->fecha_egr}}</strong></td>
                 </tr>
+                <tr>
+                    <td class="text-right">Cliente:</td>
                 @if (!is_null($egreso->documento))
-                    <tr>
-                        <td >Cliente: <strong>{{$egreso->documento->cliente->descripcion}}</strong></td>
-                    </tr>
+                    <td class="text-left"><strong>{{$egreso->documento->cliente->descripcion}}</strong></td>
+                @else
+                    <td class="text-left"></td>
                 @endif
+                <td class="text-right"><strong>Fecha Despacho:</strong></td>
+                <td class="text-left"><strong>___________________</strong></td>
+                </tr>
             </table>
         </div>
-
+        <br>
         <div class="content">
             <table class="table" width="100%">
                 <<thead>
@@ -53,7 +66,7 @@
                 <tbody>
                     @foreach ($egreso->detalles as $detalle)
                         <tr>
-                            <td class="text-left">{{$detalle->bodega}}</td>
+                            <td class="text-center">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
                             <td class="text-left">{{$detalle->item->descripcion}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Comercial;
 
 use PDF;
 use Mail;
-
 use Carbon\Carbon;
 use App\Models\Producto;
 use Illuminate\Http\Request;

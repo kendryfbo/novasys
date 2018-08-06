@@ -7,6 +7,7 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 .title-content {
     border: 1px solid;
     margin-bottom: 2px;
@@ -36,32 +37,38 @@ table {
     text-align: right;
 }
 .content {
-    height: 750px;
+    height: 600px;
     border: 1px solid black;
 }
 
-table {
-   padding: 0px;
-   margin: 0px;
+.table-head th {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.table table {
+    padding: 0px;
+    margin: 0px;
 }
 .table th {
-   margin: 0px;
-   padding: 1px;
-   padding-right: 3px;
-   border: 1px solid black;
+    margin: 0px;
+    padding: 1px;
+    padding-right: 3px;
+    border: 1px solid black;
 }
 .table td {
-   font-size: 11px;
-   margin: 0px;
-   padding: 0px;
-   padding-left: 2px;
-   padding-right: 2px;
-   border-left: 1px solid black;
-   border-right: 1px solid black;
+    font-weight: bold;
+    font-size: 10px;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .table tr:last-child > td {
-   border-bottom: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 .table-total {
@@ -77,4 +84,13 @@ table {
     padding: 5px;
     position: absolute;
     bottom: 0px;
+}
+.square {
+  height: 8px;
+  width: 8px;
+  border: 1px solid black;
+  display: inline-block;
+}
+.smaller-text {
+    font-size: 6px !important;
 }

@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\emailProformaListener',
             'App\Listeners\emailProformaDespachoListener',
         ],
+        'App\Events\EgresoGeneratedEvent' => [
+            'App\Listeners\emailEgresoBodegaListener',
+            'App\Listeners\emailEgresoCalidadListener',
+        ],
         'App\Events\CreateFacturaNacionalEvent' => [
             'App\Listeners\GenerateFacturaExcel',
         ],
