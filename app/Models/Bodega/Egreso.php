@@ -66,6 +66,11 @@ class Egreso extends Model
 
                     $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoProducto,$detalle->id);
 
+                    $detalleLote = $posicion->detalle_lote;
+                    $palletNum = $posicion->pallet_num;
+                    unset($posicion->detalle_lote);
+                    unset($posicion->pallet_num);
+
                     if (!$posicion) {
 
                         dd('Error al generar Egreso - No existencia');
@@ -90,8 +95,8 @@ class Egreso extends Model
                         'item_id' => $detalle->id,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
-                        'pallet_num' => $posicion->pallet_num,
-                        'lote' => $posicion->detalle_lote,
+                        'pallet_num' => $palletNum,
+                        'lote' => $detalleLote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
@@ -169,6 +174,11 @@ class Egreso extends Model
 
                     $posicion = Posicion::getPositionThatContainItem($bodega,$tipoProducto,$detalle->producto_id);
 
+                    $detalleLote = $posicion->detalle_lote;
+                    $palletNum = $posicion->pallet_num;
+                    unset($posicion->detalle_lote);
+                    unset($posicion->pallet_num);
+
                     if (!$posicion) {
 
                         dd('Error al generar orden de Egreso - No existencia');
@@ -184,7 +194,7 @@ class Egreso extends Model
                     }
 
                     $cantidad = $cantidad - $restar;
-
+                    unset($posicion->detalle_lote);
                     $posicion->subtract($posicion->detalle_id,$restar);
 
                     $egresoDetalle = EgresoDetalle::create([
@@ -193,13 +203,14 @@ class Egreso extends Model
                         'item_id' => $detalle->producto_id,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
-                        'pallet_num' => $posicion->pallet_num,
-                        'lote' => $posicion->detalle_lote,
+                        'pallet_num' => $palletNum,
+                        'lote' => $detalleLote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
                 }
             }
+
             $status = StatusDocumento::completaID();
             $documento->status = $status;
             $egreso->status_id = $status;
@@ -265,6 +276,10 @@ class Egreso extends Model
 
                     $restar = 0;
                     $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoProducto,$detalleID);
+                    $detalleLote = $posicion->detalle_lote;
+                    $palletNum = $posicion->pallet_num;
+                    unset($posicion->detalle_lote);
+                    unset($posicion->pallet_num);
                     $palletDetalle = PalletDetalle::find($posicion->detalle_id);
 
                     if (!$posicion) {
@@ -291,8 +306,8 @@ class Egreso extends Model
                         'item_id' => $detalleID,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
-                        'pallet_num' => $posicion->pallet_num,
-                        'lote' => $posicion->detalle_lote,
+                        'pallet_num' => $palletNum,
+                        'lote' => $detalleLote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
