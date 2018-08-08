@@ -45,7 +45,7 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td>{{$cliente->descripcion}}</td>
-							<td>{{$cliente->pais}}</td>
+							<td>{{$cliente->pais->nombre}}</td>
 							<td>{{$cliente->zona}}</td>
 							<td>{{$cliente->contacto}}</td>
 							<td>{{$cliente->activo ? "Si" : "No"}}</td>

@@ -35,7 +35,7 @@
                         </tr>
                         <tr>
                             <td class="text-right">PAIS/COUNTRY :</td>
-                            <th>{{strtoupper($proforma->cliente->pais)}}</th>
+                            <th>{{strtoupper($proforma->cliente->pais->nombre)}}</th>
                         </tr>
                     </tbody>
                 </table>

@@ -25,7 +25,7 @@
 			<form id="download" action="{{route('descargarReportProdExcel')}}" method="post">
 				{{ csrf_field() }}
 
-				<input type="hidden" name="pais" value="{{$busqueda ? $busqueda->pais : ''}}">
+				<input type="hidden" name="pais_id" value="{{$busqueda ? $busqueda->pais_id : ''}}">
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 				<input type="hidden" name="producto" value="{{$busqueda ? $busqueda->producto : ''}}">
 				<input type="hidden" name="desde" value="{{$busqueda ? $busqueda->desde : ''}}">
@@ -43,13 +43,13 @@
 
 					<label class="control-label col-lg-1">Pais:</label>
 					<div class="col-lg-2">
-					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais_id">
 
 						<option value="">Todos...</option>
 
 						@foreach ($paises as $pais)
 
-							<option {{$busqueda->pais == $pais->nombre ? 'selected':''}} value="{{$pais->nombre}}">{{$pais->nombre}}</option>
+							<option {{$busqueda->pais_id == $pais->id ? 'selected':''}} value="{{$pais->id}}">{{$pais->nombre}}</option>
 
 						@endforeach
 

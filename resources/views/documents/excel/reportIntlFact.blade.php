@@ -30,7 +30,7 @@
                       <td class="text-left">{{$factura->centro_venta}}</td>
                       <td class="text-center">{{$factura->numero}}</td>
                       <td class="text-left">{{$factura->cliente}}</td>
-                      <td class="text-left">{{$factura->clienteIntl->pais}}</td>
+                      <td class="text-left">{{$factura->clienteIntl->pais->nombre}}</td>
                       <td class="text-center">{{$factura->fecha_emision}}</td>
                       <td class="text-center">{{$factura->proforma}}</td>
                       <td class="text-right">{{number_format($factura->fob,2,",",".")}}</td>

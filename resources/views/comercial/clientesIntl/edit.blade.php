@@ -42,10 +42,10 @@
 
 							<label class="control-label col-lg-1" >Pais:</label>
 							<div class="col-lg-1">
-								<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="pais" required>
+								<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-sm btn-default" name="pais_id" required>
 									<option value="">Seleccionar pais...</option>
 									@foreach ($paises as $pais)
-										<option {{$cliente->pais == $pais->nombre ? 'selected':'' }} value="{{$pais->nombre}}">{{$pais->nombre}}</option>
+										<option {{$cliente->pais_id == $pais->id ? 'selected':'' }} value="{{$pais->id}}">{{$pais->nombre}}</option>
 									@endforeach
 								</select>
 							</div>

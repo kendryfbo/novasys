@@ -45,7 +45,7 @@
 
 						<label class="control-label col-lg-1" >Pais:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control input-sm" name="pais" value="{{ $cliente->pais }}" readonly>
+							<input type="text" class="form-control input-sm" name="pais_id" value="{{ $cliente->pais->nombre }}" readonly>
 						</div>
 
 						<label class="control-label col-lg-1" >Idioma:</label>

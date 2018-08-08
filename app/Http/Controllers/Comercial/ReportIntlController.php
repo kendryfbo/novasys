@@ -44,9 +44,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -59,12 +59,12 @@ class ReportIntlController extends Controller
             };
 
             $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-            $facturas = FacturaIntl::whereIn('cliente_id',$clientes)->where($queryDates)->take(5000)->get();
+            $facturas = FacturaIntl::whereIn('cliente_id',$clientes)->where($queryDates)->get();
         }
 
-        $paises = Pais::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-
+        $paises = Pais::has('clientesIntls')->get();
+        $clientes = ClienteIntl::has('facturasIntls')->get();
+        //dd($busqueda->all());
         return view('comercial.reportesIntl.reportFactIntl')
                 ->with([
                     'busqueda' => $busqueda,
@@ -86,7 +86,7 @@ class ReportIntlController extends Controller
 
             $deste = $request->desde;
             $hasta = $request->hasta;
-            $pais = $request->pais;
+            $pais = $request->pais_id;
             $cliente = $request->cliente;
             $producto = $request->producto;
             $group = $request->group;
@@ -109,9 +109,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -129,6 +129,7 @@ class ReportIntlController extends Controller
 
                 array_push($queryProductos,$producto);
             };
+
 
 
             $clientes = ClienteIntl::where($queryClientes)->pluck('id');
@@ -158,8 +159,8 @@ class ReportIntlController extends Controller
 
         }
 
-        $paises = Pais::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
+        $paises = Pais::has('clientesIntls')->get();
+        $clientes = ClienteIntl::has('facturasIntls')->get();
         $productos = Producto::getAllActive();
 
         return view('comercial.reportesIntl.reportProdFactIntl')
@@ -197,9 +198,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -233,7 +234,7 @@ class ReportIntlController extends Controller
 
             $deste = $request->desde;
             $hasta = $request->hasta;
-            $pais = $request->pais;
+            $pais = $request->pais_id;
             $cliente = $request->cliente;
             $producto = $request->producto;
             $group = $request->group;
@@ -256,9 +257,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };

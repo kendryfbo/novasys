@@ -24,7 +24,7 @@
 			<form id="download" action="{{route('descargarReportFactExcel')}}" method="post">
 				{{ csrf_field() }}
 
-				<input type="hidden" name="pais" value="{{$busqueda ? $busqueda->pais : ''}}">
+				<input type="hidden" name="pais_id" value="{{$busqueda ? $busqueda->pais_id : ''}}">
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 				<input type="hidden" name="desde" value="{{$busqueda ? $busqueda->desde : ''}}">
 				<input type="hidden" name="hasta" value="{{$busqueda ? $busqueda->hasta : ''}}">
@@ -40,13 +40,13 @@
 
 					<label class="control-label col-lg-1">Pais:</label>
 					<div class="col-lg-2">
-					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="pais_id">
 
 						<option value="">Todos...</option>
 
 						@foreach ($paises as $pais)
 
-							<option value="{{$pais->nombre}}">{{$pais->nombre}}</option>
+							<option {{$pais->id == $busqueda->pais_id ? 'selected':''}} value="{{$pais->id}}">{{$pais->nombre}}</option>
 
 						@endforeach
 
@@ -61,7 +61,7 @@
 
 							@foreach ($clientes as $cliente)
 
-								<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
+								<option {{$cliente->id == $busqueda->cliente_id ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
 
 							@endforeach
 
@@ -84,12 +84,12 @@
 
 					<label class="control-label col-lg-1">F. Desde:</label>
 					<div class="col-lg-2">
-						<input class="form-control" type="date" name="desde" value="">
+						<input class="form-control" type="date" name="desde" value="{{$busqueda->desde}}">
 					</div>
 
 					<label class="control-label col-lg-1">F. Hasta:</label>
 					<div class="col-lg-2">
-						<input class="form-control" type="date" name="hasta" value="">
+						<input class="form-control" type="date" name="hasta" value="{{$busqueda->hasta}}">
 					</div>
 
 					<div class="col-lg-1 pull-right">
@@ -123,7 +123,7 @@
 							<td class="text-left">{{$factura->centro_venta}}</td>
 							<td class="text-center"><a href="{{url('comercial/FacturaIntl/'.$factura->numero)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
 							<td class="text-left">{{$factura->cliente}}</td>
-							<td class="text-left">{{$factura->clienteIntl->pais}}</td>
+							<td class="text-left">{{$factura->clienteIntl->pais->nombre}}</td>
 							<td class="text-center">{{$factura->fecha_emision}}</td>
 							<td class="text-center"><a href="{{url('comercial/proformas/'.$factura->proforma)}}" target="_blank"><strong>{{$factura->proforma}}</strong></a></td>
 							<td class="text-right">{{'US$ ' . number_format($factura->fob,2,",",".")}}</td>

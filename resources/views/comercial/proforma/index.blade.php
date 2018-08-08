@@ -46,7 +46,7 @@
 							<td class="text-center">{{$proforma->centro_venta}}</td>
 							<td>{{$proforma->cliente->descripcion}}</td>
 							<td class="text-center">{{$proforma->clau_venta}}</td>
-							<td class="text-center">{{$proforma->cliente->pais}}</td>
+							<td class="text-center">{{$proforma->cliente->pais->nombre}}</td>
 							<td class="text-right">{{'US$ ' . number_format($proforma->total,2,",",".")}}</td>
 							<td class="text-center ">
 								@if (is_null($proforma->aut_comer))
