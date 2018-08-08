@@ -30,7 +30,7 @@
 							<option v-for="(bloque,key) in bloques" :value="key">@{{'Rack #' + (key+1) }}</option>
 						</select>
 					</div>
-					<div class="col-sm-1">
+					<div class="col-sm-2">
 						<button type="button"  class="btn btn-default" data-toggle="modal" data-target="#findPalletPos">Buscar Pallet</button>
 					</div>
 
@@ -193,6 +193,7 @@
 										<th class="text-center">PRODUCTO</th>
 										<th class="text-center">PROCEDENCIA</th>
 										<th class="text-center">NUMERO</th>
+										<th class="text-center">LOTE</th>
 										<th class="text-center">FECHA. ING.</th>
 										<th class="text-center">FECHA. VENC.</th>
 										<th class="text-center">CANTIDAD</th>
@@ -211,8 +212,8 @@
 											@{{detalle.ingreso.numero}}</a>
 										</td>
 										<td v-else class="text-left"></td>
-										<td class="text-center">
-											@{{detalle.fecha_ing}}</td>
+										<td class="text-center">@{{detalle.lote}}</td>
+										<td class="text-center">@{{detalle.fecha_ing}}</td>
 										<td class="text-center">@{{detalle.fecha_venc}}</td>
 										<td class="text-right">@{{detalle.cantidad}}</td>
 									</tr>

@@ -4,6 +4,21 @@
 // GRUPO de Rutas de Modulo Operaciones-Bodega
 Route::prefix('bodega')->group( function() {
 
+    Route::get('/updatePalletLote', function(){
+
+        $palletDetalle = App\Models\Bodega\PalletDetalle::with('ingreso.detalles')->where('ing_tipo_id',2)->get();
+        //dd($palletDetalle);
+        $i=0;
+        foreach ($palletDetalle as $detalle) {
+            $i++;
+            dump($i);
+            $lote = $detalle->ingreso->detalles[0]->lote;
+            dump($lote);
+            $detalle->lote = $lote;
+            $detalle->save();
+        }
+        dd('done');
+    });
 
     Route::get('/grupoprem', function(){
         $nivelPremix = 2;

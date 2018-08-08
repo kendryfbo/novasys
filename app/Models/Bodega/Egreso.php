@@ -90,6 +90,8 @@ class Egreso extends Model
                         'item_id' => $detalle->id,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
+                        'pallet_num' => $posicion->pallet_num,
+                        'lote' => $posicion->detalle_lote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
@@ -191,6 +193,8 @@ class Egreso extends Model
                         'item_id' => $detalle->producto_id,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
+                        'pallet_num' => $posicion->pallet_num,
+                        'lote' => $posicion->detalle_lote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
@@ -287,6 +291,8 @@ class Egreso extends Model
                         'item_id' => $detalleID,
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
+                        'pallet_num' => $posicion->pallet_num,
+                        'lote' => $posicion->detalle_lote,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $restar,
                     ]);
@@ -357,10 +363,15 @@ class Egreso extends Model
 
                 $item = json_decode($item);
                 $restar = $item->producto->cantidad;
+                $itemID = $item->id;
 
-                $posicion = Posicion::find($posicionID);
+                $posicion = Posicion::with(['pallet.detalles' => function($query) use($itemID) {
+                    $query->where('id',$itemID)->first();
+                }])->find($posicionID);
 
                 $posicion->subtract($item->id,$restar);
+                $palletNum = $posicion->pallet->numero;
+                $lote = $posicion->pallet->detalles->first()->lote;
 
                 $egresoDetalle = EgresoDetalle::create([
                     'egr_id' => $egreso->id,
@@ -368,6 +379,8 @@ class Egreso extends Model
                     'item_id' => $item->item_id,
                     'bodega' => $posicion->bodega->descripcion,
                     'posicion' => $posicion->format(),
+                    'pallet_num' => $palletNum,
+                    'lote' => $lote,
                     'fecha_egr' => $egreso->fecha_egr,
                     'cantidad' => $restar,
                 ]);
@@ -404,13 +417,14 @@ class Egreso extends Model
 
         $tipoProforma  = EgresoTipo::profID();
         $tipoNotaVenta = EgresoTipo::nvID();
+        $tipo = $this->tipo_id;
 
         if ($this->tipo_id == $tipoProforma) {
 
             $this->tipo_descrip = 'Proforma';
             return $this->belongsTo('App\Models\Comercial\Proforma','item_id');
 
-        } elseif ($this->tipo_doc == $tipoNotaVenta) {
+        } elseif ($tipo == $tipoNotaVenta) {
 
             $this->tipo_descrip = 'NotaVenta';
             return $this->belongsTo('App\Models\Comercial\NotaVenta','item_id');

@@ -9,7 +9,7 @@ use App\Models\TipoFamilia;
 class EgresoDetalle extends Model
 {
         protected $table = 'egreso_detalle';
-        protected $fillable = ['egr_id', 'tipo_id' , 'item_id', 'bodega', 'posicion', 'fecha_egr', 'fecha_venc', 'lote', 'cantidad'];
+        protected $fillable = ['egr_id', 'tipo_id' , 'item_id', 'bodega', 'posicion', 'pallet_num', 'fecha_egr', 'fecha_venc', 'lote', 'cantidad'];
 
         /*
         |

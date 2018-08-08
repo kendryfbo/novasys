@@ -14,6 +14,7 @@ use App\Models\Bodega\Pallet;
 use App\Models\Bodega\EgresoTipo;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\NotaVenta;
+use App\Events\EgresoGeneratedEvent;
 use App\Models\Config\TipoDocumento;
 use App\Models\Config\StatusDocumento;
 
@@ -313,7 +314,7 @@ class EgresoController extends Controller
         $id = intval($request->id);
         $user = $request->user()->id;
 
-        $egreso = Egreso::generate($user,$tipo,$id,$bodega);
+        //event(new EgresoGeneratedEvent($egreso));
 
         return redirect()->route('verEgreso', ['numero' => $egreso->numero]);
     }
@@ -425,6 +426,18 @@ class EgresoController extends Controller
         $pdf = PDF::loadView('bodega.egreso.pdf',compact('egreso'));
 
         return $pdf->stream('Orden Egreso N°'.$egreso->numero.'.pdf');
+    }
+
+    public function downloadRegInspEgresoPDF($numero) {
+
+        $tipoProforma= EgresoTipo::profID();
+        $tipoNotaVenta = EgresoTipo::nvID();
+        $egreso = Egreso::where('numero',$numero)->first();
+
+        $egreso->load('documento','detalles','tipo');
+
+        $pdf = PDF::loadView('bodega.egreso.regInspEgresoPDF',compact('egreso'));
+        return $pdf->stream();
     }
 
     // API FUNCTIONS

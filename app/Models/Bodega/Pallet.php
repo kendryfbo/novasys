@@ -52,6 +52,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $item->ingreso->tipo_id,
                     'ing_id' => $item->ingreso->id,
                     'cantidad' => $cantidad,
+                    'lote' => $item->lote,
                     'fecha_ing' => $item->fecha_ing,
                     'fecha_venc' => $item->fecha_venc,
                 ]);
@@ -103,6 +104,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $ingreso->tipo_id,
                     'ing_id' => $item->ing_id,
                     'cantidad' => $cantidad,
+                    'lote' => $item->lote,
                     'fecha_ing' => $fechaIng,
                     'fecha_venc' => $fechaVenc,
                 ]);
@@ -139,10 +141,10 @@ class Pallet extends Model
             foreach ( $items as $item) {
 
                 $item = json_decode($item);
-
                 $ingDetalleID = $item->id;
                 $palletID = $pallet->id;
                 $cantidad = $item->cantidad;
+                $lote = $item->lote;
                 $fechaVenc = null;// $item->fecha_venc ? $item->fecha_venc : null; // no esta registrando fecha de vencimiento - Corregir
                 $fechaIng = $item->fecha_ing;
                 $tipoID  = $item->tipo_id;
@@ -157,6 +159,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $ingTipoID,
                     'ing_id' => $ingID,
                     'cantidad' => $cantidad,
+                    'lote' => $lote,
                     'fecha_ing' => $fechaIng,
                     'fecha_venc' => $fechaVenc,
                 ]);
@@ -195,6 +198,7 @@ class Pallet extends Model
                 $itemID = $item->item_id;
                 $ingTipoID = $item->ing_tipo_id;
                 $ingID = $item->ing_id;
+                $lote = $item->lote;
 
                 PalletDetalle::create([
                     'pallet_id' => $palletID,
@@ -203,6 +207,7 @@ class Pallet extends Model
                     'ing_tipo_id' => $ingTipoID,
                     'ing_id' => $ingID,
                     'cantidad' => $cantidad,
+                    'lote' => $lote,
                     'fecha_ing' => $fechaIng,
                     'fecha_venc' => $fechaVenc,
                 ]);
@@ -239,6 +244,7 @@ class Pallet extends Model
                 'ing_tipo_id' => $palletDetalle->ing_tipo_id,
                 'ing_id' => $palletDetalle->ing_id,
                 'cantidad' => $cantidad,
+                'lote' => $palletDetalle->lote,
                 'fecha_ing' => $palletDetalle->fecha_ing,
                 'fecha_venc' => $palletDetalle->fecha_venc,
             ]);

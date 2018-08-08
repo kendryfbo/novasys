@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class PalletDetalle extends Model
 {
     protected $table = 'pallet_detalle';
-    protected $fillable = ['pallet_id', 'tipo_id', 'item_id', 'ing_tipo_id', 'ing_id', 'cantidad', 'fecha_ing', 'fecha_venc', 'lote'];
-
+    protected $fillable = ['pallet_id', 'tipo_id', 'item_id', 'ing_tipo_id', 'ing_id', 'cantidad', 'lote', 'fecha_ing', 'fecha_venc'];
 
     /*
     |
@@ -24,7 +23,7 @@ class PalletDetalle extends Model
         if ($this->cantidad < $cantidad) {
             dd('cantidad a restar es mayor a la existente');
         }
-        
+
         $this->cantidad = $this->cantidad - $cantidad;
 
         $this->save();

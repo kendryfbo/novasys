@@ -41,7 +41,7 @@
       <tr>
           <td>{{$detalle->producto->codigo}}</td>
           <td colspan="3">{{$detalle->producto->descripcion}}</td>
-          <td class="text-center">{{$detalle->ingreso->detalles[0]->lote}}</td>
+          <td class="text-center">{{$detalle->lote}}</td>
           <td class="text-right">{{$detalle->cantidad}}</td>
       </tr>
 

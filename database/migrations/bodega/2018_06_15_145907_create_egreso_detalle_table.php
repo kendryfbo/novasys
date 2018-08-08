@@ -20,6 +20,7 @@ class CreateEgresoDetalleTable extends Migration
             $table->integer('item_id');
             $table->string('bodega');
             $table->string('posicion');
+            $table->bigInteger('pallet_num');
             $table->date('fecha_egr');
             $table->date('fecha_venc')->nullable();
             $table->string('lote')->nullable();

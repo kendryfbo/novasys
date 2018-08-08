@@ -269,7 +269,7 @@ class Posicion extends Model
 
         $posicion = [];
 
-        $query = "SELECT pos.id as id, pd.id as detalle_id, pd.cantidad as existencia
+        $query = "SELECT pos.id as id, pd.id as detalle_id, pd.lote as detalle_lote,pa.numero as pallet_num, pd.cantidad as existencia
                     FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
                     WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id;
 
@@ -289,6 +289,8 @@ class Posicion extends Model
 
         $posicion = Posicion::find($results[0]->id);
         $posicion->detalle_id = $results[0]->detalle_id;
+        $posicion->detalle_lote = $results[0]->detalle_lote;
+        $posicion->pallet_num = $results[0]->pallet_num;
         $posicion->existencia = $results[0]->existencia;
         return $posicion;
     }
@@ -302,7 +304,7 @@ class Posicion extends Model
         }
         return false;
     }
-    
+
     static function changePositionPallet($anterior,$nueva) {
 
         DB::transaction(function() use($anterior,$nueva){
