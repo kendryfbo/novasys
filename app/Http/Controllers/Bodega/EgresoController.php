@@ -314,6 +314,7 @@ class EgresoController extends Controller
         $id = intval($request->id);
         $user = $request->user()->id;
 
+        $egreso = Egreso::generate($user,$tipo,$id,$bodega);
         //event(new EgresoGeneratedEvent($egreso));
 
         return redirect()->route('verEgreso', ['numero' => $egreso->numero]);
