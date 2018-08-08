@@ -67,18 +67,18 @@
                     <th class="text-center" colspan="8">VERIFICACÍON DEL ESTADO DEL CONTENEDOR</th>
                 </tr>
                 <tr>
-                    <th class="text-left">MARCA :</th>
+                    <th class="text-left">MARCA:</th>
                     <th class="text-left" colspan="3">________________________________________________</th>
-                    <th class="text-left">CODIGO :</th>
+                    <th class="text-left">CODIGO:</th>
                     <th class="text-left" colspan="3">________________________________________________</th>
 
                 </tr>
                 <tr>
-                    <th class="text-left">LIMPIEZA :</th>
+                    <th class="text-left">LIMPIEZA:</th>
                     <th class="text-left"> BUENA <div class="square"></div></th>
                     <th class="text-left"> REGULAR <div class="square"></div></th>
                     <th class="text-left"> MALA <div class="square"></div></th>
-                    <th class="text-left">OLOR :</th>
+                    <th class="text-left">OLOR:</th>
                     <th class="text-left"> BUENA <div class="square"></div></th>
                     <th class="text-left"> REGULAR <div class="square"></div></th>
                     <th class="text-left"> MALA <div class="square"></div></th>
@@ -87,7 +87,7 @@
 
             <table class="table-head" width="50%">
                 <tr>
-                    <th class="text-left">ESTADO DE PUERTAS :</th>
+                    <th class="text-left">ESTADO DE PUERTAS:</th>
                     <th class="text-left"> BUENA <div class="square"></div></th>
                     <th class="text-left"> REGULAR <div class="square"></div></th>
                     <th class="text-left"> MALA <div class="square"></div></th>
@@ -100,31 +100,31 @@
                     <th class="text-left"> MALA <div class="square"></div></th>
                 </tr>
                 <tr>
-                    <th class="text-left">PRESENTA OXIDACION :</th>
+                    <th class="text-left">PRESENTA OXIDACION:</th>
                     <th class="text-left"> SI <div class="square"></div></th>
                     <th class="text-left"> NO <div class="square"></div></th>
                 </tr>
             </table>
             <table class="table-head" width="100%">
                 <tr>
-                    <th class="text-left">OBSERVACION :</th>
+                    <th class="text-left">OBSERVACION:</th>
                     <th class="text-left" colspan="6"> __________________________________________________________________________________________________________ </th>
                 </tr>
             </table>
             <table class="table-head" width="70%">
                 <tr>
-                    <th class="text-left">CONDICION :</th>
-                    <th class="text-left"> APROBADO :__________________</th>
-                    <th class="text-left"> RECHAZADO :__________________</th>
+                    <th class="text-left">CONDICION:</th>
+                    <th class="text-left"> APROBADO: <div class="square"></div></th>
+                    <th class="text-left"> RECHAZADO: <div class="square"></div></th>
                 </tr>
             </table>
             <table class="table-head" width="100%">
                 <tr>
-                    <th class="text-left">HORA INICIO :</th>
+                    <th class="text-left">HORA INICIO:</th>
                     <th class="text-left"> ____________ </th>
-                    <th class="text-left">HORA TERMINO :</th>
+                    <th class="text-left">HORA TERMINO:</th>
                     <th class="text-left"> ____________ </th>
-                    <th class="text-left">TIEMPO CARGA :</th>
+                    <th class="text-left">TIEMPO CARGA:</th>
                     <th class="text-left"> ____________ </th>
                 </tr>
             </table>
@@ -133,9 +133,9 @@
             <table class="table" width="100%">
                 <<thead>
                     <tr>
-                        <th class="text-center" style="width:50px">BODEGA</th>
+                        <th class="text-center" style="width:45px">BODEGA</th>
                         <th class="text-center">UBIC.</th>
-                        <th class="text-center">A/R</th>
+                        <th class="text-center" style="width:10px">A/R</th>
                         <th class="text-center" style="width:250px">DESCRIPCION</th>
                         <th class="text-center">N° PALLET</th>
                         <th class="text-center">CANT</th>
@@ -147,9 +147,9 @@
                 <tbody>
                     @foreach ($egreso->detalles as $detalle)
                         <tr>
-                            <td class="text-left smaller-text">{{$detalle->bodega}}</td>
+                            <td class="text-center smaller-text">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
-                            <td class="text-left"><div class="square"></div></td>
+                            <td class="text-left"></td>
                             <td class="text-left">{{$detalle->item->descripcion}}</td>
                             <td class="text-left">{{$detalle->pallet_num}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>

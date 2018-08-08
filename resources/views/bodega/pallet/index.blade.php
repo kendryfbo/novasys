@@ -57,7 +57,7 @@
 							<td class="text-center">
 								<a href="{{route('verPallet',['pallet' => $pallet->id])}}" target="_blank"><strong>{{$pallet->numero}}</strong></a>
 								</td>
-							<td class="text-center">{{$pallet->created_at}}</td>
+							<td class="text-center">{{$pallet->created_at->toDateString()}}</td>
 							<td class="text-center">{{$pallet->medida->descripcion}}</td>
 							<td class="text-center">
 									<button type="submit" class="btn btn-default btn-sm">
