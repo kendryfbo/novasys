@@ -11,7 +11,7 @@ class Producto extends Model
 
 	static function getAllActive() {
 
-		return self::all()->where('activo',1);
+		return self::where('activo',1)->orderBy('descripcion')->get();
 	}
 
 	public function hasFormula() {

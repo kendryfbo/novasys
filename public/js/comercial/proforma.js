@@ -103,18 +103,25 @@ var app = new Vue({
       if (!this.validateInput()) {
         return;
       }
+      var order = 0;
 
       if (this.itemSelected) {
 
         for (var i = 0; i < this.items.length; i++) {
 
           if (this.item.producto_id == this.items[i].producto_id) {
+            order = this.items[i].order;
             this.items.splice(i,1);
+            break;
           }
         }
 
-      }
+    } else {
 
+        order = this.items.length + 1;
+    }
+
+      this.item.order = order;
       this.item.cantidad = this.cantidad;
       this.item.descuento = this.descuento;
       this.item.precio = this.precio;
@@ -122,7 +129,7 @@ var app = new Vue({
       this.item.sub_total = (this.precio - this.descuento) * this.cantidad;
       this.item.sub_total = Math.round(this.item.sub_total * 100) / 100;
       this.items.push(this.item);
-
+      this.sortItems();
       this.calculateTotal();
       this.clearItemInputs();
       $('#prodSelect').focus();
@@ -302,6 +309,17 @@ var app = new Vue({
             this.freightValidator = true;
             this.insuranceValidator = true;
         }
+    },
+
+    sortItems: function() {
+        this.items.sort(function(a, b){
+                if (a.order < b.order)
+                return -1;
+                if (a.order > b.order)
+                return 1;
+            return 0;
+            }
+        );
     },
 
   },
