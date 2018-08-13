@@ -5,7 +5,7 @@
 <div id="vue-app" class="box box-solid box-default">
 	<!-- box-header -->
 	<div class="box-header text-center">
-		<h4>Editar Formulka</h4>
+		<h4>Editar Fórmula</h4>
 	</div>
 	<!-- /box-header -->
 	<!-- box-body -->
@@ -117,7 +117,7 @@
 					<label class="control-label col-lg-1" >Cant/caja:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" min="0" name="cantxuni" :value="cantxcaja" placeholder="cantidad x Caja" readonly>
+							<input class="form-control input-sm" type="number" min="0" name="cantxuni" v-model="cantxcaja" placeholder="cantidad x Caja">
 							<span class="input-group-addon">Un/Kg</span>
 						</div>
 					</div>

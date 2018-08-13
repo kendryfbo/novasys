@@ -18,7 +18,8 @@ class FormulaController extends Controller
 
     public function index()
     {
-        $formulas = Formula::with('producto:id,descripcion')->get();
+        $formulas = Formula::with('producto:id,descripcion')->get(['id','producto_id','generada','generada_por','fecha_gen','autorizado','autorizada_por','fecha_aut']);
+        dd($formulas[0]);
         return view('desarrollo.formulas.index')->with(['formulas' => $formulas]);
     }
 
