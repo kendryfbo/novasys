@@ -268,6 +268,7 @@ class Posicion extends Model
 
 
         $posicion = [];
+        $ocupado = PosicionStatus::ocupadoID();
 
         $query = "SELECT pos.id as id, pd.id as detalle_id, pd.lote as detalle_lote,pa.numero as pallet_num, pd.cantidad as existencia
                     FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
@@ -275,7 +276,7 @@ class Posicion extends Model
 
         if ($bodega){
 
-            $query = $query . " AND pos.bodega_id=".$bodega;
+            $query = $query . " AND pos.status_id=".$ocupado." AND pos.bodega_id=".$bodega;
         }
 
         $query = $query ." ORDER BY fecha_ing ASC LIMIT 1";
