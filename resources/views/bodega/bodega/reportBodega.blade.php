@@ -162,6 +162,7 @@
 						<th class="text-center">#</th>
 						<th class="text-center">Bodega</th>
 						<th class="text-center">Posicion</th>
+						<th class="text-center">pallet</th>
 						<th class="text-center">Codigo</th>
 						<th class="text-center">Descripcion</th>
 						<th class="text-center">Cantidad</th>
@@ -176,6 +177,7 @@
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-left">{{$producto->bod_descripcion}}</td>
                             <td class="text-center">{{$producto->pos}}</td>
+                            <td class="text-left">{{$producto->pallet_num}}</td>
 							<td class="text-left">{{$producto->codigo}}</td>
 							<td class="text-left">{{$producto->descripcion}}</td>
 							<td class="text-right">{{$producto->cantidad}}</td>

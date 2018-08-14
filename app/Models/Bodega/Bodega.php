@@ -278,6 +278,7 @@ class Bodega extends Model
         $query = "SELECT
                     bod.descripcion bod_descripcion,
                     CONCAT(pos.bloque ,'-',pos.columna,'-',pos.estante) pos,
+                    pal.numero pallet_num,
                     CASE
                         WHEN pdet.tipo_id=4 THEN (SELECT id FROM productos WHERE productos.id=pdet.item_id)
                         WHEN pdet.tipo_id=5 THEN (SELECT id FROM premezclas WHERE premezclas.id=pdet.item_id)
@@ -348,8 +349,8 @@ class Bodega extends Model
                     	WHEN pdet.tipo_id=1 THEN (null)
                     	WHEN pdet.tipo_id=2 THEN (SELECT sabores.descripcion FROM sabores,reprocesos WHERE reprocesos.id=pdet.item_id AND reprocesos.sabor_id=sabores.id)
                     END AS sabor_descripcion
-                    FROM bodegas bod,posicion pos,pallet_detalle pdet
-                    WHERE bod.id=pos.bodega_id AND pos.pallet_id=pdet.pallet_id";
+                    FROM bodegas bod, posicion pos, pallets pal, pallet_detalle pdet
+                    WHERE bod.id=pos.bodega_id AND pal.id=pos.pallet_id AND pal.id=pdet.pallet_id";
 
 
         if ($bodegaID) {

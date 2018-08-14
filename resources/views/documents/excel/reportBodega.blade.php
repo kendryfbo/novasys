@@ -15,6 +15,7 @@
                   <th class="text-center">#</th>
                   <th class="text-center">bodega</th>
                   <th class="text-center">posicion</th>
+                  <th class="text-center">pallet</th>
                   <th class="text-center">codigo</th>
                   <th class="text-center">descripcion</th>
                   <th class="text-center">cantidad</th>
@@ -29,6 +30,7 @@
                       <th class="text-center">{{$loop->iteration}}</th>
                       <td class="text-left">{{$item->bod_descripcion}}</td>
                       <td class="text-left">{{$item->pos}}</td>
+                      <td class="text-left">{{$item->palllet_num}}</td>
                       <td class="text-left">{{$item->codigo}}</td>
                       <td class="text-left">{{$item->descripcion}}</td>
                       <td class="text-left">{{$item->cantidad}}</td>
