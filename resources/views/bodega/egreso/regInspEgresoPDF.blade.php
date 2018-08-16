@@ -131,7 +131,7 @@
         </div>
         <div class="content">
             <table class="table" width="100%">
-                <<thead>
+                <thead>
                     <tr>
                         <th class="text-center" style="width:45px">BODEGA</th>
                         <th class="text-center">UBIC.</th>
@@ -140,7 +140,7 @@
                         <th class="text-center">N° PALLET</th>
                         <th class="text-center">CANT</th>
                         <th class="text-center">LOTE</th>
-                        <th class="text-center">V/U</th>
+                        <th class="text-center">V/U Meses</th>
                         <th class="text-center">OBSERVACION</th>
                     </tr>
                 </thead>
