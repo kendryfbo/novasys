@@ -73,7 +73,7 @@
 					<label class="control-label col-lg-1" >Batch:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control input-sm" type="number" min="0" name="cantBatch" v-model.number="cantBatch" placeholder="cantidad x Batch..." @change="calculate" required>
+							<input class="form-control input-sm" type="number" min="1" step="0.01" name="cantBatch" v-model.number="cantBatch" placeholder="cantidad x Batch..." @change="calculate" required>
 							<span class="input-group-addon">Kg</span>
 						</div>
 					</div>
