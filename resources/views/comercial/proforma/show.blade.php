@@ -59,9 +59,7 @@
 			</div>
 
 		  <div class="col-lg-2">
-			  @if ($proforma->aut_comer)
 				  <button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
-			  @endif
 		  </div>
         </div>
         <!-- /form-group -->
