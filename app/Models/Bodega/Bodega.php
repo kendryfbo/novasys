@@ -376,7 +376,7 @@ class Bodega extends Model
         if ($saborID) {
             $query = $query . " AND sabor_id=".$saborID;
         }
-        $query = $query . " ORDER BY marca_descripcion,formato_descripcion,sabor_descripcion,fecha_ing ";
+        $query = $query . " ORDER BY pos.bloque,pos.columna,pos.estante,marca_descripcion,formato_descripcion,sabor_descripcion,fecha_ing ";
         //dd($query);
         $results = DB::select(DB::raw($query));
 
