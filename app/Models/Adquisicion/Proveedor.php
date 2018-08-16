@@ -21,4 +21,9 @@ class Proveedor extends Model
         return $this->belongsTo('App\Models\Adquisicion\FormaPagoProveedor','fp_id');
     }
 
+    public function ordenCompras() {
+
+        return $this->hasMany('App\Models\Adquisicion\OrdenCompra','prov_id');
+    }
+
 }

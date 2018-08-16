@@ -36,6 +36,19 @@ class OrdenCompraController extends Controller
         return view('adquisicion.ordenCompra.index')->with(['ordenesCompra' => $ordenesCompra]);
     }
 
+    public function indexPending()
+    {
+        $status = StatusDocumento::completaID();
+
+        $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo')
+                                        ->where('status_id','!=',$status)
+                                        ->where('aut_contab',1)
+                                        ->orderBy('numero','desc')
+                                        ->get();
+
+        return view('adquisicion.ordenCompra.reportPendingOC')->with(['ordenesCompra' => $ordenesCompra]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,8 +60,9 @@ class OrdenCompraController extends Controller
         $monedas = Moneda::getAllActive();
         $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
         $prodMantencion = ProdMantencion::getArrayOfAllActiveWithLastPrice();
-        $productos = collect([$materiaPrima,$prodMantencion]);
-        $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Producto de Elaboración'],['id' => 1 , 'descripcion' => 'Productos Mantencion']]);
+        $servicios = collect([collect([['id']])]);
+        $productos = collect([$materiaPrima,$prodMantencion,$servicios]);
+        $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Producto de Elaboración'],['id' => 1 , 'descripcion' => 'Productos Mantencion'],['id' => 2 , 'descripcion' => 'Servicios']]);
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
@@ -244,6 +258,20 @@ class OrdenCompraController extends Controller
 
         return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
     }
+    // descargar PDF de Orden de Compra Pendiente
+    public function downloadPendingOCPDF() {
+
+        $status = StatusDocumento::completaID();
+        $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo','detalles')
+                                        ->where('status_id','!=',$status)
+                                        ->where('aut_contab',1)
+                                        ->orderBy('numero','desc')
+                                        ->get();
+
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPendientePDF',compact('ordenesCompra'));
+
+        return $pdf->stream('Ordenes de Compra Pendientes.pdf');
+    }
 
     public function sendEmail(Request $request) {
 
@@ -251,7 +279,7 @@ class OrdenCompraController extends Controller
         $mails = $request->mail;
         $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
         $ordenCompra->mails = $mails;
-        
+
         Mail::send(new MailOrdenCompra($ordenCompra));
 
         return redirect()->back();

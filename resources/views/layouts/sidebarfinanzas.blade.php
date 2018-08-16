@@ -43,7 +43,9 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-
+                        <li><a href="{{route('ordenCompraPendiente')}}"><i class=""></i> <span>O.C Pendientes</span></a></li>
+                        <li><a href="{{route('reporteOrdenCompraProveedor')}}"><i class=""></i> <span>Reporte Proveedor</span></a></li>
+                        <li><a href="{{route('reporteOrdenCompraInsumo')}}"><i class=""></i> <span>Reporte Insumos</span></a></li>
                     </ul>
                 </li>
 
