@@ -30,7 +30,7 @@
                       <th class="text-center">{{$loop->iteration}}</th>
                       <td class="text-left">{{$item->bod_descripcion}}</td>
                       <td class="text-left">{{$item->pos}}</td>
-                      <td class="text-left">{{$item->palllet_num}}</td>
+                      <td class="text-left">{{$item->pallet_num}}</td>
                       <td class="text-left">{{$item->codigo}}</td>
                       <td class="text-left">{{$item->descripcion}}</td>
                       <td class="text-left">{{$item->cantidad}}</td>
