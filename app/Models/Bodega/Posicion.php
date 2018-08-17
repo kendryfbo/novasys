@@ -279,7 +279,7 @@ class Posicion extends Model
             $query = $query . " AND pos.status_id=".$ocupado." AND pos.bodega_id=".$bodega;
         }
 
-        $query = $query ." ORDER BY fecha_ing ASC LIMIT 1";
+        $query = $query ." ORDER BY fecha_ing ASC, pallet_num ASC LIMIT 1";
 
         $results = DB::select(DB::raw($query));
 
