@@ -301,6 +301,7 @@ Route::prefix('bodega')->group( function() {
         Route::get('/{numero}',    'Bodega\EgresoController@show')->name('verEgreso');
         Route::delete('/{egreso}', 'Bodega\EgresoController@destroy')->name('eliminarEgreso');
         Route::get('/{numero}/descargar', 'Bodega\EgresoController@downloadPDF')->name('descargarEgresoPDF');
+        Route::get('/{numero}/descargarRegInsp', 'Bodega\EgresoController@downloadRegInspEgresoPDF')->name('descargarRegInspEgresoPDF');
 
 
     });

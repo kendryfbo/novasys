@@ -25,6 +25,7 @@
 					<h5 class="col-sm-1">Orden</h5>
 					<div class="col-lg-2 pull-right">
 						<a class="btn btn-sm btn-default" target="_blank"  href="{{route('descargarEgresoPDF',['numero' => $egreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Descargar</a>
+						<a class="btn btn-sm btn-default" target="_blank"  href="{{route('descargarRegInspEgresoPDF',['numero' => $egreso->numero])}}"><i class="fa fa-download" aria-hidden="true"></i> Calidad</a>
 					</div>
 
                 </div>
