@@ -130,6 +130,7 @@ Route::prefix('bodega')->group( function() {
 
     Route::get('/test', function(){
 
+        dd(App\Models\Bodega\Pallet::getDataForBodega(1408));
         dd(App\Models\Bodega\Posicion::findPositionForPallet(1,944));
         // password hash
         //dd(Hash::make('ca01'));
