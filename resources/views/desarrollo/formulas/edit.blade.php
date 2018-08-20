@@ -44,7 +44,7 @@
 
 					<label class="control-label col-lg-1" >Premezcla:</label>
 					<div class="col-lg-3">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="premezclaID" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="premezclaID">
 							<option value="">Seleccionar Premezcla...</option>
 							@foreach ($premezclas as $premezcla)
 								<option {{$premezcla->id == $formula->premezcla_id ? 'selected':''}} value="{{$premezcla->id}}">{{$premezcla->descripcion}}</option>
@@ -54,7 +54,7 @@
 
 					<label class="control-label col-lg-1" >Reproceso:</label>
 					<div class="col-lg-3">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="reprocesoID" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="reprocesoID">
 							<option value="">Seleccionar Reproceso...</option>
 							@foreach ($reprocesos as $reproceso)
 								<option {{$reproceso->id == $formula->reproceso_id ? 'selected':''}} value="{{$reproceso->id}}">{{$reproceso->descripcion}}</option>

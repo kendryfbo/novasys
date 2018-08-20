@@ -19,7 +19,7 @@ class FormulaController extends Controller
     public function index()
     {
         $formulas = Formula::with('producto:id,descripcion')->get(['id','producto_id','generada','generada_por','fecha_gen','autorizado','autorizada_por','fecha_aut']);
-        
+
         return view('desarrollo.formulas.index')->with(['formulas' => $formulas]);
     }
 
@@ -54,8 +54,8 @@ class FormulaController extends Controller
     {
         $this->validate($request,[
             'productoID' => 'required',
-            'premezclaID' => 'required',
-            'reprocesoID' => 'required',
+            //'premezclaID' => 'required',
+            //'reprocesoID' => 'required',
             'cantBatch' => 'required',
             'items' => 'required'
         ]);
@@ -113,8 +113,8 @@ class FormulaController extends Controller
 
         $this->validate($request,[
             'productoID' => 'required',
-            'premezclaID' => 'required',
-            'reprocesoID' => 'required',
+            //'premezclaID' => 'required',
+            //'reprocesoID' => 'required',
             'cantBatch' => 'required',
             'items' => 'required'
         ]);

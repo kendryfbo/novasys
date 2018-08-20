@@ -41,12 +41,12 @@
 
 					<label class="control-label col-lg-1" >Premezcla:</label>
 					<div class="col-lg-3">
-						<input class="form-control input-sm" type="text" value="{{$formula->premezcla->descripcion}}" readonly>
+						<input class="form-control input-sm" type="text" value="{{$formula->premezcla ? $formula->premezcla->descripcion : ''}}" readonly>
 					</div>
 
 					<label class="control-label col-lg-1" >Reproceso:</label>
 					<div class="col-lg-3">
-						<input class="form-control input-sm" type="text" value="{{$formula->reproceso->descripcion}}" readonly>
+						<input class="form-control input-sm" type="text" value="{{$formula->reproceso ? $formula->reproceso->descripcion : ''}}" readonly>
 					</div>
 
 					<label class="control-label col-lg-1" >Formato:</label>
