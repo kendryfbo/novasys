@@ -54,7 +54,7 @@
         <br>
         <div class="content">
             <table class="table" width="100%">
-                <<thead>
+                <thead>
                     <tr>
                         <th class="text-center">BODEGA</th>
                         <th class="text-center">POS</th>
@@ -66,7 +66,7 @@
                 <tbody>
                     @foreach ($egreso->detalles as $detalle)
                         <tr>
-                            <td class="text-center">{{$detalle->bodega}}</td>
+                            <td class="text-center" style="font-size:8px">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
                             <td class="text-left">{{$detalle->item->descripcion}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>
@@ -74,16 +74,14 @@
                         </tr>
                     @endforeach
                 </tbody>
+                <tbody>
+                    <tr>
+                        <th class="text-right" colspan="3">TOTAL :</th>
+                        <th class="text-right">{{$egreso->detalles->sum('cantidad')}}</th>
+                        <th class="text-right"> </th>
+                    </tr>
+                </tbody>
             </table>
         </div>
-
-        <table class="table table-total" width="200px">
-            <tbody>
-                <tr>
-                    <th>TOTAL</th>
-                    <th class="text-right">{{$egreso->detalles->sum('cantidad')}}</th>
-                </tr>
-            </tbody>
-        </table>
     </body>
 </html>

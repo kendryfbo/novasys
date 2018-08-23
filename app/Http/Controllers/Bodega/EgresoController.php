@@ -425,7 +425,7 @@ class EgresoController extends Controller
         }
 
         $pdf = PDF::loadView('bodega.egreso.pdf',compact('egreso'));
-
+        
         return $pdf->stream('Orden Egreso N°'.$egreso->numero.'.pdf');
     }
 

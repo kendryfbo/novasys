@@ -314,9 +314,9 @@ class Posicion extends Model
             $posNueva = Posicion::find($nueva);
 
             $posNueva->pallet_id = $posAnterior->pallet_id;
-            $posNueva->status_id = PosicionStatus::ocupado()->id;
+            $posNueva->status_id = PosicionStatus::ocupadoID();
             $posAnterior->pallet_id = null;
-            $posAnterior->status_id = PosicionStatus::disponible()->id;
+            $posAnterior->status_id = PosicionStatus::disponibleID();
             $posAnterior->save();
             $posNueva->save();
         },5);

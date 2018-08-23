@@ -256,7 +256,7 @@ class OrdenCompraController extends Controller
         //return view('documents.pdf.ordenCompraPDF',compact('ordenCompra','centroVenta'));
         $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',compact('ordenCompra'));
 
-        return $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
+        return $pdf->stream('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
     }
     // descargar PDF de Orden de Compra Pendiente
     public function downloadPendingOCPDF() {

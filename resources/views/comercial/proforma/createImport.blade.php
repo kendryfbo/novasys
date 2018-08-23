@@ -102,7 +102,7 @@
 
           <label class="control-label col-lg-1">Semana:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}">
+            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{$proforma->semana}}" required>
           </div>
 
         </div>

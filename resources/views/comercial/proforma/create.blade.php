@@ -58,7 +58,7 @@
 
 			<label class="control-label col-lg-1">Numero:</label>
 			<div class="col-lg-1">
-				<input class="form-control input-sm" type="text" name="numero" required> 
+				<input class="form-control input-sm" type="text" name="numero" required>
 			</div>
 
 			<label class="control-label col-lg-1">Version:</label>
@@ -98,7 +98,7 @@
 
           <label class="control-label col-lg-1">Semana:</label>
           <div class="col-lg-1">
-            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{Input::old('semana')}}">
+            <input class="form-control input-sm" name="semana" type="number" min="1" max="52" value="{{Input::old('semana')}}" required>
           </div>
 
         </div>

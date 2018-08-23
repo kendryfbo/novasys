@@ -118,7 +118,7 @@
             </tbody>
         </table>
         <div class="footer-content">
-            <h4>Nota: {{$ordenCompra->nota}}</h4>
+            <p>Nota: {{$ordenCompra->nota}}</p>
             <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}}</p>
             <p>Facturar a: {{$ordenCompra->centroVenta->descripcion}}, R.U.T:{{$ordenCompra->centroVenta->rut}}, {{$ordenCompra->centroVenta->direccion}}</p>
         </div>
