@@ -27,7 +27,7 @@ class AuthenticationMiddleware
         }
 
         // Comentar para habilitar autorizacion
-        return $next($request);
+        // return $next($request);
 
         $actions = (explode('@', $request->route()->getActionName()));
         $actions = preg_replace('/.*\\\/', '', $actions);
