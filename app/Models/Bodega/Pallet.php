@@ -185,7 +185,9 @@ class Pallet extends Model
 
             $items = $request->items;
             $palletID = $request->pallet_id;
-
+            $pallet = Pallet::with('detalles')->find($palletID);
+            // SE COLOCA MISMA FECHA INGRESO QUE LOS ITEMS EN PALLET POR PETICION DE BODEGA
+            $fechaIngreso = $pallet->detalles[0]->fecha_ing;
             foreach ( $items as $item) {
 
                 $item = json_decode($item);
@@ -193,7 +195,7 @@ class Pallet extends Model
                 $ingDetalleID = $item->id;
                 $cantidad = $item->cantidad;
                 $fechaVenc = $item->fecha_venc;
-                $fechaIng = $item->fecha_ing;
+                $fechaIng = $fechaIngreso;
                 $tipoID  = $item->tipo_id;
                 $itemID = $item->item_id;
                 $ingTipoID = $item->ing_tipo_id;
