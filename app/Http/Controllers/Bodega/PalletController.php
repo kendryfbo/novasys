@@ -104,7 +104,7 @@ class PalletController extends Controller
                 'item_id' => $producto->item_id,
                 'codigo' => $producto->producto->codigo,
                 'descripcion' => $producto->producto->descripcion,
-                'lote' => $insumo->lote,
+                'lote' => $producto->lote,
                 'unidad_med' => $producto->producto->unidad_med,
                 'fecha_venc' => $producto->fecha_venc,
                 'fecha_ing' => $producto->fecha_ing,
