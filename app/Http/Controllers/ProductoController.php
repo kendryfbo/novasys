@@ -97,7 +97,7 @@ class ProductoController extends Controller
 
         if ($formula) {
 
-            $dollar = 648.508431;
+            $dollar = 648.508431; // obtener de api
             $totalPrecio = 0;
             $totalxuni = 0;
             $totalxcaja = 0;

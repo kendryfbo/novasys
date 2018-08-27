@@ -326,6 +326,10 @@ class Proforma extends Model
       	return $proforma;
     }
 
+    /*
+    |   Public functions
+    */
+
     public function authorizeComer() {
 
         $this->aut_comer = 1;

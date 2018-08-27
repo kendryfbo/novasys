@@ -24,8 +24,10 @@ class NotaVenta extends Model
                         ->get();
     }
 
+	/*
+	| publics Functios
+	*/
 
-	// public Methods
 	public function authorizeComer() {
 
 		$this->aut_comer = 1;
@@ -59,17 +61,12 @@ class NotaVenta extends Model
         return false;
     }
 
-	public function setTitleAttribute($value) {
-
-		dd($value);
-	}
-
 	/*
 	|
 	|	Relationships
 	|
 	*/
-	
+
 	// duplicado para retro compatibilidad
 	public function detalle() {
 
