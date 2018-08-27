@@ -91,15 +91,17 @@ class ProduccionMezclado extends Model
 
             foreach ($prodMez->detalles as $detalle) {
 
-                $detalle->item_id = $detalle->insumo_id; // Crear item_id para descount
+                $itemID = $detalle->insumo_id;
+                $cantidad = $detalle->cantidad;
 
-                $posiciones = Bodega::descount($bodegaID,$tipoProd,$detalle);
+                $posiciones = Bodega::descount($bodegaID,$tipoProd,$itemID,$cantidad);
             }
             // descuento de Premix
             $premezcla = collect();
-            $premezcla->cantidad = $prodMez->cant_batch;
-            $premezcla->item_id = $prodMez->formula->premezcla->id;
-            Bodega::descount($bodegaID,$tipoPremix,$premezcla);
+            $itemID = $prodMez->formula->premezcla->id;
+            $cantidad = $prodMez->cant_batch;
+
+            Bodega::descount($bodegaID,$tipoPremix,$itemID,$cantidad);
             // buscar ingreso
             $ingreso = Ingreso::where('tipo_id',$tipoIngreso)->where('item_id',$prodMez->id)->first();
             // generar Pallet

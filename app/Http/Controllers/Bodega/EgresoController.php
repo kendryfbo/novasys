@@ -14,6 +14,7 @@ use App\Models\Bodega\Pallet;
 use App\Models\Bodega\EgresoTipo;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\NotaVenta;
+use App\Models\Bodega\EgresoDetalle;
 use App\Events\EgresoGeneratedEvent;
 use App\Models\Config\TipoDocumento;
 use App\Models\Config\StatusDocumento;
@@ -414,18 +415,14 @@ class EgresoController extends Controller
         $tipoProforma= EgresoTipo::profID();
         $tipoNotaVenta = EgresoTipo::nvID();
         $egreso = Egreso::where('numero',$numero)->first();
-        $egreso->tipo();
+        $egresoDetalle = EgresoDetalle::where('egr_id',$egreso->id)->groupBy('posicion')->selectRaw('*,sum(cantidad) as cantidad')->get();
+        $egreso->detalles = $egresoDetalle;
 
         $egreso->load('documento','detalles','tipo');
-        if ($egreso->tipo_id == $tipoProforma || $egreso->tipo_id == $tipoNotaVenta) {
 
-        } else {
-
-            $egreso->load('detalles');
-        }
 
         $pdf = PDF::loadView('bodega.egreso.pdf',compact('egreso'));
-        
+
         return $pdf->stream('Orden Egreso N°'.$egreso->numero.'.pdf');
     }
 

@@ -85,9 +85,10 @@ class ProduccionEnvasado extends Model
 
             foreach ($prodEnv->detalles as $detalle) {
 
-                $detalle->item_id = $detalle->insumo_id; // Crear item_id para descount
+                $itemID = $detalle->insumo_id;
+                $cantidad = $detalle->cantidad;
 
-                $posiciones = Bodega::descount($bodegaID,$tipoProd,$detalle);
+                $posiciones = Bodega::descount($bodegaID,$tipoProd,$itemID,$cantidad);
             }
             // buscar ingreso
             //$ingreso = Ingreso::where('tipo_id',$tipoIngreso)->where('item_id',$prodEnv->id)->first();

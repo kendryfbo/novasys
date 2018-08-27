@@ -266,11 +266,10 @@ class Posicion extends Model
 
     static function getPositionThatContainItem($bodega,$tipo,$id) {
 
-
         $posicion = [];
         $ocupado = PosicionStatus::ocupadoID();
 
-        $query = "SELECT pos.id as id, pd.id as detalle_id, pd.lote as detalle_lote,pa.numero as pallet_num, pd.cantidad as existencia
+        $query = "SELECT pos.id as id, pa.numero as pallet_num, SUM(pd.cantidad) as existencia
                     FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
                     WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id;
 
@@ -279,7 +278,7 @@ class Posicion extends Model
             $query = $query . " AND pos.status_id=".$ocupado." AND pos.bodega_id=".$bodega;
         }
 
-        $query = $query ." ORDER BY fecha_ing ASC, pallet_num ASC LIMIT 1";
+        $query = $query ." GROUP BY id ORDER BY fecha_ing ASC, pallet_num ASC LIMIT 1";
 
         $results = DB::select(DB::raw($query));
 
@@ -288,11 +287,32 @@ class Posicion extends Model
             return $posicion;
         }
 
+        $posicion = collect(['id' => $results[0]->id,'existencia' => $results[0]->existencia]);
+
+        return $posicion;
+    }
+    static function getPositionOfItem($pos,$tipo,$id) {
+
+        $posicion = [];
+        $ocupado = PosicionStatus::ocupadoID();
+
+        $query = "SELECT pos.id as id, pd.id as detalle_id, pd.lote as detalle_lote,pa.numero as pallet_num, pd.cantidad as existencia
+                    FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
+                    WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id." AND pos.status_id=".$ocupado." AND pos.id=".$pos;
+
+        $query = $query ." ORDER BY fecha_ing ASC, pallet_num ASC LIMIT 1";
+        $results = DB::select(DB::raw($query));
+
+        if (!$results) {
+
+            return $posicion;
+        }
         $posicion = Posicion::find($results[0]->id);
         $posicion->detalle_id = $results[0]->detalle_id;
         $posicion->detalle_lote = $results[0]->detalle_lote;
         $posicion->pallet_num = $results[0]->pallet_num;
         $posicion->existencia = $results[0]->existencia;
+
         return $posicion;
     }
 

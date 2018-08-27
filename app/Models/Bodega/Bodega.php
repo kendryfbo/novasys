@@ -734,36 +734,59 @@ class Bodega extends Model
         return $results;
     }
 
-    static function descount($bodegaID,$tipoID,$item) {
+    static function descount($bodegaID,$tipoID,$itemID,$cantidad) {
 
         $posiciones = [];
-        $cantidad = $item->cantidad;
+
         while ($cantidad > 0) {
 
             $restar=0;
 
-            $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoID,$item->item_id);
-
+            $posicion = Posicion::getPositionThatContainItem($bodegaID,$tipoID,$itemID);
             if (!$posicion) {
 
                 dd('Error al Descontar Producto o Insumo - No existencia');
             }
 
-            if ($cantidad > $posicion->existencia) {
+            $posID = $posicion['id'];
+            $existencia = $posicion['existencia'];
 
-                $restar = $posicion->existencia;
+            if ($cantidad > $existencia) {
 
+                $restarDePosicion = $existencia;
             } else {
-
-                $restar = $cantidad;
+                $restarDePosicion = $cantidad;
             }
 
-            $cantidad = $cantidad - $restar;
-            $posicion->subtract($posicion->detalle_id,$restar);
+            $cantidad = $cantidad - $restarDePosicion;
 
-            array_push($posiciones,$posicion);
+            while ($restarDePosicion > 0) {
+
+                $posicion = Posicion::getPositionOfItem($posID,$tipoID,$itemID);
+                $existenciaDetalle = $posicion->existencia;
+                $detalleLote = $posicion->detalle_lote;
+                $palletNum = $posicion->pallet_num;
+                unset($posicion->detalle_lote);
+                unset($posicion->pallet_num);
+
+                if ($restarDePosicion > $existenciaDetalle) {
+
+                    $restarDetalle = $existenciaDetalle;
+                } else {
+                    $restarDetalle = $restarDePosicion;
+                }
+
+                $posicion->subtract($posicion->detalle_id,$restarDetalle);
+                $posicion->detalle_lote = $detalleLote;
+                $posicion->pallet_num = $palletNum;
+                $posicion->cantidad = $restarDetalle;
+                array_push($posiciones,$posicion);
+
+                $restarDePosicion = $restarDePosicion - $restarDetalle;
+            }
+
         };
-
+        
         return $posiciones;
     }
 
