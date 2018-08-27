@@ -36,7 +36,7 @@
 			<!-- /form -->
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('notasVentas.store')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarFacturaIntl')}}">
 
 				{{ csrf_field() }}
 
