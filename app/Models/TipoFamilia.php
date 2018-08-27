@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class TipoFamilia extends Model
 {
 	// Constantes
-	const INSUMO_ID = 1; // correspondiente a id de materia prima tabla tipo_familia
-	const PT_ID = 4;	 // correspondiente aid de Producto Terminado tabla tipo_familia
-	const PM_ID = 5;	 // correspondiente a id de Premezcla tabla tipo_familia
-	const RP_ID = 2;	 // correspondiente a id de Reproceso o Pre-Proceso tabla tipo_familia
-	const REPUESTO_ID = 7;	 // correspondiente a id de Repuestos tabla tipo_familia
+	const INSUMO_ID = 1; 	// correspondiente a id de materia prima tabla tipo_familia
+	const PT_ID = 4;	 	// correspondiente aid de Producto Terminado tabla tipo_familia
+	const PM_ID = 5;	 	// correspondiente a id de Premezcla tabla tipo_familia
+	const RP_ID = 2;	 	// correspondiente a id de Reproceso o Pre-Proceso tabla tipo_familia
+	const REPUESTO_ID = 7;  // correspondiente a id de Repuestos tabla tipo_familia
+	const OTROS_ID = 9;	 	// correspondiente a id de Otros tabla tipo_familia
 
 	// static methods
 	static function getAllActive() {
@@ -51,6 +52,10 @@ class TipoFamilia extends Model
 	static function getRepuestoID() {
 
 		return self::REPUESTO_ID;
+	}
+	static function getOtrosID() {
+
+		return self::OTROS_ID;
 	}
 
 	// Relationships

@@ -77,7 +77,7 @@ var app = new Vue({
             this.precio = this.productos[i].precio;
             this.umed =  this.productos[i].unidad_med ? this.productos[i].unidad_med : 'Unidad';
             this.tipo_id = this.productos[i].tipo_id;
-          break;
+            break;
         }
       }
     },

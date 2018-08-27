@@ -6,6 +6,7 @@ use PDF;
 use Mail;
 use Carbon\Carbon;
 use App\Models\Insumo;
+use App\Models\TipoFamilia;
 use App\Mail\MailOrdenCompra;
 use App\Models\ProdMantencion;
 use App\Models\Finanzas\Moneda;
@@ -56,13 +57,28 @@ class OrdenCompraController extends Controller
      */
     public function create()
     {
+        $tipoOtros = TipoFamilia::getOtrosID();
         $areas = Area::getAllActive();
         $monedas = Moneda::getAllActive();
         $materiaPrima = Insumo::getArrayOfAllActiveWithLastPrice();
         $prodMantencion = ProdMantencion::getArrayOfAllActiveWithLastPrice();
-        $servicios = collect([collect([['id']])]);
+        /*
+        |   Estos servicios deben ser declarados en una tabla de servicios,
+        |   por falta de tiempo se implemento de esta forma.
+        */
+        $servicios = collect(collect(
+            [
+                ['id' => 1,'codigo' => 'SERV1','descripcion' => 'SERVICION CALIDAD','precio' => 0, 'tipo_id' => $tipoOtros],
+                ['id' => 2,'codigo' => 'SERV2','descripcion' => 'SERVICION COMERCIALES','precio' => 0, 'tipo_id' => $tipoOtros],
+                ['id' => 3,'codigo' => 'SERV3','descripcion' => 'SERVICION GENERALES','precio' => 0, 'tipo_id' => $tipoOtros],
+                ['id' => 4,'codigo' => 'SERV4','descripcion' => 'SERVICION INFORMATICOS','precio' => 0, 'tipo_id' => $tipoOtros],
+                ['id' => 5,'codigo' => 'SERV5','descripcion' => 'SERVICION MANTENCION','precio' => 0, 'tipo_id' => $tipoOtros],
+        ]));
+
         $productos = collect([$materiaPrima,$prodMantencion,$servicios]);
+
         $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Producto de Elaboración'],['id' => 1 , 'descripcion' => 'Productos Mantencion'],['id' => 2 , 'descripcion' => 'Servicios']]);
+        
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
