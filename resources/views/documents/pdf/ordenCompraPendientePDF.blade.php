@@ -17,8 +17,8 @@
             </tr>
         </table>
         <br>
-        <div class="page-break">
-            @foreach ($ordenesCompra as $orden)
+            @foreach ($ordenesCompra->sortBy('proveedor.descripcion') as $orden)
+            <div class="page-break">
             <table class="table" width="100%">
                 <tbody>
                     <tr>
@@ -66,8 +66,8 @@
                         @endforeach
                 </tbody>
             </table>
+            </div>
             <br>
         @endforeach
-        </div>
     </body>
 </html>

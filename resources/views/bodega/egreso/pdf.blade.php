@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($egreso->detalles->sortBy('item.descripcion') as $detalle)
+                    @foreach ($egreso->detalles->sortBy('cantidad')->sortBy('item.descripcion') as $detalle)
                         <tr>
                             <td class="text-center" style="font-size:8px">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>

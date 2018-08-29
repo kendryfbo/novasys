@@ -9,7 +9,7 @@
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
-			
+
 			@if (session('status'))
 				@component('components.panel')
 					@slot('title')
@@ -40,7 +40,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($ordenesCompra as $ordenCompra)
+					@foreach ($ordenesCompra->sortBy('proveedor.descripcion') as $ordenCompra)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{route('verOrdenCompra',['numero' => $ordenCompra->numero])}}" target="_blank"><strong>{{$ordenCompra->numero}}</strong></a></td>

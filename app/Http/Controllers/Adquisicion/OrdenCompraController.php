@@ -78,7 +78,7 @@ class OrdenCompraController extends Controller
         $productos = collect([$materiaPrima,$prodMantencion,$servicios]);
 
         $tipoProductos = collect([['id' => 0 , 'descripcion' => 'Producto de Elaboración'],['id' => 1 , 'descripcion' => 'Productos Mantencion'],['id' => 2 , 'descripcion' => 'Servicios']]);
-        
+
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
