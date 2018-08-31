@@ -214,12 +214,6 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="bg-gray text-right">% DESC.:</th>
-					<td class="input-td">
-						<input form="create" class="form-control text-right" type="text" name="porc_desc" readonly>
-					</td>
-				</tr>
-				<tr>
 					<th class="bg-gray text-right">DESCUENTO:</th>
 					<td class="input-td">
 						<input class="form-control text-right" type="text" name="descuento" value="{{number_format($ordenCompra->descuento,2)}}" readonly>

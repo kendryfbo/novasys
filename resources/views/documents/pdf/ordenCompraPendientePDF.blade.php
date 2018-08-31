@@ -17,7 +17,7 @@
             </tr>
         </table>
         <br>
-            @foreach ($ordenesCompra->sortBy('proveedor.descripcion') as $orden)
+            @foreach ($ordenesCompra->sortBy('proveedor.descripcion')->sortBy('fecha_emision') as $orden)
             <div class="page-break">
             <table class="table" width="100%">
                 <tbody>
@@ -35,7 +35,7 @@
                         <td class="text-right border-bottom">O.C.:</td>
                         <th class="text-left border-bottom">{{$orden->numero}}</th>
                         <td class="text-right border-bottom">F.Emision:</td>
-                        <th class="text-left border-bottom">{{$orden->fecha_emision}}</th>
+                        <th class="text-left border-bottom">{{date("d-m-Y", strtotime($orden->fecha_emision))}}</th>
                         <td class="text-center border-bottom">{{$orden->moneda}}</td>
                         <td class="text-right border-bottom">{{$orden->descuento}}</td>
                         <td class="text-right border-bottom">{{$orden->neto}}</td>
@@ -59,9 +59,9 @@
                             <td> </td>
                             <td class="text-center">{{$detalle->codigo}}</td>
                             <td colspan="5">{{$detalle->descripcion}}</td>
-                            <td class="text-right">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{$detalle->recibidas}}</td>
-                            <td class="text-right">{{$detalle->cantidad - $detalle->recibidas}}</td>
+                            <td class="text-right">{{number_format($detalle->cantidad,2)}}</td>
+                            <td class="text-right">{{number_format($detalle->recibidas,2)}}</td>
+                            <td class="text-right">{{number_format($detalle->cantidad - $detalle->recibidas,2)}}</td>
                         </tr>
                         @endforeach
                 </tbody>

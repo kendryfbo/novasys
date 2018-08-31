@@ -92,7 +92,7 @@ class EgresoController extends Controller
     {
         $tipoProforma  = TipoDocumento::proformaID();
         $tipoNotaVenta = TipoDocumento::notaVentaID();
-
+        $statusCompleto = StatusDocumento::completaID();
         $bodegas = Bodega::getAllActive();
         $documento = [];
 
@@ -114,7 +114,7 @@ class EgresoController extends Controller
             $documento->tipo = 'Nota de Venta';
         }
 
-        if (!$documento->aut_comer && !$documento->aut_contab) {
+        if ((!$documento->aut_comer && !$documento->aut_contab) || $documento->status == $statusCompleto) {
 
             return redirect()->back();
         }
