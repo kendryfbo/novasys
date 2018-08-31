@@ -30,7 +30,7 @@
                         <th class="text-center border-bottom">Impuesto</th>
                         <th class="text-center border-bottom">Total</th>
                     </tr>
-                    @foreach ($proveedor->ordenCompras as $orden)
+                    @foreach ($proveedor->ordenCompras->sortBy('fecha_emision') as $orden)
                     <tr>
                         <td> </td>
                         <td class="text-right border-bottom">O.C.:</td>
