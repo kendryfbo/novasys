@@ -278,13 +278,14 @@ class OrdenCompraController extends Controller
     public function downloadPendingOCPDF() {
 
         $status = StatusDocumento::completaID();
-        $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo','detalles')
-                                        ->where('status_id','!=',$status)
-                                        ->where('aut_contab',1)
-                                        ->orderBy('numero','desc')
-                                        ->get();
+        
+        $proveedores = Proveedor::withAndWhereHas('ordenCompras', function($query) use ($status){
+                        $query->where('status_id','!=',$status)
+                                ->where('aut_contab',1)
+                                ->orderBy('numero','desc');
+                })->orderBy('descripcion')->get();
 
-        $pdf = PDF::loadView('documents.pdf.ordenCompraPendientePDF',compact('ordenesCompra'));
+        $pdf = PDF::loadView('documents.pdf.ordenCompraPendientePDF',compact('proveedores'));
 
         return $pdf->stream('Ordenes de Compra Pendientes.pdf');
     }

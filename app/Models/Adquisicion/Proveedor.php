@@ -16,6 +16,15 @@ class Proveedor extends Model
         return self::all()->where('activo',1);
     }
 
+    public function scopeWithAndWhereHas($query, $relation, $constraint){
+    return $query->whereHas($relation, $constraint)
+                 ->with([$relation => $constraint]);
+}
+    /*
+    |
+    |   Relationships
+    |
+    */
     public function formaPago() {
 
         return $this->belongsTo('App\Models\Adquisicion\FormaPagoProveedor','fp_id');
