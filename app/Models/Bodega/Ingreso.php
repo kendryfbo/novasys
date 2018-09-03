@@ -47,6 +47,7 @@ class Ingreso extends Model
                 $item = json_decode($item);
 
                 $fechaVenc = $item->fecha_venc ? $item->fecha_venc: null;
+                $fechaIng = $item->fecha_ing ? $item->fecha_ing: $fechaIng;
                 IngresoDetalle::create([
                     'ing_id' => $ingreso->id,
                     'tipo_id' => $tipoProd,

@@ -73,7 +73,7 @@
                 <div class="form-group">
 
                     <label class="control-label col-lg-1">Producto:</label>
-                    <div class="col-lg-3">
+                    <div class="col-lg-5">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
 						    <option v-for="producto in productos" :value="producto.id">@{{producto.descripcion}}</option>
@@ -93,12 +93,16 @@
                 <!-- form-group -->
                 <div class="form-group">
 
-					<label class="control-label col-lg-1">Venc:</label>
+					<label class="control-label col-lg-1">F.Ing:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" v-model="fecha_ing" type="date">
+					</div>
+					<label class="control-label col-lg-1">F.Venc:</label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" v-model="fecha_venc" type="date">
 					</div>
 
-					<label class="col-lg-offset-1 control-label col-lg-1">Nº Lote:</label>
+					<label class="control-label col-lg-1">Nº Lote:</label>
 					<div class="col-lg-3">
 						<input class="form-control input-sm" v-model="lote" type="text">
 					</div>
@@ -137,6 +141,8 @@
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">DESCRIPCION</th>
                 <th class="text-center">CANTIDAD</th>
+                <th class="text-center">F.Ing</th>
+                <th class="text-center">F.Venc</th>
               </tr>
 
             </thead>
@@ -153,6 +159,8 @@
 				    <td class="text-center">@{{item.codigo}}</td>
 				    <td class="text-left">@{{item.descripcion}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
+				    <td class="text-center">@{{item.fecha_ing}}</td>
+				    <td class="text-center">@{{item.fecha_venc}}</td>
 				</tr>
 
             </tbody>

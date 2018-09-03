@@ -11,6 +11,7 @@ var app = new Vue({
         items: [],
         cantidad: 0,
         fecha_venc: '',
+        fecha_ing: '',
         lote: '',
         totalCantidad: 0,
     },
@@ -37,6 +38,7 @@ var app = new Vue({
             }
             this.item.cantidad = this.cantidad;
             this.item.fecha_venc = this.fecha_venc;
+            this.item.fecha_ing = this.fecha_ing;
             this.item.lote = this.lote;
             this.items.push(this.item);
             this.itemId = '';
