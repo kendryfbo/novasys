@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarIngManualMP')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarIngManualPT')}}">
 
 				{{ csrf_field() }}
 
