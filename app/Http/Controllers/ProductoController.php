@@ -155,7 +155,7 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        dd('DESHABILITADO TEMPORALMENTE');
+        //dd('DESHABILITADO TEMPORALMENTE');
         $marcas = Marca::getAllActive();
         $formatos = Formato::getAllActive();
         $sabores = Sabor::getAllActive();
@@ -175,7 +175,7 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        dd('DESHABILITADO TEMPORALMENTE');
+        //dd('DESHABILITADO TEMPORALMENTE');
         $this->validate($request,[
             'codigo' => 'required',
             'descripcion' => 'required',

@@ -45,7 +45,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Marca:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" required disabled>
 								<option value="">Seleccionar Marca...</option>
 								@foreach ($marcas as $marca)
 									<option value="{{$marca->id}}">{{$marca->descripcion}}</option>
@@ -56,7 +56,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Formato:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="formatChange" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="formatChange" required disabled>
 								<option value="">Seleccionar Formato...</option>
 							@foreach ($formatos as $formato)
 								<option value="{{$formato->id}}">{{$formato->descripcion}}</option>
@@ -68,7 +68,7 @@
 
 					<label class="control-label col-sm-2">Sabor:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="sabor" v-model="sabor" @change="updateDescripcion" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="sabor" v-model="sabor" @change="updateDescripcion" required disabled>
 								<option value="">Seleccionr Sabor...</option>
 							@foreach ($sabores as $sabor)
 								<option value="{{$sabor->id}}">{{$sabor->descripcion}}</option>
