@@ -81,6 +81,7 @@ class OrdenCompraController extends Controller
 
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
+        
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
         $fecha = Carbon::now()->format('Y-m-d');
 
@@ -278,7 +279,7 @@ class OrdenCompraController extends Controller
     public function downloadPendingOCPDF() {
 
         $status = StatusDocumento::completaID();
-        
+
         $proveedores = Proveedor::withAndWhereHas('ordenCompras', function($query) use ($status){
                         $query->where('status_id','!=',$status)
                                 ->where('aut_contab',1)

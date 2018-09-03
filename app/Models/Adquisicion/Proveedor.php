@@ -13,7 +13,7 @@ class Proveedor extends Model
 
     static function getAllActive() {
 
-        return self::all()->where('activo',1);
+        return self::where('activo',1)->get();
     }
 
     public function scopeWithAndWhereHas($query, $relation, $constraint){
