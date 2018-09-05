@@ -206,13 +206,20 @@ class FacturaNacionalController extends Controller
             $precioUniTotal = $detalle->precio - $descuento;
 
             if ($detalle->producto->marca->iaba) {
-                $impuesto = $valorIaba;
+
+                $impuesto = $valorIaba + $valorIva;
+                $detalle->impuesto = 27;
+
+            } else {
+
+                $impuesto = 0;
             }
-            $impuesto += $valorIva;
 
             $impuesto = ($precioUniTotal * $impuesto) / 100;
             $precioUniTotal = $precioUniTotal + $impuesto;
             $detalle->precio = $precioUniTotal;
+
+            $detalle->impuesto = $detalle->impuesto ? $detalle->impuesto : $detalle->precio;
         }
         Config::set('excel.csv.delimiter', ';');
 

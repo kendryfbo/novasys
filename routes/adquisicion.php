@@ -64,8 +64,8 @@ Route::prefix('adquisicion')->group( function() {
         Route::get('/crear',             'Adquisicion\PlanProduccionController@create')->name('crearPlanProduccion');
         Route::post('/',                 'Adquisicion\PlanProduccionController@showAnalReqWithStock')->name('verPlanProduccionConStock');
         Route::post('/adquisicion',      'Adquisicion\PlanProduccionController@showAnalReq')->name('verPlanProduccion');
-        Route::get('/descExcelAnalReq', 'Adquisicion\PlanProduccionController@downloadExcelAnalReq')->name('descExcelAnalReq');
-        Route::get('/descExcelAnalReqConStock','Adquisicion\PlanProduccionController@downloadExcelAnalReqConStock')->name('descExcelAnalReqConStock');
+        Route::post('/descExcelAnalReq', 'Adquisicion\PlanProduccionController@downloadExcelAnalReq')->name('descExcelAnalReq');
+        Route::post('/descExcelAnalReqConStock','Adquisicion\PlanProduccionController@downloadExcelAnalReqConStock')->name('descExcelAnalReqConStock');
     });
 
 });
