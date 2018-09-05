@@ -4,7 +4,8 @@
 	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- /form -->
-		<form id="excel" action="{{route('descExcelAnalReqConStock')}}" method="get">
+		<form id="excel" action="{{route('descExcelAnalReqConStock')}}" method="post">
+			{{ csrf_field() }}
 		</form>
 		<!-- form -->
 		<!-- box-header -->
