@@ -71,7 +71,7 @@
                       <td>{{$detalle->codigo}}</td>
                       <td>{{$detalle->descripcion}}</td>
                       <td>{{$detalle->cantidad}}</td>
-                      <td>{{round($detalle->precio - (($detalle->precio * $detalle->descuento)/100))}}</td>
+                      <td>{{round($detalle->precio)}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -84,7 +84,7 @@
                       <td></td>
                       <td></td>
                       <td>CJ</td>
-                      <td>{{round($detalle->precio - (($detalle->precio * $detalle->descuento)/100))}}</td>
+                      <td>{{round($detalle->impuesto)}}</td>
                   </tr>
               @endforeach
           </tbody>
