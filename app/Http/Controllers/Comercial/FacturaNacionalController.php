@@ -217,7 +217,7 @@ class FacturaNacionalController extends Controller
             $excel->sheet('New sheet', function($sheet) use ($factura) {
                 $sheet->loadView('documents.excel.facturaNacional')
                         ->with('factura', $factura);
-                            })->download('xlsx');
+                    })->download('csv');
                         });
     }
 
