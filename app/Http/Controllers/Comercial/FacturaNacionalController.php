@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Comercial;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Config;
 use Excel;
 use Carbon\Carbon;
 use App\Models\Comercial\Vendedor;
@@ -213,12 +214,16 @@ class FacturaNacionalController extends Controller
             $precioUniTotal = $precioUniTotal + $impuesto;
             $detalle->precio = $precioUniTotal;
         }
-        return Excel::create('Factura_'.$factura->numero, function($excel) use ($factura) {
+        Config::set('excel.csv.delimiter', ';');
+
+        $excel = Excel::create('Factura_'.$factura->numero, function($excel) use ($factura) {
             $excel->sheet('New sheet', function($sheet) use ($factura) {
                 $sheet->loadView('documents.excel.facturaNacional')
                         ->with('factura', $factura);
-                    })->download('csv');
-                        });
+                    });
+                });
+        return $excel->download('csv');
+
     }
 
 }
