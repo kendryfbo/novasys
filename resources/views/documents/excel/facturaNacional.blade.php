@@ -63,15 +63,15 @@
                       <td>{{$factura->cond_pago}}</td>
                       <td>{{33}}</td>
                       <td>{{$factura->numero}}</td>
-                      <td></td>
-                      <td>{{date('d/m/Y', strtotime($factura->fecha_emision))}}</td>
-                      <td>{{date('d/m/Y', strtotime($factura->fecha_venc))}}</td>
+                      <td>{{$factura->clienteNac->vendedor->nombre}}</td>
+                      <td>{{date('Y-m-d', strtotime($factura->fecha_emision))}}</td>
+                      <td>{{date('Y-m-d', strtotime($factura->fecha_venc))}}</td>
                       <td></td>
                       <td></td>
                       <td>{{$detalle->codigo}}</td>
                       <td>{{$detalle->descripcion}}</td>
                       <td>{{$detalle->cantidad}}</td>
-                      <td>{{round($detalle->precio)}}</td>
+                      <td>{{round($detalle->precio - (($detalle->precio * $detalle->descuento)/100))}}</td>
                       <td></td>
                       <td></td>
                       <td></td>
@@ -84,7 +84,7 @@
                       <td></td>
                       <td></td>
                       <td>CJ</td>
-                      <td>27</td>
+                      <td>{{round($detalle->precio - (($detalle->precio * $detalle->descuento)/100))}}</td>
                   </tr>
               @endforeach
           </tbody>
