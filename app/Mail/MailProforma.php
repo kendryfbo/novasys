@@ -43,7 +43,7 @@ class MailProforma extends Mailable
         $proforma = $this->proforma;
         $numero = $proforma->numero;
         $version = $proforma->version;
-        $fileName = 'PRUEBA - PROFORMA '.$numero. ' Versión '. $version;
+        $fileName = 'PROFORMA '.$numero. ' Versión '. $version;
         $sender = Auth::user()->email;
         //$bcc = $sender;
         $pdf = PDF::loadView('documents.pdf.proforma',['proforma' => $proforma]);

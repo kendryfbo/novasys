@@ -42,7 +42,7 @@ class mailNotaVenta extends Mailable
         $notaVenta = $this->notaVenta;
         $numero = $notaVenta->numero;
         $version = $notaVenta->version;
-        $fileName = 'PRUEBA - NOTA VENTA '.$numero. ' Versión '. $version;
+        $fileName = 'NOTA VENTA '.$numero. ' Versión '. $version;
         $sender = Auth::user()->email;
         //$bcc = $sender;
         $pdf = PDF::loadView('documents.pdf.notaVenta',['notaVenta' => $notaVenta]);

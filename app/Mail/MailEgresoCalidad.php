@@ -40,7 +40,7 @@ class MailEgresoCalidad extends Mailable
         }
         $egreso = $this->egreso;
         $numero = $egreso->numero;
-        $fileName = 'PRUEBA - ORDEN EGRESO '.$numero;
+        $fileName = 'ORDEN EGRESO '.$numero;
         $sender = Auth::user()->email;
         //$bcc = $sender;
         $pdf = PDF::loadView('bodega.egreso.regInspEgresoPDF',['egreso' => $egreso]);
