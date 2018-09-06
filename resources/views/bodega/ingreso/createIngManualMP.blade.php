@@ -94,6 +94,11 @@
                 <!-- form-group -->
                 <div class="form-group">
 
+					<label class="control-label col-lg-1">F.Ing:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" v-model="fecha_ing" type="date" readonly>
+					</div>
+
 					<label class="control-label col-lg-1">Venc:</label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" v-model="fecha_venc" type="date">
@@ -138,6 +143,9 @@
                 <th class="text-center">CODIGO</th>
                 <th class="text-center">INSUMO</th>
                 <th class="text-center">CANTIDAD</th>
+                <th class="text-center">F.Ing.</th>
+                <th class="text-center">F.venc.</th>
+                <th class="text-center">LOTE</th>
               </tr>
 
             </thead>
@@ -154,6 +162,9 @@
 				    <td class="text-center">@{{item.codigo}}</td>
 				    <td class="text-left">@{{item.descripcion}}</td>
 				    <td class="text-right">@{{item.cantidad}}</td>
+				    <td class="text-right">@{{item.fecha_ing}}</td>
+				    <td class="text-right">@{{item.fecha_venc}}</td>
+				    <td class="text-right">@{{item.lote}}</td>
 				</tr>
 
             </tbody>
@@ -174,6 +185,7 @@
 	<script>
 
 	var insumos = Object.values({!!$insumos!!});
+	var fecha = "{!!$fecha!!}";
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
