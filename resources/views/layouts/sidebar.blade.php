@@ -28,10 +28,10 @@
         </span>
       </a>
       <ul class="treeview-menu">
-          <li><a href="/desarrollo/formulas"><i class="fa fa-file-text-o"></i> <span>Formulas</span></a></li>
+          <li><a href="{{route('formulas')}}"><i class="fa fa-file-text-o"></i> <span>Formulas</span></a></li>
       </ul>
     </li>
-    <li><a href="/desarrollo/formulas/autorizacion"><i class="fa fa-check-square-o"></i> <span>Autorizar Formulas</span></a></li>
+    <li><a href="{{route('autorizacionFormula')}}"><i class="fa fa-check-square-o"></i> <span>Autorizar Formulas</span></a></li>
   </ul>
   <!-- /.sidebar-menu -->
 </section>

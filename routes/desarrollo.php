@@ -113,13 +113,13 @@ Route::middleware('auth')->prefix('desarrollo')->group( function(){
 		Route::get('crear', 			      'FormulaController@create')->name('crearFormula');
 		Route::post('/', 				      'FormulaController@store')->name('guardarFormula');
 		Route::get('/{id}/edit', 	          'FormulaController@edit')->name('editarFormula');
+        Route::get('/autorizacion',            'FormulaController@autorization')->name('autorizacionFormula');
 		Route::get('/{id}', 	              'FormulaController@show')->name('verFormula');
 		Route::put('/{id}', 	              'FormulaController@update')->name('actualizarFormula');
-		Route::get('autorizacion',            'FormulaController@autorization')->name('autorizacionFormula');
-		Route::get('autorizacion/{formula}',  'FormulaController@showForAuth')->name('verAutFormula');
-		Route::post('autorizar/{formula}',	  'FormulaController@autorizar')->name('autorizarFormula');
-		Route::post('desautorizar/{formula}', 'FormulaController@desautorizar')->name('desautorizarFormula');
-		Route::post('delete/{formula}',       'FormulaController@destroy')->name('eliminarFormula');
+		Route::get('/autorizacion/{formula}',  'FormulaController@showForAuth')->name('verAutFormula');
+		Route::post('/autorizar/{formula}',	  'FormulaController@autorizar')->name('autorizarFormula');
+		Route::post('/desautorizar/{formula}', 'FormulaController@desautorizar')->name('desautorizarFormula');
+		Route::post('/delete/{formula}',       'FormulaController@destroy')->name('eliminarFormula');
 		// GRUPO de Rutas de Desarrollo/Formulas
 		Route::group(['prefix' => 'detalle'], function(){
 
