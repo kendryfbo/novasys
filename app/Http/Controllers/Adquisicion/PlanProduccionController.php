@@ -27,7 +27,7 @@ class PlanProduccionController extends Controller
      */
     public function create()
     {
-        $productos = Producto::getAllActive();
+        $productos = Producto::has('formula')->where('activo',1)->get();
 
         return view('adquisicion.planProduccion.create')->with(['productos' => $productos]);
     }

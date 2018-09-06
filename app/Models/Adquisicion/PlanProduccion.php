@@ -124,6 +124,7 @@ class PlanProduccion extends Model
             $producto->premezcla = 0;
             $producto->stock_insumos = [];
             if (!$producto->formula) {
+                dd('Producto Sin Formula',$producto);
                 break;
             }
 
