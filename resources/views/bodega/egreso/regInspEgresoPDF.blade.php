@@ -154,7 +154,7 @@
                             <td class="text-left">{{$detalle->pallet_num}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>
                             <td class="text-left">{{$detalle->lote}}</td>
-                            <td class="text-right">{{$detalle->item->vida_util}}</td>
+                            <td class="text-right"></td>
                             <td class="text-right"></td>
                         </tr>
                     @endforeach
