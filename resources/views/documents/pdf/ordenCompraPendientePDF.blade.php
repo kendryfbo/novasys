@@ -18,7 +18,6 @@
         </table>
         <br>
             @foreach ($proveedores as $proveedor)
-
             <table class="table" width="100%">
                 <tbody>
                     <tr>

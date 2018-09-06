@@ -37,7 +37,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($ordenesCompra->orderBy('proveedor.descripcion') as $ordenCompra)
+					@foreach ($ordenesCompra as $ordenCompra)
 						<tr>
 							<th class="text-center">{{$loop->iteration}} asd</th>
 							<td class="text-center"><a href="{{route('verOrdenCompra',['numero' => $ordenCompra->numero])}}" target="_blank"><strong>{{$ordenCompra->numero}}</strong></a></td>
