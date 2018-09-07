@@ -51,7 +51,7 @@
           <tbody>
               @foreach ($factura->detalles as $detalle)
                   <tr>
-                      <td>{{$factura->numero}}</td>
+                      <td>{{$factura->id}}</td>
                       <td>{{$factura->clienteNac->rut}}</td>
                       <td>{{$factura->clienteNac->descripcion}}</td>
                       <td>{{$factura->clienteNac->giro}}</td>
