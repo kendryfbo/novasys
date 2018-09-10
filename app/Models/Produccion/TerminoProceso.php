@@ -84,6 +84,10 @@ class TerminoProceso extends Model
 
         return $this->belongsTo('App\Models\Producto','prod_id');
     }
+    public function usuario() {
+
+        return $this->belongsTo('App\Models\Config\Usuario','user_id');
+    }
 
     public function status() {
 

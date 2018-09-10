@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Produccion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Excel;
 use App\Models\Producto;
 use App\Models\Config\StatusDocumento;
 use App\Models\Produccion\TerminoProceso;
@@ -147,4 +148,99 @@ class TerminoProcesoController extends Controller
 
         return redirect()->route('terminoProceso')->with(['status' => $status]);
     }
+
+    public function indexReport(Request $request) {
+
+        $maquinas = self::MAQUINAS;
+        $operadores = self::OPERADORES;
+        $codigos = self::CODIGOS;
+        $batchs = self::BATCHS;
+        $turnos = self::TURNOS;
+        //dd($request->all())
+        $queryArray = [];
+        $procesos = [];
+        $maquina = $request->maquina;
+        $operador = $request->operador;
+        $turno = $request->turno;
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        if ($maquina) {
+            array_push($queryArray,['maquina','=',$maquina]);
+        }
+        if ($operador) {
+            array_push($queryArray,['operador','=',$operador]);
+        }
+        if ($turno) {
+            array_push($queryArray,['turno','=',$turno]);
+        }
+        if ($desde) {
+            array_push($queryArray,['fecha_prod','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($queryArray,['fecha_prod','<=',$hasta]);
+        }
+        if(!empty($queryArray)) {
+
+            $procesos = TerminoProceso::where($queryArray)->get();
+        }
+
+
+        //$procesos = TerminoProceso::all();
+
+        return view('produccion.terminoProceso.report')->with([
+                            'procesos' => $procesos,
+                            'maquina' => $maquina,
+                            'operador' => $operador,
+                            'turno' => $turno,
+                            'desde' => $desde,
+                            'hasta' => $hasta,
+                            'maquinas' => $maquinas,
+                            'operadores' => $operadores,
+                            'codigos' => $codigos,
+                            'batchs' => $batchs,
+                            'turnos' => $turnos]);
+    }
+
+    public function excelReport(Request $request) {
+
+        $maquinas = self::MAQUINAS;
+        $operadores = self::OPERADORES;
+        $codigos = self::CODIGOS;
+        $batchs = self::BATCHS;
+        $turnos = self::TURNOS;
+        //dd($request->all())
+        $queryArray = [];
+        $maquina = $request->maquina;
+        $operador = $request->operador;
+        $turno = $request->turno;
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        if ($maquina) {
+            array_push($queryArray,['maquina','=',$maquina]);
+        }
+        if ($operador) {
+            array_push($queryArray,['operador','=',$operador]);
+        }
+        if ($turno) {
+            array_push($queryArray,['turno','=',$turno]);
+        }
+        if ($desde) {
+            array_push($queryArray,['fecha_prod','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($queryArray,['fecha_prod','<=',$hasta]);
+        }
+
+        $procesos = TerminoProceso::where($queryArray)
+                                    ->get();
+
+
+        return Excel::create('Reporte Termino Proceso', function($excel) use ($procesos) {
+            $excel->sheet('New sheet', function($sheet) use ($procesos) {
+                $sheet->loadView('produccion.terminoProceso.excel')
+                        ->with('procesos', $procesos);
+                            })->download('xlsx');
+                        });
+    }
+
 }

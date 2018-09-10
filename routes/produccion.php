@@ -12,6 +12,11 @@ Route::prefix('produccion')->group( function(){
         Route::get('/{terminoProceso}/edit', 'Produccion\TerminoProcesoController@edit')->name('editarTerminoProceso');
         Route::delete('/{id}',      'Produccion\TerminoProcesoController@destroy')->name('eliminarTerminoProceso');
 
+        // Reportes
+        Route::get('/reporte',          'Produccion\TerminoProcesoController@indexReport')->name('reporteTerminoProceso');
+        Route::post('/reporte',         'Produccion\TerminoProcesoController@indexReport')->name('reporteTerminoProceso');
+        Route::post('/reporte/excel',   'Produccion\TerminoProcesoController@excelReport')->name('descargarReportTermProcExcel');
+
     });
 
     // Produccion Premezcla

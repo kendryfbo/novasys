@@ -91,7 +91,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-
+                        <li><a href="{{route('reporteTerminoProceso')}}"><i class=""></i> <span>Termino Proceso</span></a></li>
                     </ul>
                 </li>
 
