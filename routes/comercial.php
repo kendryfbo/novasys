@@ -205,8 +205,8 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     /* Temporal */
     Route::prefix('facturaIntlSII')->group(function () {
 
-        Route::get('/',         'Comercial\facturaIntlSIIController@index')->name('facturaIntlSII');
-        Route::get('/{numero}', 'Comercial\facturaIntlSIIController@show')->name('verFacturaIntlSII');
+        Route::get('/',         'Comercial\FacturaIntlSIIController@index')->name('facturaIntlSII');
+        Route::get('/{numero}', 'Comercial\FacturaIntlSIIController@show')->name('verFacturaIntlSII');
     });
 
     // Routes PackingList Internacionales
