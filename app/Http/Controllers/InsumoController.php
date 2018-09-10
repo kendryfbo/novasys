@@ -28,10 +28,11 @@ class InsumoController extends Controller
      */
     public function create()
     {
-        $familias = Familia::getAllactive()->where('tipo_id',1);
+        $familias = Familia::where('tipo_id',1)->where('activo',1)->get();
+        $lastID = Insumo::orderBy('id','DESC')->pluck('id')->first() + 1;
         $unidades = Unidad::getAllActive();
 
-        return view('desarrollo.insumos.create')->with(['familias' => $familias, 'unidades' => $unidades]);
+        return view('desarrollo.insumos.create')->with(['lastID'=> $lastID,'familias' => $familias, 'unidades' => $unidades]);
     }
 
     /**
@@ -85,12 +86,10 @@ class InsumoController extends Controller
      */
     public function edit(Insumo $insumo)
     {
-        $familias = Familia::getAllactive()->where('tipo_id',1);
         $unidades = Unidad::getAllActive();
 
         return view('desarrollo.insumos.edit')
                 ->with(['insumo' => $insumo,
-                        'familias' => $familias,
                         'unidades' => $unidades]);
 
     }

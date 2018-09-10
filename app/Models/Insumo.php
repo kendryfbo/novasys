@@ -43,6 +43,12 @@ class Insumo extends Model
 
 	}
 
+	/*
+	|
+	|	Relationships
+	|
+	*/
+
 	public function familia() {
 
 		return $this->belongsTo('App\Models\Familia');

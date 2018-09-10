@@ -17,7 +17,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-1" >Codigo:</label>
 				<div class="col-sm-2">
-					<input type="text" v-model='codigo' class="form-control" name="codigo" placeholder="Codigo de Insumo..." value="{{ Input::old('codigo') ? Input::old('codigo') : '' }}" required>
+					<input type="text" v-model='codigo' class="form-control" name="codigo" placeholder="Codigo de Insumo..." value="{{ Input::old('codigo') ? Input::old('codigo') : '' }}" required readonly>
 				</div>
 				@if ($errors->has('codigo'))
 					@component('components.errors.validation')
@@ -44,11 +44,9 @@
 
 				<label class="control-label col-sm-1">Familia:</label>
 				<div class="col-sm-3">
-					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="updateDescripcion" required>
+					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="updateCodigo" required>
 						<option value="">Seleccionar Familia...</option>
-						@foreach ($familias as $familia)
-							<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
-						@endforeach
+						<option v-for="familia in familias" :value="familia.id">@{{familia.descripcion}}</option>
 		            </select>
 				</div>
 
@@ -105,6 +103,10 @@
 @endsection
 
 @section('scripts')
+	<script>
+		var familias = {!!$familias!!};
+		var lastID = {!!$lastID!!};
+	</script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	{{-- <script src="{{asset('js/desarrollo/insumo.js')}}"></script> --}}
+	<script src="{{asset('js/desarrollo/insumo.js')}}"></script>
 @endsection

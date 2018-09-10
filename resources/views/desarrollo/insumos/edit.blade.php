@@ -46,12 +46,7 @@
 
 				<label class="control-label col-sm-1">Familia:</label>
 				<div class="col-sm-3">
-					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="familia" v-model="familia" @change="updateDescripcion" required>
-						<option value="">Seleccionar Familia...</option>
-						@foreach ($familias as $familia)
-							<option value="{{$familia->id}}" {{ $insumo->familia_id == $familia->id ? "selected" : "" }}>{{$familia->descripcion}}</option>
-						@endforeach
-		            </select>
+					<input type="text" class="form-control" name="familia" value="{{$insumo->familia->descripcion}}" required readonly>
 				</div>
 
 				<label class="control-label col-sm-1">Unidad:</label>
