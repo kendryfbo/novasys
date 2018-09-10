@@ -41,6 +41,14 @@
                             <td class="text-right">CONTACTO :</td>
                             <th>{{strtoupper($notaVenta->cliente->contacto)}}</th>
                         </tr>
+                        <tr>
+                            <td class="text-right">DESPACHO :</td>
+                            <th>{{strtoupper($notaVenta->despacho)}}</th>
+                        </tr>
+                        <tr>
+                            <td class="text-right">O.C :</td>
+                            <th>{{strtoupper($notaVenta->orden_compra)}}</th>
+                        </tr>
                     </tbody>
                 </table>
             </div>
