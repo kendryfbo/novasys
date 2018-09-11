@@ -129,9 +129,9 @@
                 </tr>
                 <tr>
                     <th class="text-right" rowspan="2">{{number_format($factura->detalles->sum('cantidad'))}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->peso_bruto,2)}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->peso_neto,2)}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->volumen,2)}}</th>
+                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
+                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_bruto,2)}}</th>
+                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->volumen,2)}}</th>
                     <th class="text-right">FREIGHT :</th>
                     <th class="text-right">{{number_format($factura->freight,2)}}</th>
                 </tr>

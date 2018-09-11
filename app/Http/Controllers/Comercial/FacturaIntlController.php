@@ -189,8 +189,7 @@ class FacturaIntlController extends Controller
     /* DESCARGAR Factura Internacional PDF */
     public function downloadPDF($id) {
 
-        $factura = FacturaIntl::with('centroVenta','clienteIntl','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')->find($id);
-
+        $factura = FacturaIntl::with('centroVenta','proformaInfo','clienteIntl','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')->find($id);
         $date = new Carbon($factura->fecha_emision);
         $date = $date->format('d/m/Y');
         $factura->fecha_emision_formato_correcto = $date;

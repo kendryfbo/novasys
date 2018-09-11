@@ -13,14 +13,14 @@ p {
 
 .cliente-descripcion {
     position: absolute;
-    top: 100px;
+    top: 150px;
     left: 50px;
     width: 200px;
 }
 
 .numero-fecha {
     position: absolute;
-    top: 82px;
+    top: 130px;
     right: 56px;
     width: 100px;
 
@@ -30,27 +30,27 @@ p {
     position: absolute;
     top: 140px;
     right: 250px;
-    width: 100px;
+    width: 150px;
 
 }
 .puerto-embarque {
     position: absolute;
     top: 185px;
     right: 250px;
-    width: 100px;
+    width: 150px;
 
 }
 
 .forma-pago {
     position: absolute;
-    top: 120px;
+    top: 180px;
     right: 10px;
     width: 150px;
 
 }
 .cond-venta {
     position: absolute;
-    top: 185px;
+    top: 230px;
     right: 50px;
     width: 100px;
 
@@ -59,13 +59,13 @@ p {
     position: absolute;
     top: 240px;
     right: 250px;
-    width: 100px;
+    width: 150px;
 
 }
 
 .lista-productos {
     position: absolute;
-    top: 320px;
+    top: 370px;
     left: 30px;
 }
 .lista-productos tr > td {

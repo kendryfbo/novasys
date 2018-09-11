@@ -102,6 +102,10 @@ class FacturaIntl extends Model
 
 		return $this->belongsTo(CentroVenta::class,'cv_id');
 	}
+	public function proformaInfo() {
+
+		return $this->belongsTo(Proforma::class,'proforma','numero');
+	}
 
 
 }
