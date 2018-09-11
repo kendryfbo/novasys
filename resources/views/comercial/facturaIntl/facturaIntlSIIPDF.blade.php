@@ -15,7 +15,7 @@
             <h3>{{strtoupper($factura->clienteIntl->pais->nombre)}}</h3>
         </div>
         <div class="numero-fecha">
-            <h3><pre>{{$factura->numero ."     " . $factura->day ."   ". $factura->month ."  ". $factura->year}}</pre></h3>
+            <h3><pre>{{$factura->numero ."        " . $factura->day ."   ". $factura->month ."  ". $factura->year}}</pre></h3>
         </div>
 
         <div class="text-center medio-transporte">
@@ -39,7 +39,7 @@
                     <tr>
                         <td width="70px">{{$detalle->cantidad}}</td>
                         <td width="340px">
-                            {{$detalle->producto->marca->descripcion . " " .$detalle->producto->formato->descripcion . " ". $detalle->producto->sabor->descrip_ing}}
+            {{$detalle->producto->marca->descripcion . " " .$detalle->producto->formato->descripcion . " ". $detalle->producto->sabor->descrip_ing}}
                         </td>
                         <td width="130px" class="text-right">{{number_format($detalle->precio,2)}}</td>
                         <td width="130px" class="text-right">{{number_format($detalle->sub_total,2)}}</td>
