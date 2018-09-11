@@ -1,0 +1,89 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+.cliente-descripcion {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    width: 200px;
+}
+
+.numero-fecha {
+    position: absolute;
+    top: 182px;
+    right: 56px;
+    width: 100px;
+
+}
+
+.medio-transporte {
+    position: absolute;
+    top: 240px;
+    right: 250px;
+    width: 100px;
+
+}
+.puerto-embarque {
+    position: absolute;
+    top: 285px;
+    right: 250px;
+    width: 100px;
+
+}
+
+.forma-pago {
+    position: absolute;
+    top: 220px;
+    right: 10px;
+    width: 150px;
+
+}
+.cond-venta {
+    position: absolute;
+    top: 285px;
+    right: 50px;
+    width: 100px;
+
+}
+.puerto-destino {
+    position: absolute;
+    top: 340px;
+    right: 250px;
+    width: 100px;
+
+}
+.part-arancel {
+    position: absolute;
+    top: 210px;
+    right: 50px;
+    width: 100px;
+
+}
+
+.lista-productos {
+    position: absolute;
+    top: 420px;
+    left: 30px;
+}
+.lista-productos tr > td {
+    font-size: 14px;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}

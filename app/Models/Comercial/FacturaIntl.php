@@ -17,16 +17,6 @@ class FacturaIntl extends Model
 		'freight', 'insurance','cif', 'descuento','total','user_id'
   ];
 
-	public function detalles() {
-
-		return $this->hasMany(FactIntlDetalle::class,'factura_id');
-	}
-
-	public function clienteIntl() {
-
-		return $this->belongsTo(clienteIntl::class,'cliente_id');
-	}
-
 	/* registrar Factura apartir de Proforma */
 	static function regFromProforma($request,$proforma) {
 
@@ -91,6 +81,26 @@ class FacturaIntl extends Model
 		}, 5);
 
 		return $factura;
+	}
+
+	/*
+	|
+	|	Relationships
+	|
+	*/
+
+	public function detalles() {
+
+		return $this->hasMany(FactIntlDetalle::class,'factura_id');
+	}
+
+	public function clienteIntl() {
+
+		return $this->belongsTo(clienteIntl::class,'cliente_id');
+	}
+	public function centroVenta() {
+
+		return $this->belongsTo(CentroVenta::class,'cv_id');
 	}
 
 

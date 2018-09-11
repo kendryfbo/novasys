@@ -54,7 +54,7 @@
                             <th>{{$proforma->clau_venta}}</th>
                         </tr>
                         <tr>
-                            <td class="text-right">CONDICION DE PAGO/PAYMENTS TERMS :</td>
+                            <td class="text-right">CONDICION DE PAGO/PAYMENT TERMS :</td>
                             <th>{{strtoupper($proforma->forma_pago)}}</th>
                         </tr>
                         <tr>
@@ -74,7 +74,7 @@
                             <th>{{strtoupper($proforma->puerto_emb)}}</th>
                         </tr>
                         <tr>
-                            <td class="text-right">PUERTO DESTINO/DISHARGING PORT :</td>
+                            <td class="text-right">PUERTO DESTINO/DISCHARGING PORT :</td>
                             <th>{{$proforma->puerto_dest}}</th>
                         </tr>
                         <tr>

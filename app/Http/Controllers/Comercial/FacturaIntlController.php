@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Comercial;
 
+use PDF;
 use Excel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -84,6 +85,7 @@ class FacturaIntlController extends Controller
         $date->addDays($request->diasFormaPago);
         $date = $date->format('Y-m-d');
         $request->vencimiento = $date;
+
 
         $factura = FacturaIntl::regFromProforma($request,$proforma);
         //event(new CreateFacturaIntlEvent($factura));
@@ -183,6 +185,42 @@ class FacturaIntlController extends Controller
                 ->with('factura', $factura);
           })->download('xlsx');
       });
+    }
+    /* DESCARGAR Factura Internacional PDF */
+    public function downloadPDF($id) {
+
+        $factura = FacturaIntl::with('centroVenta','clienteIntl','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')->find($id);
+
+        $date = new Carbon($factura->fecha_emision);
+        $date = $date->format('d/m/Y');
+        $factura->fecha_emision_formato_correcto = $date;
+
+        //return view('comercial.facturaIntl.facturaIntlPDF')->with(['factura' => $factura]);
+        $pdf = PDF::loadView('comercial.facturaIntl.facturaIntlPDF',compact('factura'));
+
+        return $pdf->stream();
+    }
+    /* DESCARGAR Factura Internacional SII PDF */
+    public function downloadSIIPDF($id) {
+
+        $factura = FacturaIntl::with('centroVenta','clienteIntl','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')->find($id);
+
+        $date = new Carbon($factura->fecha_emision);
+        $day = $date->format('d');
+        $month = $date->format('m');
+        $year = $date->format('y');
+        $date = $date->format('d/m/Y');
+
+        $factura->fecha_emision_formato_correcto = $date;
+        $factura->day = $day;
+        $factura->month = $month;
+        $factura->year = $year;
+
+
+        //return view('comercial.facturaIntl.facturaIntlPDF')->with(['factura' => $factura]);
+        $pdf = PDF::loadView('comercial.facturaIntl.facturaIntlSIIPDF',compact('factura'));
+
+        return $pdf->stream();
     }
 
 }
