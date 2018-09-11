@@ -12,7 +12,7 @@ p {
     margin: 0px;
 }
 .title-content {
-    height: 80px;
+    height: 90px;
 }
 .descrip-cv {
     margin: 0px;
@@ -65,7 +65,7 @@ p {
     text-align: left;
 }
 .table-content {
-    height: 620px;
+    height: 610px;
     padding: 0px;
     margin: 0px;
     border: 1px solid black;

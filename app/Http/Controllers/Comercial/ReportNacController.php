@@ -270,7 +270,7 @@ class ReportNacController extends Controller
         });
     }
 
-    public function report(Request $request) {
+    public function reportnotaVenta(Request $request) {
 
         $desde = $request->desde;
         $hasta = $request->hasta;
@@ -309,7 +309,7 @@ class ReportNacController extends Controller
             'notasVenta' => $notasVenta]);
 
     }
-    public function downloadExcel(Request $request) {
+    public function downloadExcelNotaVenta(Request $request) {
 
         $desde = $request->desde;
         $hasta = $request->hasta;

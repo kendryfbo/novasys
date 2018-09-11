@@ -116,7 +116,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
   Route::get('proformas/autorizacion/{proforma}',   'Comercial\ProformaController@showForAut')->name('autorizarProforma');
   Route::post('proformas/autorizar/{numero}',       'Comercial\ProformaController@auth')->name('autorizarProforma');
   Route::post('proformas/desautorizar/{numero}',    'Comercial\ProformaController@unauth')->name('desautorizarProforma');
-  
+
     // Routes Guia de Despacho Internacionales
     route::prefix('guiaDespacho')->group(function(){
 
@@ -230,6 +230,9 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
         Route::post('/reportProd',     'Comercial\ReportNacController@reportProdExcel')->name('ReportProdNacExcel');
         Route::get('/facturaNacProd',  'Comercial\ReportNacController@reportProdFact')->name('verInformeNacProdFactura');
         Route::post('/facturaNacProd', 'Comercial\ReportNacController@reportProdFact')->name('verInformeNacProdFactura');
+        Route::get('/NotaVenta',       'Comercial\ReportNacController@reportnotaVenta')->name('verInformeNotaVenta');
+        Route::post('/NotaVenta',      'Comercial\ReportNacController@reportnotaVenta')->name('verInformeNotaVenta');
+        Route::get('/NotaVenta/descargar', 'Comercial\ReportNacController@downloadExcelNotaVenta')->name('descargarInformeNotaVenta');
 
     });
 
