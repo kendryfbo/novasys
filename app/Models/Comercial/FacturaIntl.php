@@ -96,7 +96,7 @@ class FacturaIntl extends Model
 
 	public function clienteIntl() {
 
-		return $this->belongsTo(clienteIntl::class,'cliente_id');
+		return $this->belongsTo(ClienteIntl::class,'cliente_id');
 	}
 	public function centroVenta() {
 
