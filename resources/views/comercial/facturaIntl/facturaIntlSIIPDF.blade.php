@@ -15,7 +15,7 @@
             <h3>{{strtoupper($factura->clienteIntl->pais->nombre)}}</h3>
         </div>
         <div class="numero-fecha">
-            <h3><pre>{{$factura->numero ."       " . $factura->day ." ". $factura->month ."   ". $factura->year}}</pre></h3>
+            <h3><pre>{{$factura->numero ."       " . $factura->day ." ". $factura->month ."  ". $factura->year}}</pre></h3>
         </div>
 
         <div class="text-center medio-transporte">
