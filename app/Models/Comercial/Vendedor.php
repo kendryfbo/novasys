@@ -21,7 +21,7 @@ class Vendedor extends Model
 
 	public function notaVenta() {
 
-		return $this->hasMany('App\Models\Comercial\NotaVenta');
+		return $this->hasMany('App\Models\Comercial\NotaVenta','vendedor_id');
 	}
 
 	public function facturasNac() {

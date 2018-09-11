@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Producto;
+use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\FacturaNacional;
@@ -274,11 +275,15 @@ class ReportNacController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $cliente = $request->cliente;
+        $vendedor = $request->vendedor;
         $arrayQuery = [];
         $notasVenta = [];
 
         if ($cliente) {
             array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($vendedor) {
+            array_push($arrayQuery,['vendedor_id','=',$vendedor]);
         }
         if ($desde) {
             array_push($arrayQuery,['fecha_emision','>=',$desde]);
@@ -288,16 +293,19 @@ class ReportNacController extends Controller
         }
 
         if ($arrayQuery) {
-            $notasVenta = NotaVenta::where($arrayQuery)->get();
+            $notasVenta = NotaVenta::with('cliente','vendedor')->where($arrayQuery)->orderBy('numero','DESC')->get();
         }
 
         $clientes = ClienteNacional::whereHas('notaVenta')->get();
+        $vendedores = Vendedor::whereHas('notaVenta')->get();
 
         return view('comercial.reportesNac.indexNotaVenta')->with([
             'cliente' => $cliente,
+            'vendedor' => $vendedor,
             'desde' => $desde,
             'hasta' => $hasta,
             'clientes' => $clientes,
+            'vendedores' => $vendedores,
             'notasVenta' => $notasVenta]);
 
     }
@@ -306,11 +314,15 @@ class ReportNacController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $cliente = $request->cliente;
+        $vendedor = $request->vendedor;
         $arrayQuery = [];
         $notasVenta = [];
 
         if ($cliente) {
             array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($vendedor) {
+            array_push($arrayQuery,['vendedor_id','=',$vendedor]);
         }
         if ($desde) {
             array_push($arrayQuery,['fecha_emision','>=',$desde]);
@@ -320,10 +332,8 @@ class ReportNacController extends Controller
         }
 
         if ($arrayQuery) {
-            $notasVenta = NotaVenta::where($arrayQuery)->get();
+            $notasVenta = NotaVenta::with('cliente','vendedor')->where($arrayQuery)->orderBy('numero','DESC')->get();
         }
-
-        $clientes = ClienteNacional::whereHas('notaVenta')->get();
 
         return Excel::create('Reporte X Notas Ventas', function($excel) use ($notasVenta) {
             $excel->sheet('New sheet', function($sheet) use ($notasVenta) {
@@ -331,13 +341,6 @@ class ReportNacController extends Controller
                     ->with('notasVenta', $notasVenta);
                         })->download('xlsx');
         });
-        return view('comercial.reportesNac.indexNotaVenta')->with([
-            'cliente' => $cliente,
-            'desde' => $desde,
-            'hasta' => $hasta,
-            'clientes' => $clientes,
-            'notasVenta' => $notasVenta]);
-
     }
 
 }
