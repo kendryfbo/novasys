@@ -433,7 +433,7 @@ class EgresoController extends Controller
         $egreso = Egreso::where('numero',$numero)->first();
 
         $egreso->load('documento','detalles','tipo');
-
+        //dd($egreso->detalles[0]);
         $pdf = PDF::loadView('bodega.egreso.regInspEgresoPDF',compact('egreso'));
         return $pdf->stream();
     }

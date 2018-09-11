@@ -39,7 +39,7 @@
 				<tbody>
 					@foreach ($ordenesCompra as $ordenCompra)
 						<tr>
-							<th class="text-center">{{$loop->iteration}} asd</th>
+							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center"><a href="{{route('verOrdenCompra',['numero' => $ordenCompra->numero])}}" target="_blank"><strong>{{$ordenCompra->numero}}</strong></a></td>
 							<td class="text-center">{{$ordenCompra->fecha_emision}}</td>
 							<td>{{$ordenCompra->proveedor->descripcion}}</td>

@@ -21,7 +21,7 @@ class CreateOrdenCompraDetallesTable extends Migration
             $table->string('codigo');
             $table->string('descripcion');
             $table->string('unidad');
-            $table->integer('cantidad');
+            $table->double('cantidad');
             $table->integer('moneda_id')->unsigned();
             $table->string('moneda');
             $table->double('precio',10,2);

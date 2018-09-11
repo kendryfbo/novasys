@@ -214,7 +214,7 @@ class FacturaNacionalController extends Controller
 
                 $impuesto = 0;
             }
-
+            
             $impuesto = ($precioUniTotal * $impuesto) / 100;
             $precioUniTotal = $precioUniTotal + $impuesto;
             $detalle->precio = $precioUniTotal;
