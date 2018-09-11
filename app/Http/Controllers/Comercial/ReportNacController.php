@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Producto;
+use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Comercial\FacturaNacionalDetalle;
@@ -266,6 +267,77 @@ class ReportNacController extends Controller
                     ->with('detalles', $detalles);
                         })->download('xlsx');
         });
+    }
+
+    public function report(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $notasVenta = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+
+        if ($arrayQuery) {
+            $notasVenta = NotaVenta::where($arrayQuery)->get();
+        }
+
+        $clientes = ClienteNacional::whereHas('notaVenta')->get();
+
+        return view('comercial.reportesNac.indexNotaVenta')->with([
+            'cliente' => $cliente,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'clientes' => $clientes,
+            'notasVenta' => $notasVenta]);
+
+    }
+    public function downloadExcel(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $notasVenta = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+
+        if ($arrayQuery) {
+            $notasVenta = NotaVenta::where($arrayQuery)->get();
+        }
+
+        $clientes = ClienteNacional::whereHas('notaVenta')->get();
+
+        return Excel::create('Reporte X Notas Ventas', function($excel) use ($notasVenta) {
+            $excel->sheet('New sheet', function($sheet) use ($notasVenta) {
+                $sheet->loadView('documents.excel.reportNotaVenta')
+                    ->with('notasVenta', $notasVenta);
+                        })->download('xlsx');
+        });
+        return view('comercial.reportesNac.indexNotaVenta')->with([
+            'cliente' => $cliente,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'clientes' => $clientes,
+            'notasVenta' => $notasVenta]);
+
     }
 
 }

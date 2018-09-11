@@ -223,6 +223,11 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
         Route::get('/facturaNacProd',  'Comercial\ReportNacController@reportProdFact')->name('verInformeNacProdFactura');
         Route::post('/facturaNacProd', 'Comercial\ReportNacController@reportProdFact')->name('verInformeNacProdFactura');
 
+        // informes notas de Venta
+        route::get('/reporte',                 'Comercial\ReportNacController@report')->name('verInformeNotaVenta');
+        route::post('/reporte',                'Comercial\ReportNacController@report')->name('verInformeNotaVenta');
+        route::get('/reporte/descargarExcel',  'Comercial\ReportNacController@downloadExcel')->name('descargarInformeNotaVenta');
+
     });
 
     // Reportes Internacioneles
