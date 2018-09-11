@@ -101,7 +101,7 @@ class ProformaController extends Controller
     {
       $this->validate($request, [
         'centroVenta' => 'required',
-        'numero' => 'required',
+        //'numero' => 'required',
         'version' => 'required',
         'emision' => 'required',
         'clausula' => 'required',

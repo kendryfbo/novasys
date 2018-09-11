@@ -54,7 +54,7 @@
 					<div class="form-group form-group-sm">
 						<label class="control-label col-sm-2" >Numero:</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta...">
+							<input type="text" class="form-control" name="numero" placeholder="Nueva" readonly>
 						</div>
 
 						<label class="control-label col-sm-1" >Version:</label>

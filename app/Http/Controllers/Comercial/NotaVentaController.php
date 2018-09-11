@@ -63,7 +63,7 @@ class NotaVentaController extends Controller
     public function store(Request $request)
     {
       $this->validate($request, [
-          'numero' => 'required',
+          //'numero' => 'required',
           'centroVenta' => 'required',
           'fechaEmision' => 'required',
           'fechaDespacho' => 'required',

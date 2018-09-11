@@ -45,6 +45,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
+                <li><a href="{{route('verInformeNotaVenta')}}"><i class=""></i> <span>Informe X N.V</span></a></li>
                 <li><a href="{{url('comercial/informesNac/facturaNac')}}"><i class=""></i> <span>Informe X Fact</span></a></li>
                 <li><a href="{{url('comercial/informesNac/facturaNacProd')}}"><i class=""></i> <span>Informe X Prod</span></a></li>
             </ul>

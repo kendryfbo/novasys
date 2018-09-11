@@ -44,15 +44,11 @@ class Proforma extends Model
     		$totalVolumen = 0;
 
 
-            $numero = $request->numero;
+            $numero = Proforma::orderBy('id','desc')->pluck('numero')->first();
             if (is_null($numero)) {
-
-                $numero = Proforma::orderBy('numero','desc')->pluck('numero')->first();
-                if (is_null($numero)) {
-                    $numero = 1;
-                } else {
-                    $numero++;
-                }
+                $numero = 1;
+            } else {
+                $numero++;
             }
 
             $version = 1;
@@ -311,6 +307,7 @@ class Proforma extends Model
                 $proforma->aut_contab = null;
             }
 
+            $proforma->aut_comer = null;
             $proforma->descuento = $totalDescuento;
             $proforma->fob = $totalFob;
             $proforma->total = $total;

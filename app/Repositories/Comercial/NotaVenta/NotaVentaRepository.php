@@ -30,18 +30,13 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$totalPesoBruto = 0;
 			$totalVolumen = 0;
 
-			$numero = $request->numero;
+			$numero = NotaVenta::orderBy('numero','desc')->pluck('numero')->first();
 
 			if (is_null($numero)) {
-
-				$numero = NotaVenta::orderBy('numero','desc')->pluck('numero')->first();
-				if (is_null($numero)) {
-					$numero = 1;
-				} else {
-					$numero++;
-				}
+				$numero = 1;
+			} else {
+				$numero++;
 			}
-
 
 			$centroVenta = $request->centroVenta;
 			$cliente = $request->cliente;

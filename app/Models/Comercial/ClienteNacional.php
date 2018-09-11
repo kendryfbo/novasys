@@ -65,7 +65,7 @@ class ClienteNacional extends Model
 
 	public function notaVenta() {
 
-		return $this->hasMany('App\Models\Comercial\NotaVenta');
+		return $this->hasMany('App\Models\Comercial\NotaVenta','cliente_id');
 	}
 
 	public function facturasNac() {
