@@ -50,7 +50,7 @@ class Proforma extends Model
             } else {
                 $numero++;
             }
-            
+
             $version = 1;
 
 
@@ -307,6 +307,7 @@ class Proforma extends Model
                 $proforma->aut_contab = null;
             }
 
+            $proforma->aut_comer = null;
             $proforma->descuento = $totalDescuento;
             $proforma->fob = $totalFob;
             $proforma->total = $total;
