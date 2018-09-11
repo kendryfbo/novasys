@@ -46,7 +46,8 @@
 
 				<label class="control-label col-sm-1">Familia:</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" name="familia" value="{{$insumo->familia->descripcion}}" required readonly>
+					<input type="hidden" class="form-control" name="familia" value="{{$insumo->familia->id}}" readonly>
+					<input type="text" class="form-control" value="{{$insumo->familia->descripcion}}" required readonly>
 				</div>
 
 				<label class="control-label col-sm-1">Unidad:</label>
