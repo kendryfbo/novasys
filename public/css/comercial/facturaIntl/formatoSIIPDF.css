@@ -1,5 +1,5 @@
 body {
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Courier", Times, serif;
   font-size: 11px;
 }
 table {
@@ -13,14 +13,14 @@ p {
 
 .cliente-descripcion {
     position: absolute;
-    top: 200px;
+    top: 100px;
     left: 50px;
     width: 200px;
 }
 
 .numero-fecha {
     position: absolute;
-    top: 182px;
+    top: 82px;
     right: 56px;
     width: 100px;
 
@@ -28,14 +28,14 @@ p {
 
 .medio-transporte {
     position: absolute;
-    top: 240px;
+    top: 140px;
     right: 250px;
     width: 100px;
 
 }
 .puerto-embarque {
     position: absolute;
-    top: 285px;
+    top: 185px;
     right: 250px;
     width: 100px;
 
@@ -43,36 +43,29 @@ p {
 
 .forma-pago {
     position: absolute;
-    top: 220px;
+    top: 120px;
     right: 10px;
     width: 150px;
 
 }
 .cond-venta {
     position: absolute;
-    top: 285px;
+    top: 185px;
     right: 50px;
     width: 100px;
 
 }
 .puerto-destino {
     position: absolute;
-    top: 340px;
+    top: 240px;
     right: 250px;
-    width: 100px;
-
-}
-.part-arancel {
-    position: absolute;
-    top: 210px;
-    right: 50px;
     width: 100px;
 
 }
 
 .lista-productos {
     position: absolute;
-    top: 420px;
+    top: 320px;
     left: 30px;
 }
 .lista-productos tr > td {
