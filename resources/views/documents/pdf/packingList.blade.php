@@ -84,9 +84,9 @@
                 <td class="text-center">{{$detalle->producto->codigo}}</td>
                 <td>{{$detalle->producto->descripcion}}</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
-                <td class="text-right">{{$detalle->cantidad * $detalle->producto->peso_neto}}</td>
-                <td class="text-right">{{$detalle->cantidad * $detalle->producto->peso_bruto}}</td>
-                <td class="text-right">{{$detalle->cantidad * $detalle->producto->volumen}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_neto,2)}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_bruto,2)}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->volumen,2)}}</td>
               </tr>
             @endforeach
 
