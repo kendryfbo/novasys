@@ -174,7 +174,7 @@ var app = new Vue({
 
       for (var i=0; i < this.items.length; i++) {
 
-        if (this.codigoProd == this.items[i].codigo) {
+        if (this.descripProd == this.items[i].descripcion) {
           return true;
         }
         return false;
