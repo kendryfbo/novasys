@@ -40,6 +40,7 @@ class IngresoController extends Controller
 
         $ingresosProcesados = Ingreso::with('usuario','tipo','status')
                                         ->where('status_id','=',$statusCompleta)
+                                        ->take(100)
                                         ->get();
 
         return view('bodega.ingreso.index')->with([

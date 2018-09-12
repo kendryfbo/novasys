@@ -89,7 +89,7 @@
                 <td class="text-center">@{{item.descripcion}}</td>
                 <td class="text-right">@{{item.cantidad}}</td>
                 <td class="text-right">@{{item.existencia}}</td>
-                <td :class="item.existencia>=item.cantidad ? 'success':'danger'" class="text-center">@{{item.existencia>=item.cantidad ? 'Disponible' : 'No dispinible'}}</td>
+                <td :class="item.existencia>=item.cantidad ? 'success':'danger'" class="text-center">@{{item.existencia>=item.cantidad ? 'Disponible' : 'No disponible'}}</td>
               </tr>
 
           </tbody>

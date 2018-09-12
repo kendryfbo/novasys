@@ -214,9 +214,7 @@ class FacturaIntlController extends Controller
         $factura->day = $day;
         $factura->month = $month;
         $factura->year = $year;
-
-
-        //return view('comercial.facturaIntl.facturaIntlPDF')->with(['factura' => $factura]);
+        
         $pdf = PDF::loadView('comercial.facturaIntl.facturaIntlSIIPDF',compact('factura'));
 
         return $pdf->stream();
