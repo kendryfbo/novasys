@@ -37,12 +37,14 @@
             <tbody>
                 @foreach ($factura->detalles as $detalle)
                     <tr>
-                        <td width="70px">{{$detalle->cantidad}}</td>
+                        <td width="70px"><strong>{{$detalle->cantidad}}</strong></td>
                         <td width="340px">
+                            <strong>
             {{$detalle->producto->marca->descripcion . " " .$detalle->producto->formato->descripcion . " ". $detalle->producto->sabor->descrip_ing}}
+                            </strong>
                         </td>
-                        <td width="130px" class="text-right">{{number_format($detalle->precio,2)}}</td>
-                        <td width="130px" class="text-right">{{number_format($detalle->sub_total,2)}}</td>
+                        <td width="130px" class="text-right"><strong>{{number_format($detalle->precio,2)}}</strong></td>
+                        <td width="130px" class="text-right"><strong>{{number_format($detalle->sub_total,2)}}</strong></td>
                     </tr>
                 @endforeach
                 <tr>

@@ -119,7 +119,6 @@
 
         <table class="table table-pesos" width="100%">
             <tbody>
-                @if ($factura->fob)
                     <tr>
                     <th>TOTAL CAJAS / TOTAL CASES</th>
                     <th>TOTAL KG / GROSS WEIGHT</th>
@@ -128,22 +127,25 @@
                     <th class="text-right">FOB :</th>
                     <th class="text-right">{{number_format($factura->fob,2)}}</th>
                 </tr>
-                @endif
 
                 <tr>
                     <th class="text-right" rowspan="2">{{number_format($factura->detalles->sum('cantidad'))}}</th>
                     <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
                     <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_bruto,2)}}</th>
                     <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->volumen,2)}}</th>
+                    @if ($factura->freight)
                     <th class="text-right">FREIGHT :</th>
                     <th class="text-right">{{number_format($factura->freight,2)}}</th>
+                    @else
+                        <th colspan="2" class="text-right"></th>
+                    @endif
                 </tr>
-                @if ($factura->total)
+
                 <tr>
                     <th class="text-right">TOTAL {{$factura->clau_venta}}:</th>
                     <th class="text-right">{{number_format($factura->total,2)}}</th>
                 </tr>
-                @endif
+
             </tbody>
         </table>
 
