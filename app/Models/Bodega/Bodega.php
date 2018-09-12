@@ -429,7 +429,7 @@ class Bodega extends Model
             $query = $query . "AND pallet_detalle.tipo_id=".$tipoID." ";
         }
 
-        $query = $query . " GROUP BY pallet_detalle.item_id,pallet_detalle.tipo_id ORDER BY cantidad DESC";
+        $query = $query . " GROUP BY pallet_detalle.item_id,pallet_detalle.tipo_id ORDER BY descripcion ASC";
         $results = DB::select(DB::raw($query));
         return $results;
 
@@ -786,7 +786,7 @@ class Bodega extends Model
             }
 
         };
-        
+
         return $posiciones;
     }
 
