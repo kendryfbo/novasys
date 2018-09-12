@@ -49,7 +49,7 @@ class PackingListController extends Controller
     if (!$factura) {
         dd('Factura # '. $numero . ' No Existe.');
     }
-    $pdf = PDF::loadView('documents.pdf.packingList',compact('guia','factura'))->setPaper('letter','landscape');
+    $pdf = PDF::loadView('documents.pdf.packingList',compact('guia','factura'))->setPaper('a4','landscape');
 
 
     return $pdf->stream();
