@@ -63,14 +63,14 @@
           <thead>
 
             <tr>
-              <th>#</th>
-              <th>CANTIDAD</th>
-              <th>CODIGO</th>
-              <th>DESCRIPCION</th>
-              <th>FORMATO</th>
-              <th>PESO NETO</th>
-              <th>PESO BRUTO</th>
-              <th>VOLUMEN</th>
+              <th class="text-center">#</th>
+              <th class="text-center">CANTIDAD</th>
+              <th class="text-center">CODIGO</th>
+              <th class="text-center">DESCRIPCION</th>
+              <th class="text-center">FORMATO</th>
+              <th class="text-center">PESO NETO</th>
+              <th class="text-center">PESO BRUTO</th>
+              <th class="text-center">VOLUMEN</th>
             </tr>
 
           </thead>
@@ -78,27 +78,25 @@
           <tbody>
 
             @foreach ($guia->detalles as $detalle)
-
               <tr>
-                <td>{{$loop->iteration}}</td>
+                <td class="text-center">{{$loop->iteration}}</td>
                 <td class="text-right">{{$detalle->cantidad}}</td>
-                <td>{{$detalle->producto->codigo}}</td>
+                <td class="text-center">{{$detalle->producto->codigo}}</td>
                 <td>{{$detalle->producto->descripcion}}</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
                 <td class="text-right">{{$detalle->producto->peso_neto}}</td>
                 <td class="text-right">{{$detalle->producto->peso_bruto}}</td>
                 <td class="text-right">{{$detalle->producto->volumen}}</td>
               </tr>
-
             @endforeach
 
               <tr>
                 <td></td>
                 <th class="text-right">{{$guia->detalles->sum('cantidad')}}</th>
-                <th colspan="3">TOTALES</th>
-                <td class="text-right">{{$guia->detalles->sum('producto.peso_neto')}}</td>
-                <td class="text-right">{{$guia->detalles->sum('producto.peso_bruto')}}</td>
-                <td class="text-right">{{$guia->detalles->sum('producto.volumen')}}</td>
+                <th class="text-right" colspan="3">TOTALES :</th>
+                <td class="text-right">{{number_format($guia->peso_neto_total,2,',','.')}}</td>
+                <td class="text-right">{{number_format($guia->peso_bruto_total,2,',','.')}}</td>
+                <td class="text-right">{{number_format($guia->volumen_total,2,',','.')}}</td>
               </tr>
 
           </tbody>

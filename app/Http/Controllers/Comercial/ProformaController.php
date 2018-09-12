@@ -25,7 +25,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-      $proformas = Proforma::with('cliente')->orderBy('numero','desc')->get();
+      $proformas = Proforma::with('cliente')->orderBy('id','desc')->get();
 
       return view('comercial.proforma.index')->with(['proformas' => $proformas]);
     }
