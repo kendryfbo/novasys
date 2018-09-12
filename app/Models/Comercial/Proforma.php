@@ -124,9 +124,9 @@ class Proforma extends Model
     			$cantidad = $item->cantidad;
     			$precio = $item->precio;
     			$porcDesc = $item->descuento;
-    			$pesoNeto = $item->peso_neto;
-    			$pesoBruto = $item->peso_bruto;
-    			$volumen = $item->volumen;
+    			$pesoNeto = $item->peso_neto * $item->cantidad;
+    			$pesoBruto = $item->peso_bruto * $item->cantidad;
+    			$volumen = $item->volumen * $item->cantidad;
     			$subTotal = $cantidad * $precio;
     			$descuento = ($subTotal * $porcDesc) / 100;
 
@@ -147,9 +147,9 @@ class Proforma extends Model
 
     			$totalFob += $subTotal;
     			$totalDescuento += $descuento;
-    			$totalPesoNeto += $pesoNeto * $item->cantidad;
-    			$totalPesoBruto += $pesoBruto * $item->cantidad;
-    			$totalVolumen += $volumen * $item->cantidad;
+    			$totalPesoNeto += $pesoNeto;
+    			$totalPesoBruto += $pesoBruto;
+    			$totalVolumen += $volumen;
 
     		};
 
@@ -264,9 +264,9 @@ class Proforma extends Model
       			$cantidad = $item->cantidad;
       			$precio = $item->precio;
       			$porcDesc = $item->descuento;
-      			$pesoNeto = $item->peso_neto;
-      			$pesoBruto = $item->peso_bruto;
-      			$volumen = $item->volumen;
+      			$pesoNeto = $item->peso_neto * $item->cantidad;
+      			$pesoBruto = $item->peso_bruto * $item->cantidad;
+      			$volumen = $item->volumen * $item->cantidad;
 
       			$subTotal = $cantidad * $precio;
       			$descuento = ($subTotal * $porcDesc) / 100;
