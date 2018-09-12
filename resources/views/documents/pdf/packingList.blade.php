@@ -9,14 +9,14 @@
     <style>
     body {
       font-size: 10px;
+      margin-left: : 15px;
     }
     .contenedor {
       padding-left: 15px;
     }
     .heading {
-
       height: 150px;
-    };
+    }
     .table-bordered {
       border: 1px solid black;
     }
@@ -84,9 +84,9 @@
                 <td class="text-center">{{$detalle->producto->codigo}}</td>
                 <td>{{$detalle->producto->descripcion}}</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
-                <td class="text-right">{{$detalle->producto->peso_neto}}</td>
-                <td class="text-right">{{$detalle->producto->peso_bruto}}</td>
-                <td class="text-right">{{$detalle->producto->volumen}}</td>
+                <td class="text-right">{{$detalle->cantidad * $detalle->producto->peso_neto}}</td>
+                <td class="text-right">{{$detalle->cantidad * $detalle->producto->peso_bruto}}</td>
+                <td class="text-right">{{$detalle->cantidad * $detalle->producto->volumen}}</td>
               </tr>
             @endforeach
 
