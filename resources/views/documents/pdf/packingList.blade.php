@@ -81,24 +81,24 @@
 
               <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$detalle->cantidad}}</td>
+                <td class="text-right">{{$detalle->cantidad}}</td>
                 <td>{{$detalle->producto->codigo}}</td>
                 <td>{{$detalle->producto->descripcion}}</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
-                <td>{{$detalle->producto->peso_neto}}</td>
-                <td>{{$detalle->producto->peso_bruto}}</td>
-                <td>{{$detalle->producto->volumen}}</td>
+                <td class="text-right">{{$detalle->producto->peso_neto}}</td>
+                <td class="text-right">{{$detalle->producto->peso_bruto}}</td>
+                <td class="text-right">{{$detalle->producto->volumen}}</td>
               </tr>
 
             @endforeach
 
               <tr>
                 <td></td>
-                <th>{{$detalle->sum('cantidad')}}</th>
+                <th class="text-right">{{$guia->detalles->sum('cantidad')}}</th>
                 <th colspan="3">TOTALES</th>
-                <td>{{$detalle->cantidad}}</td>
-                <td>{{$detalle->cantidad}}</td>
-                <td>{{$detalle->cantidad}}</td>
+                <td class="text-right">{{$guia->detalles->sum('producto.peso_neto')}}</td>
+                <td class="text-right">{{$guia->detalles->sum('producto.peso_bruto')}}</td>
+                <td class="text-right">{{$guia->detalles->sum('producto.volumen')}}</td>
               </tr>
 
           </tbody>

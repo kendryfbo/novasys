@@ -24,9 +24,12 @@ class PackingListController extends Controller
       'guia' => 'required',
       'factura' => 'required'
     ]);
+
+    $guiaID = $request->guia;
     $numero = $request->factura;
-    $factura = FacturaIntl::where('numero',$numero)->first();
-    $guia = GuiaDespacho::with('detalles.producto.formato')->find($request->guia)->first();
+    
+    $factura = FacturaIntl::with('detalles')->where('numero',$numero)->first();
+    $guia = GuiaDespacho::with('detalles.producto.formato')->where('id',$guiaID)->first();
 
     if (!$factura) {
         dd('Factura # '. $numero . ' No Existe.');
