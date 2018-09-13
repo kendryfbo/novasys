@@ -415,7 +415,14 @@ class EgresoController extends Controller
         $tipoProforma= EgresoTipo::profID();
         $tipoNotaVenta = EgresoTipo::nvID();
         $egreso = Egreso::where('numero',$numero)->first();
-        $egresoDetalle = EgresoDetalle::where('egr_id',$egreso->id)->groupBy('posicion')->selectRaw('*,sum(cantidad) as cantidad')->get();
+        $egresoDetalle = EgresoDetalle::detalleOrdenEgresoPDF($egreso->id);
+
+        $cantidadTotal = 0;
+        foreach ($egresoDetalle as $detalle) {
+            $cantidadTotal += $detalle->cantidad;
+        }
+
+        $egreso->cantidadTotal = $cantidadTotal;
         $egreso->detalles = $egresoDetalle;
 
         $egreso->load('documento','detalles','tipo');

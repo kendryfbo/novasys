@@ -4,12 +4,38 @@ namespace App\Models\Bodega;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
 use App\Models\TipoFamilia;
 
 class EgresoDetalle extends Model
 {
         protected $table = 'egreso_detalle';
         protected $fillable = ['egr_id', 'tipo_id' , 'item_id', 'bodega', 'posicion', 'pallet_num', 'fecha_egr', 'fecha_venc', 'lote', 'cantidad'];
+
+
+        // Busqueda definida especificamente para mostrar productos en orden de egreso ordenados por descripcion y cantidad.
+        static function detalleOrdenEgresoPDF($egresoID){
+
+            $tableName = EgresoDetalle::getTableName();
+
+            $queryCodigo = Bodega::getCodigoByTipoQuery($tableName);
+            $queryDescripcion = Bodega::getDescripcionByTipoQuery($tableName);
+
+            $query ="SELECT ". $queryCodigo .",".$queryDescripcion.",";
+
+            $query = $query."id,egr_id,tipo_id,item_id,bodega,posicion,pallet_num,fecha_egr,fecha_venc,lote,sum(cantidad) as cantidad
+                                FROM egreso_detalle where egr_id=".$egresoID." GROUP BY posicion,tipo_id,item_id ORDER BY descripcion,cantidad DESC;";
+            $results = DB::select(DB::raw($query));
+
+            if ($results) {
+                return $results;
+            }
+            return [];
+        }
+
+        public static function getTableName() {
+            return with(new static)->getTable();
+        }
 
         /*
         |

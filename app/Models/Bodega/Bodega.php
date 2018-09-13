@@ -797,6 +797,39 @@ class Bodega extends Model
         return self::BOD_MEZCLADO_ID;
     }
 
+
+    static function getCodigoByTipoQuery($tableName) {
+
+        $PT = TipoFamilia::getProdTermID();
+        $PR = TipoFamilia::getPremezclaID();
+        $MP = TipoFamilia::getInsumoID();
+        $RP = TipoFamilia::getReprocesoID();
+
+        $query ="CASE
+                    WHEN tipo_id='$PT' THEN (select codigo from productos where productos.id=".$tableName.".item_id)
+                    WHEN tipo_id='$PR' THEN (select codigo from premezclas where premezclas.id=".$tableName.".item_id)
+                    WHEN tipo_id='$MP' THEN (select codigo from insumos where insumos.id=".$tableName.".item_id)
+                    WHEN tipo_id='$RP' THEN (select codigo from reprocesos where reprocesos.id=".$tableName.".item_id)
+                END AS codigo";
+        return $query;
+    }
+
+    static function getDescripcionByTipoQuery($tableName) {
+
+        $PT = TipoFamilia::getProdTermID();
+        $PR = TipoFamilia::getPremezclaID();
+        $MP = TipoFamilia::getInsumoID();
+        $RP = TipoFamilia::getReprocesoID();
+
+        $query ="CASE
+                    WHEN tipo_id='$PT' THEN (select descripcion from productos where productos.id=".$tableName.".item_id)
+                    WHEN tipo_id='$PR' THEN (select descripcion from premezclas where premezclas.id=".$tableName.".item_id)
+                    WHEN tipo_id='$MP' THEN (select descripcion from insumos where insumos.id=".$tableName.".item_id)
+                    WHEN tipo_id='$RP' THEN (select descripcion from reprocesos where reprocesos.id=".$tableName.".item_id)
+                END AS descripcion";
+
+        return $query;
+    }
     /*
     |
     | Public Functions
