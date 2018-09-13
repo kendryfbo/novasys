@@ -24,7 +24,7 @@ class EgresoDetalle extends Model
             $query ="SELECT ". $queryCodigo .",".$queryDescripcion.",";
 
             $query = $query."id,egr_id,tipo_id,item_id,bodega,posicion,pallet_num,fecha_egr,fecha_venc,lote,sum(cantidad) as cantidad
-                                FROM egreso_detalle where egr_id=".$egresoID." GROUP BY posicion,tipo_id,item_id ORDER BY descripcion,id DESC;";
+                                FROM egreso_detalle where egr_id=".$egresoID." GROUP BY posicion,tipo_id,item_id ORDER BY descripcion,id ASC;";
             $results = DB::select(DB::raw($query));
 
             if ($results) {
