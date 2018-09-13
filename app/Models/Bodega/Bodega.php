@@ -485,9 +485,6 @@ class Bodega extends Model
         return $results;
     }
 
-    static function getStockTotalPT() {
-
-    }
     static function getStockTotalPR() {
 
         $PR = TipoFamilia::getPremezclaID();
@@ -709,7 +706,7 @@ class Bodega extends Model
         $query = $query . " GROUP BY id.item_id,id.tipo_id";
 
         // agregado HAVING para filtros
-        $query = $query . " having true ";
+        $query = $query . " HAVING cantidad > 0 ";
 
         // FILTROS
         if ($familia) {
