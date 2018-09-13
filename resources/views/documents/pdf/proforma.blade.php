@@ -116,7 +116,11 @@
                             <td>
                                 {{$detalle->producto->marca->descripcion . " "}}
                                 {{$detalle->producto->formato->descripcion . " "}}
+                            @if ($proforma->cliente->idioma == "Ingles")
                                 {{$detalle->producto->sabor->descrip_ing . " "}}
+                            @else
+                                {{$detalle->producto->sabor->descripcion . " "}}
+                            @endif
                             </td>
                             <td class="text-right">{{$detalle->cantidad}}</td>
                             <td class="text-right">{{number_format($detalle->precio,2)}}</td>
