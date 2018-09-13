@@ -295,15 +295,15 @@
 
               <tr>
                 <th class="bg-gray text-right">Peso Neto:</th>
-                <td class="text-right">@{{totalPesoNeto}}</td>
+                <td class="text-right">@{{numberFormat(totalPesoNeto)}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Peso Bruto:</th>
-                <td class="text-right">@{{totalPesoBruto}}</td>
+                <td class="text-right">@{{numberFormat(totalPesoBruto)}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Volumen:</th>
-                <td class="text-right">@{{totalVolumen}}</td>
+                <td class="text-right">@{{numberFormat(totalVolumen)}}</td>
               </tr>
               <tr>
                 <th class="bg-gray text-right">Cant. Cajas:</th>

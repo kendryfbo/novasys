@@ -279,7 +279,7 @@ var app = new Vue({
     numberFormat: function(x) {
 
       return x.toLocaleString(undefined, {minimumFractionDigits: 2})
-    }
+  }
 
 },
 
