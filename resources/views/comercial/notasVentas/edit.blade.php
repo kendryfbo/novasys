@@ -255,15 +255,15 @@
 
 							<tr>
 								<th class="bg-gray text-right">Peso Neto:</th>
-								<td class="text-right">12</td>
+								<td class="text-right">@{{totalPesoNeto}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Peso Bruto:</th>
-								<td class="text-right">14</td>
+								<td class="text-right">@{{totalPesoBruto}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Volumen:</th>
-								<td class="text-right">11</td>
+								<td class="text-right">@{{totalVolumen}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Cant. Cajas:</th>

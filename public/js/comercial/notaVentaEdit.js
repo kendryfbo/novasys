@@ -286,6 +286,11 @@ var app = new Vue ({
 			}
 		},
 
+		numberFormat: function(x) {
+
+	        return x.toLocaleString(undefined, {minimumFractionDigits: 2})
+	    },
+		
 		formatListaDetalles: function() {
 
 			for (var i = 0; i < this.listaDetalle.length; i++) {
