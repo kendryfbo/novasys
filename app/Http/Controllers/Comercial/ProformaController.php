@@ -163,6 +163,12 @@ class ProformaController extends Controller
             return redirect()->back();
         }
         */
+        foreach ($proforma->detalles as $detalle) {
+            $detalle->peso_neto = $detalle->producto->peso_neto;
+            $detalle->peso_bruto = $detalle->producto->peso_bruto;
+            $detalle->volumen = $detalle->producto->volumen;
+        }
+
         $centrosVenta = CentroVenta::getAllActive();
         $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
