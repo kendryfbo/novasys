@@ -19,6 +19,7 @@ var app = new Vue ({
         bloquearPosURL : bloquearPosURL,
         desbloquearPosURL : desbloquearPosURL,
         findPalletPosURL: findPalletPosURL,
+        showPalletURL: "/bodega/pallet/",
     },
 
     methods: {

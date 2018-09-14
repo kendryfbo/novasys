@@ -103,7 +103,10 @@
 
 							    <tr>
 							      <th class="bg-gray text-right">Pallet:</th>
-							      <td class="bg-gray text-right">@{{ pallet.numero ? pallet.numero : 'Vacio'}}</td>
+							      <td class="bg-gray text-right"><a :href="showPalletURL+pallet.id">
+									  @{{ pallet.numero ? pallet.numero : 'Vacio'}}
+								  </a></td>
+
 							    </tr>
 							    <tr>
 							      <th class="bg-gray text-right">Bloqueo:</th>
