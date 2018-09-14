@@ -229,7 +229,7 @@ class FacturaNacionalController extends Controller
                         ->with('factura', $factura);
                     });
                 });
-        return $excel->download('csv');
+        return $excel->download('xls');
 
     }
 
