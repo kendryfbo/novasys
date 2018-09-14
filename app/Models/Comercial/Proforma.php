@@ -325,7 +325,7 @@ class Proforma extends Model
     public function authorizeComer() {
 
         $this->aut_comer = 1;
-        $this->version = $version + 1;
+        $this->version = $this->version + 1;
 
         $this->save();
     }
