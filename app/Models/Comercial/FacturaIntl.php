@@ -83,6 +83,22 @@ class FacturaIntl extends Model
 		return $factura;
 	}
 
+	static function registerEdit($request,$factura) {
+
+		$numero = $request->numero;
+		$fechaEmision = $request->emision;
+		$fechaVencimiento = $request->vencimiento;
+		$nota = $request->nota;
+
+		$factura->numero = $numero;
+		$factura->fecha_emision = $fechaEmision;
+		$factura->nota = $nota;
+		$factura->fecha_venc = $fechaVencimiento;
+
+		$factura->save();
+
+		return $factura;
+	}
 	/*
 	|
 	|	Relationships

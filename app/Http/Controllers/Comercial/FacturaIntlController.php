@@ -114,9 +114,12 @@ class FacturaIntlController extends Controller
      * @param  \App\Models\Comercial\FacturaIntl  $facturaIntl
      * @return \Illuminate\Http\Response
      */
-    public function edit(FacturaIntl $facturaIntl)
+    public function edit($numero)
     {
-        //
+        $factura = FacturaIntl::with('detalles','clienteIntl.formaPago')->where('numero',$numero)->first();
+
+        return view('comercial.facturaIntl.edit')->with(['factura' => $factura]);
+
     }
 
     /**
@@ -126,9 +129,25 @@ class FacturaIntlController extends Controller
      * @param  \App\Models\Comercial\FacturaIntl  $facturaIntl
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FacturaIntl $facturaIntl)
+    public function update( FacturaIntl $facturaIntl,Request $request)
     {
-        //
+        $this->validate($request,[
+            'numero' => 'required',
+            'emision' => 'required',
+            'nota' => 'required',
+            'diasFormaPago' => 'required',
+        ]);
+
+        $date = new Carbon($request->emision);
+        $date->addDays($request->diasFormaPago);
+        $date = $date->format('Y-m-d');
+        $request->vencimiento = $date;
+
+        $factura = FacturaIntl::registerEdit($request,$facturaIntl);
+
+        $msg = 'Factura Internacional Nº' . $factura->numero . ' Ha sido Modificada.';
+
+        return redirect()->route('FacturaIntl')->with(['status' => $msg]);
     }
 
     /**
@@ -214,7 +233,7 @@ class FacturaIntlController extends Controller
         $factura->day = $day;
         $factura->month = $month;
         $factura->year = $year;
-        
+
         $pdf = PDF::loadView('comercial.facturaIntl.facturaIntlSIIPDF',compact('factura'));
 
         return $pdf->stream();

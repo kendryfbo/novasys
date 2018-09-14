@@ -139,7 +139,9 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
       Route::get('{facturaIntl}/descargar',    'Comercial\FacturaIntlController@download')->name('descargarFacturaIntl');
       Route::post('/',                         'Comercial\FacturaIntlController@store')->name('guardarFacturaIntl');
       Route::post('{proforma}',                'Comercial\FacturaIntlController@storeFromProforma')->name('guardarFacturaIntlProforma');
-      Route::delete('{numero}',                'Comercial\FacturaIntlController@destroy')->name('eliminarFActuraIntl');
+      Route::get('{numero}/edit',              'Comercial\FacturaIntlController@edit')->name('editarFacturaIntl');
+      Route::post('{facturaIntl}/edit',             'Comercial\FacturaIntlController@update')->name('actualizarFacturaIntl');
+      Route::delete('{numero}',                'Comercial\FacturaIntlController@destroy')->name('eliminarFacturaIntl');
 
     });
 

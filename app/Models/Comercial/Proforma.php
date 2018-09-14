@@ -210,7 +210,6 @@ class Proforma extends Model
 
             $totalAnt = $proforma->total; // total anterior
 
-            $proforma->version = $version;
             $proforma->cv_id = $cvId;
             $proforma->centro_venta = $cvDescrip;
             $proforma->cliente_id = $clienteId;
