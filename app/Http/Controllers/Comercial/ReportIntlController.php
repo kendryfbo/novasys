@@ -314,4 +314,69 @@ class ReportIntlController extends Controller
         });
     }
 
+    /*
+    | Work in Progress
+    */
+
+    public function reportProforma(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $proformas = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+        if ($arrayQuery) {
+            $proformas = Proforma::with('cliente')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        $clientes = ClienteIntl::whereHas('proformas')->get();
+
+        return view('comercial.reportesIntl.indexProforma')->with([
+            'cliente' => $cliente,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'clientes' => $clientes,
+            'proformas' => $proformas]);
+    }
+
+    public function downloadExcelProforma(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $proformas = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+        if ($arrayQuery) {
+            $proformas = Proforma::with('cliente')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        $clientes = ClienteIntl::whereHas('proformas')->get();
+
+        return Excel::create('Reporte X Proformas', function($excel) use ($proformas) {
+            $excel->sheet('New sheet', function($sheet) use ($proformas) {
+                $sheet->loadView('documents.excel.reportProforma')
+                    ->with('proformas', $proformas);
+                        })->download('xlsx');
+        });
+    }
 }

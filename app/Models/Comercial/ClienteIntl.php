@@ -15,6 +15,12 @@ class ClienteIntl extends Model
 		return self::all()->where('activo',1);
 	}
 
+	/*
+	|
+	| Relationships
+	|
+	*/
+
 	public function formaPago() {
 
 		return $this->belongsTo('App\Models\Comercial\FormaPagoIntl','fp_id');

@@ -97,7 +97,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-                {{--<li><a href="{{url('comercial/informesIntl/proformas')}}"><i class=""></i> <span>Proforma</span></a></li>--}}
+                <li><a href="{{route('verInformeProforma')}}"><i class=""></i> <span>Informe X Proforma</span></a></li>
                 <li><a href="{{url('comercial/informesIntl/facturaIntl')}}"><i class=""></i> <span>Informe X Factura</span></a></li>
                 <li><a href="{{url('comercial/informesIntl/facturaIntlProd')}}"><i class=""></i> <span>Informe X Producto</span></a></li>
           </li>

@@ -240,14 +240,15 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     Route::prefix('informesIntl')->group(function() {
 
         //Route::get('/',               'Comercial\ReportIntlController@proforma')->name('informesIntl');
-        Route::get('/proformas',        'Comercial\ReportIntlController@proforma')->name('verInformeIntlProforma');
-        Route::post('/proformas',       'Comercial\ReportIntlController@proforma')->name('verInformeIntlProforma');
-        Route::get('/facturaIntl',      'Comercial\ReportIntlController@reportFact')->name('verInformeIntlFactura');
-        Route::post('/facturaIntl',     'Comercial\ReportIntlController@reportFact')->name('verInformeIntlFactura');
-        Route::post('/reportFact',       'Comercial\ReportIntlController@reportFactExcel')->name('descargarReportFactExcel');
-        Route::post('/reportProd',       'Comercial\ReportIntlController@reportProdExcel')->name('descargarReportProdExcel');
-        Route::get('/facturaIntlProd',  'Comercial\ReportIntlController@reportProdFact')->name('verInformeIntlProdFactura');
-        Route::post('/facturaIntlProd', 'Comercial\ReportIntlController@reportProdFact')->name('verInformeIntlProdFactura');
+        Route::get('/proformas',           'Comercial\ReportIntlController@reportProforma')->name('verInformeProforma');
+        Route::post('/proformas',          'Comercial\ReportIntlController@reportProforma')->name('verInformeProforma');
+        Route::get('/proformas/descargar', 'Comercial\ReportIntlController@downloadExcelProforma')->name('descargarInformeProforma');
+        Route::get('/facturaIntl',         'Comercial\ReportIntlController@reportFact')->name('verInformeIntlFactura');
+        Route::post('/facturaIntl',        'Comercial\ReportIntlController@reportFact')->name('verInformeIntlFactura');
+        Route::post('/reportFact',         'Comercial\ReportIntlController@reportFactExcel')->name('descargarReportFactExcel');
+        Route::post('/reportProd',         'Comercial\ReportIntlController@reportProdExcel')->name('descargarReportProdExcel');
+        Route::get('/facturaIntlProd',     'Comercial\ReportIntlController@reportProdFact')->name('verInformeIntlProdFactura');
+        Route::post('/facturaIntlProd',    'Comercial\ReportIntlController@reportProdFact')->name('verInformeIntlProdFactura');
 
     });
 
