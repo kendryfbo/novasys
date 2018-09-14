@@ -214,14 +214,14 @@ class FacturaNacionalController extends Controller
 
                 $impuesto = 0;
             }
-            
+
             $impuesto = ($precioUniTotal * $impuesto) / 100;
             $precioUniTotal = $precioUniTotal + $impuesto;
             $detalle->precio = $precioUniTotal;
 
             $detalle->impuesto = $detalle->impuesto ? $detalle->impuesto : $detalle->precio;
         }
-        Config::set('excel.csv.delimiter', ';');
+
 
         $excel = Excel::create('Factura_'.$factura->numero, function($excel) use ($factura) {
             $excel->sheet('New sheet', function($sheet) use ($factura) {

@@ -16,7 +16,7 @@ class CreateProformaHistoricoTable extends Migration
         Schema::create('proforma_historico', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('proforma_id')->unsigned(); //FK
-            $table->integer('numero')->unique();
+            $table->integer('numero');
             $table->integer('version');
             $table->integer('cv_id')->unsigned(); // FK
             $table->string('centro_venta');

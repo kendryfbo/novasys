@@ -21,6 +21,7 @@ class PlanProduccion extends Model
 
 
         $productos = [];
+        
         $stockMatPrima = Bodega::getStockTotalMP();
         $stockPremezclas = Bodega::getStockTotalPR();
 
