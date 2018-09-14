@@ -50,9 +50,7 @@ class Proforma extends Model
             } else {
                 $numero++;
             }
-
-            $version = 1;
-
+            $version = 0;
 
             $cvId = $request->centroVenta;
             $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
@@ -188,9 +186,6 @@ class Proforma extends Model
       		$totalVolumen = 0;
 
             $proforma = Proforma::where('numero',$proforma)->first();
-
-            $version = $proforma->version + 1;
-
 
             $cvId = $request->centroVenta;
             $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
@@ -330,16 +325,16 @@ class Proforma extends Model
     public function authorizeComer() {
 
         $this->aut_comer = 1;
+        $this->version = $version + 1;
 
         $this->save();
-
     }
+
     public function authorizeContab() {
 
         $this->aut_contab = 1;
 
         $this->save();
-
     }
 
     public function unauthorizeComer() {
