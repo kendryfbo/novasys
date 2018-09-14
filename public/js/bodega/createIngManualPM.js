@@ -6,6 +6,7 @@ var app = new Vue({
         tipoId: '',
         premezclas: premezclas,
         premezclaId: '',
+        fecha_ing: fecha,
         itemId: '',
         item: [],
         items: [],
@@ -37,6 +38,7 @@ var app = new Vue({
             }
             this.item.cantidad = this.cantidad;
             this.item.fecha_venc = this.fecha_venc;
+            this.item.fecha_ing = this.fecha_ing;
             this.item.lote = this.lote;
             this.items.push(this.item);
             this.itemId = '';

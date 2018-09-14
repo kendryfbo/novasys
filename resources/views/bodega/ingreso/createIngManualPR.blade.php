@@ -76,7 +76,7 @@
                     <div class="col-lg-3">
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model.lazy="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
-						    <option v-for="premezcla in premezclas" :value="premezcla.id">@{{premezcla.descripcion}}</option>
+						    <option v-for="premezcla in premezclas" :value="premezcla.id">@{{premezcla.codigo +" - " + premezcla.descripcion}}</option>
                         </select>
                     </div>
 
@@ -93,6 +93,11 @@
 
                 <!-- form-group -->
                 <div class="form-group">
+
+					<label class="control-label col-lg-1">F.Ing:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" v-model="fecha_ing" type="date" readonly>
+					</div>
 
 					<label class="control-label col-lg-1">Venc:</label>
 					<div class="col-lg-2">
@@ -174,6 +179,7 @@
 	<script>
 
 	var premezclas = Object.values({!!$premezclas!!});
+	var fecha = "{!!$fecha!!}";
 	</script>
 
     <script src="{{asset('js/customDataTable.js')}}"></script>
