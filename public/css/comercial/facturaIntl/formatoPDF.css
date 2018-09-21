@@ -65,7 +65,7 @@ p {
     text-align: left;
 }
 .table-content {
-    height: 610px;
+    height: 600px;
     padding: 0px;
     margin: 0px;
     border: 1px solid black;
@@ -90,8 +90,7 @@ p {
     margin: 0px;
 }
 .table th {
-    margin: 0px;
-    padding: 1px;
+    padding-bottom: 0px;
     padding-right: 3px;
     border: 1px solid black;
 }

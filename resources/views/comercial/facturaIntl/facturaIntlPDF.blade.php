@@ -129,18 +129,30 @@
                 </tr>
 
                 <tr>
-                    <th class="text-right" rowspan="2">{{number_format($factura->detalles->sum('cantidad'))}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->peso_bruto,2)}}</th>
-                    <th class="text-right" rowspan="2">{{number_format($factura->proformaInfo->volumen,2)}}</th>
+                    <th class="text-right" rowspan="3">{{number_format($factura->detalles->sum('cantidad'))}}</th>
+                    <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
+                    <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->peso_bruto,2)}}</th>
+                    <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->volumen,2)}}</th>
                     @if ($factura->freight)
                     <th class="text-right">FREIGHT :</th>
                     <th class="text-right">{{number_format($factura->freight,2)}}</th>
-                    @else
-                        <th colspan="2" class="text-right"></th>
-                    @endif
                 </tr>
+                    @else
+                    <th class="text-right"></th>
+                    <th class="text-right"></th>
+            </tr>
+                    @endif
 
+                <tr>
+                    @if ($factura->insurance)
+                    <th class="text-right">INSURANCE :</th>
+                    <th class="text-right">{{number_format($factura->insurance,2)}}</th>
+                </tr>
+            @else
+            <th class="text-right"></th>
+            <th class="text-right"></th>
+            </tr>
+            @endif
                 <tr>
                     <th class="text-right">TOTAL {{$factura->clau_venta}}:</th>
                     <th class="text-right">{{number_format($factura->total,2)}}</th>
