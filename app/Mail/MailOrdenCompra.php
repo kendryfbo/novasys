@@ -40,14 +40,14 @@ class MailOrdenCompra extends Mailable //implements ShouldQueue
         $sender = Auth::user()->email;
         $receiver = explode(';', $ordenCompra->mails);
         //dd($receiver);
-        //$CC = $sender;
+        $CC = $sender;
         $pdf = PDF::loadView('documents.pdf.ordenCompraPDF',['ordenCompra' => $ordenCompra]);
         $pdfFile = $pdf->download('Orden Compra Nº'.$ordenCompra->numero.'.pdf');
         return $this->markdown('emails.mailOrdenCompra')
                     ->subject($fileName)
                     ->from($sender)
                     ->to($receiver)
-                    //->cc($CC)
+                    ->cc($CC)
                     ->attachData($pdfFile, $fileName.'.pdf');
     }
 }
