@@ -35,7 +35,7 @@
                     <th>Fono: {{$ordenCompra->centroVenta->fono}}</th>
                 </tr>
                 <tr>
-                    <th>E-mail: adquisiciones@novafoods</th>
+                    <th>E-mail: adquisiciones@novafoods.cl</th>
                 </tr>
                 <tr>
                     <th>Santiago Chile</th>
