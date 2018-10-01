@@ -14,7 +14,7 @@ class OrdenCompra extends Model
 {
     protected $table = 'orden_compra';
     protected $fillable = ['numero', 'cv_id', 'prov_id', 'area_id', 'contacto', 'forma_pago', 'nota',
-    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id'];
+    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id', 'observaciones'];
 
 
     static function register($request) {
@@ -63,6 +63,7 @@ class OrdenCompra extends Model
                 'total' => 0,
                 'status_id' => 1,
                 'tipo_id' => $request->tipo,
+                'observaciones' => $request->observaciones,
             ]);
 
             foreach ($request->items as $item) {
@@ -151,6 +152,7 @@ class OrdenCompra extends Model
             $ordenCompra->contacto = $request->contacto;
             $ordenCompra->forma_pago = $request->forma_pago;
             $ordenCompra->nota = $request->nota;
+            $ordenCompra->observaciones = $request->observaciones;
             $ordenCompra->fecha_emision = $request->fecha_emision;
             $ordenCompra->moneda = $request->moneda;
             $ordenCompra->sub_total = 0;

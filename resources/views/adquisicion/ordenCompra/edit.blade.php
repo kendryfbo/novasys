@@ -123,12 +123,16 @@
 
 		<!-- form-group -->
         <div class="form-group">
-
           <label class="control-label col-lg-1">Nota:</label>
           <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}">
+            <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}" readonly>
           </div>
-
+        </div>
+		<div class="form-group">
+          <label class="control-label col-lg-1">Observaciones:</label>
+          <div class="col-lg-10">
+            <input class="form-control input-sm" type="text" name="observaciones" value="{{$ordenCompra->observaciones}}" readonly>
+          </div>
         </div>
         <!-- /form-group -->
 
