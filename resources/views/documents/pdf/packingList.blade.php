@@ -9,13 +9,13 @@
     <style>
     body {
       font-size: 10px;
-      margin-left: : 15px;
+      margin-left: : 10px;
     }
     .contenedor {
-      padding-left: 15px;
+      padding-left: 10px;
     }
     .heading {
-      height: 150px;
+      height: 110px;
     }
     .table-bordered {
       border: 1px solid black;
@@ -50,11 +50,11 @@
 
       <div class="heading">
 
-        <h4>{{$factura->centro_venta}}</h3>
-        <h4>{{$factura->cliente}}</h3>
-        <h4> <strong>Factura N°</strong>{{$factura->numero}}</h3>
-        <h4><strong>Contenedor N°</strong>{{$guia->contenedor}}</h3>
-        <h5 class="etiqueta">PACKING LIST</h4>
+        <h5>{{$factura->centro_venta}}</h5>
+        <h5>{{$factura->cliente}}</h5>
+        <h5> <strong>Factura N°</strong>{{$factura->numero}}</h5>
+        <h5><strong>Contenedor N°</strong>{{$guia->contenedor}}</h5>
+        <h5 class="etiqueta">PACKING LIST</h5>
       </div>
       <div class="body">
 
