@@ -3,7 +3,13 @@
 
     Estimados {{$ordenCompra->proveedor->descripcion}}
 
-     Se adjunta Orden de Compra N° {{$ordenCompra->numero}}
+        Se adjunta Orden de Compra N° {{$ordenCompra->numero}}
+
+    @if ({{$ordenCompra->nota}} != '') {{$ordenCompra->nota}}
+        echo '{{$ordenCompra->nota}}';
+    @else
+     echo '';
+    @endif
 
     Nuestros horarios de recepción son de Lu-Vi de 8:00 a 13:00 y de 14:00 a 17:00.
 

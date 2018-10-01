@@ -151,7 +151,7 @@
 
           <label class="control-label col-lg-1">Nota:</label>
           <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}" readonly>
+            <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}">
           </div>
 
         </div>
