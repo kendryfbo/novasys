@@ -148,13 +148,18 @@
 
 		<!-- form-group -->
         <div class="form-group">
-
           <label class="control-label col-lg-1">Nota:</label>
-          <div class="col-lg-10">
+          <div class="col-lg-9">
             <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}" readonly>
           </div>
-
         </div>
+
+        <div class="form-group">
+		<label class="control-label col-lg-1">Observaciones:</label>
+		<div class="col-lg-9">
+		  <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->observaciones}}" readonly>
+		</div>
+		</div>
         <!-- /form-group -->
 
         <h5>Detalle</h5>
