@@ -5,7 +5,7 @@
 
         Se adjunta Orden de Compra N° {{$ordenCompra->numero}}.
 
-    {{$ordenCompra->nota}}
+    {{$ordenCompra->observaciones}}
 
     Nuestros horarios de recepción son de Lu-Vi de 8:00 a 13:00 y de 14:00 a 17:00.
 
