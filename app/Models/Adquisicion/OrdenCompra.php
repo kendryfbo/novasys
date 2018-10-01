@@ -63,7 +63,7 @@ class OrdenCompra extends Model
                 'total' => 0,
                 'status_id' => 1,
                 'tipo_id' => $request->tipo,
-                'observaciones' => $request->observaciones,
+                'observaciones' => $request->observaciones
             ]);
 
             foreach ($request->items as $item) {
