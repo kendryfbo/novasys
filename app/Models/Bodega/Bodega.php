@@ -494,9 +494,9 @@ class Bodega extends Model
 
         $query = 'SELECT pre.id,pre.codigo,pre.descripcion,
             IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PR.'),0) AS cant_bod,
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PR.'),0) AS cant_ing,
+            IFNULL((SELECT sum(por_procesar) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PR.'),0) AS cant_ing,
             IFNULL(((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=pre.id AND pd.tipo_id='.$PR.') +
-            (SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PR.')),0) AS total
+            (SELECT sum(por_procesar) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=pre.id AND id.tipo_id='.$PR.')),0) AS total
             FROM '.$tablePremezcla.' pre';
 
         $results = DB::select(DB::raw($query));
@@ -511,16 +511,16 @@ class Bodega extends Model
 
         $query = 'SELECT mp.id,mp.codigo,mp.descripcion,
             IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) AS cant_bod,
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0) AS cant_ing,
+            IFNULL((SELECT sum(por_procesar) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0) AS cant_ing,
             IFNULL((IFNULL((SELECT sum(cantidad) FROM '.$tablePalletDetalle.' pd WHERE pd.item_id=mp.id AND pd.tipo_id='.$MP.'),0) +
-            IFNULL((SELECT sum(cantidad) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0)),0) AS total,
+            IFNULL((SELECT sum(por_procesar) FROM '.$tableIngresoDetalle.' id WHERE id.item_id=mp.id AND id.tipo_id='.$MP.'),0)),0) AS total,
             0 AS requerida,0 AS faltante
             FROM '.$tableInsumo.' mp';
         $results = DB::select(DB::raw($query));
         return $results;
     }
 
-    static function getStockTotal($tipoReporte = NULL,$tipo = NULL, $familia = NULL,$marca = NULL, $formato = NULL, $sabor = NULL) {
+    static function getStockTotal($tipoReporte = NULL,$bodegaID = null,$tipo = NULL, $familia = NULL,$marca = NULL, $formato = NULL, $sabor = NULL) {
 
         $PT = TipoFamilia::getProdTermID();
         $PR = TipoFamilia::getPremezclaID();
@@ -663,6 +663,8 @@ class Bodega extends Model
             .$marcaDescripQuery
             ." IFNULL(SUM(por_procesar),0) AS cantidad FROM ingreso_detalle AS id";
 
+            $query = $query . " WHERE 1";
+
         // Reporte de productos En bodega
         } else if ($tipoReporte == 2) {
 
@@ -677,8 +679,15 @@ class Bodega extends Model
             .$formatoDescripQuery
             .$marcaIdQuery
             .$marcaDescripQuery
-            ." IFNULL(SUM(cantidad),0) AS cantidad FROM pallet_detalle AS id";
+            ." IFNULL(SUM(cantidad),0) AS cantidad,
+            pos.bodega_id
+             FROM pallet_detalle AS id, posicion as pos";
 
+            $query = $query . " WHERE pos.pallet_id=id.pallet_id";
+
+            if ($bodegaID) {
+                $query = $query . " AND bodega_id=" . $bodegaID;
+            }
         // Total de productos en ingreso y en bodega
         } else {
             $query = "SELECT "
@@ -695,18 +704,19 @@ class Bodega extends Model
             ." (IFNULL((SELECT SUM(por_procesar) from ingreso_detalle where ingreso_detalle.tipo_id=id.tipo_id and ingreso_detalle.item_id=id.item_id),0)+IFNULL((SELECT SUM(cantidad) from pallet_detalle where pallet_detalle.tipo_id=id.tipo_id and pallet_detalle.item_id=id.item_id),0)) as cantidad
                         from ingreso_detalle as id
                         join pallet_detalle  as pd using (tipo_id,tipo_id)";
+
+            $query = $query . " WHERE 1";
         }
 
-
         if ($tipo) {
-            $query = $query . " WHERE tipo_id=" . $tipo;
+            $query = $query . " AND tipo_id=" . $tipo;
         }
 
         // AGRUPADO POR item_id y tipo_id
         $query = $query . " GROUP BY id.item_id,id.tipo_id";
 
         // agregado HAVING para filtros
-        $query = $query . " HAVING cantidad > 0 ";
+        $query = $query . " HAVING 1";
 
         // FILTROS
         if ($familia) {
@@ -727,7 +737,7 @@ class Bodega extends Model
 
         $results = DB::select(DB::raw($query));
 
-
+        //dd($results);
         return $results;
     }
 

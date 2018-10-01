@@ -75,6 +75,7 @@ class BodegaReportController extends Controller
 
     public function indexStockReport(Request $request) {
 
+        $bodegaID = null;
         $tipoFamilia = null;
         $familiaID = null;
         $marcaID = null;
@@ -88,7 +89,7 @@ class BodegaReportController extends Controller
             ['id' => 1, 'descripcion' => 'Ingreso'],
             ['id' => 2, 'descripcion' => 'Bodega'],
         ];
-
+        $bodegas = Bodega::getAllActive();
         $tiposProducto = TipoFamilia::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
         $familias = Familia::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
         $marcas = Marca::all(); // Todas ya que pueden haber productos con familia bloqueada en existencia;
@@ -97,6 +98,7 @@ class BodegaReportController extends Controller
 
         if ($request->all()) {
 
+            $bodegaID = $request->bodegaID;
             $saborID = $request->saborID;
             $formatoID = $request->formatoID;
             $marcaID = $request->marcaID;
@@ -104,13 +106,15 @@ class BodegaReportController extends Controller
             $tipoFamilia = $request->tipoFamilia;
             $tipoReporte = $request->tipoReporte;
 
-            $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
+            $productos = Bodega::getStockTotal($tipoReporte,$bodegaID,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
         }
 
         return view('bodega.bodega.reportStock')
             ->with([
                 'productos' => $productos,
                 'tipoReporte' =>  $tipoReporte,
+                'bodegaID' => $bodegaID,
+                'bodegas' => $bodegas,
                 'tipoFamilia' => $tipoFamilia,
                 'familiaID' => $familiaID,
                 'familias' => $familias,
@@ -167,13 +171,14 @@ class BodegaReportController extends Controller
     /* DESCARGAR Reporte Stock Total */
     public function donwloadStockTotalReportExcel(Request $request) {
 
+        $bodegaID = $request->bodegaID;
         $saborID = $request->saborID;
         $formatoID = $request->formatoID;
         $marcaID = $request->marcaID;
         $familiaID = $request->familiaID;
         $tipoFamilia = $request->tipoFamilia;
         $tipoReporte = $request->tipoReporte;
-        $productos = Bodega::getStockTotal($tipoReporte,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
+        $productos = Bodega::getStockTotal($tipoReporte,$bodegaID,$tipoFamilia,$familiaID,$marcaID,$formatoID,$saborID);
 
         return Excel::create('Reporte Stock Total', function($excel) use ($productos) {
             $excel->sheet('New sheet', function($sheet) use ($productos) {

@@ -25,6 +25,7 @@
 				{{ csrf_field() }}
 
 				<input type="hidden" name="tipoReporte" value="{{$tipoReporte}}">
+				<input type="hidden" name="bodegaID" value="{{$bodegaID}}">
 				<input type="hidden" name="tipoFamilia" value="{{$tipoFamilia}}">
 				<input type="hidden" name="familiaID" value="{{$familiaID}}">
 				<input type="hidden" name="marcaID" value="{{$marcaID}}">
@@ -56,6 +57,16 @@
 					  </select>
 					</div>
 
+					<label class="control-label col-lg-1">Bodega:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="bodegaID">
+							<option value="">Todos...</option>
+							@foreach ($bodegas as $bodega)
+								<option {{$bodega->id == $bodegaID ? 'selected':''}} value="{{$bodega->id}}">{{$bodega->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
+
 					<label class="control-label col-lg-1">Tipo Producto:</label>
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="tipoFamilia">
@@ -65,21 +76,6 @@
 							@foreach ($tiposProducto as $tipo)
 
 								<option {{$tipoFamilia == $tipo->id ? 'selected':''}} value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
-
-							@endforeach
-
-						</select>
-					</div>
-
-					<label class="control-label col-lg-1">Familia:</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="familiaID">
-
-							<option value="">Todos...</option>
-
-							@foreach ($familias as $familia)
-
-								<option {{$familiaID == $familia->id ? 'selected':''}} value="{{$familia->id}}">{{$familia->descripcion}}</option>
 
 							@endforeach
 
@@ -96,6 +92,21 @@
 
 				<!-- form-group -->
 				<div class="form-group form-group-sm">
+
+					<label class="control-label col-lg-1">Familia:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="familiaID">
+
+							<option value="">Todos...</option>
+
+							@foreach ($familias as $familia)
+
+								<option {{$familiaID == $familia->id ? 'selected':''}} value="{{$familia->id}}">{{$familia->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
 
 					<label class="control-label col-lg-1">Marca:</label>
 					<div class="col-lg-2">
@@ -117,6 +128,19 @@
 						</select>
 					</div>
 
+					@if ($productos)
+
+						<div class="col-lg-1 pull-right text-right">
+								<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
+						</div>
+
+					@endif
+
+				</div>
+				<!-- /form-group -->
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+
 					<label class="control-label col-lg-1">Sabor:</label>
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="saborID">
@@ -131,14 +155,6 @@
 
 						</select>
 					</div>
-
-					@if ($productos)
-
-						<div class="col-lg-1 pull-right text-right">
-								<button form="download" class="btn btn-sm btn-default" type="submit" name="button">Descargar</button>
-						</div>
-
-					@endif
 
 				</div>
 				<!-- /form-group -->

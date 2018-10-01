@@ -21,9 +21,8 @@ class PlanProduccion extends Model
 
 
         $productos = [];
-        
-        $stockMatPrima = Bodega::getStockTotalMP();
         $stockPremezclas = Bodega::getStockTotalPR();
+        $stockMatPrima = Bodega::getStockTotalMP();
 
         foreach ($items as $item) {
 
@@ -46,7 +45,8 @@ class PlanProduccion extends Model
 
                 $premezcla = $producto->formula->premezcla;
 
-                if (!$premezcla) {
+                //if (!$premezcla) {
+                if (true) {
                     $stockPremezcla = 0;
                 } else {
                     foreach ($stockPremezclas as $stock) {
@@ -68,7 +68,7 @@ class PlanProduccion extends Model
 
                             if ($detalle->nivel_id == Nivel::premixID()) {
 
-                                $requerido = ($detalle->cantxcaja * $producto->cant_restante) - ($detalle->cantidadxbatch * $stockPremezcla);
+                                $requerido = ($detalle->cantxcaja * $producto->cant_restante) - ($detalle->cantxbatch * $stockPremezcla);
                             } else {
                                 $requerido = $detalle->cantxcaja * $producto->cant_restante;
                             }
@@ -105,6 +105,8 @@ class PlanProduccion extends Model
         return [$productos,$stockMatPrima];
     }
 
+    //
+
     static function analisisRequerimientos($items){
 
         $mi_temporizador = microtime();
@@ -133,12 +135,14 @@ class PlanProduccion extends Model
 
                 $premezcla = $producto->formula->premezcla;
 
-                if (!$premezcla) {
+                //if (!$premezcla) {
+                if (true) {
                     $stockPremezcla = 0;
                 } else {
                     foreach ($stockPremezclas as $stock) {
 
                         if ($premezcla->id == $stock->id) {
+
                             $stockPremezcla = $stock->total;
                         }
                     }
@@ -154,8 +158,8 @@ class PlanProduccion extends Model
                         if ($detalle->insumo_id == $matPrima->id) {
 
                             if ($detalle->nivel_id == Nivel::premixID()) {
+                                $requerido = ($detalle->cantxcaja * $producto->cantidad) - ($detalle->cantxbatch * $stockPremezcla);
 
-                                $requerido = ($detalle->cantxcaja * $producto->cantidad) - ($detalle->cantidadxbatch * $stockPremezcla);
                             } else {
                                 $requerido = $detalle->cantxcaja * $producto->cantidad;
                             }

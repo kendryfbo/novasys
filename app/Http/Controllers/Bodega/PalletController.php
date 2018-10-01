@@ -61,7 +61,8 @@ class PalletController extends Controller
     public function createPalletMP() {
 
         $tipoMP = TipoFamilia::getMP()->id;
-        $insumos = IngresoDetalle::with('insumo','ingreso')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
+        $insumos = IngresoDetalle::with('ingreso','insumo')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
+
         $insumos = $insumos->map(function($insumo){
             $newInsumo = collect([
                 'id' => $insumo->id,
