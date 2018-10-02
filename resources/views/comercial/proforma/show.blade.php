@@ -69,12 +69,12 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Emision:</label>
+          <label class="control-label col-lg-1">Emisión:</label>
           <div class="col-lg-2">
             <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" readonly>
           </div>
 
-          <label class="control-label col-lg-1">Clausula:</label>
+          <label class="control-label col-lg-1">Cláusula:</label>
           <div class="col-lg-2">
 			  <input class="form-control input-sm" name="clausula" type="text" value="{{$proforma->clau_venta}}" readonly>
           </div>
@@ -91,7 +91,7 @@
         <div class="form-group">
 
           <label class="control-label col-lg-1">Cliente:</label>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
 			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente->descripcion}}" readonly>
           </div>
 
@@ -101,11 +101,17 @@
         <!-- form-group -->
         <div class="form-group">
 
-		<label class="control-label col-lg-1">Direccion:</label>
-		<div class="col-lg-4">
+		<label class="control-label col-lg-1">Dirección:</label>
+		<div class="col-lg-3">
 			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->direccion}}" readonly>
 		</div>
-		<label class="control-label col-lg-2">Condicion Pago:</label>
+
+		<label class="control-label col-lg-1">País</label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->cliente->pais->nombre}}" readonly>
+		</div>
+
+		<label class="control-label col-lg-2">Condición Pago:</label>
 		<div class="col-lg-2">
 			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
 		</div>
@@ -117,12 +123,12 @@
         <div class="form-group">
 
 			<label class="control-label col-lg-1">Puerto E. :</label>
-			<div class="col-lg-4">
+			<div class="col-lg-3">
 			  <input class="form-control input-sm" type="text" name="puertoE" value="{{$proforma->puerto_emb}}" readonly>
 			</div>
 
 			<label class="control-label col-lg-2">Medio Transporte:</label>
-			<div class="col-lg-2">
+			<div class="col-lg-3">
 				<input class="form-control input-sm" type="text" name="transporte" value="{{$proforma->transporte}}" readonly>
 			</div>
 
@@ -133,11 +139,11 @@
         <div class="form-group">
 
           <label class="control-label col-lg-1">Dir. Desp.:</label>
-          <div class="col-lg-5">
+          <div class="col-lg-3">
             <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->despacho}}" readonly>
           </div>
 
-          <label class="control-label col-lg-1">Puerto D. :</label>
+          <label class="control-label col-lg-2">Puerto D. :</label>
           <div class="col-lg-4">
             <input class="form-control input-sm" type="text" name="puertoD" value="{{$proforma->puerto_dest}}" readonly>
           </div>
