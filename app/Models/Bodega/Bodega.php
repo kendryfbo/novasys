@@ -276,6 +276,7 @@ class Bodega extends Model
         $RP = TipoFamilia::getReprocesoID();
 
         $query = "SELECT
+                    bod.id bod_id,
                     bod.descripcion bod_descripcion,
                     CONCAT(pos.bloque ,'-',pos.columna,'-',pos.estante) pos,
                     pal.numero pallet_num,
@@ -362,7 +363,7 @@ class Bodega extends Model
             $query = $query . " AND pdet.tipo_id=".$tipoID;
         }
         // se agrega HAVING a la query
-        $query = $query . " GROUP BY pos,tipo_id,item_id HAVING true ";
+        $query = $query . " GROUP BY bod_id,pos,tipo_id,item_id HAVING true ";
 
         if ($familiaID) {
             $query = $query . " AND familia_id=".$familiaID;
