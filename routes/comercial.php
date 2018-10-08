@@ -38,8 +38,8 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     Route::prefix('notaVenta')->group(function(){
 
         route::get('/',                          'Comercial\NotaVentaController@index')->name('notaVenta');
-        route::get('/crear',                     'Comercial\NotaVentaController@create')->name('crearNotaVenta');
-        route::post('/',                         'Comercial\NotaVentaController@store')->name('guardarNotaVenta');
+            route::get('/crear',                     'Comercial\NotaVentaController@create')->name('crearNotaVenta');
+            route::post('/',                         'Comercial\NotaVentaController@store')->name('guardarNotaVenta');
         Route::get('/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
         Route::get('/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
         Route::get('/{numero}/pdf',              'Comercial\NotaVentaController@downloadPDF')->name('descargarNotaVentaPDF');

@@ -23,6 +23,7 @@ use App\Models\Bodega\PalletMedida;
 use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\IngresoDetalle;
 use App\Models\Bodega\PalletCondTipo;
+use App\Models\Config\StatusDocumento;
 use App\Models\Produccion\TerminoProceso;
 
 class PalletController extends Controller
@@ -60,29 +61,34 @@ class PalletController extends Controller
     // creacion de pallet de Materia Prima
     public function createPalletMP() {
 
+        $statusCompleto = StatusDocumento::completaID();
         $tipoMP = TipoFamilia::getMP()->id;
-        $insumos = IngresoDetalle::with('ingreso','insumo')->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
+        $insumos = IngresoDetalle::with('ingreso','insumo')->whereHas('ingreso',function($query) use($statusCompleto){
+            $query->where('status_id','!=',$statusCompleto);
+        })->where('tipo_id',$tipoMP)->where('por_procesar','>',0)->get();
 
-        $insumos = $insumos->map(function($insumo){
-            $newInsumo = collect([
-                'id' => $insumo->id,
-                'tipo_id' => $insumo->tipo_id,
-                'item_id' => $insumo->item_id,
-                'codigo' => $insumo->insumo->codigo,
-                'descripcion' => $insumo->insumo->descripcion,
-                'lote' => $insumo->lote,
-                'unidad_med' => $insumo->insumo->unidad_med,
-                'fecha_venc' => $insumo->fecha_venc,
-                'fecha_ing' => $insumo->fecha_ing,
-                'ing_tipo_id' => $insumo->ingreso->tipo_id,
-                'ing_id' => $insumo->ingreso->id,
-                'ing_num' => $insumo->ingreso->numero,
-                'ing_id' => $insumo->ingreso->id,
-                'por_procesar' => $insumo->por_procesar
-            ]);
-
-            return $newInsumo;
-        });
+        if ($insumos) {
+            $insumos = $insumos->map(function($insumo){
+                $newInsumo = collect([
+                    'id' => $insumo->id,
+                    'tipo_id' => $insumo->tipo_id,
+                    'item_id' => $insumo->item_id,
+                    'codigo' => $insumo->insumo->codigo,
+                    'descripcion' => $insumo->insumo->descripcion,
+                    'lote' => $insumo->lote,
+                    'unidad_med' => $insumo->insumo->unidad_med,
+                    'fecha_venc' => $insumo->fecha_venc,
+                    'fecha_ing' => $insumo->fecha_ing,
+                    'ing_tipo_id' => $insumo->ingreso->tipo_id,
+                    'ing_id' => $insumo->ingreso->id,
+                    'ing_num' => $insumo->ingreso->numero,
+                    'ing_id' => $insumo->ingreso->id,
+                    'por_procesar' => $insumo->por_procesar
+                ]);
+                //dd($insumo);
+                return $newInsumo;
+            });
+        }
 
         $medidas = PalletMedida::getAllActive();
         $numero = $this->palletNum();

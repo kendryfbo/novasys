@@ -5,11 +5,17 @@ namespace App\Http\Controllers\Comercial;
 use PDF;
 use Excel;
 use Carbon\Carbon;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\FacturaIntl;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Comercial\ClienteIntl;
 use App\Events\CreateFacturaIntlEvent;
+use App\Models\Comercial\ClausulaVenta;
+use App\Models\Comercial\PuertoEmbarque;
+use App\Models\Comercial\MedioTransporte;
 
 class FacturaIntlController extends Controller
 {
@@ -32,19 +38,22 @@ class FacturaIntlController extends Controller
      */
     public function create()
     {
-      $centrosVenta = [];
-      $clientes = [];
-      $clausulas = [];
-      $transportes = [];
-      $productos = [];
-      $aduanas = [];
+        $productoMatEnvase = 623;
+        $productos = Producto::where('id',$productoMatEnvase)->get();
+        $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
+        $clausulas = ClausulaVenta::getAllActive();
+        $centrosVenta = CentroVenta::getAllActive();
+        $transportes = MedioTransporte::getAllActive();
+        $puertoEmbarques = PuertoEmbarque::getAllActive();
+
+        $fecha = Carbon::now()->format('Y-m-d');
 
       return view('comercial.facturaIntl.create')->with([
         'centrosVenta' => $centrosVenta,
         'clientes' => $clientes,
         'clausulas' => $clausulas,
         'transportes' => $transportes,
-        'aduanas' => $aduanas,
+        'puertoEmbarques' => $puertoEmbarques,
         'productos' => $productos
       ]);
     }
@@ -57,22 +66,42 @@ class FacturaIntlController extends Controller
      */
     public function store(Request $request)
     {
-      dd('guardar Factura Int.');
+        //dd($request->all());
+        $this->validate($request, [
+          'centroVenta' => 'required',
+          'numero' => 'required',
+          'emision' => 'required',
+          'clausula' => 'required',
+          'clienteId' => 'required',
+          'clienteDescrip' => 'required',
+          "transporte" => 'required',
+          'puertoE' => 'required',
+          'formaPago' => 'required',
+          'direccion' => 'required',
+          'despacho' => 'required',
+          'puertoD' => 'required'
+        ]);
+
+        if (FacturaIntl::where('numero',$request->numero)->first()) {
+
+            $msg = 'Numero de Factura ya existe.';
+
+            return redirect()->route('FacturaIntl')->with(['status' => $msg]);
+        }
+
+        $date = new Carbon($request->emision);
+        $date->addDays($request->diasFormaPago);
+        $date = $date->format('Y-m-d');
+        $request->vencimiento = $date;
+
+        $factura = FacturaIntl::register($request);
+        $msg = 'Factura N°' . $factura->numero . ' ha sido creada.';
+
+        return redirect()->route('FacturaIntl')->with(['status' => $msg]);
     }
 
     public function storeFromProforma(Request $request, $proforma)
     {
-
-        /*
-        $this->validate($request,[
-            "numero" => "required",
-            "proforma" => "required",
-            "emision" => "required",
-            "diasFormaPago" => "required",
-            "direccion" => "required",
-            "nota" => "required"
-        ]);
-        */
 
         if (FacturaIntl::where('numero',$request->numero)->first()) {
 

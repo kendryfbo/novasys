@@ -14,7 +14,7 @@ class Observaciones extends Migration
     public function up()
     {
         Schema::table('orden_compra', function (Blueprint $table) {
-    $table->string('observaciones');
+    //$table->string('observaciones');
             });
     }
 

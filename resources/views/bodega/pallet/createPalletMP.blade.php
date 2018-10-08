@@ -89,7 +89,8 @@
                         <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemId" @change="loadItem" :required="items.length <= 0">
                             <option value=""> </option>
 						    <option v-for="insumo in insumos" :value="insumo.id">
-								@{{'Ingreso N°'+insumo.ing_num+' - '+insumo.codigo +' - '+insumo.descripcion + ' - Cantidad: ' + insumo.por_procesar}}
+								<!--@{{'Ingreso N°'+insumo.ing_num+' - '+insumo.codigo+' '+insumo.codigo +' - '+insumo.descripcion + ' - Cantidad: ' + insumo.por_procesar+  ' -> '+ insumo.ing_descrip }} Se debe aprobar por Kendry--> 
+								@{{'Ingreso N°'+insumo.ing_num+' - '+insumo.codigo+' '+insumo.codigo +' - '+insumo.descripcion + ' - Cantidad: ' + insumo.por_procesar }}
 							</option>
                         </select>
                     </div>

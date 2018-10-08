@@ -357,7 +357,7 @@
 		var clientes = {!!$clientes!!};
 		var clausulas = {!!$clausulas!!};
 		var items = [];
-	</script>
+</script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
 <script src="{{asset('js/comercial/proforma.js')}}"></script>

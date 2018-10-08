@@ -81,7 +81,7 @@ class OrdenCompraController extends Controller
 
         $tipos = OrdenCompraTipo::getAllActive();
         $proveedores = Proveedor::getAllActive()->load('formaPago');
-        
+
         $iva = Impuesto::where('nombre','iva')->pluck('valor')->first();
         $fecha = Carbon::now()->format('Y-m-d');
 
@@ -295,9 +295,11 @@ class OrdenCompraController extends Controller
 
         $numero = $request->numero;
         $mails = $request->mail;
+        $observaciones = $request->observaciones;
+
         $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
         $ordenCompra->mails = $mails;
-
+        $ordenCompra->observaciones = $observaciones; 
         Mail::send(new MailOrdenCompra($ordenCompra));
 
         return redirect()->back();
