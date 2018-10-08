@@ -39,7 +39,7 @@ class Bodega extends Model
 
              foreach ($estantes as $keyEstante => $estante) {
 
-                 $posicion = Posicion::with('status')->orderBy('columna','asc')->where('bodega_id',$bodegaId)->where('bloque',$bloque)->where('estante',$estante)->get();
+ $posicion = Posicion::with('status')->orderBy('columna','asc')->where('bodega_id',$bodegaId)->where('bloque',$bloque)->where('estante',$estante)->get();
 
                  $estantes[$keyEstante] = $posicion;
              }
@@ -771,7 +771,7 @@ class Bodega extends Model
             while ($restarDePosicion > 0) {
 
                 $posicion = Posicion::getPositionOfItem($posID,$tipoID,$itemID);
-                $existenciaDetalle = $posicion->existencia;
+                $existenciaDetalle = $posicion->existencia; //bodega
                 $detalleLote = $posicion->detalle_lote;
                 $palletNum = $posicion->pallet_num;
                 unset($posicion->detalle_lote);
