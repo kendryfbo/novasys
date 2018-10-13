@@ -271,11 +271,11 @@ class Posicion extends Model
 
         $query = "SELECT pos.id as id, pa.numero as pallet_num, SUM(pd.cantidad) as existencia
                     FROM posicion AS pos JOIN pallet_detalle AS pd ON pos.pallet_id=pd.pallet_id JOIN pallets as pa ON pa.id=pd.pallet_id
-                    WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id;
+                    WHERE pd.tipo_id=".$tipo." AND pd.item_id=".$id." AND pos.status_id=".$ocupado;
 
         if ($bodega){
 
-            $query = $query . " AND pos.status_id=".$ocupado." AND pos.bodega_id=".$bodega;
+            $query = $query . " AND pos.bodega_id=".$bodega;
         }
 
         $query = $query ." GROUP BY id ORDER BY fecha_ing ASC, pallet_num ASC LIMIT 1";
