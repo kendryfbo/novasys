@@ -60,6 +60,7 @@ var app = new Vue({
             this.descripProd =  this.productos[i].descripcion;
             this.codigoProd =  this.productos[i].codigo;
             this.ultPrecio = this.productos[i].precio;
+            this.precio = this.ultPrecio;
             this.unidad =  this.productos[i].unidad_med ? this.productos[i].unidad_med : 'Unidad';
 
           break;
