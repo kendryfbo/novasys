@@ -310,9 +310,7 @@ class Egreso extends Model
                 $restar = $item->producto->cantidad;
                 $itemID = $item->id;
 
-                $posicion = Posicion::with(['pallet.detalles' => function($query) use($itemID) {
-                    $query->where('id',$itemID)->first();
-                }])->find($posicionID);
+                $posicion = Posicion::with('pallet.detalles')->find($posicionID);
 
                 $posicion->subtract($item->id,$restar);
                 $palletNum = $posicion->pallet->numero;

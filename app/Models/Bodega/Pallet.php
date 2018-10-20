@@ -348,10 +348,7 @@ class Pallet extends Model
     // descontar Pallet dado el id de Detalle
     public function subtract($id,$cantidad) {
 
-        //dd('pallet substract');
-
-        $detalle = $this->detalles->find($id);
-        $detalle->subtract($cantidad);
+        $this->detalles->find($id)->subtract($cantidad);
     }
 
     public function isEmpty() {
