@@ -21,6 +21,10 @@ class Usuario extends Authenticatable
 		return $this->belongsTo('App\Models\Config\Perfil','perfil_id');
 	}
 
+	static function getAllActive() {
+
+		return self::all()->where('activo',1);
+	}
 
 	// Overiding method to desable rememberTokenFeature
 	public function setAttribute($key, $value)
