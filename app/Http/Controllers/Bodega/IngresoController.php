@@ -141,7 +141,7 @@ class IngresoController extends Controller
     public function createIngDevolucionPR()
     {
         $tipoIngreso = IngresoTipo::devolucionID();
-        $tipoProd = config('globalVars.PR');
+        $tipoProd = TipoFamilia::getPremezclaID();
         $premezclas = Premezcla::getAllActive();
         $fecha = Carbon::now()->toDateString();
 
