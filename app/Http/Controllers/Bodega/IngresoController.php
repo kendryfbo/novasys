@@ -137,6 +137,22 @@ class IngresoController extends Controller
         ]);
 
     }
+    // Crear Ingreso Devolucion PR
+    public function createIngDevolucionPR()
+    {
+        $tipoIngreso = IngresoTipo::devolucionID();
+        $tipoProd = config('globalVars.PR');
+        $premezclas = Premezcla::getAllActive();
+        $fecha = Carbon::now()->toDateString();
+
+        return view('bodega.ingreso.createIngDevolucionPR')->with([
+            'premezclas' => $premezclas,
+            'tipoIngreso' => $tipoIngreso,
+            'tipoProd' => $tipoProd,
+            'fecha' => $fecha,
+        ]);
+
+    }
     // Crear Ingreso Devolucion Producto Terminado
     public function createIngDevolucionPT()
     {
