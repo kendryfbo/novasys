@@ -14,7 +14,7 @@ class OrdenCompra extends Model
 {
     protected $table = 'orden_compra';
     protected $fillable = ['numero', 'cv_id', 'prov_id', 'area_id', 'contacto', 'forma_pago', 'nota',
-    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id', 'observaciones'];
+    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id'];
 
 
     static function register($request) {
@@ -62,8 +62,7 @@ class OrdenCompra extends Model
                 'impuesto' => 0,
                 'total' => 0,
                 'status_id' => 1,
-                'tipo_id' => $request->tipo,
-                'observaciones' => $request->observaciones
+                'tipo_id' => $request->tipo
             ]);
 
             foreach ($request->items as $item) {
@@ -138,31 +137,31 @@ class OrdenCompra extends Model
 
         $ordenCompra = DB::transaction(function() use($request,$ordenCompra,$MP,$iva,$tiposOC) {
 
-
+            $moneda = Moneda::find($request->moneda);
             $porcDesc = $request->porc_desc;
-            dd($porcDesc);
+            //dd($porcDesc); sigue siendo Null
             $subTotal = 0;
             $descuento = 0;
             $neto = 0;
             $impuesto = 0;
             $total = 0;
 
-            $ordenCompra->prov_id = $request->prov_id;
-            $ordenCompra->area_id = $request->area_id;
+
             $ordenCompra->contacto = $request->contacto;
             $ordenCompra->forma_pago = $request->forma_pago;
             $ordenCompra->nota = $request->nota;
-            $ordenCompra->observaciones = $request->observaciones;
             $ordenCompra->fecha_emision = $request->fecha_emision;
-            $ordenCompra->moneda = $request->moneda;
+            $ordenCompra->moneda = $moneda->descripcion;
             $ordenCompra->sub_total = 0;
-            $ordenCompra->descuento = 0;
             $ordenCompra->neto = 0;
             $ordenCompra->impuesto = 0;
             $ordenCompra->total = 0;
             $ordenCompra->status_id = 1;
             $ordenCompra->tipo_id = $request->tipo;
             $ordenCompra->aut_contab = NULL;
+
+
+
 
             OrdenCompraDetalle::where('oc_id',$ordenCompra->id)->delete();
 
@@ -182,6 +181,7 @@ class OrdenCompra extends Model
                     'descripcion' => $item->descripcion,
                     'unidad' => $item->unidad,
                     'cantidad' => $cantidad,
+                    'moneda_id' => $request->moneda,
                     'precio' => $precio,
                     'sub_total' => $subTotalItem,
                     'recibidas' => 0

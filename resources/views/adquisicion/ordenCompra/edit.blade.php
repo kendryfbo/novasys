@@ -56,25 +56,17 @@
 
 			<label class="control-label col-lg-1">Proveedor:</label>
             <div class="col-lg-4">
-              <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="prov_id" v-model="proveedorId" @change="loadDatos" required>
-  							<option value=""></option>
-  							<option v-for="proveedor in proveedores" v-bind:value="proveedor.id">@{{proveedor.descripcion}}</option>
-              </select>
+				<input class="form-control input-sm" name="prov_id" type="text" value="{{$ordenCompra->proveedor->descripcion}}" readonly>
             </div>
 
-			<label class="control-label col-lg-1">Emision:</label>
+			<label class="control-label col-lg-1">Emisión:</label>
 			<div class="col-lg-2">
-				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$ordenCompra->fecha_emision}}" required>
+				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$ordenCompra->fecha_emision}}" readonly>
 			</div>
 
 			<label class="control-label col-lg-1">Area:</label>
             <div class="col-lg-2">
-              <select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-sm btn-default" name="area_id" required>
-                <option value=""></option>
-				@foreach ($areas as $area)
-					<option {{$ordenCompra->area_id == $area->id ? 'selected':''}} value="{{$area->id}}">{{$area->descripcion}}</option>
-				@endforeach
-              </select>
+				<input class="form-control input-sm" name="area_id" type="text" value="{{$ordenCompra->area->descripcion}}" readonly>
             </div>
 
         </div>
@@ -112,7 +104,7 @@
 			<div class="col-lg-4">
 				<div v-for="tipo in tipos" class="radio-inline">
 					<label>
-						<input type="radio" name="tipo" :id="tipo.id" :value="tipo.id" v-model="tipoId" @change="calculateTotal" required>
+						<input type="radio" name="tipo" :id="tipo.id" :value="tipo.id" v-model="tipoId" onclick="return false;">
 							@{{tipo.descripcion}}
 					</label>
 				</div>
@@ -127,13 +119,7 @@
           <div class="col-lg-10">
             <input class="form-control input-sm" type="text" name="nota" value="{{$ordenCompra->nota}}" readonly>
           </div>
-        </div>
-		<div class="form-group">
-          <label class="control-label col-lg-1">Observaciones:</label>
-          <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="observaciones" value="{{$ordenCompra->observaciones}}" readonly>
-          </div>
-        </div>
+	  	</div>
         <!-- /form-group -->
 
         <h5>Detalle</h5>
@@ -194,13 +180,13 @@
         <!-- /form-group -->
 
 				<!-- Items -->
-				<select style="display: none;"  name="items[]" multiple>
+				<select style="display: none;"  name="items[]" multiple required>
 					<option v-for="item in items" selected>
 						@{{item}}
 					</option>
 				</select>
 				<!-- /items -->
-
+				<input type="hidden" name="aut_contab" value="1">
 				{{-- <input type="hidden" name="freight" :value="freight"> --}}
 				{{-- <input type="hidden" lang="es" name="insurance" :value="insurance"> --}}
 				{{-- <input type="hidden" name="fob" :value="fob"> --}}
@@ -256,33 +242,21 @@
 			<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
 				<tr>
-					<th class="bg-gray text-right">SUB-TOTAL</th>
+					<th class="bg-gray text-right">SUB-TOTAL :</th>
 					<td class="input-td">
 					<input class="form-control text-right" type="number" name="sub_total" :value="subTotal.toFixed(2)" readonly>
 					</td>
 				</tr>
 				<tr>
-					<th class="bg-gray text-right">% DESC.:</th>
-					<td class="input-td">
-						<input form="edit" class="form-control text-right" type="number" name="porc_desc" v-model="porcDesc" @change="calculateTotal">
-					</td>
-				</tr>
-				<tr>
-					<th class="bg-gray text-right">DESCUENTO:</th>
+					<th class="bg-gray text-right">DESCUENTO :</th>
 					<td class="input-td">
 						<input class="form-control text-right" type="number" name="descuento" :value="descuento.toFixed(2)" readonly>
 					</td>
 				</tr>
 				<tr>
-					<th class="bg-gray text-right">@{{netoLabelText}}</th>
-					<td class="input-td">
-						<input class="form-control text-right" type="number" name="neto" :value="neto.toFixed(2)" readonly>
-					</td>
-				</tr>
-				<tr>
 					<th class="bg-gray text-right">@{{ivaLabelText}}</th>
 					<td class="input-td">
-						<input form="edit" class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" readonly>
+						<input class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" readonly>
 					</td>
 				</tr>
 				<tr>

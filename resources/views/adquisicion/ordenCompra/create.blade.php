@@ -130,13 +130,6 @@
         </div>
 
 		<div class="form-group">
-
-          <label class="control-label col-lg-1">Observaciones:</label>
-          <div class="col-lg-10">
-            <input class="form-control input-sm" type="text" name="observaciones" value="{{Input::old('observaciones')}}">
-          </div>
-        </div>
-
         <!-- /form-group -->
 
         <h5>Detalle</h5>
