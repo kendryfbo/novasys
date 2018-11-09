@@ -179,6 +179,8 @@ class CalidadController extends Controller
 
         $id->estado_id = $request->estadonc;
         $id->fecha_implementacion = $request->fecha_implementacion;
+        $id->analisis_causa = $request->analisis_causa;
+        $id->accion_propuesta = $request->accion_propuesta;    
         $id->seguimiento_accion = $request->seguimiento_accion;
         $id->fecha_cierre = $request->fecha_cierre;
         $id->save();

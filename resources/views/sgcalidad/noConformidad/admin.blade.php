@@ -104,7 +104,7 @@
 	<div class="form-group">
 	<label class="col-sm-2 control-label" >Descripción / Detalle : </label>
 	<div class="col-sm-8">
-	<textarea class="form-control" name="descripcion" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->descripcion}}</textarea>
+	<textarea class="form-control" name="descripcion" maxlength="899" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->descripcion}}</textarea>
 
 	</div>
 	</div>
@@ -122,7 +122,7 @@
 	<div class="form-group">
 	<label class="col-sm-2 control-label" >Solución Sugerida : </label>
 	<div class="col-sm-8">
-	<textarea class="form-control" name="solucion_sugerida" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->solucion_sugerida}}</textarea>
+	<textarea class="form-control" name="solucion_sugerida" maxlength="899" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->solucion_sugerida}}</textarea>
 	</div>
 	</div>
 
@@ -139,7 +139,7 @@
 	<div class="form-group">
 	<label class="col-sm-2 control-label" >Análisis de la Causa : </label>
 	<div class="col-sm-8">
-	<textarea class="form-control" name="analisis_causa" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->analisis_causa}}</textarea>
+	<textarea class="form-control" name="analisis_causa" maxlength="899" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->analisis_causa}}</textarea>
 
 	</div>
 	</div>
@@ -157,7 +157,7 @@
 	<div class="form-group">
 	<label class="col-sm-2 control-label" >Acción Propuesta  : </label>
 	<div class="col-sm-8">
-	<textarea class="form-control" name="accion_propuesta" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->accion_propuesta}}</textarea>
+	<textarea class="form-control" name="accion_propuesta" maxlength="899" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->accion_propuesta}}</textarea>
 
 	</div>
 	</div>
@@ -192,7 +192,7 @@
 	<div class="form-group">
 	<label class="col-sm-2 control-label" >Seguimiento Acción  : </label>
 	<div class="col-sm-8">
-	<textarea class="form-control" name="seguimiento_accion" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->seguimiento_accion}}</textarea>
+	<textarea class="form-control" name="seguimiento_accion" maxlength="899" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->seguimiento_accion}}</textarea>
 
 	</div>
 	</div>
