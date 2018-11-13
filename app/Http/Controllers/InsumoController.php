@@ -156,7 +156,7 @@ class InsumoController extends Controller
 
         } else {
 
-            $isumos = Insumo::getAllActive();
+            $insumos = Insumo::getAllActive();
         }
 
         return response()->json($insumos);

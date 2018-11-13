@@ -126,7 +126,7 @@ class IngresoController extends Controller
     {
         $tipoIngreso = IngresoTipo::devolucionID();
         $tipoProd = config('globalVars.MP');
-        $insumos = Insumo::getAllActive();
+        $insumos = Insumo::all();
         $fecha = Carbon::now()->toDateString();
 
         return view('bodega.ingreso.createIngDevolucionMP')->with([
