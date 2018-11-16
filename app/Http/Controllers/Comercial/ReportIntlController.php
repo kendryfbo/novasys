@@ -125,7 +125,7 @@ class ReportIntlController extends Controller
 
             if ($request->producto) {
 
-                $producto = ['producto_id', '=', $request->producto];
+                $producto = ['descripcion', 'like', '%'.$request->producto.'%'];
 
                 array_push($queryProductos,$producto);
             };
@@ -273,8 +273,8 @@ class ReportIntlController extends Controller
 
             if ($request->producto) {
 
-                $producto = ['producto_id', '=', $request->producto];
-
+                $producto = ['descripcion', 'like', '%'.$request->producto.'%'];
+                
                 array_push($queryProductos,$producto);
             };
 

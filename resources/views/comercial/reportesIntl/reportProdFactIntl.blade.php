@@ -73,17 +73,7 @@
 
 					<label class="control-label col-lg-1">Producto:</label>
 					<div class="col-lg-3">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="producto">
-
-							<option value="">Todos...</option>
-
-							@foreach ($productos as $producto)
-
-								<option {{$busqueda->producto == $producto->id ? 'selected':''}} value="{{$producto->id}}">{{$producto->descripcion}}</option>
-
-							@endforeach
-
-						</select>
+						<input class="form-control" type="text" name="producto" value="{{$busqueda->producto ? $busqueda->producto:''}}">
 					</div>
 
 					<div class="col-lg-1 pull-right">
