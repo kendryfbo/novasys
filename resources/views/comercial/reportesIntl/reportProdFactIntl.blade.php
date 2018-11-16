@@ -28,6 +28,8 @@
 				<input type="hidden" name="pais_id" value="{{$busqueda ? $busqueda->pais_id : ''}}">
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 				<input type="hidden" name="producto" value="{{$busqueda ? $busqueda->producto : ''}}">
+				<input type="hidden" name="marca" value="{{$busqueda ? $busqueda->marca : ''}}">
+				<input type="hidden" name="formato" value="{{$busqueda ? $busqueda->formato : ''}}">
 				<input type="hidden" name="desde" value="{{$busqueda ? $busqueda->desde : ''}}">
 				<input type="hidden" name="hasta" value="{{$busqueda ? $busqueda->hasta : ''}}">
 				<input type="hidden" name="group" value="{{$busqueda ? $busqueda->group : ''}}">
@@ -73,11 +75,72 @@
 
 					<label class="control-label col-lg-1">Producto:</label>
 					<div class="col-lg-3">
-						<input class="form-control" type="text" name="producto" value="{{$busqueda->producto ? $busqueda->producto:''}}">
-					</div>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="producto">
 
+							<option value="">Todos...</option>
+
+							@foreach ($productos as $producto)
+
+								<option {{$busqueda->producto == $producto->id ? 'selected':''}} value="{{$producto->id}}">{{$producto->descripcion}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
 					<div class="col-lg-1 pull-right">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
+					</div>
+
+				</div>
+				<!-- /form-group -->
+
+
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+
+					<label class="control-label col-lg-1">Marca:</label>
+					<div class="col-lg-2">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="marca">
+
+						<option value="">Todos...</option>
+
+						@foreach ($marcas as $marca)
+
+							<option {{$busqueda->marca == $marca->descripcion ? 'selected':''}} value="{{$marca->descripcion}}">{{$marca->descripcion}}</option>
+
+						@endforeach
+
+					  </select>
+					</div>
+
+					<label class="control-label col-lg-1">Formato:</label>
+					<div class="col-lg-3">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formato">
+
+						<option value="">Todos...</option>
+
+						@foreach ($formatos as $formato)
+
+							<option {{$busqueda->formato == $formato->descripcion ? 'selected':''}} value="{{$formato->descripcion}}">{{$formato->descripcion}}</option>
+
+						@endforeach
+
+					  </select>
+					</div>
+
+					<label class="control-label col-lg-1">Sabor:</label>
+					<div class="col-lg-3">
+					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="sabor">
+
+						<option value="">Todos...</option>
+
+						@foreach ($sabores as $sabor)
+
+							<option {{$busqueda->sabor == $sabor->descripcion ? 'selected':''}} value="{{$sabor->descripcion}}">{{$sabor->descripcion}}</option>
+
+						@endforeach
+
+					  </select>
 					</div>
 
 				</div>
@@ -96,7 +159,7 @@
 						<input class="form-control" type="date" name="hasta" value="{{$busqueda->hasta ? $busqueda->hasta:''}}">
 					</div>
 
-					<label class="control-label col-lg-2">Agrupar por cliente:</label>
+					<label class="control-label col-lg-2">Ver Detalle por Cliente:</label>
 					<div class="col-lg-2 checkbox">
 						<input type="checkbox" name="group" {{$busqueda->group ? 'checked':''}}>
 					</div>

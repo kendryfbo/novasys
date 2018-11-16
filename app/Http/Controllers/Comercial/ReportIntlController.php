@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Producto;
+use App\Models\Marca;
+use App\Models\Formato;
+use App\Models\Sabor;
 use App\Models\Comercial\Pais;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\ClienteIntl;
@@ -89,6 +92,9 @@ class ReportIntlController extends Controller
             $pais = $request->pais_id;
             $cliente = $request->cliente;
             $producto = $request->producto;
+            $marca = $request->marca;
+            $formato = $request->formato;
+            $sabor = $request->sabor;
             $group = $request->group;
 
             $queryDates = [];
@@ -125,10 +131,39 @@ class ReportIntlController extends Controller
 
             if ($request->producto) {
 
-                $producto = ['descripcion', 'like', '%'.$request->producto.'%'];
+                $producto = ['producto_id', '=', $request->producto];
 
                 array_push($queryProductos,$producto);
             };
+
+            if ($request->marca) {
+
+                $marca = ['descripcion', 'like', '%'.$request->marca.'%'];
+
+                array_push($queryProductos,$marca);
+            };
+
+            if ($request->marca) {
+
+                $marca = ['descripcion', 'like', '%'.$request->marca.'%'];
+
+                array_push($queryProductos,$marca);
+            };
+
+            if ($request->formato) {
+
+                $formato = ['descripcion', 'like', '%'.$request->formato.'%'];
+
+                array_push($queryProductos,$formato);
+            };
+
+            if ($request->sabor) {
+
+                $sabor = ['descripcion', 'like', '%'.$request->sabor.'%'];
+
+                array_push($queryProductos,$sabor);
+            };
+
 
 
 
@@ -162,6 +197,9 @@ class ReportIntlController extends Controller
         $paises = Pais::has('clientesIntls')->get();
         $clientes = ClienteIntl::has('facturasIntls')->get();
         $productos = Producto::getAllActive();
+        $marcas = Marca::getAllActive();
+        $formatos = Formato::getAllActive();
+        $sabores = Sabor::getAllActive();
 
         return view('comercial.reportesIntl.reportProdFactIntl')
                 ->with([
@@ -169,7 +207,10 @@ class ReportIntlController extends Controller
                     'detalles' => $detalles,
                     'paises' => $paises,
                     'clientes' => $clientes,
-                    'productos' => $productos
+                    'productos' => $productos,
+                    'marcas' => $marcas,
+                    'formatos' => $formatos,
+                    'sabores' => $sabores
                 ]);
     }
 
@@ -274,7 +315,7 @@ class ReportIntlController extends Controller
             if ($request->producto) {
 
                 $producto = ['descripcion', 'like', '%'.$request->producto.'%'];
-                
+
                 array_push($queryProductos,$producto);
             };
 
