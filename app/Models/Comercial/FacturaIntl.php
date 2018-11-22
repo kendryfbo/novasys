@@ -18,6 +18,12 @@ class FacturaIntl extends Model
 		'freight', 'insurance','cif', 'descuento','total','user_id'
   ];
 
+
+  	static function getAllActive() {
+  		return self::all();
+  	}
+
+
 	/* registrar Factura apartir de Proforma */
 	static function register($request) {
 

@@ -38,7 +38,8 @@ class CreateFacturaIntlTable extends Migration
             $table->double('descuento',10,2);
             $table->double('total',10,2);
             $table->tinyInteger('cancelada')->default(0);
-            $table->integer('user_id')->unsigned(); // FK usuarios
+            $table->integer('user_id')->unsigned(); // FK
+            $table->integer('estado_id')->unsigned(); // FK
             $table->timestamps();
         });
 
@@ -46,6 +47,7 @@ class CreateFacturaIntlTable extends Migration
             $table->foreign('cv_id')->references('id')->on('centro_ventas');
             $table->foreign('cliente_id')->references('id')->on('cliente_intl');
             $table->foreign('user_id')->references('id')->on('usuarios');
+            $table->foreign('estado_id')->references('id')->on('status_documento');
         });
     }
 

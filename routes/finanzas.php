@@ -29,6 +29,22 @@ Route::prefix('finanzas')->group( function() {
 
     });
 
+
+    // Pagos Internacionales
+    Route::prefix('pagos_intl')->group( function() {
+
+        route::get('/crearAbono',                'Finanzas\FinanzasController@creaAbonoFactIntl')->name('crearAbonoFactInternacional');
+        route::post('/guardaAbono',               'Finanzas\FinanzasController@guardaAbonoFactIntl')->name('guardaAbonoFactInternacional');
+        route::get('/crear',                     'Finanzas\FinanzasController@creaPagoFactIntl')->name('pagoFactInternacional');
+        route::post('/guardaPago',               'Finanzas\FinanzasController@storePagoFactIntl')->name('guardaPagoFactInternacional');
+        route::get('/historial',                 'Finanzas\FinanzasController@historialPago')->name('historialPagoFactInternacional');
+        route::get('/facturasPorCobrar',         'Finanzas\FinanzasController@facturasPorCobrar')->name('facturasPorCobrar');
+        route::post('/facturasPorCobrar',        'Finanzas\FinanzasController@facturasPorCobrar')->name('facturasPorCobrar');
+        route::get('/anularFact',                'Finanzas\FinanzasController@anularFactIntl')->name('anularFactIntl');
+
+    });
+
+
 });
 
  ?>
