@@ -68,6 +68,7 @@
                     </a>
                     <ul class="treeview-menu">
                     <li><a href="{{url('finanzas/pagos_intl/crearAbono')}}"><i class=""></i> <span>Ingresar Abono</span></a></li>
+                    <li><a href="{{url('finanzas/pagos_intl/abonos')}}"><i class=""></i> <span>Ver Abonos</span></a></li>
                     <li><a href="{{url('finanzas/pagos_intl/crear')}}"><i class=""></i> <span>Pago de Facturas</span></a></li>
                     <li><a href="{{url('finanzas/pagos_intl/historial')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
                     <li><a href="{{url('finanzas/pagos_intl/facturasPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>

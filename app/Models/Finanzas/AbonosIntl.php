@@ -8,7 +8,7 @@ class AbonosIntl extends Model
 {
     protected $table = 'abonos_intl';
 
-    protected $fillable = ['monto', 'fecha_abono', 'cliente_id', 'usuario_id', 'orden_despacho'];
+    protected $fillable = ['monto', 'restante', 'fecha_abono', 'cliente_id', 'usuario_id', 'orden_despacho', 'status_id'];
 
     static function getAllActive() {
 

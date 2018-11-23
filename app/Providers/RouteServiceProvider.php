@@ -97,6 +97,7 @@ class RouteServiceProvider extends ServiceProvider
              require base_path('routes/apiDesarrollo.php');
              require base_path('routes/apiComercial.php');
              require base_path('routes/apiBodega.php');
+             require base_path('routes/apiFinanzas.php');
          });
     }
 }

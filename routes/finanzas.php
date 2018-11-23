@@ -32,7 +32,7 @@ Route::prefix('finanzas')->group( function() {
 
     // Pagos Internacionales
     Route::prefix('pagos_intl')->group( function() {
-
+        route::get('/abonos',                'Finanzas\FinanzasController@AbonosFactIntl')->name('AbonosFactInternacional');
         route::get('/crearAbono',                'Finanzas\FinanzasController@creaAbonoFactIntl')->name('crearAbonoFactInternacional');
         route::post('/guardaAbono',               'Finanzas\FinanzasController@guardaAbonoFactIntl')->name('guardaAbonoFactInternacional');
         route::get('/crear',                     'Finanzas\FinanzasController@creaPagoFactIntl')->name('pagoFactInternacional');

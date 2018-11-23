@@ -124,6 +124,22 @@ class FinanzasController extends Controller
     }
 
 
+    /**
+     * Index de Abonos de Clientes Intl
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+
+        public function AbonosFactIntl() {
+
+
+        //$fecha_hoy = Carbon::now();
+        $clientes = ClienteIntl::getAllActive();
+        $abonos = AbonosIntl::getAllActive();
+        return view('finanzas.pagos_intl.indexAbono')->with(['clientes' => $clientes, 'abonos' => $abonos]);
+    }
+
+
 
     /**
      * Crea Abono de Cliente Intl
@@ -153,6 +169,7 @@ class FinanzasController extends Controller
                 "cliente_id" => $request->input('cliente'),
                 "usuario_id" => Auth::user()->id,
                 "monto" => $request->input('monto'),
+                "restante" => $request->input('monto'),
                 "orden_despacho" => $request->input('orden_despacho'),
                 "fecha_abono" => $request->input('fecha_abono'),
                 ]);
@@ -171,8 +188,9 @@ class FinanzasController extends Controller
      */
 
         public function creaPagoFactIntl() {
+        $fecha_hoy = Carbon::now();
         $clientes = ClienteIntl::getAllActive();
-        return view('finanzas.pagos_intl.create')->with(['clientes' => $clientes]);
+        return view('finanzas.pagos_intl.create')->with(['clientes' => $clientes, 'fecha_hoy' => $fecha_hoy]);
 
 
     }

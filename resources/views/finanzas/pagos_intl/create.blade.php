@@ -49,7 +49,7 @@
 
 			<label class="control-label col-lg-2">Fecha de Pago : </label>
 			<div class="col-lg-2">
-			<input class="form-control input-sm" type="date" name="fecha_pago">
+			<input class="form-control input-sm" type="text" name="fecha_hoy" value="{{$fecha_hoy}}" readonly>
 			</div>
 
 			<label class="control-label col-lg-2">Crédito : </label>
