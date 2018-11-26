@@ -57,6 +57,14 @@
         </div>
         <!-- /form-group -->
 
+		<div class="form-group">
+
+			<label class="control-label col-lg-2">Documento de Pago </label>
+			<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="docu_abono" placeholder="SWIFT"  value="">
+			</div>
+		</div>
+
       <!-- /form -->
 	  <button form="create" class="btn btn-default pull-right" type="submit">Abonar</button>
     </div>
