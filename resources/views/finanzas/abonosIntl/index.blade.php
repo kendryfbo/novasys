@@ -16,7 +16,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearFacturaIntl')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearAbonoIntl')}}">Crear Abono</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">

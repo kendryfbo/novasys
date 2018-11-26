@@ -29,18 +29,27 @@ Route::prefix('finanzas')->group( function() {
 
     });
 
+    // Abonos Internacionales
+    Route::prefix('abonosIntl')->group( function() {
+
+        route::get('/',                     'Finanzas\AbonosIntlController@index')->name('abonosIntl');
+        route::get('/crearAbono',           'Finanzas\AbonosIntlController@create')->name('crearAbonoIntl');
+        route::post('/guardaAbono',         'Finanzas\AbonosIntlController@store')->name('guardaAbonoIntl');
+
+    });
+
+
 
     // Pagos Internacionales
-    Route::prefix('pagos_intl')->group( function() {
-        route::get('/abonos',                'Finanzas\FinanzasController@AbonosFactIntl')->name('AbonosFactInternacional');
-        route::get('/crearAbono',                'Finanzas\FinanzasController@creaAbonoFactIntl')->name('crearAbonoFactInternacional');
-        route::post('/guardaAbono',               'Finanzas\FinanzasController@guardaAbonoFactIntl')->name('guardaAbonoFactInternacional');
-        route::get('/crear',                     'Finanzas\FinanzasController@creaPagoFactIntl')->name('pagoFactInternacional');
-        route::post('/guardaPago',               'Finanzas\FinanzasController@storePagoFactIntl')->name('guardaPagoFactInternacional');
-        route::get('/historial',                 'Finanzas\FinanzasController@historialPago')->name('historialPagoFactInternacional');
-        route::get('/facturasPorCobrar',         'Finanzas\FinanzasController@facturasPorCobrar')->name('facturasPorCobrar');
-        route::post('/facturasPorCobrar',        'Finanzas\FinanzasController@facturasPorCobrar')->name('facturasPorCobrar');
-        route::get('/anularFact',                'Finanzas\FinanzasController@anularFactIntl')->name('anularFactIntl');
+    Route::prefix('pagosIntl')->group( function() {
+
+        route::get('/',                          'Finanzas\PagosIntlController@index')->name('pagosIntl');
+        route::get('/crear',                     'Finanzas\PagosIntlController@create')->name('pagarIntl');
+        route::post('/guardaPago',               'Finanzas\PagosIntlController@store')->name('guardaPagoIntl');
+        route::get('/historial',                 'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
+        route::get('/facturasPorCobrar',         'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
+        route::post('/facturasPorCobrar',        'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
+        route::get('/anularFact',                'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
 
     });
 

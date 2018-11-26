@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardaPagoFactInternacional')}}">
+			<form class="form-horizontal"  id="create" method="post" action="{{route('guardaPagoIntl')}}">
 				{{ csrf_field() }}
 
     	<!-- form-group -->
@@ -140,7 +140,7 @@
 
 	      </div>
 
-	      <button form="create" class="btn btn-default pull-right" type="submit">Ingresar</button>
+	      <button form="create" class="btn btn-default pull-right" type="submit">Ingresar Pago</button>
 	    </div>
 	</form>
 

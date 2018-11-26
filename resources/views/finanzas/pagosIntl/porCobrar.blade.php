@@ -23,7 +23,7 @@
 			<!-- form -->
 			<!-- /form -->
 			<!-- form -->
-			<form class="form-horizontal" action="{{Route('facturasPorCobrar')}}" method="post">
+			<form class="form-horizontal" action="" method="post">
 
 				{{ csrf_field() }}
 

@@ -67,12 +67,11 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                    <li><a href="{{url('finanzas/pagos_intl/crearAbono')}}"><i class=""></i> <span>Ingresar Abono</span></a></li>
-                    <li><a href="{{url('finanzas/pagos_intl/abonos')}}"><i class=""></i> <span>Ver Abonos</span></a></li>
-                    <li><a href="{{url('finanzas/pagos_intl/crear')}}"><i class=""></i> <span>Pago de Facturas</span></a></li>
-                    <li><a href="{{url('finanzas/pagos_intl/historial')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
-                    <li><a href="{{url('finanzas/pagos_intl/facturasPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
-                    <li><a href="{{url('finanzas/pagos_intl/anularFact')}}"><i class=""></i> <span>Anulación de Pagos</span></a></li>
+                    <li><a href="{{route('abonosIntl')}}"><i class=""></i> <span>Abonos</span></a></li>
+                    <li><a href="{{route('pagosIntl')}}"><i class=""></i> <span>Pagos</span></a></li>
+                    <li><a href="{{route('historialPagoIntl')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
+                    <li><a href="{{route('pagoPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
+                    <li><a href="{{route('anulaPagoIntl')}}"><i class=""></i> <span>Anulación de Pagos</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Informe de Cobranza</span></a></li>
                     </ul>
                 </li>

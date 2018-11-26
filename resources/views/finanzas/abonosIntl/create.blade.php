@@ -19,7 +19,7 @@
 				@endcomponent
 			@endif
 			<!-- form -->
-			<form class="form-horizontal"  id="create" action="{{route('guardaAbonoFactInternacional')}}" method="post">
+			<form class="form-horizontal"  id="create" action="{{route('guardaAbonoIntl')}}" method="post">
 				{{ csrf_field() }}
 
     	<!-- form-group -->

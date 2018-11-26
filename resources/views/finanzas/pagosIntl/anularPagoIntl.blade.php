@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Historial de Pagos</h4>
+			<h4>Anular Pago de Factura</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -31,7 +31,7 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardaPagoFactInternacional')}}">
+			<form class="form-horizontal"  id="create" method="post" action="">
 				{{ csrf_field() }}
 
     	<!-- form-group -->
@@ -39,7 +39,7 @@
 
 			<label class="control-label col-lg-2">Cliente : </label>
             <div class="col-lg-2">
-				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" id="cliente" name="cliente" v-model="clienteId" @change="getHistorialByCliente" required>
+				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" id="cliente" name="cliente" v-model="clienteId" @change="getFacturaPorAnular" required>
 					<option value=""></option>
 					@foreach ($clientes as $cliente)
 						<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
@@ -115,7 +115,7 @@
 
 	      </div>
 
-	      <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
+	      <button form="create" class="btn btn-default pull-right" type="submit">Anular</button>
 	    </div>
 	</form>
 
@@ -127,9 +127,9 @@
 @section('scripts')
 <script>
 	var clientes = {!!$clientes!!};
-	historialFromClienteURL = "{!!route('apiObtainHistorialByClienteIntl')!!}"
+	anularFactIntlURL = "{!!route('apiObtainFacturaIntlPorAnular')!!}"
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/finanzas/historialClienteIntl.js')}}"></script>
+<script src="{{asset('js/finanzas/anularFactIntl.js')}}"></script>
 @endsection
