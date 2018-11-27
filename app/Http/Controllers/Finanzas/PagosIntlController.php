@@ -14,36 +14,25 @@ use App\Models\Finanzas\PagoIntl;
 class PagosIntlController extends Controller
 {
 
-    /**
-     * Index de Facturas Intl
-     *
-     * @return \Illuminate\Http\Response
-     * @param  \App\Http\Controllers\Api\ApiFacturaIntlController;
-     */
 
-        public function index() {
+    public function index() {
+
+        $pagos = PagoIntl::take(20)->get();
+        $facturas = FacturaIntl::where('cancelada',0)->get();
         $clientes = ClienteIntl::getAllActive();
-        return view('finanzas.pagosIntl.index')->with(['clientes' => $clientes]);
 
+        return view('finanzas.pagosIntl.index')->with(['pagos' => $pagos, 'facturas' => $facturas, 'clientes' => $clientes]);
+      }
 
-    }
+    public function create(Request $request) {
 
-
-
-    /**
-     * Pago de Facturas Intl
-     *
-     * @return \Illuminate\Http\Response
-     * @param  \App\Http\Controllers\Api\ApiFacturaIntlController;
-     */
-
-        public function create() {
+        $clienteID = $request->clienteID;
         $fecha_hoy = Carbon::now();
-        $clientes = ClienteIntl::getAllActive();
-        return view('finanzas.pagosIntl.create')->with(['clientes' => $clientes, 'fecha_hoy' => $fecha_hoy]);
+        $cliente = ClienteIntl::find($clienteID);
 
+        return view('finanzas.pagosIntl.create')->with(['cliente' => $cliente, 'fecha_hoy' => $fecha_hoy]);;
+      }
 
-    }
 
 
 

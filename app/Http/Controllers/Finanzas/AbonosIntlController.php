@@ -66,7 +66,7 @@ class AbonosIntlController extends Controller
                 ]);
 
                 $msg = '$ '.$abonoIntl->monto.' fueron abonados a Cliente Nº '.$abonoIntl->clienteIntl->descripcion.' exitosamente.';
-                return redirect()->route('crearAbonoIntl')->with(['status' => $msg]);
+                return redirect()->route('abonosIntl')->with(['status' => $msg]);
 
     }
 }

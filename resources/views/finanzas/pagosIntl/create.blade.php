@@ -35,16 +35,14 @@
 				{{ csrf_field() }}
 
     	<!-- form-group -->
+		<!-- form-group -->
         <div class="form-group">
 
 			<label class="control-label col-lg-2">Cliente : </label>
-            <div class="col-lg-2">
-				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" id="cliente" name="cliente" v-model="clienteId" @change="loadDatos" required>
-					<option value=""></option>
-					@foreach ($clientes as $cliente)
-						<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
-					@endforeach
-				</select>
+			<div class="col-lg-2">
+				<input class="form-control input-sm" type="text" name="cliente" value="{{$cliente->descripcion}}" readonly>
+			</div>
+
 			</div>
 
 			<label class="control-label col-lg-2">Fecha de Pago : </label>
@@ -140,7 +138,7 @@
 
 	      </div>
 
-	      <button form="create" class="btn btn-default pull-right" type="submit">Ingresar Pago</button>
+	      <button form="create" class="btn btn-default pull-right" type="submit">Ingresar</button>
 	    </div>
 	</form>
 
