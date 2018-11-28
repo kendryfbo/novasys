@@ -15,7 +15,7 @@ class FacturaIntl extends Model
 	protected $fillable = [
     'numero', 'proforma', 'cv_id', 'centro_venta', 'cliente_id', 'cliente', 'fecha_emision', 'fecha_venc',
     'direccion', 'despacho', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago', 'clau_venta', 'fob',
-		'freight', 'insurance','cif', 'descuento','total','user_id'
+		'freight', 'insurance','cif', 'descuento','total','user_id', 'deuda'
   ];
 
 

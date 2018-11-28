@@ -17,8 +17,11 @@ class AbonosIntlTable extends Migration
             $table->increments('id');
             $table->integer('cliente_id')->unsigned();
             $table->integer('usuario_id')->unsigned();
+            $table->integer('status_id')->unsigned();
             $table->string('orden_despacho');
-            $table->string('monto')->nullable();
+            $table->string('docu_abono');
+            $table->double('monto',10,2)->nullable();
+            $table->double('restante',10,2)->nullable();
             $table->date('fecha_abono');
             $table->timestamps();
         });
@@ -26,6 +29,7 @@ class AbonosIntlTable extends Migration
         Schema::table('abonos_intl', function (Blueprint $table) {
             $table->foreign('cliente_id')->references('id')->on('cliente_intl');
             $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('status_id')->references('id')->on('status_documento');
         });
     }
 

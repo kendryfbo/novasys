@@ -39,6 +39,7 @@ class CreateFacturaIntlTable extends Migration
             $table->double('total',10,2);
             $table->tinyInteger('cancelada')->default(0);
             $table->integer('user_id')->unsigned(); // FK
+            $table->double('deuda',10,2);             // Asignado para Mod. Finanzas
             $table->integer('estado_id')->unsigned(); // FK
             $table->timestamps();
         });

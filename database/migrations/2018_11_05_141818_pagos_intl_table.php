@@ -17,8 +17,8 @@ class PagosIntlTable extends Migration
             $table->increments('id');
             $table->integer('factura_id')->unsigned();
             $table->integer('usuario_id')->unsigned();
-            $table->string('numero_documento');             //documento SWIFT bancario
-            $table->string('monto')->nullable();
+            $table->integer('abono_id')->unsigned();
+            $table->double('monto',10,2)->nullable();
             $table->date('fecha_pago');
             $table->timestamps();
         });
@@ -26,6 +26,7 @@ class PagosIntlTable extends Migration
         Schema::table('pagos_intl', function (Blueprint $table) {
             $table->foreign('factura_id')->references('id')->on('factura_intl');
             $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('abono_id')->references('id')->on('abonos_intl');
         });
     }
 
