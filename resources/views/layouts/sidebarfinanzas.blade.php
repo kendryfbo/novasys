@@ -44,6 +44,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{route('ordenCompraPendiente')}}"><i class=""></i> <span>O.C Pendientes</span></a></li>
+                        <li><a href="{{route('reporteProductos')}}"><i class=""></i> <span>Reporte O.C. Borden</span></a></li>
                         <li><a href="{{route('reporteOrdenCompraProveedor')}}"><i class=""></i> <span>Reporte Proveedor</span></a></li>
                         <li><a href="{{route('reporteOrdenCompraInsumo')}}"><i class=""></i> <span>Reporte Insumos</span></a></li>
                     </ul>
@@ -83,7 +84,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                    <li><a href="#"><i class=""></i> <span>Pago de Facturas</span></a></li>
+                    <li><a href="{{route('abonosNacional')}}"><i class=""></i> <span>Abonos</span></a></li>
+                    <li><a href="#"><i class=""></i> <span>Pagos</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Historial de Pago</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Anulación de Pagos</span></a></li>
