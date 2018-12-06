@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Adquisicion;
 
+use DB;
 use PDF;
+use Excel;
 use App\Models\Insumo;
 use App\Models\TipoFamilia;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Adquisicion\Proveedor;
 use App\Models\Adquisicion\OrdenCompra;
 use App\Models\Adquisicion\OrdenCompraDetalle;
+use App\Models\Config\StatusDocumento;
 
 class OrdenCompraReportController extends Controller
 {
@@ -167,4 +170,43 @@ class OrdenCompraReportController extends Controller
 
 
     }
+
+    public function reporteProductos()
+    {
+
+        $productos = DB::table('orden_compra')
+            ->join('orden_compra_detalles', 'orden_compra.id', '=', 'orden_compra_detalles.oc_id')
+            ->join('proveedores', 'orden_compra.prov_id', '=', 'proveedores.id')
+            ->join('areas', 'orden_compra.area_id', '=', 'areas.id')
+            ->select('orden_compra.*', 'orden_compra_detalles.*', 'proveedores.descripcion as nombreProveedor', 'areas.descripcion as nombreArea')
+            ->where('orden_compra_detalles.descripcion', 'like', '%BORDEN%')
+            ->groupBy('proveedores.id')
+            ->get();
+
+
+        return view('adquisicion.ordenCompra.reportProductos')->with(['productos' => $productos]);
+    }
+
+    public function excelReport()
+    {
+
+        $productos = DB::table('orden_compra')
+            ->join('orden_compra_detalles', 'orden_compra.id', '=', 'orden_compra_detalles.oc_id')
+            ->join('proveedores', 'orden_compra.prov_id', '=', 'proveedores.id')
+            ->join('areas', 'orden_compra.area_id', '=', 'areas.id')
+            ->select('orden_compra.*', 'orden_compra_detalles.*', 'proveedores.descripcion as nombreProveedor', 'areas.descripcion as nombreArea')
+            ->where('orden_compra_detalles.descripcion', 'like', '%BORDEN%')
+            ->groupBy('proveedores.id')
+            ->get();
+
+
+        return Excel::create('Reporte O.C. BORDEN', function($excel) use ($productos) {
+            $excel->sheet('New sheet', function($sheet) use ($productos) {
+                $sheet->loadView('adquisicion.ordenCompra.reportExcelProductos')
+                        ->with('productos', $productos);
+                            })->download('xlsx');
+                        });
+
+    }
+
 }

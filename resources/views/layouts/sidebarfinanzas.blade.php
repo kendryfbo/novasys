@@ -85,9 +85,9 @@
                     </a>
                     <ul class="treeview-menu">
                     <li><a href="{{route('abonosNacional')}}"><i class=""></i> <span>Abonos</span></a></li>
-                    <li><a href="#"><i class=""></i> <span>Pagos</span></a></li>
-                    <li><a href="#"><i class=""></i> <span>Historial de Pago</span></a></li>
-                    <li><a href="#"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
+                    <li><a href="{{route('pagosNacional')}}"><i class=""></i> <span>Pagos</span></a></li>
+                    <li><a href="{{route('historialPagoNacional')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
+                    <li><a href="{{route('pagoNacPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Anulación de Pagos</span></a></li>
                     <li><a href="#"><i class=""></i> <span>Informe de Cobranza</span></a></li>
                     </ul>
