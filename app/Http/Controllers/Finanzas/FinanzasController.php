@@ -110,7 +110,7 @@ class FinanzasController extends Controller
     // No autorizar Nota de Venta
     public function unauthorizeNV(NotaVenta $notaVenta) {
 
-        $notaVen -> unauthorizeContab();
+        $notaVenta -> unauthorizeContab();
         $msg = 'Nota de Venta Nº' . $notaVenta->numero . ' No ha sido Autorizada.';
         return redirect()->route('autFinanzasNV')->with(['status' => $msg]);
     }
