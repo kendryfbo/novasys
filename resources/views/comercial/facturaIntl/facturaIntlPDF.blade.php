@@ -134,8 +134,8 @@
 
                 <tr>
                     <th class="text-right" rowspan="3">{{number_format($factura->detalles->sum('cantidad'))}}</th>
-                    <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
                     <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->peso_bruto,2)}}</th>
+                    <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->peso_neto,2)}}</th>
                     <th class="text-right" rowspan="3">{{number_format($factura->proformaInfo->volumen,2)}}</th>
                     @if ($factura->freight)
                     <th class="text-right">FREIGHT :</th>

@@ -32,6 +32,7 @@ class OrdenCompraController extends Controller
      */
     public function index()
     {
+
         $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo')->orderBy('numero','desc')->take(20)->get();
 
         return view('adquisicion.ordenCompra.index')->with(['ordenesCompra' => $ordenesCompra]);
@@ -299,7 +300,7 @@ class OrdenCompraController extends Controller
 
         $ordenCompra  = OrdenCompra::with('centroVenta', 'proveedor','detalles')->where('numero',$numero)->first();
         $ordenCompra->mails = $mails;
-        $ordenCompra->observaciones = $observaciones; 
+        $ordenCompra->observaciones = $observaciones;
         Mail::send(new MailOrdenCompra($ordenCompra));
 
         return redirect()->back();

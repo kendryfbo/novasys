@@ -180,7 +180,7 @@ class OrdenCompraReportController extends Controller
             ->join('areas', 'orden_compra.area_id', '=', 'areas.id')
             ->select('orden_compra.*', 'orden_compra_detalles.*', 'proveedores.descripcion as nombreProveedor', 'areas.descripcion as nombreArea')
             ->where('orden_compra_detalles.descripcion', 'like', '%BORDEN%')
-            ->groupBy('proveedores.id')
+            ->groupBy('nombreProveedor')
             ->get();
 
 
@@ -196,7 +196,7 @@ class OrdenCompraReportController extends Controller
             ->join('areas', 'orden_compra.area_id', '=', 'areas.id')
             ->select('orden_compra.*', 'orden_compra_detalles.*', 'proveedores.descripcion as nombreProveedor', 'areas.descripcion as nombreArea')
             ->where('orden_compra_detalles.descripcion', 'like', '%BORDEN%')
-            ->groupBy('proveedores.id')
+            ->groupBy('nombreProveedor')
             ->get();
 
 

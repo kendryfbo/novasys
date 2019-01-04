@@ -10,12 +10,15 @@
     </head>
     <body>
         <div class="cliente-descripcion">
-            <h3>{{$factura->cliente}}</h3>
-            <h3>{{strtoupper($factura->direccion)}}</h3>
-            <h3>{{strtoupper($factura->clienteIntl->pais->nombre)}}</h3>
+            <h3>{{$factura->cliente}}<br>
+                {{strtoupper($factura->direccion)}}<br>
+                {{strtoupper($factura->clienteIntl->pais->nombre)}}</h3>
+        </div>
+        <div class="text-center marcas">
+            <h3></h3>
         </div>
         <div class="numero-fecha">
-            <h3><pre>{{$factura->numero ."       " . $factura->day ." ". $factura->month ."  ". $factura->year}}</pre></h3>
+            <h3>{{$factura->numero}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$factura->day}} &nbsp;&nbsp; {{$factura->month}} &nbsp;&nbsp; {{$factura->year}}</h3>
         </div>
 
         <div class="text-center medio-transporte">
@@ -40,7 +43,13 @@
                         <td width="70px"><strong>{{$detalle->cantidad}}</strong></td>
                         <td width="340px">
                             <strong>
-            {{$detalle->producto->marca->descripcion . " " .$detalle->producto->formato->descripcion . " ". $detalle->producto->sabor->descrip_ing}}
+            {{$detalle->producto->marca->descripcion . " " .$detalle->producto->formato->descripcion}}
+            @if ($factura->clienteIntl->idioma == 'Ingles')
+            {{$detalle->producto->sabor->descrip_ing}}
+            @else
+            {{$detalle->producto->sabor->descripcion}}
+            @endif
+
                             </strong>
                         </td>
                         <td width="130px" class="text-right"><strong>{{number_format($detalle->precio,2)}}</strong></td>
