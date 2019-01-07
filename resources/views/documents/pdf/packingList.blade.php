@@ -52,8 +52,8 @@
 
         <h5>{{$factura->centro_venta}}</h5>
         <h5>{{$factura->cliente}}</h5>
-        <h5> <strong>Factura N°</strong>{{$factura->numero}}</h5>
-        <h5><strong>Contenedor N°</strong>{{$guia->contenedor}}</h5>
+        <h5> <strong>Factura N° / Invoice N°: </strong>{{$factura->numero}}</h5>
+        <h5><strong>Contenedor N° / Container N°: </strong>{{$guia->contenedor}}</h5>
         <h5 class="etiqueta">PACKING LIST</h5>
       </div>
       <div class="body">
@@ -64,13 +64,13 @@
 
             <tr>
               <th class="text-center">#</th>
-              <th class="text-center">CANTIDAD</th>
-              <th class="text-center">CODIGO</th>
-              <th class="text-center">DESCRIPCION</th>
-              <th class="text-center">FORMATO</th>
-              <th class="text-center">PESO NETO</th>
-              <th class="text-center">PESO BRUTO</th>
-              <th class="text-center">VOLUMEN</th>
+              <th class="text-center">CANTIDAD / QTTY</th>
+              <th class="text-center">CODIGO / CODE</th>
+              <th class="text-center">DESCRIPCION / DESCRIPTION</th>
+              <th class="text-center">FORMATO / FORMAT</th>
+              <th class="text-center">PESO NETO / NET WEIGHT</th>
+              <th class="text-center">PESO BRUTO / GROSS WEIGHT</th>
+              <th class="text-center">VOLUMEN / VOLUME</th>
             </tr>
 
           </thead>
@@ -82,7 +82,13 @@
                 <td class="text-center">{{$loop->iteration}}</td>
                 <td class="text-right">{{$detalle->cantidad}}</td>
                 <td class="text-center">{{$detalle->producto->codigo}}</td>
-                <td>{{$detalle->producto->descripcion}}</td>
+                <td>{{$detalle->producto->marca->descripcion . " "}}
+                {{$detalle->producto->formato->descripcion . " "}}
+                @if ($factura->clienteIntl->idioma == 'Ingles')
+                {{$detalle->producto->sabor->descrip_ing}}
+                @else
+                {{$detalle->producto->sabor->descripcion}}
+                @endif</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
                 <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_neto,2)}}</td>
                 <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_bruto,2)}}</td>
