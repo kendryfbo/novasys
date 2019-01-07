@@ -97,7 +97,11 @@ class ProductoController extends Controller
 
         if ($formula) {
 
-            $dollar = 648.508431; // obtener de api
+            //API to obtain daily dollar's value
+            $xmlIndicadores = "http://indicadoresdeldia.cl/webservice/indicadores.xml";
+            $xml = simplexml_load_file($xmlIndicadores);
+
+            $dollar = $xml->moneda->dolar;
             $totalPrecio = 0;
             $totalxuni = 0;
             $totalxcaja = 0;
@@ -243,7 +247,11 @@ class ProductoController extends Controller
 
         if ($formula) {
 
-            $dollar = 648.508431;
+            //API to obtain daily dollar's value
+            $xmlIndicadores = "http://indicadoresdeldia.cl/webservice/indicadores.xml";
+            $xml = simplexml_load_file($xmlIndicadores);
+
+            $dollar = $xml->moneda->dolar;
             $totalPrecio = 0;
             $totalxuni = 0;
             $totalxcaja = 0;
