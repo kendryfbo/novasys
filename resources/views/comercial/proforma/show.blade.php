@@ -12,31 +12,55 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<!-- /form pdf-->
+			<form id="pdf" action="{{route('descargarProformaPDF',['numero' => $proforma->numero])}}" method="get">
+			</form>
+			<!-- /form pdf-->
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="">
 
 				{{ csrf_field() }}
 
-        <h5>Documento</h5>
-
+		<h5>Documento</h5>
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">C. Venta:</label>
-          <div class="col-lg-2">
+			<label class="control-label col-lg-1">C. Venta:</label>
+			<div class="col-lg-2">
 				<input class="form-control input-sm" type="text" name="centroVenta" value="{{$proforma->centro_venta}}" readonly>
-          </div>
+			</div>
 
-          <label class="control-label col-lg-1">Numero:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
-          </div>
+			<label class="control-label col-lg-1">Numero:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" type="text" name="numero" value="{{$proforma->numero}}" readonly>
+			</div>
 
-          <label class="control-label col-lg-1">Version:</label>
-          <div class="col-lg-1">
-            <input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
-          </div>
+			<label class="control-label col-lg-1">Version:</label>
+			<div class="col-lg-1">
+				<input class="form-control input-sm" name="version" type="number" min="0" value="{{$proforma->version}}" readonly>
+			</div>
 
+			<label class="control-label col-lg-1">Autorizacion:</label>
+			<div class="col-lg-2">
+			  @if ($proforma->aut_comer == null)
+				  <div class="has-warning">
+					  <input type="text" class="form-control input-sm text-center" value="PENDIENTE" readonly>
+				  </div>
+			  @elseif ($proforma->aut_comer == 1)
+				  <div class="has-success">
+					  <input type="text" class="form-control input-sm text-center" value="AUTORIZADA" readonly>
+				  </div>
+			  @elseif ($proforma->aut_comer == 0)
+				  <div class="has-error">
+					  <input type="text" class="form-control input-sm text-center" value="NO AUTORIZADA" readonly>
+				  </div>
+
+			  @endif
+			</div>
+
+		  <div class="col-lg-2">
+				  <button form="pdf" class="btn btn-sm btn-default" type="submit" name="button"><i class="fa fa-print" aria-hidden="true"></i> Descargar</button>
+		  </div>
         </div>
         <!-- /form-group -->
 
@@ -45,12 +69,12 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Emision:</label>
+          <label class="control-label col-lg-1">Emisión:</label>
           <div class="col-lg-2">
             <input class="form-control input-sm" name="emision" type="date" value="{{$proforma->fecha_emision}}" readonly>
           </div>
 
-          <label class="control-label col-lg-1">Clausula:</label>
+          <label class="control-label col-lg-1">Cláusula:</label>
           <div class="col-lg-2">
 			  <input class="form-control input-sm" name="clausula" type="text" value="{{$proforma->clau_venta}}" readonly>
           </div>
@@ -67,28 +91,44 @@
         <div class="form-group">
 
           <label class="control-label col-lg-1">Cliente:</label>
-          <div class="col-lg-4">
-			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente}}" readonly>
+          <div class="col-lg-3">
+			  <input class="form-control input-sm" name="cliente" type="text" value="{{$proforma->cliente->descripcion}}" readonly>
           </div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
-					</div>
+        </div>
+		<!-- /form-group -->
+
+        <!-- form-group -->
+        <div class="form-group">
+
+		<label class="control-label col-lg-1">Dirección:</label>
+		<div class="col-lg-3">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->direccion}}" readonly>
+		</div>
+
+		<label class="control-label col-lg-1">País</label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->cliente->pais->nombre}}" readonly>
+		</div>
+
+		<label class="control-label col-lg-2">Condición Pago:</label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="formaPago" value="{{$proforma->forma_pago}}" readonly>
+		</div>
 
         </div>
-				<!-- /form-group -->
+		<!-- /form-group -->
 
         <!-- form-group -->
         <div class="form-group">
 
 			<label class="control-label col-lg-1">Puerto E. :</label>
-			<div class="col-lg-4">
+			<div class="col-lg-3">
 			  <input class="form-control input-sm" type="text" name="puertoE" value="{{$proforma->puerto_emb}}" readonly>
 			</div>
 
 			<label class="control-label col-lg-2">Medio Transporte:</label>
-			<div class="col-lg-2">
+			<div class="col-lg-3">
 				<input class="form-control input-sm" type="text" name="transporte" value="{{$proforma->transporte}}" readonly>
 			</div>
 
@@ -98,12 +138,12 @@
         <!-- form-group -->
         <div class="form-group">
 
-          <label class="control-label col-lg-1">Direccion:</label>
-          <div class="col-lg-5">
-            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->direccion}}" readonly>
+          <label class="control-label col-lg-1">Dir. Desp.:</label>
+          <div class="col-lg-3">
+            <input class="form-control input-sm" type="text" name="direccion" value="{{$proforma->despacho}}" readonly>
           </div>
 
-          <label class="control-label col-lg-1">Puerto D. :</label>
+          <label class="control-label col-lg-2">Puerto D. :</label>
           <div class="col-lg-4">
             <input class="form-control input-sm" type="text" name="puertoD" value="{{$proforma->puerto_dest}}" readonly>
           </div>

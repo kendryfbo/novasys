@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Comercial;
 
+use PDF;
+use Mail;
+use Carbon\Carbon;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Proforma;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\ClienteIntl;
+use App\Events\AuthorizedProformaEvent;
 use App\Models\Comercial\ClausulaVenta;
 use App\Models\Comercial\PuertoEmbarque;
 use App\Models\Comercial\MedioTransporte;
@@ -21,7 +25,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-      $proformas = Proforma::orderBy('numero')->take(20)->get();
+      $proformas = Proforma::with('cliente')->orderBy('id','desc')->get();
 
       return view('comercial.proforma.index')->with(['proformas' => $proformas]);
     }
@@ -39,6 +43,7 @@ class ProformaController extends Controller
       $centrosVenta = CentroVenta::getAllActive();
       $transportes = MedioTransporte::getAllActive();
       $puertoEmbarque = PuertoEmbarque::getAllActive();
+      $fecha = Carbon::now()->format('Y-m-d');
 
       return view('comercial.proforma.create')->with([
         'centrosVenta' => $centrosVenta,
@@ -46,7 +51,8 @@ class ProformaController extends Controller
         'clausulas' => $clausulas,
         'transportes' => $transportes,
         'puertoEmbarque' => $puertoEmbarque,
-        'productos' => $productos
+        'productos' => $productos,
+        'fecha' => $fecha
       ]);
     }
 
@@ -65,13 +71,19 @@ class ProformaController extends Controller
             return redirect()->back();
         }
 
+        foreach ($proforma->detalles as $detalle) {
+            $detalle->peso_neto = $detalle->producto->peso_neto;
+            $detalle->peso_bruto = $detalle->producto->peso_bruto;
+            $detalle->volumen = $detalle->producto->volumen;
+        }
+
         $centrosVenta = CentroVenta::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-        $clientes->load('formaPago');
+        $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
         $puertoEmbarque = PuertoEmbarque::getAllActive();
+        $fecha = Carbon::now()->format('Y-m-d');
 
         return view('comercial.proforma.createImport')->with([
             'proforma' => $proforma,
@@ -80,7 +92,8 @@ class ProformaController extends Controller
             'clausulas' => $clausulas,
             'transportes' => $transportes,
             'puertoEmbarque' => $puertoEmbarque,
-            'productos' => $productos
+            'productos' => $productos,
+            'fecha' => $fecha
         ]);
     }
 
@@ -92,10 +105,9 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
       $this->validate($request, [
         'centroVenta' => 'required',
-        'numero' => 'required',
+        //'numero' => 'required',
         'version' => 'required',
         'emision' => 'required',
         'clausula' => 'required',
@@ -105,12 +117,13 @@ class ProformaController extends Controller
         'puertoE' => 'required',
         'formaPago' => 'required',
         'direccion' => 'required',
+        'despacho' => 'required',
         'puertoD' => 'required'
       ]);
 
-      $numero = Proforma::register($request);
+      $proforma = Proforma::register($request);
 
-      $msg = "Proforma N°". $numero . " ha sido Creada.";
+      $msg = "Proforma N°". $proforma->numero . " ha sido Creada.";
 
       return redirect(route('proforma'))->with(['status' => $msg]);
     }
@@ -144,15 +157,20 @@ class ProformaController extends Controller
     public function edit($proforma)
     {
         $proforma = Proforma::with('detalles')->where('numero',$proforma)->first();
-
-        if (!$proforma) {
+        /*
+        if (!$proforma || $proforma->aut_contab) {
 
             return redirect()->back();
         }
+        */
+        foreach ($proforma->detalles as $detalle) {
+            $detalle->peso_neto = $detalle->producto->peso_neto;
+            $detalle->peso_bruto = $detalle->producto->peso_bruto;
+            $detalle->volumen = $detalle->producto->volumen;
+        }
 
         $centrosVenta = CentroVenta::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-        $clientes->load('formaPago');
+        $clientes = ClienteIntl::with('formaPago','sucursales')->where('activo',1)->get();
         $clausulas = ClausulaVenta::getAllActive();
         $transportes = MedioTransporte::getAllActive();
         $productos = Producto::getAllActive();
@@ -190,12 +208,13 @@ class ProformaController extends Controller
           'puertoE' => 'required',
           'formaPago' => 'required',
           'direccion' => 'required',
+          'despacho' => 'required',
           'puertoD' => 'required'
         ]);
 
-        $numero = Proforma::edit($request,$proforma);
+        $proforma = Proforma::edit($request,$proforma);
 
-        $msg = "Proforma N°". $numero . " ha sido Modificada.";
+        $msg = "Proforma N°". $proforma->numero . " ha sido Modificada.";
 
         return redirect(route('proforma'))->with(['status' => $msg]);
     }
@@ -208,7 +227,16 @@ class ProformaController extends Controller
      */
     public function destroy(Proforma $proforma)
     {
-        //
+        $numero = $proforma->numero;
+
+        if (!$proforma->isAuthorized()) {
+
+            $proforma->delete();
+            $msg = "Proforma N°". $numero . " ha sido Eliminada.";
+        }
+        $msg = "Proforma N°". $numero . " No ha podido ser Eliminada.";
+
+        return redirect()->route('proforma')->with(['status' => $msg]);
     }
 
     /* Lista de Proformas Por Autorizar */
@@ -219,22 +247,47 @@ class ProformaController extends Controller
         return view('comercial.proforma.authorization')->with(['proformas' => $proformas]);
     }
 
-    public function auth(Proforma $proforma) {
+    public function auth($numero) {
 
-        $proforma->authorize();
+        $proforma  = Proforma::with('centroVenta',
+                                    'detalles.producto.marca',
+                                    'detalles.producto.formato',
+                                    'detalles.producto.sabor')
+                            ->where('numero',$numero)
+                            ->first();
+
+        $proforma->authorizeComer();
+        event(new AuthorizedProformaEvent($proforma));
 
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
     }
 
-    public function unauth(Proforma $proforma) {
+    public function unauth($numero) {
 
-        $proforma->unauthorize();
+        $proforma  = Proforma::with('centroVenta',
+                                    'detalles.producto.marca',
+                                    'detalles.producto.formato',
+                                    'detalles.producto.sabor')
+                            ->where('numero',$numero)
+                            ->first();
 
-        $msg = 'Proforma N°' . $proforma->numero . ' ha sido No Autorizada.';
+        $proforma->unauthorizeComer();
+
+        $msg = 'Proforma N°' . $proforma->numero . ' No ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);
+    }
+
+    public function downloadPDF($numero) {
+
+        $proforma = Proforma::with('centroVenta','detalles.producto.marca','detalles.producto.formato','detalles.producto.sabor')
+        ->where('numero',$numero)->first();
+        $proforma->fecha_emision = Carbon::createFromFormat('Y-m-d', $proforma->fecha_emision)->format('d/m/Y');
+        $pdf = PDF::loadView('documents.pdf.proforma',compact('proforma'));
+        return $pdf->stream();
+        //return view('documents.pdf.proforma')->with(['proforma' => $proforma]);
     }
 
 }

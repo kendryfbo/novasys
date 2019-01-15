@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListaPrecioDetalle extends Model
 {
-	protected $fillable = ['lista_id','producto_id','descripcion','precio'];
+	protected $fillable = ['lista_id','producto_id','precio'];
 
 	public function listaPrecio() {
 

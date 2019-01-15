@@ -28,6 +28,7 @@
 						<th>Marca</th>
 						<th>Formato</th>
 						<th>Sabor</th>
+						<th>Peso Neto</th>
 						<th>Peso Bruto</th>
 						<th>Volumen</th>
 						<th class="text-center">Activo</th>
@@ -39,11 +40,16 @@
 				@foreach ($productos as $producto)
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
-						<td>{{$producto->codigo}}</td>
+						<td>
+							<a href="{{route('verProducto',['codigo' => $producto->codigo])}}" target="_blank"><strong>
+							{{$producto->codigo}}
+							</strong></a>
+						</td>
 						<td>{{$producto->descripcion}}</td>
 						<td>{{$producto->marca->descripcion}}</td>
 						<td>{{$producto->formato->descripcion}}</td>
 						<td>{{$producto->sabor->descripcion}}</td>
+						<td class="text-right">{{number_format($producto->peso_neto,2,",",".")}}</td>
 						<td class="text-right">{{number_format($producto->peso_bruto,2,",",".")}}</td>
 						<td class="text-right">{{number_format($producto->volumen,4,",",".")}}</td>
 						<td class="text-center">{{$producto->activo ? "Si" : "No"}}</td>

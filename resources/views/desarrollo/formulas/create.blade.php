@@ -1,194 +1,207 @@
 @extends('layouts.master')
 
 @section('content')
-
-<div id="vue-app" class="container box box-gray">
-
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
-
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Seleccione Formula de producto a Importar</h4>
-	      </div>
-	      <div class="modal-body">
-			<label class="control-label col-sm-1">Producto:</label>
-  			<div class="col-sm-6">
-  				<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="productoImport" v-model="productoImport" required>
-  						<option value="">Seleccionar Producto...</option>
-  						@foreach ($productos as $producto)
-  							<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
-  						@endforeach
-  				</select>
-  			</div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			 <button v-bind:class="{ disabled: !productoImport}" type="button" class="btn btn-primary" data-dismiss="modal" @click="importarFormula">Importar</button>
-	      </div>
-	    </div>
-
-	  </div>
+<!-- box -->
+<div id="vue-app" class="box box-solid box-default">
+	<!-- box-header -->
+	<div class="box-header text-center">
+		<h4>Crear Fórmula</h4>
 	</div>
-	<!-- /modal -->
-	<div class="box-header with-border">
-	  <h3 class="box-title">Crear Formula</h3>
-	</div>
-	<!-- /.box-header -->
+	<!-- /box-header -->
 	<!-- box-body -->
 	<div class="box-body">
-		<div class="form-horizontal">
-			<div class="form-group">
-				<label class="control-label col-sm-1">Producto:</label>
-				<div class="col-sm-6">
-					<select class="form-control selectpicker" data-live-search="true" data-style="btn-default" name="producto" v-model="producto" @change="getFormula" required>
+
+		@if ($errors->any())
+
+			@foreach ($errors->all() as $error)
+
+				@component('components.errors.validation')
+					@slot('errors')
+						{{$error}}
+					@endslot
+				@endcomponent
+
+			@endforeach
+
+		@endif
+
+		<!-- form-horizontal -->
+		<form  id="create" class="form-horizontal" method="post" action="{{route('guardarFormula')}}">
+
+			{{ csrf_field() }}
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Producto:</label>
+					<div class="col-lg-5">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="productoID" v-model="productoID" @change="loadProducto" required>
 							<option value="">Seleccionar Producto...</option>
-							@foreach ($productos as $producto)
-								<option value="{{$producto->id}}">{{$producto->descripcion}}</option>
-							@endforeach
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<button v-if="producto" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Importar Formula</button>
-				</div>
-			</div>
-		</div>
-		<div class="form-inline">
-			<div class="form-group" style="padding-left:13px">
-				<label style=" padding-right: 25px">Formato:</label>
-				<div class="input-group" style=" padding-right: 25px">
-					<input class="form-control" type="text" class="form-control" name="formato" v-model="formato" disabled required>
-				</div>
-			</div>
-			<div class="form-group">
-				<label style=" padding-right: 25px">tamaño del Batch:</label>
-				<div class="input-group" style=" padding-right: 25px">
-					<input class="form-control" type="number" min="0" class="form-control" name="batch" v-model.number="batch" placeholder="cantidad x Batch..." required>
-					<span class="input-group-addon">Kg</span>
-				</div>
-			</div>
-		</div>
-		<br>
-		<!-- .inner Box -->
-		<div v-if="producto" class="box box-default">
-			<div class="box-header">
-				<div class="form-inline">
-					<div class="form-group">
-						<label>Nivel:</label>
-						<select class="selectpicker" data-width="110px" data-live-search="true" data-style="btn-default" name="nivel" v-model="nivel">
-							<option value="">Nivel...</option>
-							@foreach ($niveles as $nivel)
-								<option value="{{$nivel->id}}">{{$nivel->descripcion}}</option>
-							@endforeach
+							<option v-for="producto in productos" :value="producto.id">@{{producto.descripcion}}</option>
 						</select>
 					</div>
-					<div class="form-group">
-						<label>Familia:</label>
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="familia" v-model.number="familia">
-								<option value="">Seleccionar Familia...</option>
-								@foreach ($familias as $familia)
-									<option value="{{$familia->id}}">{{$familia->descripcion}}</option>
-								@endforeach
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Insumo:</label>
-						<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default" name="insumo" v-model="insumo">
-							<option value="">Seleccionar Insumo...<i v-if="loadingInsumo" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i></option>
-							<option v-for="insumo in insumos" :value="insumo.id">@{{ insumo.descripcion }}</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Cant x Unidad:</label>
-						<div class="input-group" style=" padding-right: 25px">
-							<input class="form-control" type="number" min="0" step="any" class="form-control" name="cantxuni" v-model="cantxuni" @keyup="calcular" placeholder="cantidad x Unidad...">
-							<span class="input-group-addon">Un / Kg</span>
-						</div>
-					</div>
-					<div class="form-group">
-							<button  class="btn btn-sm btn-primary" type="button" name="button" v-on:click="storeItem">Agregar</button>
-							<i v-if="loadingItem" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
 
-					</div>
 				</div>
-				<br>
-				<div class="form-inline">
-					<div class="form-group">
-						<label>Cant x Caja:</label>
-						<div class="input-group" style=" padding-right: 25px">
-							<input class="form-control" type="number" min="0" class="form-control" name="cantxcaja" v-model="cantxcaja" placeholder="0" readonly>
-							<span class="input-group-addon">Un / Kg</span>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Premezcla:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="premezclaID">
+							<option value="">Seleccionar Premezcla...</option>
+							@foreach ($premezclas as $premezcla)
+								<option value="{{$premezcla->id}}">{{$premezcla->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1" >Reproceso:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="reprocesoID">
+							<option value="">Seleccionar Reproceso...</option>
+							@foreach ($reprocesos as $reproceso)
+								<option value="{{$reproceso->id}}">{{$reproceso->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Formato:</label>
+					<div class="col-lg-3">
+						<input type="text" class="form-control input-sm" placeholder="Formato de Producto" :value="formatoDescrip" readonly required>
+					</div>
+					<label class="control-label col-lg-1" >Batch:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="1" step="0.01" name="cantBatch" v-model.number="cantBatch" placeholder="cantidad x Batch..." @change="calculate" required>
+							<span class="input-group-addon">Kg</span>
 						</div>
 					</div>
-					<div class="form-group">
-						<label>Cant x Batch:</label>
-						<div class="input-group" style=" padding-right: 25px">
-							<input class="form-control" type="number" min="0" class="form-control" name="cantxbatch" v-model="cantxbatch" placeholder="0" readonly>
-							<span class="input-group-addon">Un / Kg</span>
+
+				</div>
+
+				<hr>
+
+				<div class="form-group">
+
+					<label class="control-label col-lg-1" >Nivel:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="nivelID" @change="loadNivel">
+							<option value="">Seleccionar Nivel...</option>
+							<option v-for="nivel in niveles" :value="nivel.id">@{{nivel.descripcion}}</option>
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1" >Insumo:</label>
+					<div class="col-lg-5">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="insumoID" @change="loadInsumo">
+							<option value="">Seleccionar Insumo...</option>
+							<option v-for="insumo in insumos" :value="insumo.id">@{{insumo.descripcion}}</option>
+						</select>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+
+
+					<label class="control-label col-lg-1" >CantXuni:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" v-model.number="cantxuni" placeholder="cantidad x Unidad" @change="calculate">
+							<span class="input-group-addon">Un/Kg</span>
 						</div>
 					</div>
+
+					<label class="control-label col-lg-1" >Cant/caja:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" name="cantxuni" v-model="cantxcaja" placeholder="cantidad x Caja">
+							<span class="input-group-addon">Un/Kg</span>
+						</div>
+					</div>
+
+					<label class="control-label col-lg-1" >Cant/batch:</label>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<input class="form-control input-sm" type="number" min="0" name="cantxuni" :value="cantxbatch" placeholder="cantidad x Batch" readonly>
+							<span class="input-group-addon">Un/Kg</span>
+						</div>
+					</div>
+
+					<div class="col-lg-2">
+						<button  class="btn btn-sm btn-primary pull-right" type="button" name="button" @click="addItem">Agregar</button>
+					</div>
+
 				</div>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body">
-				<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-							<th class="text-center">#</th>
-							<th>id</th>
-							<th>decripcion</th>
-							<th>Cant.Envase</th>
-							<th>Cant.Caja</th>
-							<th>Cant.Batch</th>
-							<th>Nivel</th>
-							<th class="text-center">Eliminar</th>
-						</tr>
-					</thead>
-					<tbody>
-						<td colspan="8" class="text-center" v-if="items <= 0" >Tabla sin Datos...</td>
-						<tr v-for="(item,key) in items" @click="getItem(item.id)">
-							<th class="text-center" v-text="key+1"></th>
-							<td>@{{ item.insumo_id }}</td>
-							<td>@{{ item.descripcion }}</td>
-							<td>@{{ item.cantxuni }}</td>
-							<td>@{{ item.cantxcaja }}</td>
-							<td>@{{ item.cantxbatch }}</td>
-							<td>@{{ item.nivel.descripcion }}</td>
-							<td class="text-center">
-								<button class="btn btn-sm" type="button" name="button" @click="deleteItem(item.id)">
-									<i class="fa fa-trash-o" aria-hidden="true"></i>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- /.box-body -->
-			<div class="box-footer">
-				<!-- form start -->
-				<form id="create" method="post" action="{{route('generarFormula')}}">
-					{{ csrf_field() }}
-					<input type="hidden" name="formula" v-bind:value="formulaId">
-					<button class="btn btn-default" type="submit" name="generar">Generar Formula</button>
-				</form>
-			</div>
-			<!-- /.box-footer -->
-		</div>
-		<!-- /.inner box -->
+
+				<!-- Items -->
+				<select style="display: none;"  name="items[]" multiple required>
+					<option v-for="item in items" selected>
+						@{{item}}
+					</option>
+				</select>
+				<!-- /items -->
+
+		</form>
+		<!-- /form-horizontal -->
 	</div>
-	<!--/.box-body -->
-	<select style="visibility:hidden"  name="items[]"  form="create" multiple>
-		<option></option>
-	</select>
-</div>
+	<!-- /box-body -->
+	<!-- box-body -->
+	<div class="box-body">
+		<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 
+		<thead>
+			<tr>
+				<th class="text-center"></th>
+				<th class="text-center">#</th>
+				<th class="text-center">DESCRIPCION</th>
+				<th class="text-center">Nivel</th>
+				<th class="text-center">C. Unidad</th>
+				<th class="text-center">C. Caja</th>
+				<th class="text-center">C. Batch</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-if="items <= 0">
+				<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
+			</tr>
+				<tr v-if="items" v-for="(item,key) in items">
+				<td class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs" name="button" @click="removeItem(key)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+                </td>
+				<td class="text-center">@{{key+1}}</td>
+				<td>@{{item.descripcion}}</td>
+				<td class="text-right">@{{item.nivel.descripcion}}</td>
+				<td class="text-right">@{{item.cantxuni}}</td>
+				<td class="text-right">@{{item.cantxcaja}}</td>
+				<td class="text-right">@{{item.cantxbatch}}</td>
+			</tr>
+		</tbody>
+
+		</table>
+	</div>
+	<!-- /box-body -->
+
+	<!-- box-footer -->
+	<div class="box-footer">
+		<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
+	</div>
+	<!-- /box-footer -->
+</div>
+<!-- /box -->
 @endsection
 
 @section('scripts')
+<script>
+	var productos = {!!$productos!!};
+	var niveles = {!!$niveles!!};
+	var insumos = {!!$insumos!!};
+</script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/desarrollo/formula.js')}}"></script>
+<script src="{{asset('js/desarrollo/createFormula.js')}}"></script>
 @endsection

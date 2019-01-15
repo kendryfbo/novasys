@@ -6,22 +6,22 @@ var app = new Vue({
 	  familia: codFamilia,
 	  marca: $('select[name=marca]').val(),
 	  sabor: $('select[name=sabor]').val(),
-      unidad: $('select[name=unidad]').val(),
+      formato: $('select[name=formato]').val(),
       marcas: [],
       sabores: [],
-      unidades: unidades,
+      formatos: formatos,
   },
   methods: {
 	  updateDescripcion: function() {
 
           this.codigo = this.familia;
-          this.descripcion = this.familia;
+          this.descripcion = "PREMEZCLA";
 
           if (this.marca) {
               for (var i = 0; i < this.marcas.length; i++) {
 
                   if (this.marca == this.marcas[i].id) {
-                      this.codigo = this.codigo + this.marcas[i].codigo;
+                      this.codigo = this.codigo + this.marcas[i].id;
                       this.descripcion = this.descripcion + " " + this.marcas[i].descripcion;
                       break;
                   }
@@ -33,17 +33,27 @@ var app = new Vue({
 
                   if (this.sabor == this.sabores[i].id) {
 
-                      this.codigo = this.codigo + this.formatNumber(this.sabores[i].id);
+                      this.codigo = this.codigo + this.sabores[i].id;
                       this.descripcion = this.descripcion + " " + this.sabores[i].descripcion;
                       break;
 
                   }
               }
           }
+          if (this.formato) {
+
+              for (var i = 0; i < this.formatos.length; i++) {
+
+                  if (this.formato == this.formatos[i].id) {
+
+                      this.codigo = this.codigo + this.formatos[i].id;
+                      this.descripcion = this.descripcion + " " + this.formatos[i].peso_uni +"g";
+                      break;
+
+                  }
+              }
+          }
 	  },
-      formatNumber : function(number) {
-          return ("0" + number).slice(-2)
-      }
   },
 
   mounted() {

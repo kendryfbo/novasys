@@ -1,0 +1,79 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.title-content {
+    border: 1px solid;
+    margin-bottom: 2px;
+}
+
+.num-oc {
+    position: absolute;
+    right: 10px;
+}
+.date {
+    position: absolute;
+    right: 30px;
+    top: 100px;
+}
+.date2 {
+    position: absolute;
+    right: 142px;
+    top: 120px;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.content {
+    border: 1px solid black;
+}
+
+table {
+   padding: 0px;
+   margin: 0px;
+}
+.table th {
+   margin: 0px;
+   padding: 1px;
+   padding-right: 3px;
+   border: 1px solid black;
+}
+.table td {
+   font-size: 14px;
+   margin: 0px;
+   padding: 0px;
+   padding-left: 2px;
+   padding-right: 2px;
+   border-left: 1px solid black;
+   border-right: 1px solid black;
+}
+
+.table tr:last-child > td {
+   border-bottom: 1px solid black;
+}
+
+.table-total {
+    position: absolute;
+    right: 1px;
+}
+
+.footer-content {
+    padding: 5px;
+    border: 1px solid black;
+}
+.footer {
+    padding: 5px;
+    position: absolute;
+    bottom: 0px;
+}

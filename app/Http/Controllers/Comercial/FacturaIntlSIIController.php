@@ -16,9 +16,9 @@ class FacturaIntlSIIController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaIntl::orderBy('numero')->take(20)->get();
+        $facturas = FacturaIntl::orderBy('numero','DESC')->take(20)->get();
 
-        return view('comercial.FacturaIntlSII.index')->with(['facturas' => $facturas]);
+        return view('comercial.facturaIntlSII.index')->with(['facturas' => $facturas]);
     }
 
     /**

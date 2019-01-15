@@ -24,6 +24,6 @@ class BackEndServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Repositories\Comercial\NotaVenta\NotaVentaRepositoryInterface', 'App\Repositories\Comercial\NotaVenta\NotaVentaRepository');
-        $this->app->bind('App\Repositories\Comercial\FacturaNacional\FacturaNacionalRepositoryInterface', 'App\Repositories\Comercial\FacturaNacional\FacturaNAcionalRepository');
+        $this->app->bind('App\Repositories\Comercial\FacturaNacional\FacturaNacionalRepositoryInterface', 'App\Repositories\Comercial\FacturaNacional\FacturaNacionalRepository');
     }
 }

@@ -18,6 +18,8 @@ class VendedoresTableSeeder extends Seeder
             ['rut' => '3', 'nombre' => 'Jorge Herrera', 'iniciales' => 'JH', 'activo' =>1],
             ['rut' => '4', 'nombre' => 'Eduardo Bahamondes','iniciales' => 'EB',  'activo' =>1],
             ['rut' => '5', 'nombre' => 'Manuel Rodriguez','iniciales' => 'MR',  'activo' =>1],
+            ['rut' => '6', 'nombre' => 'Gerencia','iniciales' => 'GCIA',  'activo' =>1],
+            ['rut' => '7', 'nombre' => 'Rafael Valbuena','iniciales' => 'RF',  'activo' =>1],
         ];
 
         foreach ($vendedores as $vendedor) {

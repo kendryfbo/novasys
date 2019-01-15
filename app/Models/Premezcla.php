@@ -6,14 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Premezcla extends Model
 {
-
-	protected $fillable= ['codigo','descripcion','familia_id','marca_id','sabor_id','unidad_med', 'activo'];
+	protected $fillable= ['codigo','descripcion','familia_id','marca_id','sabor_id','formato_id', 'activo'];
 
 	static function getAllActive() {
 
-		return Premezcla::all()->where('activo',1);
+		return Premezcla::where('activo',1)->get();
 	}
 
+	/*
+	|
+	| Relationships
+	|
+	*/
 	public function familia() {
 
 		return $this->belongsTo('App\Models\Familia');
@@ -27,5 +31,9 @@ class Premezcla extends Model
 	public function sabor() {
 
 		return $this->belongsTo('App\Models\Sabor');
+	}
+	public function formato() {
+
+		return $this->belongsTo('App\Models\Formato');
 	}
 }

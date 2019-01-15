@@ -32,7 +32,7 @@
 			@endif
 
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('notasVentas.store')}}">
+			<form  id="create" method="post" action="{{route('guardarNotaVenta')}}">
 
 				{{ csrf_field() }}
 
@@ -54,7 +54,7 @@
 					<div class="form-group form-group-sm">
 						<label class="control-label col-sm-2" >Numero:</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="Nueva" readonly>
+							<input type="text" class="form-control" name="numero" placeholder="Nueva" readonly>
 						</div>
 
 						<label class="control-label col-sm-1" >Version:</label>
@@ -88,7 +88,7 @@
 
 						<label class="control-label col-lg-2">Cliente:</label>
 						<div class="col-lg-4">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
+							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
 								@foreach ($clientes as $cliente)
 									<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
@@ -105,6 +105,14 @@
 
 					</div>
 
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Direccion:</label>
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="direccion" placeholder="direccion facturacion..." :value="direccion" readonly>
+						</div>
+
+					</div>
 					<div class="form-group form-group-sm">
 
 						<label class="control-label col-lg-2">Despacho:</label>
@@ -174,7 +182,7 @@
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-default btn-sm" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
-							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
+							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.producto_id">@{{detalle.producto.descripcion}}</option>
 						</select>
 					</div>
 
@@ -185,13 +193,13 @@
 
 					<label class="control-label col-lg-1">%Dscto:</label>
 					<div class="col-lg-1">
-						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento" disabled>
+						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento">
 					</div>
 
 					<label class="control-label col-lg-1">Precio:</label>
 					<div class="col-lg-1">
-						<input class="form-control" type="hidden" name="precio" v-model.number="precio" disabled>
-						<input class="form-control text-right" type="text" name="strPrecio" :value="precio.toLocaleString()" disabled>
+						<input class="form-control" type="number" name="precio" v-model.number="precio">
+						{{--<input class="form-control text-right" type="text" name="strPrecio" :value="precio.toLocaleString()" disabled>--}}
 					</div>
 
 					<div class="col-lg-2">

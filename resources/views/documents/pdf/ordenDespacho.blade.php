@@ -159,7 +159,7 @@
                 <table>
                     <tr>
                         <th class="text-right">CONDICION DE PAGO : </th>
-                        <td class="text-left"><strong>{{$notaVenta->formaPago->descripcion}}</strong></td>
+                        <td class="text-left"><strong>{{--$notaVenta->formaPago->descripcion--}}</strong></td>
                     </tr>
                     <tr>
                         <th class="text-right">TOTALES CAJAS : </th>

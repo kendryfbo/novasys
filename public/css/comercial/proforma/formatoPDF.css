@@ -1,0 +1,112 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+p {
+    padding: 0px;
+    margin: 0px;
+}
+.title-content {
+    height: 80px;
+}
+.descrip-cv {
+    margin: 0px;
+}
+.giro-cv {
+    width: 280px;
+    margin: 0px;
+    padding: 0px;
+}
+.num-proforma {
+    position: absolute;
+    top: 30px;
+    right: 15px;
+}
+.ver-proforma {
+    position: absolute;
+    right: 100px;
+    top: 40px;
+}
+
+.cliente-content {
+    height: 60px;
+     border: 1px solid black;
+     padding: 1px;
+     margin-top: 2px;
+     margin-bottom: 2px;
+}
+.cliente-content > .cliente-datos {
+    width: 550px;
+    float: left;
+}
+.cliente-content > .fecha {
+    width: 300px;
+    float: left;
+}
+
+.datos-content {
+    height: 120px;
+    border: 1px solid black;
+    padding: 1px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+.table-content {
+    height: 640px;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid black;
+}
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.content {
+    height: 500px;
+    border: 1px solid black;
+}
+
+.table table {
+    padding: 0px;
+    margin: 0px;
+}
+.table th {
+    margin: 0px;
+    padding: 1px;
+    padding-right: 3px;
+    border: 1px solid black;
+}
+.table td {
+    font-weight: bold;
+    font-size: 13px;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.table tr:last-child > td {
+    border-bottom: 1px solid black;
+}
+
+.table-total {
+    position: absolute;
+    right: 1px;
+}
+.table-pesos {
+    position: absolute;
+}

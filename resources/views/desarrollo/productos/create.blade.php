@@ -93,7 +93,7 @@
 					<label class="control-label col-lg-2">Peso Bruto:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
+							<input class="form-control" type="number" step='any' placeholder='0.00' v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{ Input::old('peso_bruto') ? Input::old('peso_bruto') : "" }}" required>
 							<span class="input-group-addon">kg</span>
 						</div>
 					</div>
@@ -109,7 +109,7 @@
 					<label class="control-label col-lg-1">Peso Neto:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' class="form-control" name="peso_neto" v-model="peso_neto" placeholder="Peso Neto..." value="{{ Input::old('peso_neto') ? Input::old('peso_neto') : "" }}" required>
+							<input class="form-control" type="number" step='any' placeholder='0.00' class="form-control" name="peso_neto" v-model="peso_neto" placeholder="Peso Neto..." value="{{ Input::old('peso_neto') ? Input::old('peso_neto') : "" }}" required>
 							<span class="input-group-addon">kg</span>
 						</div>
 					</div>
@@ -134,7 +134,7 @@
      </div>
 	 <!-- /.box-body -->
 	 <div class="box-footer">
-	 	<button type="submit" form="create" class="btn pull-right">Crear</button>
+	 	<button type="submit" form="create" class="btn btn-default pull-right">Crear</button>
 	 </div>
 	  <!-- /.box-footer -->
   </div>

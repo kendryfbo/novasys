@@ -214,10 +214,10 @@
 	</div>
 	<!-- /box -->
 	<!-- forms -->
-	<form id="authorize" action="{{url('comercial/notasVentas/autorizar/'.$notaVenta->id)}}" method="post">
+	<form id="authorize" action="{{route('autorizarNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
 		{{csrf_field()}}
 	</form>
-	<form id="unauthorize" action="{{url('comercial/notasVentas/desautorizar/'.$notaVenta->id)}}" method="post">
+	<form id="unauthorize" action="{{route('autorizarNotaVenta',['notaVenta' => $notaVenta->id])}}" method="post">
 		{{csrf_field()}}
 	</form>
 	<!-- /forms -->

@@ -1,3 +1,12 @@
+$(document).on("keypress", 'form', function (e) {
+    var code = e.keyCode || e.which;
+    if (code == 13) {
+        e.preventDefault();
+        document.getElementById("addItem").click();
+        return false;
+    }
+});
+
 var app = new Vue({
 
   el: '#vue-app',
@@ -7,6 +16,8 @@ var app = new Vue({
     clientes: clientes,
     clienteId: clienteId,
     formaPagoDescrip: '',
+    direccion: '',
+    sucursales: [],
     productos: productos,
     prodId: '',
     item: [],
@@ -23,10 +34,22 @@ var app = new Vue({
     freight: freight,
     insurance: insurance,
     total: 0,
+    clausulas: clausulas,
+    clausulaID: '',
+    fobValidator: true,
+    freightValidator: true,
+    insuranceValidator: true,
 
   },
 
   methods: {
+
+    loadDatos: function() {
+
+      this.loadSucursales();
+      this.loadFormaPago();
+
+    },
 
     loadFormaPago: function() {
 
@@ -37,6 +60,18 @@ var app = new Vue({
           this.formaPagoDescrip = this.clientes[i].forma_pago.descripcion;
         }
       }
+    },
+
+    loadSucursales: function() {
+
+        for (var i=0; i < this.clientes.length; i++) {
+
+            if (this.clienteId == this.clientes[i].id) {
+
+                this.sucursales = this.clientes[i].sucursales;
+                this.direccion = this.clientes[i].direccion;
+            }
+        }
     },
 
     loadProducto: function() {
@@ -69,18 +104,25 @@ var app = new Vue({
       if (!this.validateInput()) {
         return;
       }
+       var order = 0;
 
       if (this.itemSelected) {
 
         for (var i = 0; i < this.items.length; i++) {
 
           if (this.item.producto_id == this.items[i].producto_id) {
+            order = this.items[i].order;
             this.items.splice(i,1);
+            break;
           }
         }
 
+      } else {
+
+        order = this.items.length + 1;
       }
 
+      this.item.order = order;
       this.item.cantidad = this.cantidad;
       this.item.descuento = this.descuento;
       this.item.precio = this.precio;
@@ -88,7 +130,7 @@ var app = new Vue({
       this.item.sub_total = (this.precio - this.descuento) * this.cantidad;
       this.item.sub_total = Math.round(this.item.sub_total * 100) / 100;
       this.items.push(this.item);
-
+      this.sortItems();
       this.calculateTotal();
       this.clearItemInputs();
       $('#prodSelect').focus();
@@ -249,7 +291,48 @@ var app = new Vue({
     numberFormat: function(x) {
 
       return x.toLocaleString(undefined, {minimumFractionDigits: 2})
-    }
+  },
+
+  updateClausula: function () {
+
+      // FOB
+      if (this.clausulaID == 2) {
+
+          this.fobValidator = true;
+          this.freightValidator = false;
+          this.insuranceValidator = false;
+
+      // CFR
+      } else if (this.clausulaID == 3) {
+
+              this.fobValidator = false;
+              this.freightValidator = true;
+              this.insuranceValidator = false;
+      } else {
+
+          this.fobValidator = true;
+          this.freightValidator = true;
+          this.insuranceValidator = true;
+      }
+  },
+
+  sortItems: function() {
+      this.items.sort(function(a, b){
+              if (a.order < b.order)
+              return -1;
+              if (a.order > b.order)
+              return 1;
+          return 0;
+          }
+      );
+  },
+
+  addOrderToItems: function() {
+
+      for (var i = 0; i < this.items.length; i++) {
+          this.items[i].order = i + 1;
+      }
+  },
 
 },
 
@@ -262,8 +345,9 @@ var app = new Vue({
   },
 
   created() {
-      this.loadFormaPago();
+      this.loadDatos();
       this.calculateTotal();
+      this.addOrderToItems();
   },
 
   updated() {

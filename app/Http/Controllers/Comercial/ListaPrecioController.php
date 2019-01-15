@@ -73,7 +73,7 @@ class ListaPrecioController extends Controller
      */
     public function edit(ListaPrecio $listaPrecio)
     {
-        $listaPrecio->load('detalle');
+        $listaPrecio->load('detalle.producto');
         $productos = Producto::get(['id','codigo','descripcion','activo'])->where('activo',1);
         return view('comercial.listaPrecios.edit')->with([
             'listaPrecio' => $listaPrecio,

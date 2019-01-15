@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Models\Comercial\FormaPagoIntl;
 class FormaPagoIntlTableSeeder extends Seeder
 {
     /**
@@ -12,13 +12,24 @@ class FormaPagoIntlTableSeeder extends Seeder
     public function run()
     {
         $formasPago = [
-            ['descripcion' => 'Anticipo', 'activo' => 1],
-            ['descripcion' => 'Cobranza 30 días', 'activo' => 1],
-            ['descripcion' => '50% anticipo 50% a 60 días', 'activo' => 1],
-            ['descripcion' => '30% anticipo 70% a 60 días', 'activo' => 1],
-            ['descripcion' => '90 días fecha CRT', 'activo' => 1],
-            ['descripcion' => '60 días fecha BL', 'activo' => 1],
-            ['descripcion' => '75 días fecha BL', 'activo' => 1],
+            ['id' => 1,  'descripcion' => 'Anticipo', 'dias' => 1, 'activo' => 1],
+            ['id' => 2,  'descripcion' => 'Cobranza 30 días', 'dias' => 30, 'activo' => 1],
+            ['id' => 3,  'descripcion' => '50% anticipo 50% a 60 días', 'dias' => 60, 'activo' => 1],
+            ['id' => 4,  'descripcion' => '30% anticipo 70% a 60 días', 'dias' => 60, 'activo' => 1],
+            ['id' => 5,  'descripcion' => '90 días fecha CRT', 'dias' => 90, 'activo' => 1],
+            ['id' => 6,  'descripcion' => '60 días fecha BL', 'dias' => 60, 'activo' => 1],
+            ['id' => 7,  'descripcion' => '75 días fecha BL', 'dias' => 75, 'activo' => 1],
+            ['id' => 8,  'descripcion' => '60 días fecha CRT', 'dias' => 60, 'activo' => 1],
+            ['id' => 9,  'descripcion' => 'Carta de credito a la vista', 'dias' => 1, 'activo' => 1],
+            ['id' => 10, 'descripcion' => '100% Contra BL', 'dias' => 1, 'activo' => 1],
+            ['id' => 11, 'descripcion' => 'Contado', 'dias' => 1, 'activo' => 1],
+            ['id' => 12, 'descripcion' => '30 días fecha BL', 'dias' => 30, 'activo' => 1],
+            ['id' => 13, 'descripcion' => 'Credito 60 días', 'dias' => 60, 'activo' => 1],
         ];
+
+        foreach ($formasPago as $formas) {
+
+            FormaPagoIntl::create($formas);
+        }
     }
 }

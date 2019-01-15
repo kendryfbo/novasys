@@ -19,6 +19,9 @@
         <!-- box-body -->
         <div class="box-body">
 
+			<form id="download" action="{{route('descargarFacturaNac',['factura' => $factura->id])}}" method="get">
+				{{ csrf_field() }}
+			</form>
             <!-- form-horizontal -->
             <div class="form-horizontal">
 
@@ -35,6 +38,10 @@
                     <div class="col-lg-1">
                         <input class="form-control" type="text" name="numNV" value="{{$factura->numero_nv}}" readonly>
                     </div>
+
+					<div class="col-lg-1">
+						<button form="download" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i>Descargar</button>
+					</div>
 
                 </div>
 
@@ -67,25 +74,29 @@
                 <div class="form-group form-group-sm">
 
                     <label class="control-label col-lg-2">Cliente:</label>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <input type="text" class="form-control " value="{{$factura->cliente}}" readonly>
                     </div>
 
+					<label class="control-label col-lg-1">Cond. Pago:</label>
+					<div class="col-lg-2">
+						<input type="text" class="form-control " name="formaPago" value="{{$factura->cond_pago}}" readonly>
+					</div>
                 </div>
 
                 <div class="form-group form-group-sm">
 
-                    <label class="control-label col-lg-2">Cond. Pago:</label>
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control " name="formaPago" value="{{$factura->cond_pago}}" readonly>
-                    </div>
+					<label class="control-label col-lg-2">Direccion:</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control " name="direccion" value="{{$factura->direccion}}" readonly>
+					</div>
 
                 </div>
 
                 <div class="form-group form-group-sm">
 
                     <label class="control-label col-lg-2">Despacho:</label>
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <input type="text" class="form-control " name="despacho" value="{{$factura->despacho}}" readonly>
                     </div>
 

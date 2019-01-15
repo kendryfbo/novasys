@@ -16,6 +16,7 @@ class CreateFormaPagoIntlTable extends Migration
         Schema::create('forma_pago_intl', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descripcion');
+            $table->string('descrip_ing');
             $table->string('dias');
             $table->tinyInteger('activo');
             $table->timestamps();

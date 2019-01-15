@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
         // Semillas de Modulo Desarrollo
         $this->call(TipoFamiliaTableSeeder::class);
         $this->call(FamiliaTableSeeder::class);
@@ -21,10 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(NivelesTableSeeder::class);
 
         // Semillas de Modulo Comercial
+        $this->call(AduanaTableSeeder::class);
         $this->call(CanalTableSeeder::class);
         $this->call(CentroVentaTableSeeder::class);
         $this->call(ClausulaVentasTableSeeder::class);
-        $this->call(ClientesNacionalesTableSeeder::class);
         $this->call(ComunasTableSeeder::class);
         $this->call(FormaPagoNacTableSeeder::class);
         $this->call(FormaPagoIntlTableSeeder::class);
@@ -39,8 +40,25 @@ class DatabaseSeeder extends Seeder
         $this->call(ZonasTableSeeder::class);
 
         // Semillas de Modulo configuracion
-        $this->call(AccesosTableSeeder::class);
+        //$this->call(AccesosTableSeeder::class); -> por modificar
         $this->call(UsuarioTableSeeder::class);
+        $this->call(StatusDocumentoTableSeeder::class);
+        $this->call(TipoDocumentoTableSeeder::class);
+
+        // Semillas de Modulo Bodega
+        $this->call(IngresoTipoTableSeeder::class);
+        $this->call(PosCondTipoTableSeeder::class);
+        $this->call(PalletMedidaTableSeeder::class);
+        $this->call(PosicionStatusTableSeeder::class);
+
+        // Semillas de Modulo Adquisicion
+        $this->call(AreaTableSeeder::class);
+        $this->call(FormaPagoProveedorTableSeeder::class);
+        $this->call(OrdenCompraTipoTableSeeder::class);
+
+        // Semillas de Modulo Finanzas
+        $this->call(MonedaTableSeeder::class);
+
 
     }
 }

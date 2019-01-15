@@ -6,6 +6,7 @@ var app = new Vue ({
 
 		cliente : '',
 		sucursales: [],
+		direccion:'',
 		despacho: '',
 		formaPago: '',
 		formaPagoID: '',
@@ -68,6 +69,7 @@ var app = new Vue ({
 			this.listaDetalle = data.lista_precio.detalle;
 			this.canal = data.canal;
 			this.descuento = data.canal.descuento;
+			this.direccion = data.direccion;
 
 		},
 
@@ -75,11 +77,11 @@ var app = new Vue ({
 
 			for (var i=0; i<this.listaDetalle.length; i++) {
 
-				if (this.producto == this.listaDetalle[i].id) {
+				if (this.producto == this.listaDetalle[i].producto_id) {
 
 					var formato = this.listaDetalle[i].producto.formato;
 					this.codigo = this.listaDetalle[i].producto.codigo;
-					this.descripcion = this.listaDetalle[i].descripcion;
+					this.descripcion = this.listaDetalle[i].producto.descripcion;
 					this.precio = Math.round(this.listaDetalle[i].precio);
 					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
@@ -202,6 +204,10 @@ var app = new Vue ({
 				if (this.items[i].iaba) {
 
 					iaba = (neto * 10) / 100; // reemplazar por valor de tabla;
+
+				} else {
+
+					iaba = 0;
 				}
 
 				subTotal += itemSubTotal;

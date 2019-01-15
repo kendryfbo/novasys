@@ -9,14 +9,14 @@
     <style>
     body {
       font-size: 10px;
+      margin-left: : 10px;
     }
     .contenedor {
-      padding-left: 15px;
+      padding-left: 10px;
     }
     .heading {
-
-      height: 150px;
-    };
+      height: 110px;
+    }
     .table-bordered {
       border: 1px solid black;
     }
@@ -50,11 +50,11 @@
 
       <div class="heading">
 
-        <h4>Novafoods S.A</h3>
-        <h4>Cliente S.A</h3>
-        <h4> <strong>Factura N°</strong>{{$factura}}</h3>
-        <h4><strong>Contenedor N°</strong>{{$guia->contenedor}}</h3>
-        <h5 class="etiqueta">PACKING LIST</h4>
+        <h5>{{$factura->centro_venta}}</h5>
+        <h5>{{$factura->cliente}}</h5>
+        <h5> <strong>Factura N° / Invoice N°: </strong>{{$factura->numero}}</h5>
+        <h5><strong>Contenedor N° / Container N°: </strong>{{$guia->contenedor}}</h5>
+        <h5 class="etiqueta">PACKING LIST</h5>
       </div>
       <div class="body">
 
@@ -63,14 +63,14 @@
           <thead>
 
             <tr>
-              <th>#</th>
-              <th>CANTIDAD</th>
-              <th>CODIGO</th>
-              <th>DESCRIPCION</th>
-              <th>FORMATO</th>
-              <th>PESO NETO</th>
-              <th>PESO BRUTO</th>
-              <th>VOLUMEN</th>
+              <th class="text-center">#</th>
+              <th class="text-center">CANTIDAD / QTTY</th>
+              <th class="text-center">CODIGO / CODE</th>
+              <th class="text-center">DESCRIPCION / DESCRIPTION</th>
+              <th class="text-center">FORMATO / FORMAT</th>
+              <th class="text-center">PESO NETO / NET WEIGHT</th>
+              <th class="text-center">PESO BRUTO / GROSS WEIGHT</th>
+              <th class="text-center">VOLUMEN / VOLUME</th>
             </tr>
 
           </thead>
@@ -78,27 +78,31 @@
           <tbody>
 
             @foreach ($guia->detalles as $detalle)
-
               <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>{{$detalle->cantidad}}</td>
-                <td>{{$detalle->producto->codigo}}</td>
-                <td>{{$detalle->producto->descripcion}}</td>
+                <td class="text-center">{{$loop->iteration}}</td>
+                <td class="text-right">{{$detalle->cantidad}}</td>
+                <td class="text-center">{{$detalle->producto->codigo}}</td>
+                <td>{{$detalle->producto->marca->descripcion . " "}}
+                {{$detalle->producto->formato->descripcion . " "}}
+                @if ($factura->clienteIntl->idioma == 'Ingles')
+                {{$detalle->producto->sabor->descrip_ing}}
+                @else
+                {{$detalle->producto->sabor->descripcion}}
+                @endif</td>
                 <td>{{$detalle->producto->formato->descripcion}}</td>
-                <td>{{$detalle->producto->peso_neto}}</td>
-                <td>{{$detalle->producto->peso_bruto}}</td>
-                <td>{{$detalle->producto->volumen}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_neto,2)}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->peso_bruto,2)}}</td>
+                <td class="text-right">{{number_format($detalle->cantidad * $detalle->producto->volumen,2)}}</td>
               </tr>
-
             @endforeach
 
               <tr>
                 <td></td>
-                <th>{{$detalle->sum('cantidad')}}</th>
-                <th colspan="3">TOTALES</th>
-                <td>{{$detalle->cantidad}}</td>
-                <td>{{$detalle->cantidad}}</td>
-                <td>{{$detalle->cantidad}}</td>
+                <th class="text-right">{{$guia->detalles->sum('cantidad')}}</th>
+                <th class="text-right" colspan="3">TOTALES :</th>
+                <td class="text-right">{{number_format($guia->peso_neto_total,2,',','.')}}</td>
+                <td class="text-right">{{number_format($guia->peso_bruto_total,2,',','.')}}</td>
+                <td class="text-right">{{number_format($guia->volumen_total,2,',','.')}}</td>
               </tr>
 
           </tbody>

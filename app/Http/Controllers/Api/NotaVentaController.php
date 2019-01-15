@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Log;
 use App\Models\Comercial\NotaVenta;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Log;
 
 class NotaVentaController extends Controller
 {

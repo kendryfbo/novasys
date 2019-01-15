@@ -33,39 +33,39 @@
 			<!-- form-horizontal -->
 			<form  id="pdf" class="form-horizontal" method="post" action="{{route('pdfPackingList')}}">
 
-				{{ csrf_field() }}
+			{{ csrf_field() }}
 
-					<div class="form-group">
+				<div class="form-group">
 
-            <label class="control-label col-lg-1" >Guia N°:</label>
-            <div class="col-lg-2">
-              <input form="import" type="number" class="form-control input-sm" name="guia" placeholder="Numero Guia..." value="{{$guia ? $guia->numero : ''}}" required>
-              <input type="hidden" class="form-control input-sm" name="guia" placeholder="Numero Guia..." value="{{$guia ? $guia->id : ''}}" required>
-            </div>
-
-						<div class="col-lg-1">
-							<button form="import" class="btn btn-sm btn-default" type="submit">Importar</button>
-						</div>
-
+					<label class="control-label col-lg-1" >Guia N°:</label>
+					<div class="col-lg-2">
+						<input form="import" type="number" class="form-control input-sm" name="guia" placeholder="Numero Guia..." value="{{$guia ? $guia->numero : ''}}" required>
+						<input type="hidden" class="form-control input-sm" name="guia" placeholder="Numero Guia..." value="{{$guia ? $guia->id : ''}}" required>
 					</div>
 
-          <div class="form-group">
-
-            <label class="control-label col-lg-1" >Factura N°:</label>
-            <div class="col-lg-2">
-              <input type="number" class="form-control input-sm" name="factura" placeholder="Numero Factura..." value="{{ Input::old('factura') ? Input::old('factura') : '' }}" required>
-            </div>
-
+					<div class="col-lg-1">
+						<button form="import" class="btn btn-sm btn-default" type="submit">Importar</button>
 					</div>
 
-					<div class="form-group">
+				</div>
 
-            <label class="control-label col-lg-1" >Contenedor:</label>
-            <div class="col-lg-2">
-              <input type="number" class="form-control input-sm" name="contenedor" placeholder="Numero Contenedor..." value="{{$guia ? $guia->contenedor : ''}}" readonly required>
-            </div>
+				<div class="form-group">
 
+					<label class="control-label col-lg-1" >Factura N°:</label>
+					<div class="col-lg-2">
+						<input type="number" class="form-control input-sm" name="factura" placeholder="Numero Factura..." value="{{ Input::old('factura') ? Input::old('factura') : '' }}" required>
 					</div>
+
+				</div>
+
+			<div class="form-group">
+
+			<label class="control-label col-lg-1" >Contenedor:</label>
+			<div class="col-lg-2">
+			<input type="text" class="form-control input-sm" name="contenedor" placeholder="Numero Contenedor..." value="{{$guia ? $guia->contenedor : ''}}" readonly required>
+			</div>
+
+			</div>
 
 			</form>
 			<!-- /form-horizontal -->

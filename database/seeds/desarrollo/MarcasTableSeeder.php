@@ -133,7 +133,8 @@ class MarcasTableSeeder extends Seeder
             ['codigo' => 'UP!', 'descripcion' => 'UP! SUPLEMENTO', 'familia_id' => '16', 'iaba' => 0, 'nacional' => 1],
             ['codigo' => 'PRO', 'descripcion' => 'PROM OKY DRINK CS20 1L', 'familia_id' => '11', 'iaba' => 1, 'nacional' => 1],
             ['codigo' => 'PRO', 'descripcion' => 'PROM TURBO LIGHT GEL/FLAN', 'familia_id' => '13', 'iaba' => 0, 'nacional' => 1],
-            ['codigo' => 'PRO', 'descripcion' => 'PROM TURBO FLAN', 'familia_id' => '13', 'iaba' => 0, 'nacional' => 1]
+            ['codigo' => 'PRO', 'descripcion' => 'PROM TURBO FLAN', 'familia_id' => '13', 'iaba' => 0, 'nacional' => 1],
+            ['codigo' => 'THI', 'descripcion' => 'THIRST BLASTER', 'familia_id' => '10', 'iaba' => 0, 'nacional' => 0],
         ];
 
         foreach ($marcas as $marca) {

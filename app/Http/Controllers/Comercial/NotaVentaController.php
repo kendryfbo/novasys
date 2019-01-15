@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use App\Models\Comercial\NotaVenta;
-use App\Models\Comercial\CentroVenta;
-use App\Models\Comercial\ClienteNacional;
-use App\Models\Comercial\FormaPagoNac;
-use App\Models\Comercial\Vendedor;
-use App\Models\Comercial\ListaPrecio;
-
+use PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\NotaVenta;
 use App\Http\Controllers\Controller;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Comercial\ListaPrecio;
+use App\Models\Comercial\FormaPagoNac;
+use App\Events\AuthorizedNotaVentaEvent;
+use App\Models\Comercial\ClienteNacional;
 
 use App\Repositories\Comercial\NotaVenta\NotaVentaRepositoryInterface;
 
@@ -29,7 +31,7 @@ class NotaVentaController extends Controller
      */
     public function index()
     {
-        $notasVentas = NotaVenta::all();
+        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->take(50)->get();
 
         return view('comercial.notasVentas.index')->with(['notasVentas' => $notasVentas]);
     }
@@ -61,12 +63,14 @@ class NotaVentaController extends Controller
     public function store(Request $request)
     {
       $this->validate($request, [
+          //'numero' => 'required',
           'centroVenta' => 'required',
           'fechaEmision' => 'required',
           'fechaDespacho' => 'required',
           'cliente' => 'required',
           'formaPago' => 'required',
           'despacho' => 'required',
+          'direccion' => 'required',
           'vendedor' => 'required',
           'items' => 'required'
       ]);
@@ -75,7 +79,7 @@ class NotaVentaController extends Controller
 
       $msg = "Nota de Venta N° " . $numero . " ha sido Creado.";
 
-      return redirect('comercial\notasVentas')->with(['status' => $msg]);
+      return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     /**
@@ -120,17 +124,12 @@ class NotaVentaController extends Controller
      * @param  \App\Models\NotaVenta  $notaVenta
      * @return \Illuminate\Http\Response
      */
-    public function edit(NotaVenta $notaVenta)
+    public function edit($numero)
     {
-        if ($notaVenta->aut_contab) {
-
-            return redirect()->back();
-        }
-        
-        $notaVenta->load('detalle','cliente.sucursal',
+        $notaVenta = NotaVenta::with('detalle.producto.marca','cliente.sucursal',
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',
-                         'cliente.canal','cliente.formaPago');
+                         'cliente.canal','cliente.formaPago')->where('numero',$numero)->first();
 
         $vendedores = Vendedor::getAllActive();
         $centrosVentas = CentroVenta::getAllActive();
@@ -166,7 +165,7 @@ class NotaVentaController extends Controller
 
       $msg = "Nota de Venta numero: " . $numero . " ha sido Editada.";
 
-      return redirect('comercial\notasVentas')->with(['status' => $msg]);
+      return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     /**
@@ -181,7 +180,7 @@ class NotaVentaController extends Controller
 
         $msg = "Nota de Venta numero: " . $notaVenta->numero . " ha sido Eliminada.";
 
-        return redirect('comercial\notasVentas')->with(['status' => $msg]);
+        return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
     public function authorization()
@@ -194,19 +193,30 @@ class NotaVentaController extends Controller
 
     public function authorizeNotaVenta(NotaVenta $notaVenta)
     {
-        $notaVenta->authorize();
+        $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
+        $notaVenta->authorizeComer();
+        event(new AuthorizedNotaVentaEvent($notaVenta));
 
         $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
 
-        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
+        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
     }
 
     public function unauthorizedNotaVenta(NotaVenta $notaVenta)
     {
-        $notaVenta->unauthorize();
+        $notaVenta->unauthorizeComer();
 
-        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Desautorizada.";
+        $msg = "NotaVenta: " . $notaVenta->numero . " No ha sido autorizada.";
 
-        return redirect('comercial/notasVentas/autorizacion')->with(['status' => $msg]);
+        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
+    }
+
+    public function downloadPDF($numero) {
+
+        $notaVenta = NotaVenta::with('centroVenta','detalles')->where('numero',$numero)->first();
+        $notaVenta->fecha_emision = Carbon::createFromFormat('Y-m-d', $notaVenta->fecha_emision)->format('d/m/Y');
+        $pdf = PDF::loadView('documents.pdf.notaVenta',compact('notaVenta'));
+        return $pdf->stream();
+        return view('documents.pdf.notaVenta')->with(['notaVenta' => $notaVenta]);
     }
 }

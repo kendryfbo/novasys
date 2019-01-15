@@ -18,10 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Rutas Api de Detalles de Formula
+
+// comentadas hasta revision de retro compatibilidad - luego eliminar
+/*
 Route::resource('formulaDetalle','Api\FormulaDetalleController', [
     'only' =>['index','store','show','update','destroy']
 ]);
 
-Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormula');
-Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert');
-Route::post('formulaDetalle/importar', 'Api\FormulaDetalleController@import');
+Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormula')->name('apiObtenerFormula');
+Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert')->name('apiInsertarFormula');
+Route::post('formulaDetalle/importar', 'Api\FormulaDetalleController@import')->name('apiImportarFormula');
+*/

@@ -5,6 +5,7 @@ var app = new Vue ({
 	data: {
 
 		cliente : '',
+		direccion: '',
 		sucursales: [],
 		despacho: '',
 		listaId: '',
@@ -29,6 +30,9 @@ var app = new Vue ({
 		peso_neto: '',
 		peso_bruto: '',
 		volumen: '',
+		cajas: 0,
+		formaPagoID: '',
+		formaPagoDescrip: '',
 		totalPesoNeto: '',
 		totalPesoBruto: '',
 		totalVolumen: '',
@@ -58,12 +62,16 @@ var app = new Vue ({
 
 		loadCliente: function(data) {
 
+			console.log(data);
 			this.sucursales = data.sucursal;
+			this.formaPagoID = data.forma_pago.id;
+			this.formaPagoDescrip = data.forma_pago.descripcion;
 			this.listaId = data.lista_precio.id;
 			this.listaDescrip = data.lista_precio.descripcion;
 			this.listaDetalle = data.lista_precio.detalle;
 			this.canal = data.canal;
 			this.descuento = data.canal.descuento;
+			this.direccion = data.direccion;
 
 		},
 
@@ -71,13 +79,13 @@ var app = new Vue ({
 
 			for (var i=0; i<this.listaDetalle.length; i++) {
 
-				if (this.producto == this.listaDetalle[i].id) {
+				if (this.producto == this.listaDetalle[i].producto_id) {
 
 					var formato = this.listaDetalle[i].producto.formato;
 					this.codigo = this.listaDetalle[i].producto.codigo;
-					this.descripcion = this.listaDetalle[i].descripcion;
-					this.precio = this.listaDetalle[i].precio;
-					this.peso_neto = (formato.sobre * formato.display * formato.peso) / 1000;
+					this.descripcion = this.listaDetalle[i].producto.descripcion;
+					this.precio = Math.round(this.listaDetalle[i].precio);
+					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
 					this.volumen = this.listaDetalle[i].producto.volumen;
 

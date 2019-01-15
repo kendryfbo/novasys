@@ -2,6 +2,7 @@
 
 namespace App\Models\Comercial;
 
+use App\Models\Producto;
 use Illuminate\Database\Eloquent\Model;
 
 class ProformaDetalle extends Model
@@ -13,5 +14,9 @@ class ProformaDetalle extends Model
   public function proforma() {
 
     return $this->belongsTo(Proforma::class);
+  }
+  public function producto() {
+
+    return $this->belongsTo(Producto::class,'producto_id');
   }
 }

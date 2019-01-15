@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Premezcla;
-use App\Models\Familia;
 use App\Models\Marca;
 use App\Models\Sabor;
-use App\Models\Unidad;
+use App\Models\Familia;
+use App\Models\Formato;
+use App\Models\Formula;
 use App\Models\Producto;
+use App\Models\Premezcla;
 
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class PremezclaController extends Controller
      */
     public function index()
     {
-        $premezclas = Premezcla::all();
+        $premezclas = Premezcla::with('familia','marca','sabor','formato')->get();
 
         return view('desarrollo.premezclas.index')->with(['premezclas' => $premezclas]);
     }
@@ -35,24 +36,14 @@ class PremezclaController extends Controller
         $familia = Familia::where('id',1)->first();
         $marcas = Marca::getAllActive();
         $sabores = Sabor::getAllActive();
-        $unidades = Unidad::getAllActive();
+        $formatos = Formato::getAllActive();
 
         return view('desarrollo.premezclas.create')
                 ->with(['familia' => $familia,
                         'marcas' => $marcas,
                         'sabores' => $sabores,
-                        'unidades' => $unidades
+                        'formatos' => $formatos
                     ]);
-    }
-
-    public function createDos()
-    {
-        $marcas = Marca::with('familia')->get();
-        //dd($marcas[0]->familia);
-        $productos = Producto::with('marca.familia:id,descripcion','sabor:id,descripcion')->get();
-
-        return view('desarrollo.premezclas.createDos')
-                ->with(['productos' => $productos]);
     }
 
     /**
@@ -69,7 +60,7 @@ class PremezclaController extends Controller
             'familia' => 'required',
             'marca' => 'required',
             'sabor' => 'required',
-            'unidad' => 'required'
+            'formato' => 'required'
         ]);
         $activo = !empty($request->activo);
 
@@ -79,7 +70,7 @@ class PremezclaController extends Controller
             'familia_id' => $request->familia,
             'marca_id' => $request->marca,
             'sabor_id' => $request->sabor,
-            'unidad_med' => $request->unidad,
+            'formato_id' => $request->formato,
             'activo' => $activo
         ]);
 
@@ -110,14 +101,14 @@ class PremezclaController extends Controller
         $familia = Familia::where('id',1)->first();
         $marcas = Marca::getAllActive();
         $sabores = Sabor::getAllActive();
-        $unidades = Unidad::getAllActive();
+        $formatos = Formato::getAllActive();
 
         return view('desarrollo.premezclas.edit')
                 ->with(['premezcla' => $premezcla,
                         'familia' => $familia,
                         'marcas' => $marcas,
                         'sabores' => $sabores,
-                        'unidades' => $unidades
+                        'formatos' => $formatos,
                     ]);
     }
 
@@ -136,7 +127,7 @@ class PremezclaController extends Controller
             'familia' => 'required',
             'marca' => 'required',
             'sabor' => 'required',
-            'unidad' => 'required'
+            'formato' => 'required'
         ]);
         $activo = !empty($request->activo);
         $premezcla->codigo = $request->codigo;
@@ -144,7 +135,7 @@ class PremezclaController extends Controller
         $premezcla->familia_id = $request->familia;
         $premezcla->marca_id = $request->marca;
         $premezcla->sabor_id = $request->sabor;
-        $premezcla->unidad_med = $request->unidad;
+        $premezcla->formato_id = $request->formato;
         $premezcla->activo = $activo;
         $premezcla->save();
 
@@ -161,12 +152,16 @@ class PremezclaController extends Controller
      */
     public function destroy(Premezcla $premezcla)
     {
+        dd('Por implementar');
+
+        // comentado hasta asegurar integridad - relacion formula Premezcla
+        /*
         Premezcla::destroy($premezcla->id);
 
         $msg = "Premezcla: " . $premezcla->descripcion . " ha sido Eliminada.";
 
         return redirect(route('premezclas'))->with(['status' => $msg]);
-
+        */
     }
 
 }

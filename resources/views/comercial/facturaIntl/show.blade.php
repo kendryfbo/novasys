@@ -15,6 +15,10 @@
 			<form id="download" action="{{route('descargarFacturaIntl',['facturaIntl' => $factura->id])}}" method="get">
 				{{ csrf_field() }}
 			</form>
+			<form id="downloadPDF" action="{{route('descargarFacturaIntlPDF',['id' => $factura->id])}}" method="get">
+			</form>
+			<form id="downloadSIIPDF" action="{{route('descargarFacturaIntlSIIPDF',['id' => $factura->id])}}" method="get">
+			</form>
 			<!-- form -->
 			<form class="form-horizontal"  id="create" method="post" action="">
 
@@ -28,13 +32,15 @@
             <input class="form-control input-sm" type="numero"  min="0" name="numero" value="{{$factura->numero}}" readonly>
           </div>
 
-					<label class="control-label col-lg-1 col-lg-offset-6">Proforma:</label>
+					<label class="control-label col-lg-1 col-lg-offset-5">Proforma:</label>
 					<div class="col-lg-1">
 						<input class="form-control input-sm" type="number" name="proforma" value="{{$factura->proforma}}" readonly>
 					</div>
 
-					<div class="col-lg-1">
-						<button form="download" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i>Descargar</button>
+					<div class="col-lg-3 btn-group">
+						<button form="download" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i> Excel</button>
+						<button form="downloadPDF" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i> Factura PDF</button>
+						<button form="downloadSIIPDF" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i> Factura SII</button>
 					</div>
 
         </div>

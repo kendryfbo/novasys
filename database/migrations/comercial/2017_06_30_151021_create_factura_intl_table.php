@@ -24,6 +24,7 @@ class CreateFacturaIntlTable extends Migration
             $table->date('fecha_emision');
             $table->date('fecha_venc');
             $table->string('direccion');
+            $table->string('despacho');
             $table->string('nota')->nullable();
             $table->string('transporte');
             $table->string('puerto_emb');
@@ -37,7 +38,9 @@ class CreateFacturaIntlTable extends Migration
             $table->double('descuento',10,2);
             $table->double('total',10,2);
             $table->tinyInteger('cancelada')->default(0);
-            $table->integer('user_id')->unsigned(); // FK usuarios
+            $table->integer('user_id')->unsigned(); // FK
+            $table->double('deuda',10,2);             // Asignado para Mod. Finanzas
+            $table->integer('estado_id')->unsigned(); // FK
             $table->timestamps();
         });
 
@@ -45,6 +48,7 @@ class CreateFacturaIntlTable extends Migration
             $table->foreign('cv_id')->references('id')->on('centro_ventas');
             $table->foreign('cliente_id')->references('id')->on('cliente_intl');
             $table->foreign('user_id')->references('id')->on('usuarios');
+            $table->foreign('estado_id')->references('id')->on('status_documento');
         });
     }
 

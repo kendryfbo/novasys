@@ -9,18 +9,19 @@ var app = new Vue({
 		id: '',
 		producto: '',
 		producto_descrip: '',
-		precio:'',
+		precio: '',
 	},
 
 	methods: {
 
 		handleError: function(error) {
+			console.log('load-item');
 			console.log(error);
 			alert(error);
 		},
 
 		insertItem: function() {
-
+			console.log('load-item');
 			var validacion = this.validarDatosItem();
 
 			if (!validacion) {
@@ -32,10 +33,8 @@ var app = new Vue({
 			$url = '/api/listaPreciosDetalle/insertar';
 
 			axios.post($url, {
-				id: this.id,
 				lista: this.lista,
 				producto: this.producto,
-				descripcion: this.producto_descrip,
 				precio: this.precio
 			})
 			.then(response => this.refresh())
@@ -43,10 +42,10 @@ var app = new Vue({
 		},
 
 		validarDatosItem: function() {
-
+			console.log('load-item');
 			var validos = false;
 
-			if ( (this.producto) && (this.precio) && (this.producto_descrip) ) {
+			if ( (this.producto) && (this.precio) ) {
 
 					validos = true;
 			}
@@ -55,6 +54,7 @@ var app = new Vue({
 		},
 
 		loadItem: function(item) {
+			console.log('load-item');
 
 			var items = this.items;
 
@@ -70,6 +70,7 @@ var app = new Vue({
 		},
 
 		clearItemInputs: function() {
+			console.log('load-item');
 			this.id = '';
 			this.producto = '';
 			this.producto_descrip = '';
@@ -77,7 +78,7 @@ var app = new Vue({
 		},
 
 		deleteDetalle: function(item) {
-
+			console.log('load-item');
 			$url = '/api/listaPreciosDetalle/'+ item;
 
 			axios.delete($url)
@@ -86,7 +87,7 @@ var app = new Vue({
 		},
 
 		getDetalle: function() {
-
+			console.log('load-item');
 			$url = '/api/listaPreciosDetalle/' + this.lista;
 
 			axios.get($url)
@@ -95,7 +96,7 @@ var app = new Vue({
 		},
 
 		getDescripcion: function() {
-
+			console.log('load-item');
 			var productos = this.productos;
 
 			for (var i=0; i < productos.length; i++) {
@@ -108,12 +109,12 @@ var app = new Vue({
 		},
 
 		loadDetalle: function(data) {
-
+			console.log('load-item');
 			this.items = data;
 		},
 
 		refresh: function() {
-
+			console.log('load-item');
 			this.getDetalle();
 			this.clearItemInputs();
 		}

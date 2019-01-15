@@ -6,18 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class NotaVenta extends Model
 {
-	protected $fillable = ['numero','cv_id','cliente_id','cond_pago','version','vendedor_id','orden_compra','despacho',
+	protected $fillable = ['numero','cv_id','cliente_id','cond_pago','version','vendedor_id','orden_compra','direccion', 'despacho',
 							'aut_comer','aut_contab','sub_total','descuento','neto','iva','iaba','total',
 							'peso_neto','peso_bruto','volumen','user_id','fecha_emision','fecha_despacho'];
-
-	// protected $events = [
-	// 	'created' => \App\Events\NewNotaVentaEvent::class,
-	// ];
-
-	protected $observables = [
-		'authorized'
-	];
-
 
 	// static Methods
 	static function unauthorized() {
@@ -25,29 +16,63 @@ class NotaVenta extends Model
 		return self::whereNull('aut_comer')->get();
 	}
 
+	static function getAllAuthorizedNotProcessed() {
 
-	// public Methods
-	public function authorize() {
+        return self::where('aut_comer',1)
+                        ->where('aut_contab',1)
+                        ->where('status',1)
+                        ->get();
+    }
+
+	/*
+	| publics Functios
+	*/
+
+	public function authorizeComer() {
 
 		$this->aut_comer = 1;
-		$this->aut_contab = 1; // mientras se implementa FINANZAS
 		$this->save();
-		$this->fireModelEvent('authorized',false);
 	}
 
-	public function unauthorize() {
+	public function unauthorizeComer() {
 
 		$this->aut_comer = 0;
 		$this->status = 0;
 		$this->save();
 	}
-	public function setTitleAttribute($value) {
 
-		dd($value);
+	public function authorizeContab() {
+
+		$this->aut_contab = 1;
+		$this->save();
 	}
 
-	//relations Methods
+	public function unauthorizeContab() {
+
+		$this->aut_contab = 0;
+		$this->save();
+	}
+
+	public function isAuthorized() {
+
+        if ($this->aut_comer && $this->aut_contab) {
+            return true;
+        }
+        return false;
+    }
+
+	/*
+	|
+	|	Relationships
+	|
+	*/
+
+	// duplicado para retro compatibilidad
 	public function detalle() {
+
+		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');
+	}
+	public function detalles() {
 
 		return $this->hasMany('App\Models\Comercial\NotaVentaDetalle','nv_id');
 	}

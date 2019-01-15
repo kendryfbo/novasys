@@ -47,6 +47,11 @@
 							<td class="text-center">{{$factura->forma_pago}}</td>
 							<td class="text-right">{{'US$ ' . number_format($factura->total,2,",",".")}}</td>
 							<td class="text-center">
+								<form style="display: inline" action="{{route('editarFacturaIntl',['numero' => $factura->numero])}}" method="get">
+								<button class="btn btn-sm btn-default" type="submit">
+									<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Editar
+								</button>
+								</form>
 								<form style="display: inline" action="{{url('comercial/FacturaIntl/'.$factura->numero)}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}

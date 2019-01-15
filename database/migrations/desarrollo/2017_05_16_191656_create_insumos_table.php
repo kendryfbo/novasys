@@ -21,6 +21,7 @@ class CreateInsumosTable extends Migration
             $table->string('unidad_med');
             $table->integer('stock_min');
             $table->integer('stock_max');
+            $table->integer('alerta_bod')->nullable();
             $table->tinyInteger('activo');
             $table->timestamps();
         });

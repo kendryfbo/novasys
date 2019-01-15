@@ -4,36 +4,36 @@ namespace App\Models\Comercial;
 
 use DB;
 use App\Models\Comercial\ClienteIntl;
+use App\Models\Comercial\CentroVenta;
+use App\Models\Config\StatusDocumento;
 use App\Models\Comercial\FormaPagoIntl;
 use Illuminate\Database\Eloquent\Model;
 
 class Proforma extends Model
 {
     protected $fillable = [
-        'numero', 'version', 'cv_id', 'centro_venta', 'cliente_id', 'cliente', 'fecha_emision',
-        'semana', 'direccion', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago',
+        'numero', 'version', 'cv_id', 'centro_venta', 'cliente_id', 'fecha_emision',
+        'semana', 'direccion', 'despacho', 'nota', 'transporte', 'puerto_emb', 'puerto_dest', 'forma_pago',
         'clau_venta', 'peso_neto', 'peso_bruto', 'volumen', 'fob', 'freight', 'insurance',
         'cif', 'descuento','total','user_id'
     ];
 
-    public function detalles() {
+    static function getAllUnathorized() {
 
-        return $this->hasMany(ProformaDetalle::class);
+        return self::whereNull('aut_comer')->get();
     }
 
-    public function clienteIntl() {
+    static function getAllAuthorizedNotProcessed() {
 
-        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
-    }
-
-    public function guiaDespacho() {
-
-        return $this->hasOne(GuiaDespacho::class);
+        return self::where('aut_comer',1)
+                        ->where('aut_contab',1)
+                        ->where('status',1)
+                        ->get();
     }
 
     static function register($request) {
 
-        DB::transaction(function () use ($request) {
+        $proforma = DB::transaction(function () use ($request) {
 
     		$totalDescuento = 0;
     		$totalFob = 0;
@@ -43,19 +43,14 @@ class Proforma extends Model
     		$totalPesoBruto = 0;
     		$totalVolumen = 0;
 
-    		$numero = Proforma::orderBy('numero','desc')->pluck('numero')->first();
 
+            $numero = Proforma::orderBy('id','desc')->pluck('numero')->first();
             if (is_null($numero)) {
-
-    			$numero = 1;
-
-    		} else {
-
-    			$numero++;
-    		};
-
-            $version = 1;
-
+                $numero = 1;
+            } else {
+                $numero++;
+            }
+            $version = 0;
 
             $cvId = $request->centroVenta;
             $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
@@ -65,6 +60,7 @@ class Proforma extends Model
             $fechaEmision = $request->emision;
             $semana = $request->semana;
             $direccion = $request->direccion;
+            $despacho = $request->despacho;
             $nota = $request->nota;
             $transporte = $request->transporte;
             $puertoE = $request->puertoE;
@@ -86,6 +82,7 @@ class Proforma extends Model
                 'fecha_emision' => $fechaEmision,
                 'semana' => $semana,
     			'direccion' => $direccion,
+    			'despacho' => $despacho,
                 'nota' => $nota,
     			'transporte' => $transporte,
                 'puerto_emb' => $puertoE,
@@ -119,17 +116,15 @@ class Proforma extends Model
     			}
 
     			$item = json_decode($item);
-
     			$id = $item->producto_id;
     			$codigo = $item->codigo;
     			$descripcion = $item->descripcion;
     			$cantidad = $item->cantidad;
     			$precio = $item->precio;
     			$porcDesc = $item->descuento;
-    			$pesoNeto = $item->peso_neto;
-    			$pesoBruto = $item->peso_bruto;
-    			$volumen = $item->volumen;
-
+    			$pesoNeto = $item->peso_neto * $item->cantidad;
+    			$pesoBruto = $item->peso_bruto * $item->cantidad;
+    			$volumen = $item->volumen * $item->cantidad;
     			$subTotal = $cantidad * $precio;
     			$descuento = ($subTotal * $porcDesc) / 100;
 
@@ -172,14 +167,15 @@ class Proforma extends Model
 
     		$proforma->save();
 
+            return $proforma;
     	}, 5);
 
-    	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
+        return $proforma;
       }
 
       static function edit($request,$proforma) {
 
-          DB::transaction(function () use ($request,$proforma) {
+          $proforma = DB::transaction(function () use ($request,$proforma) {
 
       		$totalDescuento = 0;
       		$totalFob = 0;
@@ -191,9 +187,6 @@ class Proforma extends Model
 
             $proforma = Proforma::where('numero',$proforma)->first();
 
-            $version = $proforma->version + 1;
-
-
             $cvId = $request->centroVenta;
             $cvDescrip = CentroVenta::where('id',$cvId)->pluck('descripcion')->first();
 
@@ -203,6 +196,7 @@ class Proforma extends Model
             $fechaEmision = $request->emision;
             $semana = $request->semana;
             $direccion = $request->direccion;
+            $despacho = $request->despacho;
             $nota = $request->nota;
             $transporte = $request->transporte;
             $puertoE = $request->puertoE;
@@ -214,14 +208,15 @@ class Proforma extends Model
             $freight = $request->freight;
             $insurance = $request->insurance;
 
-            $proforma->version = $version;
+            $totalAnt = $proforma->total; // total anterior
+
             $proforma->cv_id = $cvId;
             $proforma->centro_venta = $cvDescrip;
             $proforma->cliente_id = $clienteId;
-            $proforma->cliente = $clienteDescrip;
             $proforma->fecha_emision = $fechaEmision;
             $proforma->semana = $semana;
             $proforma->direccion = $direccion;
+            $proforma->despacho = $despacho;
             $proforma->nota = $nota;
             $proforma->transporte = $transporte;
             $proforma->puerto_emb = $puertoE;
@@ -263,9 +258,9 @@ class Proforma extends Model
       			$cantidad = $item->cantidad;
       			$precio = $item->precio;
       			$porcDesc = $item->descuento;
-      			$pesoNeto = $item->peso_neto;
-      			$pesoBruto = $item->peso_bruto;
-      			$volumen = $item->volumen;
+      			$pesoNeto = $item->peso_neto * $item->cantidad;
+      			$pesoBruto = $item->peso_bruto * $item->cantidad;
+      			$volumen = $item->volumen * $item->cantidad;
 
       			$subTotal = $cantidad * $precio;
       			$descuento = ($subTotal * $porcDesc) / 100;
@@ -302,6 +297,11 @@ class Proforma extends Model
 
             $total = $totalFob + $freight + $insurance;
 
+            if ($total > $totalAnt) {
+                $proforma->aut_contab = null;
+            }
+
+            $proforma->aut_comer = null;
             $proforma->descuento = $totalDescuento;
             $proforma->fob = $totalFob;
             $proforma->total = $total;
@@ -311,30 +311,83 @@ class Proforma extends Model
 
             $proforma->save();
 
+            return $proforma;
       	}, 5);
 
-      	return Proforma::orderBy('numero','desc')->pluck('numero')->first();
+      	return $proforma;
     }
 
-    static function getAllUnathorized() {
+    /*
+    |   Public functions
+    */
 
-        return self::whereNull('aut_comer')->get();
-    }
-
-    public function authorize() {
+    public function authorizeComer() {
 
         $this->aut_comer = 1;
-        $this->aut_contab = 1; // Temporal hasta implementacion de Modulo de Finanzas
+        $this->version = $this->version + 1;
 
         $this->save();
-
     }
 
-    public function unauthorize() {
+    public function authorizeContab() {
 
-        $this->aut_comer = 0;
-        $this->aut_contab = 0; // Temporal hasta implementacion de Modulo de Finanzas
+        $this->aut_contab = 1;
 
         $this->save();
+    }
+
+    public function unauthorizeComer() {
+
+        $this->aut_comer = 0;
+
+        $this->save();
+    }
+    public function unauthorizeContab() {
+
+        $this->aut_contab = 0;
+
+        $this->save();
+    }
+
+    public function isAuthorized() {
+
+        if ($this->aut_comer && $this->aut_contab) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    |
+    |  Relationships
+    |
+    */
+
+    public function detalles() {
+
+        return $this->hasMany(ProformaDetalle::class);
+    }
+    // same as cliente
+    public function clienteIntl() {
+
+        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
+    }
+    // same as clienteIntl
+    public function cliente() {
+
+        return $this->belongsTo(ClienteIntl::class, 'cliente_id');
+    }
+
+    public function guiaDespacho() {
+
+        return $this->hasOne(GuiaDespacho::class);
+    }
+    public function centroVenta() {
+
+        return $this->belongsTo(CentroVenta::class, 'cv_id');
+    }
+    public function status() {
+
+        return $this->belongsTo(StatusDocumento::class, 'status');
     }
 }

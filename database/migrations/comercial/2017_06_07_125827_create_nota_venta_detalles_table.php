@@ -30,7 +30,8 @@ class CreateNotaVentaDetallesTable extends Migration
         });
 
         Schema::table('nota_venta_detalles', function (Blueprint $table) {
-            $table->foreign('nv_id')->references('id')->on('nota_ventas')->onDelete('cascade');
+            $table->foreign('nv_id')->references('id')->on('nota_ventas')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade');
         });
     }
 

@@ -76,7 +76,7 @@
           <label class="control-label col-lg-1">Cliente:</label>
           <div class="col-lg-4">
             <select class="selectpicker" data-width="400" data-live-search="true" data-style="btn-sm btn-default" name="cliente" required disabled>
-							<option value="{{$proforma->cliente_id}}">{{$proforma->cliente}}</option>
+							<option value="{{$proforma->cliente_id}}">{{$proforma->clienteIntl->descripcion}}</option>
             </select>
           </div>
 

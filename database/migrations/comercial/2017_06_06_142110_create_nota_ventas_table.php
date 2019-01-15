@@ -19,16 +19,17 @@ class CreateNotaVentasTable extends Migration
             $table->integer('cv_id')->unsigned();
             $table->integer('cliente_id')->unsigned();
             $table->string('orden_compra')->nullable();
+            $table->string('direccion');
             $table->string('despacho');
             $table->string('cond_pago');
             $table->integer('version');
             $table->integer('vendedor_id')->unsigned();
-            $table->integer('sub_total',10,2);
-            $table->integer('descuento',10,2);
-            $table->integer('neto',10,2);
-            $table->integer('iva',10,2);
-            $table->integer('iaba',10,2);
-            $table->integer('total',10,2);
+            $table->integer('sub_total');
+            $table->integer('descuento');
+            $table->integer('neto');
+            $table->integer('iva');
+            $table->integer('iaba');
+            $table->integer('total');
             $table->decimal('peso_neto',10,2);
             $table->decimal('peso_bruto',10,2);
             $table->decimal('volumen',10,2);
@@ -37,8 +38,9 @@ class CreateNotaVentasTable extends Migration
             $table->date('fecha_despacho');
             $table->tinyInteger('aut_comer')->nullable();
             $table->tinyInteger('aut_contab')->nullable();
-            $table->TinyInteger('status')->default(1);
+            $table->TinyInteger('status_id')->default(1);
             $table->integer('factura')->nullable();
+            $table->integer('user_id')->unsigned(); // FK usuarios
             $table->timestamps();
         });
 
@@ -46,6 +48,7 @@ class CreateNotaVentasTable extends Migration
             $table->foreign('cv_id')->references('id')->on('centro_ventas');
             $table->foreign('cliente_id')->references('id')->on('cliente_nacional');
             $table->foreign('vendedor_id')->references('id')->on('vendedores');
+            $table->foreign('user_id')->references('id')->on('usuarios');
         });
     }
 

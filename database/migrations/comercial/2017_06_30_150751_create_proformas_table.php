@@ -20,10 +20,10 @@ class CreateProformasTable extends Migration
             $table->integer('cv_id')->unsigned(); // FK
             $table->string('centro_venta');
             $table->integer('cliente_id')->unsigned(); // FK
-            $table->string('cliente');
             $table->date('fecha_emision');
             $table->integer('semana');
             $table->string('direccion');
+            $table->string('despacho');
             $table->string('nota')->nullable();
             $table->string('transporte');
             $table->string('puerto_emb');
@@ -41,7 +41,7 @@ class CreateProformasTable extends Migration
             $table->double('total',10,2);
             $table->tinyInteger('aut_comer')->nullable();
             $table->tinyInteger('aut_contab')->nullable();
-            $table->TinyInteger('status')->default(1);
+            $table->TinyInteger('status_id')->default(1);
             $table->integer('factura')->nullable();
             $table->integer('user_id')->unsigned(); // FK usuarios
             $table->timestamps();

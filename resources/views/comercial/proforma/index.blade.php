@@ -30,7 +30,7 @@
 						<th class="text-center">Centro Venta</th>
 						<th class="text-center">Cliente</th>
 						<th class="text-center">Clausula</th>
-						<th class="text-center">Condicion Pago</th>
+						<th class="text-center">Pais</th>
 						<th class="text-center">Total</th>
 						<th class="text-center">Aut.Comer</th>
 						<th class="text-center">Aut.Finanzas</th>
@@ -44,9 +44,9 @@
 							<td class="text-center"><a href="{{url('comercial/proformas/'.$proforma->numero)}}" target="_blank"><strong>{{$proforma->numero}}</strong></a></td>
 							<td class="text-center">{{$proforma->fecha_emision}}</td>
 							<td class="text-center">{{$proforma->centro_venta}}</td>
-							<td>{{$proforma->cliente}}</td>
+							<td>{{$proforma->cliente->descripcion}}</td>
 							<td class="text-center">{{$proforma->clau_venta}}</td>
-							<td class="text-center">{{$proforma->forma_pago}}</td>
+							<td class="text-center">{{$proforma->cliente->pais->nombre}}</td>
 							<td class="text-right">{{'US$ ' . number_format($proforma->total,2,",",".")}}</td>
 							<td class="text-center ">
 								@if (is_null($proforma->aut_comer))
@@ -67,13 +67,13 @@
 								@endif
 							</td>
 							<td class="text-center">
-							@if (!$proforma->aut_contab)
 								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero.'/editar')}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o fa-sm" aria-hidden="true"></i>Editar
 									</button>
 								</form>
-								<form style="display: inline" action="{{url('comercial/proformas/'.$proforma->numero)}}" method="post">
+							@if (!$proforma->aut_contab)
+								<form style="display: inline" action="{{route('eliminarProforma',['proforma' => $proforma->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm btn-default" type="submit">

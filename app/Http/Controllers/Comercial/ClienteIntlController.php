@@ -21,7 +21,7 @@ class ClienteIntlController extends Controller
      */
     public function index()
     {
-      $clientes = ClienteIntl::all();
+      $clientes = ClienteIntl::with('pais')->get();
 
       return view('comercial.clientesIntl.index')->with(['clientes' => $clientes]);
     }
@@ -58,7 +58,7 @@ class ClienteIntlController extends Controller
       $this->validate($request, [
         'descripcion' => 'required',
         'direccion' => 'required',
-        'pais' => 'required',
+        'pais_id' => 'required',
         'zona' => 'required',
         'idioma' => 'required',
         'fono' => 'required',
@@ -75,7 +75,7 @@ class ClienteIntlController extends Controller
       $cliente = ClienteIntl::create([
         'descripcion' => $request->descripcion,
         'direccion' => $request->direccion,
-        'pais' => $request->pais,
+        'pais_id' => $request->pais_id,
         'zona' => $request->zona,
         'idioma' => $request->idioma,
         'fono' => $request->fono,
@@ -139,7 +139,7 @@ class ClienteIntlController extends Controller
         $this->validate($request, [
           'descripcion' => 'required',
           'direccion' => 'required',
-          'pais' => 'required',
+          'pais_id' => 'required',
           'zona' => 'required',
           'idioma' => 'required',
           'fono' => 'required',
@@ -155,7 +155,7 @@ class ClienteIntlController extends Controller
 
         $clienteIntl->descripcion = $request->descripcion;
         $clienteIntl->direccion = $request->direccion;
-        $clienteIntl->pais = $request->pais;
+        $clienteIntl->pais_id = $request->pais_id;
         $clienteIntl->zona = $request->zona;
         $clienteIntl->idioma = $request->idioma;
         $clienteIntl->fono = $request->fono;

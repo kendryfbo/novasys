@@ -11,7 +11,7 @@ class Sabor extends Model
 
 	static function getAllActive() {
 
-		return Sabor::all()->where('activo',1);
+		return self::where('activo',1)->get();
 	}
 
 	public function producto() {

@@ -1,4 +1,5 @@
 <?php
+use Faker\Provider\Uuid;
 
 return [
 
@@ -180,9 +181,11 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         // Excel Service Provider
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        // BackEnd Service Provider
+        App\Providers\BackEndServiceProvider::class,
+        // BarCode Service Provider
+        Milon\Barcode\BarcodeServiceProvider::class,
 
-        // BackEnd Service PRovider
-        App\Providers\BackEndServiceProvider::class
     ],
 
     /*
@@ -233,7 +236,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];

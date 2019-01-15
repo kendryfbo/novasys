@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
+use Excel;
 use App\Models\Marca;
-use App\Models\Formato;
 use App\Models\Sabor;
+use App\Models\Insumo;
+use App\Models\Formato;
+use App\Models\Formula;
+use App\Models\Producto;
 
 use Illuminate\Http\Request;
 
@@ -32,6 +35,7 @@ class ProductoController extends Controller
         $marcas = Marca::getAllActive();
         $formatos = Formato::getAllActive();
         $sabores = Sabor::getAllActive();
+
         return view('desarrollo.productos.create')
                 ->with([
                     'marcas' => $marcas,
@@ -86,9 +90,65 @@ class ProductoController extends Controller
      * @param  \App\Models\Producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function show(Producto $producto)
+    public function show($codigo)
     {
-        //
+        $producto = Producto::with('formula.detalle.insumo')->where('codigo',$codigo)->first();
+        $formula = $producto->formula;
+
+        if ($formula) {
+
+            //API to obtain daily dollar's value
+            $xmlIndicadores = "http://indicadoresdeldia.cl/webservice/indicadores.xml";
+            $xml = simplexml_load_file($xmlIndicadores);
+
+            $dollar = $xml->moneda->dolar;
+            $totalPrecio = 0;
+            $totalxuni = 0;
+            $totalxcaja = 0;
+            $totalxbatch = 0;
+
+            foreach ($formula->detalle as &$detalle) {
+
+
+                $lastPrice = Insumo::getLastPriceOfInsumo($detalle->insumo_id);
+
+                if (!$lastPrice) { // no se ha comprado
+                    $lastPrice = 0;
+                } else if ($lastPrice[0]->moneda_id == 1) { // moneda en pesos
+
+                    $lastPrice = $lastPrice[0]->precio / $dollar;
+                } else {
+                    $lastPrice = $lastPrice[0]->precio;
+                }
+                $precioxuni = $lastPrice * $detalle->cantxuni;
+                $precioxcaja = $lastPrice * $detalle->cantxcaja;
+                $precioxbatch = $lastPrice * $detalle->cantxbatch;
+                $detalle->precio = $lastPrice;
+                $detalle->precioxuni = $precioxuni;
+                $detalle->precioxcaja = $precioxcaja;
+                $detalle->precioxbatch = $precioxbatch;
+                $totalPrecio += $detalle->precio;
+                $totalxuni += $precioxuni;
+                $totalxcaja += $precioxcaja;
+                $totalxbatch += $precioxbatch;
+            }
+
+            $formula->detalle->totalPrecio = $totalPrecio;
+            $formula->detalle->totalxuni = $totalxuni;
+            $formula->detalle->totalxcaja = $totalxcaja;
+            $formula->detalle->totalxbatch = $totalxbatch;
+            $detallesCosto = $formula->detalle;
+        } else {
+            $detallesCosto = null;
+        }
+
+        return view('desarrollo.productos.show')->with(['producto' => $producto, 'detallesCosto' => $detallesCosto]);
+        return Excel::create('Reporte Costo Producto', function($excel) use ($formula) {
+            $excel->sheet('New sheet', function($sheet) use ($formula) {
+                $sheet->loadView('documents.excel.reportCostoFormula')
+                        ->with('formula', $formula);
+                            })->download('xlsx');
+                        });
     }
 
     /**
@@ -99,6 +159,7 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
+        //dd('DESHABILITADO TEMPORALMENTE');
         $marcas = Marca::getAllActive();
         $formatos = Formato::getAllActive();
         $sabores = Sabor::getAllActive();
@@ -118,6 +179,7 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
+        //dd('DESHABILITADO TEMPORALMENTE');
         $this->validate($request,[
             'codigo' => 'required',
             'descripcion' => 'required',
@@ -158,6 +220,7 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
+        dd('DESHABILITADO TEMPORALMENTE');
         Producto::destroy($producto->id);
 
         $msg = "Producto: " . $producto->descripcion . " ha sido Eliminado.";
@@ -175,5 +238,65 @@ class ProductoController extends Controller
             return $producto->formato()->find(1);
         }
         return ('error');
+    }
+
+    public function downloadExcel($id) {
+
+        $producto = Producto::with('formula.detalle.insumo')->where('id',$id)->first();
+        $formula = $producto->formula;
+
+        if ($formula) {
+
+            //API to obtain daily dollar's value
+            $xmlIndicadores = "http://indicadoresdeldia.cl/webservice/indicadores.xml";
+            $xml = simplexml_load_file($xmlIndicadores);
+
+            $dollar = $xml->moneda->dolar;
+            $totalPrecio = 0;
+            $totalxuni = 0;
+            $totalxcaja = 0;
+            $totalxbatch = 0;
+
+            foreach ($formula->detalle as &$detalle) {
+
+
+                $lastPrice = Insumo::getLastPriceOfInsumo($detalle->insumo_id);
+
+                if (!$lastPrice) { // no se ha comprado
+                    $lastPrice = 0;
+                } else if ($lastPrice[0]->moneda_id == 1) { // moneda en pesos
+
+                    $lastPrice = $lastPrice[0]->precio / $dollar;
+                } else {
+                    $lastPrice = $lastPrice[0]->precio;
+                }
+                $precioxuni = $lastPrice * $detalle->cantxuni;
+                $precioxcaja = $lastPrice * $detalle->cantxcaja;
+                $precioxbatch = $lastPrice * $detalle->cantxbatch;
+                $detalle->precio = $lastPrice;
+                $detalle->precioxuni = $precioxuni;
+                $detalle->precioxcaja = $precioxcaja;
+                $detalle->precioxbatch = $precioxbatch;
+                $totalPrecio += $detalle->precio;
+                $totalxuni += $precioxuni;
+                $totalxcaja += $precioxcaja;
+                $totalxbatch += $precioxbatch;
+            }
+
+            $formula->detalle->totalPrecio = $totalPrecio;
+            $formula->detalle->totalxuni = $totalxuni;
+            $formula->detalle->totalxcaja = $totalxcaja;
+            $formula->detalle->totalxbatch = $totalxbatch;
+            $detallesCosto = $formula->detalle;
+        } else {
+            $detallesCosto = null;
+        }
+
+        return Excel::create('Costo Elaboracion '.$producto->descripcion, function($excel) use ($detallesCosto) {
+            $excel->sheet('New sheet', function($sheet) use ($detallesCosto) {
+                $sheet->loadView('documents.excel.reportCostoFormula')
+                        ->with('detallesCosto', $detallesCosto);
+                            })->download('xlsx');
+                        });
     }
 }

@@ -29,8 +29,7 @@
 				</div>
 			@endif
 
-			<div class="form-group">
-
+		<div class="form-group">
         <label for="inputDescripcion" class="col-sm-2 control-label" >Descripcion:</label>
         <div class="col-sm-8">
           <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Nombre de la Marca..." value="{{Input::old('descripcion')}}" required>

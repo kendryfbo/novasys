@@ -109,6 +109,7 @@ class SaboresTableSeeder extends Seeder
             ['descripcion' => 'Surtido (Caso S)', 'descrip_ing' => 'assortment (Case S)', 'activo' => 1],
             ['descripcion' => 'Surtido (Caso T)', 'descrip_ing' => 'Assortment (Case T)', 'activo' => 1],
             ['descripcion' => 'Surtido (Caso F)', 'descrip_ing' => 'Assortment (Case F)', 'activo' => 1],
+            ['descripcion' => 'Guaraná', 'descrip_ing' => 'Guarana', 'activo' => 1],
         ];
 
         foreach ($sabores as $sabor) {

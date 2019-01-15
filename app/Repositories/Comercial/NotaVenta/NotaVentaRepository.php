@@ -31,14 +31,12 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$totalVolumen = 0;
 
 			$numero = NotaVenta::orderBy('numero','desc')->pluck('numero')->first();
+
 			if (is_null($numero)) {
-
 				$numero = 1;
-
 			} else {
-
 				$numero++;
-			};
+			}
 
 			$centroVenta = $request->centroVenta;
 			$cliente = $request->cliente;
@@ -46,6 +44,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$version = $request->version ? $request->version : 1;
 			$vendedor = $request->vendedor;
 			$ordenCompra = $request->orden_compra;
+			$direccion = $request->direccion;
 			$despacho = $request->despacho;
 			$user = $request->user()->id;
 			$fechaEmision = $request->fechaEmision;
@@ -59,6 +58,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				'version' => $version,
 				'vendedor_id' => $vendedor,
 				'orden_compra' => $ordenCompra,
+				'direccion' => $direccion,
 				'despacho' => $despacho,
 				'sub_total' => $totalSubTotal,
 				'descuento' => $totalDescuento,
@@ -94,9 +94,9 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				$cantidad = $item->cantidad;
 				$precio = $item->precio;
 				$porcDesc = $item->descuento;
-				$pesoNeto = $item->peso_neto;
-				$pesoBruto = $item->peso_bruto;
-				$volumen = $item->volumen;
+				$pesoNeto = $item->peso_neto * $item->cantidad;
+				$pesoBruto = $item->peso_bruto * $item->cantidad;
+				$volumen = $item->volumen * $item->cantidad;
 
 				$subTotal = $cantidad * $precio;
 				$descuento = ($subTotal * $porcDesc) / 100;
@@ -175,6 +175,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 
 			$nv = $notaVenta->id;
 			$items =  $request->items;
+			$totalAnt = $notaVenta->total;
 			$i = 0;
 
 			foreach ($items as $item) {
@@ -193,9 +194,9 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				$cantidad = $item->cantidad;
 				$precio = $item->precio;
 				$porcDesc = $item->descuento;
-				$pesoNeto = 0; // Corregir error -> no se esta recibiendo este dato = $item->peso_neto;
-				$pesoBruto = 0; // Corregir error -> no se esta recibiendo este dato = $item->peso_bruto;
-				$volumen = 0; // Corregir error -> no se esta recibiendo este dato = $item->volumen;
+				$pesoNeto = $item->peso_neto * $item->cantidad;
+				$pesoBruto = $item->peso_bruto * $item->cantidad;
+				$volumen = $item->volumen * $item->cantidad;
 
 				$subTotal = $cantidad * $precio;
 				$descuento = ($subTotal * $porcDesc) / 100;
@@ -203,15 +204,10 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 				$iva = ($neto * $this->iva) / 100;
 				$iaba = 0;
 
-				// corregir Error -> No se esta recibiendo este dato = $item->iaba
-				// if($item->iaba) {
-				if(false) {
+			 	if($item->iaba) {
 					$iaba = ($neto * $this->iaba) / 100;
-
 				} else {
-
 					$iaba = 0;
-
 				}
 
 				$detalleNV[] = [
@@ -243,6 +239,7 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$notaVenta->vendedor_id = $request->vendedor;
 			$notaVenta->orden_compra = $request->orden_compra;
 			$notaVenta->despacho = $request->despacho;
+			$notaVenta->direccion = $request->direccion;
 			$notaVenta->user_id = $request->user()->id;
 			$notaVenta->fecha_emision = $request->fechaEmision;
 			$notaVenta->fecha_despacho = $request->fechaDespacho;
@@ -255,6 +252,10 @@ class NotaVentaRepository implements NotaVentaRepositoryInterface {
 			$notaVenta->peso_neto = $totalPesoNeto;
 			$notaVenta->peso_bruto = $totalPesoBruto;
 			$notaVenta->volumen = $totalVolumen;
+
+			if ($total > $totalAnt) {
+				$notaVenta->aut_contab = null;
+			}
 
 			$notaVenta->save();
 

@@ -31,7 +31,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{url('comercial/notasVentas')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
+                <li><a href="{{url('comercial/notaVenta')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
                 <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturacion</span></a></li>
                 <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Credito</span></a></li>
                 <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
@@ -45,11 +45,12 @@
               </span>
             </a>
             <ul class="treeview-menu">
+                <li><a href="{{route('verInformeNotaVenta')}}"><i class=""></i> <span>Informe X N.V</span></a></li>
                 <li><a href="{{url('comercial/informesNac/facturaNac')}}"><i class=""></i> <span>Informe X Fact</span></a></li>
                 <li><a href="{{url('comercial/informesNac/facturaNacProd')}}"><i class=""></i> <span>Informe X Prod</span></a></li>
             </ul>
           </li>
-          <li><a href="{{url('comercial/notasVentas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
+          <li><a href="{{route('autNotaVenta')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Venta</span></a></li>
           <li><a href="{{url('comercial/notasCreditoNac/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Nota Credito</span></a></li>
       </ul>
     </li>
@@ -96,7 +97,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-                {{--<li><a href="{{url('comercial/informesIntl/proformas')}}"><i class=""></i> <span>Proforma</span></a></li>--}}
+                <li><a href="{{route('verInformeProforma')}}"><i class=""></i> <span>Informe X Proforma</span></a></li>
                 <li><a href="{{url('comercial/informesIntl/facturaIntl')}}"><i class=""></i> <span>Informe X Factura</span></a></li>
                 <li><a href="{{url('comercial/informesIntl/facturaIntlProd')}}"><i class=""></i> <span>Informe X Producto</span></a></li>
           </li>

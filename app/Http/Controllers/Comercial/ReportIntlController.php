@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Producto;
+use App\Models\Marca;
+use App\Models\Formato;
+use App\Models\Sabor;
 use App\Models\Comercial\Pais;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\ClienteIntl;
@@ -44,9 +47,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -59,12 +62,12 @@ class ReportIntlController extends Controller
             };
 
             $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-            $facturas = FacturaIntl::whereIn('cliente_id',$clientes)->where($queryDates)->take(5000)->get();
+            $facturas = FacturaIntl::whereIn('cliente_id',$clientes)->where($queryDates)->get();
         }
 
-        $paises = Pais::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
-
+        $paises = Pais::has('clientesIntls')->get();
+        $clientes = ClienteIntl::has('facturasIntls')->get();
+        //dd($busqueda->all());
         return view('comercial.reportesIntl.reportFactIntl')
                 ->with([
                     'busqueda' => $busqueda,
@@ -86,9 +89,12 @@ class ReportIntlController extends Controller
 
             $deste = $request->desde;
             $hasta = $request->hasta;
-            $pais = $request->pais;
+            $pais = $request->pais_id;
             $cliente = $request->cliente;
             $producto = $request->producto;
+            $marca = $request->marca;
+            $formato = $request->formato;
+            $sabor = $request->sabor;
             $group = $request->group;
 
             $queryDates = [];
@@ -109,9 +115,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -129,6 +135,36 @@ class ReportIntlController extends Controller
 
                 array_push($queryProductos,$producto);
             };
+
+            if ($request->marca) {
+
+                $marca = ['descripcion', 'like', '%'.$request->marca.'%'];
+
+                array_push($queryProductos,$marca);
+            };
+
+            if ($request->marca) {
+
+                $marca = ['descripcion', 'like', '%'.$request->marca.'%'];
+
+                array_push($queryProductos,$marca);
+            };
+
+            if ($request->formato) {
+
+                $formato = ['descripcion', 'like', '%'.$request->formato.'%'];
+
+                array_push($queryProductos,$formato);
+            };
+
+            if ($request->sabor) {
+
+                $sabor = ['descripcion', 'like', '%'.$request->sabor.'%'];
+
+                array_push($queryProductos,$sabor);
+            };
+
+
 
 
             $clientes = ClienteIntl::where($queryClientes)->pluck('id');
@@ -158,9 +194,12 @@ class ReportIntlController extends Controller
 
         }
 
-        $paises = Pais::getAllActive();
-        $clientes = ClienteIntl::getAllActive();
+        $paises = Pais::has('clientesIntls')->get();
+        $clientes = ClienteIntl::has('facturasIntls')->get();
         $productos = Producto::getAllActive();
+        $marcas = Marca::getAllActive();
+        $formatos = Formato::getAllActive();
+        $sabores = Sabor::getAllActive();
 
         return view('comercial.reportesIntl.reportProdFactIntl')
                 ->with([
@@ -168,7 +207,10 @@ class ReportIntlController extends Controller
                     'detalles' => $detalles,
                     'paises' => $paises,
                     'clientes' => $clientes,
-                    'productos' => $productos
+                    'productos' => $productos,
+                    'marcas' => $marcas,
+                    'formatos' => $formatos,
+                    'sabores' => $sabores
                 ]);
     }
 
@@ -197,9 +239,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -233,7 +275,7 @@ class ReportIntlController extends Controller
 
             $deste = $request->desde;
             $hasta = $request->hasta;
-            $pais = $request->pais;
+            $pais = $request->pais_id;
             $cliente = $request->cliente;
             $producto = $request->producto;
             $group = $request->group;
@@ -256,9 +298,9 @@ class ReportIntlController extends Controller
                 array_push($queryDates,$hasta);
             };
 
-            if ($request->pais) {
+            if ($request->pais_id) {
 
-                $pais = ['pais', '=', $request->pais];
+                $pais = ['pais_id', '=', $request->pais_id];
 
                 array_push($queryClientes,$pais);
             };
@@ -272,7 +314,7 @@ class ReportIntlController extends Controller
 
             if ($request->producto) {
 
-                $producto = ['producto_id', '=', $request->producto];
+                $producto = ['descripcion', 'like', '%'.$request->producto.'%'];
 
                 array_push($queryProductos,$producto);
             };
@@ -313,4 +355,69 @@ class ReportIntlController extends Controller
         });
     }
 
+    /*
+    | Work in Progress
+    */
+
+    public function reportProforma(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $proformas = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+        if ($arrayQuery) {
+            $proformas = Proforma::with('cliente')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        $clientes = ClienteIntl::whereHas('proformas')->get();
+
+        return view('comercial.reportesIntl.indexProforma')->with([
+            'cliente' => $cliente,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'clientes' => $clientes,
+            'proformas' => $proformas]);
+    }
+
+    public function downloadExcelProforma(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $arrayQuery = [];
+        $proformas = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+        if ($arrayQuery) {
+            $proformas = Proforma::with('cliente')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        $clientes = ClienteIntl::whereHas('proformas')->get();
+
+        return Excel::create('Reporte X Proformas', function($excel) use ($proformas) {
+            $excel->sheet('New sheet', function($sheet) use ($proformas) {
+                $sheet->loadView('documents.excel.reportProforma')
+                    ->with('proformas', $proformas);
+                        })->download('xlsx');
+        });
+    }
 }

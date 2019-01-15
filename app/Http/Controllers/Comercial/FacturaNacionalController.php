@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Comercial;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Config;
+use Excel;
+use Carbon\Carbon;
 use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\FormaPagoNac;
@@ -30,7 +33,7 @@ class FacturaNacionalController extends Controller
      */
     public function index()
     {
-        $facturas = FacturaNacional::orderBy('numero')->take(20)->get();
+        $facturas = FacturaNacional::orderBy('created_at','desc')->get();
 
         return view('comercial.facturasNacionales.index')->with(['facturas' => $facturas]);
     }
@@ -63,19 +66,20 @@ class FacturaNacionalController extends Controller
             'centroVenta:id,descripcion',
             'cliente.formaPago',
             'vendedor:id,nombre',
-            'detalle')->where('numero',$numNV)
-                        ->where('aut_comer',1)
-                        ->where('aut_contab',1)
-                        ->whereNull('factura')
-                        ->first();
+            'detalle')->where('numero',$numNV)->first();
 
-        if ($notaVenta) {
+        if ($notaVenta->factura) {
 
-            return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
-        } else {
+            $msg = 'Nota de Venta ya se encuentra asociada a Factura Nº'. $notaVenta->factura .'.';
+            return redirect()->back()->with('status',$msg);
 
-            return redirect()->back();
+        } else if (!$notaVenta->isAuthorized()) {
+
+            $msg = 'Nota de Venta no se encuentra Autorizada.';
+            return redirect()->back()->with('status',$msg);
         }
+
+        return view('comercial.facturasNacionales.createFromNV')->with(['notaVenta' => $notaVenta]);
     }
 
     /**
@@ -86,21 +90,17 @@ class FacturaNacionalController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request, [
-            //dd($request->all());
             'centroVenta' => 'required',
             'numero' => 'required',
             'fechaEmision' => 'required',
             //'fechaVenc' => 'required',
             'cliente' => 'required',
+            'direccion' => 'required',
             'formaPago' => 'required',
-            'diasFormaPago' => 'required',
             'despacho' => 'required',
             'vendedor' => 'required',
-            //'items' => 'required',
-            // 'items.*.id' => 'required',
-            // 'items.*.descripcion' => 'required|string'
+            'items' => 'required',
         ]);
 
         $this->facturaNacional->register($request);
@@ -123,6 +123,12 @@ class FacturaNacionalController extends Controller
             'despacho' => 'required',
             'vendedor' => 'required'
         ]);
+
+        if (FacturaNacional::where('numero',$request->numero)->first()) {
+
+            $msg = 'Numero de Factura ya existe.';
+            return redirect()->route('factNac')->with(['status' => $msg]);
+        }
 
         $date = new Carbon($request->fechaEmision);
         $date->addDays($request->diasFormaPago);
@@ -185,6 +191,46 @@ class FacturaNacionalController extends Controller
         $msg = "Factura: " . $factura->numero . " ha sido Eliminada.";
 
         return redirect()->route('factNac')->with(['status' => $msg]);
+    }
+
+    public function download(FacturaNacional $factura) {
+
+        //dd("Pendiente por implementar");
+        $factura->load('clienteNac.comuna','detalles.producto.marca');
+
+        foreach ($factura->detalles as &$detalle) {
+            $valorIaba = Impuesto::getIaba()->valor;
+            $valorIva = Impuesto::getIva()->valor;
+            $impuesto = 0;
+            $descuento = ($detalle->precio * $detalle->descuento) / 100;
+            $precioUniTotal = $detalle->precio - $descuento;
+
+            if ($detalle->producto->marca->iaba) {
+
+                $impuesto = $valorIaba + $valorIva;
+                $detalle->impuesto = 27;
+
+            } else {
+
+                $impuesto = 0;
+            }
+
+            $impuesto = ($precioUniTotal * $impuesto) / 100;
+            $precioUniTotal = $precioUniTotal + $impuesto;
+            $detalle->precio = $precioUniTotal;
+
+            $detalle->impuesto = $detalle->impuesto ? $detalle->impuesto : $detalle->precio;
+        }
+
+
+        $excel = Excel::create('Factura_'.$factura->numero, function($excel) use ($factura) {
+            $excel->sheet('New sheet', function($sheet) use ($factura) {
+                $sheet->loadView('documents.excel.facturaNacional')
+                        ->with('factura', $factura);
+                    });
+                });
+        return $excel->download('xls');
+
     }
 
 }

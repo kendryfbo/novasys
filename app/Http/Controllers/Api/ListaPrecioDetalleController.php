@@ -45,19 +45,17 @@ class ListaPrecioDetalleController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        $this->validate($request, [
+            'lista' => 'required',
+            'producto' => 'required',
+            'precio' => 'required'
+        ]);
 
-            $this->validate($request, [
-                'lista' => 'required',
-                'producto' => 'required',
-                'descripcion' => 'required',
-                'precio' => 'required'
-            ]);
+        try {
 
             ListaPrecioDetalle::create([
                 'lista_id' => $request->lista,
                 'producto_id' => $request->producto,
-                'descripcion' => $request->descripcion,
                 'precio' => $request->precio
             ]);
 
@@ -108,18 +106,18 @@ class ListaPrecioDetalleController extends Controller
      */
     public function update(Request $request, ListaPrecioDetalle $detalle)
     {
+        $this->validate($request, [
+            'lista' => 'required',
+            'producto' => 'required',
+            'precio' => 'required'
+        ]);
+
+        //dd('valid update');
         try {
 
-            $this->validate($request, [
-                'lista' => 'required',
-                'producto' => 'required',
-                'descripcion' => 'required',
-                'precio' => 'required'
-            ]);
 
             $detalle->lista_id = $request->lista;
             $detalle->producto_id = $request->producto;
-            $detalle->descripcion = $request->descripcion;
             $detalle->precio = $request->precio;
 
             $detalle->save();
@@ -170,7 +168,9 @@ class ListaPrecioDetalleController extends Controller
 
     public function insert(Request $request)
     {
-        $detalle = ListaPrecioDetalle::where('producto_id',$request->producto)->first();
+        $detalle = ListaPrecioDetalle::where('producto_id',$request->producto)
+                                        ->where('lista_id',$request->lista)
+                                        ->first();
 
         if($detalle) {
 

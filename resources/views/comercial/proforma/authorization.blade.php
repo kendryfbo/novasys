@@ -53,27 +53,28 @@
 							<td class="text-center"><a href="{{url('comercial/proformas/autorizacion/'.$proforma->numero)}}" target="_blank">{{$proforma->numero}}</a></td>
 							<td class="text-center">{{$proforma->fecha_emision}}</td>
 							<td class="text-center">{{$proforma->centro_venta}}</td>
-							<td>{{$proforma->cliente}}</td>
+							<td>{{$proforma->cliente->descripcion}}</td>
 							<td class="text-center">{{$proforma->clau_venta}}</td>
 							<td class="text-center">{{$proforma->forma_pago}}</td>
 							<td class="text-right">{{'US$ ' . number_format($proforma->total,2,",",".")}}</td>
 							<td class="text-center">
 
-								<button form="authorize" class="btn btn-success btn-sm" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
-								<button form="unauthorized" class="btn btn-danger btn-sm" type="submit">
-									<i class="fa fa-ban" aria-hidden="true"></i>
-								</button>
+								<!-- Forms -->
+								<form style="display: inline" action="{{route('autorizarProforma',['numero' => $proforma->numero])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-success btn-sm" type="submit">
+										<i class="fa fa-check-circle" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form style="display: inline" action="{{route('desautorizarProforma',['numero' => $proforma->numero])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-danger btn-sm" type="submit">
+										<i class="fa fa-ban" aria-hidden="true"></i>
+									</button>
+								</form>
+								<!-- /Forms -->
 
 							</td>
-
-							<!-- Forms -->
-							<form id="authorize" style="display: inline" action="{{route('autorizarProforma',['proforma' => $proforma->id])}}" method="post">
-								{{csrf_field()}}
-							</form>
-							<form id="unauthorized" style="display: inline" action="{{route('desautorizarProforma',['proforma' => $proforma->id])}}" method="post">
-								{{csrf_field()}}
-							</form>
-							<!-- /Forms -->
 
 						</tr>
 					@endforeach

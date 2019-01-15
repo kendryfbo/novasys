@@ -10,7 +10,7 @@ class Formato extends Model
 
     static function getAllActive() {
 
-        return Formato::all()->where('activo',1);
+        return self::where('activo',1)->get();
     }
 
     public function producto() {

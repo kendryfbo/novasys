@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Nivel;
+use App\Models\Insumo;
+use App\Models\Familia;
 use App\Models\Formula;
 use App\Models\Producto;
-use App\Models\Familia;
-use App\Models\Nivel;
+use App\Models\Premezcla;
+use App\Models\Reproceso;
+use App\Models\TipoFamilia;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class FormulaController extends Controller
 {
-    // tipo de familia MateriaPrima e Insumos
-    protected $tipoFamilia = 1;
-    // reemplazar por usuario de la aplicacion
-    protected $usuario = 'USER_DEMO';
 
     public function index()
     {
-        $formulas = Formula::with('producto:id,descripcion')->get();
+        $formulas = Formula::with('producto:id,descripcion')->get(['id','producto_id','generada','generada_por','fecha_gen','autorizado','autorizada_por','fecha_aut']);
+
         return view('desarrollo.formulas.index')->with(['formulas' => $formulas]);
     }
 
@@ -29,19 +30,18 @@ class FormulaController extends Controller
      */
     public function create()
     {
-        // $productos = Producto::doesntHave('formula')->get();
-        // $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
-        // $niveles = Nivel::getAllActive();
-        // return view('desarrollo.formulas.create2')
-        //         ->with(['productos' => $productos,'familias' => $familias,'niveles' => $niveles]);
-
-        $productos = Producto::getAllActive();
-        $familias = Familia::where('tipo_id',$this->tipoFamilia)->get();
+        $productos = Producto::with('formato')->doesntHave('formula')->where('activo',1)->get();
+        $insumos = Insumo::getAllActive();
         $niveles = Nivel::getAllActive();
+        $premezclas = Premezcla::getAllActive();
+        $reprocesos = Reproceso::getAllActive();
 
         return view('desarrollo.formulas.create')
-                ->with(['productos' => $productos,'familias' => $familias,'niveles' => $niveles]);
-
+                ->with(['productos' => $productos,
+                        'insumos' => $insumos,
+                        'niveles' => $niveles,
+                        'premezclas' => $premezclas,
+                        'reprocesos' => $reprocesos]);
     }
 
     /**
@@ -52,7 +52,18 @@ class FormulaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'productoID' => 'required',
+            //'premezclaID' => 'required',
+            //'reprocesoID' => 'required',
+            'cantBatch' => 'required',
+            'items' => 'required'
+        ]);
 
+        $formula = Formula::register($request);
+        $msg = 'Formula id:'. $formula->id . ' ha sido Creada.';
+
+        return redirect()->route('formulas')->with(['status' => $msg]);
     }
 
     /**
@@ -61,9 +72,11 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function show(Formula $formula)
+    public function show($id)
     {
-        //
+        $formula = Formula::with('detalle.insumo','producto.formato','detalle.nivel','premezcla','reproceso')->where('id',$id)->first();
+
+        return view('desarrollo.formulas.show')->with(['formula' => $formula]);
     }
 
     /**
@@ -72,9 +85,20 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function edit(Formula $formula)
+    public function edit($id)
     {
-        //
+        $formula = Formula::with('detalle.insumo','producto.formato','detalle.nivel')->where('id',$id)->first();
+        $niveles = Nivel::getAllActive();
+        $insumos = Insumo::getAllActive();
+        $premezclas = Premezcla::getAllActive();
+        $reprocesos = Reproceso::getAllActive();
+
+        return view('desarrollo.formulas.edit')
+                ->with(['formula' => $formula,
+                        'niveles' => $niveles,
+                        'insumos' => $insumos,
+                        'premezclas' => $premezclas,
+                        'reprocesos' => $reprocesos]);
     }
 
     /**
@@ -84,9 +108,21 @@ class FormulaController extends Controller
      * @param  \App\Models\Formula  $formula
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Formula $formula)
+    public function update(Request $request,$id)
     {
-        //
+
+        $this->validate($request,[
+            'productoID' => 'required',
+            //'premezclaID' => 'required',
+            //'reprocesoID' => 'required',
+            'cantBatch' => 'required',
+            'items' => 'required'
+        ]);
+
+        $formula = Formula::registerEdit($request,$id);
+        $msg = 'Formula id:'. $formula->id . ' ha sido editada.';
+
+        return redirect()->route('formulas')->with(['status' => $msg]);
     }
 
     /**
@@ -100,60 +136,48 @@ class FormulaController extends Controller
         //
     }
 
-    public function generate(Request $request)
-    {
-        $this->validate($request,[
-            'formula' => 'required'
-        ]);
-
-        $formula = Formula::find($request->formula);
-        $formula->generada = true;
-        $formula->generada_por = 'USER-DEMO';
-        $formula->fecha_gen = Carbon::today();
-
-        $formula->save();
-
-        $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Generada.';
-
-        return redirect(route('formulas'))->with(['status' => $msg]);
-
-    }
-
     public function autorization()
     {
-        $formulas = Formula::all()->where('generada',1);
+        $formulas = Formula::where('generada',1)->whereNull('autorizado')->get();
 
-        return view('desarrollo.formulas.autorization')->with(['formulas' => $formulas]);
+        return view('desarrollo.formulas.authorization')->with(['formulas' => $formulas]);
+    }
+
+    public function showForAuth($id) {
+
+        $formula = Formula::with('producto','detalle.nivel')->find($id);
+
+        return view('desarrollo.formulas.authorize')->with(['formula' => $formula]);
     }
 
     public function autorizar(Formula $formula)
     {
         $formula->autorizado = true;
-        $formula->autorizada_por = 'USER_DEMO';
+        $formula->autorizada_por = auth()->user()->user;
         $formula->fecha_aut = Carbon::today();
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Autorizada.';
 
-        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
+        return redirect(route('autorizacionFormula'))->with(['status' => $msg]);
     }
 
     public function desautorizar(Formula $formula) {
 
         $formula->autorizado = false;
-        $formula->autorizada_por = NULL;
-        $formula->fecha_aut = NULL;
+        $formula->autorizada_por = auth()->user()->user;
+        $formula->fecha_aut = Carbon::today();
         $formula->save();
 
         $msg = 'Formula de Producto: ' . $formula->producto->descripcion . ' Ha sido Desautorizada.';
 
-        return redirect(route('autorizationFormula'))->with(['status' => $msg]);
+        return redirect(route('autorizacionFormula'))->with(['status' => $msg]);
     }
 
     public function getFormula(Request $request)
     {
 
-        $usuario = $this->usuario;
+        $usuario = $request->user()->id;
 
         if (!$request->producto) {
             return 'ERROR';

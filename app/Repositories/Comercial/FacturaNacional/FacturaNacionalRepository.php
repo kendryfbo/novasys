@@ -39,14 +39,17 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			// $total = $request->total;
 
 			$numero = $request->numero;
-			$centroVentaID = $request->centroVenta;
-			$centroVentaRut = '';
-			$centroVenta = '';
-			$clienteID = $request->cliente;
-			$clienteRut = '';
-			$cliente = '';
+			$centroVenta = CentroVenta::find($request->centroVenta);
+			$centroVentaID = $centroVenta->id;
+			$centroVentaRut = $centroVenta->rut;
+			$centroVenta = $centroVenta->descripcion;
+			$cliente = ClienteNacional::find($request->cliente);
+			$clienteID = $cliente->id;
+			$clienteRut = $cliente->rut;
+			$cliente = $cliente->descripcion;
 			$condPago = $request->formaPago;
-			$vendedor = $request->vendedor;
+			$vendedor = Vendedor::find($request->vendedor);
+			$direccion = $request->direccion;
 			$despacho = $request->despacho;
 			$observacion = $request->observacion;
 			$pesoNeto = $request->peso_neto;
@@ -65,7 +68,9 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				'cliente_rut' => $clienteRut,
 				'cliente' => $cliente,
 				'cond_pago' => $condPago,
-				'vendedor_id' => $vendedor,
+				'vendedor_id' => $vendedor->id,
+				'vendedor' => $vendedor->nombre,
+				'direccion' => $direccion,
 				'despacho' => $despacho,
 				'observacion' => $observacion,
 				// 'aut_comer' => $aut_comer,
@@ -98,6 +103,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				$item = json_decode($item);
 
 				$id = $item->id;
+				$codigo = $item->codigo;
 				$descripcion = $item->descripcion;
 				$cantidad = $item->cantidad;
 				$precio = $item->precio;
@@ -117,6 +123,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 					'fact_id' => $nv,
 					'item' => $i,
 					'producto_id' => $id,
+					'codigo' => $codigo,
 					'descripcion' => $descripcion,
 					'cantidad' => $cantidad,
 					'precio' => $precio,
@@ -133,20 +140,14 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 			};
 
-			$facturaNacional->load('centroVenta:id,rut,descripcion', 'clienteNac:id,rut,descripcion', 'vendedor:id,nombre');
-			$facturaNacional->cv_rut = $facturaNacional->centroVenta->rut;
-			$facturaNacional->centro_venta = $facturaNacional->centroVenta->descripcion;
-			$facturaNacional->cliente_rut = $facturaNacional->clienteNac->rut;
-			$facturaNacional->cliente = $facturaNacional->clienteNac->descripcion;
-			$facturaNacional->vendedor = $facturaNacional->vendedor->nombre;
 			$facturaNacional->neto = $totalNeto;
+			$facturaNacional->descuento = $totalDescuento;
 			$facturaNacional->iva = $totalIva;
 			$facturaNacional->iaba = $totalIaba;
 			$facturaNacional->sub_total = $totalSubTotal;
 			$facturaNacional->total = $total;
 
 			$facturaNacional->save();
-
 		}, 5);
 	}
 
@@ -154,7 +155,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 		DB::transaction(function() use ($request) {
 
-			$notaVenta = NotaVenta::with('detalle')->find($request->notaVenta);
+			$notaVenta = NotaVenta::with('detalles')->find($request->notaVenta);
 			$centroVenta = CentroVenta::find($request->centroVenta);
 			$cliente = ClienteNacional::find($request->cliente);
 			$vendedor = Vendedor::find($request->vendedor);
@@ -177,8 +178,9 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$clienteId = $cliente->id;
 			$clienteRut = $cliente->rut;
 			$cliente = $cliente->descripcion;
-			$despacho = $request->despacho;
-			$condPago = $request->formaPago;
+			$direccion = $notaVenta->direccion;
+			$despacho = $notaVenta->despacho;
+			$condPago = $notaVenta->cond_pago;
 			$observacion = $request->observacion;
 			$vendedorId = $vendedor->id;
 			$vendedor = $vendedor->nombre;
@@ -197,6 +199,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				'cliente_id' => $clienteId,
 				'cliente_rut' => $clienteRut,
 				'cliente' => $cliente,
+				'direccion' => $direccion,
 				'despacho' => $despacho,
 				'cond_pago' => $condPago,
 				'observacion' => $observacion,
@@ -230,7 +233,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				}
 				$item = json_decode($item);
 
-				$id = $item->id;
+				$id = $item->producto_id;
 				$codigo = $item->codigo;
 				$descripcion = $item->descripcion;
 				$cantidad = $item->cantidad;

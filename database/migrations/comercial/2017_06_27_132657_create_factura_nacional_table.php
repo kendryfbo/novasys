@@ -23,6 +23,7 @@ class CreateFacturaNacionalTable extends Migration
             $table->integer('cliente_id')->unsigned();
             $table->string('cliente_rut');
             $table->string('cliente');
+            $table->string('direccion');
             $table->string('despacho');
             $table->string('cond_pago');
             $table->string('observacion')->nullable();
@@ -42,6 +43,7 @@ class CreateFacturaNacionalTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->date('fecha_emision');
             $table->date('fecha_venc');
+            $table->integer('estado_id')->unsigned(); // FK
             $table->timestamps();
         });
 
@@ -50,6 +52,7 @@ class CreateFacturaNacionalTable extends Migration
         //     $table->foreign('cliente_id')->references('id')->on('cliente_nacional');
         //     $table->foreign('vendedor_id')->references('id')->on('vendedores');
         //     $table->foreign('user_id')->references('id')->on('usuarios');
+        //     $table->foreign('estado_id')->references('id')->on('status_documento');
         // });
     }
 

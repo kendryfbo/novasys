@@ -135,6 +135,7 @@ class ClienteNacionalController extends Controller
             'email' => 'required',
             'lista' => 'required',
             'canal' => 'required',
+            'formaPago' => 'required',
             'region' => 'required',
             'provincia' => 'required',
             'comuna' => 'required'
@@ -149,6 +150,7 @@ class ClienteNacionalController extends Controller
         $cliente->contacto = $request->contacto;
         $cliente->cargo = $request->cargo;
         $cliente->email = $request->email;
+        $cliente->fp_id = $request->formaPago;
         $cliente->lp_id = $request->lista;
         $cliente->canal_id = $request->canal;
         $cliente->region_id = $request->region;

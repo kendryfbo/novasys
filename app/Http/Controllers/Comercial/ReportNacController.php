@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use Excel;
 use App\Models\Producto;
+use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\NotaVenta;
 use App\Models\Comercial\ClienteNacional;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Comercial\FacturaNacionalDetalle;
@@ -264,6 +266,79 @@ class ReportNacController extends Controller
             $excel->sheet('New sheet', function($sheet) use ($detalles) {
                 $sheet->loadView('documents.excel.reportIntlProd')
                     ->with('detalles', $detalles);
+                        })->download('xlsx');
+        });
+    }
+
+    public function reportnotaVenta(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $vendedor = $request->vendedor;
+        $arrayQuery = [];
+        $notasVenta = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($vendedor) {
+            array_push($arrayQuery,['vendedor_id','=',$vendedor]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+
+        if ($arrayQuery) {
+            $notasVenta = NotaVenta::with('cliente','vendedor')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        $clientes = ClienteNacional::whereHas('notaVenta')->get();
+        $vendedores = Vendedor::whereHas('notaVenta')->get();
+
+        return view('comercial.reportesNac.indexNotaVenta')->with([
+            'cliente' => $cliente,
+            'vendedor' => $vendedor,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'clientes' => $clientes,
+            'vendedores' => $vendedores,
+            'notasVenta' => $notasVenta]);
+
+    }
+    public function downloadExcelNotaVenta(Request $request) {
+
+        $desde = $request->desde;
+        $hasta = $request->hasta;
+        $cliente = $request->cliente;
+        $vendedor = $request->vendedor;
+        $arrayQuery = [];
+        $notasVenta = [];
+
+        if ($cliente) {
+            array_push($arrayQuery,['cliente_id','=',$cliente]);
+        }
+        if ($vendedor) {
+            array_push($arrayQuery,['vendedor_id','=',$vendedor]);
+        }
+        if ($desde) {
+            array_push($arrayQuery,['fecha_emision','>=',$desde]);
+        }
+        if ($hasta) {
+            array_push($arrayQuery,['fecha_emision','<=',$hasta]);
+        }
+
+        if ($arrayQuery) {
+            $notasVenta = NotaVenta::with('cliente','vendedor')->where($arrayQuery)->orderBy('numero','DESC')->get();
+        }
+
+        return Excel::create('Reporte X Notas Ventas', function($excel) use ($notasVenta) {
+            $excel->sheet('New sheet', function($sheet) use ($notasVenta) {
+                $sheet->loadView('documents.excel.reportNotaVenta')
+                    ->with('notasVenta', $notasVenta);
                         })->download('xlsx');
         });
     }

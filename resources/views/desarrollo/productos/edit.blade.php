@@ -45,7 +45,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Marca:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="marca" v-model="marca" @change="updateDescripcion" required disabled>
 								<option value="">Seleccionar Marca...</option>
 								@foreach ($marcas as $marca)
 									<option value="{{$marca->id}}">{{$marca->descripcion}}</option>
@@ -56,7 +56,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">Formato:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="formatChange" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="formato" v-model="formato" @change="formatChange" required disabled>
 								<option value="">Seleccionar Formato...</option>
 							@foreach ($formatos as $formato)
 								<option value="{{$formato->id}}">{{$formato->descripcion}}</option>
@@ -68,7 +68,7 @@
 
 					<label class="control-label col-sm-2">Sabor:</label>
 					<div class="col-sm-6">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="sabor" v-model="sabor" @change="updateDescripcion" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default" name="sabor" v-model="sabor" @change="updateDescripcion" required disabled>
 								<option value="">Seleccionr Sabor...</option>
 							@foreach ($sabores as $sabor)
 								<option value="{{$sabor->id}}">{{$sabor->descripcion}}</option>
@@ -94,7 +94,7 @@
 					<label class="control-label col-lg-2">Peso Bruto:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{$producto->peso_bruto}}" required>
+							<input class="form-control" type="number" step='any' placeholder='0.00' v-model='peso_bruto' class="form-control" name="peso_bruto" placeholder="Peso Bruto..." value="{{$producto->peso_bruto}}" required>
 							<span class="input-group-addon">kg</span>
 						</div>
 					</div>
@@ -110,7 +110,7 @@
 					<label class="control-label col-lg-1">Peso Neto:</label>
 					<div class="col-lg-2">
 						<div class="input-group">
-							<input class="form-control" type="number" step='0.01' value='0.00' placeholder='0.00' class="form-control" name="peso_neto" v-model="peso_neto" placeholder="Peso Neto..." value="{{$producto->peso_neto}}" required>
+							<input class="form-control" type="number" step='any' placeholder='0.00' class="form-control" name="peso_neto" v-model="peso_neto" placeholder="Peso Neto..." value="{{$producto->peso_neto}}" required>
 							<span class="input-group-addon">kg</span>
 						</div>
 					</div>

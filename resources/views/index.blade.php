@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="card text-center" style="border-color: #333;">
-				<a href="#" class="card-link">
+				<a href="{{url('/finanzas')}}" class="card-link">
 					<img src="images/finanzas.png" alt="Finanzas" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
 	    				<h5 class="card-title">Finanzas</h5>
@@ -48,7 +48,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card text-center" style="border-color: #333;">
-				<a href="#" class="card-link">
+				<a href="{{url("/operaciones")}}" class="card-link">
 					<img src="images/operaciones.png" alt="Operaciones" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
 	    				<h5 class="card-title">Operaciones</h5>
@@ -58,7 +58,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="card text-center" style="border-color: #333;">
-				<a href="#" class="card-link">
+				<a href="{{url("/sgcalidad")}}" class="card-link">
 					<img src="images/calidad.png" alt="Calidad" class="rounded mx-auto d-block" style="width: 8rem;">
 					<div class="card-block">
 	    				<h5 class="card-title">Calidad</h5>

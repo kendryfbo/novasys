@@ -70,12 +70,12 @@
 
 						<label class="control-label col-lg-2">Fecha Emision:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control" name="fechaEmision" value="{{ Input::old('fechaEmision') ? Input::old('fechaEmision') : '' }}" required>
+							<input type="date" class="form-control" name="fechaEmision" value="{{$notaVenta->fecha_emision}}" required>
 						</div>
 
 						<label class="control-label col-lg-2">Fecha despacho:</label>
 						<div class="col-lg-2">
-							<input type="date" class="form-control " name="fechaDespacho" value="{{ Input::old('fechaDespacho') ? Input::old('fechaDespacho') : '' }}" required>
+							<input type="date" class="form-control " name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" required>
 						</div>
 
 						<label class="control-label col-lg-1" >O. Compra:</label>
@@ -99,6 +99,15 @@
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option selected value="{{ $notaVenta->cond_pago }}" >{{ $notaVenta->cond_pago }}</option>
 							</select>
+						</div>
+
+					</div>
+
+					<div class="form-group form-group-sm">
+
+						<label class="control-label col-lg-2">Direccion:</label>
+						<div class="col-lg-4">
+							<input type="text" class="form-control" name="direccion" value="{{$notaVenta->direccion}}" placeholder="direccion facturacion..." readonly>
 						</div>
 
 					</div>
@@ -173,7 +182,7 @@
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="false" data-live-search="true" data-style="btn-default btn-sm" name="producto" v-model="producto" @change="loadProducto">
 							<option value="">Producto...</option>
-							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.id">@{{detalle.descripcion}}</option>
+							<option v-if="listaDetalle" v-for="detalle in listaDetalle" v-bind:value="detalle.producto.id">@{{detalle.producto.descripcion}}</option>
 						</select>
 					</div>
 
@@ -184,7 +193,7 @@
 
 					<label class="control-label col-lg-1">%Dscto:</label>
 					<div class="col-lg-1">
-						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento" disabled>
+						<input class="form-control text-right" type="number" name="descuento" v-model.number="descuento">
 					</div>
 
 					<label class="control-label col-lg-1">Precio:</label>
@@ -246,15 +255,15 @@
 
 							<tr>
 								<th class="bg-gray text-right">Peso Neto:</th>
-								<td class="text-right">12</td>
+								<td class="text-right">@{{totalPesoNeto}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Peso Bruto:</th>
-								<td class="text-right">14</td>
+								<td class="text-right">@{{totalPesoBruto}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Volumen:</th>
-								<td class="text-right">11</td>
+								<td class="text-right">@{{totalVolumen}}</td>
 							</tr>
 							<tr>
 								<th class="bg-gray text-right">Cant. Cajas:</th>

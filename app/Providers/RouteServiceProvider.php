@@ -64,6 +64,13 @@ class RouteServiceProvider extends ServiceProvider
 
              require base_path('routes/desarrollo.php');
              require base_path('routes/comercial.php');
+             require base_path('routes/bodega.php');
+             require base_path('routes/produccion.php');
+             require base_path('routes/operaciones.php');
+             require base_path('routes/finanzas.php');
+             require base_path('routes/adquisicion.php');
+             require base_path('routes/config.php');
+             require base_path('routes/calidad.php');
          });
     }
 
@@ -89,6 +96,8 @@ class RouteServiceProvider extends ServiceProvider
              require base_path('routes/api.php');
              require base_path('routes/apiDesarrollo.php');
              require base_path('routes/apiComercial.php');
+             require base_path('routes/apiBodega.php');
+             require base_path('routes/apiFinanzas.php');
          });
     }
 }

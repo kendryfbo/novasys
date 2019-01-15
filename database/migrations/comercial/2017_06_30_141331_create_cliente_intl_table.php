@@ -18,7 +18,7 @@ class CreateClienteIntlTable extends Migration
             $table->increments('id');
             $table->string('descripcion');
             $table->string('direccion');
-            $table->string('pais');
+            $table->string('pais_id');
             $table->string('zona');
             $table->string('idioma');
             $table->string('fono');

@@ -9,7 +9,7 @@
         <ul class="navbar-nav ml-auto">
         @if(Auth::check())
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Config<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{route('perfilAcceso')}}"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Config<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{url('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir<span class="sr-only">(current)</span></a>

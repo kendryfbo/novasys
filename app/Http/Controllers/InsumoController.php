@@ -28,10 +28,11 @@ class InsumoController extends Controller
      */
     public function create()
     {
-        $familias = Familia::getAllactive()->where('tipo_id',1);
+        $familias = Familia::where('tipo_id',1)->where('activo',1)->get();
+        $lastID = Insumo::orderBy('id','DESC')->pluck('id')->first() + 1;
         $unidades = Unidad::getAllActive();
 
-        return view('desarrollo.insumos.create')->with(['familias' => $familias, 'unidades' => $unidades]);
+        return view('desarrollo.insumos.create')->with(['lastID'=> $lastID,'familias' => $familias, 'unidades' => $unidades]);
     }
 
     /**
@@ -46,7 +47,7 @@ class InsumoController extends Controller
             'codigo' => 'required|unique:insumos',
             'descripcion' => 'required',
             'familia' => 'required',
-            'unidad' => 'required'
+            'unidad' => 'required',
         ]);
         $activo = !empty($request->activo);
 
@@ -57,6 +58,7 @@ class InsumoController extends Controller
             'unidad_med' => $request->unidad,
             'stock_min' => $request->stock_min,
             'stock_max' => $request->stock_max,
+            'alerta_bod' => $request->alerta_bod,
             'activo' => $activo
         ]);
 
@@ -84,12 +86,10 @@ class InsumoController extends Controller
      */
     public function edit(Insumo $insumo)
     {
-        $familias = Familia::getAllactive()->where('tipo_id',1);
         $unidades = Unidad::getAllActive();
 
         return view('desarrollo.insumos.edit')
                 ->with(['insumo' => $insumo,
-                        'familias' => $familias,
                         'unidades' => $unidades]);
 
     }
@@ -115,6 +115,7 @@ class InsumoController extends Controller
         $insumo->unidad_med = $request->unidad;
         $insumo->stock_min = $request->stock_min;
         $insumo->stock_max = $request->stock_max;
+        $insumo->alerta_bod = $request->alerta_bod;
         $insumo->activo = $activo;
 
         $insumo->save();
@@ -132,11 +133,17 @@ class InsumoController extends Controller
      */
     public function destroy(Insumo $insumo)
     {
+        $msg = 'No implementado. Favor comuniquese con administrador de sistema.';
+
+        return redirect()->route('insumos')->with(['status' => $msg]);
+        // deshabilitado hasta verificar que el insumo no posee stock activo
+        /*
         Insumo::destroy($insumo->id);
 
         $msg = "Insumo: " . $insumo->descripcion . " ha sido Eliminado.";
 
         return redirect(route('insumos'))->with(['status' => $msg]);
+        */
     }
 
     public function getInsumos(Request $request) {
@@ -149,7 +156,7 @@ class InsumoController extends Controller
 
         } else {
 
-            $isumos = Insumo::getAllActive();
+            $insumos = Insumo::getAllActive();
         }
 
         return response()->json($insumos);
