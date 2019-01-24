@@ -12,14 +12,11 @@ var app = new Vue({
     montoDepo: '',
     montoNC: '',
     montoAnticipo: '',
-    docuPago: '',
     abonoId: '',
     restante: '',
     notasCredito: notasCredito,
     facturaFromClienteURL: facturaFromClienteURL,
     abonoFromClienteURL: abonoFromClienteURL,
-    abonoStatus: 'Usar',
-    ncStatus: 'Usar',
     },
 
     methods: {
@@ -107,7 +104,6 @@ var app = new Vue({
                 break;
               }
               this.facturas[i].pago = Number(pago)
-              this.facturas[i].deuda = this.facturas[i].deuda - this.facturas[i].pago;
               this.montoDepo = this.montoDepo - this.facturas[i].pago;
               break;
             }
@@ -126,13 +122,10 @@ var app = new Vue({
                 alert('el monto del Anticipo es mayor al saldo restante');
                 break;
               }
-              this.abonos[i].anticipo = anticipo;
-              this.abonos[i].restante = this.abonos[i].restante - anticipo;
+              this.abonos[i].anticipo = anticipo
               this.saldoTotalAbono = this.saldoTotalAbono - anticipo;
               this.montoDepo = this.abonos[i].anticipo;
               this.montoAnticipo = this.abonos[i].anticipo;
-              this.docuPago = this.abonos[i].docu_abono;
-              this.abonoStatus = "Usado";
               break;
             }
           }
@@ -150,13 +143,10 @@ var app = new Vue({
                 alert('el monto de Nota de Crédito es mayor al saldo restante');
                 break;
               }
-              this.notasCredito[i].notaCredito = notaCredito;
-              this.notasCredito[i].restante = this.notasCredito[i].restante - notaCredito;
+              this.notasCredito[i].notaCredito = notaCredito
               this.saldoTotalNC = this.saldoTotalNC - notaCredito;
               this.montoDepo = this.notasCredito[i].notaCredito;
               this.montoNC = this.notasCredito[i].notaCredito;
-              this.docuPago = 'NC ' + this.notasCredito[i].numero;
-              this.ncStatus = "Usado";
               break;
             }
           }

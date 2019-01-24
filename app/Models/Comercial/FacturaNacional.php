@@ -11,12 +11,18 @@ class FacturaNacional extends Model
     protected $fillable = ['numero', 'numero_nv', 'cv_id', 'cv_rut', 'centro_venta' ,'cliente_id', 'cliente_rut','cliente',
                            'direccion', 'despacho', 'cond_pago', 'observacion', 'vendedor_id', 'vendedor', 'sub_total','descuento',
                            'neto','iva','iaba','total','peso_neto','peso_bruto','volumen', 'pagado',
-                           'cancelado', 'user_id','fecha_emision','fecha_venc'];
+                           'cancelada', 'user_id','fecha_emision','fecha_venc', 'deuda'];
 
     protected $events = [
     	'created' => \App\Events\CreateFacturaNacionalEvent::class,
     ];
 
+    public function updatePago() {
+
+        if ($this->deuda <= 0) {
+            $this->cancelada = 1;
+        }
+    }
 
     public function detalles() {
 

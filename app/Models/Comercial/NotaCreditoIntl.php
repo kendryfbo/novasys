@@ -3,13 +3,14 @@
 namespace App\Models\Comercial;
 
 use DB;
+use App\Models\Config\StatusDocumento;
 use App\Models\Comercial\NotaCreditoIntlDetalle;
 use Illuminate\Database\Eloquent\Model;
 
 class NotaCreditoIntl extends Model
 {
     protected $table = 'nota_credito_intl';
-    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'iva', 'iaba', 'total', 'user_id'];
+    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'restante', 'iva', 'iaba', 'total', 'user_id', 'status_id'];
 
     static function register($request) {
 
@@ -32,6 +33,7 @@ class NotaCreditoIntl extends Model
                 'nota' => $nota,
                 'neto' => $totalNeto,
                 'total' => $totalT,
+                'restante' => $totalT,  // New Field para Mod. Finanzas Pago Fact. Intl
                 'user_id' => $user
             ]);
 
@@ -65,6 +67,23 @@ class NotaCreditoIntl extends Model
             $notaCredito->save();
 
         },5);
+    }
+
+    /* Public functions */
+
+    public function updateStatus() {
+
+        if ($this->monto == $this->restante) {
+
+            $this->status_id = StatusDocumento::pendienteID();
+        } else if($this->restante <= 0) {
+
+            $this->status_id = StatusDocumento::completaID();
+        } else {
+
+            $this->status_id = StatusDocumento::ingresadaID();
+        }
+
     }
 
     public function detalles() {

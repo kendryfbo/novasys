@@ -5,8 +5,10 @@ namespace App\Models\Comercial;
 use DB;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\CentroVenta;
+use App\Models\Config\StatusDocumento;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comercial\FactIntlDetalle;
+use App\Models\Finanzas\PagoIntl;
 
 class FacturaIntl extends Model
 {
@@ -19,10 +21,13 @@ class FacturaIntl extends Model
   ];
 
 
+  protected $dates = [
+		  'fecha_venc'
+      ];
+
   	static function getAllActive() {
   		return self::all();
   	}
-
 
 	/* registrar Factura apartir de Proforma */
 	static function register($request) {
@@ -79,8 +84,10 @@ class FacturaIntl extends Model
 			  'cif' => $cif,
 			  'descuento' => $descuento,
 			  'total' => $total,
+			  'deuda' => $total,
 			  'user_id' => $user
 		  ]);
+
 		  foreach ($request->items as $detalle) {
 
 			  $detalle = json_decode($detalle);
@@ -99,6 +106,7 @@ class FacturaIntl extends Model
 				  'peso_bruto' => $detalle->peso_bruto,
 				  'volumen' => $detalle->volumen
 			  ]);
+
 		  }
 
 		  return $factura;
@@ -143,7 +151,19 @@ class FacturaIntl extends Model
 				'cif' => $proforma->cif,
 				'descuento' => $proforma->descuento,
 				'total' => $proforma->total,
+				'deuda' => $proforma->total,
 				'user_id' => $user
+			]);
+
+			PagoIntl::create([
+  				  'factura_id' => $factura->id,
+  				  'usuario_id' => $user,
+  				  'abono_id' => 1,
+  				  'status_id' => 1,
+  				  'monto' => $proforma->total,
+  				  'saldo' => $proforma->total,
+  				  'numero_documento' => 'Monto Inicial',
+  				  'fecha_pago' => NULL
 			]);
 
 			foreach ($proforma->detalles as $detalle) {
@@ -189,11 +209,34 @@ class FacturaIntl extends Model
 
 		return $factura;
 	}
+
+	/* Public Functions */
+
+	public function updatePago() {
+
+        if ($this->deuda <= 0) {
+            $this->cancelada = 1;
+		}
+    }
+
+	public function reverseUpdatePago() {
+
+		if ($this->deuda >= 0) {
+			$this->cancelada = 0;
+		}
+	}
+
+
 	/*
 	|
 	|	Relationships
 	|
 	*/
+
+	public function pagos() {
+
+		return $this->hasOne(PagoIntl::class,'factura_id');
+	}
 
 	public function detalles() {
 

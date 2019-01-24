@@ -8,3 +8,12 @@ route::post('facturasIntl/Anular',     'Api\ApiFacturaIntlController@getFacturaP
 
 // Rutas Api Facturas Internacionales
 route::post('abonosIntl/Cliente',    'Api\ApiAbonosIntlController@getAbonoIntlByClient')->name('apiObtainAbonosByClienteIntl');
+
+// Rutas Api Facturas Nacionales
+route::post('facturasNacional/Cliente',    'Api\ApiFacturaNacionalController@getFacturaNacionalByClient')->name('apiObtainFacturasByClienteNacional');
+route::post('facturasNacional/Historial',  'Api\ApiFacturaNacionalController@getHistorialNacionalByClient')->name('apiObtainHistorialByClienteNacional');
+route::post('facturasNacional/PorCobrar',  'Api\ApiFacturaNacionalController@getFacturasPorCobrar')->name('apiObtainFacturasNacionalPorCobrar');
+route::post('facturasNacional/Anular',     'Api\ApiFacturaNacionalController@getFacturaPorAnular')->name('apiObtainFacturaNacionalPorAnular');
+
+// Rutas Api Facturas Naccionales
+route::post('abonosNacional/Cliente',    'Api\ApiAbonosNacionalController@getAbonoNacionalByClient')->name('apiObtainAbonosByClienteNacional');

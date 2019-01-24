@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Abonos de Cliente Internacional</h4>
+			<h4>Anticipos de Cliente Internacional</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -16,7 +16,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearAbonoIntl')}}">Crear Abono</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearAbonoIntl')}}">Crear Anticipo</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
@@ -26,6 +26,7 @@
 					<tr>
 						<th class="text-center">#</th>
 						<th class="text-center">O.D.</th>
+						<th class="text-center">SWIFT</th>
 						<th class="text-center">Cliente</th>
 						<th class="text-center">Fecha</th>
 						<th class="text-center">Monto</th>
@@ -37,6 +38,7 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center">{{$abono->orden_despacho}}</td>
+							<td class="text-center">{{$abono->docu_abono}}</td>
 							<td class="text-center">{{$abono->clienteIntl->descripcion}}</td>
 							<td class="text-center">{{$abono->fecha_abono}}</td>
 							<td class="text-center">${{$abono->monto}}</td>
