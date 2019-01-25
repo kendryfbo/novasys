@@ -48,12 +48,12 @@
 
 					<label class="control-label col-lg-1">Monto a Pagar : </label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="number" step="0.01" name="montoDepo" v-model="montoDepo">
+						<input class="form-control input-sm" type="number" step="0.01" :disabled="inputPagoDirectoDisabled" name="montoDepo" v-model="montoDepo">
 					</div>
 
 					<label class="control-label col-lg-1">Docu. Pago : </label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="numero_documento" v-model="docuPago" required>
+						<input class="form-control input-sm" type="text" :disabled="inputPagoDirectoDisabled" name="numero_documento" v-model="docuPago" required>
 					</div>
 
 					<label class="control-label col-lg-2">Monto Ant. Usado : </label>
@@ -75,6 +75,12 @@
 					</option>
 				</select>
 				<!-- /items -->
+
+				<!-- hidden inputs -->
+				<input type="hidden" name="pago_directo" :value="pagoDirecto">
+				<input type="hidden" name="pago_abono" :value="pagoAbono">
+				<input type="hidden" name="pago_nc" :value="pagoNC">
+				<!-- /hidden inputs -->
 
 			</form>
       <!-- /form -->

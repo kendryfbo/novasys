@@ -66,7 +66,7 @@ Route::prefix('finanzas')->group( function() {
     Route::prefix('pagosFactIntl')->group( function() {
 
         route::get('/',                     'Finanzas\PagosIntlController@index')->name('pagosIntl');
-        route::post('/crear',               'Finanzas\PagosIntlController@create')->name('crearPagoFactIntl');
+        route::get('/crear',                'Finanzas\PagosIntlController@create')->name('crearPagoFactIntl');
         route::post('/guardaPago',          'Finanzas\PagosIntlController@store')->name('guardaPagoIntl');
         route::get('/historial',            'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
         route::post('/historial',           'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
@@ -76,7 +76,7 @@ Route::prefix('finanzas')->group( function() {
         route::post('/reportFactPorCobrar', 'Finanzas\PagosIntlController@reportFactIntlPorCobrarExcel')->name('descargarFactIntlPorCobrarExcel');
         route::get('/anularFact',           'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
         route::post('/anularFact',          'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
-        route::post('/delete/{formula}',    'Finanzas\PagosIntlController@destroy')->name('eliminarPagoIntl');
+        route::delete('/delete',            'Finanzas\PagosIntlController@destroy')->name('eliminarPagoIntl');
 
     });
 

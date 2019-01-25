@@ -20,6 +20,10 @@ var app = new Vue({
     abonoFromClienteURL: abonoFromClienteURL,
     abonoStatus: 'Usar',
     ncStatus: 'Usar',
+    pagoDirecto: 1,
+    pagoAbono: 0,
+    pagoNC: 0,
+    inputPagoDirectoDisabled: false,
     },
 
     methods: {
@@ -98,7 +102,6 @@ var app = new Vue({
         registrarPago: function(facturaID) {
 
         var pago = document.getElementById(facturaID).value;
-
           for (var i = 0; i < this.facturas.length; i++) {
             if (this.facturas[i].id == facturaID) {
 
@@ -107,6 +110,7 @@ var app = new Vue({
                 break;
               }
               this.facturas[i].pago = Number(pago)
+              alert(this.facturas[i].pago);
               this.facturas[i].deuda = this.facturas[i].deuda - this.facturas[i].pago;
               this.montoDepo = this.montoDepo - this.facturas[i].pago;
               break;
@@ -133,6 +137,7 @@ var app = new Vue({
               this.montoAnticipo = this.abonos[i].anticipo;
               this.docuPago = this.abonos[i].docu_abono;
               this.abonoStatus = "Usado";
+              this.setPagoAbono();
               break;
             }
           }
@@ -157,6 +162,7 @@ var app = new Vue({
               this.montoNC = this.notasCredito[i].notaCredito;
               this.docuPago = 'NC ' + this.notasCredito[i].numero;
               this.ncStatus = "Usado";
+              this.setPagoNC();
               break;
             }
           }
@@ -169,6 +175,20 @@ var app = new Vue({
 
         },
 
+        setPagoAbono: function() {
+
+          this.pagoDirecto = 0;
+          this.pagoNC = 0;
+          this.pagoAbono = 1;
+          this.inputPagoDirectoDisabled = true;
+        },
+        setPagoNC: function() {
+
+          this.pagoDirecto = 0;
+          this.pagoNC = 1;
+          this.pagoAbono = 0;
+          this.inputPagoDirectoDisabled = true;
+        }
     },
 
     computed: {

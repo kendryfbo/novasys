@@ -215,8 +215,13 @@ class FacturaIntl extends Model
 	public function updatePago() {
 
         if ($this->deuda <= 0) {
-            $this->cancelada = 1;
-		}
+
+					$this->cancelada = 1;
+					
+				} else {
+
+					$this->cancelada = 0;
+				}
     }
 
 	public function reverseUpdatePago() {

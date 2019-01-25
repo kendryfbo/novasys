@@ -23,7 +23,7 @@ class PagosIntlController extends Controller
         //$pagos = PagoIntl::take(20)->get();
         /* Cargar solo los clientes con facturas pendientes por cancelar*/
         $clientes = ClienteIntl::getAllActive();
-        $pagos = PagoIntl::getAll();
+        $pagos = PagoIntl::orderBy('id','DESC')->take(50)->get();
         return view('finanzas.pagosIntl.index')->with(['clientes' => $clientes, 'pagos' => $pagos]);
       }
 
@@ -41,13 +41,6 @@ class PagosIntlController extends Controller
         $saldoTotalNC = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
         $abonos = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get();
         $notasCredito = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
-
-        //Desactivar dado a que se permite pago directo
-        //if ($saldoTotalAbono <= 0 ) {
-
-        //    $msg = "Cliente no posee Saldo en Abonos";
-        //    return redirect()->route('pagosIntl')->with(['status' => $msg]);
-        //}
 
         return view('finanzas.pagosIntl.create')->with([
                       'cliente' => $cliente,
@@ -67,29 +60,19 @@ class PagosIntlController extends Controller
       //dd($request->all());
 
       $pago = PagoIntl::register($request);
-      $statusCompleta = StatusDocumento::completaID();
       $clienteID = $request->clienteID;
-      $fecha_hoy = Carbon::now();
-      $cliente = ClienteIntl::find($clienteID);
-      $facturas = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get();
-      $facturaNumero = $facturas->pluck('numero');
-      $saldoTotalFacturas = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get()->sum('deuda');
-      $saldoTotalAbono = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
-      $saldoTotalNC = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->get()->sum('restante');;
-      $abonos = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get();
-      $notasCredito = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
 
-
-      return view('finanzas.pagosIntl.create')->with([
-                    'cliente' => $cliente,
-                    'facturas' => $facturas,
-                    'saldoTotalAbono' => $saldoTotalAbono,
-                    'abonos' => $abonos,
-                    'notasCredito' => $notasCredito,
-                    'saldoTotalNC' => $saldoTotalNC,
-                    'saldoTotalFacturas' => $saldoTotalFacturas]);
+      return redirect()->route('crearPagoFactIntl',['clienteID' => $clienteID]);
      }
 
+     public function destroy(Request $request) {
+
+       $pagoID = $request->pagoID;
+
+       PagoIntl::unRegister($pagoID);
+
+       return redirect()->route('pagosIntl');
+     }
 
     /**
      *  Historial de Pago de Facturas Internacionales por Clientes
@@ -282,12 +265,5 @@ class PagosIntlController extends Controller
                        'pagos' => $pagos
                     ]);
         }
-
-
-
-    public function destroy()
-    {
-        //
-    }
 
 }

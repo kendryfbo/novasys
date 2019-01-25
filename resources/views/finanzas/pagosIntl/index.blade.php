@@ -17,7 +17,7 @@
 				@endcomponent
 			@endif
 
-			<form action="{{route('crearPagoFactIntl')}}" method="post">
+			<form action="{{route('crearPagoFactIntl')}}" method="get">
 				{{ csrf_field() }}
 				<div class="col-lg-4">
 					<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="clienteID">
@@ -42,6 +42,7 @@
 					<th class="text-center">FACT. N°</th>
 					<th class="text-center">FECHA PAGO</th>
 					<th class="text-center">MONTO</th>
+					<th class="text-center">OPCIONES</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,6 +53,16 @@
 						<td class="text-center">{{$pago->Factura->numero}}</td>
 						<td class="text-center">{{$pago->fecha_pago->format('d-m-Y')}}</td>
 						<td class="text-center">USD {{$pago->monto}}</td>
+						<td class="text-center">
+							<form style="display: inline" action="{{route('eliminarPagoIntl')}}" method="post">
+								{{csrf_field()}}
+								{{ method_field('DELETE') }}
+								<input type="hidden" name="pagoID" value="{{$pago->id}}">
+								<button class="btn btn-sm btn-default" type="submit">
+									<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Eliminar
+								</button>
+							</form>
+						</td>
 					</tr>
 				@endforeach
 			</tbody>

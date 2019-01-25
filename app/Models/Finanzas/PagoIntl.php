@@ -13,13 +13,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class PagoIntl extends Model
 {
+    const PAGO_DIRECTO = 1;
+    const PAGO_ABONO = 2;
+    const PAGO_NC = 3;
+
     protected $table = 'pagos_intl';
 
-    protected $fillable = ['factura_id', 'monto', 'saldo', 'numero_documento', 'fecha_pago', 'usuario_id', 'abono_id'];
+    protected $fillable = ['factura_id', 'usuario_id', 'tipo_id', 'abono_id', 'numero', 'monto', 'saldo', 'fecha_pago'];
 
     protected $dates = [
             'fecha_pago'
         ];
+
+
+    /*
+  	|
+  	| Static functions
+  	|
+  	*/
+
     static function getAll() {
 
         return self::all();
@@ -30,11 +42,24 @@ class PagoIntl extends Model
       //dd($request->all());
       DB::transaction( function() use($request){
 
-        $fecha = $request->fecha_hoy;
-        $clienteID = $request->clienteID;
-        $statusPendiente = StatusDocumento::pendienteID();
-        $statusCompleta = StatusDocumento::completaID();
+        $pagoDirecto = $request->pago_directo;
+        $pagoAbono = $request->pago_abono;
+        $pagoNC = $request->pago_nc;
 
+        if ($pagoDirecto) {
+
+          self::registerPagoDirecto($request);
+
+        } else if ($pagoAbono) {
+
+          self::registerPagoAbono($request);
+
+        } else if ($pagoNC) {
+
+          dd('pago NC');
+        }
+
+        /*
         $abonos = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->orderBy('fecha_abono')->limit(1)->get();
 
         $facturas = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->get();
@@ -130,12 +155,138 @@ class PagoIntl extends Model
           }
         }
     }
-        //dd('end');
+      */
       },5);
     }
 
+    static function registerPagoDirecto($request) {
 
-    /*
+      $facturas = $request->facturas;
+      $fecha = $request->fecha_hoy;
+      $numero = $request->numero_documento;
+
+      $pagoDirectoID = self::getPagoDirectoID();
+
+      foreach ($facturas as $factura) {
+
+        $factura = json_decode($factura);
+
+        if (empty($factura->pago)) {
+          continue;
+        }
+        $pago = $factura->pago;
+        $factura = FacturaIntl::find($factura->id);
+
+        // actualizar factura
+        $factura->deuda = $factura->deuda - $pago;
+        $factura->updatePago();
+        $factura->save();
+
+        // crear pago
+        $pago = PagoIntl::create([
+        'factura_id' => $factura->id,
+        'usuario_id' => Auth::user()->id,
+        'tipo_id' => $pagoDirectoID,
+        'abono_id' => 1, // PAGO DIRECTO
+        'numero' => $numero,
+        'monto' => $pago,
+        'saldo' => $factura->deuda,
+        'fecha_pago' => $fecha,
+        ]);
+      }
+    }
+
+    static function registerPagoAbono($request) {
+
+
+      $facturas = $request->facturas;
+      $fecha = $request->fecha_hoy;
+      $clienteID = $request->clienteID;
+      $statusCompleta = StatusDocumento::completaID();
+
+      $abono = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->orderBy('fecha_abono')->first();
+
+      $pagoAbonoID = self::getPagoAbonoID();
+
+      foreach ($facturas as $factura) {
+
+        $factura = json_decode($factura);
+
+        if (empty($factura->pago)) {
+          continue;
+        }
+
+        $pago = $factura->pago;
+        $factura = FacturaIntl::find($factura->id);
+
+        // actualizar factura
+        $factura->deuda = $factura->deuda - $pago;
+        $factura->updatePago();
+        $factura->save();
+        //actualizar abono
+        $abono->restante = $abono->restante - $pago;
+        $abono->updateStatus();
+        $abono->save();
+        // crear pago
+        $pago = PagoIntl::create([
+        'factura_id' => $factura->id,
+        'usuario_id' => Auth::user()->id,
+        'tipo_id' => $pagoAbonoID,
+        'abono_id' => $abono->id,
+        'numero' => $abono->docu_abono,
+        'monto' => $pago,
+        'saldo' => $factura->deuda,
+        'fecha_pago' => $fecha,
+        ]);
+      }
+    }
+
+    static function getPagoDirectoID() {
+
+      return self::PAGO_DIRECTO;
+    }
+    static function getPagoAbonoID() {
+
+      return self::PAGO_ABONO;
+    }
+    static function getPagoNCID() {
+
+      return self::PAGO_NC;
+    }
+
+    static function unRegister($pagoID) {
+
+      DB::transaction( function() use($pagoID){
+
+        $pagoDirecto = PagoIntl::getPagoDirectoID();
+        $pagoAbono = PagoIntl::getPagoAbonoID();
+        $pagoNC = PagoIntl::getPagoNCID();
+
+        $pago = PagoIntl::find($pagoID);
+
+        if ($pagoAbono == $pago->tipo_id) {
+          //actualizar abono
+          $abono = AbonoIntl::find($pago->abono_id);
+          $abono->restante = $abono->restante + $pago->monto;
+          $abono->updateStatus();
+          $abono->save();
+
+        } else if ($pagoNC == $pago->tipo_id) {
+          //actualizar Nota Credito
+          dd('pago NC');
+        }
+
+        // actualizar factura
+        $factura = FacturaIntl::find($pago->factura_id);
+        $factura->deuda = $factura->deuda + $pago->monto;
+        $factura->updatePago();
+        $factura->save();
+        // Eliminar Pago
+        $pago->delete();
+      },5);
+    }
+
+  /*
 	|
 	| Relationships
 	|
