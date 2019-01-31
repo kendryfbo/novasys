@@ -56,7 +56,7 @@ class PagoIntl extends Model
 
         } else if ($pagoNC) {
 
-          dd('pago NC');
+          self::registerPagoNC($request);
         }
 
         /*
@@ -241,6 +241,53 @@ class PagoIntl extends Model
       }
     }
 
+    static function registerPagoNC($request) {
+
+
+      $facturas = $request->facturas;
+      $fecha = $request->fecha_hoy;
+      $clienteID = $request->clienteID;
+      $statusCompleta = StatusDocumento::completaID();
+
+      $factura = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get();
+      $facturaNumero = $factura->pluck('numero');
+      $notaCredito = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->first();
+
+      $pagoNCID = self::getPagoNCID();
+
+      foreach ($facturas as $factura) {
+
+        $factura = json_decode($factura);
+
+        if (empty($factura->pago)) {
+          continue;
+        }
+
+        $pago = $factura->pago;
+        $factura = FacturaIntl::find($factura->id);
+
+        // actualizar factura
+        $factura->deuda = $factura->deuda - $pago;
+        $factura->updatePago();
+        $factura->save();
+        //actualizar Nota Crédito
+        $notaCredito->restante = $notaCredito->restante - $pago;
+        $notaCredito->updateStatus();
+        $notaCredito->save();
+        // crear pago
+        $pago = PagoIntl::create([
+        'factura_id' => $factura->id,
+        'usuario_id' => Auth::user()->id,
+        'tipo_id' => $pagoNCID,
+        'abono_id' => $notaCredito->id,
+        'numero' => $notaCredito->num_fact,
+        'monto' => $pago,
+        'saldo' => $factura->deuda,
+        'fecha_pago' => $fecha,
+        ]);
+      }
+    }
+
     static function getPagoDirectoID() {
 
       return self::PAGO_DIRECTO;
@@ -273,7 +320,10 @@ class PagoIntl extends Model
 
         } else if ($pagoNC == $pago->tipo_id) {
           //actualizar Nota Credito
-          dd('pago NC');
+          $notaCredito = NotaCreditoIntl::find($pago->abono_id);
+          $notaCredito->restante = $notaCredito->restante + $pago->monto;
+          $notaCredito->updateStatus();
+          $notaCredito->save();
         }
 
         // actualizar factura

@@ -73,7 +73,7 @@ class NotaCreditoIntl extends Model
 
     public function updateStatus() {
 
-        if ($this->monto == $this->restante) {
+        if ($this->total == $this->restante) {
 
             $this->status_id = StatusDocumento::pendienteID();
         } else if($this->restante <= 0) {
@@ -90,4 +90,5 @@ class NotaCreditoIntl extends Model
 
         return $this->hasMany('App\Models\Comercial\NotaCreditoIntlDetalle','nc_id');
     }
+
 }
