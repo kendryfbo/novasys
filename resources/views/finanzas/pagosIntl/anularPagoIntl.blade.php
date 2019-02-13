@@ -90,9 +90,10 @@
 						<td class="text-center">{{$pago->numero_documento}}</td>
 						<td class="text-center">USD {{number_format($pago->monto, 2,',','.')}}</td>
 						<td class="text-center">
-							<form style="display: inline" action="" method="post" onsubmit="return confirm('¿Está seguro de Anular el Pago?');">
+							<form style="display: inline" action="{{route('eliminarPagoIntl')}}" method="post" onsubmit="return confirm('¿Está seguro de Anular el Pago?');">
 								{{csrf_field()}}
 								{{ method_field('DELETE') }}
+								<input type="hidden" name="pagoID" value="{{$pago->id}}">
 								<button class="btn btn-sm btn-default" type="submit">
 									<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i> Anular
 								</button>
