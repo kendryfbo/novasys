@@ -4,6 +4,7 @@ namespace App\Models\Finanzas;
 
 use DB;
 use Auth;
+use Carbon\Carbon;
 use App\Models\Finanzas\AbonoIntl;
 use App\Models\Comercial\NotaCreditoIntl;
 use App\Models\Comercial\ClienteIntl;
@@ -59,103 +60,6 @@ class PagoIntl extends Model
           self::registerPagoNC($request);
         }
 
-        /*
-        $abonos = AbonoIntl::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->orderBy('fecha_abono')->limit(1)->get();
-
-        $facturas = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->get();
-
-        $facturaNumero = $facturas->pluck('numero');
-
-        $notaCredito = NotaCreditoIntl::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->limit(1)->get();
-
-        if ($abonos->isEmpty()) {
-            //Sample
-            $abonos = AbonoIntl::where('id', 1)->get();
-        }
-        if ($notaCredito->isEmpty()) {
-            //Sample
-            $notaCredito = NotaCreditoIntl::where('id', 1)->get();
-        }
-
-        $facturas = $request->facturas;
-        foreach ($facturas as $factura) {
-
-          $factura = json_decode($factura);
-
-          if (empty($factura->pago)) {
-            continue;
-          }
-          $pago = $factura->pago;
-
-          $factura = FacturaIntl::find($factura->id);
-
-          foreach ($abonos as $abono) {
-            $saldoAbono = $abono->restante;
-
-            foreach ($notaCredito as $notaCredit) {
-
-
-
-            if ($pago <= $saldoAbono) {
-                //dump('if');
-                $pagoAbono = PagoIntl::create([
-                'factura_id' => $factura->id,
-                'usuario_id' => Auth::user()->id,
-                'abono_id' => $abono->id,
-                'status_id' => 1,
-                'numero_documento' => $request->numero_documento,
-                'monto' => $pago,
-                'saldo' => $factura->deuda - $pago,
-                'fecha_pago' => $fecha,
-              ]);
-
-              // actualizar factura
-              $factura->deuda = $factura->deuda - $pago;
-              $factura->updatePago();
-              $factura->save();
-              //actualizar abono
-              $abono->restante = $abono->restante - $request->monto_abonado;
-              //dump($abono->monto,$abono->restante);
-              //dd($abono);
-              $abono->updateStatus();
-              $abono->save();
-              //actualizar Nota de Crédito
-              $notaCredit->restante = $notaCredit->restante - $request->monto_notaCredito;
-              $notaCredit->updateStatus();
-              $notaCredit->save();
-              break;
-            } else {
-                //dump('else');
-                $pagoAbono = PagoIntl::create([
-                'factura_id' => $factura->id,
-                'usuario_id' => Auth::user()->id,
-                'abono_id' => $abono->id,
-                'status_id' => 1,
-                'numero_documento' => $request->numero_documento,
-                'monto' => $pago,
-                'saldo' => $factura->deuda - $pago,
-                'fecha_pago' => $fecha,
-              ]);
-
-              // actualizar factura
-              $factura->deuda = $factura->deuda - $pago;
-              $factura->updatePago();
-              $factura->save();
-              //actualizar abono
-              $abono->restante = $abono->restante - $request->monto_abonado;
-              //dump($abono->monto,$abono->restante);
-              //dd($abono);
-              $abono->updateStatus();
-              $abono->save();
-              //actualizar Nota de Crédito
-              $notaCredit->restante = $notaCredit->restante - $request->monto_notaCredito;
-              $notaCredit->updateStatus();
-              $notaCredit->save();
-            }
-          }
-        }
-    }
-      */
       },5);
     }
 
@@ -187,7 +91,7 @@ class PagoIntl extends Model
         'factura_id' => $factura->id,
         'usuario_id' => Auth::user()->id,
         'tipo_id' => $pagoDirectoID,
-        'abono_id' => 1, // PAGO DIRECTO
+        'abono_id' => Carbon::now()->format('YmdHis'), // PAGO DIRECTO
         'numero' => $numero,
         'monto' => $pago,
         'saldo' => $factura->deuda,
@@ -301,15 +205,15 @@ class PagoIntl extends Model
       return self::PAGO_NC;
     }
 
-    static function unRegister($pagoID) {
+    static function unRegister($identUnico) {
 
-      DB::transaction( function() use($pagoID){
+      DB::transaction( function() use($identUnico){
 
         $pagoDirecto = PagoIntl::getPagoDirectoID();
         $pagoAbono = PagoIntl::getPagoAbonoID();
         $pagoNC = PagoIntl::getPagoNCID();
 
-        $pago = PagoIntl::find($pagoID);
+        $pago = PagoIntl::find($identUnico);
 
         if ($pagoAbono == $pago->tipo_id) {
           //actualizar abono
@@ -335,6 +239,27 @@ class PagoIntl extends Model
         $pago->delete();
       },5);
     }
+
+
+    static function historialPago($clienteID) {
+
+        $query = "select b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo from pagos_intl a, factura_intl b WHERE b.cancelada = '1' AND a.factura_id=b.id AND b.cliente_id=".$clienteID." UNION
+        select cancelada,'' as 'num_doc', numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo from factura_intl where cancelada = '1' AND cliente_id=".$clienteID." ORDER BY  numero,fecha_pago";
+
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
+        static function facturasPorPagar($clienteID) {
+
+        $query = "select c.zona as zona, b.fecha_venc as 'fecha_venc', b.proforma as 'proforma', b.cliente as 'cliente', b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo from pagos_intl a, factura_intl b, cliente_intl c WHERE b.cancelada = '0' AND a.factura_id=b.id AND b.cliente_id=c.id AND b.cliente_id=".$clienteID." UNION
+        select '' as zona,  fecha_venc as 'fecha_venc', proforma as 'proforma', cliente as 'cliente', cancelada,'' as 'num_doc',numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo from factura_intl where cancelada = '0' AND cliente_id=".$clienteID." ORDER BY numero,fecha_pago";
+
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
+
 
   /*
 	|

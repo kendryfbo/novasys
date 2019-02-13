@@ -22,8 +22,10 @@ class PagosIntlController extends Controller
 
         //$pagos = PagoIntl::take(20)->get();
         /* Cargar solo los clientes con facturas pendientes por cancelar*/
-        $clientes = ClienteIntl::getAllActive();
-        $pagos = PagoIntl::orderBy('id','DESC')->take(50)->get();
+        $clientes = ClienteIntl::where('id', '!=', '0')->get();
+        //$pagos = PagoIntl::orderBy('id','DESC')->take(50)->get();
+        $pagos = PagoIntl::orderBy('id','DESC')->where('numero', 'NOT LIKE', 'Cargo Inicial')->take(50)->get();
+
         return view('finanzas.pagosIntl.index')->with(['clientes' => $clientes, 'pagos' => $pagos]);
       }
 
@@ -68,74 +70,121 @@ class PagosIntlController extends Controller
      public function destroy(Request $request) {
 
        $pagoID = $request->pagoID;
+       $identUnico = $request->identUnico;
 
-       PagoIntl::unRegister($pagoID);
+       PagoIntl::unRegister($identUnico, $pagoID);
 
        return redirect()->route('pagosIntl');
      }
 
     /**
-     *  Historial de Pago de Facturas Internacionales por Clientes
+     *  Historial Pago de Facturas Internacionales x Cliente
      *
      * @return \Illuminate\Http\Response
      * @param  \App\Http\Controllers\Api\ApiFacturaIntlController;
      */
 
      public function historial(Request $request) {
+
+         $clienteID = $request->cliente;
+         $historial = [];
+
+
+         if ($clienteID == '0') {
+
+             $historial = PagoIntl::historialPagosTodos($clienteID);
+             $saldo =  0;
+
+             foreach ($historial as $item) {
+
+                 $saldo = $saldo + ($item->cargo - $item->abono);
+
+                 $item->saldo = $saldo;
+
+                }
+
+         }
+
+        if ($clienteID) {
+
+             $historial = PagoIntl::historialPago($clienteID);
+             $saldo =  0;
+
+             foreach ($historial as $item) {
+
+                 $saldo = $saldo + ($item->cargo - $item->abono);
+
+                 $item->saldo = $saldo;
+
+                }
+
+         }
+
          $busqueda = $request;
-         $pagos = [];
 
-        if ($request->all()) {
-             $queryClientes = [];
+         $clientes = ClienteIntl::where('id', '!=', '0')->get();
 
-            if ($request->cliente) {
-                 $cliente = ['id', '=', $request->cliente];
-                 array_push($queryClientes,$cliente);
-            };
-
-             $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-             $facturas = FacturaIntl::where('cliente_id',$clientes)->where('cancelada', 1)->pluck('id');
-             $pagos = PagoIntl::whereIn('factura_id',$facturas)->orderBy('factura_id')->orderBy('fecha_pago')->get();
-
-        }
-
-         $clientes = ClienteIntl::getAllActive();
-
-         return view('finanzas.pagosIntl.historial')
+        return view('finanzas.pagosIntl.historial')
                  ->with([
                     'busqueda' => $busqueda,
                     'clientes' => $clientes,
-                    'pagos' => $pagos
+                    'clienteID' => $clienteID,
+                    'pagos' => $historial
                  ]);
      }
 
 
 
-    public function reportHistorialExcel(Request $request) {
-        $busqueda = $request;
-        $pagos = [];
+        public function reportHistorialExcel(Request $request) {
 
-       if ($request->all()) {
-            $queryClientes = [];
 
-           if ($request->cliente) {
-                $cliente = ['id', '=', $request->cliente];
-                array_push($queryClientes,$cliente);
-           };
+        $clienteID = $request->cliente;
+        $historial = [];
 
-            $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-            $facturas = FacturaIntl::where('cliente_id',$clientes)->where('cancelada', 1)->pluck('id');
-            $pagos = PagoIntl::whereIn('factura_id',$facturas)->orderBy('factura_id')->orderBy('fecha_pago')->get();
 
-       }
+        if ($clienteID == '0') {
+
+            $historial = PagoIntl::historialPagosTodos($clienteID);
+            $saldo =  0;
+
+            foreach ($historial as $item) {
+
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+               }
+
+        }
+
+        if ($clienteID) {
+
+            $historial = PagoIntl::historialPago($clienteID);
+            $saldo =  0;
+
+            foreach ($historial as $item) {
+
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+            }
+
+        }
+
+        $historial = collect($historial);
+
+        $historial->total_cargo = $historial->sum('cargo');
+        $historial->total_abono = $historial->sum('abono');
+        $historial->total = $historial->total_cargo - $historial->total_abono;
 
         $clientes = ClienteIntl::getAllActive();
 
-            Excel::create('Historial Fact. Intl Pagadas', function($excel) use ($pagos)
+            Excel::create('Historial Fact. Intl Pagadas', function($excel) use ($historial)
             {
-                $excel->sheet('Historial Fact. Intl Pagadas', function($sheet) use ($pagos)
+                $excel->sheet('Historial Fact. Intl Pagadas', function($sheet) use ($historial)
                 {
-                    $sheet->loadView('documents.excel.reportHistorialPagosIntl')->with('pagos', $pagos);
+                    $sheet->loadView('documents.excel.reportHistorialPagosIntl')->with('pagos', $historial);
                 });
             })->export('xls');
         }
@@ -151,84 +200,105 @@ class PagosIntlController extends Controller
      */
 
     public function porCobrar(Request $request) {
-        $busqueda = $request;
-        $pagos = [];
 
-        if ($request->all()) {
-            $queryDates = [];
-            $queryClientes = [];
+        $clienteID = $request->cliente;
+        $porCobrar = [];
 
-            if ($request->desde) {
-                $desde = ['fecha_emision', '>=', $request->desde];
-                array_push($queryDates,$desde);
-            };
 
-            if ($request->hasta) {
-                $hasta = ['fecha_emision', '<=', $request->hasta];
-                array_push($queryDates,$hasta);
-            };
+        if ($clienteID == '0') {
 
-            if ($request->cliente) {
-                $cliente = ['id', '=', $request->cliente];
-                array_push($queryClientes,$cliente);
-            };
+            $porCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
+            $saldo =  0;
 
-            $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-            $facturas = FacturaIntl::where('cliente_id',$clientes)->where('cancelada', 0)->where($queryDates)->pluck('id');
-            $pagos = PagoIntl::whereIn('factura_id', $facturas)->orderBy('factura_id')->get();
+            foreach ($porCobrar as $item) {
+
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+               }
 
         }
 
+       if ($clienteID) {
+
+            $porCobrar = PagoIntl::facturasPorPagar($clienteID);
+            $saldo =  0;
+
+            foreach ($porCobrar as $item) {
+
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+               }
+
+        }
+
+        $busqueda = $request;
+
         $clientes = ClienteIntl::getAllActive();
 
-        return view('finanzas.pagosIntl.porCobrar')
+       return view('finanzas.pagosIntl.porCobrar')
                 ->with([
-                    'busqueda' => $busqueda,
-                    'pagos' => $pagos,
-                    'clientes' => $clientes
+                   'busqueda' => $busqueda,
+                   'clientes' => $clientes,
+                   'clienteID' => $clienteID,
+                   'pagos' => $porCobrar
                 ]);
-    }
-
+       }
 
     public function reportFactIntlPorCobrarExcel(Request $request) {
-        $busqueda = $request;
-        $pagos = [];
+        $clienteID = $request->cliente;
+        $porCobrar = [];
 
-        if ($request->all()) {
-            $queryDates = [];
-            $queryClientes = [];
 
-            if ($request->desde) {
-                $desde = ['fecha_emision', '>=', $request->desde];
-                array_push($queryDates,$desde);
-            };
+        if ($clienteID == '0') {
 
-            if ($request->hasta) {
-                $hasta = ['fecha_emision', '<=', $request->hasta];
-                array_push($queryDates,$hasta);
-            };
+            $porCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
+            $saldo =  0;
 
-            if ($request->cliente) {
-                $cliente = ['id', '=', $request->cliente];
-                array_push($queryClientes,$cliente);
-            };
+            foreach ($porCobrar as $item) {
 
-            $clientes = ClienteIntl::where($queryClientes)->pluck('id');
-            $facturas = FacturaIntl::where('cliente_id',$clientes)->where('cancelada', 0)->where($queryDates)->pluck('id');
-            $pagos = PagoIntl::whereIn('factura_id',$facturas)->orderBy('factura_id')->get();
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+               }
+
         }
+
+        if ($clienteID) {
+
+            $porCobrar = PagoIntl::facturasPorPagar($clienteID);
+            $saldo =  0;
+
+            foreach ($porCobrar as $item) {
+
+                $saldo = $saldo + ($item->cargo - $item->abono);
+
+                $item->saldo = $saldo;
+
+            }
+
+        }
+
+        $porCobrar = collect($porCobrar);
+
+        $porCobrar->total_cargo = $porCobrar->sum('cargo');
+        $porCobrar->total_abono = $porCobrar->sum('abono');
+        $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
 
         $clientes = ClienteIntl::getAllActive();
 
-        Excel::create('Fact x Cobrar', function($excel) use ($pagos)
-        {
-            $excel->sheet('Fact x Cobrar', function($sheet) use ($pagos)
+            Excel::create('Facturas x Cobrar', function($excel) use ($porCobrar)
             {
-                $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos', $pagos);
-            });
-        })->export('xls');
-    }
-
+                $excel->sheet('Facturas x Cobrar', function($sheet) use ($porCobrar)
+                {
+                    $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos', $porCobrar);
+                });
+            })->export('xls');
+        }
 
 
     /**
