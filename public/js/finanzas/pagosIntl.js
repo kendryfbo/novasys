@@ -110,7 +110,6 @@ var app = new Vue({
                 break;
               }
               this.facturas[i].pago = Number(pago)
-              alert(this.facturas[i].pago);
               this.facturas[i].deuda = this.facturas[i].deuda - this.facturas[i].pago;
               this.montoDepo = this.montoDepo - this.facturas[i].pago;
               break;

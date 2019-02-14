@@ -215,12 +215,36 @@ class PagoIntl extends Model
 
         $pago = PagoIntl::find($identUnico);
 
-        if ($pagoAbono == $pago->tipo_id) {
+        if ($pagoDirecto == $pago->tipo_id) {
+
+          $pagos = PagoIntl::where('tipo_id','=',$pagoDirecto)->where('abono_id','=',$pago->abono_id)->get();
+
+          foreach ($pagos as $pago) {
+
+            // actualizar factura
+            $factura = FacturaIntl::find($pago->factura_id);
+            $factura->deuda = $factura->deuda + $pago->monto;
+            $factura->updatePago();
+            $factura->save();
+            // Eliminar Pago
+            $pago->delete();
+          }
+          
+        }
+        else if ($pagoAbono == $pago->tipo_id) {
           //actualizar abono
           $abono = AbonoIntl::find($pago->abono_id);
           $abono->restante = $abono->restante + $pago->monto;
           $abono->updateStatus();
           $abono->save();
+
+          // actualizar factura
+          $factura = FacturaIntl::find($pago->factura_id);
+          $factura->deuda = $factura->deuda + $pago->monto;
+          $factura->updatePago();
+          $factura->save();
+          // Eliminar Pago
+          $pago->delete();
 
         } else if ($pagoNC == $pago->tipo_id) {
           //actualizar Nota Credito
@@ -228,15 +252,15 @@ class PagoIntl extends Model
           $notaCredito->restante = $notaCredito->restante + $pago->monto;
           $notaCredito->updateStatus();
           $notaCredito->save();
-        }
 
-        // actualizar factura
-        $factura = FacturaIntl::find($pago->factura_id);
-        $factura->deuda = $factura->deuda + $pago->monto;
-        $factura->updatePago();
-        $factura->save();
-        // Eliminar Pago
-        $pago->delete();
+          // actualizar factura
+          $factura = FacturaIntl::find($pago->factura_id);
+          $factura->deuda = $factura->deuda + $pago->monto;
+          $factura->updatePago();
+          $factura->save();
+          // Eliminar Pago
+          $pago->delete();
+        }
       },5);
     }
 
