@@ -68,7 +68,6 @@
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" data-page-length='25' cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th class="text-center">#</th>
 						<th class="text-center">FACTURA</th>
 						<th class="text-center">FECHA PAGO</th>
 						<th class="text-center">DOC. PAGO</th>
@@ -78,25 +77,35 @@
 					</tr>
 				</thead>
 				<tbody>
-				@foreach ($pagos as $pago)
+				@foreach ($pagos as $factura)
+				<tr>
+					<td class="text-center">{{$factura->numero}}</td>
+					<td class="text-center">{{$factura->fecha_emision}}</td>
+					<td class="text-center">Factura</td>
+					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
+					<td class="text-center">---</td>
+					@if (isset($factura->pagos))
+					<td class="text-center">---</td>
+					@else
+					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
+					@endif
+				</tr>
+					@foreach ($factura->pagos as $pago)
 					<tr>
-						<td class="text-center">{{$loop->iteration}}</td>
-						<td class="text-center">{{$pago->numero}}</td>
+						<td class="text-center">{{$factura->numero}}</td>
 						<td class="text-center">{{$pago->fecha_pago}}</td>
-						<td class="text-center">{{$pago->tipo_doc}} {{$pago->num_doc}}</td>
-						<td class="text-center">{{number_format($pago->cargo, 2,'.',',')}}</td>
-						<td class="text-center">{{number_format($pago->abono, 2,'.',',')}}</td>
-						<td class="text-center">{{number_format($pago->saldoPago, 2,'.',',')}}
-
-							@if (isset($pago->abono) == $pago->abono)
-								
-	                                                 @else
-
-	                                                 @endif
-
-
-
-						</td>
+						<td class="text-center">Abono</td>
+						<td class="text-center">---</td>
+						<td class="text-center">{{number_format($pago->monto, 2,'.',',')}}</td>
+						@if ($loop->last)
+							<td class="text-center">{{number_format(($factura->total - $factura->pagos->sum('monto')), 2,'.',',')}}</td>
+						@else
+							<td class="text-center">---</td>
+						@endif
+					</tr>
+					@endforeach
+					<tr class="active">
+						<td colspan="6"></td>
 					</tr>
 				@endforeach
 				</tbody>

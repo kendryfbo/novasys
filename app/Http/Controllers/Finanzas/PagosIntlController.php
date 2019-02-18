@@ -107,8 +107,9 @@ class PagosIntlController extends Controller
         if ($clienteID) {
 
              $historial = PagoIntl::historialPago($clienteID);
+             //dd($historial);
+             /*
              $saldo =  0;
-
              foreach ($historial as $item) {
 
                  $saldo = $saldo + ($item->cargo - $item->abono);
@@ -116,6 +117,7 @@ class PagosIntlController extends Controller
                  $item->saldo = $saldo;
 
                 }
+            */
 
          }
 

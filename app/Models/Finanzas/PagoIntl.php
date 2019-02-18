@@ -274,10 +274,13 @@ class PagoIntl extends Model
 
     static function historialPago($clienteID) {
 
-        $query = "select b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo, a.saldo AS saldoPago from pagos_intl a, factura_intl b WHERE a.factura_id=b.id AND b.cliente_id=".$clienteID." UNION
-        select cancelada,'' as 'num_doc', numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo, 0 AS saldoPago from factura_intl where cliente_id=".$clienteID." ORDER BY  numero,fecha_pago";
+      /*
+      $query = "select b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo, a.saldo AS saldoPago from pagos_intl a, factura_intl b WHERE a.factura_id=b.id AND b.cliente_id=".$clienteID." UNION
+      select cancelada,'' as 'num_doc', numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo, 0 AS saldoPago from factura_intl where cliente_id=".$clienteID." ORDER BY  numero,fecha_pago";
+      $results = DB::select(DB::raw($query));
+      */
+        $results = FacturaIntl::with('pagos')->where('cliente_id',$clienteID)->orderBy('numero','ASC')->get();
 
-        $results = DB::select(DB::raw($query));
         return $results;
     }
 
@@ -328,7 +331,7 @@ class PagoIntl extends Model
 
     public function Factura() {
 
-		return $this->hasOne('App\Models\Comercial\FacturaIntl', 'id', 'factura_id');
+		return $this->hasMany('App\Models\Comercial\FacturaIntl', 'id', 'factura_id');
 	}
 
     public function clienteIntl()

@@ -217,7 +217,7 @@ class FacturaIntl extends Model
         if ($this->deuda <= 0) {
 
 					$this->cancelada = 1;
-					
+
 				} else {
 
 					$this->cancelada = 0;
@@ -240,7 +240,7 @@ class FacturaIntl extends Model
 
 	public function pagos() {
 
-		return $this->hasOne(PagoIntl::class,'factura_id');
+		return $this->hasMany(PagoIntl::class,'factura_id');
 	}
 
 	public function detalles() {
