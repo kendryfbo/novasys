@@ -39,13 +39,8 @@
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-3">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente">
-
-							<option value="">Todos...</option>
-
 							@foreach ($clientes as $cliente)
-
-								<option {{$cliente->id == $busqueda->cliente_id ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
-
+								<option {{$clienteID == $cliente->id ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
 							@endforeach
 
 
@@ -86,12 +81,22 @@
 				@foreach ($pagos as $pago)
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
-						<td class="text-center">{{$pago->Factura->numero}}</td>
-						<td class="text-center">{{$pago->fecha_pago->format('d-m-Y')}}</td>
-						<td class="text-center">{{$pago->numero_documento}}</td>
-						<td class="text-center">{{$pago->Factura->total}}</td>
-						<td class="text-center">{{$pago->monto}}</td>
-						<td class="text-center">{{$pago->saldo}}</td>
+						<td class="text-center">{{$pago->numero}}</td>
+						<td class="text-center">{{$pago->fecha_pago}}</td>
+						<td class="text-center">{{$pago->tipo_doc}} {{$pago->num_doc}}</td>
+						<td class="text-center">{{number_format($pago->cargo, 2,'.',',')}}</td>
+						<td class="text-center">{{number_format($pago->abono, 2,'.',',')}}</td>
+						<td class="text-center">{{number_format($pago->saldoPago, 2,'.',',')}}
+
+							@if (isset($pago->abono) == $pago->abono)
+								
+	                                                 @else
+
+	                                                 @endif
+
+
+
+						</td>
 					</tr>
 				@endforeach
 				</tbody>

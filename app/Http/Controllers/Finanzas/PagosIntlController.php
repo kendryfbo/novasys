@@ -70,9 +70,8 @@ class PagosIntlController extends Controller
      public function destroy(Request $request) {
 
        $pagoID = $request->pagoID;
-       $identUnico = $request->identUnico;
 
-       PagoIntl::unRegister($identUnico, $pagoID);
+       PagoIntl::unRegister($pagoID);
 
        return redirect()->route('pagosIntl');
      }
@@ -248,6 +247,7 @@ class PagosIntlController extends Controller
                 ]);
        }
 
+
     public function reportFactIntlPorCobrarExcel(Request $request) {
         $clienteID = $request->cliente;
         $porCobrar = [];
@@ -291,14 +291,39 @@ class PagosIntlController extends Controller
 
         $clientes = ClienteIntl::getAllActive();
 
-            Excel::create('Facturas x Cobrar', function($excel) use ($porCobrar)
+            Excel::create('Facturas por Cobrar', function($excel) use ($porCobrar)
             {
-                $excel->sheet('Facturas x Cobrar', function($sheet) use ($porCobrar)
+                $excel->sheet('Facturas por Cobrar', function($sheet) use ($porCobrar)
                 {
-                    $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos', $porCobrar);
+                    $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos',$porCobrar);
                 });
             })->export('xls');
         }
+
+
+        public function reportFactIntlPorCobrarExcelByZonas(Request $request) {
+            $saldo =  0;
+            $clienteID = 67; //Testing
+            $porCobrar = PagoIntl::facturasPorPagarExcelReport($clienteID);
+            foreach ($porCobrar as $item) {
+                    $saldo = $saldo + ($item->cargo - $item->abono);
+                    $item->saldo = $saldo;
+                }
+            $porCobrar = collect($porCobrar);
+            $porCobrar->total_cargo = $porCobrar->sum('cargo');
+            $porCobrar->total_abono = $porCobrar->sum('abono');
+            $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+
+            $clientes = ClienteIntl::getAllActive();
+
+                Excel::create('Facturas por Cobrar', function($excel) use ($porCobrar)
+                {
+                    $excel->sheet('Facturas por Cobrar', function($sheet) use ($porCobrar)
+                    {
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarByZonas')->with(['pagos' => $porCobrar]);
+                    });
+                })->export('xls');
+            }
 
 
     /**
@@ -326,7 +351,7 @@ class PagosIntlController extends Controller
 
            }
 
-            $clientes = ClienteIntl::getAllActive();
+            $clientes = ClienteIntl::where('id', '!=', '0')->get();
 
             return view('finanzas.pagosIntl.anularPagoIntl')
                     ->with([

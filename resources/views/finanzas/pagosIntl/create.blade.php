@@ -30,6 +30,8 @@
 					<label class="control-label col-lg-2">Cliente : </label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="text" value="{{$cliente->descripcion}}" readonly>
+						<input class="form-control input-sm" type="hidden" name="notaCred" v-model="notaCred" value="">
+						<input class="form-control input-sm" type="hidden" name="antAbono" v-model="antAbono" value="">
 						<input class="form-control input-sm" type="hidden" name="clienteID" value="{{$cliente->id}}" readonly>
 					</div>
 					<label class="control-label col-lg-2">Fecha de Pago : </label>
@@ -121,7 +123,7 @@
 								<input class="form-control" :id="factura.id" type="number" @focus="cargarPago(factura.id,$event)">
 							</td>
 							<td class="text-center">
-								<button type="button" id="button" name="button" value="" onclick="this.disabled=true;" @click="registrarPago(factura.id)">Pagar</button>
+								<button type="button" id="button" name="button" value="" onclick="this.disabled=false;" @click="registrarPago(factura.id)">Pagar</button>
 							</td>
 					</tr>
 				</tbody>
@@ -153,7 +155,7 @@
 								<input class="form-control" :id="abono.id" type="number" @focus="cargarAbono(abono.id,$event)">
 							</td>
 							<td class="text-center">
-								<button type="button" name="button" value="" onclick="this.disabled=true;" @click="utilizarAbono(abono.id)">@{{abonoStatus}}</button>
+								<button type="button" name="button" value="" onclick="this.disabled=false;" @click="utilizarAbono(abono.id)">@{{abonoStatus}}</button>
 							</td>
 					</tr>
 				</tbody>
@@ -189,7 +191,7 @@
 						  <input class="form-control" :id="notaCredito.id" type="number" @focus="cargarNotaCredito(notaCredito.id,$event)">
 	  					  </td>
 	  					  <td class="text-center">
-							 <button type="button" name="button" onclick="this.disabled=true;" @click.once="utilizarNotaCredito(notaCredito.id)">@{{ncStatus}}</button>
+							 <button type="button" name="button" onclick="this.disabled=false;" @click.once="utilizarNotaCredito(notaCredito.id)">@{{ncStatus}}</button>
 	  					  </td>
 	  			  </tr>
 	  		  </tbody>

@@ -65,18 +65,19 @@ Route::prefix('finanzas')->group( function() {
     // Pagos Internacionales
     Route::prefix('pagosFactIntl')->group( function() {
 
-        route::get('/',                     'Finanzas\PagosIntlController@index')->name('pagosIntl');
-        route::get('/crear',                'Finanzas\PagosIntlController@create')->name('crearPagoFactIntl');
-        route::post('/guardaPago',          'Finanzas\PagosIntlController@store')->name('guardaPagoIntl');
-        route::get('/historial',            'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
-        route::post('/historial',           'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
-        route::post('/reportHistorial',     'Finanzas\PagosIntlController@reportHistorialExcel')->name('descargarHistorialPagoIntlExcel');
-        route::get('/facturasPorCobrar',    'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
-        route::post('/facturasPorCobrar',   'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
-        route::post('/reportFactPorCobrar', 'Finanzas\PagosIntlController@reportFactIntlPorCobrarExcel')->name('descargarFactIntlPorCobrarExcel');
-        route::get('/anularFact',           'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
-        route::post('/anularFact',          'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
-        route::delete('/delete',            'Finanzas\PagosIntlController@destroy')->name('eliminarPagoIntl');
+        route::get('/',                       'Finanzas\PagosIntlController@index')->name('pagosIntl');
+        route::get('/crear',                  'Finanzas\PagosIntlController@create')->name('crearPagoFactIntl');
+        route::post('/guardaPago',            'Finanzas\PagosIntlController@store')->name('guardaPagoIntl');
+        route::get('/historial',              'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
+        route::post('/historial',             'Finanzas\PagosIntlController@historial')->name('historialPagoIntl');
+        route::post('/reportHistorial',       'Finanzas\PagosIntlController@reportHistorialExcel')->name('descargarHistorialPagoIntlExcel');
+        route::get('/facturasPorCobrar',      'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
+        route::post('/facturasPorCobrar',     'Finanzas\PagosIntlController@porCobrar')->name('pagoPorCobrar');
+        route::post('/reportFactPorCobrar',   'Finanzas\PagosIntlController@reportFactIntlPorCobrarExcel')->name('descargarFactIntlPorCobrarExcel');
+        route::post('/reportHistorialByZonas','Finanzas\PagosIntlController@reportFactIntlPorCobrarExcelByZonas')->name('descargarHistorialPagoIntlExcelByZonas');
+        route::get('/anularFact',             'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
+        route::post('/anularFact',            'Finanzas\PagosIntlController@anularPagoIntl')->name('anulaPagoIntl');
+        route::delete('/delete',              'Finanzas\PagosIntlController@destroy')->name('eliminarPagoIntl');
 
     });
 

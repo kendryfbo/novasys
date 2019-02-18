@@ -13,9 +13,10 @@ var app = new Vue({
     montoNC: '',
     montoAnticipo: '',
     docuPago: '',
-    abonoId: '',
+    antAbono: '',
     restante: '',
     notasCredito: notasCredito,
+    notaCred: '',
     facturaFromClienteURL: facturaFromClienteURL,
     abonoFromClienteURL: abonoFromClienteURL,
     abonoStatus: 'Usar',
@@ -129,9 +130,10 @@ var app = new Vue({
                 alert('el monto del Anticipo es mayor al saldo restante');
                 break;
               }
-              this.abonos[i].anticipo = anticipo;
-              this.abonos[i].restante = this.abonos[i].restante - anticipo;
-              this.saldoTotalAbono = this.saldoTotalAbono - anticipo;
+              this.antAbono = this.abonos[i].id;
+              this.abonos[i].anticipo = Number(anticipo);
+              this.abonos[i].restante = this.abonos[i].restante - this.abonos[i].anticipo;
+              this.saldoTotalAbono = this.saldoTotalAbono - this.abonos[i].anticipo;
               this.montoDepo = this.abonos[i].anticipo;
               this.montoAnticipo = this.abonos[i].anticipo;
               this.docuPago = this.abonos[i].docu_abono;
@@ -154,9 +156,10 @@ var app = new Vue({
                 alert('el monto de Nota de Crédito es mayor al saldo restante');
                 break;
               }
-              this.notasCredito[i].notaCredito = notaCredito;
-              this.notasCredito[i].restante = this.notasCredito[i].restante - notaCredito;
-              this.saldoTotalNC = this.saldoTotalNC - notaCredito;
+              this.notaCred = this.notasCredito[i].id;
+              this.notasCredito[i].notaCredito = Number(notaCredito);
+              this.notasCredito[i].restante = this.notasCredito[i].restante - this.notasCredito[i].notaCredito;
+              this.saldoTotalNC = this.saldoTotalNC - this.notasCredito[i].notaCredito;
               this.montoDepo = this.notasCredito[i].notaCredito;
               this.montoNC = this.notasCredito[i].notaCredito;
               this.docuPago = 'NC ' + this.notasCredito[i].numero;

@@ -39,16 +39,9 @@
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-3">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente">
-
-							<option value="">Todos...</option>
-
 							@foreach ($clientes as $cliente)
-
 								<option {{$cliente->id == $busqueda->cliente_id ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
-
 							@endforeach
-
-
 						</select>
 					</div>
 
