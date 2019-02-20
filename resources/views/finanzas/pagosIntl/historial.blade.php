@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Historial de Facturas Pagadas</h4>
+			<h4>Historial de Facturas Intl Pagadas</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -47,10 +47,10 @@
 						</select>
 					</div>
 
-					<div class="col-lg-1 pull-right">
+					<div class="col-lg-3 pull-left">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
 					</div>
-						<div class="col-lg-1 pull-right">
+						<div class="col-lg-2 pull-right">
 								<button form="download" class="btn btn-info" type="submit" name="button">Descargar Excel</button>
 						</div>
 				</div>
@@ -80,12 +80,12 @@
 				@foreach ($pagos as $factura)
 				<tr>
 					<td class="text-center">{{$factura->numero}}</td>
-					<td class="text-center">{{$factura->fecha_emision}}</td>
+					<td class="text-center">{{Carbon\Carbon::parse($factura->fecha_emision)->format('d/m/Y')}}</td>
 					<td class="text-center">Factura</td>
 					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
-					<td class="text-center">---</td>
-					@if (isset($factura->pagos))
-					<td class="text-center">---</td>
+					<td class="text-center">0</td>
+					@if(isset($factura->pagos))
+					<td class="text-center">0</td>
 					@else
 					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
 					@endif
@@ -93,14 +93,14 @@
 					@foreach ($factura->pagos as $pago)
 					<tr>
 						<td class="text-center">{{$factura->numero}}</td>
-						<td class="text-center">{{$pago->fecha_pago}}</td>
-						<td class="text-center">Abono</td>
-						<td class="text-center">---</td>
+						<td class="text-center">{{Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y')}}</td>
+						<td class="text-center">Abono {{$pago->numero}}</td>
+						<td class="text-center">0</td>
 						<td class="text-center">{{number_format($pago->monto, 2,'.',',')}}</td>
 						@if ($loop->last)
 							<td class="text-center">{{number_format(($factura->total - $factura->pagos->sum('monto')), 2,'.',',')}}</td>
 						@else
-							<td class="text-center">---</td>
+							<td class="text-center">0</td>
 						@endif
 					</tr>
 					@endforeach

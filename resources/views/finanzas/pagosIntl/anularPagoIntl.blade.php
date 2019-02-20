@@ -45,7 +45,7 @@
 						</select>
 					</div>
 
-					<div class="col-lg-1 pull-right">
+					<div class="col-lg-3 pull-left">
 						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
 					</div>
 
@@ -80,7 +80,7 @@
 						<td class="text-center">{{$pago->Factura->clienteIntl->descripcion}}</td>
 						<td class="text-center">{{$pago->fecha_pago->format('d-m-Y')}}</td>
 						<td class="text-center">{{$pago->Factura->numero}}</td>
-						<td class="text-center">{{$pago->numero_documento}}</td>
+						<td class="text-center">{{$pago->numero}}</td>
 						<td class="text-center">USD {{number_format($pago->monto, 2,',','.')}}</td>
 						<td class="text-center">
 							<form style="display: inline" action="{{route('eliminarPagoIntl')}}" method="post" onsubmit="return confirm('¿Está seguro de Anular el Pago?');">

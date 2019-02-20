@@ -22,9 +22,7 @@ class PagoIntl extends Model
 
     protected $fillable = ['factura_id', 'usuario_id', 'tipo_id', 'abono_id', 'numero', 'monto', 'saldo', 'fecha_pago'];
 
-    protected $dates = [
-            'fecha_pago'
-        ];
+    protected $dates = ['fecha_pago', 'expired_at'];
 
 
     /*
@@ -271,58 +269,32 @@ class PagoIntl extends Model
       },5);
     }
 
-
     static function historialPago($clienteID) {
 
-      /*
-      $query = "select b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo, a.saldo AS saldoPago from pagos_intl a, factura_intl b WHERE a.factura_id=b.id AND b.cliente_id=".$clienteID." UNION
-      select cancelada,'' as 'num_doc', numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo, 0 AS saldoPago from factura_intl where cliente_id=".$clienteID." ORDER BY  numero,fecha_pago";
-      $results = DB::select(DB::raw($query));
-      */
         $results = FacturaIntl::with('pagos')->where('cliente_id',$clienteID)->orderBy('numero','ASC')->get();
-
         return $results;
     }
 
-    static function historialPagoTodos($clienteID) {
+    static function facturasPorPagar($clienteID) {
 
-        $query = "select b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo, a.saldo AS saldoPago from pagos_intl a, factura_intl b WHERE a.factura_id=b.id AND b.cliente_id=b.cliente_id UNION
-        select cancelada,'' as 'num_doc', numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo, 0 AS saldoPago from factura_intl where cliente_id=cliente_id ORDER BY  numero,fecha_pago";
-
-        $results = DB::select(DB::raw($query));
+        $results = FacturaIntl::with('pagos')->where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('numero','ASC')->get();
         return $results;
     }
 
-        static function facturasPorPagar($clienteID) {
+    static function facturasPorPagarTodas() {
 
-        $query = "select c.zona as zona, b.fecha_venc as 'fecha_venc', b.proforma as 'proforma', b.cliente as 'cliente', b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo from pagos_intl a, factura_intl b, cliente_intl c WHERE b.cancelada = '0' AND a.factura_id=b.id AND b.cliente_id=c.id AND b.cliente_id=".$clienteID." UNION
-        select '' as zona,  fecha_venc as 'fecha_venc', proforma as 'proforma', cliente as 'cliente', cancelada,'' as 'num_doc',numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo from factura_intl where cancelada = '0' AND cliente_id=".$clienteID." ORDER BY numero,fecha_pago";
-
-        $results = DB::select(DB::raw($query));
+        $results = FacturaIntl::with('pagos')->where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
         return $results;
     }
 
-    static function facturasPorPagarTodas($clienteID) {
+    static function facturasPorPagarTodasByZona() {
 
-    $query = "select c.zona as zona, b.fecha_venc as 'fecha_venc', b.proforma as 'proforma', b.cliente as 'cliente', b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo from pagos_intl a, factura_intl b, cliente_intl c WHERE b.cancelada = '0' AND a.factura_id=b.id AND b.cliente_id=c.id AND b.cliente_id=b.cliente_id UNION
-    select '' as zona,  fecha_venc as 'fecha_venc', proforma as 'proforma', cliente as 'cliente', cancelada,'' as 'num_doc',numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo from factura_intl where cancelada = '0' AND cliente_id=cliente_id ORDER BY cliente,numero,fecha_pago";
-
-    $results = DB::select(DB::raw($query));
-    return $results;
-    }
-
-    static function facturasPorPagarExcelReport($clienteID) {
-
-    $query = "select c.zona as zona, b.fecha_venc as 'fecha_venc', b.proforma as 'proforma', b.cliente as 'cliente', b.cancelada, a.numero as 'num_doc', b.numero,a.fecha_pago,'Pago' as 'tipo_doc',0 as cargo,a.monto as abono, 0 as saldo from pagos_intl a, factura_intl b, cliente_intl c WHERE b.cancelada = '0' AND a.factura_id=b.id AND b.cliente_id=c.id AND b.cliente_id=".$clienteID." UNION
-    select '' as zona,  fecha_venc as 'fecha_venc', proforma as 'proforma', cliente as 'cliente', cancelada,'' as 'num_doc',numero,fecha_emision,'Factura' as 'tipo_doc',total,0 as abono, 0 as saldo from factura_intl where cancelada = '0' AND cliente_id=".$clienteID." ORDER BY cliente,numero,fecha_pago";
-
-    $results = DB::select(DB::raw($query));
-    return $results;
+        $results = FacturaIntl::with('pagos')->where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
+        return $results;
 
     }
 
-
-  /*
+    /*
 	|
 	| Relationships
 	|
@@ -331,7 +303,7 @@ class PagoIntl extends Model
 
     public function Factura() {
 
-		return $this->hasMany('App\Models\Comercial\FacturaIntl', 'id', 'factura_id');
+		return $this->hasOne('App\Models\Comercial\FacturaIntl', 'id', 'factura_id');
 	}
 
     public function clienteIntl()

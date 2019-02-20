@@ -20,10 +20,8 @@ class PagosIntlController extends Controller
 
     public function index() {
 
-        //$pagos = PagoIntl::take(20)->get();
         /* Cargar solo los clientes con facturas pendientes por cancelar*/
         $clientes = ClienteIntl::where('id', '!=', '0')->get();
-        //$pagos = PagoIntl::orderBy('id','DESC')->take(50)->get();
         $pagos = PagoIntl::orderBy('id','DESC')->where('numero', 'NOT LIKE', 'Cargo Inicial')->take(50)->get();
 
         return view('finanzas.pagosIntl.index')->with(['clientes' => $clientes, 'pagos' => $pagos]);
@@ -88,42 +86,13 @@ class PagosIntlController extends Controller
          $clienteID = $request->cliente;
          $historial = [];
 
-
-         if ($clienteID == '0') {
-
-             $historial = PagoIntl::historialPagosTodos($clienteID);
-             $saldo =  0;
-
-             foreach ($historial as $item) {
-
-                 $saldo = $saldo + ($item->cargo - $item->abono);
-
-                 $item->saldo = $saldo;
-
-                }
-
-         }
-
         if ($clienteID) {
-
              $historial = PagoIntl::historialPago($clienteID);
-             //dd($historial);
-             /*
-             $saldo =  0;
-             foreach ($historial as $item) {
-
-                 $saldo = $saldo + ($item->cargo - $item->abono);
-
-                 $item->saldo = $saldo;
-
-                }
-            */
 
          }
-
          $busqueda = $request;
-
          $clientes = ClienteIntl::where('id', '!=', '0')->get();
+         //dd($historial);
 
         return view('finanzas.pagosIntl.historial')
                  ->with([
@@ -134,65 +103,32 @@ class PagosIntlController extends Controller
                  ]);
      }
 
+     public function reportHistorialExcel(Request $request) {
 
+         $clienteID = $request->cliente;
+         $historial = [];
 
-        public function reportHistorialExcel(Request $request) {
+         if ($clienteID) {
 
+             $historial = PagoIntl::historialPago($clienteID);
+             //dd($historial);
+         }
 
-        $clienteID = $request->cliente;
-        $historial = [];
+         $historial = collect($historial);
+         $historial->total_cargo = $historial->sum('total');
+         $historial->total_abono = $historial->total_cargo - $historial->sum('deuda');
+         $historial->total = $historial->total_cargo - $historial->total_abono;
 
+         $clientes = ClienteIntl::getAllActive();
 
-        if ($clienteID == '0') {
-
-            $historial = PagoIntl::historialPagosTodos($clienteID);
-            $saldo =  0;
-
-            foreach ($historial as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-               }
-
-        }
-
-        if ($clienteID) {
-
-            $historial = PagoIntl::historialPago($clienteID);
-            $saldo =  0;
-
-            foreach ($historial as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-            }
-
-        }
-
-        $historial = collect($historial);
-
-        $historial->total_cargo = $historial->sum('cargo');
-        $historial->total_abono = $historial->sum('abono');
-        $historial->total = $historial->total_cargo - $historial->total_abono;
-
-        $clientes = ClienteIntl::getAllActive();
-
-            Excel::create('Historial Fact. Intl Pagadas', function($excel) use ($historial)
-            {
-                $excel->sheet('Historial Fact. Intl Pagadas', function($sheet) use ($historial)
-                {
-                    $sheet->loadView('documents.excel.reportHistorialPagosIntl')->with('pagos', $historial);
-                });
-            })->export('xls');
-        }
-
-
-
-
+             Excel::create('Historial Fact. Intl Pagadas', function($excel) use ($historial)
+             {
+                 $excel->sheet('Historial Fact. Intl Pagadas', function($sheet) use ($historial)
+                 {
+                     $sheet->loadView('documents.excel.reportHistorialPagosIntl')->with('pagos', $historial);
+                 });
+             })->export('xls');
+         }
     /**
      *  Lista de Facturas por Cobrar
      *
@@ -209,38 +145,18 @@ class PagosIntlController extends Controller
         if ($clienteID == '0') {
 
             $porCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
-            $saldo =  0;
-
-            foreach ($porCobrar as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-               }
 
         }
-
        if ($clienteID) {
 
             $porCobrar = PagoIntl::facturasPorPagar($clienteID);
-            $saldo =  0;
-
-            foreach ($porCobrar as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-               }
 
         }
 
         $busqueda = $request;
-
         $clientes = ClienteIntl::getAllActive();
 
-       return view('finanzas.pagosIntl.porCobrar')
+        return view('finanzas.pagosIntl.porCobrar')
                 ->with([
                    'busqueda' => $busqueda,
                    'clientes' => $clientes,
@@ -249,49 +165,26 @@ class PagosIntlController extends Controller
                 ]);
        }
 
-
     public function reportFactIntlPorCobrarExcel(Request $request) {
         $clienteID = $request->cliente;
         $porCobrar = [];
 
-
         if ($clienteID == '0') {
 
             $porCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
-            $saldo =  0;
-
-            foreach ($porCobrar as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-               }
 
         }
 
         if ($clienteID) {
 
             $porCobrar = PagoIntl::facturasPorPagar($clienteID);
-            $saldo =  0;
-
-            foreach ($porCobrar as $item) {
-
-                $saldo = $saldo + ($item->cargo - $item->abono);
-
-                $item->saldo = $saldo;
-
-            }
 
         }
 
         $porCobrar = collect($porCobrar);
-
-        $porCobrar->total_cargo = $porCobrar->sum('cargo');
-        $porCobrar->total_abono = $porCobrar->sum('abono');
+        $porCobrar->total_cargo = $porCobrar->sum('total');
+        $porCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
         $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
-
-        $clientes = ClienteIntl::getAllActive();
 
             Excel::create('Facturas por Cobrar', function($excel) use ($porCobrar)
             {
@@ -304,25 +197,37 @@ class PagosIntlController extends Controller
 
 
         public function reportFactIntlPorCobrarExcelByZonas(Request $request) {
-            $saldo =  0;
-            $clienteID = 67; //Testing
-            $porCobrar = PagoIntl::facturasPorPagarExcelReport($clienteID);
-            foreach ($porCobrar as $item) {
-                    $saldo = $saldo + ($item->cargo - $item->abono);
-                    $item->saldo = $saldo;
-                }
-            $porCobrar = collect($porCobrar);
-            $porCobrar->total_cargo = $porCobrar->sum('cargo');
-            $porCobrar->total_abono = $porCobrar->sum('abono');
-            $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
 
-            $clientes = ClienteIntl::getAllActive();
+             $porCobrar = PagoIntl::facturasPorPagarTodasByZona();
 
-                Excel::create('Facturas por Cobrar', function($excel) use ($porCobrar)
+
+             $porCobrar = collect($porCobrar);
+             $porCobrar->total_cargo = $porCobrar->sum('total');
+             $porCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
+             $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+
+
+              Excel::create('Por Cobrar', function($excel) use ($porCobrar)
                 {
-                    $excel->sheet('Facturas por Cobrar', function($sheet) use ($porCobrar)
+                    //sheet 1
+                    $excel->sheet('', function($sheet) use ($porCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarByZonas')->with(['pagos' => $porCobrar]);
+                        $sheet->loadView('documents.excel.reportCuentaCorrienteByZonas')->with(['pagos' => $porCobrar]);
+                    });
+                    //sheet 2
+                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    {
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarEstrucClientes')->with(['pagos' => $porCobrar]);
+                    });
+                    //sheet 3
+                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    {
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with(['pagos' => $porCobrar]);
+                    });
+                    //sheet 4
+                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    {
+                        $sheet->loadView('documents.excel.reportFactIntlDeudaVencida')->with(['pagos' => $porCobrar]);
                     });
                 })->export('xls');
             }

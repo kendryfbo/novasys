@@ -155,17 +155,6 @@ class FacturaIntl extends Model
 				'user_id' => $user
 			]);
 
-			PagoIntl::create([
-  				  'factura_id' => $factura->id,
-  				  'usuario_id' => $user,
-  				  'abono_id' => 1,
-  				  'status_id' => 1,
-  				  'monto' => $proforma->total,
-  				  'saldo' => $proforma->total,
-  				  'numero_documento' => 'Monto Inicial',
-  				  'fecha_pago' => NULL
-			]);
-
 			foreach ($proforma->detalles as $detalle) {
 
 				FactIntlDetalle::Create([
