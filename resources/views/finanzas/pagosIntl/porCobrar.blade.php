@@ -108,7 +108,7 @@
 					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
 					<td class="text-center">0</td>
 
-					@if (isset($factura->pagos))
+					@if(isset($factura->pagos[0]))
 					<td class="text-center">0</td>
 					@else
 					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>

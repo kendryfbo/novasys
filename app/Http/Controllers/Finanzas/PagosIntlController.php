@@ -198,14 +198,19 @@ class PagosIntlController extends Controller
 
         public function reportFactIntlPorCobrarExcelByZonas(Request $request) {
 
-             $porCobrar = PagoIntl::facturasPorPagarTodasByZona();
-
+             $porCobrar = PagoIntl::facturasPorPagarTodasByZona();         
 
              $porCobrar = collect($porCobrar);
              $porCobrar->total_cargo = $porCobrar->sum('total');
              $porCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
              $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
 
+             foreach ($porCobrar as $Cobrar) {
+                 //dd($Cobrar);
+             $fechaEmision = Carbon::parse($Cobrar->fecha_venc);
+             $fechaExpiracion = Carbon::now();
+             $porCobrar->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
+            }
 
               Excel::create('Por Cobrar', function($excel) use ($porCobrar)
                 {
