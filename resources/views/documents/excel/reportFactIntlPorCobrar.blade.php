@@ -30,7 +30,7 @@
               </tr>
           </thead>
           <tbody>
-          @foreach ($pagos as $factura)
+          @foreach ($factPorCobrar as $factura)
           <tr>
               <td class="text-center">{{$factura->numero}}</td>
               <td class="text-center">{{Carbon\Carbon::parse($factura->fecha_emision)->format('d/m/Y')}}</td>
@@ -72,9 +72,9 @@
               <td class="text-center"></td>
               <td class="text-center"></td>
               <td class="text-center"><strong>Totales</strong></td>
-              <td class="text-center"><strong>{{$pagos->total_cargo}}</strong></td>
-              <td class="text-center"><strong>{{$pagos->total_abono}}</strong></td>
-              <td class="text-center"><strong>{{$pagos->total}}</strong></td>
+              <td class="text-center"><strong>{{$factPorCobrar->total_cargo}}</strong></td>
+              <td class="text-center"><strong>{{$factPorCobrar->total_abono}}</strong></td>
+              <td class="text-center"><strong>{{$factPorCobrar->total}}</strong></td>
               <td class="text-center"></td>
           </tr>
           </tbody>

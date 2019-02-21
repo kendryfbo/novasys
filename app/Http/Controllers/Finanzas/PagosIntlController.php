@@ -198,41 +198,41 @@ class PagosIntlController extends Controller
 
         public function reportFactIntlPorCobrarExcelByZonas(Request $request) {
 
-             $porCobrar = PagoIntl::facturasPorPagarTodasByZona();         
+             $factPorCobrar = PagoIntl::facturasPorPagarTodasByZona();
+             dd($porCobrar);
+             $factPorCobrar->total_cargo = $porCobrar->sum('total');
+             $factPorCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
+             $factPorCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
 
-             $porCobrar = collect($porCobrar);
-             $porCobrar->total_cargo = $porCobrar->sum('total');
-             $porCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
-             $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+             foreach ($factPorCobrar as &$facturas) {
 
-             foreach ($porCobrar as $Cobrar) {
-                 //dd($Cobrar);
-             $fechaEmision = Carbon::parse($Cobrar->fecha_venc);
-             $fechaExpiracion = Carbon::now();
-             $porCobrar->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
+               $fechaEmision = Carbon::parse($Cobrar->fecha_venc);
+               $fechaExpiracion = Carbon::now();
+               $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
+
             }
 
-              Excel::create('Por Cobrar', function($excel) use ($porCobrar)
+              Excel::create('Por Cobrar', function($excel) use ($factPorCobrar)
                 {
                     //sheet 1
-                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    $excel->sheet('', function($sheet) use ($factPorCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportCuentaCorrienteByZonas')->with(['pagos' => $porCobrar]);
+                        $sheet->loadView('documents.excel.reportCuentaCorrienteByZonas')->with(['factPorCobrar' => $factPorCobrar]);
                     });
                     //sheet 2
-                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    $excel->sheet('', function($sheet) use ($factPorCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarEstrucClientes')->with(['pagos' => $porCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarEstrucClientes')->with(['factPorCobrar' => $factPorCobrar]);
                     });
                     //sheet 3
-                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    $excel->sheet('', function($sheet) use ($factPorCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with(['pagos' => $porCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with(['factPorCobrar' => $factPorCobrar]);
                     });
                     //sheet 4
-                    $excel->sheet('', function($sheet) use ($porCobrar)
+                    $excel->sheet('', function($sheet) use ($factPorCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlDeudaVencida')->with(['pagos' => $porCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlDeudaVencida')->with(['pagos' => $factPorCobrar]);
                     });
                 })->export('xls');
             }
