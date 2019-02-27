@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\ClienteIntl;
 use App\Events\AuthorizedProformaEvent;
+use App\Events\AuthorizedProformaeditEvent;
 use App\Models\Comercial\ClausulaVenta;
 use App\Models\Comercial\PuertoEmbarque;
 use App\Models\Comercial\MedioTransporte;
@@ -257,7 +258,13 @@ class ProformaController extends Controller
                             ->first();
 
         $proforma->authorizeComer();
-        event(new AuthorizedProformaEvent($proforma));
+
+        if ($proforma->version == 1){
+            event(new AuthorizedProformaEvent($proforma));
+        }
+        else {
+            event(new AuthorizedProformaEditEvent($proforma));
+        }
 
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
 
