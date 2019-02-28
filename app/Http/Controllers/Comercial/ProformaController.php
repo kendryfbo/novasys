@@ -258,14 +258,7 @@ class ProformaController extends Controller
                             ->first();
 
         $proforma->authorizeComer();
-
-        if ($proforma->version == 1){
-            event(new AuthorizedProformaEvent($proforma));
-        }
-        else {
-            event(new AuthorizedProformaEditEvent($proforma));
-        }
-
+        event(new AuthorizedProformaEvent($proforma));
         $msg = 'Proforma N°' . $proforma->numero . ' Ha sido Autorizada.';
 
         return redirect()->route('autorizacionProforma')->with(['status' => $msg]);

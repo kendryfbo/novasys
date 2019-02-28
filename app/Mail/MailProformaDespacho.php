@@ -41,16 +41,31 @@ class mailProformaDespacho extends Mailable
         $proforma = $this->proforma;
         $numero = $proforma->numero;
         $version = $proforma->version;
-        $fileName = 'ORDEN DESPACHO PROFORMA '.$numero. ' Versión '. $version;
-        $sender = Auth::user()->email;
-        //$bcc = $sender;
-        $pdf = PDF::loadView('documents.pdf.proformaDespacho',['proforma' => $proforma]);
-        $pdfFile = $pdf->download('PROFORMA '.$proforma->numero.'.pdf');
-        return $this->markdown('emails.mailProforma')
-                    ->subject($fileName)
-                    ->from($sender)
-                    ->to($recivers)
-                    //->bcc($bcc)
-                    ->attachData($pdfFile, $fileName.'.pdf');
+
+        if ($version == 1){
+            $fileName = 'ORDEN DESPACHO PROFORMA '.$numero. ' Versión '. $version;
+            $sender = Auth::user()->email;
+            //$bcc = $sender;
+            $pdf = PDF::loadView('documents.pdf.proformaDespacho',['proforma' => $proforma]);
+            $pdfFile = $pdf->download('PROFORMA '.$proforma->numero.'.pdf');
+            return $this->markdown('emails.mailProforma')
+                        ->subject($fileName)
+                        ->from($sender)
+                        ->to($recivers)
+                        //->bcc($bcc)
+                        ->attachData($pdfFile, $fileName.'.pdf');
+                } else {
+            $fileName = 'MODIFICACIÓN ORDEN DESPACHO PROFORMA '.$numero. ' Versión '. $version;
+            $sender = Auth::user()->email;
+            //$bcc = $sender;
+            $pdf = PDF::loadView('documents.pdf.proformaDespacho',['proforma' => $proforma]);
+            $pdfFile = $pdf->download('PROFORMA '.$proforma->numero.'.pdf');
+            return $this->markdown('emails.mailProformaMod')
+                        ->subject($fileName)
+                        ->from($sender)
+                        ->to($recivers)
+                        //->bcc($bcc)
+                        ->attachData($pdfFile, $fileName.'.pdf');
+                }
     }
 }
