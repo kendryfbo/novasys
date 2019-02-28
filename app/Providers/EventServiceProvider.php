@@ -31,10 +31,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreateFacturaIntlEvent' => [
             'App\Listeners\GenerateFacturaIntlExcel',
         ],
-        'App\Events\AuthorizedProformaEditEvent' => [
-            'App\Listeners\emailProformaEditListener',
-            'App\Listeners\emailProformaDespachoEditListener',
-        ],
 
     ];
 
