@@ -199,6 +199,8 @@ class FacturaIntl extends Model
 		return $factura;
 	}
 
+	
+
 	/* Public Functions */
 
 	public function updatePago() {

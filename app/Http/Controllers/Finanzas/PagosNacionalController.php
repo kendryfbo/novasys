@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Finanzas;
 
 use Carbon\Carbon;
 use Auth;
+use Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\ClienteNacional;
@@ -12,6 +13,7 @@ use App\Models\Finanzas\PagoNacional;
 use App\Models\Finanzas\AbonoNacional;
 use App\Models\Finanzas\Bancos;
 use App\Models\Comercial\NotaCreditoNac;
+use App\Models\Comercial\FormaPagoNac;
 use App\Models\Config\StatusDocumento;
 
 class PagosNacionalController extends Controller
@@ -20,168 +22,249 @@ class PagosNacionalController extends Controller
 
     public function index() {
 
-        $clientes = ClienteNacional::getAllActive();
-        return view('finanzas.pagosNac.index')->with(['clientes' => $clientes]);
+        $clientes = ClienteNacional::where('id', '!=', '0')->get();
+        $pagos = PagoNacional::orderBy('id','DESC')->take(50)->get();
+        return view('finanzas.pagosNac.index')->with(['clientes' => $clientes, 'pagos' => $pagos]);
       }
 
       public function create(Request $request) {
 
           $statusCompleta = StatusDocumento::completaID();
+          $formasDePago = FormaPagoNac::getAllActive();
+          $bancos = Bancos::getAllActive();
+
           $clienteID = $request->clienteID;
-          $fecha_hoy = Carbon::now();
           $cliente = ClienteNacional::find($clienteID);
-          //$bancos = Bancos::where('activo', 1)->get();
-          $facturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->get();
+
+          $facturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get();
           $facturaNumero = $facturas->pluck('numero');
+          $saldoTotalFacturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get()->sum('deuda');
           $saldoTotalAbono = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
-          $saldoTotalNC = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->limit(1)->get()->sum('restante');;
-          $abonos = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->limit(1)->get();
-          $notasCredito = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->limit(1)->get();
+          $saldoTotalNC = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
+          $abonos = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get();
+          $notasCredito = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
 
           return view('finanzas.pagosNac.create')->with([
                         'cliente' => $cliente,
                         'facturas' => $facturas,
                         'saldoTotalAbono' => $saldoTotalAbono,
                         'abonos' => $abonos,
-                        //'bancos' => $bancos,
                         'notasCredito' => $notasCredito,
-                        'saldoTotalNC' => $saldoTotalNC]);
+                        'saldoTotalNC' => $saldoTotalNC,
+                        'formasDePago' => $formasDePago,
+                        'bancos' => $bancos,
+                        'saldoTotalFacturas' => $saldoTotalFacturas]);
 
-      }
+                    }
 
-      public function store(Request $request) {
+    public function store(Request $request) {
 
         //dd($request->all());
-
-        $msg = 'Pago ha sido registrado.';
         $pago = PagoNacional::register($request);
-        //$bancos = Bancos::where('activo', 1)->get();
-        $statusCompleta = StatusDocumento::completaID();
         $clienteID = $request->clienteID;
-        $fecha_hoy = Carbon::now();
-        $cliente = ClienteNacional::find($clienteID);
-        $facturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->get();
-        $facturaNumero = $facturas->pluck('numero');
-        $saldoTotalAbono = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
-        $saldoTotalNC = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->limit(1)->get()->sum('restante');;
-        $abonos = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->limit(1)->get();
-        $notasCredito = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->limit(1)->get();
 
-        return view('finanzas.pagosNac.create')->with([
-                      'cliente' => $cliente,
-                      'facturas' => $facturas,
-                      'saldoTotalAbono' => $saldoTotalAbono,
-                      'abonos' => $abonos,
-                      //'bancos' => $bancos,
-                      'notasCredito' => $notasCredito,
-                      'saldoTotalNC' => $saldoTotalNC]);
-       }
+        return redirect()->route('crearPagoFactNacional',['clienteID' => $clienteID]);
+    }
+
+    public function destroy(Request $request) {
+
+        $pagoID = $request->pagoID;
+
+        PagoNacional::unRegister($pagoID);
+
+        return redirect()->route('anulaPagoNacional');
+    }
 
 
     /**
-     *  Historial Pago de Facturas Nacionales por Cliente
+     *  Historial Pago de Facturas Nacionales x Cliente
      *
      * @return \Illuminate\Http\Response
-     * @param  \App\Http\Controllers\Api\ApiFacturaNacionalController;
      */
 
-     public function historial(Request $request) {
-         $busqueda = $request;
-         $facturas = [];
+    public function historial(Request $request) {
+         $clienteID = $request->cliente;
+         $historial = [];
 
-         if ($request->all()) {
-             //$queryDates = [];
-             $queryClientes = [];
+        if ($clienteID) {
+             $historial = PagoNacional::historialPago($clienteID);
 
-            // if ($request->desde) {
-            //     $desde = ['fecha_emision', '>=', $request->desde];
-            //     array_push($queryDates,$desde);
-            // };
-
-            // if ($request->hasta) {
-            //     $hasta = ['fecha_emision', '<=', $request->hasta];
-            //     array_push($queryDates,$hasta);
-            // };
-
-             if ($request->cliente) {
-                 $cliente = ['id', '=', $request->cliente];
-                 array_push($queryClientes,$cliente);
-             };
-
-             $clientes = ClienteNacional::where($queryClientes)->pluck('id');
-             //$facturas = FacturaNacional::where('cliente_id',$clientes)->where('cancelada', 1)->where($queryDates)->get();
-             $facturas = FacturaNacional::where('cliente_id',$clientes)->where('cancelada', 1)->get();
          }
+         $busqueda = $request;
+         $clientes = ClienteNacional::where('id', '!=', '0')->get();
+         //dd($historial);
 
-         $clientes = ClienteNacional::getAllActive();
-
-         return view('finanzas.pagosNac.historial')
+        return view('finanzas.pagosNac.historial')
                  ->with([
-                     'busqueda' => $busqueda,
-                     'facturas' => $facturas,
-                     'clientes' => $clientes
+                    'busqueda' => $busqueda,
+                    'clientes' => $clientes,
+                    'clienteID' => $clienteID,
+                    'pagos' => $historial
                  ]);
-     }
+    }
 
+
+
+    public function reportHistorialExcel(Request $request) {
+        $clienteID = $request->cliente;
+        $historial = [];
+
+        if ($clienteID) {
+
+            $historial = PagoNacional::historialPago($clienteID);
+            //dd($historial);
+        }
+
+        $historial = collect($historial);
+        $historial->total_cargo = $historial->sum('total');
+        $historial->total_abono = $historial->total_cargo - $historial->sum('deuda');
+        $historial->total = $historial->total_cargo - $historial->total_abono;
+
+        $clientes = ClienteNacional::getAllActive();
+
+            Excel::create('Historial Fact. Nac. Pagadas', function($excel) use ($historial)
+            {
+                $excel->sheet('Historial Fact. Nac. Pagadas', function($sheet) use ($historial)
+                {
+                    $sheet->loadView('documents.excel.reportHistorialPagosNacional')->with('pagos', $historial);
+                });
+            })->export('xls');
+        }
 
     /**
      *  Lista de Facturas por Cobrar
      *
      * @return \Illuminate\Http\Response
-     * @param  \App\Http\Controllers\Api\ApiFacturaNacionalController;
      */
 
     public function porCobrar(Request $request) {
-        $busqueda = $request;
-        $facturas = [];
+        $clienteID = $request->cliente;
+        $porCobrar = [];
 
-        if ($request->all()) {
-            $queryDates = [];
-            $queryClientes = [];
 
-            if ($request->desde) {
-                $desde = ['fecha_emision', '>=', $request->desde];
-                array_push($queryDates,$desde);
-            };
+        if ($clienteID == '0') {
 
-            if ($request->hasta) {
-                $hasta = ['fecha_emision', '<=', $request->hasta];
-                array_push($queryDates,$hasta);
-            };
+            $porCobrar = PagoNacional::facturasPorPagarTodas($clienteID);
 
-            if ($request->cliente) {
-                $cliente = ['id', '=', $request->cliente];
-                array_push($queryClientes,$cliente);
-            };
+        }
+       if ($clienteID) {
 
-            $clientes = ClienteNacional::where($queryClientes)->pluck('id');
-            $facturas = FacturaNacional::whereIn('cliente_id',$clientes)->where('cancelada', 0)->where($queryDates)->get();
+            $porCobrar = PagoNacional::facturasPorPagar($clienteID);
+
         }
 
+        $busqueda = $request;
         $clientes = ClienteNacional::getAllActive();
 
         return view('finanzas.pagosNac.porCobrar')
                 ->with([
-                    'busqueda' => $busqueda,
-                    'facturas' => $facturas,
-                    'clientes' => $clientes
+                   'busqueda' => $busqueda,
+                   'clientes' => $clientes,
+                   'clienteID' => $clienteID,
+                   'pagos' => $porCobrar
                 ]);
     }
 
 
+    public function reportFactNacPorCobrarExcel(Request $request) {
+        $clienteID = $request->cliente;
+        $factPorCobrar = [];
+
+        if ($clienteID == '0') {
+
+            $factPorCobrar = PagoNacional::facturasPorPagarTodas($clienteID);
+
+        }
+
+        if ($clienteID) {
+
+            $factPorCobrar = PagoNacional::facturasPorPagar($clienteID);
+
+        }
+
+        $factPorCobrar = collect($factPorCobrar);
+        $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
+        $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
+        $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
+
+            Excel::create('Facturas por Cobrar', function($excel) use ($factPorCobrar)
+            {
+                $excel->sheet('Facturas por Cobrar', function($sheet) use ($factPorCobrar)
+                {
+                    $sheet->loadView('documents.excel.reportFactNacPorCobrar')->with('pagos',$factPorCobrar);
+                });
+            })->export('xls');
+        }
+
+
+        public function reportFactNacPorCobrarExcelByZonas(Request $request) {
+
+             $factPorCobrar = PagoNacional::cuentasCorriente();
+
+             $factPorCobrar = collect($factPorCobrar);
+             $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
+             $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
+             $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
+
+
+             foreach ($factPorCobrar as $clientes) {
+                foreach ($clientes->facturasNac as &$facturas) {
+
+               $fechaEmision = Carbon::parse($facturas->fecha_venc);
+               $fechaExpiracion = Carbon::now();
+               $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
+               $facturas->cliente = $facturas->clienteNac->descripcion;
+               $clientes->total_cargo = $clientes->facturasNac->sum('total');
+               $clientes->total_abono = $clientes->total_cargo - $clientes->facturasNac->sum('deuda');
+               $clientes->total_cliente = $clientes->total_cargo - $clientes->total_abono;
+                }
+            }
+
+              Excel::create('Por Cobrar', function($excel) use ($factPorCobrar)
+                {
+                    //sheet 1
+                    $excel->sheet('', function($sheet) use ($factPorCobrar)
+                    {
+                        $sheet->loadView('documents.excel.reportCuentaCorrienteNacional')->with(['factPorCobrar' => $factPorCobrar]);
+                    });
+                })->export('xls');
+            }
+
+
+
+
     /**
-     *  Anular Factura Nacional por Cliente
+     *  Anular Factura Internacional por Cliente
      *
      * @return \Illuminate\Http\Response
-     * @param  \App\Http\Controllers\Api\ApiFacturaNacionalController;
      */
 
-        public function anularPagoNacional() {
-        $clientes = ClienteNacional::getAllActive();
-        return view('finanzas.pagosNac.anularPagoNacional')->with(['clientes' => $clientes]);
+        public function anularPagoNac(Request $request) {
+            $busqueda = $request;
+            $pagos = [];
 
+           if ($request->all()) {
+                $queryClientes = [];
+
+               if ($request->cliente) {
+                    $cliente = ['id', '=', $request->cliente];
+                    array_push($queryClientes,$cliente);
+               };
+
+                $clientes = ClienteNacional::where($queryClientes)->pluck('id');
+                $facturas = FacturaNacional::where('cliente_id',$clientes)->pluck('id');
+                $pagos = PagoNacional::whereIn('factura_id',$facturas)->orderBy('factura_id')->orderBy('fecha_pago')->get();
+
+           }
+
+           $clientes = ClienteNacional::where('id', '!=', '0')->get();
+
+            return view('finanzas.pagosNac.anularPagoNac')
+                    ->with([
+                       'busqueda' => $busqueda,
+                       'clientes' => $clientes,
+                       'pagos' => $pagos
+                    ]);
+        }
 
     }
-
-
-}

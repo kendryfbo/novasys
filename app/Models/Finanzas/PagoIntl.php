@@ -271,28 +271,55 @@ class PagoIntl extends Model
 
     static function historialPago($clienteID) {
 
-        $results = FacturaIntl::with('pagos')->where('cliente_id',$clienteID)->orderBy('numero','ASC')->get();
+        $results = FacturaIntl::with('pagos')->with('clienteIntl')->where('cliente_id',$clienteID)->orderBy('numero','ASC')->get();
         return $results;
+    }
+
+    static function cuentasCorriente() {
+
+        $results = ClienteIntl::whereHas('facturasIntls')->where('id', '!=', '0')->orderBy('zona','ASC')->orderBy('descripcion','DESC')->get();
+        return $results;
+
     }
 
     static function facturasPorPagar($clienteID) {
 
-        $results = FacturaIntl::with('pagos')->where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('numero','ASC')->get();
+        $results = FacturaIntl::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
         return $results;
     }
+
+    static function deudasVencidas() {
+
+        $query = "select *,sum(deuda) as deudaTotal from factura_intl where cancelada = 0 group by cliente order by cliente";
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
+    static function deudasVencidasTotal() {
+
+        $query = "select *,sum(deuda) as deudaTotalFacturas from factura_intl where cancelada = 0 order by cliente";
+        $results = DB::select(DB::raw($query));
+        return $results;
+    }
+
 
     static function facturasPorPagarTodas() {
 
-        $results = FacturaIntl::with('pagos')->where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
+        $results = FacturaIntl::where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
         return $results;
     }
 
-    static function facturasPorPagarTodasByZona() {
+    static function totalesFacturaIntlPorZona() {
 
-        $results = FacturaIntl::with('pagos')->where('cancelada',0)->orderBy('cliente','ASC')->orderBy('numero','ASC')->get();
+        $query = "SELECT a.zona, sum(b.total) as 'totalPorZona', sum(b.deuda) as 'totalDeudaPorZona'
+        FROM cliente_intl a, factura_intl b
+        WHERE a.id=b.cliente_id
+        GROUP BY a.zona
+        ORDER BY a.zona ASC";
+        $results = DB::select(DB::raw($query));
         return $results;
-
     }
+
 
     /*
 	|

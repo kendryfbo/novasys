@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Historial Pago Factura Intl</title>
+    <title>Historial Pago Factura Nacional</title>
   </head>
 
   <body>

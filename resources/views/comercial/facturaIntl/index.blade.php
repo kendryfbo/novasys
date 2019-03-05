@@ -52,9 +52,10 @@
 									<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Editar
 								</button>
 								</form>
-								<form style="display: inline" action="{{url('comercial/FacturaIntl/'.$factura->numero)}}" method="post">
+								<form style="display: inline" action="{{route('eliminarFactIntl')}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
+									<input type="hidden" name="numero" value="{{$factura->numero}}">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Eliminar
 									</button>

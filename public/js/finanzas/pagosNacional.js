@@ -12,11 +12,19 @@ var app = new Vue({
     montoDepo: '',
     montoNC: '',
     montoAnticipo: '',
-    abonoId: '',
+    docuPago: '',
+    antAbono: '',
     restante: '',
     notasCredito: notasCredito,
+    notaCred: '',
     facturaFromClienteURL: facturaFromClienteURL,
     abonoFromClienteURL: abonoFromClienteURL,
+    abonoStatus: 'Usar',
+    ncStatus: 'Usar',
+    pagoDirecto: 1,
+    pagoAbono: 0,
+    pagoNC: 0,
+    inputPagoDirectoDisabled: false,
     },
 
     methods: {
@@ -95,7 +103,6 @@ var app = new Vue({
         registrarPago: function(facturaID) {
 
         var pago = document.getElementById(facturaID).value;
-
           for (var i = 0; i < this.facturas.length; i++) {
             if (this.facturas[i].id == facturaID) {
 
@@ -104,6 +111,7 @@ var app = new Vue({
                 break;
               }
               this.facturas[i].pago = Number(pago)
+              this.facturas[i].deuda = this.facturas[i].deuda - this.facturas[i].pago;
               this.montoDepo = this.montoDepo - this.facturas[i].pago;
               break;
             }
@@ -122,10 +130,15 @@ var app = new Vue({
                 alert('el monto del Anticipo es mayor al saldo restante');
                 break;
               }
-              this.abonos[i].anticipo = anticipo
-              this.saldoTotalAbono = this.saldoTotalAbono - anticipo;
+              this.antAbono = this.abonos[i].id;
+              this.abonos[i].anticipo = Number(anticipo);
+              this.abonos[i].restante = this.abonos[i].restante - this.abonos[i].anticipo;
+              this.saldoTotalAbono = this.saldoTotalAbono - this.abonos[i].anticipo;
               this.montoDepo = this.abonos[i].anticipo;
               this.montoAnticipo = this.abonos[i].anticipo;
+              this.docuPago = this.abonos[i].docu_abono;
+              this.abonoStatus = "Usado";
+              this.setPagoAbono();
               break;
             }
           }
@@ -143,10 +156,15 @@ var app = new Vue({
                 alert('el monto de Nota de Crédito es mayor al saldo restante');
                 break;
               }
-              this.notasCredito[i].notaCredito = notaCredito
-              this.saldoTotalNC = this.saldoTotalNC - notaCredito;
+              this.notaCred = this.notasCredito[i].id;
+              this.notasCredito[i].notaCredito = Number(notaCredito);
+              this.notasCredito[i].restante = this.notasCredito[i].restante - this.notasCredito[i].notaCredito;
+              this.saldoTotalNC = this.saldoTotalNC - this.notasCredito[i].notaCredito;
               this.montoDepo = this.notasCredito[i].notaCredito;
               this.montoNC = this.notasCredito[i].notaCredito;
+              this.docuPago = 'NC ' + this.notasCredito[i].numero;
+              this.ncStatus = "Usado";
+              this.setPagoNC();
               break;
             }
           }
@@ -159,6 +177,20 @@ var app = new Vue({
 
         },
 
+        setPagoAbono: function() {
+
+          this.pagoDirecto = 0;
+          this.pagoNC = 0;
+          this.pagoAbono = 1;
+          this.inputPagoDirectoDisabled = true;
+        },
+        setPagoNC: function() {
+
+          this.pagoDirecto = 0;
+          this.pagoNC = 1;
+          this.pagoAbono = 0;
+          this.inputPagoDirectoDisabled = true;
+        }
     },
 
     computed: {

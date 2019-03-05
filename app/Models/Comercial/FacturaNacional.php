@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Models\Comercial;
-
+use DB;
+use App\Models\Config\StatusDocumento;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comercial\FacturaNacionalDetalle;
+use App\Models\Finanzas\PagoNacional;
+
 
 class FacturaNacional extends Model
 {
@@ -13,15 +17,43 @@ class FacturaNacional extends Model
                            'neto','iva','iaba','total','peso_neto','peso_bruto','volumen', 'pagado',
                            'cancelada', 'user_id','fecha_emision','fecha_venc', 'deuda'];
 
+
+    protected $dates = ['fecha_venc'];
+
     protected $events = [
     	'created' => \App\Events\CreateFacturaNacionalEvent::class,
     ];
 
-    public function updatePago() {
+    /* Public Functions */
+
+	public function updatePago() {
 
         if ($this->deuda <= 0) {
-            $this->cancelada = 1;
-        }
+
+					$this->cancelada = 1;
+
+				} else {
+
+					$this->cancelada = 0;
+				}
+    }
+
+	public function reverseUpdatePago() {
+
+		if ($this->deuda >= 0) {
+			$this->cancelada = 0;
+		}
+	}
+
+    /*
+    |
+    |	Relationships
+    |
+    */
+
+    public function pagos() {
+
+        return $this->hasMany(PagoNacional::class,'factura_id');
     }
 
     public function detalles() {

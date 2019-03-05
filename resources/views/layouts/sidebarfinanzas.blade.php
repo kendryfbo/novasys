@@ -73,7 +73,6 @@
                     <li><a href="{{route('historialPagoIntl')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
                     <li><a href="{{route('pagoPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
                     <li><a href="{{route('anulaPagoIntl')}}"><i class=""></i> <span>Anulación de Pagos</span></a></li>
-                    <!--<li><a href="#"><i class=""></i> <span>Informe de Cobranza</span></a></li>-->
                     </ul>
                 </li>
 
@@ -88,8 +87,8 @@
                     <li><a href="{{route('pagosNacional')}}"><i class=""></i> <span>Pago Facturas</span></a></li>
                     <li><a href="{{route('historialPagoNacional')}}"><i class=""></i> <span>Historial de Pago</span></a></li>
                     <li><a href="{{route('pagoNacPorCobrar')}}"><i class=""></i> <span>Facturas x Cobrar</span></a></li>
-                    <li><a href="#"><i class=""></i> <span>Anulación de Pagos</span></a></li>
-                    <!--<li><a href="#"><i class=""></i> <span>Informe de Cobranza</span></a></li>-->
+                    <li><a href="{{route('anulaPagoNacional')}}"><i class=""></i> <span>Anulación de Pagos</span></a></li>
+                    <li><a href="{{route('chequesCartera')}}"><i class=""></i> <span>Cheques en Cartera</span></a></li>
                     </ul>
                 </li>
 

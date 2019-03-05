@@ -14,10 +14,9 @@ use App\Models\Comercial\FacturaIntl;
 use App\Models\Comercial\NotaCreditoIntl;
 use App\Models\Config\StatusDocumento;
 
+
 class PagosIntlController extends Controller
 {
-
-
     public function index() {
 
         /* Cargar solo los clientes con facturas pendientes por cancelar*/
@@ -71,7 +70,7 @@ class PagosIntlController extends Controller
 
        PagoIntl::unRegister($pagoID);
 
-       return redirect()->route('pagosIntl');
+       return redirect()->route('anulaPagoIntl');
      }
 
     /**
@@ -167,30 +166,30 @@ class PagosIntlController extends Controller
 
     public function reportFactIntlPorCobrarExcel(Request $request) {
         $clienteID = $request->cliente;
-        $porCobrar = [];
+        $factPorCobrar = [];
 
         if ($clienteID == '0') {
 
-            $porCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
+            $factPorCobrar = PagoIntl::facturasPorPagarTodas($clienteID);
 
         }
 
         if ($clienteID) {
 
-            $porCobrar = PagoIntl::facturasPorPagar($clienteID);
+            $factPorCobrar = PagoIntl::facturasPorPagar($clienteID);
 
         }
 
-        $porCobrar = collect($porCobrar);
-        $porCobrar->total_cargo = $porCobrar->sum('total');
-        $porCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
-        $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+        $factPorCobrar = collect($factPorCobrar);
+        $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
+        $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
+        $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
 
-            Excel::create('Facturas por Cobrar', function($excel) use ($porCobrar)
+            Excel::create('Facturas por Cobrar', function($excel) use ($factPorCobrar)
             {
-                $excel->sheet('Facturas por Cobrar', function($sheet) use ($porCobrar)
+                $excel->sheet('Facturas por Cobrar', function($sheet) use ($factPorCobrar)
                 {
-                    $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos',$porCobrar);
+                    $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with('pagos',$factPorCobrar);
                 });
             })->export('xls');
         }
@@ -198,41 +197,62 @@ class PagosIntlController extends Controller
 
         public function reportFactIntlPorCobrarExcelByZonas(Request $request) {
 
-             $factPorCobrar = PagoIntl::facturasPorPagarTodasByZona();
-             dd($porCobrar);
-             $factPorCobrar->total_cargo = $porCobrar->sum('total');
-             $factPorCobrar->total_abono = $porCobrar->total_cargo - $porCobrar->sum('deuda');
-             $factPorCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+             $factPorCobrar = PagoIntl::cuentasCorriente();
 
-             foreach ($factPorCobrar as &$facturas) {
+             $deudasVencidas = PagoIntl::deudasVencidas();
+             $deudasVencidasTotal = PagoIntl::deudasVencidasTotal();
 
-               $fechaEmision = Carbon::parse($Cobrar->fecha_venc);
+             $totalesPorZona = PagoIntl::totalesFacturaIntlPorZona();
+
+             $factPorCobrar = collect($factPorCobrar);
+             $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
+             $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
+             $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
+
+
+             foreach ($factPorCobrar as $clientes) {
+                foreach ($clientes->facturasIntls as &$facturas) {
+
+               $fechaEmision = Carbon::parse($facturas->fecha_venc);
                $fechaExpiracion = Carbon::now();
                $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
-
+               $facturas->zonaCliente = $facturas->clienteIntl->zona;
+               $facturas->cliente = $facturas->clienteIntl->descripcion;
+               $clientes->total_cargo = $clientes->facturasIntls->sum('total');
+               $clientes->total_abono = $clientes->total_cargo - $clientes->facturasIntls->sum('deuda');
+               $clientes->total_cliente = $clientes->total_cargo - $clientes->total_abono;
+                }
             }
 
-              Excel::create('Por Cobrar', function($excel) use ($factPorCobrar)
+            foreach ($deudasVencidas as &$deudaVencida) {
+                //
+           }
+
+
+              Excel::create('Por Cobrar', function($excel) use ($factPorCobrar,$deudasVencidas,$totalesPorZona, $deudasVencidasTotal)
                 {
                     //sheet 1
-                    $excel->sheet('', function($sheet) use ($factPorCobrar)
+                    $excel->sheet('', function($sheet) use ($factPorCobrar,$totalesPorZona)
                     {
-                        $sheet->loadView('documents.excel.reportCuentaCorrienteByZonas')->with(['factPorCobrar' => $factPorCobrar]);
+                        $sheet->loadView('documents.excel.reportCuentaCorrienteByZonas')->with(['factPorCobrar' => $factPorCobrar,
+                                                                                                'totalesPorZona' => $totalesPorZona]);
                     });
                     //sheet 2
-                    $excel->sheet('', function($sheet) use ($factPorCobrar)
+                    $excel->sheet('', function($sheet) use ($deudasVencidas)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarEstrucClientes')->with(['factPorCobrar' => $factPorCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlPorCobrarEstrucClientes')->with(['pagos' => $deudasVencidas]);
                     });
                     //sheet 3
                     $excel->sheet('', function($sheet) use ($factPorCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlPorCobrar')->with(['factPorCobrar' => $factPorCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlVencidasPorCobrar')->with(['factPorCobrar' => $factPorCobrar,
+                                                                                                    ]);
                     });
                     //sheet 4
-                    $excel->sheet('', function($sheet) use ($factPorCobrar)
+                    $excel->sheet('', function($sheet) use ($deudasVencidas, $deudasVencidasTotal)
                     {
-                        $sheet->loadView('documents.excel.reportFactIntlDeudaVencida')->with(['pagos' => $factPorCobrar]);
+                        $sheet->loadView('documents.excel.reportFactIntlDeudaVencida')->with(['deudasVencidas' => $deudasVencidas,
+                                                                                                'deudasVencidasTotal' => $deudasVencidasTotal]);
                     });
                 })->export('xls');
             }
