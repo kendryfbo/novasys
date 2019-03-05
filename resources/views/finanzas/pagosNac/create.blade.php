@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Pago de Facturas Internacionales</h4>
+			<h4>Pago de Facturas Nacionales</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -20,42 +20,28 @@
 			@endif
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" onsubmit="return confirm('¿Está seguro de querer Ingresar el Pago?');" action="{{route('guardaPagoIntl')}}">
+			<form class="form-horizontal"  id="create" method="post" onsubmit="return confirm('¿Está seguro de querer Ingresar el Pago?');" action="{{route('guardaPagoNacional')}}">
 				{{ csrf_field() }}
 				<!-- form-group -->
-				<a class="btn btn-primary" href="{{route('pagosIntl')}}">Volver</a>
-				<a class="btn btn-info" href="{{route('crearAbonoIntl')}}">Crear Anticipo</a>
-        <div class="form-group">
-
-					<label class="control-label col-lg-2">Cliente : </label>
+				<a class="btn btn-primary" href="{{route('pagosNacional')}}">Volver</a>
+				<a class="btn btn-info" href="{{route('crearAbonoNacional')}}">Crear Anticipo</a>
+				<br><br>
+        	<div class="form-group">
+					<label class="control-label col-lg-1">Cliente : </label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="text" value="{{$cliente->descripcion}}" readonly>
 						<input class="form-control input-sm" type="hidden" name="notaCred" v-model="notaCred" value="">
 						<input class="form-control input-sm" type="hidden" name="antAbono" v-model="antAbono" value="">
 						<input class="form-control input-sm" type="hidden" name="clienteID" value="{{$cliente->id}}" readonly>
 					</div>
-					<label class="control-label col-lg-2">Fecha de Pago : </label>
+					<label class="control-label col-lg-1">Fecha de Pago : </label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="date" name="fecha_hoy" value="" required>
 					</div>
 
 					<label class="control-label col-lg-2">Crédito : </label>
-					<div class="col-lg-2">
+					<div class="col-lg-1">
 						<input class="form-control input-sm" type="text" name="credito" value="{{$cliente->credito}}" readonly>
-					</div>
-				</div>
-				<!-- /form-group -->
-        <!-- form-group -->
-        <div class="form-group">
-
-					<label class="control-label col-lg-1">Monto a Pagar : </label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="number" step="0.01" :disabled="inputPagoDirectoDisabled" name="montoDepo" v-model="montoDepo">
-					</div>
-
-					<label class="control-label col-lg-1">Docu. Pago : </label>
-					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" :disabled="inputPagoDirectoDisabled" name="numero_documento" v-model="docuPago" required>
 					</div>
 
 					<label class="control-label col-lg-2">Monto Ant. Usado : </label>
@@ -63,10 +49,60 @@
 						<input class="form-control input-sm" type="text" name="monto_abonado" v-model="montoAnticipo" readonly>
 					</div>
 
+				</div>
+				<!-- /form-group -->
+        <!-- form-group -->
+        <div class="form-group">
+
+					<label class="control-label col-lg-1">Forma de Pago : </label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" v-model="formaPago" required>
+							<option value=""></option>
+							@foreach ($formasDePago as $formaDePago)
+								<option value="{{$formaDePago->id}}">{{$formaDePago->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1">Docu. Pago : </label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" type="text" :disabled="inputPagoDirectoDisabled" name="numero_documento" v-model="docuPago" required>
+					</div>
+
+					<label class="control-label col-lg-1">Banco : </label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="banco">
+							<option value=""></option>
+							@foreach ($bancos as $banco)
+								<option value="{{$banco->id}}">{{$banco->nombre_banco}}</option>
+							@endforeach
+						</select>
+					</div>
+
 					<label class="control-label col-lg-2">Monto N/C Usado : </label>
 					<div class="col-lg-1">
 						<input class="form-control input-sm" type="text" name="monto_notaCredito" v-model="montoNC" readonly>
 					</div>
+        </div>
+
+		<div class="form-group">
+
+					<label class="control-label col-lg-1">Monto a Pagar : </label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" type="number" step="0.01" :disabled="inputPagoDirectoDisabled" name="montoDepo" v-model="montoDepo">
+					</div>
+
+					<label class="control-label col-lg-1"></label>
+					<div class="col-lg-2">
+
+					</div>
+
+					<label class="control-label col-lg-1">Fecha Cobro : </label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" type="date" name="fecha_cobro" value="" required>
+					</div>
+					
+
         </div>
         <!-- /form-group -->
 
@@ -115,7 +151,7 @@
 					    <td class="text-right">@{{factura.fecha_emision}}
 
 						</td>
-					    <td class="text-right">USD @{{formatPrice(factura.deuda)}}</td>
+					    <td class="text-right">CLP @{{formatPrice(factura.deuda)}}</td>
 
 
 
@@ -150,7 +186,7 @@
 						<td class="text-center">@{{key+1}}</td>
 						<td class="text-center">@{{abono.orden_despacho}}</td>
 						<td class="text-right">@{{abono.fecha_abono}}</td>
-						<td class="text-right">USD @{{numberFormat(abono.restante)}}</td>
+						<td class="text-right">CLP @{{numberFormat(abono.restante)}}</td>
 						<td class="text-right">
 								<input class="form-control" :id="abono.id" type="number" @focus="cargarAbono(abono.id,$event)">
 							</td>
@@ -186,7 +222,7 @@
 	  				  <td class="text-center">@{{notaCredito.numero}}</td>
 	  				  <td class="text-right">@{{notaCredito.fecha}}</td>
 					  <td class="text-right">@{{notaCredito.num_fact}}</td>
-	  				  <td class="text-right">USD @{{numberFormat(notaCredito.restante)}}</td>
+	  				  <td class="text-right">CLP @{{numberFormat(notaCredito.restante)}}</td>
 	  				  <td class="text-right">
 						  <input class="form-control" :id="notaCredito.id" type="number" @focus="cargarNotaCredito(notaCredito.id,$event)">
 	  					  </td>
@@ -204,25 +240,25 @@
 						<tr>
 							<th class="bg-gray text-right">Saldo Facturas</th>
 							<td class="input-td">
-							<input class="form-control text-right" type="text" value="USD {{number_format($saldoTotalFacturas, 2,',','.')}}" readonly >
+							<input class="form-control text-right" type="text" value="CLP {{number_format($saldoTotalFacturas, 0,',','.')}}" readonly >
 							</td>
 						</tr>
 						<tr>
 							<th class="bg-gray text-right">Saldo Total Anticipos</th>
 							<td class="input-td">
-							<input class="form-control text-right" type="text" value="USD {{number_format($saldoTotalAbono, 2,',','.')}}" readonly>
+							<input class="form-control text-right" type="text" value="CLP {{number_format($saldoTotalAbono, 0,',','.')}}" readonly>
 							</td>
 						</tr>
 						<tr>
 							<th class="bg-gray text-right">Saldo Total Notas Crédito</th>
 							<td class="input-td">
-							<input class="form-control text-right" type="text" value="USD {{number_format($saldoTotalNC, 2,',','.')}}" readonly>
+							<input class="form-control text-right" type="text" value="CLP {{number_format($saldoTotalNC, 0,',','.')}}" readonly>
 							</td>
 						</tr>
 						<tr>
 							<th class="bg-gray text-right">Deuda Total</th>
 							<td class="input-td">
-							<input class="form-control text-right" type="text" value="USD {{number_format(($saldoTotalFacturas - ($saldoTotalNC + $saldoTotalAbono)), 2,',','.')}}" readonly>
+							<input class="form-control text-right" type="text" value="CLP {{number_format(($saldoTotalFacturas - ($saldoTotalNC + $saldoTotalAbono)), 0,',','.')}}" readonly>
 							</td>
 						</tr>
 					</table>
@@ -244,10 +280,10 @@
 	var notasCredito = {!!$notasCredito!!};
 	var saldoTotalAbono = {!!$saldoTotalAbono!!}
 	var saldoTotalNC = {!!$saldoTotalNC!!}
-	facturaFromClienteURL = "{!!route('apiObtainFacturasByClienteIntl')!!}";
-	abonoFromClienteURL = "{!!route('apiObtainAbonosByClienteIntl')!!}"
+	facturaFromClienteURL = "{!!route('apiObtainFacturasByClienteNacional')!!}";
+	abonoFromClienteURL = "{!!route('apiObtainAbonosByClienteNacional')!!}"
 </script>
 <script src="{{asset('js/customDataTable.js')}}"></script>
 <script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/finanzas/pagosIntl.js')}}"></script>
+<script src="{{asset('js/finanzas/pagosNacional.js')}}"></script>
 @endsection

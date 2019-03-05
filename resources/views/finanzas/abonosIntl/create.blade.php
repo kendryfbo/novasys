@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Ingresar Abono a Cliente Internacional</h4>
+			<h4>Ingresar Anticipo a Cliente Internacional</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -37,7 +37,7 @@
 
 			<label class="control-label col-lg-2">Fecha Depósito : </label>
 			<div class="col-lg-2">
-			<input class="form-control input-sm" type="text" name="fecha_abono" value="{{$fecha_hoy}}" readonly>
+			<input class="form-control input-sm" type="date" name="fecha_abono" value="" required>
 			</div>
         </div>
         <!-- /form-group -->
@@ -50,7 +50,7 @@
         	<input class="form-control input-sm" type="text" name="orden_despacho" value="">
           </div>
 
-		  <label class="control-label col-lg-2">Monto Abono $ : </label>
+		  <label class="control-label col-lg-2">Monto Anticipo $ : </label>
 		  <div class="col-lg-2">
         	<input class="form-control input-sm" type="number" name="monto"  value="">
           </div>
@@ -66,7 +66,7 @@
 		</div>
 
       <!-- /form -->
-	  <button form="create" class="btn btn-default pull-right" type="submit">Abonar</button>
+	  <button form="create" class="btn btn-default pull-right" type="submit">Registrar</button>
     </div>
     <!-- /box-body -->
 

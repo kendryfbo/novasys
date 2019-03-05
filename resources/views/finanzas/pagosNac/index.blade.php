@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Pago Facturas de Cliente Internacional</h4>
+			<h4>Pago Facturas de Cliente Nacional</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -17,7 +17,7 @@
 				@endcomponent
 			@endif
 
-			<form action="{{route('crearPagoFactIntl')}}" method="get">
+			<form action="{{route('crearPagoFactNacional')}}" method="get">
 				{{ csrf_field() }}
 				<div class="col-lg-4">
 					<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="clienteID">
@@ -32,7 +32,7 @@
 			</form>
 	</div>
 	<!-- box-body -->
-		<div class="box-body">
+	<div class="box-body">
 		<!-- table -->
 		<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
 			<thead>
@@ -49,12 +49,12 @@
 				@foreach ($pagos as $pago)
 					<tr>
 						<th class="text-center">{{$loop->iteration}}</th>
-						<td class="text-center">{{$pago->Factura->clienteIntl->descripcion}}</td>
+						<td class="text-center">{{$pago->Factura->clienteNac->descripcion}}</td>
 						<td class="text-center">{{$pago->Factura->numero}}</td>
 						<td class="text-center">{{$pago->fecha_pago->format('d-m-Y')}}</td>
-						<td class="text-center">USD {{$pago->monto}}</td>
+						<td class="text-center">CLP {{$pago->monto}}</td>
 						<td class="text-center">
-							<form style="display: inline" action="{{route('eliminarPagoIntl')}}" method="post">
+							<form style="display: inline" action="{{route('eliminarPagoNacional')}}" method="post">
 								{{csrf_field()}}
 								{{ method_field('DELETE') }}
 								<input type="hidden" name="pagoID" value="{{$pago->id}}">
@@ -68,7 +68,7 @@
 			</tbody>
 		</table>
 		<!-- /table -->
-		</div>
+	</div>
 	</div>
 @endsection
 

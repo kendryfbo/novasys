@@ -179,19 +179,15 @@ class FacturaIntlController extends Controller
         return redirect()->route('FacturaIntl')->with(['status' => $msg]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Comercial\FacturaIntl  $facturaIntl
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($numero)
-    {
-        $factura = FacturaIntl::where('numero', $numero)->first();
-        $proforma = Proforma::where('factura',$factura->numero)->first();
 
-        $proforma->factura = NULL;
-        $proforma->save();
+    public function destroy(Request $request)
+
+    {
+
+        $numero = $request->numero;
+
+        $factura = FacturaIntl::where('numero', $numero)->first();
+        $facturaID = $factura->id;
         $factura->delete();
 
         $msg = 'Factura N°' . $factura->numero . ' ha sido eliminada.';

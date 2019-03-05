@@ -22,10 +22,9 @@ class AbonosIntlController extends Controller
 
         public function index() {
 
-
         //$fecha_hoy = Carbon::now();
         $clientes = ClienteIntl::getAllActive();
-        $abonos = AbonoIntl::getAllActive();
+        $abonos = AbonoIntl::where('status_id', '!=', 3)->get();
         return view('finanzas.abonosIntl.index')->with(['clientes' => $clientes, 'abonos' => $abonos]);
     }
 
@@ -41,7 +40,8 @@ class AbonosIntlController extends Controller
 
 
         $fecha_hoy = Carbon::now();
-        $clientes = ClienteIntl::getAllActive();
+        //$clientes = ClienteIntl::getAllActive();
+        $clientes = ClienteIntl::where('id', '!=', '0')->get();
         return view('finanzas.abonosIntl.create')->with(['clientes' => $clientes, 'fecha_hoy' => $fecha_hoy]);
     }
 

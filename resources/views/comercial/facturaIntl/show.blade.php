@@ -172,7 +172,7 @@
 						@foreach ($factura->detalles as $detalle)
 							<tr>
 								<td class="text-center">{{$loop->iteration}}</td>
-								<td class="text-center">{{$detalle->prod_id}}</td>
+								<td class="text-center">{{$detalle->codigo}}</td>
 								<td>{{$detalle->descripcion}}</td>
 								<td class="text-right">{{$detalle->cantidad}}</td>
 								<td class="text-right">{{number_format($detalle->precio,2)}}</td>

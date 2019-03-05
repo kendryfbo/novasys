@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Facturas Intl por Cobrar</h4>
+			<h4>Facturas Nacional por Cobrar</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -21,12 +21,12 @@
 		<div class="box-body">
 
 			<!-- form -->
-			<form id="download" action="{{route('descargarFactIntlPorCobrarExcel')}}" method="post">
+			<form id="download" action="{{route('descargarFactNacionalPorCobrarExcel')}}" method="post">
 				{{ csrf_field() }}
 				<a class="btn btn-primary" href="{{route('finanzas')}}">Volver</a>
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 			</form>
-			<form id="downloadByZonas" action="{{route('descargarHistorialPagoIntlExcelByZonas')}}" method="post">
+			<form id="downloadByZonas" action="{{route('descargarHistorialPagoNacExcelByZonas')}}" method="post">
 				{{ csrf_field() }}
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 			</form>
@@ -72,7 +72,7 @@
 					</div>
 
 					<div class="col-lg-2 pull-right">
-							<button form="downloadByZonas" class="btn btn-info" type="submit" name="button">Descargar Por Zonas en Excel</button>
+							<button form="downloadByZonas" class="btn btn-info" type="submit" name="button">Descargar Totales Excel</button>
 					</div>
 
 
@@ -111,7 +111,7 @@
 					@if(isset($factura->pagos[0]))
 					<td class="text-center">0</td>
 					@else
-					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
+					<td class="text-center">{{number_format($factura->deuda, 2,'.',',')}}</td>
 					@endif
 					<td class="text-center">{{$factura->fecha_venc->format('d/m/Y')}}</td>
 				</tr>

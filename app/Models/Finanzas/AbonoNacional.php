@@ -2,6 +2,7 @@
 
 namespace App\Models\Finanzas;
 
+use App\Models\Config\StatusDocumento;
 use Illuminate\Database\Eloquent\Model;
 
 class AbonoNacional extends Model
@@ -15,6 +16,22 @@ class AbonoNacional extends Model
         return self::all();
     }
 
+    /* Public functions */
+
+    public function updateStatus() {
+
+        if ($this->monto == $this->restante) {
+
+            $this->status_id = StatusDocumento::pendienteID();
+        } else if($this->restante <= 0) {
+
+            $this->status_id = StatusDocumento::completaID();
+        } else {
+
+            $this->status_id = StatusDocumento::ingresadaID();
+        }
+
+    }
 
     /*
 	|

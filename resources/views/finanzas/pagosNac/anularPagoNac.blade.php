@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Anular Pago de Facturas Intl</h4>
+			<h4>Anular Pago de Facturas Nacional</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -29,7 +29,7 @@
 			</form>
 			<!-- /form -->
 			<!-- form -->
-			<form class="form-horizontal" action="{{Route('anulaPagoIntl')}}" method="post">
+			<form class="form-horizontal" action="{{Route('anulaPagoNacional')}}" method="post">
 
 				{{ csrf_field() }}
 
@@ -77,13 +77,13 @@
 				@foreach ($pagos as $pago)
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
-						<td class="text-center">{{$pago->Factura->clienteIntl->descripcion}}</td>
+						<td class="text-center">{{$pago->Factura->clienteNac->descripcion}}</td>
 						<td class="text-center">{{$pago->fecha_pago->format('d-m-Y')}}</td>
 						<td class="text-center">{{$pago->Factura->numero}}</td>
 						<td class="text-center">{{$pago->numero}}</td>
-						<td class="text-center">USD {{number_format($pago->monto, 2,',','.')}}</td>
+						<td class="text-center">CLP {{number_format($pago->monto, 2,',','.')}}</td>
 						<td class="text-center">
-							<form style="display: inline" action="{{route('eliminarPagoIntl')}}" method="post" onsubmit="return confirm('¿Está seguro de Anular el Pago?');">
+							<form style="display: inline" action="{{route('eliminarPagoNacional')}}" method="post" onsubmit="return confirm('¿Está seguro de Anular el Pago?');">
 								{{csrf_field()}}
 								{{ method_field('DELETE') }}
 								<input type="hidden" name="pagoID" value="{{$pago->id}}">

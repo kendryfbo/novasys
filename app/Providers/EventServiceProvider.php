@@ -31,7 +31,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreateFacturaIntlEvent' => [
             'App\Listeners\GenerateFacturaIntlExcel',
         ],
-
     ];
 
     /**

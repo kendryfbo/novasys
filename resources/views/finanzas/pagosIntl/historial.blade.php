@@ -1,135 +1,121 @@
 @extends('layouts.masterFinanzas')
 
 @section('content')
-
-  <!-- box -->
+	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Historial de Pagos</h4>
+			<h4>Historial de Facturas Intl Pagadas</h4>
 		</div>
 		<!-- /box-header -->
+		<div class="box-body">
+			@if (session('status'))
+				@component('components.panel')
+					@slot('title')
+						{{session('status')}}
+					@endslot
+				@endcomponent
+			@endif
+		</div>
 		<!-- box-body -->
 		<div class="box-body">
 
-			@if ($errors->any())
-
-				@foreach ($errors->all() as $error)
-
-					@component('components.errors.validation')
-
-            @slot('errors')
-
-              {{$error}}
-
-						@endslot
-
-					@endcomponent
-
-				@endforeach
-
-			@endif
-
 			<!-- form -->
+			<form id="download" action="{{route('descargarHistorialPagoIntlExcel')}}" method="post">
+				{{ csrf_field() }}
+				<a class="btn btn-primary" href="{{route('finanzas')}}">Volver</a>
+
+				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
+			</form>
+			<!-- /form -->
+			<!-- form -->
+			<form class="form-horizontal" action="{{Route('historialPagoIntl')}}" method="post">
+
+				{{ csrf_field() }}
+
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+
+					<label class="control-label col-lg-1">Cliente:</label>
+					<div class="col-lg-3">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente">
+							@foreach ($clientes as $cliente)
+								<option {{$clienteID == $cliente->id ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
+							@endforeach
 
 
+						</select>
+					</div>
 
-    	<!-- form-group -->
-        <div class="form-group">
+					<div class="col-lg-3 pull-left">
+						<button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
+					</div>
+						<div class="col-lg-2 pull-right">
+								<button form="download" class="btn btn-info" type="submit" name="button">Descargar Excel</button>
+						</div>
+				</div>
+				<!-- /form-group -->
 
-			<label class="control-label col-lg-2">Cliente : </label>
-            <div class="col-lg-2">
-				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" id="cliente" name="cliente" v-model="clienteId" @change="getHistorialByCliente" required>
-					<option value=""></option>
-					@foreach ($clientes as $cliente)
-						<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
+				<!-- form-group -->
+				<div class="form-group form-group-sm">
+				</div>
+				<!-- /form-group -->
+
+			</form>
+			<!-- /form -->
+			<hr>
+			<!-- table -->
+			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" data-page-length='25' cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="text-center">FACTURA</th>
+						<th class="text-center">FECHA PAGO</th>
+						<th class="text-center">DOC. PAGO</th>
+						<th class="text-center">CARGOS</th>
+						<th class="text-center">ABONOS</th>
+						<th class="text-center">SALDOS</th>
+					</tr>
+				</thead>
+				<tbody>
+				@foreach ($pagos as $factura)
+				<tr>
+					<td class="text-center">{{$factura->numero}}</td>
+					<td class="text-center">{{Carbon\Carbon::parse($factura->fecha_emision)->format('d/m/Y')}}</td>
+					<td class="text-center">Factura</td>
+					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
+					<td class="text-center">0</td>
+					@if(isset($factura->pagos[0]))
+					<td class="text-center">0</td>
+					@else
+					<td class="text-center">{{number_format($factura->deuda, 2,'.',',')}}</td>
+					@endif
+				</tr>
+					@foreach ($factura->pagos as $pago)
+					<tr>
+						<td class="text-center">{{$factura->numero}}</td>
+						<td class="text-center">{{Carbon\Carbon::parse($pago->fecha_pago)->format('d/m/Y')}}</td>
+						<td class="text-center">Abono {{$pago->numero}}</td>
+						<td class="text-center">0</td>
+						<td class="text-center">{{number_format($pago->monto, 2,'.',',')}}</td>
+						@if ($loop->last)
+							<td class="text-center">{{number_format(($factura->total - $factura->pagos->sum('monto')), 2,'.',',')}}</td>
+						@else
+							<td class="text-center">0</td>
+						@endif
+					</tr>
 					@endforeach
-				</select>
-			</div>
-        </div>
-        <!-- /form-group -->
-      <!-- /form -->
-
-    </div>
-    <!-- /box-body -->
-
-
-	<!-- box-footer -->
-	    <div class="box-footer">
-	      <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
-	        <thead>
-	          <tr>
-				<th class="text-center">#</th>
-				<th class="text-center">FECHA</th>
-	            <th class="text-center">N° FACT.</th>
-	            <th class="text-center">CARGOS</th>
-	            <th class="text-center">SALDO</th>
-	            <th class="text-center">ABONOS</th>
-	            <th class="text-center">SALDO</th>
-	          </tr>
-	        </thead>
-
-			<tbody>
-					<tr v-if="facturas <= 0">
-						<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+					<tr class="active">
+						<td colspan="6"></td>
 					</tr>
-					<tr v-if="facturas" v-for="(factura, key) in facturas">
-						<td class="text-center">@{{key+1}}</td>
-						<td class="text-center">@{{factura.numero}}</td>
-						<td class="text-right">@{{factura.fecha_emision}}</td>
-						<td class="text-right">$@{{factura.total}}</td>
-						<td class="text-right">@{{(factura.total - 2000)}}</td>
-						<td class="text-right">@{{(factura.total + 2000)}} </td>
-						<td class="text-right">@{{factura.total}}</td>
-					</tr>
+				@endforeach
+				</tbody>
+			</table>
+			<!-- /table -->
+		</div>
 
-			</tbody>
-	      </table>
-
-
-	      <div class="row">
-
-	        <div class=" col-sm-4 col-md-offset-8">
-				<table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
-
-					<tr>
-						<th class="bg-gray text-right">Total Cargos</th>
-						<td class="input-td">
-						<input class="form-control text-right" type="number" name="sub_total" readonly>
-						</td>
-					</tr>
-					<tr>
-						<th class="bg-gray text-right">Total Abonos</th>
-						<td class="input-td">
-						<input class="form-control text-right" type="number" name="descuento" readonly>
-						</td>
-					</tr>
-					<tr>
-						<th class="bg-gray text-right">Deuda Total</th>
-						<td class="input-td">
-							<input class="form-control text-right" type="number" name="neto"  readonly>
-						</td>
-					</tr>
-				</table>
-			</div>
-
-	      </div>
-
-	      <button form="create" class="btn btn-default pull-right" type="submit">Crear</button>
-	    </div>
-	
-
-	    <!-- /box-footer -->
-  </div>
-  <!-- /box -->
+	</div>
 @endsection
 
 @section('scripts')
-<script>
-	var clientes = {!!$clientes!!};
-	historialFromClienteURL = "{!!route('apiObtainHistorialByClienteIntl')!!}"
-</script>
-<script src="{{asset('js/customDataTable.js')}}"></script>
-<script src="{{asset('vue/vue.js')}}"></script>
-<script src="{{asset('js/finanzas/historialClienteIntl.js')}}"></script>
+	<script src="{{asset('js/customDataTable.js')}}"></script>
 @endsection

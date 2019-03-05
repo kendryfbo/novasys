@@ -17,8 +17,11 @@ class PagosIntlTable extends Migration
             $table->increments('id');
             $table->integer('factura_id')->unsigned();
             $table->integer('usuario_id')->unsigned();
+            $table->integer('tipo_id')->unsigned();
             $table->integer('abono_id')->unsigned();
+            $table->string('numero_documento');
             $table->double('monto',10,2)->nullable();
+            $table->double('saldo',10,2)->nullable();
             $table->date('fecha_pago');
             $table->timestamps();
         });

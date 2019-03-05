@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Abonos de Cliente Nacional</h4>
+			<h4>Anticipos de Cliente Nacional</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
