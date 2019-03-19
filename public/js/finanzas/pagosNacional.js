@@ -13,9 +13,13 @@ var app = new Vue({
     montoNC: '',
     montoAnticipo: '',
     docuPago: '',
+    formaPago: '',
+    bancoCheque: '',
+    fechaCobroCheque: '',
     antAbono: '',
     restante: '',
     notasCredito: notasCredito,
+    notasDebito: notasDebito,
     notaCred: '',
     facturaFromClienteURL: facturaFromClienteURL,
     abonoFromClienteURL: abonoFromClienteURL,
@@ -30,13 +34,13 @@ var app = new Vue({
     methods: {
 
     formatPrice(value) {
-       let val = (value/1).toFixed(2).replace(',', '.')
+       let val = (value/1).toFixed(0).replace(',', '.')
        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
         numberFormat: function(x) {
 
-        return x.toLocaleString(undefined, {minimumFractionDigits: 2})
+        return x.toLocaleString(undefined, {minimumFractionDigits: 0})
     },
 
         loadDatos: function() {
@@ -100,6 +104,24 @@ var app = new Vue({
 
         },
 
+        cargarNotaDebito: function(notaDebitoID,event) {
+
+          console.log(event);
+          for (var i = 0; i < this.notasDebito.length; i++) {
+            if (this.notasDebito[i].id == notaDebitoID) {
+              if (this.notasDebito[i].deuda <= this.montoDepo) {
+                event.target.value = this.notasDebito[i].deuda;
+                return;
+              }
+              else {
+                event.target.value = Number(this.montoDepo);
+                break;
+              }
+            }
+          }
+
+        },
+
         registrarPago: function(facturaID) {
 
         var pago = document.getElementById(facturaID).value;
@@ -117,6 +139,25 @@ var app = new Vue({
             }
           }
           document.getElementById(facturaID).value = 0;
+        },
+
+        registrarPagoND: function(notaDebitoID) {
+
+        var pago = document.getElementById(notaDebitoID).value;
+          for (var i = 0; i < this.notasDebito.length; i++) {
+            if (this.notasDebito[i].id == notaDebitoID) {
+
+              if (pago > this.notasDebito[i].deuda) {
+                alert('el monto del pago es mayor al monto restante de la factura');
+                break;
+              }
+              this.notasDebito[i].pago = Number(pago);
+              this.notasDebito[i].deuda = this.notasDebito[i].deuda - this.notasDebito[i].pago;
+              this.montoDepo = this.montoDepo - this.notasDebito[i].pago;
+              break;
+            }
+          }
+          document.getElementById(notaDebitoID).value = 0;
         },
 
         utilizarAbono: function(abonoID) {
@@ -137,6 +178,13 @@ var app = new Vue({
               this.montoDepo = this.abonos[i].anticipo;
               this.montoAnticipo = this.abonos[i].anticipo;
               this.docuPago = this.abonos[i].docu_abono;
+              if (this.abonos[i].formaPago_id == null) {
+                  this.formaPago = 6;
+              } else {
+                    this.formaPago = this.abonos[i].formaPago_id;
+              }
+              this.bancoCheque = this.abonos[i].banco_id;
+              this.fechaCobroCheque = this.abonos[i].fecha_cobro;
               this.abonoStatus = "Usado";
               this.setPagoAbono();
               break;
@@ -160,6 +208,7 @@ var app = new Vue({
               this.notasCredito[i].notaCredito = Number(notaCredito);
               this.notasCredito[i].restante = this.notasCredito[i].restante - this.notasCredito[i].notaCredito;
               this.saldoTotalNC = this.saldoTotalNC - this.notasCredito[i].notaCredito;
+              this.formaPago = 6;
               this.montoDepo = this.notasCredito[i].notaCredito;
               this.montoNC = this.notasCredito[i].notaCredito;
               this.docuPago = 'NC ' + this.notasCredito[i].numero;

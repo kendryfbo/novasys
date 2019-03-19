@@ -16,6 +16,7 @@ var app = new Vue({
         sub_total: sub_total,
         neto: neto,
         iaba: iaba,
+        statusIABA: 0,
         iva: iva,
         total: total,
     },
@@ -152,19 +153,16 @@ var app = new Vue({
             var totalIva = 0;
             var totalIaba = 0;
             var tTotal = 0;
+            this.iaba = 0;
 
             for (var i = 0; i < this.items.length; i++) {
 
                 subTotal = this.items[i].precio * this.items[i].cantidad;
                 neto = subTotal;
 
-                if (this.items[i].iaba) {
+                if (this.statusIABA) {
 
-					iaba = (neto * this.impIaba) / 100;
-
-                } else {
-
-                    iaba = 0;
+                    this.iaba += neto * 0.10; // CAMBIAR POR VARIABLE DE TABLA IMPUESTOS
                 }
 
                 iva = (neto * 19) / 100;
@@ -172,8 +170,8 @@ var app = new Vue({
                 totalSubTotal += subTotal;
                 totalNeto += neto;
                 totalIva += iva;
-                totalIaba += iaba;
-                tTotal += neto + iva;
+                totalIaba += this.iaba;
+                tTotal += neto + iva + totalIaba;
             }
 
             this.sub_total = totalSubTotal;

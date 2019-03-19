@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Models\Comercial;
+
 use DB;
 use App\Models\Config\StatusDocumento;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comercial\FacturaNacionalDetalle;
+use App\Models\Comercial\NotaDebitoNac;
 use App\Models\Finanzas\PagoNacional;
 
 
@@ -56,6 +58,12 @@ class FacturaNacional extends Model
         return $this->hasMany(PagoNacional::class,'factura_id');
     }
 
+    public function notasDebito() {
+
+        return $this->hasMany(NotaDebitoNac::class,'factura_id');
+
+    }
+
     public function detalles() {
 
         return $this->hasMany('App\Models\Comercial\FacturaNacionalDetalle','fact_id');
@@ -70,6 +78,13 @@ class FacturaNacional extends Model
 
         return $this->belongsTo('App\Models\Comercial\ClienteNacional','cliente_id');
     }
+
+    public function notaDeb() {
+
+        return $this->belongsTo('App\Models\Comercial\NotaDebitoNac','factura_id');
+
+    }
+
 
     public function vendedor() {
 

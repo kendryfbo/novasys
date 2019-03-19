@@ -13,7 +13,8 @@ use App\Models\Finanzas\PagoNacional;
 use App\Models\Finanzas\AbonoNacional;
 use App\Models\Finanzas\Bancos;
 use App\Models\Comercial\NotaCreditoNac;
-use App\Models\Comercial\FormaPagoNac;
+use App\Models\Comercial\NotaDebitoNac;
+use App\Models\Finanzas\FormaPago;
 use App\Models\Config\StatusDocumento;
 
 class PagosNacionalController extends Controller
@@ -30,7 +31,7 @@ class PagosNacionalController extends Controller
       public function create(Request $request) {
 
           $statusCompleta = StatusDocumento::completaID();
-          $formasDePago = FormaPagoNac::getAllActive();
+          $formasPago = FormaPago::getAllActive();
           $bancos = Bancos::getAllActive();
 
           $clienteID = $request->clienteID;
@@ -38,11 +39,14 @@ class PagosNacionalController extends Controller
 
           $facturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get();
           $facturaNumero = $facturas->pluck('numero');
+          $facturaID = $facturas->pluck('id');
           $saldoTotalFacturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get()->sum('deuda');
           $saldoTotalAbono = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
           $saldoTotalNC = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
           $abonos = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get();
           $notasCredito = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
+          $notasDebito = NotaDebitoNac::whereIn('factura_id', $facturaID)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
+          //dd($notasDebito);
 
           return view('finanzas.pagosNac.create')->with([
                         'cliente' => $cliente,
@@ -50,8 +54,9 @@ class PagosNacionalController extends Controller
                         'saldoTotalAbono' => $saldoTotalAbono,
                         'abonos' => $abonos,
                         'notasCredito' => $notasCredito,
+                        'notasDebito' => $notasDebito,
                         'saldoTotalNC' => $saldoTotalNC,
-                        'formasDePago' => $formasDePago,
+                        'formasPago' => $formasPago,
                         'bancos' => $bancos,
                         'saldoTotalFacturas' => $saldoTotalFacturas]);
 
@@ -85,14 +90,45 @@ class PagosNacionalController extends Controller
     public function historial(Request $request) {
          $clienteID = $request->cliente;
          $historial = [];
+         $totalNotaDebito = [];
+
+         if ($clienteID == 0) {
+
+             $historial = PagoNacional::historialPago($clienteID);
+             $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
+
+             if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+
+                 $historial = PagoNacional::historialPago($clienteID);
+                 $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+
+             }
+          }
 
         if ($clienteID) {
-             $historial = PagoNacional::historialPago($clienteID);
+            $historial = PagoNacional::historialPago($clienteID);
+            $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
 
+
+            if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+                $historial = PagoNacional::historialPago($clienteID);
+                $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+
+            }
          }
+
+         //Datos de Nota Débito
+         $totalND = $totalNotaDebito[0]->totalNotaDebito;
+         $totalDeudaND = $totalNotaDebito[0]->deudaNotaDebito;
+         //dd($totalND,$totalDeudaND);
          $busqueda = $request;
+         $historial = collect($historial);
+         $historial->total_cargo = $historial->sum('total') + $totalND;
+         $historial->total_abono = $historial->total_cargo - ($historial->sum('deuda') + $totalDeudaND);
+         $historial->total = $historial->total_cargo - $historial->total_abono;
+
+
          $clientes = ClienteNacional::where('id', '!=', '0')->get();
-         //dd($historial);
 
         return view('finanzas.pagosNac.historial')
                  ->with([
@@ -104,20 +140,44 @@ class PagosNacionalController extends Controller
     }
 
 
-
     public function reportHistorialExcel(Request $request) {
         $clienteID = $request->cliente;
         $historial = [];
+        $totalNotaDebito = [];
 
-        if ($clienteID) {
+        if ($clienteID == 0) {
 
             $historial = PagoNacional::historialPago($clienteID);
-            //dd($historial);
+            $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
+
+            if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+
+                $historial = PagoNacional::historialPago($clienteID);
+                $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+
+            }
+         }
+
+        if ($clienteID) {
+           $historial = PagoNacional::historialPago($clienteID);
+           $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
+
+
+           if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+               $historial = PagoNacional::historialPago($clienteID);
+               $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+
+           }
         }
 
+        //Datos de Nota Débito
+        $totalND = $totalNotaDebito[0]->totalNotaDebito;
+        $totalDeudaND = $totalNotaDebito[0]->deudaNotaDebito;
+        //dd($totalND,$totalDeudaND);
+        $busqueda = $request;
         $historial = collect($historial);
-        $historial->total_cargo = $historial->sum('total');
-        $historial->total_abono = $historial->total_cargo - $historial->sum('deuda');
+        $historial->total_cargo = $historial->sum('total') + $totalND;
+        $historial->total_abono = $historial->total_cargo - ($historial->sum('deuda') + $totalDeudaND);
         $historial->total = $historial->total_cargo - $historial->total_abono;
 
         $clientes = ClienteNacional::getAllActive();
@@ -140,20 +200,42 @@ class PagosNacionalController extends Controller
     public function porCobrar(Request $request) {
         $clienteID = $request->cliente;
         $porCobrar = [];
+        $totalNotaDebito = [];
 
-
-        if ($clienteID == '0') {
+        if ($clienteID == 0) {
 
             $porCobrar = PagoNacional::facturasPorPagarTodas($clienteID);
+            $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
 
+            if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+
+                $porCobrar = PagoNacional::facturasPorPagarTodas($clienteID);
+                $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+            }
+         }
+
+        if ($clienteID) {
+
+           $porCobrar = PagoNacional::facturasPorPagar($clienteID);
+           $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
+
+
+           if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+               $porCobrar = PagoNacional::facturasPorPagar($clienteID);
+               $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
+
+           }
         }
-       if ($clienteID) {
-
-            $porCobrar = PagoNacional::facturasPorPagar($clienteID);
-
-        }
-
+        //Datos de Nota Débito
+        $totalND = $totalNotaDebito[0]->totalNotaDebito;
+        $totalDeudaND = $totalNotaDebito[0]->deudaNotaDebito;
+        //dd($totalND,$totalDeudaND);
         $busqueda = $request;
+        $porCobrar = collect($porCobrar);
+        $porCobrar->total_cargo = $porCobrar->sum('total') + $totalND;
+        $porCobrar->total_abono = $porCobrar->total_cargo - ($porCobrar->sum('deuda') + $totalDeudaND);
+        $porCobrar->total = $porCobrar->total_cargo - $porCobrar->total_abono;
+
         $clientes = ClienteNacional::getAllActive();
 
         return view('finanzas.pagosNac.porCobrar')
@@ -166,69 +248,62 @@ class PagosNacionalController extends Controller
     }
 
 
+
     public function reportFactNacPorCobrarExcel(Request $request) {
-        $clienteID = $request->cliente;
-        $factPorCobrar = [];
 
-        if ($clienteID == '0') {
+            $clienteID = $request->cliente;
+            $porCobrar = [];
+            $totalNotaDebito = [];
 
-            $factPorCobrar = PagoNacional::facturasPorPagarTodas($clienteID);
+            if ($clienteID == 0) {
 
-        }
+                    $porCobrar = PagoNacional::cuentasCorrienteTodas();
+                    $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
 
-        if ($clienteID) {
+             }
 
-            $factPorCobrar = PagoNacional::facturasPorPagar($clienteID);
+            if ($clienteID) {
 
-        }
+               $porCobrar = PagoNacional::cuentasCorriente($clienteID);
+               $totalNotaDebito = PagoNacional::totalNotaDebito($clienteID);
 
-        $factPorCobrar = collect($factPorCobrar);
-        $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
-        $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
-        $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
+               if ($totalNotaDebito[0]->totalNotaDebito == NULL || $totalNotaDebito[0]->deudaNotaDebito == NULL) {
+                   $porCobrar = PagoNacional::cuentasCorriente($clienteID);
+                   $totalNotaDebito = PagoNacional::totalNotaDebitoNull($clienteID);
 
-            Excel::create('Facturas por Cobrar', function($excel) use ($factPorCobrar)
-            {
-                $excel->sheet('Facturas por Cobrar', function($sheet) use ($factPorCobrar)
-                {
-                    $sheet->loadView('documents.excel.reportFactNacPorCobrar')->with('pagos',$factPorCobrar);
-                });
-            })->export('xls');
-        }
+               }
+            }
 
+            $busqueda = $request;
 
-        public function reportFactNacPorCobrarExcelByZonas(Request $request) {
+            //Datos de Nota Débito
+            $totalND = $totalNotaDebito[0]->totalNotaDebito;
+            $totalDeudaND = $totalNotaDebito[0]->deudaNotaDebito;
+            //dd($totalND,$totalDeudaND);
 
-             $factPorCobrar = PagoNacional::cuentasCorriente();
-
-             $factPorCobrar = collect($factPorCobrar);
-             $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
-             $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
-             $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
-
-
-             foreach ($factPorCobrar as $clientes) {
+             foreach ($porCobrar as $clientes) {
                 foreach ($clientes->facturasNac as &$facturas) {
 
                $fechaEmision = Carbon::parse($facturas->fecha_venc);
                $fechaExpiracion = Carbon::now();
                $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
                $facturas->cliente = $facturas->clienteNac->descripcion;
-               $clientes->total_cargo = $clientes->facturasNac->sum('total');
-               $clientes->total_abono = $clientes->total_cargo - $clientes->facturasNac->sum('deuda');
+
+               $clientes->total_cargo = $clientes->facturasNac->sum('total') + $totalND;
+               $clientes->total_abono = $clientes->total_cargo - ($clientes->facturasNac->sum('deuda') + $totalDeudaND);
                $clientes->total_cliente = $clientes->total_cargo - $clientes->total_abono;
                 }
             }
 
-              Excel::create('Por Cobrar', function($excel) use ($factPorCobrar)
+              Excel::create('Por Cobrar', function($excel) use ($porCobrar)
                 {
                     //sheet 1
-                    $excel->sheet('', function($sheet) use ($factPorCobrar)
+                    $excel->sheet('', function($sheet) use ($porCobrar)
                     {
-                        $sheet->loadView('documents.excel.reportCuentaCorrienteNacional')->with(['factPorCobrar' => $factPorCobrar]);
+                        $sheet->loadView('documents.excel.reportCuentaCorrienteNacional')->with(['factPorCobrar' => $porCobrar]);
                     });
                 })->export('xls');
-            }
+    }
 
 
 

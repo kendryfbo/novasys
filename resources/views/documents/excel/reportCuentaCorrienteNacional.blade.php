@@ -57,15 +57,43 @@
               <td class="text-center">{{$factura->fecha_venc->format('d/m/Y')}}</td>
               <td class="text-center">{{$factura->cliente_rut}}</td>
               <td class="text-center">{{$factura->cliente}}</td>
-              <td class="text-center">{{number_format($factura->total, 2,',','.')}}</td>
+              <td class="text-center">{{$factura->total}}</td>
               <td class="text-center">0</td>
               @if(isset($factura->pagos[0]))
               <td class="text-center">0</td>
               @else
-              <td class="text-center">{{number_format($factura->deuda, 2,',','.')}}</td>
+              <td class="text-center">{{$factura->deuda}}</td>
               @endif
               <td class="text-center">{{$factura->diasDiferencia}}</td>
           </tr>
+
+          @foreach ($factura->notasDebito as $notaDebito)
+          <tr>
+              <td class="text-center"></td>
+              <td class="text-center">N.D. {{$notaDebito->numero}}</td>
+              <td class="text-center">{{Carbon\Carbon::parse($notaDebito->fecha)->format('d/m/Y')}}</td>
+              <td class="text-center"></td>
+              <td class="text-center">{{$factura->cliente_rut}}</td>
+              <td class="text-center">{{$factura->cliente}}</td>
+              <td class="text-center">{{$notaDebito->total}}</td>
+              <td class="text-center">0</td>
+              @if ($loop->last)
+              @if (isset($factura->pagos[0]))
+                  <td class="text-center">0</td>
+              @else
+                  @if (isset($factura->notasDebito[0]))
+                      <td class="text-center">{{($factura->deuda + $notaDebito->deuda)}}</td>
+                  @else
+                      <td class="text-center">0</td>
+                  @endif
+              @endif
+                  @else
+                      <td class="text-center">0</td>
+              @endif
+              <td class="text-center"></td>
+          </tr>
+          @endforeach
+
               @foreach ($factura->pagos as $pago)
               <tr>
                   <td class="text-center"></td>
@@ -75,9 +103,13 @@
                   <td class="text-center">{{$factura->cliente_rut}}</td>
                   <td class="text-center">{{$factura->cliente}}</td>
                   <td class="text-center">0</td>
-                  <td class="text-center">{{number_format($pago->monto, 2,',','.')}}</td>
+                  <td class="text-center">{{$pago->monto}}</td>
                   @if ($loop->last)
-                      <td class="text-center">{{number_format(($factura->total - $factura->pagos->sum('monto')), 2,',','.')}}</td>
+                      @if (isset($pago->Factura->notasDebito[0]))
+                          <td class="text-center">{{$factura->deuda + $pago->Factura->notasDebito->sum('deuda')}}</td>
+                      @else
+                          <td class="text-center">{{$factura->deuda}}</td>
+                      @endif
                   @else
                       <td class="text-center">0</td>
                   @endif
@@ -95,9 +127,9 @@
             <td class="text-center"></td>
             <td class="text-center"></td>
             <td class="text-center"><strong>Total Cliente</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_cargo, 2,',','.')}}</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_abono, 2,',','.')}}</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_cliente, 2,',','.')}}</strong></td>
+            <td class="text-center"><strong>{{$clientes->total_cargo}}</strong></td>
+            <td class="text-center"><strong>{{$clientes->total_abono}}</strong></td>
+            <td class="text-center"><strong>{{$clientes->total_cliente}}</strong></td>
             <td class="text-center"></td>
         </tr>
           <tr>

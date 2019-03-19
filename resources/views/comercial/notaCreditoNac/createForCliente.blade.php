@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Emision Nota de Credito Cliente</h4>
+			<h4>Emisión Nota de Crédito Cliente</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -34,11 +34,11 @@
 			<form id="create" class="form-horizontal" method="post" action="{{route('guardarNotaCreditoNacCliente')}}">
 
 				{{ csrf_field() }}
-
+				<input type="hidden" name="group" value="{{$busqueda ? $busqueda->group : ''}}">
                 <!-- form-group -->
                 <div class="form-group form-group-sm">
 
-                <label class="control-label col-lg-2">Nota Credito N°:</label>
+                <label class="control-label col-lg-1">Nota Crédito N°:</label>
                 <div class="col-lg-1">
                     <input class="form-control input-sm" type="numero"  min="0" name="numero" autofocus required>
                 </div>
@@ -73,15 +73,20 @@
 					</select>
               	</div>
 
+				<label class="control-label col-lg-2">Con IABA:</label>
+				<div class="col-lg-2 checkbox">
+					<input type="checkbox" name="statusIABA" v-model="statusIABA" @change="calculateTotal">
+				</div>
+
             </div>
             <!-- /form-group -->
 
 			<!-- form-group -->
             <div class="form-group form-group-sm">
 
-              <label class="control-label col-lg-1">nota:</label>
+              <label class="control-label col-lg-1">Nota:</label>
               <div class="col-lg-8">
-                <input class="form-control input-sm"type="text" name="nota" placeholder="Observacion nota de venta...">
+                <input class="form-control input-sm"type="text" name="nota" placeholder="Observación Nota de Venta...">
               </div>
 
             </div>
@@ -110,7 +115,7 @@
 
             <div class="form-group form-group-sm">
 
-                <label class="control-label col-lg-1">Descripcion:</label>
+                <label class="control-label col-lg-1">Descripción:</label>
                 <div class="col-lg-7">
                     <input type="text" class="form-control" name="descripcion" v-model="descripcion" value="">
                 </div>
@@ -151,7 +156,7 @@
                     </td>
                     <td class="text-center">@{{index + 1}}</td>
                     <td class="text-left">@{{item.descripcion}}</td>
-                    <td class="text-right">US$ @{{numberFormat(item.precio)}}</td>
+                    <td class="text-right">CLP$ @{{numberFormat(item.precio)}}</td>
                 </tr>
 
             </tbody>
@@ -164,7 +169,19 @@
 
                 <table class="table table-condensed table-bordered table-custom display" cellspacing="0" width="100%">
 
-                    <tr>
+					<tr>
+						<th class="bg-gray text-right">NETO $</th>
+						<th class="text-right">@{{numberFormat(neto)}}</th>
+					</tr>
+					<tr>
+						<th class="bg-gray text-right">IABA $</th>
+						<th class="text-right">@{{numberFormat(iaba)}}</th>
+					</tr>
+					<tr>
+						<th class="bg-gray text-right">IVA $</th>
+						<th class="text-right">@{{numberFormat(iva)}}</th>
+					</tr>
+					<tr>
                         <th class="bg-gray text-right">TOTAL $</th>
                         <th class="text-right">@{{numberFormat(total)}}</th>
                     </tr>

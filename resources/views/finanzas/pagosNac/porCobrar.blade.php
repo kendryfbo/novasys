@@ -23,11 +23,6 @@
 			<!-- form -->
 			<form id="download" action="{{route('descargarFactNacionalPorCobrarExcel')}}" method="post">
 				{{ csrf_field() }}
-				<a class="btn btn-primary" href="{{route('finanzas')}}">Volver</a>
-				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
-			</form>
-			<form id="downloadByZonas" action="{{route('descargarHistorialPagoNacExcelByZonas')}}" method="post">
-				{{ csrf_field() }}
 				<input type="hidden" name="cliente" value="{{$busqueda ? $busqueda->cliente : ''}}">
 			</form>
 			<!-- /form -->
@@ -66,13 +61,8 @@
 					<div class="col-lg-2">
 						<input class="form-control" type="date" name="hasta" value="">
 					</div>
-
 					<div class="col-lg-2 pull-right">
-							<button form="download" class="btn btn-info" type="submit" name="button">Descargar Excel</button>
-					</div>
-
-					<div class="col-lg-2 pull-right">
-							<button form="downloadByZonas" class="btn btn-info" type="submit" name="button">Descargar Totales Excel</button>
+							<button form="download" class="btn btn-info" type="submit" name="button">Descargar en Excel</button>
 					</div>
 
 
@@ -88,7 +78,7 @@
 					<tr>
 						<th class="text-center">FACTURA</th>
 						<th class="text-center">FECHA PAGO</th>
-						<th class="text-center">O.D.</th>
+						<th class="text-center">NOTA VENTA</th>
 						<th class="text-center">CLIENTE</th>
 						<th class="text-center">DOC. PAGO</th>
 						<th class="text-center">CARGOS</th>
@@ -102,19 +92,48 @@
 				<tr>
 					<td class="text-center">{{$factura->numero}}</td>
 					<td class="text-center">{{Carbon\Carbon::parse($factura->fecha_emision)->format('d/m/Y')}}</td>
-					<td class="text-center">{{$factura->proforma}}</td>
+					<td class="text-center">{{$factura->numero_nv}}</td>
 					<td class="text-center">{{$factura->cliente}}</td>
 					<td class="text-center">Factura</td>
 					<td class="text-center">{{number_format($factura->total, 2,'.',',')}}</td>
 					<td class="text-center">0</td>
 
-					@if(isset($factura->pagos[0]))
-					<td class="text-center">0</td>
+					@if (isset($factura->notasDebito[0]) || isset($factura->pagos[0]))
+						<td class="text-center">0</td>
 					@else
-					<td class="text-center">{{number_format($factura->deuda, 2,'.',',')}}</td>
+						<td class="text-center">{{number_format($factura->deuda, 0,',','.')}}</td>
 					@endif
 					<td class="text-center">{{$factura->fecha_venc->format('d/m/Y')}}</td>
 				</tr>
+
+				@foreach ($factura->notasDebito as $notaDebito)
+				<tr>
+					<td class="text-center">{{$factura->numero}}</td>
+					<td class="text-center">{{Carbon\Carbon::parse($notaDebito->fecha)->format('d/m/Y')}}</td>
+					<td class="text-center">{{$factura->numero_nv}}</td>
+					<td class="text-center">{{$factura->cliente}}</td>
+					<td class="text-center">Nota Débito {{$notaDebito->numero}}</td>
+					<td class="text-center">{{number_format($notaDebito->total, 0,',','.')}}</td>
+					<td class="text-center">0</td>
+					@if ($loop->last)
+					@if (isset($factura->pagos[0]))
+						<td class="text-center">0</td>
+					@else
+						@if (isset($factura->notasDebito[0]))
+							<td class="text-center">{{number_format(($factura->deuda + $notaDebito->deuda), 0,',','.')}}</td>
+						@else
+							<td class="text-center">0</td>
+						@endif
+					@endif
+						@else
+							<td class="text-center">0</td>
+					@endif
+					<td class="text-center"></td>
+				</tr>
+
+
+				@endforeach
+
 					@foreach ($factura->pagos as $pago)
 					<tr>
 						<td class="text-center">{{$factura->numero}}</td>
@@ -125,7 +144,11 @@
 						<td class="text-center">0</td>
 						<td class="text-center">{{number_format($pago->monto, 2,'.',',')}}</td>
 						@if ($loop->last)
-							<td class="text-center">{{number_format(($factura->total - $factura->pagos->sum('monto')), 2,'.',',')}}</td>
+							@if (isset($pago->Factura->notasDebito[0]))
+								<td class="text-center">{{number_format(($factura->deuda + $pago->Factura->notasDebito->sum('deuda')), 0,',','.')}}</td>
+							@else
+								<td class="text-center">{{number_format($factura->deuda, 0,',','.')}}</td>
+							@endif
 						@else
 							<td class="text-center">0</td>
 						@endif

@@ -6,11 +6,12 @@ use DB;
 use App\Models\Comercial\Impuesto;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comercial\NotaCreditoNacDetalle;
+use App\Models\Config\StatusDocumento;
 
 class NotaCreditoNac extends Model
 {
     protected $table = 'nota_credito_nac';
-    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'iva', 'iaba', 'total', 'user_id'];
+    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'iva', 'iaba', 'total', 'user_id', 'restante'];
 
     static function getAllUnauthorized() {
 
@@ -46,6 +47,7 @@ class NotaCreditoNac extends Model
                 'iva' => $totalIva,
                 'iaba' => $totalIaba,
                 'total' => $totalT,
+                'restante' => $totalT,
                 'user_id' => $user
             ]);
 
@@ -54,7 +56,6 @@ class NotaCreditoNac extends Model
             foreach ($items as $item) {
 
                 $item = json_decode($item);
-
                 $subtotal = $item->precio * $item->cantidad;
                 $descuento = 0; // Eliminar de tabla - $subtotal * $item->descuento / 100;
                 $neto = $subtotal - $descuento;
@@ -77,13 +78,43 @@ class NotaCreditoNac extends Model
                 $totalT += $total;
             };
 
+            $statusIABA = $request->statusIABA;
+
+            if ($statusIABA == NULL) {
+
+                $notaCredito->iaba = 0;
+
+            } else {
+
+
+                $notaCredito->iaba = ($totalNeto * $IABA)/100;
+
+            }
+
             $notaCredito->neto = $totalNeto;
             $notaCredito->iva = $totalIva;
-            $notaCredito->total = $totalT;
-
+            $notaCredito->total = $totalT + $notaCredito->iaba;
+            $notaCredito->restante = $totalT + $notaCredito->iaba;
             $notaCredito->save();
 
         },5);
+    }
+
+    /* Public functions */
+
+    public function updateStatus() {
+
+        if ($this->total == $this->restante) {
+
+            $this->status_id = StatusDocumento::pendienteID();
+        } else if($this->restante <= 0) {
+
+            $this->status_id = StatusDocumento::completaID();
+        } else {
+
+            $this->status_id = StatusDocumento::ingresadaID();
+        }
+
     }
 
 

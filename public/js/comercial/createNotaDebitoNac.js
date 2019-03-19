@@ -8,10 +8,13 @@ var app = new Vue({
         item: '',
         items: [],
         neto: '',
-        iaba: '',
-        statusIABA: 0,
         iva: '',
+        ValorIVA: iva,
+        iaba: '',
+        ValorIABA: iaba,
+        statusIABA: 0,
         total: '',
+        nota: '',
     },
 
     methods: {
@@ -88,14 +91,16 @@ var app = new Vue({
 
                 if (this.statusIABA) {
 
-                    this.iaba += this.items[i].precio * 0.10; // CAMBIAR POR VARIABLE DE TABLA IMPUESTOS
+                    this.iaba += this.items[i].precio * this.ValorIABA / 100;
                 }
 
                 this.neto += this.items[i].precio;
-                this.iva += this.items[i].precio * 0.19; // CAMBIAR POR VARIABLE DE TABLA IMPUESTOS
+                this.iva += this.items[i].precio * this.ValorIVA / 100;
                 this.total += this.neto + this.iaba + this.iva;
             }
         },
+
+
 
 
 

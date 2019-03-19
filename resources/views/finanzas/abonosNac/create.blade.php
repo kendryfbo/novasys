@@ -25,7 +25,9 @@
     	<!-- form-group -->
         <div class="form-group">
 
-			<label class="control-label col-lg-2">Cliente : </label>
+			<br>
+
+			<label class="control-label col-lg-1">Cliente : </label>
             <div class="col-lg-2">
 				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente" required>
 					<option value=""></option>
@@ -35,34 +37,61 @@
 				</select>
 			</div>
 
-			<label class="control-label col-lg-2">Fecha Depósito : </label>
+
+				<label class="control-label col-lg-1">Nota de Venta : </label>
+				<div class="col-lg-1">
+			   		<input class="form-control input-sm" type="text" name="orden_despacho" placeholder="N.V.">
+			   	</div>
+
+			<label class="control-label col-lg-1">Forma Ant. : </label>
 			<div class="col-lg-2">
-			<input class="form-control input-sm" type="text" name="fecha_abono" value="{{$fecha_hoy}}" readonly>
+				<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="forma_pago" required>
+					<option value=""></option>
+					@foreach ($formasPago as $formaPago)
+						<option value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
+					@endforeach
+				</select>
 			</div>
+
+			<label class="control-label col-lg-1">Fecha Anticipo : </label>
+			<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="fecha_abono" value="{{$fecha_hoy->format('Y-m-d')}}" readonly>
+			</div>
+
         </div>
         <!-- /form-group -->
 
         <!-- form-group -->
         <div class="form-group">
 
-		  <label class="control-label col-lg-2">Orden de Despacho : </label>
-		  <div class="col-lg-2">
-        	<input class="form-control input-sm" type="text" name="orden_despacho" value="0" required>
-          </div>
+		<label class="control-label col-lg-1">Banco : </label>
+		<div class="col-lg-2">
 
-		  <label class="control-label col-lg-2">Monto Anticipo $ : </label>
-		  <div class="col-lg-2">
-        	<input class="form-control input-sm" type="number" name="monto"  value="" required>
-          </div>
-        </div>
-        <!-- /form-group -->
+			<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="banco">
+				<option value=""></option>
+				@foreach ($bancos as $banco)
+					<option value="{{$banco->id}}">{{$banco->nombre_banco}}</option>
+				@endforeach
+			</select>
 
-		<div class="form-group">
+		</div>
 
-			<label class="control-label col-lg-2">Documento de Pago </label>
-			<div class="col-lg-2">
-			<input class="form-control input-sm" type="text" name="docu_abono" placeholder="SWIFT"  value="0" required>
-			</div>
+		<label class="control-label col-lg-1">Monto Ant.$ : </label>
+		<div class="col-lg-1">
+			<input class="form-control input-sm" type="number" name="monto"  value="" required>
+		</div>
+
+		<label class="control-label col-lg-1">N° de Documento</label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="text" name="docu_abono" placeholder="Folio de Transferencia o N° de Cheque" required>
+		</div>
+
+		<label class="control-label col-lg-1">Fecha Cobro : </label>
+		<div class="col-lg-2">
+			<input class="form-control input-sm" type="date" name="fecha_cobro" placeholder="Cheques" value="">
+		</div>
+
+
 		</div>
 
       <!-- /form -->

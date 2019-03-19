@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Comercial;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\NotaDebitoNac;
-use App\Models\Comercial\NotaCreditoNac;
 use App\Models\Comercial\FacturaNacional;
+use App\Models\Comercial\Impuesto;
 
 class NotaDebitoNacController extends Controller
 {
@@ -29,16 +29,19 @@ class NotaDebitoNacController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->notaCredito) {
+        $IVA = Impuesto::where([['id','1'],['nombre','iva']])->pluck('valor')->first();
+        $IABA = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
+        $numeroFactura = $request->factura;
+        if ($numeroFactura) {
 
-            $notaCredito = NotaCreditoNac::with('detalles')->where('numero', $request->notaCredito)->first();
+            $factura = FacturaNacional::with('detalles','clienteNac')->where('numero', $numeroFactura)->first();
 
         } else {
 
-            $notaCredito = '';
+            $factura = [];
         }
 
-        return view('comercial.notaDebitoNac.create')->with(['notaCredito' => $notaCredito]);
+        return view('comercial.notaDebitoNac.create')->with(['factura' => $factura, 'iva' => $IVA, 'iaba' => $IABA]);
     }
 
     /**
@@ -49,27 +52,17 @@ class NotaDebitoNacController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request,[
             'numero' => 'required',
-            'notaCredito' => 'required',
-            'fecha' => 'required'
+            'factura' => 'required',
+            'fecha' => 'required',
+            'items' => 'required'
         ]);
 
-        $notaCredito = NotaCreditoNac::where('numero',$request->notaCredito)->first();
+        $notaDebito = NotaDebitoNac::register($request);
 
-        NotaDebitoNac::create([
-            'numero' => $request->numero,
-            'num_nc' => $notaCredito->numero,
-            'nota' => $request->nota,
-            'fecha' => $request->fecha,
-            'neto' => $notaCredito->neto,
-            'iaba' => $notaCredito->iaba,
-            'iva' => $notaCredito->iva,
-            'total' => $notaCredito->total,
-            'user_id' => $request->user()->id
-        ]);
-
-        $msg = 'Nota Debito N°' . $request->numero . " Ha sido Creada";
+        $msg = 'Nota Debito N°' . $notaDebito->numero . " Ha sido Creada";
 
         return redirect()->route('notaDebitoNac')->with(['status' => $msg]);
     }
@@ -83,11 +76,12 @@ class NotaDebitoNacController extends Controller
     public function show($numero)
     {
         $notaDebitoNac = NotaDebitoNac::where('numero',$numero)->first();
+        $factura = FacturaNacional::where('id',$notaDebitoNac->factura_id)->first();
+        $IVA = Impuesto::where([['id','1'],['nombre','iva']])->pluck('valor')->first();
+        $IABA = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
 
-        $notaCredito = NotaCreditoNac::with('detalles')->where('numero',$notaDebitoNac->num_nc)->first();
-        $factura = FacturaNacional::where('numero',$notaCredito->num_fact)->first();
 
-        return view('comercial.notaDebitoNac.show')->with(['notaCredito' => $notaCredito, 'factura' => $factura]);
+        return view('comercial.notaDebitoNac.show')->with(['notaDebitoNac' => $notaDebitoNac, 'factura' => $factura, 'iva' => $IVA, 'iaba' => $IABA]);
     }
 
     /**

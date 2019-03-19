@@ -56,10 +56,10 @@
 
 					<label class="control-label col-lg-1">Forma de Pago : </label>
 					<div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" v-model="formaPago" required>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="formaPago" v-model="formaPago">
 							<option value=""></option>
-							@foreach ($formasDePago as $formaDePago)
-								<option value="{{$formaDePago->id}}">{{$formaDePago->descripcion}}</option>
+							@foreach ($formasPago as $formaPago)
+								<option value="{{$formaPago->id}}">{{$formaPago->descripcion}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -71,7 +71,7 @@
 
 					<label class="control-label col-lg-1">Banco : </label>
 					<div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="banco">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="banco" v-model="bancoCheque">
 							<option value=""></option>
 							@foreach ($bancos as $banco)
 								<option value="{{$banco->id}}">{{$banco->nombre_banco}}</option>
@@ -99,9 +99,9 @@
 
 					<label class="control-label col-lg-1">Fecha Cobro : </label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="date" name="fecha_cobro" value="" required>
+						<input class="form-control input-sm" type="date" name="fecha_cobro" value="" v-model="fechaCobroCheque">
 					</div>
-					
+
 
         </div>
         <!-- /form-group -->
@@ -110,6 +110,12 @@
 				<select style="display: none;"  name="facturas[]" multiple>
 					<option v-for="factura in facturas" selected>
 						@{{factura}}
+					</option>
+				</select>
+
+				<select style="display: none;"  name="notasDebito[]" multiple>
+					<option v-for="notaDebito in notasDebito" selected>
+						@{{notaDebito}}
 					</option>
 				</select>
 				<!-- /items -->
@@ -127,7 +133,7 @@
 
 		<!-- box-footer -->
     <div class="box-footer">
-	  <h5>Facturas</h5>
+	  <h5 style="color:red;">Facturas</h5>
 	  <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
         <thead>
           <tr>
@@ -165,13 +171,46 @@
 				</tbody>
       </table>
 
+	  <h5 style="color:red;">Notas de Débito</h5>
+	  <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+						<th class="text-center">#</th>
+						<th class="text-center">N° NOTA DÉBITO</th>
+            			<th class="text-center">FECHA EMISIÓN</th>
+            			<th class="text-center">SALDO</th>
+            			<th class="text-center" width="200px">MONTO A PAGAR</th>
+						<th class="text-center">ACCION</th>
+		  		</trNotas de Débitoead>
+				<tbody>
+					<tr v-if="notasDebito <= 0">
+						<td colspan="9" class="text-center" >Tabla Sin Notas de Débito...</td>
+					</tr>
+					<tr v-if="notasDebito" v-for="(notaDebito, key) in notasDebito">
+					    <td class="text-center">@{{key+1}}</td>
+					    <td class="text-center">@{{notaDebito.numero}}</td>
+					    <td class="text-right">@{{notaDebito.fecha}}</td>
+					    <td class="text-right">CLP @{{numberFormat(notaDebito.deuda)}}</td>
 
-	  <h5>Anticipos</h5>
+
+
+					    <td class="text-right">
+								<input class="form-control" :id="notaDebito.id" type="number" @focus="cargarNotaDebito(notaDebito.id,$event)">
+							</td>
+							<td class="text-center">
+								<button type="button" id="button" name="button" value="" onclick="this.disabled=false;" @click="registrarPagoND(notaDebito.id)">Pagar</button>
+							</td>
+					</tr>
+				</tbody>
+      </table>
+
+
+	  <h5 style="color:blue;">Anticipos</h5>
 	  <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 		  <thead>
 			  <tr>
 				  <th class="text-center">#</th>
-				  <th class="text-center">O.D.</th>
+				  <th class="text-center">N.V.</th>
 				  <th class="text-center">FECHA</th>
 				  <th class="text-center">MONTO</th>
 				  <th class="text-center" width="200px">MONTO A UTILIZAR</th>
@@ -198,7 +237,7 @@
 	  </table>
 
 
-	  <h5>Notas de Crédito</h5>
+	  <h5 style="color:blue;">Notas de Crédito</h5>
 	  <table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
 	    <thead>
 	  	<tr>
@@ -278,6 +317,7 @@
 	var facturas = {!!$facturas!!};
 	var abonos = {!!$abonos!!};
 	var notasCredito = {!!$notasCredito!!};
+	var notasDebito = {!!$notasDebito!!};
 	var saldoTotalAbono = {!!$saldoTotalAbono!!}
 	var saldoTotalNC = {!!$saldoTotalNC!!}
 	facturaFromClienteURL = "{!!route('apiObtainFacturasByClienteNacional')!!}";

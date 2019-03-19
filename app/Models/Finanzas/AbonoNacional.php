@@ -9,7 +9,7 @@ class AbonoNacional extends Model
 {
     protected $table = 'abonos_nacional';
 
-    protected $fillable = ['monto', 'restante', 'fecha_abono', 'cliente_id', 'usuario_id', 'orden_despacho', 'docu_abono', 'status_id'];
+    protected $fillable = ['monto', 'restante', 'fecha_abono', 'cliente_id', 'usuario_id', 'orden_despacho', 'docu_abono', 'status_id', 'formaPago_id', 'banco_id', 'fecha_cobro'];
 
     static function getAllActive() {
 
