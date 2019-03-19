@@ -6,7 +6,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Emision de Nota de Credito</h4>
+			<h4>Emisión de Nota de Crédito</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -75,6 +75,11 @@
                   <div class="col-lg-2">
                     <input class="form-control input-sm" name="fecha" type="date" required>
                   </div>
+
+				  <label class="control-label col-lg-2">Con IABA:</label>
+				  <div class="col-lg-2 checkbox">
+					  <input type="checkbox" name="statusIABA" v-model="statusIABA" @change="calculateTotal">
+				  </div>
 
                 </div>
                 <!-- /form-group -->

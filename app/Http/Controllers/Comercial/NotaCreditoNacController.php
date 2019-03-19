@@ -31,6 +31,7 @@ class NotaCreditoNacController extends Controller
      */
     public function create(Request $request)
     {
+        $busqueda = $request;
         $factura = FacturaNacional::where('numero',$request->factura)->first();
 
         if ($factura) {
@@ -56,8 +57,7 @@ class NotaCreditoNacController extends Controller
             $factura = '';
         }
 
-
-        return view('comercial.notaCreditoNac.create')->with(['factura' => $factura]);
+        return view('comercial.notaCreditoNac.create')->with(['factura' => $factura, 'busqueda' => $busqueda]);
     }
 
     /**
@@ -66,11 +66,11 @@ class NotaCreditoNacController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function createToCliente() {
+    public function createToCliente(Request $request) {
 
+        $busqueda = $request;
         $clientes = ClienteNacional::getAllActive();
-
-        return view('comercial.notaCreditoNac.createForCliente')->with(['clientes' => $clientes]);
+        return view('comercial.notaCreditoNac.createForCliente')->with(['clientes' => $clientes, 'busqueda' => $busqueda]);
     }
 
     /**
@@ -81,6 +81,7 @@ class NotaCreditoNacController extends Controller
      */
     public function store(Request $request)
     {
+ 
         $datos = $this->validate($request,[
             'numero' => 'required',
             'factura' => 'required',

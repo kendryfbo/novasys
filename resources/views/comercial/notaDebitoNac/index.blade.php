@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Notas de Debito</h4>
+			<h4>Notas de Débito</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -38,8 +38,8 @@
 				<tbody>
 					@foreach ($notasDebito as $nota)
 						<tr>
-							<th class="text-center"><a href="{{route('verNotaDebitoNac', ['numero' => $nota->numero])}}" target="_blank">{{$nota->numero}}</a></th>
-							<td class="text-center">{{$nota->num_nc}}</td>
+							<th class="text-center">{{$loop->iteration}}</th>
+							<td class="text-center"><a href="{{route('verNotaDebitoNac', ['numero' => $nota->numero])}}" target="_blank">{{$nota->numero}}</a></td>
                             <td class="text-center">{{$nota->fecha}}</td>
 							<td class="text-right">${{number_format($nota->total,0,',','.')}}</td>
 							<td class="text-center">

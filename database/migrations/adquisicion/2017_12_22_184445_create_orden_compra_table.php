@@ -19,6 +19,7 @@ class CreateOrdenCompraTable extends Migration
             $table->integer('cv_id')->unsigned();
             $table->integer('prov_id')->unsigned();
             $table->integer('area_id')->unsigned(); // determinar areas
+            $table->integer('usuario_id')->unsigned(); // Guarda ID de quien crea OC
             $table->string('contacto'); // persona de contacto
             $table->string('forma_pago'); // forma pago adquisiciones
             $table->string('nota')->nullable();
@@ -30,6 +31,7 @@ class CreateOrdenCompraTable extends Migration
             $table->double('impuesto',10,2);
             $table->double('total',10,2);
             $table->tinyInteger('aut_contab')->nullable();
+            $table->integer('aut_contab_uid')->nullable(); //Guarda ID de quien autoriza OC.
             $table->integer('status_id')->unsigned(); //  status de orden de compra Ej: completada,pendiente
             $table->integer('tipo_id')->unsigned(); // tipo de Orden de compra Ej: Factura, Honorarios, Boleta
             $table->timestamps();

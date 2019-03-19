@@ -5,16 +5,18 @@ namespace App\Models\Adquisicion;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Auth;
 use App\Models\Finanzas\Moneda;
 use App\Models\Comercial\Impuesto;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Config\StatusDocumento;
+use App\Models\Config\Usuario;
 
 class OrdenCompra extends Model
 {
     protected $table = 'orden_compra';
     protected $fillable = ['numero', 'cv_id', 'prov_id', 'area_id', 'contacto', 'forma_pago', 'nota',
-    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id'];
+    'fecha_emision', 'moneda', 'sub_total', 'descuento', 'neto', 'impuesto', 'total', 'status_id', 'tipo_id', 'aut_contab_uid', 'usuario_id'];
 
 
     static function register($request) {
@@ -62,7 +64,9 @@ class OrdenCompra extends Model
                 'impuesto' => 0,
                 'total' => 0,
                 'status_id' => 1,
-                'tipo_id' => $request->tipo
+                'tipo_id' => $request->tipo,
+                'aut_contab_uid' => NULL,
+                'usuario_id' => Auth::user()->id,
             ]);
 
             foreach ($request->items as $item) {
@@ -159,6 +163,7 @@ class OrdenCompra extends Model
             $ordenCompra->status_id = 1;
             $ordenCompra->tipo_id = $request->tipo;
             $ordenCompra->aut_contab = NULL;
+            $ordenCompra->usuario_id = Auth::user()->id;
 
 
 
@@ -231,6 +236,7 @@ class OrdenCompra extends Model
     public function authorizeContab() {
 
         $this->aut_contab = 1;
+        $this->aut_contab_uid = Auth::user()->id;
         $this->save();
     }
 
@@ -310,4 +316,8 @@ class OrdenCompra extends Model
         return $this->belongsTo('App\Models\Adquisicion\OrdenCompraTipo','tipo_id');
     }
 
+    public function Usuario() {
+
+        return $this->belongsTo('App\Models\Config\Usuario','aut_contab_uid');
+    }
 }

@@ -16,7 +16,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearAbonoNacional')}}">Crear Abono</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearAbonoNacional')}}">Crear Anticipo</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
@@ -25,7 +25,7 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">O.D.</th>
+						<th class="text-center">N.V.</th>
 						<th class="text-center">Cliente</th>
 						<th class="text-center">Fecha</th>
 						<th class="text-center">Monto</th>

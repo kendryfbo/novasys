@@ -8,7 +8,7 @@ class ChequeCartera extends Model
 {
     protected $table = 'cheques_cartera';
 
-    protected $fillable = ['cliente_id', 'abono_id', 'numero_cheque','fecha_cobro', 'aut_cobro','usuario_id', 'banco_id', 'monto'];
+    protected $fillable = ['cliente_id', 'abono_id', 'numero_cheque','fecha_cobro', 'fecha_real_cobro', 'aut_cobro','usuario_id', 'banco_id', 'monto'];
 
     static function getAllActive() {
 
@@ -18,12 +18,6 @@ class ChequeCartera extends Model
     /*
     |   Public functions
     */
-
-    public function authorizeCC() {
-
-        $this->aut_cobro = 1;
-        $this->save();
-    }
 
 
     /*

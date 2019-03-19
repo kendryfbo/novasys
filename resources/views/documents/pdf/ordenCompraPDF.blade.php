@@ -29,7 +29,7 @@
                     <th>R.U.T: {{$ordenCompra->centroVenta->rut}}</th>
                 </tr>
                 <tr>
-                    <th>Direccion: {{$ordenCompra->centroVenta->descripcion}}</th>
+                    <th>Dirección: {{$ordenCompra->centroVenta->descripcion}}</th>
                 </tr>
                 <tr>
                     <th>Fono: {{$ordenCompra->centroVenta->fono}}</th>
@@ -54,7 +54,7 @@
                     <th>Fono: {{$ordenCompra->proveedor->fono}}</th>
                 </tr>
                 <tr>
-                    <th>Direccion: {{$ordenCompra->proveedor->direccion}}</th>
+                    <th>Direccin: {{$ordenCompra->proveedor->direccion}}</th>
                 </tr>
                 <tr>
                     <th><br></th>
@@ -117,17 +117,23 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="footer-content">
             <p>Nota: {{$ordenCompra->nota}}</p>
             <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}}</p>
             <p>Facturar a: {{$ordenCompra->centroVenta->descripcion}}, R.U.T:{{$ordenCompra->centroVenta->rut}}, {{$ordenCompra->centroVenta->direccion}}</p>
         </div>
+
         <div class="footer">
             <p><strong>Atentamente</strong></p>
-            <img class="img-responsive firma" src="images/firma_viviana_cabrera.png" alt="encabezado" width="20%">
+            @if (empty($ordenCompra->Usuario->firma))
+
+            @else
+                <img class="img-responsive firma" src="images/{{$ordenCompra->Usuario->firma}}" alt="encabezado" width="20%">
+            @endif
             <br>
             <br>
-            <p><strong>Viviana Cabrera .......................</strong>
+            <p><strong>{{$ordenCompra->Usuario->nombre}} {{$ordenCompra->Usuario->apellido}} ..................................................</strong>
             </p>
             <p><strong>{{$ordenCompra->centroVenta->descripcion}}</strong></p>
         </div>

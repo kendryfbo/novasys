@@ -61,7 +61,6 @@ Route::prefix('finanzas')->group( function() {
         route::get('/facturasPorCobrar',        'Finanzas\PagosNacionalController@porCobrar')->name('pagoNacPorCobrar');
         route::post('/facturasPorCobrar',       'Finanzas\PagosNacionalController@porCobrar')->name('pagoNacPorCobrar');
         route::post('/reportFactPorCobrar',     'Finanzas\PagosNacionalController@reportFactNacPorCobrarExcel')->name('descargarFactNacionalPorCobrarExcel');
-        route::post('/reportHistorialByZonas',  'Finanzas\PagosNacionalController@reportFactNacPorCobrarExcelByZonas')->name('descargarHistorialPagoNacExcelByZonas');
         route::get('/anularFact',               'Finanzas\PagosNacionalController@anularPagoNac')->name('anulaPagoNacional');
         route::post('/anularFact',              'Finanzas\PagosNacionalController@anularPagoNac')->name('anulaPagoNacional');
         route::delete('/delete',                'Finanzas\PagosNacionalController@destroy')->name('eliminarPagoNacional');
@@ -71,7 +70,10 @@ Route::prefix('finanzas')->group( function() {
     // Cheques en Cartera Pagos Nacionales only
     Route::prefix('chequesCartera')->group( function() {
         route::get('/',                                  'Finanzas\ChequesCarteraController@index')->name('chequesCartera');
-        route::post('/{chequeCartera}/autorizar',        'Finanzas\ChequesCarteraController@authorizeChequeCartera')->name('autorizarChequeCartera');
+        route::get('/{chequeCartera}',                   'Finanzas\ChequesCarteraController@edit')->name('editarChequeCartera');
+        route::post('/{chequeCartera}',                  'Finanzas\ChequesCarteraController@update')->name('updateChequeCartera');
+        route::post('/',                                 'Finanzas\ChequesCarteraController@downloadExcel')->name('descargarChequesPorDepositar');
+
     });
 
 

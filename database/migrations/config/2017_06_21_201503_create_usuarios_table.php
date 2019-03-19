@@ -21,6 +21,7 @@ class CreateUsuariosTable extends Migration
             $table->string('apellido');
             $table->string('email');
             $table->string('cargo');
+            $table->string('firma');
             $table->integer('perfil_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
