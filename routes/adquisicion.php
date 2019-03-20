@@ -53,10 +53,10 @@ Route::prefix('adquisicion')->group( function() {
         Route::post('/reporte/proveedor', 'Adquisicion\OrdenCompraReportController@reportProveedor')->name('reporteOrdenCompraProveedor');
         Route::post('/reporte/proveedor/descarga', 'Adquisicion\OrdenCompraReportController@reportProveedorDownloadPDF')->name('descargarReporteOrdenCompraProveedorPDF');
         Route::post('/reporte/proveedor/descargaDetalle', 'Adquisicion\OrdenCompraReportController@reportDetProveedorDownloadPDF')->name('descargarReporteDetOrdenCompraProveedorPDF');
-
         Route::get('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos/descarga', 'Adquisicion\OrdenCompraReportController@reportInsumosDownloadPDF')->name('descargarReporteOrdenCompraInsumoPDF');
+
 
     });
 
@@ -69,6 +69,16 @@ Route::prefix('adquisicion')->group( function() {
         Route::post('/descExcelAnalReq', 'Adquisicion\PlanProduccionController@downloadExcelAnalReq')->name('descExcelAnalReq');
         Route::post('/descExcelAnalReqConStock','Adquisicion\PlanProduccionController@downloadExcelAnalReqConStock')->name('descExcelAnalReqConStock');
     });
+
+
+
+        Route::prefix('costoProducto')->group( function(){
+
+            Route::get('/',                                 'Adquisicion\CostoProductoController@index')->name('costosProducto');
+            //Route::post('/',                                'Adquisicion\CostoProductoController@index')->name('costosProducto');
+            Route::post('/',                                'Adquisicion\costoProductoController@downloadExcel')->name('descargarCostoProductoExcel');
+
+        });
 
 });
 
