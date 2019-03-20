@@ -11,7 +11,7 @@ use App\Models\Config\StatusDocumento;
 class NotaCreditoNac extends Model
 {
     protected $table = 'nota_credito_nac';
-    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'iva', 'iaba', 'total', 'user_id', 'restante'];
+    protected $fillable = ['numero', 'num_fact', 'fecha', 'nota', 'neto', 'iva', 'iaba', 'total', 'user_id', 'cliente_id', 'restante'];
 
     static function getAllUnauthorized() {
 
@@ -27,6 +27,7 @@ class NotaCreditoNac extends Model
             $IABA = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
 
             $numero = $request->numero;
+            $cliente = $request->cliente;
             $factura = $request->factura;
             $fecha = $request->fecha;
             $nota = $request->nota;
@@ -40,6 +41,7 @@ class NotaCreditoNac extends Model
 
             $notaCredito = NotaCreditoNac::create([
                 'numero' => $numero,
+                'cliente_id' => $cliente,
                 'num_fact' => $factura,
                 'fecha' => $fecha,
                 'nota' => $nota,
@@ -139,4 +141,16 @@ class NotaCreditoNac extends Model
         $this->save();
     }
 
+    /*
+	|
+	| Relationships
+	|
+	*/
+    public function Factura() {
+		return $this->hasOne('App\Models\Comercial\FacturaNacional', 'id', 'factura_id');
+	}
+    public function clienteNacional()
+	{
+		return $this->hasOne('App\Models\Comercial\ClienteNacional', 'id', 'cliente_id');
+	}
 }

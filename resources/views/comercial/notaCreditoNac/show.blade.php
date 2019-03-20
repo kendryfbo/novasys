@@ -68,12 +68,22 @@
 
 					 <label class="control-label col-lg-1">Cliente:</label>
 					 <div class="col-lg-4">
-						 <input class="form-control input-sm" type="text" name="cliente" value="{{$factura ? $factura->cliente : ''}}" readonly>
+						 	@if (isset($factura->cliente))
+								<input class="form-control input-sm" type="text" name="cliente" value="{{$factura ? $factura->cliente : ''}}" readonly>
+							@else
+								<input class="form-control input-sm" type="text" name="cliente" value="{{$notaCredito->clienteNacional->descripcion}}" readonly>
+							@endif
 					 </div>
 
 					 <label class="control-label col-lg-2">Condicion Pago:</label>
 					 <div class="col-lg-2">
-						 <input class="form-control input-sm" type="text" name="formaPago" value="{{$factura ? $factura->cond_pago :''}}" readonly>
+						 @if (empty($factura->cond_pago))
+							 <input class="form-control input-sm" type="text" name="formaPago" value="Sin Condiciones de Pago" readonly>
+						 @else
+							 <input class="form-control input-sm" type="text" name="formaPago" value="{{$factura ? $factura->cond_pago :''}}" readonly>
+						 @endif
+
+
 					 </div>
 
 				</div>

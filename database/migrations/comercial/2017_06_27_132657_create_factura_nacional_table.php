@@ -35,6 +35,7 @@ class CreateFacturaNacionalTable extends Migration
             $table->decimal('iva',10,2);
             $table->decimal('iaba',10,2);
             $table->decimal('total',10,2);
+            $table->decimal('deuda',10,2);
             $table->decimal('peso_neto',10,2);
             $table->decimal('peso_bruto',10,2);
             $table->decimal('volumen',10,2);

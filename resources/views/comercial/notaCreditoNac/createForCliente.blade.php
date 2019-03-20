@@ -66,9 +66,7 @@
 					<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="cliente" required>
 						<option value=""></option>
 						@foreach ($clientes as $cliente)
-
-							<option {{Input::old('clausula') ? 'selected':''}} value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
-
+							<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
 						@endforeach
 					</select>
               	</div>

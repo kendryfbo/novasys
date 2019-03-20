@@ -58,7 +58,7 @@ class ChequesCarteraController extends Controller
         $chequeCartera->fecha_real_cobro = $request->fecha_real_cobro;
         $chequeCartera->save();
         $msg = "Cheque en Cartera : " . $chequeCartera->id . " ha sido Depositado";
-        return redirect('finanzas')->with(['status' => $msg]);
+        return redirect('finanzas/chequesCartera')->with(['status' => $msg]);
     }
 
 

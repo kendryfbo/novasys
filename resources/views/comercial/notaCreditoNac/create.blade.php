@@ -89,10 +89,11 @@
 
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-4">
-						<input class="form-control input-sm" type="text" name="cliente" value="{{ $factura ? $factura->cliente : '' }}" readonly>
+						<input class="form-control input-sm" type="text" value="{{ $factura ? $factura->cliente : '' }}" readonly>
+						<input class="form-control input-sm" type="hidden" name="cliente" value="{{ $factura ? $factura->id : '' }}" readonly>
 					</div>
 
-					<label class="control-label col-lg-2">Condicion Pago:</label>
+					<label class="control-label col-lg-2">Condición Pago:</label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="text" name="formaPago" value="{{ $factura ? $factura->cond_pago : ''}}" readonly>
 					</div>
