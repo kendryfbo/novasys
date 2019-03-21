@@ -76,7 +76,7 @@ Route::prefix('adquisicion')->group( function() {
 
             Route::get('/',                                 'Adquisicion\CostoProductoController@index')->name('costosProducto');
             //Route::post('/',                                'Adquisicion\CostoProductoController@index')->name('costosProducto');
-            Route::post('/',                                'Adquisicion\CostoProductoController@downloadExcel')->name('descargarCostoProductoExcel');
+            Route::post('/',                                'Adquisicion\costoProductoController@downloadExcel')->name('descargarCostoProductoExcel');
 
         });
 
