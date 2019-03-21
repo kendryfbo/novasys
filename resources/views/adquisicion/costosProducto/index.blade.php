@@ -19,23 +19,39 @@
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
-			<!-- form -->
-			<form id="download" action="{{route('descargarCostoProductoExcel')}}" method="post">
-				{{ csrf_field() }}
-				<a class="btn btn-primary" href="{{route('finanzas')}}">Volver</a>
-			</form>
-			<!-- /form -->
-
 			<!-- form-group -->
 			<div class="form-group form-group-sm">
+
+				<div class="col-lg-2">
+					<!-- form -->
+					<form id="download" action="{{route('descargarCostoProductoExcel')}}" method="post">
+						{{ csrf_field() }}
+						<a class="btn btn-primary" href="{{route('finanzas')}}">Volver</a>
+					</form>
+					<!-- /form -->
+				</div>
 
 				<div class="col-lg-3 pull-right">
 						<button form="download" class="btn btn-info" type="submit" name="button">Descargar Excel</button>
 				</div>
 
 			</div>
+			<!-- /form-group -->
+			<!-- form-group -->
+			<div class="form-group">
 
+				<label class="control-label col-lg-1">Dólar:</label>
+				<div class="col-lg-2">
+					<input class="form-control" type="text" name="numero" value="{{$dollar}}" readonly>
+				</div>
 
+			</div>
+			<!-- /form-group -->
+
+		</div>
+		<!-- /box-body -->
+		<!-- box-body -->
+		<div class="box-body">
 
 			<!-- table -->
 			<table id="data-table" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
@@ -59,6 +75,7 @@
 				</tbody>
 			</table>
 			<!-- /table -->
+
 		</div>
 
 	</div>
