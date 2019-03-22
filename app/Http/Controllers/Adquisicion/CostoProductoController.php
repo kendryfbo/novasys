@@ -16,10 +16,10 @@ class CostoProductoController extends Controller
      */
     public function index()
     {
-
         $costosProducto = CostoProducto::totalCostoProducto();
+        $dollar = CostoProducto::getDollarValue();
 
-        return view('adquisicion.costosProducto.index')->with(['costosProducto' => $costosProducto]);
+        return view('adquisicion.costosProducto.index')->with(['costosProducto' => $costosProducto,'dollar' => $dollar]);
     }
 
     /**
