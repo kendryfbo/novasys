@@ -17,8 +17,11 @@
         <div class="text-center marcas">
             <h3></h3>
         </div>
-        <div class="numero-fecha">
-            <h3>{{$factura->numero}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$factura->day}} &nbsp;&nbsp; {{$factura->month}} &nbsp;&nbsp; {{$factura->year}}</h3>
+        <div class="text-center numero">
+            <h2>{{$factura->numero}}</h2>
+        </div>
+        <div class="text-center fecha">
+         <h3>{{$factura->day}} &nbsp; {{$factura->month}} &nbsp; {{$factura->year}}</h3>
         </div>
 
         <div class="text-center medio-transporte">
@@ -36,7 +39,7 @@
         <div class="text-center puerto-destino">
             <h3>{{strtoupper($factura->puerto_dest)}}</h3>
         </div>
-        <table class="lista-productos" width="90%">
+        <table class="lista-productos" width="95%">
             <tbody>
                 @foreach ($factura->detalles as $detalle)
                     <tr>

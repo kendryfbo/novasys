@@ -18,24 +18,32 @@ p {
     width: 200px;
 }
 
-.numero-fecha {
+.numero {
     position: absolute;
-    top: 130px;
-    right: 56px;
-    width: 100px;
+    top: 120px;
+    right: 50px;
+    width: 150px;
+
+}
+
+.fecha{
+    position: absolute;
+    top: 120px;
+    right: -30px;
+    width: 110px;
 
 }
 
 .medio-transporte {
     position: absolute;
-    top: 140px;
+    top: 170px;
     right: 250px;
     width: 150px;
 
 }
 .puerto-embarque {
     position: absolute;
-    top: 185px;
+    top: 220px;
     right: 250px;
     width: 150px;
 
@@ -57,7 +65,7 @@ p {
 }
 .puerto-destino {
     position: absolute;
-    top: 240px;
+    top: 273px;
     right: 250px;
     width: 150px;
 
