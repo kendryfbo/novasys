@@ -189,13 +189,9 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //dd('DESHABILITADO TEMPORALMENTE');
         $this->validate($request,[
             'codigo' => 'required',
             'descripcion' => 'required',
-            'marca' => 'required',
-            'formato' => 'required',
-            'sabor' => 'required',
             'vida_util' => 'required',
             'peso_bruto' => 'required',
             'peso_neto' => 'required',
@@ -206,9 +202,6 @@ class ProductoController extends Controller
 
         $producto->codigo = $request->codigo;
         $producto->descripcion = $request->descripcion;
-        $producto->marca_id = $request->marca;
-        $producto->formato_id = $request->formato;
-        $producto->sabor_id = $request->sabor;
         $producto->vida_util = $request->vida_util;
         $producto->peso_bruto = $request->peso_bruto;
         $producto->peso_neto = $request->peso_neto;
