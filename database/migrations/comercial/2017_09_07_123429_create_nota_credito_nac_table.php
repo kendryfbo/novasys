@@ -18,7 +18,7 @@ class CreateNotaCreditoNacTable extends Migration
             $table->integer('numero');
             $table->integer('status_id');
             $table->integer('cliente_id');
-            $table->integer('num_fact');
+            $table->integer('fact_id');
             $table->string('nota')->nullable();
             $table->integer('neto');
             $table->integer('iaba');

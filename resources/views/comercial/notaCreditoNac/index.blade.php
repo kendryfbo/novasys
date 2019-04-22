@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Notas de Credito</h4>
+			<h4>Notas de Crédito</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -18,10 +18,10 @@
 			@endif
 			<div class="btn-group pull-right">
 					<a class="btn btn-primary btn-sm" href="{{route('crearNotaCreditoNac')}}">
-						Nota Credito Factura
+						Nota Crédito Factura
 					</a>
 					<a class="btn btn-primary btn-sm" href="{{route('crearNotaCreditoNacCliente')}}">
-						Nota Credito Cliente
+						Nota Crédito Cliente
 					</a>
 			</div>
 		</div>
@@ -32,6 +32,8 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
+						<th class="text-center">Centro Venta</th>
+						<th class="text-center">Cliente</th>
 						<th class="text-center">Factura</th>
                         <th class="text-center">Fecha</th>
                         <th class="text-center">Total</th>
@@ -41,8 +43,20 @@
 				<tbody>
 					@foreach ($notasCredito as $nota)
 						<tr>
-							<th class="text-center"><a href="{{route('verNotaCreditoNac', ['notaCredito' => $nota->numero])}}" target="_blank"><strong>{{$nota->numero}}</strong></a></th>
-							<td class="text-center">{{$nota->num_fact}}</td>
+							<td class="text-center"><a href="{{route('verNotaCreditoNac', ['notaCredito' => $nota->numero])}}" target="_blank"><strong>{{$nota->numero}}</strong></a></td>
+							@if ($nota->fact_id == null)
+								<td class="text-center">-</td>
+							@else
+								<td class="text-center">{{$nota->Factura->centroVenta->descripcion}}</td>
+							@endif
+
+								<td class="text-center">{{$nota->clienteNacional->descripcion}}</td>
+
+							@if ($nota->fact_id == null)
+								<td class="text-center">-</td>
+							@else
+								<td class="text-center">{{$nota->Factura->numero}}</td>
+							@endif
                             <td class="text-center">{{$nota->fecha}}</td>
 							<td class="text-right">${{number_format($nota->total,0,',','.')}}</td>
 							<td class="text-center">

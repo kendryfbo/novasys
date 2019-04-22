@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comercial\NotaDebitoNac;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Comercial\Impuesto;
+use App\Models\Comercial\CentroVenta;
 
 class NotaDebitoNacController extends Controller
 {
@@ -31,17 +32,19 @@ class NotaDebitoNacController extends Controller
     {
         $IVA = Impuesto::where([['id','1'],['nombre','iva']])->pluck('valor')->first();
         $IABA = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
+        $busqueda = $request;
+        $centrosVentas = CentroVenta::getAllActive();
         $numeroFactura = $request->factura;
         if ($numeroFactura) {
 
-            $factura = FacturaNacional::with('detalles','clienteNac')->where('numero', $numeroFactura)->first();
+            $factura = FacturaNacional::with('detalles','clienteNac')->where('numero', $numeroFactura)->where('cv_id',$request->centrosVentas)->first();
 
         } else {
 
             $factura = [];
         }
 
-        return view('comercial.notaDebitoNac.create')->with(['factura' => $factura, 'iva' => $IVA, 'iaba' => $IABA]);
+        return view('comercial.notaDebitoNac.create')->with(['factura' => $factura, 'iva' => $IVA, 'iaba' => $IABA, 'busqueda' => $busqueda, 'centrosVentas' => $centrosVentas]);
     }
 
     /**
@@ -55,7 +58,7 @@ class NotaDebitoNacController extends Controller
         //dd($request->all());
         $this->validate($request,[
             'numero' => 'required',
-            'factura' => 'required',
+            'facturaID' => 'required',
             'fecha' => 'required',
             'items' => 'required'
         ]);

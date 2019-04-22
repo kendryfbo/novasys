@@ -124,9 +124,9 @@ class FacturaNacionalController extends Controller
             'vendedor' => 'required'
         ]);
 
-        if (FacturaNacional::where('numero',$request->numero)->first()) {
+        if (FacturaNacional::where('numero',$request->numero)->where('cv_id',$request->centroVenta)->first()) {
 
-            $msg = 'Numero de Factura ya existe.';
+            $msg = 'Número de Factura ya existe para este Centro de Venta.';
             return redirect()->route('factNac')->with(['status' => $msg]);
         }
 
@@ -150,7 +150,7 @@ class FacturaNacionalController extends Controller
      */
     public function show($factura)
     {
-        $factura = FacturaNacional::with('detalles')->where('numero', $factura)->first();
+        $factura = FacturaNacional::with('detalles')->where('id', $factura)->first();
 
         return view('comercial.facturasNacionales.show')->with(['factura' => $factura]);
     }

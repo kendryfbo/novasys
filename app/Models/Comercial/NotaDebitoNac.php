@@ -21,8 +21,8 @@ class NotaDebitoNac extends Model
 
             $IVA = Impuesto::where([['id','1'],['nombre','iva']])->pluck('valor')->first();
             $IABA = Impuesto::where([['id','2'],['nombre','iaba']])->pluck('valor')->first();
-            $factura = FacturaNacional::where('numero',$request->factura)->first();
 
+            $facturaID = $request->facturaID;
             $numero = $request->numero;
             $fecha = $request->fecha;
             $nota = $request->nota;
@@ -37,7 +37,7 @@ class NotaDebitoNac extends Model
             $notaDebito = notaDebitoNac::create([
                 'numero' => $numero,
                 'status_id' => 1,
-                'factura_id' => $factura->id,
+                'factura_id' => $facturaID,
                 'fecha' => $fecha,
                 'nota' => $nota,
                 'neto' => $totalNeto,

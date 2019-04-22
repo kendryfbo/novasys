@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comercial\NotaCreditoNac;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Comercial\ClienteNacional;
+use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\FacturaNacionalDetalle;
 
 class NotaCreditoNacController extends Controller
@@ -31,8 +32,10 @@ class NotaCreditoNacController extends Controller
      */
     public function create(Request $request)
     {
+
         $busqueda = $request;
-        $factura = FacturaNacional::where('numero',$request->factura)->first();
+        $centrosVentas = CentroVenta::getAllActive();
+        $factura = FacturaNacional::where('numero',$request->factura)->where('cv_id',$request->centrosVentas)->first();
 
         if ($factura) {
 
@@ -57,7 +60,7 @@ class NotaCreditoNacController extends Controller
             $factura = '';
         }
 
-        return view('comercial.notaCreditoNac.create')->with(['factura' => $factura, 'busqueda' => $busqueda]);
+        return view('comercial.notaCreditoNac.create')->with(['factura' => $factura, 'busqueda' => $busqueda, 'centrosVentas' => $centrosVentas]);
     }
 
     /**
@@ -81,10 +84,10 @@ class NotaCreditoNacController extends Controller
      */
     public function store(Request $request)
     {
- 
+
         $datos = $this->validate($request,[
             'numero' => 'required',
-            'factura' => 'required',
+            'facturaID' => 'required',
             'fecha' => 'required',
             'cliente' => 'required',
             'formaPago' => 'required',
@@ -129,7 +132,7 @@ class NotaCreditoNacController extends Controller
     public function show($notaCredito)
     {
         $notaCredito = NotaCreditoNac::with('detalles')->where('numero',$notaCredito)->first();
-        $factura = FacturaNacional::where('numero',$notaCredito->num_fact)->first();
+        $factura = FacturaNacional::where('id',$notaCredito->fact_id)->first();
 
         return view('comercial.notaCreditoNac.show')->with(['notaCredito' => $notaCredito, 'factura' => $factura]);
     }

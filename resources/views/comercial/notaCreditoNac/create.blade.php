@@ -43,23 +43,32 @@
                 <!-- form-group -->
                 <div class="form-group form-group-sm">
 
+					<label class="control-label col-lg-1">Centro Venta:</label>
+					<div class="col-lg-2">
+						<select form="import" class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="centrosVentas" required>
+							<option value=""></option>
+							@foreach ($centrosVentas as $centroVenta)
+								<option {{$busqueda->centrosVentas == $centroVenta->id ? 'selected':''}} value="{{$centroVenta->id}}">{{$centroVenta->descripcion}}</option>
+							@endforeach
+						</select>
+					</div>
 
-                    <label class="control-label col-lg-1">Factura:</label>
+				    <label class="control-label col-lg-1">Factura:</label>
                     <div class="col-lg-1">
                         <input form="import" placeholder="Numero..." class="form-control input-sm" name="factura" type="number" min="0" value="{{$factura ? $factura->numero : '' }}" required>
-                        <input class="form-control input-sm" name="factura"  type="hidden" min="0" value="{{$factura ? $factura->numero : '' }}" required>
+                        <input class="form-control input-sm" name="facturaID"  type="hidden" min="0" value="{{$factura ? $factura->id : '' }}" required>
                     </div>
 
                     <div class="col-lg-1">
                         <button form="import" class="btn btn-sm btn-default" type="submit">Cargar</button>
                     </div>
 
-					<label class="control-label col-lg-2">Nota Credito N°:</label>
+					<label class="control-label col-lg-1">Nota Credito N°:</label>
 					<div class="col-lg-1">
 						<input class="form-control input-sm" type="text" name="numero" required>
 					</div>
 
-					<div class="col-lg-1 col-lg-offset-4">
+					<div class="col-lg-1">
 						<button type="button" class="btn btn-default btn-sm" @click="processAnulation" >Anular Factura</button>
 					</div>
 
@@ -90,7 +99,7 @@
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-4">
 						<input class="form-control input-sm" type="text" value="{{ $factura ? $factura->cliente : '' }}" readonly>
-						<input class="form-control input-sm" type="hidden" name="cliente" value="{{ $factura ? $factura->id : '' }}" readonly>
+						<input class="form-control input-sm" type="hidden" name="cliente" value="{{ $factura ? $factura->cliente_id : '' }}" readonly>
 					</div>
 
 					<label class="control-label col-lg-2">Condición Pago:</label>

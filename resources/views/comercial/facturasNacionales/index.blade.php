@@ -25,7 +25,8 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">Numero</th>
+						<th class="text-center">Número</th>
+						<th class="text-center">Centro Venta</th>
 						<th class="text-center">Fecha</th>
 						<th class="text-center">Nota Venta</th>
 						<th>R.U.T</th>
@@ -40,9 +41,10 @@
 					@foreach ($facturas as $factura)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{route('verFactNac',['factura' => $factura->numero])}}" target="_blank">{{$factura->numero}}</a></td>
+							<td class="text-center"><a href="{{route('verFactNac',['factura' => $factura->id])}}" target="_blank">{{$factura->numero}}</a></td>
+							<td>{{$factura->cv_id}}</td>
 							<td>{{$factura->fecha_emision}}</td>
-							<th class="text-center">{{$factura->numero_nv}}</th>
+							<td class="text-center">{{$factura->numero_nv}}</td>
 							<td>{{$factura->cliente_rut}}</td>
 							<td>{{$factura->cliente}}</td>
 							<td class="text-right">$ {{number_format($factura->neto,0,',','.')}}</td>
