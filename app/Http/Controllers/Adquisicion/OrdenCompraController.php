@@ -33,7 +33,7 @@ class OrdenCompraController extends Controller
     public function index()
     {
 
-        $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo')->orderBy('numero','desc')->take(20)->get();
+        $ordenesCompra = OrdenCompra::with('proveedor.formaPago','area','status','tipo')->orderBy('numero','desc')->take(50)->get();
 
         return view('adquisicion.ordenCompra.index')->with(['ordenesCompra' => $ordenesCompra]);
     }
