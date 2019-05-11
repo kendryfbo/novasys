@@ -15,6 +15,9 @@ class CreatePlanProduccionDetallesTable extends Migration
     {
         Schema::create('plan_produccion_detalles', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('plan_id')->unsigned();
+            $table->integer('producto_id')->unsigned();
+            $table->integer('cantidad')->unsigned();
             $table->timestamps();
         });
     }

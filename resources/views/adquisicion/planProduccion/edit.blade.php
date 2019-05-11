@@ -20,11 +20,11 @@
 
 					<label class="control-label col-lg-1">Descripcion:</label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="descripcion">
+						<input class="form-control input-sm" type="text" name="descripcion" value="{{$planProduccion->descripcion}}">
 					</div>
 					<label class="control-label col-lg-1">Fecha:</label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="date" name="fecha_emision">
+						<input class="form-control input-sm" type="date" name="fecha_emision" value="{{$planProduccion->fecha_emision}}">
 					</div>
 
 				</div>
@@ -100,9 +100,11 @@
 		</div>
 
 		<div class="box-footer">
+			{{--
 			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Crear</button>
 			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Analisis Sin Existencia</button>
 			 <button form="create" class="btn btn-default pull-right" name="button" value="2" type="submit">Analisis Con Existencia</button>
+			 --}}
 		</div>
 
 
@@ -112,8 +114,9 @@
 @section('scripts')
 	<script>
 		productos = {!!$productos!!};
+		items = {!!$planProduccion->detalles->toJson()!!};
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/adquisicion/planProduccionCreate.js')}}"></script>
+	<script src="{{asset('js/adquisicion/planProduccionEdit.js')}}"></script>
 @endsection

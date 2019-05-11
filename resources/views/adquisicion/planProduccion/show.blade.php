@@ -3,167 +3,73 @@
 @section('content')
 	<!-- box -->
 	<div id="vue-app" class="box box-solid box-default">
-		<!-- /form -->
-		<form id="excel" action="{{route('descExcelAnalReq')}}" method="post">
-			{{ csrf_field() }}
-		</form>
-		<!-- form -->
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Producto Terminado</h4>
+			<h4>Plan de Produccion</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
-				<form class="form-horizontal" action="index.html" method="post">
-					<div class="col-lg-12 pull-right text-right">
-						<button form="excel" class="btn btn-sm btn-default" type="submit"><i class="fa fa-file" aria-hidden="true"></i> Descargar excel</button>
-						<!-- Items -->
-						<select form="excel" style="display: none;"  name="items[]" multiple required>
-							@foreach ($items as $item)
-							<option selected>
-								{{$item}}
-							</option>
-						@endforeach
-						</select>
-						<!-- /items -->
+
+			<form class="form-horizontal" action="" method="post">
+				{{ csrf_field() }}
+				<div class="form-group">
+
+					<label class="control-label col-lg-1">Descripcion:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" type="text" name="descripcion" value="{{$planProduccion->descripcion}}" readonly>
 					</div>
-					<div class="col-lg-12">
-							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th class="text-center">#</th>
-										<th class="text-center">codigo</th>
-										<th class="text-center">descripcion</th>
-										<th class="text-center">requerimiento</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($productos as $producto)
-										<tr>
-											<th class="text-center">{{$loop->iteration}}</th>
-											<td class="text-center">{{$producto->codigo}}</td>
-											<td class="text-center">{{$producto->descripcion}}</td>
-											<td class="text-right">{{$producto->cantidad}}</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
+					<label class="control-label col-lg-1">Fecha:</label>
+					<div class="col-lg-2">
+						<input class="form-control input-sm" type="date" name="fecha_emision" value="{{$planProduccion->fecha_emision}}" readonly>
 					</div>
-				</form>
+
+				</div>
+				<hr>
+			</form>
+
 		</div>
 
-		<!-- box-body -->
 		<div class="box-body">
-				<form class="form-horizontal" action="index.html" method="post">
-					<div class="col-lg-12">
-							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th colspan="6" class="text-center">PRODUCCION</th>
-									</tr>
-									<tr>
-										<th class="text-center">#</th>
-										<th class="text-center">codigo</th>
-										<th class="text-center">descripcion</th>
-										<th class="text-center">existencia</th>
-										<th class="text-center">requerimiento</th>
-										<th class="text-center">faltante</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($insumos as $insumo)
-										@if ($insumo->requerida && $insumo->nivel_id == 1)
-											<tr>
-												<th class="text-center">{{$loop->iteration}}</th>
-												<td class="text-center">{{$insumo->codigo}}</td>
-												<td class="text-center">{{$insumo->descripcion}}</td>
-												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
-												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
-											</tr>
-										@endif
-									@endforeach
-								</tbody>
-							</table>
-					</div>
-				</form>
+			<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
+
+			  <thead>
+				<tr>
+				  <th class="text-center">#</th>
+				  <th class="text-center">CODIGO</th>
+				  <th class="text-center">DESCRIPCION</th>
+				  <th class="text-center">CANTIDAD</th>
+				</tr>
+			  </thead>
+
+			  <tbody>
+					@foreach ($planProduccion->detalles as $detalle)
+						<tr>
+						  <td class="text-center">{{$loop->iteration}}</td>
+						  <td class="text-center">{{$detalle->producto->codigo}}</td>
+						  <td>{{$detalle->producto->descripcion}}</td>
+						  <td class="text-right">{{$detalle->cantidad}}</td>
+						</tr>
+					@endforeach
+			  </tbody>
+
+			</table>
 		</div>
-		<!-- /box-body -->
-		<!-- box-body -->
-		<div class="box-body">
-				<form class="form-horizontal" action="index.html" method="post">
-					<div class="col-lg-12">
-							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th colspan="6" class="text-center">PREMEZCLA</th>
-									</tr>
-									<tr>
-										<th class="text-center">#</th>
-										<th class="text-center">codigo</th>
-										<th class="text-center">descripcion</th>
-										<th class="text-center">existencia</th>
-										<th class="text-center">requerimiento</th>
-										<th class="text-center">faltante</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($insumos as $insumo)
-										@if ($insumo->requerida && $insumo->nivel_id == 2)
-											<tr>
-												<th class="text-center">{{$loop->iteration}}</th>
-												<td class="text-center">{{$insumo->codigo}}</td>
-												<td class="text-center">{{$insumo->descripcion}}</td>
-												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
-												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
-											</tr>
-										@endif
-									@endforeach
-								</tbody>
-							</table>
-					</div>
-				</form>
+
+		<div class="box-footer">
+			<form style="display: inline" action="{{Route('verPlanProduccionConStock',['plan_id' => $planProduccion->id])}}" method="post">
+				{{csrf_field()}}
+				<button class="btn btn-default pull-right" type="submit">Analisis Con Existencia</button>
+			</form>
+
+			<form style="display: inline" action="{{Route('verPlanProduccionSinStock',['plan_id' => $planProduccion->id])}}" method="post">
+				{{csrf_field()}}
+				<button class="btn btn-default pull-right" type="submit">Analisis Sin Existencia</button>
+			</form>
+			
 		</div>
-		<!-- /box-body -->
-		<!-- box-body -->
-		<div class="box-body">
-				<form class="form-horizontal" action="index.html" method="post">
-					<div class="col-lg-12">
-							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th colspan="6" class="text-center">MEZCLADO</th>
-									</tr>
-									<tr>
-										<th class="text-center">#</th>
-										<th class="text-center">codigo</th>
-										<th class="text-center">descripcion</th>
-										<th class="text-center">existencia</th>
-										<th class="text-center">requerimiento</th>
-										<th class="text-center">faltante</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach ($insumos as $insumo)
-										@if ($insumo->requerida && $insumo->nivel_id == 3)
-											<tr>
-												<th class="text-center">{{$loop->iteration}}</th>
-												<td class="text-center">{{$insumo->codigo}}</td>
-												<td class="text-center">{{$insumo->descripcion}}</td>
-												<td class="text-right">{{$insumo->total}}</td>
-												<td class="text-right">{{abs(round($insumo->requerida,2))}}</td>
-												<td class="text-right">{{($insumo->total - $insumo->requerida) > 0 ? 0 : abs(round($insumo->requerida - $insumo->total,2))}}</td>
-											</tr>
-										@endif
-									@endforeach
-								</tbody>
-							</table>
-					</div>
-				</form>
-		</div>
-		<!-- /box-body -->
+
+
 	</div>
 @endsection
 

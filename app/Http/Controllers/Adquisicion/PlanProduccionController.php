@@ -17,7 +17,11 @@ class PlanProduccionController extends Controller
      */
     public function index()
     {
-        return redirect()->route('crearPlanProduccion');
+        $planesProduccion = PlanProduccion::with('usuario')->get();
+
+        return view('adquisicion.planProduccion.index')->with(['planesProduccion' => $planesProduccion]);
+
+        //return redirect()->route('crearPlanProduccion');
     }
 
     /**
@@ -27,6 +31,9 @@ class PlanProduccionController extends Controller
      */
     public function create()
     {
+      /*
+      |  Probar plan guardado con producto que se le elimino la formula
+      */
         $productos = Producto::has('formula')->where('activo',1)->get();
 
         return view('adquisicion.planProduccion.create')->with(['productos' => $productos]);
@@ -40,7 +47,17 @@ class PlanProduccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $planProduccion = PlanProduccion::register($request);
+        $this->validate($request,[
+          'descripcion' => 'required',
+          'fecha_emision' => 'required',
+          'user_id' => 'required',
+          'items' => 'required'
+        ]);
+
+
+        dd($planProduccion);
     }
 
     /**
@@ -49,13 +66,36 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
+    public function show($id) // Toma en cuenta producto terminado existente
+    {
+        $planProduccion = PlanProduccion::with('detalles.producto')->find($id);
+
+        return view('adquisicion.planProduccion.show')->with(['planProduccion' => $planProduccion]);
+    }
+
+    public function duplicate($id) {
+
+      $planProduccionOrig = PlanProduccion::with('detalles')->find($id);
+
+      if (!$planProduccionOrig) {
+
+        return redirect()->back();
+      }
+
+      $productos = Producto::has('formula')->where('activo',1)->get();
+      $planProduccion = PlanProduccion::registerDuplicate($planProduccionOrig);
+
+      return $this->edit($planProduccion->id);
+    }
+
     public function showAnalReqWithStock(Request $request) // Toma en cuenta producto terminado existente
     {
-        if (!$request->items) {
+        if (!$request->plan_id) {
             return redirect()->back();
         }
+        $planProduccion = PlanProduccion::find($request->plan_id);
+        $items = $planProduccion->detalles;
 
-        $items = $request->items;
         $plan = PlanProduccion::analisisRequerimientosConStock($items);
         $productos = $plan[0];
         $insumos = $plan[1];
@@ -65,21 +105,20 @@ class PlanProduccionController extends Controller
                         'items' => $items]);
     }
 
-    public function showAnalReq(Request $request) // NO Toma en cuenta producto terminado existente
+    public function showAnalReqWithoutStock(Request $request) // NO Toma en cuenta producto terminado existente
     {
-        if ($request->button == 2) {
 
-            return $this->showAnalReqWithStock($request);
-        }
-        if (!$request->items) {
+        if (!$request->plan_id) {
             return redirect()->back();
         }
-        $items = $request->items;
+        $planProduccion = PlanProduccion::find($request->plan_id);
+        $items = $planProduccion->detalles;
+
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
 
-        return view('adquisicion.planProduccion.show')
+        return view('adquisicion.planProduccion.showWithoutStock')
                 ->with(['productos' => $productos,
                         'insumos' => $insumos,
                         'items' => $items]);
@@ -91,9 +130,17 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function edit(PlanProduccion $planProduccion)
+    public function edit($id)
     {
-        //
+        $productos = Producto::has('formula')->where('activo',1)->get();
+        $planProduccion = PlanProduccion::with('detalles.producto')->find($id);
+
+        foreach ($planProduccion->detalles as $detalle) {
+          $detalle->codigo = $detalle->producto->codigo;
+          $detalle->descripcion = $detalle->producto->descripcion;
+        }
+
+        return view('adquisicion.planProduccion.edit')->with(['productos' => $productos,'planProduccion' => $planProduccion]);
     }
 
     /**
@@ -114,9 +161,13 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PlanProduccion $planProduccion)
+    public function destroy($id)
     {
-        //
+      $planProduccion = PlanProduccion::destroy($id);
+
+      $msg = "Plan Produccion N°". $id . " ha sido ser Eliminada.";
+
+      return redirect()->route('planProduccion')->with(['status' => $msg]);
     }
 
     public function downloadExcelAnalReq(Request $request) {

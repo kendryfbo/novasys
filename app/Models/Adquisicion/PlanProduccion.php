@@ -4,14 +4,80 @@ namespace App\Models\Adquisicion;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+use Auth;
 use App\Models\Nivel;
 use App\Models\Producto;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
 use App\Models\Bodega\Ingreso;
+use App\Models\Adquisicion\PlanProduccionDetalle;
 
-class PlanProduccion extends Model
-{
+class PlanProduccion extends Model {
+
+    protected $fillable = ['descripcion', 'fecha_emision', 'user_id'];
+    protected $table = 'plan_produccion';
+
+    static function register($request) {
+
+        $planProduccion = DB::transaction(function () use ($request) {
+
+            $descripcion = $request->descripcion;
+            $fechaEmision = $request->fecha_emision;
+            $userID = $request->user()->id;
+            $items = $request->items;
+
+            $planProduccion = PlanProduccion::create([
+              'descripcion' => $descripcion,
+              'fecha_emision' => $fechaEmision,
+              'user_id' => $userID
+            ]);
+
+            foreach ($items as $item) {
+
+              $item = json_decode($item);
+                PlanProduccionDetalle::create([
+                  'plan_id' => $planProduccion->id,
+                  'producto_id' => $item->id,
+                  'cantidad' => $item->cantidad
+                ]);
+
+            };
+
+        },5);
+
+        return $planProduccion;
+    }
+
+    static function registerDuplicate($planProduccionOrig) {
+
+        $planProduccion = DB::transaction(function () use ($planProduccionOrig) {
+
+            $descripcion = $planProduccionOrig->descripcion;
+            $fechaEmision = $planProduccionOrig->fecha_emision;
+            $userID = Auth::id();
+            $items = $planProduccionOrig->detalles;
+
+            $planProduccion = PlanProduccion::create([
+              'descripcion' => $descripcion,
+              'fecha_emision' => $fechaEmision,
+              'user_id' => $userID
+            ]);
+
+            foreach ($items as $item) {
+
+                PlanProduccionDetalle::create([
+                  'plan_id' => $planProduccion->id,
+                  'producto_id' => $item->id,
+                  'cantidad' => $item->cantidad
+                ]);
+            };
+
+            return $planProduccion;
+        },5);
+        return $planProduccion;
+    }
+
     static function analisisRequerimientosConStock($items){
 
         $mi_temporizador = microtime();
@@ -26,8 +92,7 @@ class PlanProduccion extends Model
 
         foreach ($items as $item) {
 
-            $item = json_decode($item);
-            $producto = Producto::with('formula.detalle.insumo','formula.premezcla')->where('id',$item->id)->first();
+            $producto = Producto::with('formula.detalle.insumo','formula.premezcla')->where('id',$item->producto_id)->first();
 
             $stockPallet = Pallet::getStockofProd($producto->id);
             $stockIngreso = Ingreso::getStockofProd($producto->id);
@@ -121,8 +186,7 @@ class PlanProduccion extends Model
 
         foreach ($items as $item) {
 
-            $item = json_decode($item);
-            $producto = Producto::with('formula.detalle.insumo','formula.premezcla')->where('id',$item->id)->first();
+            $producto = Producto::with('formula.detalle.insumo','formula.premezcla')->where('id',$item->producto_id)->first();
             $producto->cantidad = $item->cantidad;
             $producto->premezcla = 0;
             $producto->stock_insumos = [];
@@ -194,5 +258,22 @@ class PlanProduccion extends Model
         //dump('La pagina fue generada en '.$tiempo_total_en_segundos.' segundos.');
 
         return [$productos,$stockMatPrima];
+    }
+
+
+    /*
+    |
+    |  Relationships
+    |
+    */
+
+    public function detalles() {
+
+        return $this->hasMany(PlanProduccionDetalle::class,'plan_id');
+    }
+
+    public function Usuario() {
+
+        return $this->belongsTo('App\Models\Config\Usuario','user_id');
     }
 }
