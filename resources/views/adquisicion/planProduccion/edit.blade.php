@@ -5,13 +5,13 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Creacion de Plan de Produccion</h4>
+			<h4>Edicion Plan de Produccion</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
 		<div class="box-body">
 
-			<form id="create" class="form-horizontal" action="{{route('guardarPlanProduccion')}}" method="post">
+			<form id="edit" class="form-horizontal" action="{{route('actualizarPlanProduccion',['id' => $planProduccion->id])}}" method="post">
 				{{ csrf_field() }}
 
 				<h5>Seleccion de Producto Terminado</h5>
@@ -100,11 +100,7 @@
 		</div>
 
 		<div class="box-footer">
-			{{--
-			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Crear</button>
-			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Analisis Sin Existencia</button>
-			 <button form="create" class="btn btn-default pull-right" name="button" value="2" type="submit">Analisis Con Existencia</button>
-			 --}}
+			 <button form="edit" class="btn btn-default pull-right" type="submit">Actualizar</button>
 		</div>
 
 

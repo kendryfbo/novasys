@@ -47,17 +47,14 @@ class PlanProduccionController extends Controller
      */
     public function store(Request $request)
     {
-
-        $planProduccion = PlanProduccion::register($request);
         $this->validate($request,[
           'descripcion' => 'required',
           'fecha_emision' => 'required',
-          'user_id' => 'required',
           'items' => 'required'
         ]);
+        $planProduccion = PlanProduccion::register($request);
 
-
-        dd($planProduccion);
+        return redirect()->route('planProduccion');
     }
 
     /**
@@ -150,9 +147,17 @@ class PlanProduccionController extends Controller
      * @param  \App\Models\Adquisicion\PlanProduccion  $planProduccion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PlanProduccion $planProduccion)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request,[
+          'descripcion' => 'required',
+          'fecha_emision' => 'required',
+          'items' => 'required'
+        ]);
+
+        $planProduccion = PlanProduccion::registerEdit($request);
+
+        return redirect()->route('planProduccion');
     }
 
     /**

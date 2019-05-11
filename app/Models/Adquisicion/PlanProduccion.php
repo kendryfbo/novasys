@@ -44,8 +44,8 @@ class PlanProduccion extends Model {
 
             };
 
+            return $planProduccion;
         },5);
-
         return $planProduccion;
     }
 
@@ -78,6 +78,39 @@ class PlanProduccion extends Model {
         return $planProduccion;
     }
 
+    static function registerEdit($request) {
+
+      $planProduccion = DB::transaction(function () use ($request) {
+
+          $id = $request->id;
+          $descripcion = $request->descripcion;
+          $fechaEmision = $request->fecha_emision;
+          $userID = $request->user()->id;
+          $items = $request->items;
+
+          $planProduccion = PlanProduccion::find($id);
+
+          $planProduccion->descripcion = $descripcion;
+          $planProduccion->fecha_emision = $fechaEmision;
+          $planProduccion->user_id = $userID;
+          $planProduccion->detalles()->delete();
+          $planProduccion->update();
+
+          foreach ($items as $item) {
+
+            $item = json_decode($item);
+              PlanProduccionDetalle::create([
+                'plan_id' => $planProduccion->id,
+                'producto_id' => $item->id,
+                'cantidad' => $item->cantidad
+              ]);
+
+          };
+
+          return $planProduccion;
+      },5);
+      return $planProduccion;
+    }
     static function analisisRequerimientosConStock($items){
 
         $mi_temporizador = microtime();

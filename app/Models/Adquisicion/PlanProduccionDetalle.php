@@ -19,6 +19,6 @@ class PlanProduccionDetalle extends Model
 
     public function producto() {
 
-      return $this->belongsTo(Producto::class,'producto_id');
+      return $this->hasOne(Producto::class,'id');
     }
 }
