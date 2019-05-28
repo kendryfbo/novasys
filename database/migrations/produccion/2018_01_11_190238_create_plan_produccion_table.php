@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlanProduccionsTable extends Migration
+class CreatePlanProduccionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreatePlanProduccionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('plan_produccions', function (Blueprint $table) {
+        Schema::create('plan_produccion', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('descripcion');
+            $table->date('fecha_emision');
+            $table->integer('user_id')->unsigned(); // FK usuarios
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreatePlanProduccionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plan_produccions');
+        Schema::dropIfExists('plan_produccion');
     }
 }

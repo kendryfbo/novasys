@@ -16,7 +16,7 @@
 					@endslot
 				@endcomponent
 			@endif
-			<a class="pull-right btn btn-primary" href="{{route('crearOrdenCompra')}}">Crear</a>
+			<a class="pull-right btn btn-primary" href="{{route('crearPlanProduccion')}}">Crear Plan</a>
 		</div>
 		<!-- box-body -->
 		<div class="box-body">
@@ -33,14 +33,39 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($planes as $plan)
+					@foreach ($planesProduccion as $plan)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="{{route()}}" target="_blank"><strong>{{$plan->numero}}</strong></a></td>
+							<td class="text-center"><a href="" target="_blank"><strong>{{$plan->numero}}</strong></a></td>
 							<td class="text-center">{{$plan->fecha_emision}}</td>
 							<td>{{$plan->descripcion}}</td>
 							<td class="text-center">{{$plan->usuario->nombre}}</td>
 							<td class="text-center">
+								<form style="display: inline" action="{{Route('verPlanProduccion',['planProduccion' => $plan->id])}}" method="get">
+									{{csrf_field()}}
+									<button class="btn btn-sm" type="submit" name="button">
+										<i class="fa fa-eye" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form style="display: inline" action="{{route('duplicarPlanProduccion',['planProduccion' => $plan->id])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-sm" type="submit" name="button">
+										<i class="fa fa-files-o" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form style="display: inline" action="{{route('editarPlanProduccion',['planProduccion' => $plan->id])}}" method="post">
+									{{csrf_field()}}
+									<button class="btn btn-sm" type="submit" name="button">
+										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form style="display: inline" action="{{route('eliminarPlanProduccion',['planProduccion' => $plan->id])}}" method="post">
+									{{csrf_field()}}
+									{{method_field('delete')}}
+									<button class="btn btn-sm" type="submit" name="button">
+										<i class="fa fa-trash-o" aria-hidden="true"></i>
+									</button>
+								</form>
 							</td>
 						</tr>
 					@endforeach

@@ -64,8 +64,14 @@ Route::prefix('adquisicion')->group( function() {
 
         Route::get('/',                  'Adquisicion\PlanProduccionController@index')->name('planProduccion');
         Route::get('/crear',             'Adquisicion\PlanProduccionController@create')->name('crearPlanProduccion');
-        Route::post('/',                 'Adquisicion\PlanProduccionController@showAnalReqWithStock')->name('verPlanProduccionConStock');
-        Route::post('/adquisicion',      'Adquisicion\PlanProduccionController@showAnalReq')->name('verPlanProduccion');
+        Route::post('/',                 'Adquisicion\PlanProduccionController@store')->name('guardarPlanProduccion');
+        Route::get('/{id}',              'Adquisicion\PlanProduccionController@show')->name('verPlanProduccion');
+        Route::post('/{id}/duplicar',    'Adquisicion\PlanProduccionController@duplicate')->name('duplicarPlanProduccion');
+        Route::post('/{id}/editar',      'Adquisicion\PlanProduccionController@edit')->name('editarPlanProduccion');
+        Route::post('/actualizar',       'Adquisicion\PlanProduccionController@update')->name('actualizarPlanProduccion');
+        Route::delete('/{id}',           'Adquisicion\PlanProduccionController@destroy')->name('eliminarPlanProduccion');
+        Route::post('/AnalisisConStock', 'Adquisicion\PlanProduccionController@showAnalReqWithStock')->name('verPlanProduccionConStock');
+        Route::post('/AnalisisSinStock', 'Adquisicion\PlanProduccionController@showAnalReqWithoutStock')->name('verPlanProduccionSinStock');
         Route::post('/descExcelAnalReq', 'Adquisicion\PlanProduccionController@downloadExcelAnalReq')->name('descExcelAnalReq');
         Route::post('/descExcelAnalReqConStock','Adquisicion\PlanProduccionController@downloadExcelAnalReqConStock')->name('descExcelAnalReqConStock');
     });
