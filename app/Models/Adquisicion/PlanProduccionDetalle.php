@@ -19,6 +19,6 @@ class PlanProduccionDetalle extends Model
 
     public function producto() {
 
-      return $this->hasOne(Producto::class,'id');
+      return $this->hasOne(Producto::class, 'id', 'producto_id');
     }
 }
