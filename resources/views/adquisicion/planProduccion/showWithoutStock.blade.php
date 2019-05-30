@@ -18,15 +18,7 @@
 				<form class="form-horizontal" action="index.html" method="post">
 					<div class="col-lg-12 pull-right text-right">
 						<button form="excel" class="btn btn-sm btn-default" type="submit"><i class="fa fa-file" aria-hidden="true"></i> Descargar excel</button>
-						<!-- Items -->
-						<select form="excel" style="display: none;"  name="items[]" multiple required>
-							@foreach ($items as $item)
-							<option selected>
-								{{$item}}
-							</option>
-						@endforeach
-						</select>
-						<!-- /items -->
+						<input form="excel" type="hidden" name="plan_id" value="{{$planProduccion->id}}">
 					</div>
 					<div class="col-lg-12">
 							<table id="" class="table table-hover table-bordered table-custom table-condensed display nowrap compact" cellspacing="0" width="100%">

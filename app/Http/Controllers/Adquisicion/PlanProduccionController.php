@@ -97,7 +97,8 @@ class PlanProduccionController extends Controller
         $productos = $plan[0];
         $insumos = $plan[1];
         return view('adquisicion.planProduccion.showWithStock')
-                ->with(['productos' => $productos,
+                ->with(['planProduccion' => $planProduccion,
+                        'productos' => $productos,
                         'insumos' => $insumos,
                         'items' => $items]);
     }
@@ -116,7 +117,8 @@ class PlanProduccionController extends Controller
         $insumos = $plan[1];
 
         return view('adquisicion.planProduccion.showWithoutStock')
-                ->with(['productos' => $productos,
+                ->with(['planProduccion' => $planProduccion,
+                        'productos' => $productos,
                         'insumos' => $insumos,
                         'items' => $items]);
     }
@@ -177,25 +179,16 @@ class PlanProduccionController extends Controller
 
     public function downloadExcelAnalReq(Request $request) {
 
-        $items = $request->items;
-
-        if (!$items) {
-            dd('no items');
+        $planID = $request->plan_id;
+        if (!$planID) {
+          dd('no plan ID');
         }
+        $planProduccion = PlanProduccion::find($planID);
+        $items = $planProduccion->detalles;
 
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
-        /*
-        $excel = Excel::create('Analisis de Produccion', function($excel) use ($insumos) {
-            $excel->sheet('New sheet', function($sheet) use ($insumos) {
-                $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')
-                        ->with('insumos', $insumos);
-                            });
-                        });
-
-        return $excel->download('xlsx');
-        */
 
         return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
             $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
@@ -211,13 +204,14 @@ class PlanProduccionController extends Controller
     }
     public function downloadExcelAnalReqConStock(Request $request) {
 
-        $items = $request->items;
-
-        if (!$items) {
-            dd('no items');
+        $planID = $request->plan_id;
+        if (!$planID) {
+          dd('no plan ID');
         }
+        $planProduccion = PlanProduccion::find($planID);
+        $items = $planProduccion->detalles;
 
-        $plan = PlanProduccion::analisisRequerimientosConStock($items);
+        $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
 
