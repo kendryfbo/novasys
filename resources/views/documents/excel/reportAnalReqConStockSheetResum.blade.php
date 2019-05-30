@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Analisis Requerimientos Resumen</title>
+        <title>Analisis Requerimientos Detalle x</title>
     </head>
 
     <body>
@@ -12,11 +12,11 @@
             <thead>
                 <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">codigo</th>
-                    <th class="text-center">descripcion</th>
-                    <th class="text-center">existencia</th>
-                    <th class="text-center">requerimiento</th>
-                    <th class="text-center">faltante</th>
+                    <th class="text-center">Código</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Existencia</th>
+                    <th class="text-center">Requerimiento</th>
+                    <th class="text-center">Faltante</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,12 +41,12 @@
                     <th colspan="6" class="text-center">PRODUCCION</th>
               </tr>
               <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">codigo</th>
-                    <th class="text-center">descripcion</th>
-                    <th class="text-center">existencia</th>
-                    <th class="text-center">requerimiento</th>
-                    <th class="text-center">faltante</th>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Código</th>
+                  <th class="text-center">Descripción</th>
+                  <th class="text-center">Existencia</th>
+                  <th class="text-center">Requerimiento</th>
+                  <th class="text-center">Faltante</th>
               </tr>
             </thead>
             <tbody>
@@ -73,11 +73,11 @@
                 </tr>
                 <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">codigo</th>
-                    <th class="text-center">descripcion</th>
-                    <th class="text-center">existencia</th>
-                    <th class="text-center">requerimiento</th>
-                    <th class="text-center">faltante</th>
+                    <th class="text-center">Código</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Existencia</th>
+                    <th class="text-center">Requerimiento</th>
+                    <th class="text-center">Faltante</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,11 +104,11 @@
                 </tr>
                 <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">codigo</th>
-                    <th class="text-center">descripcion</th>
-                    <th class="text-center">existencia</th>
-                    <th class="text-center">requerimiento</th>
-                    <th class="text-center">faltante</th>
+                    <th class="text-center">Código</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Existencia</th>
+                    <th class="text-center">Requerimiento</th>
+                    <th class="text-center">Faltante</th>
                 </tr>
             </thead>
             <tbody>

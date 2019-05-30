@@ -32,6 +32,7 @@
                 <li>
                 <a href="{{url('/sgcalidad/Documentos/crear')}}"><i class="fa fa-file-o"></i> <span>Ingresar</span></a>
                 <a href="{{url('/sgcalidad/Documentos')}}"><i class="fa fa-file-pdf-o"></i> <span>Docs PDF</span></a>
+                <a href="{{url('/sgcalidad/Documentos/acceso')}}"><i class="fa fa-file-pdf-o"></i> <span>Acceso Docs</span></a>
                 </li>
 
             </ul>

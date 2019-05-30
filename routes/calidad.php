@@ -25,6 +25,7 @@ Route::prefix('sgcalidad')->group(function()
     Route::group(['prefix' => 'Documentos'], function()
     {
         route::get('/',                     'Calidad\DocumentosCalidadController@index')->name('documentosCalidad');
+        route::get('/acceso',               'Calidad\DocumentosCalidadController@DocumentProfileAccess')->name('AccesodocumentosCalidad');
         route::get('/crear',                'Calidad\DocumentosCalidadController@create')->name('crearDocumentosCalidad');
         route::post('/',                    'Calidad\DocumentosCalidadController@store')->name('guardarDocumentosCalidad');
         route::get('/{id}/editar',          'Calidad\DocumentosCalidadController@edit')->name('editarDocsPDF');

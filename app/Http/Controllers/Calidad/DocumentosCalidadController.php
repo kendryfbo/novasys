@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Calidad;
 
 use PDF;
-use App\Http\Controllers\Controller;
-use App\Models\Calidad\DocCalidad;
-use App\Models\Config\Usuario;
-use App\Models\Adquisicion\Area;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Config\Usuario;
+use App\Models\Config\Perfil;
+use App\Models\Adquisicion\Area;
+use App\Models\Calidad\DocCalidad;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
+class DocumentosCalidadController extends Controller {
 
-class DocumentosCalidadController extends Controller
-    {
-    public function main(){
-    return view('sgcalidad.main');
+    public function main() {
+
+        return view('sgcalidad.main');
 	}
-
 
     /**
      * Display a listing of the resource.
@@ -29,7 +29,6 @@ class DocumentosCalidadController extends Controller
         $documentosCalidad = DocCalidad::with('area')->orderBy('id','desc')->get();
         return view('sgcalidad.docs_PDF.index')->with(['documentosCalidad' => $documentosCalidad]);
     }
-
 
     public function create()
     {
@@ -127,6 +126,14 @@ class DocumentosCalidadController extends Controller
 
         $msg = "Documento N°" . $id->id . " ha sido Actualizado en Sistema";
         return redirect('sgcalidad/Documentos')->with(['status' => $msg]);
+    }
+
+    public function DocumentProfileAccess() {
+
+        $perfiles = Perfil::all();
+        $documentos = DocCalidad::with('area')->orderBy('id','desc')->get();
+
+        return view('sgcalidad.docs_PDF.documentProfileAccess')->with(['perfiles' => $perfiles,'documentos' => $documentos]);
     }
 
     public function downloadPDF($id)
