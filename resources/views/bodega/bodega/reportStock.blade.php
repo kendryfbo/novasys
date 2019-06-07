@@ -181,7 +181,6 @@
 				</thead>
 				<tbody>
 					@foreach ($productos as $producto)
-
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center">{{$producto->codigo}}</td>

@@ -119,16 +119,17 @@
         </table>
 
         <div class="footer-content">
-            <p>Nota: {{$ordenCompra->nota}}</p>
-            <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}}</p>
+            <p><strong>Nota:</strong> {{$ordenCompra->nota}}</p>
+            <p>CONDICIONES DE PAGO: {{$ordenCompra->forma_pago}} pagadero en {{$ordenCompra->moneda}}</p>
             <p>Facturar a: {{$ordenCompra->centroVenta->descripcion}}, R.U.T:{{$ordenCompra->centroVenta->rut}}, {{$ordenCompra->centroVenta->direccion}}</p>
+            <p><strong>Atentamente</strong></p>
         </div>
 
         <div class="footer">
-            <p><strong>Atentamente</strong></p>
             @if (empty($ordenCompra->Usuario->firma))
 
             @else
+
                 <img class="img-responsive firma" src="images/{{$ordenCompra->Usuario->firma}}" alt="encabezado" width="20%">
             @endif
             <br>
