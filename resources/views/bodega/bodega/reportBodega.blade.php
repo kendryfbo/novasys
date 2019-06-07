@@ -166,18 +166,36 @@
 						<th class="text-center">Codigo</th>
 						<th class="text-center">Descripcion</th>
 						<th class="text-center">Cantidad</th>
-                        <th class="text-center">Fecha Ing.</th>
+            <th class="text-center">Fecha Ing.</th>
 						<th class="text-center">Fecha Venc.</th>
 						<th class="text-center">Vida Util</th>
 					</tr>
 				</thead>
 				<tbody>
+
+					@if ($bodegaID == '2')
+					@foreach ($productos as $producto)
+						<tr>
+							<th class="text-center">{{$loop->iteration}}</th>
+							<td class="text-left">222</td>
+							<td class="text-center">{{$producto->pos}}</td>
+							<td class="text-left">{{$producto->pallet_num}}</td>
+							<td class="text-left">{{$producto->codigo}}</td>
+							<td class="text-left">{{$producto->descripcion}}</td>
+							<td class="text-right">{{$producto->cantidad}}</td>
+							<td class="text-center">{{$producto->fecha_ing}}</td>
+							<td class="text-center">{{$producto->fecha_venc}}</td>
+							<td class="text-right">{{$producto->vida_util}}</td>
+						</tr>
+					@endforeach
+					@endif
+
 					@foreach ($productos as $producto)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-left">{{$producto->bod_descripcion}}</td>
-                            <td class="text-center">{{$producto->pos}}</td>
-                            <td class="text-left">{{$producto->pallet_num}}</td>
+              <td class="text-center">{{$producto->pos}}</td>
+              <td class="text-left">{{$producto->pallet_num}}</td>
 							<td class="text-left">{{$producto->codigo}}</td>
 							<td class="text-left">{{$producto->descripcion}}</td>
 							<td class="text-right">{{$producto->cantidad}}</td>
