@@ -556,6 +556,7 @@ class Bodega extends Model
         // consultas de Insumos
         $codInsumoQuery = "WHEN tipo_id=".$MP." THEN (select codigo from insumos where insumos.id=id.item_id)";
         $descripInsumoQuery = "WHEN tipo_id=".$MP." THEN (select descripcion from insumos where insumos.id=id.item_id)";
+        $stockMinInsumoQuery = "WHEN tipo_id=".$MP." THEN (select stock_min from insumos where insumos.id=id.item_id)";
         $familiaIdInsumoQuery = "WHEN tipo_id=".$MP." THEN (select familia_id from insumos where insumos.id=id.item_id)";
         $familiaDescripInsumoQuery = "WHEN tipo_id=".$MP." THEN (select (select descripcion from familias where insumos.familia_id=familias.id) as familia from insumos where insumos.id=id.item_id)";
         $saborIdInsumoQuery = " "; // no posee sabor.
@@ -591,6 +592,10 @@ class Bodega extends Model
         .$descripInsumoQuery
         .$descripReprocesoQuery
         ."END AS descripcion,";
+
+        $stockMinQuery = " CASE "
+        .$stockMinInsumoQuery
+        ."END AS stock_min,";
 
         $FamiliaIdQuery = " (CASE "
         .$familiaIdProdTermQuery
@@ -654,6 +659,7 @@ class Bodega extends Model
             $query = "SELECT "
             .$codigoQuery
             .$descripcionQuery
+            .$stockMinQuery
             .$FamiliaIdQuery
             .$FamiliaDescripQuery
             .$saborIdQuery
@@ -672,6 +678,7 @@ class Bodega extends Model
             $query = "SELECT "
             .$codigoQuery
             .$descripcionQuery
+            .$stockMinQuery
             .$FamiliaIdQuery
             .$FamiliaDescripQuery
             .$saborIdQuery
@@ -694,6 +701,7 @@ class Bodega extends Model
             $query = "SELECT "
             .$codigoQuery
             .$descripcionQuery
+            .$stockMinQuery
             .$FamiliaIdQuery
             .$FamiliaDescripQuery
             .$saborIdQuery
