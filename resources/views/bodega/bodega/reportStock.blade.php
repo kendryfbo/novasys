@@ -173,21 +173,34 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">Codigo</th>
-						<th class="text-center">Descripcion</th>
+						<th class="text-center">Código</th>
+						<th class="text-center">Descripción</th>
 						<th class="text-center">Familia</th>
 						<th class="text-center">Cantidad</th>
+						<th class="text-center">Stock Mínimo</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach ($productos as $producto)
-						<tr>
+					@if ($producto->cantidad <= $producto->stock_min)
+					 <tr bgcolor="#FFFF00">
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-center">{{$producto->codigo}}</td>
 							<td class="text-left">{{$producto->descripcion}}</td>
 							<td class="text-left">{{$producto->familia}}</td>
 							<td class="text-right">{{$producto->cantidad}}</td>
+							<td class="text-right">{{$producto->stock_min}}</td>
 						</tr>
+						@else
+						<tr>
+ 							<th class="text-center">{{$loop->iteration}}</th>
+ 							<td class="text-center">{{$producto->codigo}}</td>
+ 							<td class="text-left">{{$producto->descripcion}}</td>
+ 							<td class="text-left">{{$producto->familia}}</td>
+ 							<td class="text-right">{{$producto->cantidad}}</td>
+							<td class="text-right">{{$producto->stock_min}}</td>
+ 						</tr>
+						@endif
 					@endforeach
 				</tbody>
 			</table>
