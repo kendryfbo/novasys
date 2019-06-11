@@ -56,7 +56,7 @@ Route::prefix('adquisicion')->group( function() {
         Route::get('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos/descarga', 'Adquisicion\OrdenCompraReportController@reportInsumosDownloadPDF')->name('descargarReporteOrdenCompraInsumoPDF');
-
+        Route::post('/reporte/insumos/descargaExcel', 'Adquisicion\OrdenCompraReportController@reportInsumosDownloadExcel')->name('descargarReporteOrdenCompraInsumoExcel');
 
     });
 

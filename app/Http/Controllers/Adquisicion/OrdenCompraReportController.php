@@ -171,6 +171,34 @@ class OrdenCompraReportController extends Controller
 
     }
 
+    public function reportInsumosDownloadExcel(Request $request) {
+
+        $busqueda = $request;
+        $insumoID = $busqueda->insumo_id;
+        $ordenes = [];
+
+        if ($insumoID) {
+
+            $ordenes = OrdenCompra::with(['detalles' => function($query) use($insumoID){
+                                        $query->where('item_id',$insumoID);
+                                        $query->with('insumo');
+                                    }],'detalles.insumo','proveedor')
+                                    ->whereHas('detalles' ,function($query) use($insumoID){
+                                        $query->where('item_id',$insumoID);
+                                    })
+                                    ->get();
+        }
+
+        return Excel::create('Reporte Insumo', function($excel) use ($ordenes) {
+            $excel->sheet('New sheet', function($sheet) use ($ordenes) {
+                $sheet->loadView('documents.excel.reportOrdenCompraInsumoExcel')
+                        ->with('ordenes', $ordenes);
+                            })->download('xlsx');
+                        });
+
+
+    }
+
     public function reporteProductos()
     {
 

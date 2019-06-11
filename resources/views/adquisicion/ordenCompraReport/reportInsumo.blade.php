@@ -25,6 +25,11 @@
 				{{ csrf_field() }}
 				<input type="hidden" name="insumo_id" value="{{$busqueda ? $busqueda->insumo_id : ''}}">
 			</form>
+			<form id="downloadExcel" action="{{route('descargarReporteOrdenCompraInsumoExcel')}}" method="post">
+				{{ csrf_field() }}
+				<input type="hidden" name="insumo_id" value="{{$busqueda ? $busqueda->insumo_id : ''}}">
+			</form>
+
 			<!-- /form -->
 
 			<!-- form -->
@@ -56,7 +61,10 @@
 				<div class="form-group">
 						<div class="col-lg-3 pull-right text-right">
 							<div class=" btn-group">
-								<button form="download" class="btn btn-sm btn-default" type="submit">Descargar</button>
+								<button form="download" class="btn btn-sm btn-default" type="submit">Descargar PDF</button>
+							</div>
+							<div class=" btn-group">
+								<button form="downloadExcel" class="btn btn-sm btn-default" type="submit">Descargar Excel</button>
 							</div>
 						</div>
 				</div>
