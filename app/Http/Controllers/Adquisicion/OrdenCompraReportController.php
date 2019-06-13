@@ -147,6 +147,48 @@ class OrdenCompraReportController extends Controller
         return redirect()->back();
     }
 
+
+    public function reportDetProveedorDownloadExcel(Request $request) {
+
+      $busqueda = $request;
+      $ordenes = [];
+
+      $query = [];
+
+      if ($busqueda->desde) {
+
+          $desde = ['fecha_emision', '>=', $busqueda->desde];
+          array_push($query,$desde);
+      }
+      if ($busqueda->hasta) {
+
+          $hasta = ['fecha_emision', '<=', $busqueda->hasta];
+          array_push($query,$hasta);
+      }
+
+      if ($busqueda->proveedor_id) {
+
+          $proveedor = ['prov_id','=',$busqueda->proveedor_id];
+
+          array_push($query,$proveedor);
+
+          $ordenes = OrdenCompra::with('detalles')->where($query)->orderBy('fecha_emision','ASC')->get();
+          $proveedor = Proveedor::find($busqueda->proveedor_id);
+
+          return Excel::create('Reporte Proveedores', function($excel) use ($ordenes, $proveedor) {
+              $excel->sheet('New sheet', function($sheet) use ($ordenes, $proveedor) {
+                  $sheet->loadView('documents.excel.reportOrdenCompraProveedorExcel')
+                          ->with(['ordenes' => $ordenes,
+                                  'proveedor' => $proveedor]);
+                                  })->download('xlsx');
+          });
+
+      }
+
+
+
+    }
+
     public function reportInsumosDownloadPDF(Request $request) {
 
         $busqueda = $request;

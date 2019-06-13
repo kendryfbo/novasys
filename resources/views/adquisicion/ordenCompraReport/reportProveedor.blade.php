@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Reporte Orden Compra Por proveedor</h4>
+			<h4>Reporte Orden Compra por Proveedor</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -31,6 +31,13 @@
 			<!-- /form -->
 			<!-- form -->
 			<form id="downloadDet" action="{{route('descargarReporteDetOrdenCompraProveedorPDF')}}" method="post">
+				{{ csrf_field() }}
+
+				<input type="hidden" name="proveedor_id" value="{{$busqueda ? $busqueda->proveedor_id : ''}}">
+				<input type="hidden" name="desde" value="{{$busqueda ? $busqueda->desde : ''}}">
+				<input type="hidden" name="hasta" value="{{$busqueda ? $busqueda->hasta : ''}}">
+			</form>
+			<form id="downloadExcel" action="{{route('descargarReporteDetOrdenCompraProveedorExcel')}}" method="post">
 				{{ csrf_field() }}
 
 				<input type="hidden" name="proveedor_id" value="{{$busqueda ? $busqueda->proveedor_id : ''}}">
@@ -80,7 +87,8 @@
 						<div class="col-lg-3 pull-right text-right">
 							<div class=" btn-group">
 								<button form="download" class="btn btn-sm btn-default" type="submit">Descargar</button>
-								<button form="downloadDet" class="btn btn-sm btn-default" type="submit">Descargar-Detalle</button>
+								<button form="downloadDet" class="btn btn-sm btn-default" type="submit">Descargar Detalle</button>
+								<button form="downloadExcel" class="btn btn-sm btn-default" type="submit">Descargar Excel</button>
 							</div>
 						</div>
 				</div>

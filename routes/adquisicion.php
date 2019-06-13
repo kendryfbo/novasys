@@ -53,6 +53,7 @@ Route::prefix('adquisicion')->group( function() {
         Route::post('/reporte/proveedor', 'Adquisicion\OrdenCompraReportController@reportProveedor')->name('reporteOrdenCompraProveedor');
         Route::post('/reporte/proveedor/descarga', 'Adquisicion\OrdenCompraReportController@reportProveedorDownloadPDF')->name('descargarReporteOrdenCompraProveedorPDF');
         Route::post('/reporte/proveedor/descargaDetalle', 'Adquisicion\OrdenCompraReportController@reportDetProveedorDownloadPDF')->name('descargarReporteDetOrdenCompraProveedorPDF');
+        Route::post('/reporte/proveedor/descargaDetalleExcel', 'Adquisicion\OrdenCompraReportController@reportDetProveedorDownloadExcel')->name('descargarReporteDetOrdenCompraProveedorExcel');
         Route::get('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos', 'Adquisicion\OrdenCompraReportController@reportInsumos')->name('reporteOrdenCompraInsumo');
         Route::post('/reporte/insumos/descarga', 'Adquisicion\OrdenCompraReportController@reportInsumosDownloadPDF')->name('descargarReporteOrdenCompraInsumoPDF');
