@@ -38,7 +38,7 @@ class PlanProduccion extends Model {
               $item = json_decode($item);
                 PlanProduccionDetalle::create([
                   'plan_id' => $planProduccion->id,
-                  'producto_id' => $item->id,
+                  'producto_id' => $item->producto_id,
                   'cantidad' => $item->cantidad
                 ]);
 
@@ -68,7 +68,7 @@ class PlanProduccion extends Model {
 
                 PlanProduccionDetalle::create([
                   'plan_id' => $planProduccion->id,
-                  'producto_id' => $item->id,
+                  'producto_id' => $item->producto_id,
                   'cantidad' => $item->cantidad
                 ]);
             };
@@ -101,7 +101,7 @@ class PlanProduccion extends Model {
             $item = json_decode($item);
               PlanProduccionDetalle::create([
                 'plan_id' => $planProduccion->id,
-                'producto_id' => $item->id,
+                'producto_id' => $item->producto_id,
                 'cantidad' => $item->cantidad
               ]);
 
