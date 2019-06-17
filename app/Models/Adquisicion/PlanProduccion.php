@@ -97,23 +97,16 @@ class PlanProduccion extends Model {
           $planProduccion->update();
 
           foreach ($items as $item) {
+
             $item = json_decode($item);
-            if (empty($item->producto_id)){
-                PlanProduccionDetalle::create([
-                  'plan_id' => $planProduccion->id,
-                  'producto_id' => $item->id,
-                  'cantidad' => $item->cantidad
-                ]);
-            } else {
-                PlanProduccionDetalle::create([
-                  'plan_id' => $planProduccion->id,
-                  'producto_id' => $item->producto_id,
-                  'cantidad' => $item->cantidad
-                ]);
-            }
+
+            PlanProduccionDetalle::create([
+              'plan_id' => $planProduccion->id,
+              'producto_id' => $item->producto_id,
+              'cantidad' => $item->cantidad
+            ]);
 
           };
-
           return $planProduccion;
       },5);
       return $planProduccion;

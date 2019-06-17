@@ -23,16 +23,17 @@ var app = new Vue({
 
       addItem: function() {
 
-            if (!this.itemID || !(this.cantidad > 0)) {
 
-                alert('debe seleccionar producto y colocar la cantidad mayor a 0.');
-                return;
+            if (!this.validateInput()) {
+              return;
             }
+
             for (var i = 0; i < this.productos.length; i++) {
 
                 if (this.productos[i].id == this.itemID) {
 
                     this.productos[i].cantidad = this.cantidad;
+                    this.productos[i].producto_id = this.productos[i].id;
                     this.items.push(this.productos[i]);
                     this.productos.splice(i,1);
                     this.itemID = '';
@@ -53,6 +54,32 @@ var app = new Vue({
                   return;
               }
           }
+      },
+
+      validateInput: function() {
+
+        if (!this.itemID || !(this.cantidad > 0)) {
+
+            alert('debe seleccionar producto y colocar la cantidad mayor a 0.');
+            return false;
+        }
+
+        if (this.duplicatedItem()) {
+          alert('Producto ya se encuentra ingresado');
+          return false;
+        }
+
+        return true;
+      },
+
+      duplicatedItem: function() {
+
+        for (var i = 0; i < this.items.length; i++) {
+          if (this.items[i].producto_id == this.itemID) {
+            return true;
+          }
+        }
+        return false;
       }
   },
 
