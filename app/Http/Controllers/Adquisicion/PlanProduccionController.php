@@ -79,8 +79,8 @@ class PlanProduccionController extends Controller
         return redirect()->back();
       }
 
-      $productos = Producto::has('formula')->where('activo',1)->get();
       $planProduccion = PlanProduccion::registerDuplicate($planProduccionOrig);
+      $productos = Producto::has('formula')->where('activo',1)->get();
 
       return $this->edit($planProduccion->id);
     }
@@ -132,7 +132,7 @@ class PlanProduccionController extends Controller
     public function edit($id)
     {
         $productos = Producto::has('formula')->where('activo',1)->get();
-        $planProduccion = PlanProduccion::with('detalles.producto')->find($id);
+        $planProduccion = PlanProduccion::with('detalles')->find($id);
 
         foreach ($planProduccion->detalles as $detalle) {
           $detalle->codigo = $detalle->producto->codigo;

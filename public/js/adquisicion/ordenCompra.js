@@ -94,10 +94,14 @@ var app = new Vue({
 
       if (this.itemSelected) {
 
+        var index = 0;
+
         for (var i = 0; i < this.items.length; i++) {
 
-          if (this.item.producto_id == this.items[i].producto_id) {
+          if (this.item.id == this.items[i].id) {
             this.items.splice(i,1);
+            index = i;
+            break;
           }
         }
 
@@ -113,8 +117,8 @@ var app = new Vue({
           precio: this.precio,
           sub_total: this.precio * this.cantidad
       }
-      this.items.push(this.item);
-
+      //this.items.push(this.item);
+      this.items.splice(index, 0, this.item)
       this.calculateTotal();
       this.clearItemInputs();
       $('#prodSelect').focus();
@@ -123,7 +127,6 @@ var app = new Vue({
 
     loadItem: function(key) {
 
-        this.item = key;
         this.prodId = this.items[key].id;
         this.codigoProd = this.items[key].codigo;
         this.descripProd = this.items[key].descripcion;
@@ -131,6 +134,17 @@ var app = new Vue({
         this.tipo_id = this.items[key].tipo_id;
         this.cantidad = this.items[key].cantidad;
         this.precio = this.items[key].precio;
+
+        this.item = {
+          id: this.prodId,
+          codigo: this.codigoProd,
+          descripcion: this.descripProd,
+          umed: this.umed,
+          tipo_id: this.tipo_id,
+          cantidad: this.cantidad,
+          precio: this.precio,
+          sub_total: this.precio * this.cantidad
+        }
 
         this.itemSelected = true;
 
@@ -143,8 +157,13 @@ var app = new Vue({
             alert('Debe seleccionar producto que desea eliminar');
             return;
         }
+        for (var i = 0; i < this.items.length; i++) {
 
-        this.items.splice(this.item,1);
+          if (this.item.id == this.items[i].id) {
+            this.items.splice(i,1);
+            break;
+          }
+        }
 
         this.calculateTotal();
         this.clearItemInputs();
@@ -210,6 +229,7 @@ var app = new Vue({
       this.prodId = '';
       this.ultPrecio = '';
       this.itemSelected = false;
+      this.item = [];
     },
 
     calculateTotal: function() {
