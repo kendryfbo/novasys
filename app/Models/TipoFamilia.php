@@ -22,7 +22,7 @@ class TipoFamilia extends Model
 
 	static function getMP() {
 
-		return self::find(1);
+		return self::find(self::INSUMO_ID);
 	}
 
 	static function insumo() {

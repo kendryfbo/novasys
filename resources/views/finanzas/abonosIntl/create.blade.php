@@ -52,7 +52,7 @@
 
 		  <label class="control-label col-lg-2">Monto Anticipo $ : </label>
 		  <div class="col-lg-2">
-        	<input class="form-control input-sm" type="number" name="monto"  value="">
+        	<input class="form-control input-sm" type="number" step="any" name="monto"  value="">
           </div>
         </div>
         <!-- /form-group -->
