@@ -277,7 +277,7 @@ class PagoIntl extends Model
 
     static function cuentasCorriente() {
 
-        $results = ClienteIntl::whereHas('facturasIntls')->where('id', '!=', '0')->orderBy('zona','ASC')->orderBy('descripcion','DESC')->get();
+        $results = ClienteIntl::whereHas('facturasIntlsPagadas')->where('id', '!=', '0')->orderBy('zona','ASC')->orderBy('descripcion','DESC')->get();
         return $results;
 
     }

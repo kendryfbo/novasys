@@ -8,6 +8,7 @@ use DB;
 use Auth;
 use App\Models\Nivel;
 use App\Models\Producto;
+use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Pallet;
 use App\Models\Bodega\Ingreso;
@@ -111,6 +112,7 @@ class PlanProduccion extends Model {
       },5);
       return $planProduccion;
     }
+
     static function analisisRequerimientosConStock($items){
 
         $mi_temporizador = microtime();
@@ -120,6 +122,7 @@ class PlanProduccion extends Model {
 
 
         $productos = [];
+        $tipoMP = TipoFamilia::getInsumoID();
         $stockPremezclas = Bodega::getStockTotalPR();
         $stockMatPrima = Bodega::getStockTotalMP();
 
@@ -170,14 +173,15 @@ class PlanProduccion extends Model {
                             } else {
                                 $requerido = $detalle->cantxcaja * $producto->cant_restante;
                             }
-
+                            $byLocation = self::getStockByLocation($tipoMP,$detalle->insumo_id);
                             $arrayInsumos[$i] = [
                                 'id' => $detalle->insumo_id,
                                 'codigo' => $detalle->insumo->codigo,
                                 'descripcion' => $detalle->insumo->descripcion,
                                 'existencia' => $matPrima->total,
                                 'requerida' => $requerido,
-                                'faltante' => ($matPrima->total >= $requerido ? 0: $requerido-$matPrima->total)
+                                'faltante' => ($matPrima->total >= $requerido ? 0: $requerido-$matPrima->total),
+                                'locations' => $byLocation
                             ];
 
                             $stockMatPrima[$key]->requerida += $requerido;
@@ -214,6 +218,7 @@ class PlanProduccion extends Model {
 
 
         $productos = [];
+        $tipoMP = TipoFamilia::getInsumoID();
         $stockMatPrima = Bodega::getStockTotalMP();
         $stockPremezclas = Bodega::getStockTotalPR();
 
@@ -260,18 +265,18 @@ class PlanProduccion extends Model {
                             } else {
                                 $requerido = $detalle->cantxcaja * $producto->cantidad;
                             }
-
+                            $byLocation = self::getStockByLocation($tipoMP,$detalle->insumo_id);
                             $arrayInsumos[$i] = [
                                 'id' => $detalle->insumo_id,
                                 'codigo' => $detalle->insumo->codigo,
                                 'descripcion' => $detalle->insumo->descripcion,
                                 'existencia' => $matPrima->total,
                                 'requerida' => $requerido,
-                                'faltante' => ($matPrima->total >= $requerido ? 0: $requerido-$matPrima->total)
+                                'faltante' => ($matPrima->total >= $requerido ? 0: $requerido-$matPrima->total),
                             ];
-
                             $stockMatPrima[$key]->requerida += $requerido;
                             $stockMatPrima[$key]->nivel_id = $detalle->nivel_id;
+                            $stockMatPrima[$key]->locations = $byLocation;
                             $i++;
                         }
                     }
@@ -293,6 +298,28 @@ class PlanProduccion extends Model {
         return [$productos,$stockMatPrima];
     }
 
+
+    static function getStockByLocation($tipoID,$itemID) {
+
+      if (!$tipoID || !$itemID) {
+          dd("Datos incompletos");
+      }
+
+      // busqueda de existencia por bodegas y pallets pendientes por ingresar
+      $query = "SELECT IFNULL(bod.descripcion,'EN PALLET') as bodega,SUM(pd.cantidad) AS cantidad FROM pallet_detalle AS pd LEFT JOIN insumos AS mp ON mp.id=pd.item_id,
+                pallets AS pa LEFT JOIN posicion AS pos ON pa.id=pos.pallet_id LEFT JOIN bodegas AS bod ON pos.bodega_id=bod.id
+                WHERE  pd.pallet_id=pa.id AND pd.tipo_id=".$tipoID." AND pd.item_id=".$itemID." GROUP BY bod.descripcion";
+
+      // busqueda de existencia ingresos pendientes
+      $queryIngreso = "SELECT (SELECT 'INGRESO' WHERE cantidad IS NOT null) AS bodega,IFNULL(sum(por_procesar),0) AS cantidad FROM ingreso_detalle id LEFT JOIN insumos AS mp ON mp.id=id.item_id
+                      WHERE  tipo_id=".$tipoID." AND item_id=".$itemID." AND por_procesar>0";
+
+      $results = DB::select(DB::raw($query));
+      $resultsIngreso = DB::select(DB::raw($queryIngreso));
+      array_push($results,$resultsIngreso[0]);
+
+      return $results;
+    }
 
     /*
     |

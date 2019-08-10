@@ -17,6 +17,7 @@ class PlanProduccionController extends Controller
      */
     public function index()
     {
+
         $planesProduccion = PlanProduccion::with('usuario')->get();
 
         return view('adquisicion.planProduccion.index')->with(['planesProduccion' => $planesProduccion]);
@@ -189,11 +190,15 @@ class PlanProduccionController extends Controller
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
-
+        
         return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
             $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
                 $sheet->loadView('documents.excel.reportAnalReqSheetResum')
                         ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Por ubicacion', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetByLocations')
+                        ->with(['insumos' => $insumos]);
                     });
             $excel->sheet('Insumos', function($sheet) use ($insumos) {
                 $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')
@@ -219,6 +224,10 @@ class PlanProduccionController extends Controller
             $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
                 $sheet->loadView('documents.excel.reportAnalReqConStockSheetResum')
                         ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Por ubicacion', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqSheetByLocations')
+                        ->with(['insumos' => $productos[0]->stock_insumos]);
                     });
             $excel->sheet('Insumos', function($sheet) use ($insumos) {
                 $sheet->loadView('documents.excel.reportAnalReqSheetInsumos')

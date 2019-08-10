@@ -8,6 +8,7 @@ use App\Models\Comercial\CentroVenta;
 use App\Models\Config\StatusDocumento;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comercial\FactIntlDetalle;
+use App\Models\Comercial\NotaCreditoIntl;
 use App\Models\Finanzas\PagoIntl;
 
 class FacturaIntl extends Model
@@ -199,7 +200,7 @@ class FacturaIntl extends Model
 		return $factura;
 	}
 
-	
+
 
 	/* Public Functions */
 
@@ -250,6 +251,16 @@ class FacturaIntl extends Model
 	public function proformaInfo() {
 
 		return $this->belongsTo(Proforma::class,'proforma','numero');
+	}
+
+	public function notaCredito() {
+
+			return $this->hasMany(NotaCreditoIntl::class,'num_fact','numero');
+	}
+
+	public function notaCreditoDisponible() {
+
+			return $this->hasMany(NotaCreditoIntl::class,'num_fact','numero')->where('status_id','!=','3');
 	}
 
 

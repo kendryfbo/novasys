@@ -204,30 +204,34 @@ class PagosIntlController extends Controller
 
              $totalesPorZona = PagoIntl::totalesFacturaIntlPorZona();
 
-             $factPorCobrar = collect($factPorCobrar);
-             $factPorCobrar->total_cargo = $factPorCobrar->sum('total');
-             $factPorCobrar->total_abono = $factPorCobrar->total_cargo - $factPorCobrar->sum('deuda');
-             $factPorCobrar->total = $factPorCobrar->total_cargo - $factPorCobrar->total_abono;
-
-
              foreach ($factPorCobrar as $clientes) {
-                foreach ($clientes->facturasIntls as &$facturas) {
+                  //dd($clientes);
+                  foreach ($clientes->facturasIntlsPagadas as $facturas) {
 
-               $fechaEmision = Carbon::parse($facturas->fecha_venc);
-               $fechaExpiracion = Carbon::now();
-               $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
-               $facturas->zonaCliente = $facturas->clienteIntl->zona;
-               $facturas->cliente = $facturas->clienteIntl->descripcion;
-               $clientes->total_cargo = $clientes->facturasIntls->sum('total');
-               $clientes->total_abono = $clientes->total_cargo - $clientes->facturasIntls->sum('deuda');
-               $clientes->total_cliente = $clientes->total_cargo - $clientes->total_abono;
+
+                       $fechaEmision = Carbon::parse($facturas->fecha_venc);
+                       $fechaExpiracion = Carbon::now();
+                       $facturas->diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
+                       $facturas->zonaCliente = $facturas->clienteIntl->zona;
+                       $facturas->cliente = $facturas->clienteIntl->descripcion;
+                       $clientes->total_cargo = $clientes->facturasIntlsPagadas->sum('total');
+
+                       $totalCargo = $clientes->total_cargo;
+                       $totalDeudaFactPagadas = $clientes->facturasIntlsPagadas->sum('deuda');
+                       $anticipoRestante = $clientes->anticipos->sum('restante');
+                       $notaCreditoDisponible = $clientes->notaCredito->sum('restante');
+
+                       $clientes->total_abono = $totalCargo - $totalDeudaFactPagadas + $anticipoRestante + $notaCreditoDisponible;
+
+                       $clientes->total_cliente = $clientes->total_cargo - $clientes->total_abono;
                 }
-            }
 
-            foreach ($deudasVencidas as &$deudaVencida) {
-                //
-           }
+               }
+               /* Futura implementacion de deudas vencidas
+                   foreach ($deudasVencidas as &$deudaVencida) {
 
+                   }
+              */
 
               Excel::create('Por Cobrar', function($excel) use ($factPorCobrar,$deudasVencidas,$totalesPorZona, $deudasVencidasTotal)
                 {

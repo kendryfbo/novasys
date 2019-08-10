@@ -192,7 +192,7 @@ class FormulaController extends Controller
                 'cant_batch' => 1
             ]);
         };
-
+        //dd($datos);
         $datos = [
             'formato' => $producto->formato,
             'formula_id' => $producto->formula->id
