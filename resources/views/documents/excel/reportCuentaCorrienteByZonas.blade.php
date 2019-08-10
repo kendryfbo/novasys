@@ -78,7 +78,7 @@
             @endforeach
 
             @foreach ($clientes->facturasIntlsPagadas as $saldosFavor)
-              @foreach ($saldosFavor->notaCredito as $notaCredito)
+              @foreach ($saldosFavor->notaCreditoDisponible as $notaCredito)
             <tr>
                 <td class="text-center">{{$notaCredito->num_fact}}</td>
                 <td class="text-center">{{Carbon\Carbon::parse($notaCredito->fecha)->format('d/m/Y')}}</td>
