@@ -30,7 +30,7 @@
 
             @foreach ($factPorCobrar as $clientes)
 
-                @foreach ($clientes->facturasIntls as $factura)
+                @foreach ($clientes->facturasIntlsPagadas as $factura)
 
             <tr>
               <td class="text-center">{{$factura->numero}}</td>

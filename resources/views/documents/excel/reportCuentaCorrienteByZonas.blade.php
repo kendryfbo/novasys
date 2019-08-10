@@ -18,7 +18,7 @@
               </tr>
               <tr>
                   <th class="text-center">FACTURA</th>
-                  <th class="text-center">FECHA PAGO</th>
+                  <th class="text-center">FECHA</th>
                   <th class="text-center">O.D.</th>
                   <th class="text-center">CLIENTE</th>
                   <th class="text-center">DOC. PAGO</th>
@@ -33,25 +33,7 @@
           <tbody>
           @foreach ($factPorCobrar as $clientes)
 
-              <tr>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"><strong>{{$clientes->descripcion}}</strong></td>
-                  @if(isset($clientes->facturasIntls[0]))
-                  <td class="text-center"></td>
-                  @else
-                  <td class="text-center">Sin Facturas</td>
-                  @endif
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center">{{$clientes->zona}}</td>
-              </tr>
-
-                @foreach ($clientes->facturasIntls as $factura)
+            @foreach ($clientes->facturasIntlsPagadas as $factura)
 
                     @if ($factura->cancelada == 1)
 
@@ -95,20 +77,54 @@
               @endif
             @endforeach
 
+            @foreach ($clientes->facturasIntlsPagadas as $saldosFavor)
+              @foreach ($saldosFavor->notaCredito as $notaCredito)
+            <tr>
+                <td class="text-center">{{$notaCredito->num_fact}}</td>
+                <td class="text-center">{{Carbon\Carbon::parse($notaCredito->fecha)->format('d/m/Y')}}</td>
+                <td class="text-center" style="text-align:center;">N.C. {{$notaCredito->numero}}</td>
+                <td class="text-center">{{$factura->cliente}}</td>
+                <td class="text-center">Nota Crédito {{$notaCredito->numero}} / Fact. {{$notaCredito->num_fact}}</td>
+                <td class="text-center">0</td>
+                <td class="text-center">{{$notaCredito->restante}}</td>
+                <td class="text-center">-{{$notaCredito->restante}}</td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+              @endforeach
+            @endforeach
+            @foreach ($clientes->anticipos as $anticipo)
+            <tr>
+                <td class="text-center"></td>
+                <td class="text-center">{{Carbon\Carbon::parse($anticipo->fecha_abono)->format('d/m/Y')}}</td>
+                <td class="text-center"></td>
+                <td class="text-center">{{$factura->cliente}}</td>
+                <td class="text-center">Anticipo {{$anticipo->docu_abono}}</td>
+                <td class="text-center">0</td>
+                <td class="text-center">{{$anticipo->restante}}</td>
+                <td class="text-center">-{{$anticipo->restante}}</td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+            @endforeach
 
-          <tr>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"><strong>Total Cliente</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_cargo, 2,',','.')}}</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_abono, 2,',','.')}}</strong></td>
-            <td class="text-center"><strong>{{number_format($clientes->total_cliente, 2,',','.')}}</strong></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-        </tr>
+        @if ($factura->deuda == 0)
+            @else
+            <tr>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"><strong>Total Cliente</strong></td>
+              <td class="text-center"><strong>{{number_format($clientes->total_cargo, 2,',','.')}}</strong></td>
+              <td class="text-center"><strong>{{number_format($clientes->total_abono, 2,',','.')}}</strong></td>
+              <td class="text-center"><strong>{{number_format($clientes->total_cliente, 2,',','.')}}</strong></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+          </tr>
           <tr>
               <td class="text-center"></td>
               <td class="text-center"></td>
@@ -122,7 +138,21 @@
               <td class="text-center"></td>
               <td class="text-center"></td>
           </tr>
-      @endforeach
+          @endif
+         @endforeach
+          <tr>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+          </tr>
           <tr>
               <td class="text-center"></td>
               <td class="text-center"></td>

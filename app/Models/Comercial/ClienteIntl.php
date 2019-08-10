@@ -45,4 +45,19 @@ class ClienteIntl extends Model
 
 		return $this->hasMany('App\Models\Comercial\FacturaIntl','cliente_id');
 	}
+
+	public function facturasIntlsPagadas() {
+
+		return $this->hasMany('App\Models\Comercial\FacturaIntl','cliente_id')->where('cancelada', '=', '0')->orderBy('numero');
+	}
+
+	public function anticipos() {
+
+		return $this->hasMany('App\Models\Finanzas\AbonoIntl','cliente_id');
+	}
+
+	public function notaCredito() {
+
+		return $this->hasMany('App\Models\Comercial\NotaCreditoIntl','cliente_id');
+	}
 }
