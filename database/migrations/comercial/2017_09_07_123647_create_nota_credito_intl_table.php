@@ -16,6 +16,7 @@ class CreateNotaCreditoIntlTable extends Migration
         Schema::create('nota_credito_intl', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero');
+            $table->integer('cliente_id');
             $table->integer('num_fact');
             $table->string('nota')->nullable();
             $table->double('neto',10,2);
