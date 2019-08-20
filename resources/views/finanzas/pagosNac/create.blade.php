@@ -260,7 +260,7 @@
 	  				  <td class="text-center">@{{key+1}}</td>
 	  				  <td class="text-center">@{{notaCredito.numero}}</td>
 	  				  <td class="text-right">@{{notaCredito.fecha}}</td>
-					  <td class="text-right">@{{notaCredito.num_fact}}</td>
+					  <td class="text-right">@{{notaCredito.nota}}</td>
 	  				  <td class="text-right">CLP @{{numberFormat(notaCredito.restante)}}</td>
 	  				  <td class="text-right">
 						  <input class="form-control" :id="notaCredito.id" type="number" @focus="cargarNotaCredito(notaCredito.id,$event)">
