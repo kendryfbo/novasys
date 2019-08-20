@@ -38,13 +38,12 @@ class PagosNacionalController extends Controller
           $cliente = ClienteNacional::find($clienteID);
 
           $facturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get();
-          $facturaNumero = $facturas->pluck('numero');
           $facturaID = $facturas->pluck('id');
           $saldoTotalFacturas = FacturaNacional::where('cliente_id',$clienteID)->where('cancelada',0)->orderBy('fecha_emision')->get()->sum('deuda');
           $saldoTotalAbono = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
-          $saldoTotalNC = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
+          $saldoTotalNC = NotaCreditoNac::where('cliente_id',$clienteID)->where('status_id','!=',$statusCompleta)->get()->sum('restante');
           $abonos = AbonoNacional::where('cliente_id', $clienteID)->where('status_id','!=',$statusCompleta)->get();
-          $notasCredito = NotaCreditoNac::whereIn('num_fact', $facturaNumero)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
+          $notasCredito = NotaCreditoNac::where('cliente_id',$clienteID)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
           $notasDebito = NotaDebitoNac::whereIn('factura_id', $facturaID)->where('status_id','!=',$statusCompleta)->orderBy('fecha')->get();
           //dd($notasDebito);
 
