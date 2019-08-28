@@ -18,7 +18,7 @@ class PlanProduccionController extends Controller
     public function index()
     {
 
-        $planesProduccion = PlanProduccion::with('usuario')->get();
+        $planesProduccion = PlanProduccion::with('usuario')->orderBy('id','DESC')->get();
 
         return view('adquisicion.planProduccion.index')->with(['planesProduccion' => $planesProduccion]);
 
@@ -190,7 +190,7 @@ class PlanProduccionController extends Controller
         $plan = PlanProduccion::analisisRequerimientos($items);
         $productos = $plan[0];
         $insumos = $plan[1];
-        
+
         return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
             $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
                 $sheet->loadView('documents.excel.reportAnalReqSheetResum')

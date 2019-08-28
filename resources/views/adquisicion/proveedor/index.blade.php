@@ -32,9 +32,9 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>R.U.T</th>
-						<th>descripcion</th>
-						<th>contacto</th>
+						<th>R.U.T.</th>
+						<th>Descripción</th>
+						<th>Contacto</th>
 						<th>Activo</th>
 						<th class="text-center">Opciones</th>
 					</tr>
@@ -48,11 +48,11 @@
 							<td>{{$proveedor->contacto}}</td>
 							<td>{{$proveedor->activo ? "Si" : "No"}}</td>
 							<td class="text-center">
-								<form style="display: inline" action="{{route('verProveedor',['proveedor' => $proveedor->id])}}" method="get">
+								<!-- disabled mode on until fa fa-eye gets fixed *// <form style="display: inline" action="{{route('verProveedor',['proveedor' => $proveedor->id])}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-eye" aria-hidden="true"></i>
 									</button>
-								</form>
+								</form> -->
 								<form style="display: inline" action="{{route('editarProveedor',['proveedor' => $proveedor->id])}}" method="get">
 									<button class="btn btn-sm btn-default" type="submit">
 										<i class="fa fa-pencil-square-o" aria-hidden="true"></i>

@@ -37,7 +37,7 @@
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1" >R.U.T:</label>
+						<label class="control-label col-lg-1" >R.U.T.:</label>
 						<div class="col-lg-2">
 							<input type="text" class="form-control input-sm" name="rut" placeholder="Rut del Cliente..." value="{{$proveedor->rut}}" pattern="^([0-9]+-[0-9K])$" readonly required>
 						</div>
@@ -46,16 +46,16 @@
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1" >Descripcion:</label>
+						<label class="control-label col-lg-1" >Descripción:</label>
 						<div class="col-lg-5">
-							<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Cliente..." value="{{$proveedor->descripcion}}" readonly required>
+							<input type="text" class="form-control input-sm" name="descripcion" placeholder="Nombre del Cliente..." value="{{$proveedor->descripcion}}" required>
 						</div>
 
 					</div>
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1" >Abreviacion:</label>
+						<label class="control-label col-lg-1" >Abreviación:</label>
 						<div class="col-lg-1">
 							<input type="text" class="form-control input-sm" name="abreviacion" placeholder="Abreviacion del Cliente..." value="{{$proveedor->abreviacion}}" required>
 						</div>
@@ -76,7 +76,7 @@
 					</div>
 
 					<div class="form-group">
-						<label class="control-label col-lg-1" >Direccion:</label>
+						<label class="control-label col-lg-1" >Dirección:</label>
 						<div class="col-lg-6">
 							<input type="text" class="form-control input-sm" name="direccion" placeholder="Direccion..." value="{{$proveedor->direccion}}" required>
 						</div>
@@ -121,7 +121,7 @@
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1">fono:</label>
+						<label class="control-label col-lg-1">Fono:</label>
 						<div class="col-lg-2">
 							<input type="text" class="form-control input-sm" name="fono" placeholder="Numero de Tlf..." value="{{$proveedor->fono}}" required>
 						</div>
@@ -135,12 +135,12 @@
 
 					<div class="form-group">
 
-						<label class="control-label col-lg-1">email:</label>
+						<label class="control-label col-lg-1">E-mail:</label>
 						<div class="col-lg-2">
 							<input type="email" class="form-control input-sm" name="email" placeholder="Email de Persona de Contacto..." value="{{$proveedor->email}}" required>
 						</div>
 
-						<label class="control-label col-lg-1">fax:</label>
+						<label class="control-label col-lg-1">Fax:</label>
 						<div class="col-lg-2">
 							<input type="text" class="form-control input-sm" name="fax" placeholder="numero de Fax..." value="{{$proveedor->fax}}" >
 						</div>
@@ -156,7 +156,7 @@
 							<input type="text" class="form-control input-sm" name="cto_cbrnza" placeholder="Nombre contacto cobranza..." value="{{$proveedor->cto_cbrnza}}">
 						</div>
 
-						<label class="control-label col-lg-1">Email:</label>
+						<label class="control-label col-lg-1">E-mail:</label>
 						<div class="col-lg-2">
 							<input type="email" class="form-control input-sm" name="email_cbrnza" placeholder="Email contacto Cobranza..." value="{{$proveedor->email_cbrnza}}">
 						</div>
