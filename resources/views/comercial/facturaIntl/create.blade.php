@@ -36,7 +36,7 @@
 			<!-- /form -->
 
 			<!-- form -->
-			<form class="form-horizontal"  id="create" method="post" action="{{route('guardarFacturaIntl')}}">
+			<form class="form-horizontal"  id="create" method="post" onsubmit="return confirm('¿Están todos los datos revisados para crear Factura?');" action="{{route('guardarFacturaIntl')}}">
 
 				{{ csrf_field() }}
 
