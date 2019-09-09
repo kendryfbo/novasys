@@ -32,7 +32,7 @@
 				<div class="form-group">
 
 					<label class="control-label col-lg-1">Producto:</label>
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="itemID">
 							<option value=""></option>
 							<option v-for="producto in productos" :value="producto.id">@{{producto.descripcion}}</option>
@@ -43,6 +43,57 @@
 					<div class="col-lg-1">
 						<input class="form-control input-sm" type="number" value="0" min="0" v-model.number="cantidad">
 					</div>
+
+					<label class="control-label col-lg-1">Máquina:</label>
+					<div class="col-lg-1">
+						<select name="maquina" v-model="maquina">
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+									<option value="E">E</option>
+									<option value="F">F</option>
+									<option value="G">G</option>
+									<option value="H">H</option>
+									<option value="I">I</option>
+									<option value="J">J</option>
+									<option value="K">K</option>
+									<option value="L">L</option>
+									<option value="M">M</option>
+									<option value="N">N</option>
+									<option value="O">O</option>
+									<option value="P">P</option>
+									<option value="Q">Q</option>
+									<option value="R">R</option>
+									<option value="S">S</option>
+									<option value="T">T</option>
+									<option value="U">U</option>
+									<option value="V">V</option>
+									<option value="W">W</option>
+									<option value="X">X</option>
+									<option value="Y">Y</option>
+									<option value="Z">Z</option>
+						</select>
+					</div>
+
+					<label class="control-label col-lg-1">Día:</label>
+					<div class="col-lg-1">
+										<select name="diaSemana" v-model="dia">
+  												<option value="Lunes">Lunes</option>
+  												<option value="Martes">Martes</option>
+  												<option value="Miercoles">Miércoles</option>
+  												<option value="Jueves">Jueves</option>
+													<option value="Viernes">Viernes</option>
+													<option value="Sabado">Sábado</option>
+										</select>
+					</div>
+
+					<label class="control-label col-lg-1">Destino	:</label>
+					<div class="col-lg-1">
+						<input class="form-control input-sm" type="text" name="destino" v-model="destino" value="{{$planProduccion->destino}}">
+					</div>
+
+
 					<div class="col-lg-1">
 						<button id="addItem" class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
 					</div>
@@ -71,15 +122,18 @@
 				<tr>
 				  <th class="text-center">#</th>
 				  <th class="text-center"></th>
-				  <th class="text-center">CODIGO</th>
-				  <th class="text-center">DESCRIPCION</th>
+				  <th class="text-center">CÓDIGO</th>
+				  <th class="text-center">DESCRIPCIÓN</th>
 				  <th class="text-center">CANTIDAD</th>
+					<th class="text-center">MÁQUINA</th>
+					<th class="text-center">DÍA</th>
+					<th class="text-center">DESTINO</th>
 				</tr>
 			  </thead>
 
 			  <tbody>
 				<tr v-if="items <= 0">
-					<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
+					<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
 				</tr>
 
 				<tr v-if="items" v-for="(item,key) in items">
@@ -92,6 +146,9 @@
 				  <td class="text-center">@{{item.codigo}}</td>
 				  <td>@{{item.descripcion}}</td>
 				  <td class="text-right">@{{item.cantidad.toLocaleString()}}</td>
+					<td class="text-center">@{{item.maquina}}</td>
+					<td class="text-center">@{{item.dia}}</td>
+					<td class="text-center">@{{item.destino}}</td>
 				</tr>
 
 			  </tbody>

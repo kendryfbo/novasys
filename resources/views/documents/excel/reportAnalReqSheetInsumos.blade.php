@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Análisis Requerimientos Resumen</title>
+        <title>Resumen de Requerimientos</title>
     </head>
 
     <body>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanProduccionDetalle extends Model
 {
-    protected $fillable = ['plan_id', 'producto_id', 'cantidad'];
+    protected $fillable = ['plan_id', 'producto_id', 'cantidad','maquina','dia','destino'];
     protected $table = 'plan_produccion_detalles';
 
 

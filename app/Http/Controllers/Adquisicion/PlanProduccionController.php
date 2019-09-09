@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Adquisicion;
 
+use PDF;
 use Excel;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Adquisicion\PlanProduccion;
+use App\Models\Adquisicion\PlanProduccionDetalle;
 
 class PlanProduccionController extends Controller
 {
@@ -152,6 +154,7 @@ class PlanProduccionController extends Controller
      */
     public function update(Request $request)
     {
+        //dd($request);
         $this->validate($request,[
           'descripcion' => 'required',
           'fecha_emision' => 'required',
@@ -178,6 +181,25 @@ class PlanProduccionController extends Controller
       return redirect()->route('planProduccion')->with(['status' => $msg]);
     }
 
+    /* DESCARGAR Programa de Producción en PDF */
+    public function downloadPDF($id) {
+
+        $planProduccion = PlanProduccion::with('detalles.producto')->find($id);
+
+        $planID = $planProduccion->id;
+
+        $planProduccionDetalleLunes = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Lunes')->orderBy('maquina')->get();
+        $planProduccionDetalleMartes = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Martes')->orderBy('maquina')->get();
+        $planProduccionDetalleMiercoles = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Miercoles')->orderBy('maquina')->get();
+        $planProduccionDetalleJueves = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Jueves')->orderBy('maquina')->get();
+        $planProduccionDetalleViernes = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Viernes')->orderBy('maquina')->get();
+        $planProduccionDetalleSabado = PlanProduccionDetalle::where('plan_id','=',$planID)->where('dia','=','Sabado')->orderBy('maquina')->get();
+
+        $pdf = PDF::loadView('documents.pdf.planProduccionSemanal',compact('planProduccion','planProduccionDetalleLunes','planProduccionDetalleMartes','planProduccionDetalleMiercoles','planProduccionDetalleJueves','planProduccionDetalleViernes','planProduccionDetalleSabado'))->setPaper('A4', 'landscape');
+
+        return $pdf->stream();
+    }
+
     public function downloadExcelAnalReq(Request $request) {
 
         $planID = $request->plan_id;
@@ -191,9 +213,17 @@ class PlanProduccionController extends Controller
         $productos = $plan[0];
         $insumos = $plan[1];
 
-        return Excel::create('Analisis de Produccion', function($excel) use ($productos,$insumos) {
+        return Excel::create('Programa Producción', function($excel) use ($productos,$insumos) {
             $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
-                $sheet->loadView('documents.excel.reportAnalReqSheetResum')
+                $sheet->loadView('documents.excel.reportAnalReqForm504-03')
+                        ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqForm406-01')
+                        ->with(['productos' => $productos,'insumos' => $insumos]);
+                    });
+            $excel->sheet('Resumen', function($sheet) use ($productos,$insumos) {
+                $sheet->loadView('documents.excel.reportAnalReqForm406-02')
                         ->with(['productos' => $productos,'insumos' => $insumos]);
                     });
             $excel->sheet('Por ubicacion', function($sheet) use ($productos,$insumos) {

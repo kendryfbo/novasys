@@ -85,6 +85,9 @@ class PlanProduccion extends Model {
 
           $id = $request->id;
           $descripcion = $request->descripcion;
+          $maquina = $request->maquina;
+          $dia = $request->diaSemana;
+          $destino = $request->destino;
           $fechaEmision = $request->fecha_emision;
           $userID = $request->user()->id;
           $items = $request->items;
@@ -92,6 +95,9 @@ class PlanProduccion extends Model {
           $planProduccion = PlanProduccion::find($id);
 
           $planProduccion->descripcion = $descripcion;
+          $planProduccion->detalles->maquina = $maquina;
+          $planProduccion->detalles->dia = $dia;
+          $planProduccion->detalles->destino = $destino;
           $planProduccion->fecha_emision = $fechaEmision;
           $planProduccion->user_id = $userID;
           $planProduccion->detalles()->delete();
@@ -104,7 +110,10 @@ class PlanProduccion extends Model {
             PlanProduccionDetalle::create([
               'plan_id' => $planProduccion->id,
               'producto_id' => $item->producto_id,
-              'cantidad' => $item->cantidad
+              'cantidad' => $item->cantidad,
+              'maquina' => $item->maquina,
+              'dia' => $item->dia,
+              'destino' => $item->destino,
             ]);
 
           };
