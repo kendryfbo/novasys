@@ -10,8 +10,32 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'MainController@index')->name('main')->middleware('auth');
+Route::get('/', 'MainController@index')->name('main');
+Route::get('/mail', function () {
 
+	Mail::send('emails.test', [], function ($message) {
+			$message->from('soporte@novafoods.cl', 'Your Name')
+					->to('soporte@novafoods.cl', 'Receiver Name')
+					->subject('From SparkPost with ❤');
+	});
+
+	dd('aqui');
+});
 Route::get('/ingresar', 'Config\AuthenticationController@signIn')->name('signin');
 Route::post('/login', 'Config\AuthenticationController@login')->name('login');
 Route::get('/logout', 'Config\AuthenticationController@logout')->name('logout');
+
+Route::get('/email', 'Comercial\ComercialController@email')->name('email');
+
+
+// GRUPO de Rutas Api
+/* CAMBIAR a archivo routes/api.php */
+Route::group(['prefix' => 'api'], function(){
+
+	Route::get('/marcas',	'MarcaController@getMarcas')->name('listaMarcas');
+	Route::get('/formatos',	'FormatoController@getFormatos')->name('listaFormatos');
+	Route::get('/sabores',	'SaborController@getSabores')->name('listaSabores');
+	Route::post('/insumos', 'InsumoController@getInsumos')->name('listaInsumos');
+	Route::post('/formula', 'FormulaController@getFormula')->name('getFormula');
+	Route::post('/producto/formato', 'ProductoController@getFormatoProducto')->name('formatoProducto');
+});
