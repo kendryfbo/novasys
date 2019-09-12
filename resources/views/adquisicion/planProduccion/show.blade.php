@@ -11,6 +11,9 @@
 		<!-- box-body -->
 		<div class="box-body">
 
+			<form id="downloadPDF" action="{{route('verProgramaProduccionPDF',['id' => $planProduccion->id])}}" method="get">
+				{{ csrf_field() }}
+			</form>
 			<form class="form-horizontal" action="" method="post">
 				{{ csrf_field() }}
 				<div class="form-group">
@@ -22,6 +25,12 @@
 					<label class="control-label col-lg-1">Fecha:</label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="date" name="fecha_emision" value="{{$planProduccion->fecha_emision}}" readonly>
+					</div>
+
+
+
+					<div class="col-lg-3 btn-group">
+						<button form="downloadPDF" class="btn btn-sm btn-default" type="submit"><i class="fa fa-download" aria-hidden="true"></i> Plan Producción PDF</button>
 					</div>
 
 				</div>
@@ -36,9 +45,12 @@
 			  <thead>
 				<tr>
 				  <th class="text-center">#</th>
-				  <th class="text-center">CODIGO</th>
-				  <th class="text-center">DESCRIPCION</th>
+				  <th class="text-center">CÓDIGO</th>
+				  <th class="text-center">DESCRIPCIÓN</th>
 				  <th class="text-center">CANTIDAD</th>
+					<th class="text-center">MÁQUINA</th>
+					<th class="text-center">DÍA</th>
+					<th class="text-center">DESTINO</th>
 				</tr>
 			  </thead>
 
@@ -49,6 +61,9 @@
 						  <td class="text-center">{{$detalle->producto->codigo}}</td>
 						  <td>{{$detalle->producto->descripcion}}</td>
 						  <td class="text-right">{{$detalle->cantidad}}</td>
+						  <td class="text-right">{{$detalle->maquina}}</td>
+						  <td class="text-right">{{$detalle->dia}}</td>
+						  <td class="text-right">{{$detalle->destino}}</td>
 						</tr>
 					@endforeach
 			  </tbody>
@@ -66,7 +81,7 @@
 				{{csrf_field()}}
 				<button class="btn btn-default pull-right" type="submit">Analisis Sin Existencia</button>
 			</form>
-			
+
 		</div>
 
 

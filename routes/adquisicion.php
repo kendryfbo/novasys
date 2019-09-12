@@ -71,6 +71,7 @@ Route::prefix('adquisicion')->group( function() {
         Route::post('/{id}/editar',      'Adquisicion\PlanProduccionController@edit')->name('editarPlanProduccion');
         Route::post('/actualizar',       'Adquisicion\PlanProduccionController@update')->name('actualizarPlanProduccion');
         Route::delete('/{id}',           'Adquisicion\PlanProduccionController@destroy')->name('eliminarPlanProduccion');
+        Route::get('/{id}/pdf',          'Adquisicion\PlanProduccionController@downloadPDF')->name('verProgramaProduccionPDF');
         Route::post('/AnalisisConStock', 'Adquisicion\PlanProduccionController@showAnalReqWithStock')->name('verPlanProduccionConStock');
         Route::post('/AnalisisSinStock', 'Adquisicion\PlanProduccionController@showAnalReqWithoutStock')->name('verPlanProduccionSinStock');
         Route::post('/descExcelAnalReq', 'Adquisicion\PlanProduccionController@downloadExcelAnalReq')->name('descExcelAnalReq');

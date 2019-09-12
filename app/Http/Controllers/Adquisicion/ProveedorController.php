@@ -116,7 +116,8 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, Proveedor $proveedor)
     {
-        $this->validate($request,[
+
+      $this->validate($request,[
             'rut' => 'required',
             'descripcion' => 'required',
             'abreviacion' => 'required',
@@ -134,6 +135,7 @@ class ProveedorController extends Controller
 
         $activo = !empty($request->activo);
 
+        $proveedor->descripcion = $request->descripcion;
         $proveedor->abreviacion = $request->abreviacion;
         $proveedor->direccion = $request->direccion;
         $proveedor->comuna = $request->comuna;
@@ -145,6 +147,9 @@ class ProveedorController extends Controller
         $proveedor->celular = $request->celular;
         $proveedor->email = $request->email;
         $proveedor->fp_id = $request->formaPago;
+        $proveedor->cto_cbrnza = $request->cto_cbrnza;
+        $proveedor->email_cbrnza = $request->email_cbrnza;
+        $proveedor->fax = $request->fax;
         $proveedor->activo = $activo;
 
         $proveedor->save();

@@ -21,7 +21,7 @@
 				{{ csrf_field() }}
 			</form>
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarFactNac')}}">
+			<form  id="create" method="post" onsubmit="return confirm('¿Están todos los datos revisados para crear Factura?');" action="{{route('guardarFactNac')}}">
 
 				{{ csrf_field() }}
 				<!-- form-horizontal -->

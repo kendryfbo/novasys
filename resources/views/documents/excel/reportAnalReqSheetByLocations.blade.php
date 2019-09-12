@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Análisis Requerimientos Resumen</title>
+        <title>-Bodegas-</title>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
                     <th class="text-center">#</th>
                     <th class="text-center">Código</th>
                     <th class="text-center">Descripción</th>
-                    <th class="text-center">Ubicacion</th>
+                    <th class="text-center">Ubicación</th>
                     <th class="text-center">Cantidad</th>
                 </tr>
             </thead>
