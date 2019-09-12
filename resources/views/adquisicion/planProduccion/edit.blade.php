@@ -46,45 +46,19 @@
 
 					<label class="control-label col-lg-1">Máquina:</label>
 					<div class="col-lg-1">
-						<select name="maquina" v-model="maquina">
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="E">E</option>
-									<option value="F">F</option>
-									<option value="G">G</option>
-									<option value="H">H</option>
-									<option value="I">I</option>
-									<option value="J">J</option>
-									<option value="K">K</option>
-									<option value="L">L</option>
-									<option value="M">M</option>
-									<option value="N">N</option>
-									<option value="O">O</option>
-									<option value="P">P</option>
-									<option value="Q">Q</option>
-									<option value="R">R</option>
-									<option value="S">S</option>
-									<option value="T">T</option>
-									<option value="U">U</option>
-									<option value="V">V</option>
-									<option value="W">W</option>
-									<option value="X">X</option>
-									<option value="Y">Y</option>
-									<option value="Z">Z</option>
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="maquina" v-model="maquina">
+									@foreach ($maquinas as $maquina)
+									<option value="{{$maquina->maquina}}">{{$maquina->maquina}}</option>
+									@endforeach
 						</select>
 					</div>
 
 					<label class="control-label col-lg-1">Día:</label>
 					<div class="col-lg-1">
 										<select name="diaSemana" v-model="dia">
-  												<option value="Lunes">Lunes</option>
-  												<option value="Martes">Martes</option>
-  												<option value="Miercoles">Miércoles</option>
-  												<option value="Jueves">Jueves</option>
-													<option value="Viernes">Viernes</option>
-													<option value="Sabado">Sábado</option>
+											@foreach ($dias as $dia)
+											<option value="{{$dia->dia}}">{{$dia->dia}}</option>
+											@endforeach
 										</select>
 					</div>
 

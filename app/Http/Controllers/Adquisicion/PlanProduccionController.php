@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Adquisicion\PlanProduccion;
 use App\Models\Adquisicion\PlanProduccionDetalle;
+use App\Models\Dia;
+use App\Models\Maquina;
 
 class PlanProduccionController extends Controller
 {
@@ -136,13 +138,15 @@ class PlanProduccionController extends Controller
     {
         $productos = Producto::has('formula')->where('activo',1)->get();
         $planProduccion = PlanProduccion::with('detalles')->find($id);
+        $dias = Dia::getAll();
+        $maquinas = Maquina::getAll();
 
-        foreach ($planProduccion->detalles as $detalle) {
+      foreach ($planProduccion->detalles as $detalle) {
           $detalle->codigo = $detalle->producto->codigo;
           $detalle->descripcion = $detalle->producto->descripcion;
         }
 
-        return view('adquisicion.planProduccion.edit')->with(['productos' => $productos,'planProduccion' => $planProduccion]);
+        return view('adquisicion.planProduccion.edit')->with(['productos' => $productos,'planProduccion' => $planProduccion,'maquinas' => $maquinas,'dias' => $dias]);
     }
 
     /**
@@ -154,7 +158,6 @@ class PlanProduccionController extends Controller
      */
     public function update(Request $request)
     {
-        //dd($request);
         $this->validate($request,[
           'descripcion' => 'required',
           'fecha_emision' => 'required',
