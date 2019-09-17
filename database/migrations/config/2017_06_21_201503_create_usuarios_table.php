@@ -23,7 +23,6 @@ class CreateUsuariosTable extends Migration
             $table->string('cargo');
             $table->string('firma');
             $table->integer('perfil_id')->unsigned();
-            $table->integer('vendedor_id')->unsigned();
             $table->tinyInteger('activo');
             $table->timestamps();
         });
