@@ -31,7 +31,9 @@ class NotaVentaByVendedorController extends Controller
      */
     public function index()
     {
-        $vendedorID = \Auth::user()->vendedor_id;
+        $userID = \Auth::user()->id;
+        $vendedor = Vendedor::where('user_id',$userID)->first();
+        $vendedorID = $vendedor->id;
         $notasVentas = NotaVenta::with('cliente')->where('vendedor_id',$vendedorID)->orderBy('numero','desc')->take(50)->get();
 
         return view('comercial.notasVentasByVendedor.index')->with(['notasVentas' => $notasVentas]);
@@ -46,7 +48,9 @@ class NotaVentaByVendedorController extends Controller
     {
         $centrosVentas = CentroVenta::getAllActive();
         $clientes = ClienteNacional::getAllActive();
-        $vendedorID = \Auth::user()->vendedor_id;
+        $userID = \Auth::user()->id;
+        $vendedor = Vendedor::where('user_id',$userID)->first();
+        $vendedorID = $vendedor->id;
         $fechaToday = Carbon::now();
 
 
@@ -97,7 +101,9 @@ class NotaVentaByVendedorController extends Controller
      */
     public function show($numero)
     {
-        $vendedorID = \Auth::user()->vendedor_id;
+        $userID = \Auth::user()->id;
+        $vendedor = Vendedor::where('user_id',$userID)->first();
+        $vendedorID = $vendedor->id;
         $notaVenta = NotaVenta::where('numero',$numero)->where('vendedor_id',$vendedorID)->first();
 
         if ($notaVenta) {
@@ -124,7 +130,9 @@ class NotaVentaByVendedorController extends Controller
                          'cliente.listaPrecio.detalle.producto.formato',
                          'cliente.canal','cliente.formaPago')->where('numero',$numero)->first();
 
-        $vendedorID = \Auth::user()->vendedor_id;
+       $userID = \Auth::user()->id;
+       $vendedor = Vendedor::where('user_id',$userID)->first();
+       $vendedorID = $vendedor->id;
 
         return view('comercial.notasVentasByVendedor.edit')->with([
             'notaVenta' => $notaVenta,
@@ -174,40 +182,4 @@ class NotaVentaByVendedorController extends Controller
         return redirect()->route('notaVenta')->with(['status' => $msg]);
     }
 
-    public function authorization()
-    {
-        $notasVentas = NotaVenta::unauthorized();
-        $notasVentas->load('cliente.formaPago');
-
-        return view('comercial.notasVentas.authorization')->with(['notasVentas' => $notasVentas]);
-    }
-
-    public function authorizeNotaVenta(NotaVenta $notaVenta)
-    {
-        $notaVenta->load('detalle','cliente.region:id,descripcion','centroVenta');
-        $notaVenta->authorizeComer();
-        event(new AuthorizedNotaVentaEvent($notaVenta));
-
-        $msg = "NotaVenta: " . $notaVenta->numero . " ha sido Autorizada.";
-
-        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
-    }
-
-    public function unauthorizedNotaVenta(NotaVenta $notaVenta)
-    {
-        $notaVenta->unauthorizeComer();
-
-        $msg = "NotaVenta: " . $notaVenta->numero . " No ha sido autorizada.";
-
-        return redirect()->route('autNotaVenta')->with(['status' => $msg]);
-    }
-
-    public function downloadPDF($numero) {
-
-        $notaVenta = NotaVenta::with('centroVenta','detalles')->where('numero',$numero)->first();
-        $notaVenta->fecha_emision = Carbon::createFromFormat('Y-m-d', $notaVenta->fecha_emision)->format('d/m/Y');
-        $pdf = PDF::loadView('documents.pdf.notaVenta',compact('notaVenta'));
-        return $pdf->stream();
-        return view('documents.pdf.notaVenta')->with(['notaVenta' => $notaVenta]);
-    }
 }

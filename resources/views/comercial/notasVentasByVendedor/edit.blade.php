@@ -43,7 +43,7 @@
 					<div class="form-group form-group-sm">
 						<label class="control-label col-sm-2" >Centro de Venta:</label>
 						<div class="col-sm-4">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="centroVenta" disabled required>
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="centroVenta" required>
 							<option value="3">MERCADO NACIONAL S.A.</option>
 							</select>
 						</div>
@@ -86,14 +86,14 @@
 
 						<label class="control-label col-lg-2">Cliente:</label>
 						<div class="col-lg-4">
-							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default btn-sm" name="cliente" disabled required>
+							<select class="selectpicker" data-width="500" data-live-search="true" data-style="btn-default btn-sm" name="cliente" required>
 								<option selected value="{{ $notaVenta->cliente->id }}">{{$notaVenta->cliente->descripcion }}</option>
 							</select>
 						</div>
 
 						<label class="control-label col-lg-2">Cond. Pago:</label>
 						<div class="col-lg-2">
-							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" disabled required>
+							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option selected value="{{ $notaVenta->cond_pago }}" >{{ $notaVenta->cond_pago }}</option>
 							</select>
 						</div>
@@ -113,7 +113,7 @@
 
 						<label class="control-label col-lg-2">Despacho:</label>
 						<div class="col-lg-4">
-							<select class="selectpicker" data-width="600px" data-live-search="true" data-style="btn-default btn-sm" name="despacho" disabled required>
+							<select class="selectpicker" data-width="600px" data-live-search="true" data-style="btn-default btn-sm" name="despacho" required>
 								@foreach ($notaVenta->cliente->sucursal as $sucursal)
 									<option {{ $notaVenta->despacho == $sucursal->direccion ? 'selected':'' }} value="{{ $sucursal->direccion }}">{{ $sucursal->descripcion . " - " . $sucursal->direccion }}</option>
 								@endforeach
