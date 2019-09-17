@@ -33,8 +33,8 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     Route::prefix('notaVenta')->group(function(){
 
         route::get('/',                          'Comercial\NotaVentaController@index')->name('notaVenta');
-            route::get('/crear',                     'Comercial\NotaVentaController@create')->name('crearNotaVenta');
-            route::post('/',                         'Comercial\NotaVentaController@store')->name('guardarNotaVenta');
+        route::get('/crear',                     'Comercial\NotaVentaController@create')->name('crearNotaVenta');
+        route::post('/',                         'Comercial\NotaVentaController@store')->name('guardarNotaVenta');
         Route::get('/autorizacion',              'Comercial\NotaVentaController@authorization')->name('autNotaVenta');
         Route::get('/{notaVenta}/autorizar',     'Comercial\NotaVentaController@showForAut')->name('verAutNotaVenta');
         Route::get('/{numero}/pdf',              'Comercial\NotaVentaController@downloadPDF')->name('descargarNotaVentaPDF');
@@ -43,7 +43,18 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
         Route::put('/{notaVenta}',               'Comercial\NotaVentaController@update')->name('actualizarNotaVenta');
         route::get('/{numero}/editar',           'Comercial\NotaVentaController@edit')->name('editarNotaVenta');
         route::get('/{numero}',                  'Comercial\NotaVentaController@show')->name('verNotaVenta');
-        route::delete('/{notaVenta}',              'Comercial\NotaVentaController@destroy')->name('eliminarNotaVenta');
+        route::delete('/{notaVenta}',            'Comercial\NotaVentaController@destroy')->name('eliminarNotaVenta');
+    });
+
+    // Resource Nota de Venta by Vendedor
+    Route::prefix('notaVentaByVendedor')->group(function(){
+
+        route::get('/',                          'Comercial\NotaVentaByVendedorController@index')->name('notaVentaByVendedor');
+        route::get('/crear',                     'Comercial\NotaVentaByVendedorController@create')->name('crearNotaVentaByVendedor');
+        route::get('/{numero}',                  'Comercial\NotaVentaByVendedorController@show')->name('verNotaVentaByVendedor');
+        route::get('/{numero}/editar',           'Comercial\NotaVentaByVendedorController@edit')->name('editarNotaVentaByVendedor');
+        Route::put('/{notaVenta}',               'Comercial\NotaVentaByVendedorController@update')->name('actualizarNotaVentaByVendedor');
+        route::delete('/{notaVenta}',            'Comercial\NotaVentaByVendedorController@destroy')->name('eliminarNotaVentaByVendedor');
     });
 
   // Resource Factura Nacionale
