@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'MainController@index')->name('main');
+Route::get('/', 'MainController@index')->name('main')->middleware('auth');
 Route::get('/ingresar', 'Config\AuthenticationController@signIn')->name('signin');
 Route::post('/login', 'Config\AuthenticationController@login')->name('login');
 Route::get('/logout', 'Config\AuthenticationController@logout')->name('logout');
