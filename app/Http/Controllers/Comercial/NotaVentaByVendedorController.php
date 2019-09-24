@@ -19,11 +19,6 @@ use App\Repositories\Comercial\NotaVenta\NotaVentaRepositoryInterface;
 class NotaVentaByVendedorController extends Controller
 {
     protected $notaVenta;
-
-    public function __construct(NotaVentaRepositoryInterface $notaVenta) {
-
-        $this->notaVenta = $notaVenta;
-    }
     /**
      * Display a listing of the resource.
      *
