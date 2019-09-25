@@ -17,6 +17,10 @@ var app = new Vue({
       items: [],
       cantidad: 0,
       itemID: '',
+      maquina: '',
+      maquinaID: '',
+      dia: '',
+      destino: ''
   },
 
   methods: {
@@ -32,11 +36,16 @@ var app = new Vue({
 
                 if (this.productos[i].id == this.itemID) {
 
-                    this.productos[i].cantidad = this.cantidad;
-                    this.items.push(this.productos[i]);
-                    this.productos.splice(i,1);
-                    this.itemID = '';
-                    this.cantidad = 0;
+                  this.productos[i].cantidad = this.cantidad;
+                  this.productos[i].producto_id = this.productos[i].id;
+                  this.productos[i].maquina = this.maquina;
+                  this.productos[i].dia = this.dia;
+                  this.productos[i].destino = this.destino;
+                  this.items.push(this.productos[i]);
+                  this.productos.splice(i,1);
+                  this.itemID = '';
+                  this.cantidad = 0;
+
                     return;
                 }
             }

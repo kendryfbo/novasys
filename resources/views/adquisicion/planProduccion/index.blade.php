@@ -47,12 +47,6 @@
 										<i class="fa fa-eye" aria-hidden="true"></i>
 									</button>
 								</form>
-								<form style="display: inline" action="{{route('duplicarPlanProduccion',['planProduccion' => $plan->id])}}" method="post">
-									{{csrf_field()}}
-									<button class="btn btn-sm" type="submit" name="button">
-										<i class="fa fa-files-o" aria-hidden="true"></i>
-									</button>
-								</form>
 								<form style="display: inline" action="{{route('editarPlanProduccion',['planProduccion' => $plan->id])}}" method="post">
 									{{csrf_field()}}
 									<button class="btn btn-sm" type="submit" name="button">
