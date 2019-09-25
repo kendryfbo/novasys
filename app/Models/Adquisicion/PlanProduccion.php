@@ -40,7 +40,10 @@ class PlanProduccion extends Model {
                 PlanProduccionDetalle::create([
                   'plan_id' => $planProduccion->id,
                   'producto_id' => $item->id,
-                  'cantidad' => $item->cantidad
+                  'cantidad' => $item->cantidad,
+                  'maquina' => $item->maquina,
+                  'dia' => $item->dia,
+                  'destino' => $item->destino
                 ]);
 
             };
@@ -320,12 +323,12 @@ class PlanProduccion extends Model {
                 WHERE  pd.pallet_id=pa.id AND pd.tipo_id=".$tipoID." AND pd.item_id=".$itemID." GROUP BY bod.descripcion";
 
       // busqueda de existencia ingresos pendientes
-      $queryIngreso = "SELECT (SELECT 'INGRESO' WHERE cantidad IS NOT null) AS bodega,IFNULL(sum(por_procesar),0) AS cantidad FROM ingreso_detalle id LEFT JOIN insumos AS mp ON mp.id=id.item_id
-                      WHERE  tipo_id=".$tipoID." AND item_id=".$itemID." AND por_procesar>0";
+      //$queryIngreso = "SELECT (SELECT 'INGRESO' WHERE cantidad IS NOT null) AS bodega,IFNULL(sum(por_procesar),0) AS cantidad FROM ingreso_detalle id LEFT JOIN insumos AS mp ON mp.id=id.item_id
+      //                WHERE  tipo_id=".$tipoID." AND item_id=".$itemID." AND por_procesar>0";
 
       $results = DB::select(DB::raw($query));
-      $resultsIngreso = DB::select(DB::raw($queryIngreso));
-      array_push($results,$resultsIngreso[0]);
+      //$resultsIngreso = DB::select(DB::raw($queryIngreso));
+      //array_push($results,$resultsIngreso[0]);
 
       return $results;
     }

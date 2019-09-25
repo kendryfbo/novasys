@@ -80,7 +80,7 @@
 <div class="form-group">
   <label class="col-sm-2 control-label" >Descripción / Detalle : </label>
 <div class="col-sm-8">
-	<textarea class="form-control" name="descripcion" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->descripcion}}</textarea>
+	<textarea class="form-control" name="descripcion" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->descripcion}}</textarea>
 </div>
 </div>
 
@@ -97,7 +97,7 @@
 <div class="form-group">
   <label class="col-sm-2 control-label" >Solución Sugerida : </label>
 <div class="col-sm-8">
-<textarea class="form-control" name="solucion_sugerida" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none" readonly>{{$noconformidad->solucion_sugerida}}</textarea>
+<textarea class="form-control" name="solucion_sugerida" maxlength="599" placeholder="" rows="5" style="overflow:auto;resize:none">{{$noconformidad->solucion_sugerida}}</textarea>
 </div>
 </div>
 

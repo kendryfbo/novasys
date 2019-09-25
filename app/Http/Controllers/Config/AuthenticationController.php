@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Config;
 
 use Illuminate\Http\Request;
 use App\Models\Config\Usuario;
+use App\Models\Comercial\Vendedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,9 +22,16 @@ class AuthenticationController extends Controller
 		$user = $request->user;
 		$password = $request->password;
 
+
 		if (Auth::attempt(['user' => $user, 'password' => $password, 'activo' => 1])) {
 
-			return redirect()->intended('/');
+			$vendedor = Vendedor::where('user_id','=',Auth::user()->id)->first();
+
+			if(isset($vendedor)) {
+			 	return redirect()->route('notaVentaByVendedor');
+	 		}
+
+	 	return redirect()->intended('/');
 
 		} else {
 

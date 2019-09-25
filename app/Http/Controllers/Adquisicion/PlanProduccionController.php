@@ -40,8 +40,10 @@ class PlanProduccionController extends Controller
       |  Probar plan guardado con producto que se le elimino la formula
       */
         $productos = Producto::has('formula')->where('activo',1)->get();
+        $dias = Dia::getAll();
+        $maquinas = Maquina::getAll();
 
-        return view('adquisicion.planProduccion.create')->with(['productos' => $productos]);
+        return view('adquisicion.planProduccion.create')->with(['productos' => $productos, 'dias' => $dias, 'maquinas' => $maquinas]);
     }
 
     /**
