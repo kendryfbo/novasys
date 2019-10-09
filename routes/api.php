@@ -29,3 +29,10 @@ Route::get('formulaDetalle/formula/{id}', 'Api\FormulaDetalleController@getFormu
 Route::post('formulaDetalle/insertar', 'Api\FormulaDetalleController@insert')->name('apiInsertarFormula');
 Route::post('formulaDetalle/importar', 'Api\FormulaDetalleController@import')->name('apiImportarFormula');
 */
+
+	Route::get('/marcas',	'MarcaController@getMarcas')->name('listaMarcas');
+	Route::get('/formatos',	'FormatoController@getFormatos')->name('listaFormatos');
+	Route::get('/sabores',	'SaborController@getSabores')->name('listaSabores');
+	Route::post('/insumos', 'InsumoController@getInsumos')->name('listaInsumos');
+	Route::post('/formula', 'FormulaController@getFormula')->name('getFormula');
+	Route::post('/producto/formato', 'ProductoController@getFormatoProducto')->name('formatoProducto');
