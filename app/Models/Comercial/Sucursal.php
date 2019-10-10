@@ -4,14 +4,15 @@ namespace App\Models\Comercial;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Sucursal extends Model
 {
 	protected $table = 'sucursales';
 
-	protected $fillable = ['cliente_id', 'descripcion', 'direccion', 'activo'];
+	protected $fillable = ['cliente_id', 'vendedor_id', 'descripcion', 'direccion', 'activo'];
 
-	public function clienteNacional() {
+	public function clientesNacionales() {
 
-		return $this->belongsTo('App\Models\ClienteNacional','cliente_id');
+		return $this->belongsTo('App\Models\Comercial\ClienteNacional','cliente_id');
 	}
 }

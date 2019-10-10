@@ -217,16 +217,28 @@
 					<div id="create-sucursal" class="form-horizontal">
 
 						<div class="form-group">
-							<label class="control-label col-sm-2" >Descripcion:</label>
+							<label class="control-label col-sm-2" >Descripción:</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control input-sm" name="descripcion_suc" v-model="descripcion_suc" placeholder="Descripcion de la Sucursal..." required>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-sm-2" >Direccion:</label>
+							<label class="control-label col-sm-2" >Dirección:</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control input-sm" name="direccion_suc" v-model="direccion_suc" placeholder="Direccion de la Sucursal..." required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-sm-2" >Vendedor:</label>
+							<div class="col-sm-6">
+								<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="vendedor_suc" v-model="vendedor_suc">
+									<option value="0"></option>
+									@foreach ($vendedores as $vendedor)
+										<option value="{{$vendedor->id}}" {{$vendedor->id == $cliente->vendedor_id ? 'selected' : '' }}>{{$vendedor->nombre}}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 
@@ -246,8 +258,9 @@
 							<tr>
 								<th class="text-center">#</th>
 								<th>id</th>
-								<th>decripcion</th>
-								<th>direccion</th>
+								<th>Decripción</th>
+								<th>Dirección</th>
+								<th>Vendedor</th>
 								<th class="text-center">Eliminar</th>
 							</tr>
 						</thead>
@@ -258,6 +271,7 @@
 								<td>@{{ sucursal.id }}</td>
 								<td>@{{ sucursal.descripcion }}</td>
 								<td>@{{ sucursal.direccion }}</td>
+								<td>@{{ sucursal.vendedor_id }}</td>
 								<td class="text-center">
 									<button class="btn btn-sm" type="button" @click="deleteSucursal(sucursal.id)">
 										<i class="fa fa-trash-o" aria-hidden="true"></i>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Comercial;
 
+use Input;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Canal;
 use App\Models\Comercial\Region;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comercial\ListaPrecio;
 use App\Models\Comercial\FormaPagoNac;
 use App\Models\Comercial\ClienteNacional;
+use Freshwork\ChileanBundle\Rut;
 
 class ClienteNacionalController extends Controller
 {
@@ -23,7 +25,7 @@ class ClienteNacionalController extends Controller
         return view('comercial.clientesNacionales.index')->with(['clientes' => $clientes]);
     }
 
-    public function create()
+    public static function create()
     {
         $vendedores = Vendedor::getAllActive();
         $regiones = Region::all();
@@ -43,7 +45,7 @@ class ClienteNacionalController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'rut' => 'required|regex:"^([0-9]+-[0-9K])$"',
+            'rut' => 'required|cl_rut',
             'descripcion' => 'required',
             'direccion' => 'required',
             'fono' => 'required',
@@ -62,32 +64,44 @@ class ClienteNacionalController extends Controller
         ]);
         $activo = !empty($request->activo);
 
-        $cliente = ClienteNacional::create([
-            'rut' => $request->rut,
-            'descripcion' => $request->descripcion,
-            'direccion' => $request->direccion,
-            'fono' => $request->fono,
-            'giro' => $request->giro,
-            'fax' => $request->fax,
-            'rut_num' => $request->rut_num,
-            'contacto' => $request->contacto,
-            'cargo' => $request->cargo,
-            'email' => $request->email,
-            'fp_id' => $request->formaPago,
-            'lp_id' => $request->lista,
-            'canal_id' => $request->canal,
-            'region_id' => $request->region,
-            'provincia_id' => $request->provincia,
-            'comuna_id' => $request->comuna,
-            'vendedor_id' => $request->vendedor,
-            'activo' => $activo
-        ]);
+        if (ClienteNacional::where('rut', '=', Input::get('rut'))->exists()) {
 
-        Sucursal::create([
-            'cliente_id' => $cliente->id,
-            'descripcion' => 'Casa Matriz',
-            'direccion' => $cliente->direccion
-        ]);
+          dd("Cliente con RUT ya ingresado anteriormente");
+
+        } else {
+
+          $cliente = ClienteNacional::create([
+              'rut' => $request->rut,
+              'descripcion' => $request->descripcion,
+              'direccion' => $request->direccion,
+              'fono' => $request->fono,
+              'giro' => $request->giro,
+              'fax' => $request->fax,
+              'rut_num' => $request->rut_num,
+              'contacto' => $request->contacto,
+              'cargo' => $request->cargo,
+              'email' => $request->email,
+              'fp_id' => $request->formaPago,
+              'lp_id' => $request->lista,
+              'canal_id' => $request->canal,
+              'region_id' => $request->region,
+              'provincia_id' => $request->provincia,
+              'comuna_id' => $request->comuna,
+              'vendedor_id' => $request->vendedor,
+              'activo' => $activo
+          ]);
+
+          Sucursal::create([
+              'cliente_id' => $cliente->id,
+              'vendedor_id' => $request->vendedor,
+              'descripcion' => 'Casa Matriz',
+              'direccion' => $cliente->direccion
+          ]);
+
+
+        }
+
+
 
         $msg = 'Cliente: ' . $cliente->descripcion . ' Ha sido Creado.';
 
@@ -102,6 +116,7 @@ class ClienteNacionalController extends Controller
 
     public function edit(ClienteNacional $cliente)
     {
+
         $regiones = Region::all();
         $provincias = Provincia::all()->where('region_id',$cliente->region_id);
         $comunas = Comuna::all()->where('provincia_id',$cliente->provincia_id);
@@ -125,6 +140,7 @@ class ClienteNacionalController extends Controller
 
     public function update(Request $request, ClienteNacional $cliente)
     {
+
         $this->validate($request, [
             'direccion' => 'required',
             'fono' => 'required',

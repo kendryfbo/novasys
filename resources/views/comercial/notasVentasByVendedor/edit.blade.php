@@ -50,12 +50,12 @@
 					</div>
 
 					<div class="form-group form-group-sm">
-						<label class="control-label col-sm-2" >Numero:</label>
+						<label class="control-label col-sm-2" >Número:</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" name="numero" placeholder="Numero Nota Venta..." value="{{$notaVenta->numero}}" readonly>
+							<input type="text" class="form-control" name="numero" placeholder="Número Nota Venta..." value="{{$notaVenta->numero}}" readonly>
 						</div>
 
-						<label class="control-label col-sm-1" >Version:</label>
+						<label class="control-label col-sm-1" >Versión:</label>
 						<div class="col-sm-1">
 							<input type="text" class="form-control" name="version" value="{{ $notaVenta->version + 1 }}" readonly>
 						</div>
@@ -65,19 +65,19 @@
 
 					<div class="form-group form-group-sm">
 
-						<label class="control-label col-lg-2">Fecha Emision:</label>
+						<label class="control-label col-lg-2">Fecha Emisión:</label>
 						<div class="col-lg-2">
 							<input type="date" class="form-control" name="fechaEmision" value="{{$notaVenta->fecha_emision}}" required readonly>
 						</div>
 
-						<label class="control-label col-lg-2">Fecha despacho:</label>
+						<label class="control-label col-lg-1">Fecha despacho:</label>
 						<div class="col-lg-2">
 							<input type="date" class="form-control " name="fechaDespacho" value="{{$notaVenta->fecha_despacho}}" required readonly>
 						</div>
 
 						<label class="control-label col-lg-1" >O. Compra:</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control" name="orden_compra" placeholder="Numero..." value="{{ $notaVenta->orden_compra }}" readonly>
+							<input type="text" class="form-control" name="orden_compra" placeholder="Número..." value="{{ $notaVenta->orden_compra }}" readonly>
 						</div>
 
 					</div>
@@ -102,7 +102,7 @@
 
 					<div class="form-group form-group-sm">
 
-						<label class="control-label col-lg-2">Direccion:</label>
+						<label class="control-label col-lg-2">Dirección:</label>
 						<div class="col-lg-4">
 							<input type="text" class="form-control" name="direccion" value="{{$notaVenta->direccion}}" placeholder="direccion facturacion..." readonly>
 						</div>
@@ -203,12 +203,12 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">codigo</th>
-						<th class="text-center">descripcion</th>
+						<th class="text-center">Código</th>
+						<th class="text-center">Descripción</th>
 						<th class="text-center">Cantidad</th>
 						<th class="text-center">Precio</th>
-						<th class="text-center">Dscto</th>
-						<th class="text-center">total</th>
+						<th class="text-center">Dscto.</th>
+						<th class="text-center">Total</th>
 					</tr>
 				</thead>
 				<tbody>

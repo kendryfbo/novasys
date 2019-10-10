@@ -44,18 +44,19 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+      try {
 
             $this->validate($request, [
                 'cliente' => 'required',
                 'descripcion' => 'required',
-                'direccion' => 'required'
+                'direccion' => 'required',
+                'vendedor_id' => 'required'
             ]);
-
             Sucursal::create([
                 'cliente_id' => $request->cliente,
                 'descripcion' => $request->descripcion,
-                'direccion' => $request->direccion
+                'direccion' => $request->direccion,
+                'vendedor_id' => $request->vendedor_id
             ]);
 
             return response("Creada",200);
@@ -105,18 +106,18 @@ class SucursalController extends Controller
      */
     public function update(Request $request, Sucursal $sucursal)
     {
-        try {
+      try {
 
             $this->validate($request, [
                 'cliente' => 'required',
                 'descripcion' => 'required',
-                'direccion' => 'required'
+                'direccion' => 'required',
+                'vendedor_id' => 'required'
             ]);
-
             $sucursal->cliente_id = $request->cliente;
             $sucursal->descripcion = $request->descripcion;
             $sucursal->direccion = $request->direccion;
-
+            $sucursal->vendedor_id = $request->vendedor_suc;
             $sucursal->save();
 
             return response()->json("Modificada",200);
