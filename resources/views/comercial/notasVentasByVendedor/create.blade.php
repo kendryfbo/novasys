@@ -32,7 +32,7 @@
 			@endif
 
 			<!-- form -->
-			<form  id="create" method="post" action="{{route('guardarNotaVenta')}}">
+			<form  id="create" method="post" action="{{route('guardarNotaVentaByVendedor')}}">
 
 				{{ csrf_field() }}
 
@@ -69,8 +69,8 @@
 						<div class="col-lg-3">
 							<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-default btn-sm" name="cliente" v-model="cliente" @change="getData" required>
 								<option value="">Seleccionar Cliente...</option>
-								@foreach ($clientes as $cliente)
-									<option value="{{$cliente->id}}">{{$cliente->descripcion}}</option>
+								@foreach ($sucursales as $sucursal)
+								<option value="{{$sucursal->clientesNacionales->id}}">{{$sucursal->clientesNacionales->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
@@ -89,25 +89,25 @@
 							<input type="text" class="form-control" name="direccion" placeholder="Dirección facturación..." :value="direccion" readonly>
 						</div>
 
-					</div>
-					<div class="form-group form-group-sm">
-
-						<label class="control-label col-lg-1">Despacho:</label>
-						<div class="col-lg-3">
-							<select class="selectpicker" data-live-search="true" data-style="btn-default btn-sm" name="despacho" v-model="despacho" required>
-								<option value="">Seleccionar...</option>
-								<option v-if="sucursales" v-for="sucursal in sucursales" :value="sucursal.direccion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
-							</select>
-						</div>
-
 						<label class="control-label col-lg-1">Cond. Pago:</label>
 						<div class="col-lg-2">
 							<select class="selectpicker" data-width="auto" data-live-search="true" data-style="btn-default btn-sm" name="formaPago" required>
 								<option v-if="formaPagoDescrip" selected v-bind:value="formaPagoDescrip">@{{formaPagoDescrip}}</option>
 							</select>
 						</div>
+						</div>
 
-					</div>
+						<div class="form-group form-group-sm">
+
+							<label class="control-label col-lg-1">Despacho:</label>
+							<div class="col-lg-3">
+								<select class="selectpicker" data-live-search="true" data-style="btn-default btn-sm" name="despacho" v-model="despacho" required>
+								<option v-for="sucursal in sucursales" v-if="sucursal.vendedor_id == '{{$vendedorID}}'" :value="sucursal.direccion">@{{sucursal.descripcion +' - '+sucursal.direccion}}</option>
+								</select>
+							</div>
+
+						</div>
+
 				</div>
 				<!-- /form-horizontal -->
 
@@ -126,6 +126,7 @@
 				<input type="hidden" name="peso_bruto" v-bind:value="totalPesoBruto">
 				<input type="hidden" name="volumen" v-bind:value="totalVolumen">
 				<input type="hidden" name="version" value="1" readonly>
+				<input type="hidden" name="vendedor" value="{{$vendedorID}}" readonly>
 				<input type="hidden" name="vendedor" value="{{$vendedorID}}" readonly>
 			</form>
 			<!-- /form -->

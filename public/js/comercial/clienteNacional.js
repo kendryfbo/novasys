@@ -14,6 +14,7 @@ var app = new Vue({
 		id_suc: '',
 		descripcion_suc: '',
 		direccion_suc: '',
+		vendedor_suc: '',
 		sucursales: sucursales
 	},
 
@@ -54,6 +55,15 @@ var app = new Vue({
 
 		updateRutNum: function() {
 
+			console.log('updaterutnum');
+			console.log(this.validaRut(this.rut));
+
+			if (this.validaRut(this.rut) == false) {
+				alert('RUT incorrecto; Verifíquelo por favor.');
+			} else {
+
+			}
+
 			this.rut_num = '';
 
 			for (var i=0; i<this.rut.length; i++) {
@@ -64,6 +74,26 @@ var app = new Vue({
 				}
 			}
 		},
+
+		// Valida el RUT con su cadena completa  "XXXXXXXX-X"
+		validaRut: function(rutCompleto) {
+		rutCompleto = rutCompleto.replace("‐","-");
+		if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+			return false;
+		var tmp 	= rutCompleto.split('-');
+		var digv	= tmp[1];
+		var rut 	= tmp[0];
+		if ( digv == 'K' ) digv = 'k' ;
+
+		return (this.dv(rut) == digv );
+	},
+	dv : function(T){
+		var M=0,S=1;
+		for(;T;T=Math.floor(T/10))
+			S=(S+T%10*(9-M++%6))%11;
+		return S?S-1:'k';
+	},
+
 
 		isNumber: function isNumber(n){
     		return typeof(n) != "boolean" && !isNaN(n);
@@ -85,7 +115,8 @@ var app = new Vue({
 				id: this.id_suc,
 				cliente: this.cliente,
 				descripcion: this.descripcion_suc,
-				direccion: this.direccion_suc
+				direccion: this.direccion_suc,
+				vendedor_id: this.vendedor_suc,
 			})
 			.then(response => this.refresh())
 			.catch(error => this.handleError(error))
@@ -95,7 +126,7 @@ var app = new Vue({
 
 			var validos = false;
 
-			if ( (this.cliente) && (this.descripcion_suc) && (this.direccion_suc) ) {
+			if ( (this.cliente) && (this.descripcion_suc) && (this.direccion_suc) && (this.vendedor_suc) ) {
 
 					validos = true;
 			}
@@ -114,6 +145,7 @@ var app = new Vue({
 					this.id_suc = suc[i].id;
 					this.descripcion_suc = suc[i].descripcion;
 					this.direccion_suc = suc[i].direccion;
+					this.vendedor_suc = suc[i].vendedor_id;
 				}
 			}
 		},
@@ -152,7 +184,8 @@ var app = new Vue({
 
 			this.getSucursales();
 			this.clearSucursalInputs();
-		}
+		},
+
 	},
 
 	updated() {

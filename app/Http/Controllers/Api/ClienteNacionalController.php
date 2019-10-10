@@ -48,8 +48,8 @@ class ClienteNacionalController extends Controller
     public function show(ClienteNacional $cliente)
     {
         try {
-
-            $cliente->load('sucursal', 'formaPago:id,descripcion', 'listaPrecio.detalle.producto.marca','listaPrecio.detalle.producto.formato', 'canal');
+            
+            $cliente->load('sucursal', 'formaPago:id,descripcion', 'listaPrecio.detalle.producto.marca', 'canal');
 
             return response()->json($cliente);
 

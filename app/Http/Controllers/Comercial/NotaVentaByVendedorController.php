@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Comercial;
 
 use PDF;
+use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Vendedor;
+use App\Models\Comercial\Sucursal;
 use App\Models\Comercial\NotaVenta;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
@@ -46,19 +48,16 @@ class NotaVentaByVendedorController extends Controller
      */
     public function create()
     {
-        $centrosVentas = CentroVenta::getAllActive();
-        $clientes = ClienteNacional::getAllActive();
         $userID = \Auth::user()->id;
         $vendedor = Vendedor::where('user_id',$userID)->first();
         $vendedorID = $vendedor->id;
         $fechaToday = Carbon::now();
-
+        $sucursales = Sucursal::where('vendedor_id',$vendedorID)->groupBy('cliente_id')->get();
 
         return view('comercial.notasVentasByVendedor.create')->with([
-            'centrosVentas' => $centrosVentas,
-            'clientes' => $clientes,
+            'sucursales' => $sucursales,
             'vendedorID' => $vendedorID,
-            'fechaToday' => $fechaToday
+            'fechaToday' => $fechaToday,
         ]);
     }
 
@@ -70,8 +69,6 @@ class NotaVentaByVendedorController extends Controller
      */
     public function store(Request $request)
     {
-
-      dd($request);
 
       $this->validate($request, [
           //'numero' => 'required',
@@ -179,7 +176,7 @@ class NotaVentaByVendedorController extends Controller
 
         $msg = "Nota de Venta numero: " . $notaVenta->numero . " ha sido Eliminada.";
 
-        return redirect()->route('notaVenta')->with(['status' => $msg]);
+        return redirect()->route('notaVentaByVendedor')->with(['status' => $msg]);
     }
 
 }

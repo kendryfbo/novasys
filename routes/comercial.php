@@ -51,6 +51,7 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 
         route::get('/',                          'Comercial\NotaVentaByVendedorController@index')->name('notaVentaByVendedor');
         route::get('/crear',                     'Comercial\NotaVentaByVendedorController@create')->name('crearNotaVentaByVendedor');
+        route::post('/',                         'Comercial\NotaVentaByVendedorController@store')->name('guardarNotaVentaByVendedor');
         route::get('/{numero}',                  'Comercial\NotaVentaByVendedorController@show')->name('verNotaVentaByVendedor');
         route::get('/{numero}/editar',           'Comercial\NotaVentaByVendedorController@edit')->name('editarNotaVentaByVendedor');
         Route::put('/{notaVenta}',               'Comercial\NotaVentaByVendedorController@update')->name('actualizarNotaVentaByVendedor');
