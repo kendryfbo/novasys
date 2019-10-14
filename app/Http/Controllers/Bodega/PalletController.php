@@ -385,7 +385,7 @@ class PalletController extends Controller
         $pallet = Pallet::with('detalles','medida')->where('numero',$numero)->first();
         foreach ($pallet->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
         $barCode = $this->barCode($pallet->numero);
 
@@ -417,7 +417,7 @@ class PalletController extends Controller
         $pallet = Pallet::with('detalles','medida')->where('numero',$numero)->first();
         foreach ($pallet->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
         $barCode = $this->barCode($pallet->numero);
 
@@ -430,12 +430,12 @@ class PalletController extends Controller
         $palletOne = Pallet::with('detalles','medida')->first();
         foreach ($palletOne->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
         $palletTwo = Pallet::with('detalles','medida')->skip(1)->first();
         foreach ($palletTwo->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
 
         return view('bodega.pallet.createMovBetweenPallets')->with(['palletOne' => $palletOne,'palletTwo' => $palletTwo]);
@@ -450,7 +450,7 @@ class PalletController extends Controller
         $palletUno = Pallet::with('detalles','medida')->where('numero',$numeroPalletUno)->first();
         foreach ($palletUno->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
         $barCodeUno = $this->barCode($palletUno->numero);
         $barCodeDos = $this->barCode($palletDos->numero);
