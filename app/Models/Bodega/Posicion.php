@@ -110,7 +110,6 @@ class Posicion extends Model
             // Si es Producto Terminado Armar busquedas de condiciones
             if ($detalle->tipo_id == $PT) {
 
-                $detalle->load('producto.marca.familia.tipo');
                 $producto = $detalle->producto;
 
                 $valores->producto = $producto->id;
@@ -123,7 +122,6 @@ class Posicion extends Model
             // Si es Insumo Armar busquedas de condiciones
             } else if ($detalle->tipo_id == $MP) {
 
-                $detalle->load('insumo.familia.tipo');
                 $insumo = $detalle->insumo;
 
                 $valores->insumo = $insumo->id;
@@ -135,7 +133,6 @@ class Posicion extends Model
             // Si es Premezcla Armar busquedas de condiciones
             } else if ($detalle->tipo_id == $PR) {
 
-                $detalle->load('premezcla.familia.tipo');
                 $premezcla = $detalle->premezcla;
 
                 $valores->premezcla = $premezcla->id;
