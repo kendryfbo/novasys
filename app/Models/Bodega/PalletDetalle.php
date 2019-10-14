@@ -74,7 +74,7 @@ class PalletDetalle extends Model
 
             return $this->belongsTo('App\Models\Premezcla','item_id');
 
-        } else if ($this->tipo_id = $RP){
+        } else if ($this->tipo_id == $RP){
 
             return $this->belongsTo('App\Models\Reproceso','item_id');
         } else {

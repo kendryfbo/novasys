@@ -133,7 +133,7 @@ class EgresoController extends Controller
 
         foreach ($pallet->detalles as &$detalle) {
 
-            $detalle->load('producto');
+            $detalle->producto;
         }
 
         $titulo = "Egreso Manual de Pallet";
@@ -365,8 +365,6 @@ class EgresoController extends Controller
     public function show($numero)
     {
         $egreso = Egreso::where('numero',$numero)->first();
-        //$ordenEgreso->load('documento');
-        $egreso->detalles->load('item');
 
         if (!$egreso) {
 

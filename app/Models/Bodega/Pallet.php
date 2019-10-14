@@ -264,13 +264,13 @@ class Pallet extends Model
         }
 
         foreach ($pallet->detalles as $detalle) {
-            $detalle->load('producto');
+            $detalle->producto;
         };
 
         $palletDetalleGroup = PalletDetalle::where('pallet_id',$id)->groupBy('tipo_id','item_id')->selectRaw('sum(cantidad) as cantidad, tipo_id,item_id')->get();
 
         foreach ($palletDetalleGroup as $detalle) {
-            $detalle->load('producto');
+            $detalle->producto;
         };
         $pallet->detalleGroup = $palletDetalleGroup;
 
