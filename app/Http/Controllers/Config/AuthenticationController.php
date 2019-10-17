@@ -22,20 +22,32 @@ class AuthenticationController extends Controller
 		$user = $request->user;
 		$password = $request->password;
 
-
 		if (Auth::attempt(['user' => $user, 'password' => $password, 'activo' => 1])) {
 
 			$vendedor = Vendedor::where('user_id','=',Auth::user()->id)->first();
+			$clientIP = \Request::ip();
 
-			if(isset($vendedor)) {
-			 	return redirect()->route('notaVentaByVendedor');
-	 		}
+			if(Auth::user()->extAccess == 0 && preg_match('/192.168.\b/', $clientIP) )
+			{
+
+			} else if (Auth::user()->extAccess == 0) {
+
+				dd("Sin Permiso para Acceder Externamente...");
+
+			}	else if (Auth::user()->extAccess == 1)
+			{
+					if(isset($vendedor)) {
+				 		return redirect()->route('notaVentaByVendedor');
+		 			} else {
+						return redirect()->intended('/');
+					}
+			}
 
 	 	return redirect()->intended('/');
 
 		} else {
 
-			$msg = 'Combinacion de Usuario y Contraseña Invalida';
+			$msg = 'Combinación de Usuario y Contraseña Inválida';
 
 			return redirect()->back()->with(['status' => $msg]);
 		}
