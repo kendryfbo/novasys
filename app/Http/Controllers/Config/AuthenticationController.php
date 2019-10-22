@@ -27,14 +27,11 @@ class AuthenticationController extends Controller
 			$vendedor = Vendedor::where('user_id','=',Auth::user()->id)->first();
 			$clientIP = \Request::ip();
 
-			if(Auth::user()->extAccess == 0 && preg_match('/192.168.\b/', $clientIP) )
-			{
-
-			} else if (Auth::user()->extAccess == 0) {
+			if (Auth::user()->extAccess == 0 && !preg_match('/192.168.\b/', $clientIP)) {
 
 				dd("Sin Permiso para Acceder Externamente...");
 
-			}	else if (Auth::user()->extAccess == 1)
+			}	else
 			{
 					if(isset($vendedor)) {
 				 		return redirect()->route('notaVentaByVendedor');
