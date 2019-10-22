@@ -25,72 +25,53 @@ var app = new Vue({
 
   methods: {
 
-      addItem: function() {
+    addItem: function() {
 
+          if (!this.itemID || !(this.cantidad > 0)) {
 
-            if (!this.validateInput()) {
+              alert('debe seleccionar producto y colocar la cantidad mayor a 0.');
               return;
-            }
-
-            for (var i = 0; i < this.productos.length; i++) {
-
-                if (this.productos[i].id == this.itemID) {
-
-
-                    this.productos[i].cantidad = this.cantidad;
-                    this.productos[i].producto_id = this.productos[i].id;
-                    this.productos[i].maquina = this.maquina;
-                    this.productos[i].dia = this.dia;
-                    this.productos[i].destino = this.destino;
-                    this.items.push(this.productos[i]);
-                    this.productos.splice(i,1);
-                    this.itemID = '';
-                    this.cantidad = 0;
-
-                    return;
-                }
-            }
-      },
-
-      removeItem: function(id) {
-
-          for (var i = 0; i < this.items.length; i++) {
-
-              if (this.items[i].id == id) {
-
-                  this.productos.push(this.items[i]);
-                  this.items.splice(i,1);
-                  return;
-              }
           }
-      },
+          for (var i = 0; i < this.productos.length; i++) {
 
-      validateInput: function() {
+              if (this.productos[i].id == this.itemID) {
 
-        if (!this.itemID || !(this.cantidad > 0)) {
+                var item = {
+                  item_id: this.items.length + 1,
+                  id: this.productos[i].id,
+                  codigo: this.productos[i].codigo,
+                  descripcion: this.productos[i].descripcion,
+                  item_id: this.items.length + 1,
+                  cantidad: this.cantidad,
+                  producto_id: this.productos[i].id,
+                  maquina: this.maquina,
+                  dia: this.dia,
+                  destino: this.destino
+                }
 
-            alert('debe seleccionar producto y colocar la cantidad mayor a 0.');
-            return false;
-        }
+                this.items.push(item);
+                //this.productos.splice(i,1);
+                this.itemID = '';
+                this.cantidad = 0;
+                item = {};
+                return;
+              }
+         }
+    },
 
-        if (this.duplicatedItem()) {
-          alert('Producto ya se encuentra ingresado');
-          return false;
-        }
-
-        return true;
-      },
-
-      duplicatedItem: function() {
+    removeItem: function(id) {
 
         for (var i = 0; i < this.items.length; i++) {
-          if (this.items[i].producto_id == this.itemID) {
-            return true;
-          }
+
+            if (this.items[i].item_id == id) {
+
+                this.productos.push(this.items[i]);
+                this.items.splice(i,1);
+                return;
+            }
         }
-        return false;
-      }
-  },
+    }
+},
 
   computed: {
 

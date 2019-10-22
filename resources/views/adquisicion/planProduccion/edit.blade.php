@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Edicion Plan de Produccion</h4>
+			<h4>Edición Plan de Producción</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -14,11 +14,11 @@
 			<form id="edit" class="form-horizontal" action="{{route('actualizarPlanProduccion',['id' => $planProduccion->id])}}" method="post">
 				{{ csrf_field() }}
 
-				<h5>Seleccion de Producto Terminado</h5>
+				<h5>Selección de Producto Terminado</h5>
 
 				<div class="form-group">
 
-					<label class="control-label col-lg-1">Descripcion:</label>
+					<label class="control-label col-lg-1">Descripción:</label>
 					<div class="col-lg-2">
 						<input class="form-control input-sm" type="text" name="descripcion" value="{{$planProduccion->descripcion}}">
 					</div>
@@ -47,6 +47,7 @@
 					<label class="control-label col-lg-1">Máquina:</label>
 					<div class="col-lg-1">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="maquina" v-model="maquina">
+									<option value="">Seleccione</option>
 									@foreach ($maquinas as $maquina)
 									<option value="{{$maquina->maquina}}">{{$maquina->maquina}}</option>
 									@endforeach
@@ -113,7 +114,7 @@
 				<tr v-if="items" v-for="(item,key) in items">
 				  <td class="text-center">@{{key+1}}</td>
 				  <td class="text-center">
-				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.id)">
+				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.item_id)">
 					  <i class="fa fa-times-circle" aria-hidden="true"></i>
 				  	</button>
 				  </td>
