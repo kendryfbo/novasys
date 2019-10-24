@@ -102,7 +102,7 @@
                     <tr>
                         <th style="width:10">#</th>
                         <th style="width:10">CODIGO/CODE</th>
-                        <th style="width:281">PRODUCTO/PRODUCTS</th>
+                        <th style="width:253">PRODUCTO/PRODUCTS</th>
                         <th style="width:10">CANT/QTY</th>
                         <th style="width:20">PRECIO/PRICE</th>
                         <th style="width:20">VALOR/VALUE</th>

@@ -91,7 +91,7 @@
                 <thead>
                     <tr>
                         <th style="width:15" class="text-center">#</th>
-                        <th style="width:100" class="text-center">CODIGO/CODE</th>
+                        <th style="width:84" class="text-center">CODIGO/CODE</th>
                         <th style="width:226" class="text-center">PRODUCTOS/PRODUCTS</th>
                         <th style="width:30" class="text-center">CANT/QTTY</th>
                         <th style="width:40" class="text-center">PRECIO/PRICE</th>

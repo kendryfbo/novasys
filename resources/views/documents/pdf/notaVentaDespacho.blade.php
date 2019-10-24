@@ -57,7 +57,7 @@
                     <tr>
                         <th style="width:10">#</th>
                         <th style="width:70">CODIGO</th>
-                        <th style="width:260">PRODUCTO</th>
+                        <th style="width:243">PRODUCTO</th>
                         <th style="width:30">CANT</th>
                         <th style="width:50">PRECIO</th>
                         <th style="width:70">TOTAL</th>
