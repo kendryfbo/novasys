@@ -23,6 +23,11 @@ class CreatePlanProduccionDetallesTable extends Migration
             $table->string('destino');
             $table->timestamps();
         });
+
+        Schema::table('plan_produccion_detalles', function (Blueprint $table) {
+            $table->foreign('plan_id')->references('id')->on('plan_produccion')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('producto_id')->references('id')->on('productos');
+        });
     }
 
     /**

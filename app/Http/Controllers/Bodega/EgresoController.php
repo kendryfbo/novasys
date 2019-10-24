@@ -423,9 +423,6 @@ class EgresoController extends Controller
         $egreso->cantidadTotal = $cantidadTotal;
         $egreso->detalles = $egresoDetalle;
 
-        $egreso->load('documento','detalles','tipo');
-
-
         $pdf = PDF::loadView('bodega.egreso.pdf',compact('egreso'));
 
         return $pdf->stream('Orden Egreso N°'.$egreso->numero.'.pdf');
@@ -437,8 +434,6 @@ class EgresoController extends Controller
         $tipoNotaVenta = EgresoTipo::nvID();
         $egreso = Egreso::where('numero',$numero)->first();
 
-        $egreso->load('documento','detalles','tipo');
-        //dd($egreso->detalles[0]);
         $pdf = PDF::loadView('bodega.egreso.regInspEgresoPDF',compact('egreso'));
         return $pdf->stream();
     }

@@ -318,7 +318,7 @@ class IngresoController extends Controller
 
         foreach ($ingreso->detalles as $detalle) {
 
-            $detalle->load('item');
+            $detalle->item;
         }
 
         return view('bodega.ingreso.show')->with(['ingreso' => $ingreso]);

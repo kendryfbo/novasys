@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Planes de Produccion</h4>
+			<h4>Planes de Producción</h4>
 		</div>
 		<!-- /box-header -->
 		<div class="box-body">
@@ -25,9 +25,8 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">Numero</th>
 						<th class="text-center">Fecha</th>
-						<th class="text-center">descripcion</th>
+						<th class="text-center">Descripción</th>
 						<th class="text-center">Usuario</th>
 						<th class="text-center">Opciones</th>
 					</tr>
@@ -36,7 +35,6 @@
 					@foreach ($planesProduccion as $plan)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-							<td class="text-center"><a href="" target="_blank"><strong>{{$plan->numero}}</strong></a></td>
 							<td class="text-center">{{$plan->fecha_emision}}</td>
 							<td>{{$plan->descripcion}}</td>
 							<td class="text-center">{{$plan->usuario->nombre}}</td>

@@ -5,7 +5,7 @@
 	<div id="vue-app" class="box box-solid box-default">
 		<!-- box-header -->
 		<div class="box-header text-center">
-			<h4>Creacion de Plan de Produccion</h4>
+			<h4>Creación de Plan de Producción</h4>
 		</div>
 		<!-- /box-header -->
 		<!-- box-body -->
@@ -14,17 +14,17 @@
 			<form id="create" class="form-horizontal" action="{{route('guardarPlanProduccion')}}" method="post">
 				{{ csrf_field() }}
 
-				<h5>Seleccion de Producto Terminado</h5>
+				<h5>Selección de Producto Terminado</h5>
 
 				<div class="form-group">
 
-					<label class="control-label col-lg-1">Descripcion:</label>
+					<label class="control-label col-lg-1">Descripción:</label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="text" name="descripcion">
+						<input class="form-control input-sm" type="text" name="descripcion" required>
 					</div>
 					<label class="control-label col-lg-1">Fecha:</label>
 					<div class="col-lg-2">
-						<input class="form-control input-sm" type="date" name="fecha_emision">
+						<input class="form-control input-sm" type="date" name="fecha_emision" required>
 					</div>
 
 				</div>
@@ -118,7 +118,7 @@
 				<tr v-if="items" v-for="(item,key) in items">
 				  <td class="text-center">@{{key+1}}</td>
 				  <td class="text-center">
-				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.id)">
+				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.item_id)">
 					  <i class="fa fa-times-circle" aria-hidden="true"></i>
 				  	</button>
 				  </td>
