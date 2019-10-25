@@ -11,6 +11,7 @@ use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
 use App\Models\Bodega\Egreso;
 use App\Models\Bodega\Pallet;
+use App\Models\Bodega\PalletDetalle;
 use App\Models\Bodega\EgresoTipo;
 use App\Models\Comercial\Proforma;
 use App\Models\Comercial\NotaVenta;
@@ -432,8 +433,7 @@ class EgresoController extends Controller
 
         $tipoProforma= EgresoTipo::profID();
         $tipoNotaVenta = EgresoTipo::nvID();
-        $egreso = Egreso::where('numero',$numero)->first();
-
+        $egreso = Egreso::with('detalles')->where('numero',$numero)->first();
         $pdf = PDF::loadView('bodega.egreso.regInspEgresoPDF',compact('egreso'));
         return $pdf->stream();
     }
