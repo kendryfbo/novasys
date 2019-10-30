@@ -34,6 +34,8 @@ var app = new Vue({
     boleta: 1,
     honorarios: 2,
     factura: 3,
+    active: false,
+    select: '',
 
   },
 
@@ -78,15 +80,15 @@ var app = new Vue({
 
         for (var i = 0; i < this.items.length; i++) {
 
-          if (this.item.producto_id == this.items[i].producto_id) {
-            this.items.splice(i,1);
+          if (this.item.item_id == this.items[i].item_id) {
+            this.items[i].id.splice(i,1);
           }
         }
 
       }
 
       this.item = {
-          id: this.prodId,
+          item_id: this.prodId,
           codigo: this.codigoProd,
           descripcion: this.descripProd,
           unidad: this.unidad,
@@ -104,8 +106,9 @@ var app = new Vue({
 
     loadItem: function(key) {
 
-        this.item = key;
-        this.prodId = this.items[key].id;
+        this.active = true;
+        this.select = key;
+        this.prodId = this.items[key].item_id;
         this.codigoProd = this.items[key].codigo;
         this.descripProd = this.items[key].descripcion;
         this.unidad = this.items[key].unidad;
@@ -119,13 +122,10 @@ var app = new Vue({
 
     removeItem: function() {
 
-        if (this.itemSelected == false) {
-            alert('Debe seleccionar producto que desea eliminar');
-            return;
-        }
+      if (!(this.select === '')) {
 
-        this.items.splice(this.item,1);
-
+				this.items.splice(this.select,1);
+			}
         this.calculateTotal();
         this.clearItemInputs();
         $('#prodSelect').focus();

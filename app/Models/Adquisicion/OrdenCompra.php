@@ -177,11 +177,11 @@ class OrdenCompra extends Model
                 $cantidad = $item->cantidad;
                 $precio = $item->precio;
                 $subTotalItem = $cantidad * $precio;
-
+                  
                 OrdenCompraDetalle::create([
                     'oc_id' => $ordenCompra->id,
                     'tipo_id' => $MP,
-                    'item_id' => $item->id,
+                    'item_id' => $item->item_id,
                     'codigo' => $item->codigo,
                     'descripcion' => $item->descripcion,
                     'unidad' => $item->unidad,

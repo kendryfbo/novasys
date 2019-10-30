@@ -193,7 +193,6 @@ class OrdenCompraController extends Controller
      */
     public function update(Request $request, OrdenCompra $ordenCompra)
     {
-
         $this->validate($request,[
             'numero' => 'required',
             'prov_id' => 'required',
@@ -202,9 +201,7 @@ class OrdenCompraController extends Controller
             'forma_pago' => 'required',
             'fecha_emision' => 'required',
             'moneda' => 'required',
-            'porc_desc' => 'required',
             'tipo' => 'required',
-            'impuesto' => 'required',
         ]);
 
         $ordenCompra = OrdenCompra::registerEdit($request,$ordenCompra);

@@ -72,15 +72,18 @@ class Egreso extends Model
                         'posicion' => $posicion->format(),
                         'pallet_num' => $posicion->pallet_num,
                         'lote' => $posicion->detalle_lote,
+                        'fecha_venc' => $posicion->pallet->detalles[0]->fecha_venc,
                         'fecha_egr' => $egreso->fecha_egr,
                         'cantidad' => $posicion->cantidad,
                     ]);
+
                 }
 
             }
             $status = StatusDocumento::completaID();
             $egreso->status_id = $status;
             $egreso->save();
+            //dd($egreso->detalles);
 
             return $egreso;
         });
@@ -143,7 +146,6 @@ class Egreso extends Model
             foreach ($documento->detalles as $detalle) {
 
                 $cantidad = $detalle->cantidad;
-
                 $posiciones = Bodega::descount($bodega,$tipoProducto,$detalle->producto_id,$cantidad);
 
                 foreach ($posiciones as $posicion) {
@@ -155,8 +157,9 @@ class Egreso extends Model
                         'bodega' => $posicion->bodega->descripcion,
                         'posicion' => $posicion->format(),
                         'pallet_num' => $posicion->pallet_num,
-                        'lote' => $posicion->detalle_lote,
                         'fecha_egr' => $egreso->fecha_egr,
+                        'fecha_venc' => $posicion->pallet->detalles[0]->fecha_venc,
+                        'lote' => $posicion->detalle_lote,
                         'cantidad' => $posicion->cantidad,
                     ]);
                 }
@@ -239,6 +242,7 @@ class Egreso extends Model
                         'pallet_num' => $posicion->pallet_num,
                         'lote' => $posicion->detalle_lote,
                         'fecha_egr' => $egreso->fecha_egr,
+                        'fecha_venc' => $posicion->pallet->detalles[0]->fecha_venc,
                         'cantidad' => $posicion->cantidad,
                     ]);
 
@@ -325,6 +329,7 @@ class Egreso extends Model
                     'pallet_num' => $palletNum,
                     'lote' => $lote,
                     'fecha_egr' => $egreso->fecha_egr,
+                    'fecha_venc' => $posicion->pallet->detalles[0]->fecha_venc,
                     'cantidad' => $restar,
                 ]);
             }
