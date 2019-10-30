@@ -85,8 +85,8 @@
                             <td class="text-center">{{$detalle->codigo}}</td>
                             <td class="text-left">{{$detalle->descripcion}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>
-                            <td class="text-right">{{number_format($detalle->precio,2)}}</td>
-                            <td class="text-right">{{number_format($detalle->sub_total,2)}}</td>
+                            <td class="text-right">{{$detalle->precio}}</td>
+                            <td class="text-right">{{$detalle->sub_total}}</td>
                         </tr>
                     @endforeach
                 </tbody>
