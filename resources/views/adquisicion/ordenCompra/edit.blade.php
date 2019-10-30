@@ -222,7 +222,7 @@
 						<td colspan="7" class="text-center" >Tabla Sin Datos...</td>
 					</tr>
 
-          <tr v-if="items" v-for="(item,key) in items" @click="loadItem(key)">
+          <tr v-for="(item,key) in items" v-bind:class="[key === select ? 'active' : '']" @click="loadItem(key)">
             <td class="text-center">@{{key+1}}</td>
             <td class="text-center">@{{item.codigo}}</td>
             <td>@{{item.descripcion}}</td>

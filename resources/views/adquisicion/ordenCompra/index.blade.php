@@ -25,12 +25,12 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th class="text-center">Numero</th>
+						<th class="text-center">Número</th>
 						<th class="text-center">Fecha</th>
 						<th class="text-center">Proveedor</th>
-						<th class="text-center">Condicion Pago</th>
-						<th class="text-center">area</th>
+						<th class="text-center">Condición Pago</th>
 						<th class="text-center">Total</th>
+						<th class="text-center">Área</th>
 						<th class="text-center">Moneda</th>
 						<th class="text-center">Tipo</th>
 						<th class="text-center">Status</th>
@@ -65,11 +65,18 @@
 								</td>
 							@endif
 							<td class="text-center">
+
+								<form style="display: inline" action="{{route('editarOrdenCompra',['ordenCompra' => $ordenCompra->numero])}}" method="get">
+									<button class="btn btn-sm" type="submit">
+										<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
+									</button>
+								</form>
+
 							<form style="display: inline" action="{{route('eliminarOrdenCompra', ['ordenCompra' => $ordenCompra->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}
 									<button class="btn btn-sm btn-default" type="submit">
-										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i>Eliminar
+										<i class="fa fa-trash-o fa-sm" aria-hidden="true"></i> Eliminar
 									</button>
 								</form>
 							</td>

@@ -23,7 +23,7 @@
 
       <table border="1" width="800">
           <tr>
-            <td colspan="12" style="font-size: 22px;" height="25"><img src="../public/images/logonovafoods.png" width="120" height="40" align="left"><div align="center">{{$planProduccion->descripcion}}</div></td>
+            <td colspan="12" style="font-size: 22px;" height="24"><img src="../public/images/logonovafoods.png" width="120" height="40" align="left"><div align="center">{{$planProduccion->descripcion}}</div><div align="right" style="font-size: 16px;">Form 504-04<br>Rev. 0</div></td>
           </tr>
           <tr>
             <td align="center" width="7"><h5>MAQ.</h5></td>
