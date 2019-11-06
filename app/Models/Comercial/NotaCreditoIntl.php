@@ -63,7 +63,7 @@ class NotaCreditoIntl extends Model
 
             $notaCredito->neto = $totalNeto;
             $notaCredito->total = $totalT;
-
+            $notaCredito->restante = $totalT;
             $notaCredito->save();
 
         },5);
