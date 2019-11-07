@@ -143,13 +143,11 @@ class OrdenCompra extends Model
 
             $moneda = Moneda::find($request->moneda);
             $porcDesc = $request->porc_desc;
-            //dd($porcDesc); sigue siendo Null
             $subTotal = 0;
             $descuento = 0;
             $neto = 0;
             $impuesto = 0;
             $total = 0;
-
 
             $ordenCompra->contacto = $request->contacto;
             $ordenCompra->forma_pago = $request->forma_pago;
@@ -165,9 +163,6 @@ class OrdenCompra extends Model
             $ordenCompra->aut_contab = NULL;
             $ordenCompra->usuario_id = Auth::user()->id;
 
-
-
-
             OrdenCompraDetalle::where('oc_id',$ordenCompra->id)->delete();
 
             foreach ($request->items as $item) {
@@ -177,7 +172,7 @@ class OrdenCompra extends Model
                 $cantidad = $item->cantidad;
                 $precio = $item->precio;
                 $subTotalItem = $cantidad * $precio;
-                  
+
                 OrdenCompraDetalle::create([
                     'oc_id' => $ordenCompra->id,
                     'tipo_id' => $MP,
@@ -217,10 +212,10 @@ class OrdenCompra extends Model
             }
 
             $ordenCompra->sub_total = $subTotal;
-            $ordenCompra->descuento = $descuento;
+            $ordenCompra->descuento = $request->descuento;
             $ordenCompra->neto = $neto;
-            $ordenCompra->impuesto = $impuesto;
-            $ordenCompra->total = $total;
+            $ordenCompra->impuesto = $request->impuesto;
+            $ordenCompra->total = $request->total;
 
             $ordenCompra->save();
 
