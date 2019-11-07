@@ -46,8 +46,8 @@
 							<td class="text-center">{{$ordenCompra->fecha_emision}}</td>
 							<td>{{$ordenCompra->proveedor->descripcion}}</td>
 							<td class="text-center">{{$ordenCompra->forma_pago}}</td>
-							<td class="text-center">{{$ordenCompra->area->descripcion}}</td>
 							<td class="text-right">{{number_format($ordenCompra->total,2,",",".")}}</td>
+							<td class="text-center">{{$ordenCompra->area->descripcion}}</td>
 							<td class="text-center">{{$ordenCompra->moneda}}</td>
 							<td class="text-center">{{$ordenCompra->tipo->descripcion}}</td>
 							<td class="text-center">{{$ordenCompra->status->descripcion}}</td>
@@ -65,13 +65,14 @@
 								</td>
 							@endif
 							<td class="text-center">
-
+								@if ($ordenCompra->aut_contab == 1)
+								@else
 								<form style="display: inline" action="{{route('editarOrdenCompra',['ordenCompra' => $ordenCompra->numero])}}" method="get">
 									<button class="btn btn-sm" type="submit">
 										<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
 									</button>
 								</form>
-
+							@endif
 							<form style="display: inline" action="{{route('eliminarOrdenCompra', ['ordenCompra' => $ordenCompra->id])}}" method="post">
 									{{csrf_field()}}
 									{{ method_field('DELETE') }}

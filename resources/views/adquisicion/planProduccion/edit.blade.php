@@ -114,7 +114,7 @@
 				<tr v-if="items" v-for="(item,key) in items">
 				  <td class="text-center">@{{key+1}}</td>
 				  <td class="text-center">
-				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.item_id)">
+				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(key)">
 					  <i class="fa fa-times-circle" aria-hidden="true"></i>
 				  	</button>
 				  </td>

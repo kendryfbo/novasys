@@ -1,12 +1,3 @@
-$(document).on("keypress", 'form', function (e) {
-    var code = e.keyCode || e.which;
-    if (code == 13) {
-        e.preventDefault();
-        document.getElementById("addItem").click();
-        return false;
-    }
-});
-
 var app = new Vue({
 
   el: '#vue-app',
@@ -59,17 +50,10 @@ var app = new Vue({
          }
     },
 
-    removeItem: function(id) {
+    removeItem: function(key) {
 
-        for (var i = 0; i < this.items.length; i++) {
+      		this.items.splice(key,1);
 
-            if (this.items[i].item_id == id) {
-
-                this.productos.push(this.items[i]);
-                this.items.splice(i,1);
-                return;
-            }
-        }
     }
 },
 

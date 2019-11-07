@@ -71,37 +71,41 @@ var app = new Vue({
     },
 
     addItem: function() {
-
+      var item = {};
       if (!this.validateInput()) {
         return;
       }
 
-      if (this.itemSelected) {
 
-        for (var i = 0; i < this.items.length; i++) {
+      if (this.select === '') {
 
-          if (this.item.item_id == this.items[i].item_id) {
-            this.items[i].id.splice(i,1);
-          }
+        item = {
+            item_id: this.prodId,
+            codigo: this.codigoProd,
+            descripcion: this.descripProd,
+            unidad: this.unidad,
+            cantidad: this.cantidad,
+            precio: this.precio,
+            sub_total: this.precio * this.cantidad
         }
+        this.items.push(item);
 
-      }
+        this.clearItemInputs();
+        $('#prodSelect').focus();
 
-      this.item = {
-          item_id: this.prodId,
-          codigo: this.codigoProd,
-          descripcion: this.descripProd,
-          unidad: this.unidad,
-          cantidad: this.cantidad,
-          precio: this.precio,
-          sub_total: this.precio * this.cantidad
-      }
-      this.items.push(this.item);
+			} else {
 
+				this.items[this.select].item_id = this.prodId;
+				this.items[this.select].codigo = this.codigoProd;
+				this.items[this.select].descripcion = this.descripProd;
+				this.items[this.select].unidad = this.unidad;
+        this.items[this.select].cantidad = this.cantidad;
+				this.items[this.select].precio = this.precio;
+				this.items[this.select].sub_total = (this.precio * this.cantidad);
+
+				this.select = false;
+			}
       this.calculateTotal();
-      this.clearItemInputs();
-      $('#prodSelect').focus();
-
     },
 
     loadItem: function(key) {
@@ -115,7 +119,7 @@ var app = new Vue({
         this.cantidad = this.items[key].cantidad;
         this.precio = this.items[key].precio;
 
-        this.itemSelected = true;
+
 
         $('#precio').focus().select();
     },
@@ -153,7 +157,7 @@ var app = new Vue({
         alert('Debe Contener unidad de medicion');
         return false;
       }
-      if (this.duplicatedItem() && !this.itemSelected) {
+      if (this.duplicatedItem() && this.itemSelected) {
         alert('Producto ya se encuentra ingresado');
         return false;
       }

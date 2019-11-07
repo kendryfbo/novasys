@@ -187,10 +187,10 @@
 				</select>
 				<!-- /items -->
 				<input type="hidden" name="aut_contab" value="1">
-				{{-- <input type="hidden" name="freight" :value="freight"> --}}
-				{{-- <input type="hidden" lang="es" name="insurance" :value="insurance"> --}}
-				{{-- <input type="hidden" name="fob" :value="fob"> --}}
-				{{-- <input type="hidden" name="total" :value="total"> --}}
+				<input type="hidden" name="porc_desc" :value="porcDesc">
+				<input type="hidden" name="descuento" :value="descuento">
+				<input type="hidden" name="impuesto" :value="impuesto">
+				<input type="hidden" name="total" :value="total">
 
       </form>
       <!-- /form -->
@@ -248,13 +248,19 @@
 					</td>
 				</tr>
 				<tr>
+					<th class="bg-gray text-right">% DESC. :</th>
+					<td class="input-td">
+						<input form="create" class="form-control text-right" type="number" name="porc_desc" v-model.lazy="porcDesc" @change="calculateTotal">
+					</td>
+				</tr>
+				<tr>
 					<th class="bg-gray text-right">DESCUENTO :</th>
 					<td class="input-td">
 						<input class="form-control text-right" type="number" name="descuento" :value="descuento.toFixed(2)" readonly>
 					</td>
 				</tr>
 				<tr>
-					<th class="bg-gray text-right">@{{ivaLabelText}}</th>
+					<th class="bg-gray text-right">IVA :</th>
 					<td class="input-td">
 						<input class="form-control text-right" type="number" name="impuesto" :value="impuesto.toFixed(2)" readonly>
 					</td>
@@ -264,9 +270,9 @@
 				</tr>
 
 				<tr>
-					<th class="bg-gray text-right">@{{totalLabelText}}</th>
+					<th class="bg-gray text-right">TOTAL :</th>
 					<td class="input-td">
-						<input class="form-control text-right" type="number" name="freight" min="0" step="0.01" :value="total.toFixed(2)" readonly>
+						<input class="form-control text-right" type="number" name="total" min="0" step="0.01" :value="total.toFixed(2)" readonly>
 					</td>
 				</tr>
 
