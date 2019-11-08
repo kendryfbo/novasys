@@ -147,6 +147,7 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$facturaNacional->iaba = $totalIaba;
 			$facturaNacional->sub_total = $totalSubTotal;
 			$facturaNacional->total = $total;
+			$facturaNacional->deuda = $total;
 
 			$facturaNacional->save();
 		}, 5);
