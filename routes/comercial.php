@@ -261,4 +261,16 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
 
     });
 
+    // Mod. Plan de Ofertas
+    Route::prefix('planOfertas')->group(function() {
+
+        Route::get('/',                 'Comercial\PlanOfertaController@index')->name('planOfertas');
+        Route::get('/crear',            'Comercial\PlanOfertaController@create')->name('crearPlanOferta');
+        Route::post('/crear',           'Comercial\PlanOfertaController@store')->name('guardarPlanOferta');
+        Route::get('{id}/editar',       'Comercial\PlanOfertaController@edit')->name('editarPlanOferta');
+        Route::put('{id}',              'Comercial\PlanOfertaController@update')->name('actualizarPlanOferta');
+        Route::delete('/{id}',          'Comercial\PlanOfertaController@destroy')->name('eliminarPlanOferta');
+
+    });
+
 });

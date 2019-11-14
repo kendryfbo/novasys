@@ -181,7 +181,7 @@ class PlanProduccionController extends Controller
     {
       $planProduccion = PlanProduccion::destroy($id);
 
-      $msg = "Plan Produccion N°". $id . " ha sido ser Eliminada.";
+      $msg = "Plan Produccion N°". $id . " ha sido Eliminada.";
 
       return redirect()->route('planProduccion')->with(['status' => $msg]);
     }
