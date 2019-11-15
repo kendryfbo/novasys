@@ -40,7 +40,7 @@
         <!-- form-group -->
         <div class="form-group">
 
-			<label class="control-label col-lg-1">Numero:</label>
+			<label class="control-label col-lg-1">Número:</label>
 			<div class="col-lg-1">
 				<input class="form-control input-sm" type="text" name="numero" value="NUEVA" tabIndex="-1" readonly>
 			</div>
@@ -61,7 +61,7 @@
               </select>
             </div>
 
-			<label class="control-label col-lg-1">Emision:</label>
+			<label class="control-label col-lg-1">Emisión:</label>
 			<div class="col-lg-2">
 				<input class="form-control input-sm" name="fecha_emision" type="date" value="{{$fecha}}" tabIndex="-1" required readonly>
 			</div>
@@ -163,7 +163,7 @@
         <!-- form-group -->
         <div class="form-group">
 
-		  <label class="control-label col-lg-1">Descripcion:</label>
+		  <label class="control-label col-lg-1">Descripción:</label>
 		  <div class="col-lg-3">
         	<input class="form-control input-sm" type="text" name="descripProd" v-model.lazy="descripProd">
           </div>
@@ -178,7 +178,7 @@
             <input class="form-control input-sm" type="number" min="0" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model.lazy="cantidad">
           </div>
 
-          <label class="control-label col-lg-1">precio:</label>
+          <label class="control-label col-lg-1">Precio:</label>
           <div class="col-lg-1">
             <input id="precio" class="form-control input-sm" type="number" min="0.00" step="0.01" v-model.number="precio">
           </div>
@@ -240,8 +240,8 @@
             <td>@{{item.descripcion}}</td>
 			<td class="text-right">@{{item.umed}}</td>
             <td class="text-right">@{{item.cantidad}}</td>
-            <td class="text-right">@{{numberFormat(item.precio)}}</td>
-			<td class="text-right">@{{numberFormat(item.sub_total)}}</td>
+            <td class="text-right">@{{item.precio}}</td>
+			<td class="text-right">@{{item.sub_total}}</td>
           </tr>
 
         </tbody>

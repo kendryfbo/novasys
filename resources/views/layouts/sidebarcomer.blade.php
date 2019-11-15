@@ -22,6 +22,7 @@
                 <li><a href="{{url('comercial/vendedores')}}"><i class=""></i> <span>Vendedores</span></a></li>
                 <li><a href="{{url('comercial/listaPrecios')}}"><i class=""></i> <span>Lista de Precios</span></a></li>
                 <li><a href="{{url('comercial/formasPagos')}}"><i class=""></i> <span>Condiciones de Pago</span></a></li>
+                <li><a href="{{url('comercial/planOfertas')}}"><i class=""></i> <span>Plan de Ofertas</span></a></li>
             </ul>
           </li>
           <li class="treeview">
@@ -32,9 +33,9 @@
             </a>
             <ul class="treeview-menu">
                 <li><a href="{{url('comercial/notaVenta')}}"><i class=""></i> <span>Nota de Venta</span></a></li>
-                <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturacion</span></a></li>
-                <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Credito</span></a></li>
-                <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Debito</span></a></li>
+                <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturación</span></a></li>
+                <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Crédito</span></a></li>
+                <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Débito</span></a></li>
             </ul>
           </li>
 
