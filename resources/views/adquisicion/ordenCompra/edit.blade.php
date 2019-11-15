@@ -166,9 +166,9 @@
             <input class="form-control input-sm" type="number" min="0" pattern="0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model.lazy="cantidad">
           </div>
 
-          <label class="control-label col-lg-1">precio:</label>
+          <label class="control-label col-lg-1">Precio:</label>
           <div class="col-lg-1">
-            <input id="precio" class="form-control input-sm" type="number" min="0" v-model.number="precio">
+            <input id="precio" class="form-control input-sm" type="number" min="0" pattern="0+\.[0-9]*[1-9][0-9]*$" v-model.number="precio">
           </div>
 
           <div class="col-lg-2">
@@ -228,8 +228,8 @@
             <td>@{{item.descripcion}}</td>
 			<td class="text-right">@{{item.unidad}}</td>
             <td class="text-right">@{{item.cantidad}}</td>
-            <td class="text-right">@{{numberFormat(item.precio)}}</td>
-			<td class="text-right">@{{numberFormat(item.sub_total)}}</td>
+            <td class="text-right">@{{item.precio}}</td>
+			<td class="text-right">@{{item.sub_total}}</td>
           </tr>
 
         </tbody>

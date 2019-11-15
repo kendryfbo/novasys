@@ -91,7 +91,7 @@ var app = new Vue({
         this.items.push(item);
 
         this.clearItemInputs();
-        $('#prodSelect').focus();
+
 
 			} else {
 
@@ -106,6 +106,7 @@ var app = new Vue({
 				this.select = false;
 			}
       this.calculateTotal();
+      this.clearItemInputs();
     },
 
     loadItem: function(key) {
@@ -119,9 +120,6 @@ var app = new Vue({
         this.cantidad = this.items[key].cantidad;
         this.precio = this.items[key].precio;
 
-
-
-        $('#precio').focus().select();
     },
 
     removeItem: function() {
