@@ -90,6 +90,21 @@ class PlanOferta extends Model {
 
 
 
+    static function getProdOferta($cliente) {
+
+      $query = "SELECT * FROM plan_ofertas AS a, plan_oferta_detalles AS b WHERE a.id=b.plan_id AND b.cliente_id=".$cliente."
+      AND CURDATE() >= a.fecha_inicio AND CURDATE() <= a.fecha_termino GROUP BY b.producto_id ORDER BY a.id ASC";
+
+      $results = DB::select(DB::raw($query));
+
+      if (!$results) {
+
+        return 0;
+      }
+
+      return $results;
+    }
+
     /*
     |
     |  Relationships

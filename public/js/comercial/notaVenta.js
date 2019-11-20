@@ -20,7 +20,10 @@ var app = new Vue ({
 		codigo: '',
 		descripcion: '',
 		precio: '',
+		canal: '',
 		descuento: 0,
+		descCanal: 0,
+		descOferta: 0,
 		cantidad: '',
 		items: [],
 		subTotal: '',
@@ -68,7 +71,7 @@ var app = new Vue ({
 			this.listaDescrip = data.lista_precio.descripcion;
 			this.listaDetalle = data.lista_precio.detalle;
 			this.canal = data.canal;
-			this.descuento = data.canal.descuento;
+			this.descCanal = data.canal.descuento;
 			this.direccion = data.direccion;
 
 		},
@@ -86,6 +89,8 @@ var app = new Vue ({
 					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
 					this.volumen = this.listaDetalle[i].producto.volumen;
+					
+					this.calcDesc(this.listaDetalle[i].descOferta);
 
 					if (this.listaDetalle[i].producto.marca.iaba) {
 
@@ -113,6 +118,8 @@ var app = new Vue ({
 					descripcion: this.descripcion,
 					cantidad: this.cantidad,
 					descuento: this.descuento,
+					descOferta: this.descOferta,
+					descCanal: this.descCanal,
 					precio: this.precio,
 					iaba: this.iaba,
 					peso_neto: this.peso_neto,
@@ -130,6 +137,8 @@ var app = new Vue ({
 				this.items[this.select].descripcion = this.descripcion;
 				this.items[this.select].cantidad = this.cantidad;
 				this.items[this.select].descuento = this.descuento;
+				this.items[this.select].descOferta = this.descOferta;
+				this.items[this.select].descCanal = this.descCanal;
 				this.items[this.select].precio = this.precio;
 				this.items[this.select].iaba = this.iaba;
 				this.items[this.select].peso_neto = this.peso_neto;
@@ -156,6 +165,7 @@ var app = new Vue ({
 			this.peso_bruto = this.items[key].peso_bruto;
 			this.volumen = this.items[key].volumen;
 			this.iaba = this.items[key].iaba;
+			this.calcDesc(this.items[key].descOferta);
 		},
 
 		removeItem: function() {
@@ -233,6 +243,19 @@ var app = new Vue ({
 			this.totalVolumen = totalVolumen.toFixed(2);
 			this.cajas = totalCajas;
 
+		},
+
+		calcDesc: function(descOferta) {
+
+			if (descOferta) {
+
+						this.descOferta = descOferta;
+
+			} else this.descOferta = 0;
+
+			var calc = Number(this.descCanal) + Number(this.descOferta);
+
+			this.descuento = parseFloat(Math.round(calc * 100) / 100).toFixed(2);
 		},
 
 		unselect: function() {
