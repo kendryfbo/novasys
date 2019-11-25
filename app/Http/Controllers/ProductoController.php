@@ -110,7 +110,7 @@ class ProductoController extends Controller
                 curl_close($curl);
             }
             $dailyIndicators = json_decode($json);
-            $dollar = $dailyIndicators->dolar->valor;
+            $dollar = 795.94; //Se implementara la API del Banco Central - $dailyIndicators->dolar->valor;
 
             $totalPrecio = 0;
             $totalxuni = 0;
@@ -263,7 +263,7 @@ class ProductoController extends Controller
                 curl_close($curl);
             }
             $dailyIndicators = json_decode($json);
-            $dollar = $dailyIndicators->dolar->valor;
+            $dollar = 795.94;//Se implementara la API de banco central. $dailyIndicators->dolar->valor;
 
             $totalPrecio = 0;
             $totalxuni = 0;
