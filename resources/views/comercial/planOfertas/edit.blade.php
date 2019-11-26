@@ -35,11 +35,20 @@
 				<hr>
 				<div class="form-group">
 
+					<label class="control-label col-lg-1">Canal:</label>
+					<div class="col-lg-2">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="nombre_cliente" v-model="canalID">
+							<option value=""></option>
+							<option v-for="canal in canales" :value="canal.id">@{{canal.descripcion}}</option>
+
+						</select>
+					</div>
+
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-2">
 						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="nombre_cliente" v-model="clientID">
 							<option value=""></option>
-							<option v-for="cliente in clientes" :value="cliente.id">@{{cliente.descripcion}}</option>
+							<option v-if="cliente.canal_id == canalID" v-for="cliente in clientes" :value="cliente.id">@{{cliente.descripcion}}</option>
 
 						</select>
 					</div>
@@ -128,6 +137,7 @@
 	<script>
 		clientesNac = {!!$clientesNac!!};
 		productos = {!!$productos!!};
+		canales = {!!$canales!!};
 		items = {!!$planOfertas->detalles->toJson()!!};
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>

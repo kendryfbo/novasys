@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Comercial;
 
 use App\Models\Producto;
 use App\Models\Comercial\ClienteNacional;
+use App\Models\Comercial\Canal;
 use App\Models\Comercial\PlanOferta;
 use App\Models\Comercial\PlanOfertaDetalle;
 use Illuminate\Http\Request;
@@ -36,9 +37,10 @@ class PlanOfertaController extends Controller
       |
       */
         $productos = Producto::getAllActive();
+        $canales = Canal::getAllActive();
         $clientesNac = ClienteNacional::getAllActive();
 
-        return view('comercial.planOfertas.create')->with(['productos' => $productos, 'clientesNac' => $clientesNac]);
+        return view('comercial.planOfertas.create')->with(['productos' => $productos, 'clientesNac' => $clientesNac, 'canales' => $canales]);
     }
 
     /**
@@ -85,8 +87,9 @@ class PlanOfertaController extends Controller
       $planOfertas = PlanOferta::with('detalles')->find($id);
       $productos = Producto::getAllActive();
       $clientesNac = ClienteNacional::getAllActive();
+      $canales = Canal::getAllActive();
 
-      return view('comercial.planOfertas.edit')->with(['productos' => $productos, 'clientesNac' => $clientesNac, 'planOfertas' => $planOfertas]);
+      return view('comercial.planOfertas.edit')->with(['productos' => $productos, 'clientesNac' => $clientesNac, 'planOfertas' => $planOfertas, 'canales' => $canales]);
 
     }
 
