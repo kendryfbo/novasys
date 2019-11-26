@@ -6,10 +6,12 @@ var app = new Vue({
 
       productos: productos,
       clientes: clientesNac,
+      canales: canales,
       items: items,
       descuento: 0,
       itemID: '',
       clientID: '',
+      canalID: '',
   },
 
   methods: {

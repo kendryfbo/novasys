@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Comercial\ClienteNacional;
+use App\Models\Comercial\PlanOferta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -50,6 +51,26 @@ class ClienteNacionalController extends Controller
         try {
             
             $cliente->load('sucursal', 'formaPago:id,descripcion', 'listaPrecio.detalle.producto.marca', 'canal');
+
+            $productosEnOferta = PlanOferta::getProdOferta($cliente->id);
+
+            if ($productosEnOferta) {
+
+                foreach ($productosEnOferta as $productoOferta) {
+                
+                    foreach ($cliente->listaPrecio->detalle as $detalle) {
+
+                        //dd($detalle);
+                        if ($productoOferta->producto_id == $detalle->producto_id) {
+
+                            $detalle->descOferta = $productoOferta->descuento;
+                            
+                        }
+                    }
+                }
+            }
+            
+            //dd($cliente->listaPrecio->detalle[0]);
 
             return response()->json($cliente);
 

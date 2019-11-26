@@ -96,21 +96,8 @@ class ProductoController extends Controller
         $formula = $producto->formula;
 
         if ($formula) {
-
-            //API to obtain daily dollar's value
-            $apiUrl = 'https://mindicador.cl/api';
-            //allow_url_fopen para usar file_get_contents
-            if ( ini_get('allow_url_fopen') ) {
-                $json = file_get_contents($apiUrl);
-            } else {
-                //cURL
-                $curl = curl_init($apiUrl);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                $json = curl_exec($curl);
-                curl_close($curl);
-            }
-            $dailyIndicators = json_decode($json);
-            $dollar = 795.94; //Se implementara la API del Banco Central - $dailyIndicators->dolar->valor;
+          
+            $dollar = 795.94;  //Se implementará API del Banco Central to obtain dollar data.
 
             $totalPrecio = 0;
             $totalxuni = 0;
@@ -250,20 +237,7 @@ class ProductoController extends Controller
 
         if ($formula) {
 
-            //API to obtain daily dollar's value
-            $apiUrl = 'https://mindicador.cl/api';
-            //allow_url_fopen para usar file_get_contents
-            if ( ini_get('allow_url_fopen') ) {
-                $json = file_get_contents($apiUrl);
-            } else {
-                //cURL
-                $curl = curl_init($apiUrl);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                $json = curl_exec($curl);
-                curl_close($curl);
-            }
-            $dailyIndicators = json_decode($json);
-            $dollar = 795.94;//Se implementara la API de banco central. $dailyIndicators->dolar->valor;
+            $dollar = 795.94;  //Se implementará API del Banco Central to obtain dollar data.
 
             $totalPrecio = 0;
             $totalxuni = 0;

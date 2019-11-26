@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Comercial\Vendedor;
 use App\Models\Comercial\NotaVenta;
+use App\Models\Comercial\PlanOferta;
 use App\Http\Controllers\Controller;
 use App\Models\Comercial\CentroVenta;
 use App\Models\Comercial\ListaPrecio;
@@ -130,6 +131,23 @@ class NotaVentaController extends Controller
                          'cliente.listaPrecio.detalle.producto.marca',
                          'cliente.listaPrecio.detalle.producto.formato',
                          'cliente.canal','cliente.formaPago')->where('numero',$numero)->first();
+
+        $productosEnOferta = PlanOferta::getProdOferta($notaVenta->cliente_id);
+
+            if ($productosEnOferta) {
+
+                foreach ($productosEnOferta as $productoOferta) {
+                
+                    foreach ($notaVenta->cliente->listaPrecio->detalle as $detalle) {
+
+                        if ($productoOferta->producto_id == $detalle->producto_id) {
+
+                            $detalle->descOferta = $productoOferta->descuento;
+                            
+                        }
+                    }
+                }
+            }
 
         $vendedores = Vendedor::getAllActive();
         $centrosVentas = CentroVenta::getAllActive();

@@ -13,7 +13,9 @@ var app = new Vue ({
 		codigo: '',
 		descripcion: '',
 		precio: 0,
-		descuento: descuento,
+		descuento: 0,
+		descOferta: 0,
+		descCanal: descuento,
 		cantidad: 0,
 		items: items,
 		subTotal: subTotal,
@@ -43,6 +45,7 @@ var app = new Vue ({
 					this.codigo = this.listaDetalle[i].producto.codigo;
 					this.descripcion = this.listaDetalle[i].producto.descripcion;
 					this.precio = this.listaDetalle[i].precio;
+					this.calcDesc(this.listaDetalle[i].descOferta);
 					this.peso_neto = this.listaDetalle[i].producto.peso_neto;
 					this.peso_bruto = this.listaDetalle[i].producto.peso_bruto;
 					this.volumen = this.listaDetalle[i].producto.volumen;
@@ -113,6 +116,7 @@ var app = new Vue ({
 			this.descripcion = this.items[key].descripcion;
 			this.cantidad = this.items[key].cantidad;
 			this.precio = this.items[key].precio;
+			this.descuento = this.items[key].descuento;
 			this.peso_neto = this.items[key].peso_neto;
 			this.peso_bruto = this.items[key].peso_bruto;
 			this.volumen = this.items[key].volumen;
@@ -284,6 +288,19 @@ var app = new Vue ({
 					}
 				}
 			}
+		},
+
+		calcDesc: function(descOferta) {
+
+			if (descOferta) {
+
+						this.descOferta = descOferta;
+
+			} else this.descOferta = 0;
+
+			var calc = Number(this.descCanal) + Number(this.descOferta);
+
+			this.descuento = parseFloat(Math.round(calc * 100) / 100).toFixed(2);
 		},
 
 		numberFormat: function(x) {
