@@ -96,7 +96,7 @@ class ProductoController extends Controller
         $formula = $producto->formula;
 
         if ($formula) {
-
+          
             $dollar = 795.94;  //Se implementará API del Banco Central to obtain dollar data.
 
             $totalPrecio = 0;
