@@ -104,7 +104,7 @@
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
 							<td class="text-left">{{$factura->centro_venta}}</td>
-							<td class="text-center"><a href="{{url('comercial/facturasNacionales/'.$factura->numero)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
+							<td class="text-center"><a href="{{url('comercial/facturasNacionales/'.$factura->id)}}" target="_blank"><strong>{{$factura->numero}}</strong></a></td>
 							<td class="text-left">{{$factura->cliente}}</td>
 							<td class="text-center">{{$factura->fecha_emision}}</td>
 							<td class="text-right">{{'$ ' . number_format($factura->neto,2,",",".")}}</td>
