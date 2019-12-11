@@ -24,24 +24,32 @@
         <div class="cliente-content">
             <div class="cliente-datos">
                 <table>
-                    <tbody>
-                        <tr>
-                            <td class="text-right">CLIENTE :</td>
-                            <th>{{$notaVenta->cliente->descripcion}}</th>
-                        </tr>
-                        <tr>
-                            <td class="text-right">DIRECCION :</td>
-                            <th>{{$notaVenta->cliente->direccion}}</th>
-                        </tr>
-                        <tr>
-                            <td class="text-right">RUT :</td>
-                            <th>{{strtoupper($notaVenta->cliente->rut)}}</th>
-                        </tr>
-                        <tr>
-                            <td class="text-right">CONTACTO :</td>
-                            <th>{{strtoupper($notaVenta->cliente->contacto)}}</th>
-                        </tr>
-                    </tbody>
+                  <tbody>
+                      <tr>
+                          <td class="text-right">CLIENTE :</td>
+                          <th>{{$notaVenta->cliente->descripcion}}</th>
+                      </tr>
+                      <tr>
+                          <td class="text-right">DIRECCION :</td>
+                          <th>{{$notaVenta->cliente->direccion}}</th>
+                      </tr>
+                      <tr>
+                          <td class="text-right">RUT :</td>
+                          <th>{{strtoupper($notaVenta->cliente->rut)}}</th>
+                      </tr>
+                      <tr>
+                          <td class="text-right">CONTACTO :</td>
+                          <th>{{strtoupper($notaVenta->cliente->contacto)}}</th>
+                      </tr>
+                      <tr>
+                          <td class="text-right">DESPACHO :</td>
+                          <th>{{strtoupper($notaVenta->despacho)}}</th>
+                      </tr>
+                      <tr>
+                          <td class="text-right">O.C :</td>
+                          <th>{{strtoupper($notaVenta->orden_compra)}}</th>
+                      </tr>
+                  </tbody>
                 </table>
             </div>
             <div class="fecha">
