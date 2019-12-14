@@ -11,6 +11,7 @@ use App\Models\Mes;
 use App\Models\Comercial\FacturaIntl;
 use App\Models\Comercial\FacturaNacional;
 use App\Models\Informes\VentasMercado;
+use App\Models\Informes\CierreMes;
 
 class InformesController extends Controller
 {
@@ -732,6 +733,13 @@ class InformesController extends Controller
                           })->download('xlsx');
                       })->download('xlsx');
 
+    }
+
+    public function cierreMesIntl(Request $request) {
+
+      $data = CierreMes::cierreMesIntl();
+
+      return view('informes.cierreMes.cierreMesIntl')->with(['data'=>$data]);
     }
 
 }

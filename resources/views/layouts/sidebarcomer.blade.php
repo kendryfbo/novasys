@@ -36,6 +36,7 @@
                 <li><a href="{{url('comercial/facturasNacionales')}}"><i class=""></i> <span>Facturación</span></a></li>
                 <li><a href="{{url('comercial/notasCreditoNac')}}"><i class=""></i> <span>Nota Crédito</span></a></li>
                 <li><a href="{{url('comercial/notasDebitoNac')}}"><i class=""></i> <span>Nota Débito</span></a></li>
+                <li><a href="#"><i class=""></i> <span>Proyección Ventas</span></a></li>
             </ul>
           </li>
 
@@ -89,6 +90,7 @@
                 <li><a href="{{url('comercial/packingList/crear')}}"><i class=""></i> <span>Packing List.</span></a></li>
                 <li><a href="{{url('comercial/FacturaIntl')}}"><i class=""></i> <span>Factura Export.</span></a></li>
                 <li><a href="{{url('comercial/facturaIntlSII')}}"><i class=""></i> <span>Factura S.I.I</span></a></li>
+                <li><a href="{{url('comercial/presupuestoIntl')}}"><i class=""></i> <span>Proyección Ventas</span></a></li>
             </ul>
           </li>
           <li class="treeview">
