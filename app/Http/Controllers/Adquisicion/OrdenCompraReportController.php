@@ -33,10 +33,13 @@ class OrdenCompraReportController extends Controller
             $hasta = ['fecha_emision', '<=', $busqueda->hasta];
             array_push($query,$hasta);
         }
-        if ($busqueda->proveedor_id) {
+        if ($busqueda->proveedor_id == "NULL") {
+
+          $ordenes = OrdenCompra::where($query)->orderBy('fecha_emision','DESC')->get();
+
+        } else {
 
             $proveedor = ['prov_id','=',$busqueda->proveedor_id];
-
             array_push($query,$proveedor);
             $ordenes = OrdenCompra::where($query)->orderBy('fecha_emision','DESC')->get();
         }

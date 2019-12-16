@@ -56,7 +56,7 @@
 					<label class="control-label col-lg-1">Proveedor:</label>
 					<div class="col-lg-4">
 					  <select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="proveedor_id">
-						<option value="">Todos...</option>
+							<option value="NULL">Todos...</option>
 						@foreach ($proveedores as $proveedor)
 							<option {{$proveedor->id == $busqueda->proveedor_id ? 'selected':''}} value="{{$proveedor->id}}">{{$proveedor->rut ." - ". $proveedor->descripcion}}</option>
 						@endforeach
