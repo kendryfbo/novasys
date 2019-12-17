@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Informes;
 
 use DB;
 use Excel;
-use Carbon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mes;
@@ -737,9 +737,19 @@ class InformesController extends Controller
 
     public function cierreMesIntl(Request $request) {
 
-      $data = CierreMes::cierreMesIntl();
+      $actualYearFilter = isset($request->actualYear) ? true : false;
+      $lastYearFilter = isset($request->lastYear) ? true : false;
+      $previousYearFilter = isset($request->previousYear) ? true : false;
 
-      return view('informes.cierreMes.cierreMesIntl')->with(['data'=>$data]);
+      $data = CierreMes::cierreMesIntl($request);
+      $now = Carbon::now();
+      $currentYear = $now->year;
+      $lastYear = $now->year-1;
+      $previousYear = $now->year-2;
+      $years = [$currentYear,$lastYear,$previousYear];
+      $yearOptions = [$actualYearFilter,$lastYearFilter,$previousYearFilter];
+      
+      return view('informes.cierreMes.cierreMesIntl')->with(['data'=>$data,'years' => $years,'yearOptions'=>$yearOptions]);
     }
 
 }

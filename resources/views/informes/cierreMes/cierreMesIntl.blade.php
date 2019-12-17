@@ -26,22 +26,25 @@
 
 				<div class="form_group" id="curve_chart" style="width: auto; height: 400px"></div>
 
-				<div class="form-group form-group-sm">
+				<form id="filter" class="form-group form-group-sm" method="get" action="{{route('cierreMesIntl')}}">
 
-					<label class="control-label col-sm-1">2019:</label>
-					<div class="col-sm-1">
-						<input type="checkbox" name="" value="" checked>
-					</div>
-					<label class="control-label col-sm-1">2018:</label>
-					<div class="col-sm-1">
-						<input type="checkbox" name="" value="" checked>
-					</div>
-					<label class="control-label col-sm-1">2017:</label>
-					<div class="col-sm-1">
-						<input type="checkbox" name="" value="" checked>
-					</div>
+						<label class="control-label col-sm-1">{{$years[0]}}</label>
+						<div class="col-sm-1">
+							<input type="checkbox" name="actualYear" {{$yearOptions[0] ? 'checked' : ''}}>
+						</div>
+						<label class="control-label col-sm-1">{{$years[1]}}</label>
+						<div class="col-sm-1">
+							<input type="checkbox" name="lastYear" {{$yearOptions[1] ? 'checked' : ''}}>
+						</div>
+						<label class="control-label col-sm-1">{{$years[2]}}</label>
+						<div class="col-sm-1">
+							<input type="checkbox" name="previousYear" {{$yearOptions[2] ? 'checked' : ''}}>
+						</div>
+						<input type="hidden" name="filter" value="true" checked>
 
-				</div>
+				 	 	<button type="submit" form="filter" class="btn btn-default">Filtrar</button>
+
+				</form>
 
 			</div>
 			<!-- /box-body -->
