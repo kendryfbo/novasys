@@ -31,79 +31,103 @@
 				</div>
 				<hr>
 				<div class="form-group">
-
-					<label class="control-label col-lg-1">Meses :</label>
-					<div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="mesID">
-							<option value=""></option>
-							<option v-for="mes in meses" :value="mes.id">@{{mes.descripcion}}</option>
-
-						</select>
-					</div>
-
-					<label class="control-label col-lg-1">Monto en USD :</label>
+					<label class="control-label col-lg-1">Enero :</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" type="text" name="monto" v-model="monto" value="">
+						<input type="hidden" name="mes1" value="1">
+						<input class="form-control input-sm" type="text" name="enero" value="" required>
 					</div>
-
-					<div class="col-lg-1">
-						<button id="addItem" class="btn btn-sm btn-default" type="button" name="button" @click="addItem">Agregar</button>
-					</div>
-
-
-
 				</div>
 
 				<div class="form-group">
+					<label class="control-label col-lg-1">Febrero :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes2" value="2">
+						<input class="form-control input-sm" type="text" name="febrero" value="" required>
+					</div>
+				</div>
 
-					<!-- Items -->
-					<select style="display: none;"  name="items[]" multiple required>
-						<option v-for="item in items" selected>
-							@{{item}}
-						</option>
-					</select>
-					<!-- /items -->
+				<div class="form-group">
+					<label class="control-label col-lg-1">Marzo :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes3" value="3">
+						<input class="form-control input-sm" type="text" name="marzo" value="" required>
+					</div>
+				</div>
 
+				<div class="form-group">
+					<label class="control-label col-lg-1">Abril :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes4" value="4">
+						<input class="form-control input-sm" type="text" name="abril" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Mayo :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes5" value="5">
+						<input class="form-control input-sm" type="text" name="mayo" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Junio :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes6" value="6">
+						<input class="form-control input-sm" type="text" name="junio" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Julio :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes7" value="7">
+						<input class="form-control input-sm" type="text" name="julio" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Agosto :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes8" value="8">
+						<input class="form-control input-sm" type="text" name="agosto" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Septiembre :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes9" value="9">
+						<input class="form-control input-sm" type="text" name="septiembre" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Octubre :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes10" value="10">
+						<input class="form-control input-sm" type="text" name="octubre" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Noviembre :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes11" value="11">
+						<input class="form-control input-sm" type="text" name="noviembre" value="" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-1">Diciembre :</label>
+					<div class="col-lg-1">
+						<input type="hidden" name="mes12" value="12">
+						<input class="form-control input-sm" type="text" name="diciembre" value="" required>
+					</div>
 				</div>
 
 			</form>
 		</div>
-
-		<div class="box-body">
-			<table class="table table-hover table-bordered table-custom table-condensed display nowrap" cellspacing="0" width="100%">
-
-			  <thead>
-				<tr>
-					<th class="text-center">#</th>
-				  <th class="text-center"></th>
-				  <th class="text-center">MES</th>
-				  <th class="text-center">MONTO EN USD</th>
-				</tr>
-			  </thead>
-
-			  <tbody>
-				<tr v-if="items <= 0">
-					<td colspan="8" class="text-center" >Tabla Sin Datos...</td>
-				</tr>
-
-				<tr v-if="items" v-for="(item,key) in items">
-				  <td class="text-center">@{{key+1}}</td>
-				  <td class="text-center">
-				  	<button class="btn btn-sm btn-danger" type="button" name="button" @click="removeItem(item.mesID)">
-					  <i class="fa fa-times-circle" aria-hidden="true"></i>
-				  	</button>
-				  </td>
-				  <td class="text-center">@{{item.mes}}</td>
-				  <td>@{{item.monto}}</td>
-				</tr>
-
-
-
-			  </tbody>
-
-			</table>
-		</div>
-
 		<div class="box-footer">
 			 <button form="create" class="btn btn-default pull-right" name="button" value="1" type="submit">Crear</button>
 		</div>
@@ -113,10 +137,5 @@
 @endsection
 
 @section('scripts')
-	<script>
-		meses = {!!$meses!!};
-	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
-	<script src="{{asset('vue/vue.js')}}"></script>
-	<script src="{{asset('js/comercial/presupuestoAnualIntl.js')}}"></script>
 @endsection

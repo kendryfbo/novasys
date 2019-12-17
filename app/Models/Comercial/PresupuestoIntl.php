@@ -20,7 +20,36 @@ class PresupuestoIntl extends Model {
             $userID = $request->user()->id;
             $fechaIngreso = Carbon\Carbon::now();
             $year = $request->year;
-            $items = $request->items;
+
+
+            $items = [
+                [   'month' => $request->mes1,
+                    'amount' => $request->enero],
+                [   'month' => $request->mes2,
+                    'amount' => $request->febrero],
+                [   'month' => $request->mes3,
+                    'amount' => $request->marzo],
+                [   'month' => $request->mes4,
+                    'amount' => $request->abril],
+                [   'month' => $request->mes5,
+                    'amount' => $request->mayo],
+                [   'month' => $request->mes6,
+                    'amount' => $request->junio],
+                [   'month' => $request->mes7,
+                    'amount' => $request->julio],
+                [   'month' => $request->mes8,
+                    'amount' => $request->agosto],
+                [   'month' => $request->mes9,
+                    'amount' => $request->septiembre],
+                [   'month' => $request->mes10,
+                    'amount' => $request->octubre],
+                [   'month' => $request->mes11,
+                    'amount' => $request->noviembre],
+                [   'month' => $request->mes12,
+                    'amount' => $request->diciembre]
+            ];
+
+
 
             $lastVersion = DB::table('presupuesto_intl')
                 ->where('year',$year)
@@ -43,21 +72,20 @@ class PresupuestoIntl extends Model {
               'version' => $lastVersion + 1,
             ]);
               foreach ($items as $item) {
-                $item = json_decode($item);
 
               PresupuestoIntlDetalle::create([
               'presupuesto_id' => $presupuestoIntl->id,
-              'month' => $item->mesID,
-              'amount' => $item->monto]);
+              'month' => $item['month'],
+              'amount' => $item['amount']]);
             };
             return $presupuestoIntl;
         },5);
         return $presupuestoIntl;
     }
 
-    static function registerEdit($request) {
+    static function registerEdit($request, $presupuestoIntl) {
 
-        $presupuestoIntl = DB::transaction(function () use ($request) {
+        $presupuestoIntl = DB::transaction(function () use ($request, $presupuestoIntl) {
 
           $id = $request->id;
           $descripcion = $request->descripcion;
@@ -84,8 +112,14 @@ class PresupuestoIntl extends Model {
             return $presupuestoIntl;
         },5);
         return $presupuestoIntl;
-    }
 
+        }
+
+        static function unauthorized() {
+
+          return self::whereNull('auth_presupuesto')->get();
+
+        }
 
     /*
     |

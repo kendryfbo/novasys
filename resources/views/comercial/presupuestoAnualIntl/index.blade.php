@@ -28,6 +28,7 @@
 						<th class="text-center">Año</th>
 						<th class="text-center">Versión</th>
 						<th class="text-center">Fecha Ingreso</th>
+						<th class="text-center">Autorizado</th>
 						<th class="text-center">Acción</th>
 					</tr>
 				</thead>
@@ -38,6 +39,11 @@
 					<td class="text-center"><a href="{{route('verPresupuestoIntl',['id' => $presupuesto->id])}}" target="_blank">{{$presupuesto->year}}</a></td>
 					<td class="text-center">{{$presupuesto->version}}</td>
 					<td class="text-center">{{\Carbon\Carbon::parse($presupuesto->fecha_ingreso)->format('d/m/Y')}}</td>
+					@if ($presupuesto->auth_presupuesto == 0)
+							<td class="text-center">No</td>
+					@else
+							<td class="text-center">Sí</td>
+					@endif
 					<td class="text-center">
 						<form style="display: inline" action="{{route('editarPresupuestoIntl',['presupuestoIntl' => $presupuesto->id])}}" method="get">
 						<button class="btn btn-sm" type="submit">
