@@ -27,7 +27,7 @@ class AuthenticationController extends Controller
 			$vendedor = Vendedor::where('user_id','=',Auth::user()->id)->first();
 			$clientIP = \Request::ip();
 
-			if (Auth::user()->extAccess == 0 && !preg_match('/192.168.\b/', $clientIP)) {
+			if (false) {
 
 				dd("Sin Permiso para Acceder Externamente...");
 

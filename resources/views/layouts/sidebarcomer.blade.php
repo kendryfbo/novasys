@@ -106,6 +106,7 @@
           </li>
       </ul>
       <li><a href="{{url('comercial/proformas/autorizacion')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Proforma</span></a></li>
+      <li><a href="{{route('autProyeccionVenta')}}"><i class="fa fa-check-square-o"></i> <span>Aut. Proyec. Venta</span></a></li>
     </li>
   </ul>
   <!-- /.sidebar-menu -->

@@ -53,10 +53,8 @@
 							<button form="clearInput" class="btn btn-sm btn-info" type="submit">Limpiar</button>
 						</div>
 
-						<div class="col-sm-2 pull-right text-right">
-
-
-
+						<div class="col-sm-2 pull-right text-center">
+							<a href="{{route('ventasPorPaises')}}">Detalle por País</a>
 						</div>
 
 

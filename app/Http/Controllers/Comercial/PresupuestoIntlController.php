@@ -123,4 +123,29 @@ class PresupuestoIntlController extends Controller
 
     }
 
+    public function authorization()
+    {
+        $proyeccionVentas = PresupuestoIntl::unauthorized();
+        $proyeccionVentas->load('detalles');
+        return view('comercial.presupuestoAnualIntl.authorization')->with(['proyeccionVentas' => $proyeccionVentas]);
+    }
+
+    public function authorizeProyeccionVentas(PresupuestoIntl $presupuestoIntl) {
+
+      $presupuestoIntl->load('detalles');
+      $presupuestoIntl->auth_presupuesto = 1;
+      //dd($presupuestoIntl);
+      $presupuestoIntl->save();
+      $msg = "Proyección : " . $presupuestoIntl->id . " ha sido ingresado";
+      return redirect()->route('presupuestoIntl')->with(['status' => $msg]);
+
+
+
+
+    }
+
+
+
+
+
 }

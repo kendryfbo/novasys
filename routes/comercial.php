@@ -277,12 +277,14 @@ Route::middleware('auth')->prefix('comercial')->group( function(){
     // Mod. Presupuesto Intl
     Route::prefix('presupuestoIntl')->group(function() {
 
-        Route::get('/',                 'Comercial\PresupuestoIntlController@index')->name('presupuestoIntl');
-        Route::get('/crear',            'Comercial\PresupuestoIntlController@create')->name('crearPresupuestoIntl');
-        Route::get('/{id}',             'Comercial\PresupuestoIntlController@show')->name('verPresupuestoIntl');
-        Route::post('/crear',           'Comercial\PresupuestoIntlController@store')->name('guardarPresupuestoIntl');
-        Route::get('{id}/editar',       'Comercial\PresupuestoIntlController@edit')->name('editarPresupuestoIntl');
-        Route::put('{id}',              'Comercial\PresupuestoIntlController@update')->name('actualizarPresupuestoIntl');
+        Route::get('/',                   'Comercial\PresupuestoIntlController@index')->name('presupuestoIntl');
+        Route::get('/autorizacion',       'Comercial\PresupuestoIntlController@authorization')->name('autProyeccionVenta');
+        Route::post('/autorizar/{id}',    'Comercial\PresupuestoIntlController@authorizeProyeccionVentas')->name('autorizarProyeccionVenta');
+        Route::get('/crear',              'Comercial\PresupuestoIntlController@create')->name('crearPresupuestoIntl');
+        Route::get('/{id}',               'Comercial\PresupuestoIntlController@show')->name('verPresupuestoIntl');
+        Route::post('/crear',             'Comercial\PresupuestoIntlController@store')->name('guardarPresupuestoIntl');
+        Route::get('{id}/editar',         'Comercial\PresupuestoIntlController@edit')->name('editarPresupuestoIntl');
+        Route::put('{id}',                'Comercial\PresupuestoIntlController@update')->name('actualizarPresupuestoIntl');
     });
 
 });

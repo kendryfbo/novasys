@@ -12,7 +12,7 @@
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
-		<form id="create" method="post" action="{{route('guardarProducto')}}">
+		<form id="create" method="post" action="{{route('cierreMesIntl')}}">
 			{{ csrf_field() }}
 
 			<div class="form-horizontal">
