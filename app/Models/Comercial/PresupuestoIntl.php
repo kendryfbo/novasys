@@ -68,7 +68,7 @@ class PresupuestoIntl extends Model {
               'user_id' => $userID,
               'year' => $year,
               'fecha_ingreso' => $fechaIngreso,
-              'auth_presupuesto' => '0',
+              'auth_presupuesto' => NULL,
               'version' => $lastVersion + 1,
             ]);
               foreach ($items as $item) {
