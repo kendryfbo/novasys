@@ -22,16 +22,10 @@
                   <a href="{{url('/informes/ventasPorMes/nacional')}}"><i class="fa fa-flag-checkered"></i> <span>Mercado Nacional</span></a>
                 </li>
                 <li class="treeview">
-                  <a href=""><i class="fa fa-code-fork"></i> <span>Cierre de mes</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul class="treeview-menu">
-                      <li><a href="{{route('cierreMesTotal')}}"><i class=""></i> <span>Mercado Total</span></a></li>
-                      <li><a href="{{route('cierreMesIntl')}}"><i class=""></i> <span>mercado Intl.</span></a></li>
-                      <li><a href="{{route('cierreMesNacional')}}"><i class=""></i> <span>Mercado Nacional</span></a></li>
-                  </ul>
+                  <a href="{{url('informes/cierreMes/total?filter=true')}}"><i class="fa fa-code-fork"></i> <span>Cierre de mes</span></a>
+                </li>
+                <li class="treeview">
+                  <a href="{{route('contenedoresReport')}}"><i class="fa fa-ship"></i> <span>Report Contenedor</span></a>
                 </li>
             </ul>
         </li>
