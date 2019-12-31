@@ -43,6 +43,12 @@ class EgresoDetalle extends Model
         |
         */
 
+        public function egreso() {
+
+            return $this->belongsTo('App\Models\Bodega\Egreso','egr_id');
+        }
+
+
         public function item() {
 
             switch ($this->tipo_id) {
