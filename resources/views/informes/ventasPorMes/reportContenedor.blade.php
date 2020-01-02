@@ -73,7 +73,7 @@
 											<th class="text-center">OCTUBRE</th>
 											<th class="text-center">NOVIEMBRE</th>
 											<th class="text-center">DICIEMBRE</th>
-											<th class="text-center">TOTAL (Base 40)</th>
+											<th class="text-center">TEU20</th>
 											<th class="text-center">Index YA</th>
 										</tr>
 								</thead>
@@ -180,7 +180,7 @@
 										</tr>
 										<tr style="border-bottom-style: solid;">
 											<td class="text-center"></td>
-											<td class="text-center">2018</td>
+											<td class="text-center">{{$dateSelected - 1}}</td>
 											@if (empty($contenedores->mesEneroAnt))
 												<td class="text-center">-</td>
 												@elseif ($contenedores->mesEneroAnt <= '33')
