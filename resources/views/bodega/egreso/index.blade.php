@@ -70,7 +70,7 @@
 					@foreach ($egresos as $egreso)
 						<tr>
 							<th class="text-center">{{$loop->iteration}}</th>
-                            <td class="text-center">{{$egreso->numero}}</td>
+            	<td class="text-center">{{$egreso->numero}}</td>
 							<td class="text-left">{{$egreso->descripcion}}</td>
 							<td class="text-center">{{$egreso->tipo->descripcion}}</td>
 							<td class="text-center">{{$egreso->status->descripcion}}</td>

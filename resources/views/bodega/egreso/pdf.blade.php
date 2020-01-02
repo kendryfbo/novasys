@@ -58,6 +58,7 @@
                     <tr>
                         <th class="text-center">BODEGA</th>
                         <th class="text-center">POS</th>
+                        <th class="text-center">LOTE</th>
                         <th class="text-center">DESCRIPCION</th>
                         <th class="text-center">CANT</th>
                         <th class="text-center">CARGA</th>
@@ -68,6 +69,7 @@
                         <tr>
                             <td class="text-center" style="font-size:8px">{{$detalle->bodega}}</td>
                             <td class="text-center">{{$detalle->posicion}}</td>
+                            <td class="text-center">{{$detalle->lote}}</td>
                             <td class="text-left">{{$detalle->descripcion}}</td>
                             <td class="text-right">{{$detalle->cantidad}}</td>
                             <td class="text-right"></td>
@@ -76,7 +78,7 @@
                 </tbody>
                 <tbody>
                     <tr>
-                        <th class="text-right" colspan="3">TOTAL :</th>
+                        <th class="text-right" colspan="4">TOTAL :</th>
                         <th class="text-right">{{$egreso->cantidadTotal}}</th>
                         <th class="text-right"> </th>
                     </tr>

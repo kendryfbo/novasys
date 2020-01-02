@@ -44,6 +44,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="{{route('buscaLote')}}"><i class=""></i> <span>Busca Lote</span></a></li>
                         <li><a href="{{route('reporteBodega')}}"><i class=""></i> <span>Saldos Bodega</span></a></li>
                         <li><a href="{{route('reporteStockTotal')}}"><i class=""></i> <span>Stock Total</span></a></li>
                     </ul>

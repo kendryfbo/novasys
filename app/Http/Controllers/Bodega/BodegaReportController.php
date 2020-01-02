@@ -12,6 +12,8 @@ use App\Models\Formato;
 use App\Models\Familia;
 use App\Models\TipoFamilia;
 use App\Models\Bodega\Bodega;
+use App\Models\Bodega\Egreso;
+use App\Models\Bodega\EgresoDetalle;
 
 class BodegaReportController extends Controller
 {
@@ -187,4 +189,24 @@ class BodegaReportController extends Controller
                             })->download('xlsx');
                         });
     }
+
+    public function indexBuscaLote(Request $request) {
+
+      if (isset($request->loteNum)) {
+
+        $buscaPallet = $request->loteNum;
+
+        $palletEgresoDetalles = EgresoDetalle::where('lote',$buscaPallet)->get();
+
+
+      } else {
+        $palletEgresoDetalles = [];
+      }
+
+        return view('bodega.bodega.buscaLote')
+            ->with(['palletEgresoDetalles' => $palletEgresoDetalles]);
+    }
+
+
+
 }
