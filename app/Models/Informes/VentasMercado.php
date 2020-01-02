@@ -376,8 +376,8 @@ class ventasMercado extends Model
     SUM(CASE WHEN a.fecha_emision LIKE '%$lastYearToFind-11%' THEN b.volumen ELSE NULL END) AS 'mesNoviembreAnt',
 	  SUM(CASE WHEN a.fecha_emision LIKE '%$dateSelected-12%' THEN b.volumen ELSE NULL END) AS 'mesDiciembre',
     SUM(CASE WHEN a.fecha_emision LIKE '%$lastYearToFind-12%' THEN b.volumen ELSE NULL END) AS 'mesDiciembreAnt',
-    SUM(CASE WHEN a.fecha_emision LIKE '%$dateSelected%' THEN (b.volumen / 66) ELSE NULL END) AS 'totalYearSelected',
-    SUM(CASE WHEN a.fecha_emision LIKE '%$lastYearToFind%' THEN (b.volumen / 66) ELSE NULL END) AS 'totalLastYear'
+    SUM(CASE WHEN a.fecha_emision LIKE '%$dateSelected%' THEN (b.volumen / 20) ELSE NULL END) AS 'totalYearSelected',
+    SUM(CASE WHEN a.fecha_emision LIKE '%$lastYearToFind%' THEN (b.volumen / 20) ELSE NULL END) AS 'totalLastYear'
     FROM factura_intl a, fact_intl_detalles b WHERE a.id=b.factura_id GROUP BY a.cliente;";
     $reportPorContenedor = DB::select(DB::raw($consultaReportPorContenedor));
     return $reportPorContenedor;
