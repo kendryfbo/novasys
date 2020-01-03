@@ -12,12 +12,12 @@
 	<!-- box-body -->
     <div class="box-body">
 		<!-- form start -->
-		<form id="create" method="post" action="{{route('cierreMesIntl')}}">
+		<form id="create" method="post" action="{{route('guardarProducto')}}">
 			{{ csrf_field() }}
 
 			<div class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-sm-2" >Codigo:</label>
+					<label class="control-label col-sm-2" >Código:</label>
 					<div class="col-sm-4">
 						<input type="text" v-model='codigo' class="form-control" name="codigo" placeholder="Codigo de Producto..." value="{{ Input::old('codigo') ? Input::old('codigo') : "" }}" readonly required>
 					</div>
