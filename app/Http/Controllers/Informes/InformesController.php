@@ -84,8 +84,8 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
+      $yearSelected = Carbon::now()->format('Y') - 1;
+      $lastYearSelected = Carbon::now()->format('Y') - 2;
       $lastYearSelected = json_encode($lastYearSelected);
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
@@ -301,8 +301,8 @@ class InformesController extends Controller
       $lastDescNotaCreditoNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = (($sumaAnteriorNac - $lastDescNotaCreditoNac) / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
+      $yearSelected = Carbon::now()->format('Y') - 1;
+      $lastYearSelected = Carbon::now()->format('Y') - 2;
       $lastYearSelected = json_encode($lastYearSelected);
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
@@ -484,6 +484,8 @@ class InformesController extends Controller
     public function ventasMensualesNacional(Request $request)
     {
 
+      //dd($request);
+
       setlocale(LC_ALL, 'es');
 
       $apiUrl = 'https://mindicador.cl/api';
@@ -512,8 +514,8 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
+      $yearSelected = Carbon::now()->format('Y') - 1;
+      $lastYearSelected = Carbon::now()->format('Y') - 2;
       $lastYearSelected = json_encode($lastYearSelected);
 
       $sumaAcumuladoTotalNac = FacturaNacional::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("neto");
@@ -605,8 +607,8 @@ class InformesController extends Controller
       $sumaTotal = FacturaIntl::where('fecha_emision', 'like', '%'.$fechaSelected.'%')->sum("fob");
       $sumaAnterior = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("fob");
 
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
+      $yearSelected = Carbon::now()->format('Y') - 1;
+      $lastYearSelected = Carbon::now()->format('Y') - 2;
       $lastYearSelected = json_encode($lastYearSelected);
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
@@ -689,8 +691,8 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
+      $yearSelected = Carbon::now()->format('Y') - 1;
+      $lastYearSelected = Carbon::now()->format('Y') - 2;
       $lastYearSelected = json_encode($lastYearSelected);
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
@@ -1114,8 +1116,8 @@ class InformesController extends Controller
           $sumaTotal = FacturaIntl::where('fecha_emision', 'like', '%'.$fechaSelected.'%')->sum("fob");
           $sumaAnterior = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("fob");
 
-          $yearSelected = Carbon::now()->format('Y');
-          $lastYearSelected = Carbon::now()->format('Y') - 1;
+          $yearSelected = Carbon::now()->format('Y') - 1;
+          $lastYearSelected = Carbon::now()->format('Y') - 2;
           $lastYearSelected = json_encode($lastYearSelected);
 
           $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
