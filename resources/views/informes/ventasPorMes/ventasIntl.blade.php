@@ -203,7 +203,7 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Clientes', 'Año 2019', 'Año 2018'],
+          ['Clientes', 'Año {{$yearSelected}}', 'Año {{$lastYearSelected}}'],
 					['Ene', {{json_encode($sumaTotalEnero)}}, {{json_encode($totalLastEnero)}}],
 					['Feb', {{json_encode($sumaTotalFebrero)}}, {{json_encode($totalLastFebrero)}}],
 					['Mar', {{json_encode($sumaTotalMarzo)}},{{json_encode($totalLastMarzo)}}],

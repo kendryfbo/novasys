@@ -32,7 +32,7 @@ class NotaVentaController extends Controller
      */
     public function index()
     {
-        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->take(50)->get();
+        $notasVentas = NotaVenta::with('cliente')->orderBy('numero','desc')->take(300)->get();
 
         return view('comercial.notasVentas.index')->with(['notasVentas' => $notasVentas]);
     }
@@ -137,13 +137,13 @@ class NotaVentaController extends Controller
             if ($productosEnOferta) {
 
                 foreach ($productosEnOferta as $productoOferta) {
-                
+
                     foreach ($notaVenta->cliente->listaPrecio->detalle as $detalle) {
 
                         if ($productoOferta->producto_id == $detalle->producto_id) {
 
                             $detalle->descOferta = $productoOferta->descuento;
-                            
+
                         }
                     }
                 }

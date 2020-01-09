@@ -286,7 +286,7 @@
 
 
 				<!-- 1st Table -->
-				@if (empty($ventasMesIntl))
+				@if (empty($cierreMesMercaNacional))
 
 				@else
 				<h4>Internacional</h4>
