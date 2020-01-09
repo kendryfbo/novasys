@@ -35,6 +35,7 @@
 						<th class="text-center">Aut.Comer</th>
 						<th class="text-center">Aut.Finanzas</th>
 						<th class="text-center">Status</th>
+						<th class="text-center">Despacho</th>
 						<th class="text-center">Opciones</th>
 					</tr>
 				</thead>
@@ -69,6 +70,14 @@
 							</td>
 							<td class="text-center">
 								{{$notaVenta->status ? 'Aprobada':'Anulada'}}
+							</td>
+								@if (is_null($notaVenta->factura))
+								<td class="text-center " style="color: #FF0000;">
+																		Pendiente
+								@else
+								<td class="text-center " style="color: #008000;">
+																		Sí
+								@endif
 							</td>
 							<td class="text-center">
 

@@ -35,8 +35,8 @@ class InformesController extends Controller
       $sumaTotal = '';
       $sumaAnterior = '';
       $meses = Mes::getAll();
-      $lastYearSelected = '';
-      $yearSelected = '';
+      $lastYearSelected = '0000-00-00';
+      $yearSelected = '0000-00-00';
       $sumaAcumuladoTotal = '';
       $sumaAcumuladoAnterior = '';
       $ventaMesNovafoods = '';
@@ -48,11 +48,6 @@ class InformesController extends Controller
       $sumaAcumuladoTotalNac = '';
       $sumaAcumuladoAnteriorNac = '';
       $busqueda = $request;
-
-      //Data para gráfico
-      $yearSelected = Carbon::now()->format('Y');
-      $lastYearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = json_encode($lastYearSelected);
 
       $apiUrl = 'https://mindicador.cl/api';
 
@@ -84,10 +79,6 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = Carbon::now()->format('Y') - 2;
-      $lastYearSelected = json_encode($lastYearSelected);
-
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
       $sumaAcumuladoAnterior = FacturaIntl::whereBetween('fecha_emision', [''.$lastYearSelected.'-01-01', ''.$lastYear.'-31'])->sum("fob");
 
@@ -105,150 +96,32 @@ class InformesController extends Controller
       $ventaMesSumarca = VentasMercado::consultaVentaMesSumarca($lastYear,$fechaSelected,$lastYearSelected,$yearSelected);
 
       //Data para gráfico This Year
-      $eneroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-01%')->sum("fob");
-      $eneroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-01%')->sum("neto");
-      $notaCredEneroNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-01%')->sum("neto");
-      $eneroNac = ($eneroNac - $notaCredEneroNac) / $valorDolar;
-      $sumaTotalEnero = $eneroNac + $eneroIntl;
-
-      $febreroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-02%')->sum("fob");
-      $febreroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-02%')->sum("neto");
-      $notaCredFebreroNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-02%')->sum("neto");
-      $febreroNac = ($febreroNac - $notaCredFebreroNac) / $valorDolar;
-      $sumaTotalFebrero = $febreroNac + $febreroIntl;
-
-      $marzoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-03%')->sum("fob");
-      $marzoNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-03%')->sum("neto");
-      $notaCredMarzoNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-03%')->sum("neto");
-      $marzoNac = ($marzoNac - $notaCredMarzoNac) / $valorDolar;
-      $sumaTotalMarzo = $marzoNac + $marzoIntl;
-
-      $abrilIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-04%')->sum("fob");
-      $abrilNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-04%')->sum("neto");
-      $notaCredAbrilNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-04%')->sum("neto");
-      $abrilNac = ($abrilNac - $notaCredAbrilNac) / $valorDolar;
-      $sumaTotalAbril = $abrilNac + $abrilIntl;
-
-      $mayoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-05%')->sum("fob");
-      $mayoNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-05%')->sum("neto");
-      $notaCredMayoNac  = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-05%')->sum("neto");
-      $mayoNac  = ($mayoNac - $notaCredMayoNac) / $valorDolar;
-      $sumaTotalMayo = $mayoNac + $mayoIntl;
-
-      $junioIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-06%')->sum("fob");
-      $junioNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-06%')->sum("neto");
-      $notaCredJunioNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-06%')->sum("neto");
-      $junioNac = ($junioNac - $notaCredJunioNac) / $valorDolar;
-      $sumaTotalJunio = $junioNac + $junioIntl;
-
-      $julioIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-07%')->sum("fob");
-      $julioNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-07%')->sum("neto");
-      $notaCredJulioNac  = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-07%')->sum("neto");
-      $julioNac = ($julioNac - $notaCredJulioNac) / $valorDolar;
-      $sumaTotalJulio = $julioNac + $julioIntl;
-
-      $agostoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-08%')->sum("fob");
-      $agostoNac =  FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-08%')->sum("neto");
-      $notaCredAgostoNac =  NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-08%')->sum("neto");
-      $agostoNac = ($agostoNac - $notaCredAgostoNac) / $valorDolar;
-      $sumaTotalAgosto =  $agostoNac + $agostoIntl;
-
-      $septiembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-09%')->sum("fob");
-      $septiembreNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-09%')->sum("neto");
-      $notaCredSeptiembreNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-09%')->sum("neto");
-      $septiembreNac = ($septiembreNac - $notaCredSeptiembreNac) / $valorDolar;
-      $sumaTotalSeptiembre = $septiembreNac + $septiembreIntl;
-
-      $octubreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-10%')->sum("fob");
-      $octubreNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-10%')->sum("neto");
-      $notaCredOctubreNac  = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-10%')->sum("neto");
-      $octubreNac = ($octubreNac - $notaCredOctubreNac) / $valorDolar;
-      $sumaTotalOctubre = $octubreNac + $octubreIntl;
-
-      $noviembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-11%')->sum("fob");
-      $noviembreNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-11%')->sum("neto");
-      $notaCredNoviembreNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-11%')->sum("neto");
-      $noviembreNac = ($noviembreNac - $notaCredNoviembreNac) / $valorDolar;
-      $sumaTotalNoviembre = $noviembreNac + $noviembreIntl;
-
-      $diciembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-12%')->sum("fob");
-      $diciembreNac =  FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-12%')->sum("neto");
-      $notaCredDiciembreNac =  NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-12%')->sum("neto");
-      $diciembreNac =  ($diciembreNac - $notaCredDiciembreNac) / $valorDolar;
-      $sumaTotalDiciembre = $diciembreNac + $diciembreIntl;
+      $sumaTotalEnero = 0;
+      $sumaTotalFebrero = 0;
+      $sumaTotalMarzo = 0;
+      $sumaTotalAbril = 0;
+      $sumaTotalMayo = 0;
+      $sumaTotalJunio = 0;
+      $sumaTotalJulio = 0;
+      $sumaTotalAgosto =  0;
+      $sumaTotalSeptiembre = 0;
+      $sumaTotalOctubre = 0;
+      $sumaTotalNoviembre = 0;
+      $sumaTotalDiciembre = 0;
 
       //Datos para Gráficos Last Year
-      $eneroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-01%')->sum("fob");
-      $eneroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-01%')->sum("neto");
-      $notaCredEneroNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-01%')->sum("neto");
-      $eneroNac = ($eneroNac - $notaCredEneroNac) / $valorDolar;
-      $totalLastEnero = $eneroNac + $eneroIntl;
-
-      $febreroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-02%')->sum("fob");
-      $febreroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-02%')->sum("neto");
-      $notaCredFebreroNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-02%')->sum("neto");
-      $febreroNac = ($febreroNac - $notaCredFebreroNac) / $valorDolar;
-      $totalLastFebrero = $febreroNac + $febreroIntl;
-
-      $marzoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-03%')->sum("fob");
-      $marzoNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-03%')->sum("neto");
-      $notaCredMarzoNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-03%')->sum("neto");
-      $marzoNac = ($marzoNac - $notaCredMarzoNac) / $valorDolar;
-      $totalLastMarzo = $marzoNac + $marzoIntl;
-
-      $abrilIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-04%')->sum("fob");
-      $abrilNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-04%')->sum("neto");
-      $notaCredAbrilNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-04%')->sum("neto");
-      $abrilNac = ($abrilNac - $notaCredAbrilNac) / $valorDolar;
-      $totalLastAbril = $abrilNac + $abrilIntl;
-
-      $mayoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-05%')->sum("fob");
-      $mayoNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-05%')->sum("neto");
-      $notaCredMayoNac  = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-05%')->sum("neto");
-      $mayoNac  = ($mayoNac - $notaCredMayoNac) / $valorDolar;
-      $totalLastMayo = $mayoNac + $mayoIntl;
-
-      $junioIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-06%')->sum("fob");
-      $junioNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-06%')->sum("neto");
-      $notaCredJunioNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-06%')->sum("neto");
-      $junioNac = ($junioNac - $notaCredJunioNac) / $valorDolar;
-      $totalLastJunio = $junioNac + $junioIntl;
-
-      $julioIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-07%')->sum("fob");
-      $julioNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-07%')->sum("neto");
-      $notaCredJulioNac  = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-07%')->sum("neto");
-      $julioNac = ($julioNac - $notaCredJulioNac) / $valorDolar;
-      $totalLastJulio = $julioNac + $julioIntl;
-
-      $agostoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-08%')->sum("fob");
-      $agostoNac =  FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-08%')->sum("neto");
-      $notaCredAgostoNac =  NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-08%')->sum("neto");
-      $agostoNac = ($agostoNac - $notaCredAgostoNac) / $valorDolar;
-      $totalLastAgosto =  $agostoNac + $agostoIntl;
-
-      $septiembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-09%')->sum("fob");
-      $septiembreNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-09%')->sum("neto");
-      $notaCredSeptiembreNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-09%')->sum("neto");
-      $septiembreNac = ($septiembreNac - $notaCredSeptiembreNac) / $valorDolar;
-      $totalLastSeptiembre = $septiembreNac + $septiembreIntl;
-
-      $octubreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-10%')->sum("fob");
-      $octubreNac  = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-10%')->sum("neto");
-      $notaCredOctubreNac  = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-10%')->sum("neto");
-      $octubreNac = ($octubreNac - $notaCredOctubreNac) / $valorDolar;
-      $totalLastOctubre = $octubreNac + $octubreIntl;
-
-      $noviembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-11%')->sum("fob");
-      $noviembreNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-11%')->sum("neto");
-      $notaCredNoviembreNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-11%')->sum("neto");
-      $noviembreNac = ($noviembreNac - $notaCredNoviembreNac) / $valorDolar;
-      $totalLastNoviembre = $noviembreNac + $noviembreIntl;
-
-      $diciembreIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYearSelected.'-12%')->sum("fob");
-      $diciembreNac =  FacturaNacional::where('fecha_emision', 'like', '%'.$lastYearSelected.'-12%')->sum("neto");
-      $notaCredDiciembreNac =  NotaCreditoNac::where('fecha', 'like', '%'.$lastYearSelected.'-12%')->sum("neto");
-      $diciembreNac =  ($diciembreNac - $notaCredDiciembreNac) / $valorDolar;
-      $totalLastDiciembre = $diciembreNac + $diciembreIntl;
+      $totalLastEnero = 0;
+      $totalLastFebrero = 0;
+      $totalLastMarzo = 0;
+      $totalLastAbril = 0;
+      $totalLastMayo = 0;
+      $totalLastJunio = 0;
+      $totalLastJulio = 0;
+      $totalLastAgosto = 0;
+      $totalLastSeptiembre = 0;
+      $totalLastOctubre = 0;
+      $totalLastNoviembre = 0;
+      $totalLastDiciembre = 0;
 
       return view('informes.ventasPorMes.index')->with(['busqueda' => $busqueda, 'ventaMesIntl' => $ventaMesIntl, 'mesActual' => $mesActual, 'mesPasado' => $mesPasado, 'sumaTotal' => $sumaTotal, 'yearSelected' => $yearSelected,  'lastYearSelected' => $lastYearSelected, 'sumaAnterior' => $sumaAnterior, 'sumaTotalEnero' => $sumaTotalEnero, 'sumaTotalFebrero' => $sumaTotalFebrero,
       'sumaTotalMarzo' => $sumaTotalMarzo, 'sumaTotalAbril' => $sumaTotalAbril, 'sumaTotalMayo' => $sumaTotalMayo,
@@ -286,7 +159,9 @@ class InformesController extends Controller
       $valorDolar = $dailyIndicators->dolar->valor;
 
       $fechaSelected = $request->dateSelected;
+
       $lastYear = date('Y-m', strtotime('-1 year', strtotime($fechaSelected)));
+
       $mesActual = Carbon::parse(''.$fechaSelected.'')->formatLocalized('%B  -  %Y');
       $mesPasado = Carbon::parse(''.$lastYear.'')->formatLocalized('%B  -  %Y');
       $busqueda = $request;
@@ -301,9 +176,12 @@ class InformesController extends Controller
       $lastDescNotaCreditoNac = NotaCreditoNac::where('fecha', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = (($sumaAnteriorNac - $lastDescNotaCreditoNac) / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = Carbon::now()->format('Y') - 2;
-      $lastYearSelected = json_encode($lastYearSelected);
+      $yearSelected = date('Y', strtotime('0 year', strtotime($fechaSelected)));
+      $yearSelected = json_decode($yearSelected);
+
+      $lastYearSelected = date('Y', strtotime('-1 year', strtotime($fechaSelected)));
+      $lastYearSelected = json_decode($lastYearSelected);
+
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
       $sumaAcumuladoAnterior = FacturaIntl::whereBetween('fecha_emision', [''.$lastYearSelected.'-01-01', ''.$lastYear.'-31'])->sum("fob");
@@ -514,9 +392,12 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = Carbon::now()->format('Y') - 2;
-      $lastYearSelected = json_encode($lastYearSelected);
+      $yearSelected = date('Y', strtotime('0 year', strtotime($fechaSelected)));
+      $yearSelected = json_decode($yearSelected);
+
+      $lastYearSelected = date('Y', strtotime('-1 year', strtotime($fechaSelected)));
+      $lastYearSelected = json_decode($lastYearSelected);
+
 
       $sumaAcumuladoTotalNac = FacturaNacional::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("neto");
       $sumaAcumuladoTotalNac = ($sumaAcumuladoTotalNac / $valorDolar);
@@ -607,9 +488,12 @@ class InformesController extends Controller
       $sumaTotal = FacturaIntl::where('fecha_emision', 'like', '%'.$fechaSelected.'%')->sum("fob");
       $sumaAnterior = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("fob");
 
-      $yearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = Carbon::now()->format('Y') - 2;
-      $lastYearSelected = json_encode($lastYearSelected);
+      $yearSelected = date('Y', strtotime('0 year', strtotime($fechaSelected)));
+      $yearSelected = json_decode($yearSelected);
+
+      $lastYearSelected = date('Y', strtotime('-1 year', strtotime($fechaSelected)));
+      $lastYearSelected = json_decode($lastYearSelected);
+
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
       $sumaAcumuladoAnterior = FacturaIntl::whereBetween('fecha_emision', [''.$lastYearSelected.'-01-01', ''.$lastYear.'-31'])->sum("fob");
@@ -691,9 +575,12 @@ class InformesController extends Controller
       $sumaAnteriorNac = FacturaNacional::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("neto");
       $sumaAnteriorNac = ($sumaAnteriorNac / $valorDolar);
 
-      $yearSelected = Carbon::now()->format('Y') - 1;
-      $lastYearSelected = Carbon::now()->format('Y') - 2;
-      $lastYearSelected = json_encode($lastYearSelected);
+      $yearSelected = date('Y', strtotime('0 year', strtotime($fechaSelected)));
+      $yearSelected = json_decode($yearSelected);
+
+      $lastYearSelected = date('Y', strtotime('-1 year', strtotime($fechaSelected)));
+      $lastYearSelected = json_decode($lastYearSelected);
+
 
       $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
       $sumaAcumuladoAnterior = FacturaIntl::whereBetween('fecha_emision', [''.$lastYearSelected.'-01-01', ''.$lastYear.'-31'])->sum("fob");
@@ -878,7 +765,21 @@ class InformesController extends Controller
       $years = [$currentYear,$lastYear,$previousYear];
       $yearOptions = [$actualYearFilter,$lastYearFilter,$previousYearFilter];
 
-      $valorDolar = 752.30;
+      $apiUrl = 'https://mindicador.cl/api';
+
+                  if ( ini_get('allow_url_fopen') ) {
+                    $json = file_get_contents($apiUrl);
+                  } else {
+
+                    $curl = curl_init($apiUrl);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    $json = curl_exec($curl);
+                    curl_close($curl);
+                  }
+
+      $dailyIndicators = json_decode($json);
+
+      $valorDolar = $dailyIndicators->dolar->valor;
 
       $fechaSelected = $request->dateSelected;
 
@@ -1116,9 +1017,12 @@ class InformesController extends Controller
           $sumaTotal = FacturaIntl::where('fecha_emision', 'like', '%'.$fechaSelected.'%')->sum("fob");
           $sumaAnterior = FacturaIntl::where('fecha_emision', 'like', '%'.$lastYear.'%')->sum("fob");
 
-          $yearSelected = Carbon::now()->format('Y') - 1;
-          $lastYearSelected = Carbon::now()->format('Y') - 2;
-          $lastYearSelected = json_encode($lastYearSelected);
+          $yearSelected = date('Y', strtotime('0 year', strtotime($fechaSelected)));
+          $yearSelected = json_decode($yearSelected);
+
+          $lastYearSelected = date('Y', strtotime('-1 year', strtotime($fechaSelected)));
+          $lastYearSelected = json_decode($lastYearSelected);
+
 
           $sumaAcumuladoTotal = FacturaIntl::whereBetween('fecha_emision', [''.$yearSelected.'-01-01', ''.$fechaSelected.'-31'])->sum("fob");
           $sumaAcumuladoAnterior = FacturaIntl::whereBetween('fecha_emision', [''.$lastYearSelected.'-01-01', ''.$lastYear.'-31'])->sum("fob");

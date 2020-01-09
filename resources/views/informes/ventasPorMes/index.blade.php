@@ -141,8 +141,8 @@
 					<thead>
 						<tr>
 							<th class="text-center">#</th>
-							<th class="text-center">Acum {{$lastYearSelected}}</th>
-							<th class="text-center">Acum {{$yearSelected}}</th>
+							<th class="text-center">Acum. {{$mesPasado}}</th>
+							<th class="text-center">Acum. {{$mesActual}}</th>
 							<th class="text-center">Index YA</th>
 						</tr>
 					</thead>
@@ -616,7 +616,7 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Clientes', 'Año 2019', 'Año 2018'],
+          ['Clientes', 'Año {{$yearSelected}}', 'Año {{$lastYearSelected}}'],
 					['Ene', {{json_encode($sumaTotalEnero)}}, {{json_encode($totalLastEnero)}}],
 					['Feb', {{json_encode($sumaTotalFebrero)}}, {{json_encode($totalLastFebrero)}}],
 					['Mar', {{json_encode($sumaTotalMarzo)}},{{json_encode($totalLastMarzo)}}],
