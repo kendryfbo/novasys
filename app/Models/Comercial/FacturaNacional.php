@@ -16,7 +16,7 @@ class FacturaNacional extends Model
 
     protected $fillable = ['numero', 'numero_nv', 'cv_id', 'cv_rut', 'centro_venta' ,'cliente_id', 'cliente_rut','cliente',
                            'direccion', 'despacho', 'cond_pago', 'observacion', 'vendedor_id', 'vendedor', 'sub_total','descuento',
-                           'neto','iva','iaba','total','peso_neto','peso_bruto','volumen', 'pagado',
+                           'neto','iva','iaba','total','peso_neto','peso_bruto','volumen', 'pagado', 'dolarDia',
                            'cancelada', 'user_id','fecha_emision','fecha_venc', 'deuda'];
 
 
