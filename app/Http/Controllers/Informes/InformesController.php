@@ -204,17 +204,13 @@ class InformesController extends Controller
       $eneroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-01%')->sum("fob");
       $eneroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-01%')->sum("neto");
       $notaCredEneroNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-01%')->sum("neto");
-      $dolarEnero = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-01%')->get();
-      $dolarEnero = $dolarEnero[0]->dolarDia;
-      $eneroNac = ($eneroNac - $notaCredEneroNac) / $dolarEnero;
+      $eneroNac = ($eneroNac - $notaCredEneroNac) / $valorDolar;
       $sumaTotalEnero = $eneroNac + $eneroIntl;
 
       $febreroIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-02%')->sum("fob");
       $febreroNac = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-02%')->sum("neto");
       $notaCredFebreroNac = NotaCreditoNac::where('fecha', 'like', '%'.$yearSelected.'-02%')->sum("neto");
-      $dolarFebrero = FacturaNacional::where('fecha_emision', 'like', '%'.$yearSelected.'-02%')->get();
-      $dolarFebrero = $dolarFebrero[0]->dolarDia;
-      $febreroNac = ($febreroNac - $notaCredFebreroNac) / $dolarFebrero;
+      $febreroNac = ($febreroNac - $notaCredFebreroNac) / $valorDolar;
       $sumaTotalFebrero = $febreroNac + $febreroIntl;
 
       $marzoIntl = FacturaIntl::where('fecha_emision', 'like', '%'.$yearSelected.'-03%')->sum("fob");
