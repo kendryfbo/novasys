@@ -3,6 +3,7 @@
 namespace App\Models\Informes;
 
 use DB;
+use SoapClient;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
