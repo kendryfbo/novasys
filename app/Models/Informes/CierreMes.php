@@ -32,7 +32,24 @@ class CierreMes extends Model
     $lastYear = $now->year-1;
     $previousYear = $now->year-2;
 
-    $valorDolar = 756.95;
+    $user = '968730908';
+    $password = 'hrE36pwNK64Lp12';
+    $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
+
+    $seriesIds = array("F073.TCO.PRE.Z.D");
+    $firstDate = Carbon::now()->format('Y-m-d');
+    $lastDate =  Carbon::now()->format('Y-m-d');
+    $client = new soapclient($wsdl);
+    $params = new \stdClass();
+    $params->user = $user;
+    $params->password = $password;
+    $params->firstDate = $firstDate;
+    $params->lastDate = $lastDate;
+    $params->seriesIds = $seriesIds;
+
+    $result = $client->GetSeries($params)->GetSeriesResult;
+    $fameSeries = $result->Series->fameSeries;
+    $valorDolar = $fameSeries->obs->value;
 
     if ($actualYearFilter) {
 
