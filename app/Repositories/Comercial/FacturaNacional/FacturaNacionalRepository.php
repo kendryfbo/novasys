@@ -59,6 +59,25 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$fechaEmision = $request->fechaEmision;
 			$fechaVenc = $request->fechaVenc;
 
+			$user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
+
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
+
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
+
 			$facturaNacional = facturaNacional::create([
 				'numero' => $numero,
 				'cv_id' => $centroVentaID,
@@ -87,7 +106,8 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				'volumen' => $volumen,
 				'user_id' => $user,
 				'fecha_emision' => $fechaEmision,
-				'fecha_venc' => $fechaVenc
+				'fecha_venc' => $fechaVenc,
+				'dolarDia' => $valorDolar
 			]);
 
 			$nv = $facturaNacional->id;
@@ -192,6 +212,25 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 			$pagado = 0;
 
+			$user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
+
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
+
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
+
 			$facturaNacional = FacturaNacional::create([
 				'numero' => $numero,
 				'numero_nv' => $numeroNV,
@@ -220,7 +259,8 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 				'pagado' => $pagado,
 				'user_id' => $user,
 				'fecha_emision' => $fechaEmision,
-				'fecha_venc' => $fechaVenc
+				'fecha_venc' => $fechaVenc,
+				'dolarDia' => $valorDolar
 			]);
 
 			$factura = $facturaNacional->id;

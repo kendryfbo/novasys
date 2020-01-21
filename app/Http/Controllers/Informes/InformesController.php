@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Informes;
 use DB;
 use Excel;
 use Carbon\Carbon;
+use SoapClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mes;
@@ -142,26 +143,28 @@ class InformesController extends Controller
     {
 
       setlocale(LC_ALL, 'es');
-      $apiUrl = 'https://mindicador.cl/api';
+      $user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
 
-            if ( ini_get('allow_url_fopen') ) {
-              $json = file_get_contents($apiUrl);
-            } else {
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
 
-              $curl = curl_init($apiUrl);
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-              $json = curl_exec($curl);
-              curl_close($curl);
-            }
-
-      $dailyIndicators = json_decode($json);
-
-      $valorDolar = $dailyIndicators->dolar->valor;
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
 
       $fechaSelected = $request->dateSelected;
 
       $lastYear = date('Y-m', strtotime('-1 year', strtotime($fechaSelected)));
-
       $mesActual = Carbon::parse(''.$fechaSelected.'')->formatLocalized('%B  -  %Y');
       $mesPasado = Carbon::parse(''.$lastYear.'')->formatLocalized('%B  -  %Y');
       $busqueda = $request;
@@ -366,21 +369,24 @@ class InformesController extends Controller
 
       setlocale(LC_ALL, 'es');
 
-      $apiUrl = 'https://mindicador.cl/api';
+      $user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
 
-            if ( ini_get('allow_url_fopen') ) {
-              $json = file_get_contents($apiUrl);
-            } else {
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
 
-              $curl = curl_init($apiUrl);
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-              $json = curl_exec($curl);
-              curl_close($curl);
-            }
-
-      $dailyIndicators = json_decode($json);
-
-      $valorDolar = $dailyIndicators->dolar->valor;
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
 
       $fechaSelected = $request->dateSelected;
       $lastYear = date('Y-m', strtotime('-1 year', strtotime($fechaSelected)));
@@ -546,21 +552,24 @@ class InformesController extends Controller
     {
 
       setlocale(LC_ALL, 'es');
-      $apiUrl = 'https://mindicador.cl/api';
+      $user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
 
-            if ( ini_get('allow_url_fopen') ) {
-              $json = file_get_contents($apiUrl);
-            } else {
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
 
-              $curl = curl_init($apiUrl);
-              curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-              $json = curl_exec($curl);
-              curl_close($curl);
-            }
-
-      $dailyIndicators = json_decode($json);
-
-      $valorDolar = $dailyIndicators->dolar->valor;
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
 
       $fechaSelected = $request->dateSelected;
       $lastYear = date('Y-m', strtotime('-1 year', strtotime($fechaSelected)));
@@ -765,21 +774,24 @@ class InformesController extends Controller
       $years = [$currentYear,$lastYear,$previousYear];
       $yearOptions = [$actualYearFilter,$lastYearFilter,$previousYearFilter];
 
-      $apiUrl = 'https://mindicador.cl/api';
+      $user = '968730908';
+      $password = 'hrE36pwNK64Lp12';
+      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
 
-                  if ( ini_get('allow_url_fopen') ) {
-                    $json = file_get_contents($apiUrl);
-                  } else {
+      $seriesIds = array("F073.TCO.PRE.Z.D");
+      $firstDate = Carbon::now()->format('Y-m-d');
+      $lastDate =  Carbon::now()->format('Y-m-d');
+      $client = new soapclient($wsdl);
+      $params = new \stdClass();
+      $params->user = $user;
+      $params->password = $password;
+      $params->firstDate = $firstDate;
+      $params->lastDate = $lastDate;
+      $params->seriesIds = $seriesIds;
 
-                    $curl = curl_init($apiUrl);
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    $json = curl_exec($curl);
-                    curl_close($curl);
-                  }
-
-      $dailyIndicators = json_decode($json);
-
-      $valorDolar = $dailyIndicators->dolar->valor;
+      $result = $client->GetSeries($params)->GetSeriesResult;
+      $fameSeries = $result->Series->fameSeries;
+      $valorDolar = $fameSeries->obs->value;
 
       $fechaSelected = $request->dateSelected;
 
