@@ -60,24 +60,21 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 			$fechaEmision = $request->fechaEmision;
 			$fechaVenc = $request->fechaVenc;
 
-			$user = '968730908';
-      $password = 'hrE36pwNK64Lp12';
-      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
+			$apiUrl = 'https://mindicador.cl/api';
 
-      $seriesIds = array("F073.TCO.PRE.Z.D");
-      $firstDate = Carbon::now()->format('Y-m-d');
-      $lastDate =  Carbon::now()->format('Y-m-d');
-      $client = new soapclient($wsdl);
-      $params = new \stdClass();
-      $params->user = $user;
-      $params->password = $password;
-      $params->firstDate = $firstDate;
-      $params->lastDate = $lastDate;
-      $params->seriesIds = $seriesIds;
+						if ( ini_get('allow_url_fopen') ) {
+							$json = file_get_contents($apiUrl);
+						} else {
 
-      $result = $client->GetSeries($params)->GetSeriesResult;
-      $fameSeries = $result->Series->fameSeries;
-      $valorDolar = $fameSeries->obs->value;
+							$curl = curl_init($apiUrl);
+							curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+							$json = curl_exec($curl);
+							curl_close($curl);
+						}
+
+			$dailyIndicators = json_decode($json);
+
+			$valorDolar = $dailyIndicators->dolar->valor;
 
 			$facturaNacional = facturaNacional::create([
 				'numero' => $numero,
@@ -213,24 +210,21 @@ class FacturaNacionalRepository implements FacturaNacionalRepositoryInterface {
 
 			$pagado = 0;
 
-			$user = '968730908';
-      $password = 'hrE36pwNK64Lp12';
-      $wsdl = 'https://si3.bcentral.cl/sietews/sietews.asmx?wsdl';
+			$apiUrl = 'https://mindicador.cl/api';
 
-      $seriesIds = array("F073.TCO.PRE.Z.D");
-      $firstDate = Carbon::now()->format('Y-m-d');
-      $lastDate =  Carbon::now()->format('Y-m-d');
-      $client = new soapclient($wsdl);
-      $params = new \stdClass();
-      $params->user = $user;
-      $params->password = $password;
-      $params->firstDate = $firstDate;
-      $params->lastDate = $lastDate;
-      $params->seriesIds = $seriesIds;
+						if ( ini_get('allow_url_fopen') ) {
+							$json = file_get_contents($apiUrl);
+						} else {
 
-      $result = $client->GetSeries($params)->GetSeriesResult;
-      $fameSeries = $result->Series->fameSeries;
-      $valorDolar = $fameSeries->obs->value;
+							$curl = curl_init($apiUrl);
+							curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+							$json = curl_exec($curl);
+							curl_close($curl);
+						}
+
+			$dailyIndicators = json_decode($json);
+
+			$valorDolar = $dailyIndicators->dolar->valor;
 
 			$facturaNacional = FacturaNacional::create([
 				'numero' => $numero,
