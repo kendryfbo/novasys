@@ -47,7 +47,7 @@
 
 					<label class="control-label col-lg-1">Cliente:</label>
 					<div class="col-lg-2">
-						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" v-model="clientID">
+						<select class="selectpicker" data-width="100%" data-live-search="true" data-style="btn-sm btn-default" name="clientID" v-model="clientID">
 							<option value=""></option>
 							<option v-if="cliente.canal_id == canalID" v-for="cliente in clientes" :value="cliente.id">@{{cliente.descripcion}}</option>
 
@@ -65,7 +65,7 @@
 
 					<label class="control-label col-lg-1">Descuento :</label>
 					<div class="col-lg-1">
-						<input class="form-control input-sm" type="text" name="descuento" v-model="descuento" value="">
+						<input class="form-control input-sm" type="text" name="descuento" v-model="descuento">
 					</div>
 
 					<div class="col-lg-1">
@@ -138,9 +138,10 @@
 
 @section('scripts')
 	<script>
-		productos = {!!$productos!!};
-		clientesNac = {!!$clientesNac!!};
-		canales = {!!$canales!!};
+		var productos = {!!$productos!!};
+		var clientesNac = Object.values({!!$clientesNac!!});
+		var canales = {!!$canales!!};
+		var items = [];
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>

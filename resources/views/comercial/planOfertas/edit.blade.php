@@ -135,10 +135,10 @@
 
 @section('scripts')
 	<script>
-		clientesNac = {!!$clientesNac!!};
-		productos = {!!$productos!!};
-		canales = {!!$canales!!};
-		items = {!!$planOfertas->detalles->toJson()!!};
+	var productos = {!!$productos!!};
+	var clientesNac = Object.values({!!$clientesNac!!});
+	var canales = {!!$canales!!};
+	var items = {!!$planOfertas->detalles->toJson()!!};
 	</script>
 	<script src="{{asset('js/customDataTable.js')}}"></script>
 	<script src="{{asset('vue/vue.js')}}"></script>
