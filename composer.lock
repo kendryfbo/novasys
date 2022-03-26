@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6fc833eb0cdd82f72f584961b2dc880",
+    "content-hash": "f1b0c160db015552d7a1987511963f4f",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2287,29 +2287,33 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "8.3.0",
+            "version": "8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-                "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f"
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
-                "reference": "91bcc3e3fdb7386c9a2e0e0aa09ca75cc43f121f",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/e41d2140031d533348b2192a83f02d8dd8a71d30",
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "ext-iconv": "*",
+                "php": ">=5.6.20"
             },
             "require-dev": {
                 "codacy/coverage": "^1.4",
-                "phpunit/phpunit": "~4.8"
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "suggest": {
+                "ext-mbstring": "for parsing UTF-8 CSS"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Sabberworm\\CSS": "lib/"
+                "psr-4": {
+                    "Sabberworm\\CSS\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2322,13 +2326,17 @@
                 }
             ],
             "description": "Parser for CSS Files written in PHP",
-            "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
+            "homepage": "https://www.sabberworm.com/blog/2010/6/10/php-css-parser",
             "keywords": [
                 "css",
                 "parser",
                 "stylesheet"
             ],
-            "time": "2019-02-22T07:42:52+00:00"
+            "support": {
+                "issues": "https://github.com/sabberworm/PHP-CSS-Parser/issues",
+                "source": "https://github.com/sabberworm/PHP-CSS-Parser/tree/8.4.0"
+            },
+            "time": "2021-12-11T13:40:54+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -4200,49 +4208,6 @@
             "time": "2018-09-04T19:00:09+00:00"
         },
         {
-            "name": "malahierba-lab/chile-rut",
-            "version": "5.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/malahierba-lab/chile-rut.git",
-                "reference": "cea5ed7b73c06a54220ae9291450776c37ad3059"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/malahierba-lab/chile-rut/zipball/cea5ed7b73c06a54220ae9291450776c37ad3059",
-                "reference": "cea5ed7b73c06a54220ae9291450776c37ad3059",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.*",
-                "php": ">=5.5.18"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Malahierba\\ChileRut\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "malahierba team",
-                    "email": "lab@malahierba.cl",
-                    "homepage": "http://malahierba.cl"
-                }
-            ],
-            "description": "Librería Laravel para el manejo y validación de RUT chileno",
-            "keywords": [
-                "chile",
-                "laravel",
-                "rut"
-            ],
-            "time": "2017-07-22T23:42:43+00:00"
-        },
-        {
             "name": "mockery/mockery",
             "version": "0.9.11",
             "source": {
@@ -5794,5 +5759,6 @@
     "platform": {
         "php": ">=7.1.3"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
